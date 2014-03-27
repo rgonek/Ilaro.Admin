@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin", "Ilaro.Admin\Ilaro.Admin.csproj", "{87DB09C0-33DE-4198-95DB-7C157D1A705C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Sample", "Ilaro.Sample\Ilaro.Sample.csproj", "{3A6154B0-BC20-4385-BEEC-FB918F1C8AB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{87DB09C0-33DE-4198-95DB-7C157D1A705C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87DB09C0-33DE-4198-95DB-7C157D1A705C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87DB09C0-33DE-4198-95DB-7C157D1A705C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6154B0-BC20-4385-BEEC-FB918F1C8AB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6154B0-BC20-4385-BEEC-FB918F1C8AB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6154B0-BC20-4385-BEEC-FB918F1C8AB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6154B0-BC20-4385-BEEC-FB918F1C8AB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

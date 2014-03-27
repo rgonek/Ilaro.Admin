@@ -1,0 +1,22 @@
+﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
+
+<label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")</label>
+<div class="controls">
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="input-append">
+            <div class="uneditable-input">
+                <i class="icon-file fileupload-exists"></i>
+                <span class="fileupload-preview"></span>
+            </div>
+            <span class="btn btn-file">
+                <span class="fileupload-new">Choose file</span>
+                <span class="fileupload-exists">Change</span>
+                <input id="@Html.Id(Model.Name)" name="@Html.Name(Model.Name)" type="file" />
+            </span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+        </div>
+    </div>
+
+    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+</div>
+

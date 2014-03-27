@@ -34,47 +34,47 @@ namespace Ilaro.Admin
 		{
 			routes.MapRoute(
 				name: "Resources",
-				url: "ra/{action}/{id}",
-				defaults: new { controller = "AdminsResource" }
+				url: "ira/{action}/{id}",
+				defaults: new { controller = "IlaroAdminResource" }
 			);
 		}
 
-		public static void RegisterRoutes(RouteCollection routes, string prefix = "Admin")
+		public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")
 		{
 			routes.MapRoute(
-				name: "AdminsCreate",
+				name: "AdminCreate",
 				url: prefix + "/Create/{entityName}",
-				defaults: new { controller = "Admins", action = "Create" }
+				defaults: new { controller = "IlaroAdmin", action = "Create" }
 			);
 
 			routes.MapRoute(
-				name: "AdminsEdit",
+				name: "AdminEdit",
 				url: prefix + "/Edit/{entityName}/{key}",
-				defaults: new { controller = "Admins", action = "Edit" }
+				defaults: new { controller = "IlaroAdmin", action = "Edit" }
 			);
 
 			routes.MapRoute(
-				name: "AdminsDelete",
+				name: "AdminDelete",
 				url: prefix + "/Delete/{entityName}/{key}",
-				defaults: new { controller = "Admins", action = "Delete" }
+				defaults: new { controller = "IlaroAdmin", action = "Delete" }
 			);
 
 			routes.MapRoute(
-				name: "AdminsGroup",
+				name: "AdminGroup",
 				url: prefix + "/Group/{groupName}",
-				defaults: new { controller = "Admins", action = "Group" }
+				defaults: new { controller = "IlaroAdmin", action = "Group" }
 			);
 
 			routes.MapRoute(
-				name: "AdminsDetails",
+				name: "AdminDetails",
 				url: prefix + "/{entityName}/{page}",
-				defaults: new { controller = "Admins", action = "Details", page = 1 }
+				defaults: new { controller = "IlaroAdmin", action = "Details", page = 1 }
 			);
 
 			routes.MapRoute(
-				name: "Admins",
+				name: "Admin",
 				url: prefix + "/{action}/{id}",
-				defaults: new { controller = "Admins", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
 			);
 		}
 	}

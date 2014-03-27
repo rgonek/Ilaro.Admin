@@ -1,0 +1,16 @@
+﻿@model Ilaro.Admin.ViewModels.GroupViewModel
+
+@{
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = Model.Group.Name;
+}
+
+@section Breadcrumb
+{
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Admin", "Index") <span class="divider">/</span></li>
+    <li class="active">@Model.Group.Name</li>
+</ul>
+}
+
+@{Html.RenderPartial("_GroupPartial", Model.Group);}

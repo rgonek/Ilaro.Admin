@@ -12,11 +12,17 @@ using Ilaro.Admin.Commons;
 using System.Data;
 using System.Web.Mvc;
 using Ilaro.Admin.Commons.FileUpload;
+using Ilaro.Admin.Commons.Notificator;
 
 namespace Ilaro.Admin.Services
 {
-	public class EntityService : IEntityService
+	public class EntityService : BaseService, IEntityService
 	{
+		public EntityService(Notificator notificator)
+			: base(notificator)
+		{
+		}
+
 		public IList<DataRowViewModel> GetData(EntityViewModel entity)
 		{
 			var context = AdminInitialize.Context;
@@ -236,7 +242,8 @@ ORDER BY {2}.[{3}] {4}";
 			var existingItem = context.Set(entity.Type).Find(entity.Key.Value);
 			if (existingItem != null)
 			{
-				throw new AdminException("Already exist");
+				Error("Already exist");
+				return null;
 			}
 
 			var item = context.Set(entity.Type).Create(entity.Type);
@@ -257,13 +264,15 @@ ORDER BY {2}.[{3}] {4}";
 
 			if (entity.Key.Value == null)
 			{
-				throw new AdminException("Key is null");
+				Error("Key is null");
+				return null;
 			}
 
 			var existingItem = GetEntity(context, entity, entity.Key.Value.ToString());
 			if (existingItem == null)
 			{
-				throw new AdminException("Not exist");
+				Error("Not exist");
+				return null;
 			}
 
 			FillEntity(existingItem, entity);
@@ -341,7 +350,8 @@ ORDER BY {2}.[{3}] {4}";
 			var item = GetEntity(context, entity, key);
 			if (item == null)
 			{
-				throw new AdminException("Not exist");
+				Error("Not exist");
+				return;
 			}
 
 			foreach (var property in entity.CreateProperties(false))
@@ -377,7 +387,8 @@ ORDER BY {2}.[{3}] {4}";
 			var item = GetEntity(context, entity, key);
 			if (item == null)
 			{
-				throw new AdminException("Not exist");
+				Error("Not exist");
+				return false;
 			}
 
 			context.Set(entity.Type).Remove(item);

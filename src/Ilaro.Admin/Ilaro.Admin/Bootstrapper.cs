@@ -3,6 +3,8 @@ using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 using Ilaro.Admin.Services.Interfaces;
 using Ilaro.Admin.Services;
+using Ilaro.Admin.Commons.Notificator;
+using Ilaro.Admin.Commons;
 
 namespace Ilaro.Admin
 {
@@ -28,6 +30,8 @@ namespace Ilaro.Admin
 
 		public static void RegisterTypes(IUnityContainer container)
 		{
+			container.RegisterType(typeof(Notificator), new UnityPerUserCacheLifetimeManager("Notificator"), new InjectionConstructor());
+
 			container.RegisterType<IEntityService, EntityService>();
 		}
 	}

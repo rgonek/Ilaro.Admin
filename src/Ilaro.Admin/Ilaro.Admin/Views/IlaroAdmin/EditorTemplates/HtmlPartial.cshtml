@@ -1,0 +1,7 @@
+﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
+
+<label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")</label>
+<div class="controls">
+    @Html.TextArea(Model.Name, Model.StringValue, new { @class = "span7 html" })
+    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+</div>

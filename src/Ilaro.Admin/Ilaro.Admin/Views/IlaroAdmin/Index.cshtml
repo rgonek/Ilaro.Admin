@@ -1,0 +1,20 @@
+﻿@model Ilaro.Admin.ViewModels.IndexViewModel
+
+@{
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = "Admin";
+}
+
+@section Breadcrumb
+{
+<ul class="breadcrumb">
+    <li class="active">Admin</li>
+</ul>
+}
+
+<ul class="thumbnails">
+    @foreach (var group in Model.EntitiesGroups)
+    { 
+        Html.RenderPartial("_GroupPartial", group);
+    }
+</ul>

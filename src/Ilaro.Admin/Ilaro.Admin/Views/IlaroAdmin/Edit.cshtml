@@ -1,0 +1,42 @@
+﻿@model Ilaro.Admin.ViewModels.EditViewModel
+
+@{
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = "Edit";
+}
+
+@section Breadcrumb
+{
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Administracja", "Index") <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }) <span class="divider">/</span></li>
+    <li class="active">Editing</li>
+</ul>
+}
+
+<h2>@Model.Entity.Singular</h2>
+
+@*@using (Html.BeginForm("Edit", "IlaroAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.Hidden(Model.Entity.Key.Name, Model.Entity.Key.Value)
+
+        foreach (var field in Model.Fields)
+        {
+            <div class="control-group">
+                @Html.EditorFor(m => field, field.TemplateName)
+            </div>
+        }
+
+*@<div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn" name="ContinueEdit"><i class="icon-edit"></i> Save and continue edit</button>
+        <button type="submit" class="btn" name="AddNext"><i class="icon-plus"></i> Save and add next</button>
+        <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">Cancel</a>
+        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })" class="btn btn-danger pull-right">Delete</a>
+    </div>
+}
+    

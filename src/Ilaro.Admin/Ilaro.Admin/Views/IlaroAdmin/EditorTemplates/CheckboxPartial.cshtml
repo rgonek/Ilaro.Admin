@@ -1,0 +1,10 @@
+﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
+           
+<div class="controls">
+    <label for="@Html.Id(Model.Name)" class="checkbox">
+        @Model.DisplayName 
+        @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")
+        @Html.CheckBox(Model.Name, Model.BoolValue.GetValueOrDefault())
+    </label>
+    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"description\">" + Model.Description + "</span>")
+</div>

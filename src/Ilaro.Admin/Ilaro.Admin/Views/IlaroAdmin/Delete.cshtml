@@ -1,0 +1,36 @@
+﻿@model Ilaro.Admin.ViewModels.DeleteViewModel
+@{
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = "Delete";
+}
+
+@section Breadcrumb
+{
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Administracja", "Index") <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }) <span class="divider">/</span></li>
+    <li class="active">Deleting</li>
+</ul>
+}
+
+<h2>@Model.Entity.Singular</h2>
+
+@using (Html.BeginForm("Delete", "IlaroAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+{ 
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    @Html.Hidden("key", Model.Entity.Key.Value)
+    
+    <div class="control-group">
+        <div class="controls">
+            Are you sure?
+        </div>
+	</div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Delete</button>
+        <a href="@Url.Action("Edit")" class="btn"><i class="icon-edit"></i> Edit</a>
+        <a href="@Url.Action("Details")" class="btn btn-link">Cancel</a>
+    </div>
+}

@@ -1,0 +1,58 @@
+﻿@model Ilaro.Admin.ViewModels.CreateViewModel
+
+@{
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = "Add";
+}
+
+@section Breadcrumb
+{
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Admin", "Index") <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }) <span class="divider">/</span></li>
+    <li class="active">Dodawanie</li>
+</ul>
+}
+
+<h2>@Model.Entity.Singular</h2>
+
+@using (Html.BeginForm("Create", "IlaroAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    if (Model.PropertiesGroups.Count > 1)
+    {
+        foreach (var group in Model.PropertiesGroups)
+        { 
+            <fieldset>
+                <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="@Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")"></i></button></legend>
+                <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
+                @foreach (var property in group.Properties)
+                {
+                    <div class="control-group">
+                        @Html.EditorFor(m => property, property.EditorTemplateName)
+	                </div>
+                }
+                </div>
+            </fieldset>
+        }
+    }
+    else if(Model.PropertiesGroups.Count == 1)
+    {
+        foreach(var property in Model.PropertiesGroups[0].Properties)
+        {
+            <div class="control-group">
+                @Html.EditorFor(m => property, property.EditorTemplateName)
+	        </div>
+        }
+    }
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn" name="ContinueEdit"><i class="icon-edit"></i> Save and continue edition</button>
+        <button type="submit" class="btn" name="AddNext"><i class="icon-plus"></i> Save and add next</button>
+        <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">Cancel</a>
+    </div>
+}
