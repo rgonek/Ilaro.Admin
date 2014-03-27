@@ -60,6 +60,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unity.3.0.1304.1\lib\Net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="RazorGenerator.Mvc">
+      <HintPath>..\packages\RazorGenerator.Mvc.2.2.2\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity.Design" />
@@ -130,9 +133,13 @@
     <Reference Include="Unity.Mvc4">
       <HintPath>..\packages\Unity.Mvc4.1.4.0.0\lib\net45\Unity.Mvc4.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminInitialize.cs" />
+    <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="Attributes\ColumnsAttribute.cs" />
     <Compile Include="Attributes\GroupsAttribute.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageAttribute.cs" />
@@ -369,35 +376,89 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\_Messages.cshtml" />
+    <Content Include="Views\IlaroAdmin\_Messages.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\Create.cshtml" />
-    <Content Include="Views\IlaroAdmin\Delete.cshtml" />
-    <Content Include="Views\IlaroAdmin\Details.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\Edit.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\Group.cshtml" />
-    <Content Include="Views\IlaroAdmin\Index.cshtml" />
-    <Content Include="Views\IlaroAdmin\_GroupPartial.cshtml" />
-    <Content Include="Views\IlaroAdmin\_html5shiv.cshtml" />
-    <Content Include="Views\IlaroAdmin\_Layout.cshtml" />
+    <Content Include="Views\IlaroAdmin\Create.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\Delete.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\Details.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\Edit.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\Group.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\_GroupPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\_html5shiv.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
+    <Content Include="Views\IlaroAdmin\_Layout.cshtml">
+      <Generator>RazorGenerator</Generator>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
