@@ -194,6 +194,146 @@
     <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\PagerInfo.cs" />
     <Compile Include="ViewModels\PropertyViewModel.cs" />
+    <Compile Include="Views\IlaroAdmin\Create.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Create.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Delete.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Delete.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Details.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Details.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BoolPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatePartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImagePartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumericPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UrlPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Edit.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Edit.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CheckboxPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DateTimePartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DropDownListPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\FilePartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FilePartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NumericPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextAreaPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TextBoxPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Group.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Group.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\_GroupPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_GroupPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\_html5shiv.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_html5shiv.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\_Layout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Layout.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\_Messages.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Messages.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\_Paging.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Paging.cshtml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.css" />
@@ -359,6 +499,96 @@
     <EmbeddedResource Include="Scripts\modernizr-2.6.2.js" />
     <EmbeddedResource Include="Scripts\select2.js" />
     <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.js" />
+    <EmbeddedResource Include="Content\css\bootstrap-datepicker.min.css">
+      <DependentUpon>bootstrap-datepicker.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\bootstrap-jasny.min.css">
+      <DependentUpon>bootstrap-jasny.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\bootstrap-responsive.min.css">
+      <DependentUpon>bootstrap-responsive.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css">
+      <DependentUpon>bootstrap-wysihtml5.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\docs.min.css">
+      <DependentUpon>docs.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\font-awesome.min.css">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\google-bootstrap.min.css">
+      <DependentUpon>google-bootstrap.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\google-datepicker.min.css">
+      <DependentUpon>google-datepicker.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\select2.min.css">
+      <DependentUpon>select2.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\css\timepicker.min.css">
+      <DependentUpon>timepicker.css</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js">
+      <DependentUpon>bootstrap-datepicker.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\bootstrap-jasny.min.js">
+      <DependentUpon>bootstrap-jasny.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js">
+      <DependentUpon>bootstrap-timepicker.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js">
+      <DependentUpon>bootstrap-wysihtml5.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\bootstrap.min.js">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\html5shiv.min.js">
+      <DependentUpon>html5shiv.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery-1.9.0.intellisense.min.js">
+      <DependentUpon>jquery-1.9.0.intellisense.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery-1.9.0.min.js">
+      <DependentUpon>jquery-1.9.0.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery-ui-1.9.2.min.js">
+      <DependentUpon>jquery-ui-1.9.2.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.mb.browser.min.js">
+      <DependentUpon>jquery.mb.browser.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.unobtrusive-ajax.min.js">
+      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.validate-vsdoc.min.js">
+      <DependentUpon>jquery.validate-vsdoc.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.validate.min.js">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive-custom-for-bootstrap.min.js">
+      <DependentUpon>jquery.validate.unobtrusive-custom-for-bootstrap.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\modernizr-2.6.2.min.js">
+      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\select2.min.js">
+      <DependentUpon>select2.js</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js">
+      <DependentUpon>wysihtml5-0.3.0.js</DependentUpon>
+    </EmbeddedResource>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -370,7 +600,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -378,86 +607,209 @@
   <ItemGroup>
     <Content Include="Views\IlaroAdmin\_Messages.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Messages.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\IlaroAdmin\Create.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Create.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Delete.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Delete.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Details.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Details.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BoolPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EnumPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ImagePartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UrlPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Edit.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Edit.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckboxPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DropDownListPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FilePartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBoxPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Group.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Group.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Index.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\_GroupPartial.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_GroupPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\_html5shiv.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_html5shiv.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js.map">
+      <DependentUpon>bootstrap-datepicker.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\bootstrap-jasny.min.js.map">
+      <DependentUpon>bootstrap-jasny.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js.map">
+      <DependentUpon>bootstrap-timepicker.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js.map">
+      <DependentUpon>bootstrap-wysihtml5.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\bootstrap.min.js.map">
+      <DependentUpon>bootstrap.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\html5shiv.min.js.map">
+      <DependentUpon>html5shiv.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery-1.9.0.intellisense.min.js.map">
+      <DependentUpon>jquery-1.9.0.intellisense.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery-1.9.0.min.js.map">
+      <DependentUpon>jquery-1.9.0.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery-ui-1.9.2.min.js.map">
+      <DependentUpon>jquery-ui-1.9.2.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.mb.browser.min.js.map">
+      <DependentUpon>jquery.mb.browser.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.unobtrusive-ajax.min.js.map">
+      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.validate-vsdoc.min.js.map">
+      <DependentUpon>jquery.validate-vsdoc.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.validate.min.js.map">
+      <DependentUpon>jquery.validate.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive-custom-for-bootstrap.min.js.map">
+      <DependentUpon>jquery.validate.unobtrusive-custom-for-bootstrap.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js.map">
+      <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\modernizr-2.6.2.min.js.map">
+      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\select2.min.js.map">
+      <DependentUpon>select2.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js.map">
+      <DependentUpon>wysihtml5-0.3.0.js</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\_Paging.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Paging.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

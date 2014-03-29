@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ilaro.Admin;
+using Ilaro.Sample.Models.Northwind;
+using Ilaro.Sample.Models.Northwind.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +19,19 @@ namespace Ilaro.Sample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AdminInitialize.RegisterRoutes(RouteTable.Routes);
+            AdminInitialize.RegisterResourceRoutes(RouteTable.Routes);
+
+            AdminInitialize.InitEntity<Customer>();
+            AdminInitialize.InitEntity<Employee>();
+            AdminInitialize.InitEntity<Order>();
+            AdminInitialize.InitEntity<OrderDetail>();
+            AdminInitialize.InitEntity<Product>();
+            // This is lame, I need ef context, but i remove this later
+            AdminInitialize.InitContext(new NorthwindContext());
+
+            AdminInitialize.Initialise();
         }
     }
 }

@@ -17,7 +17,7 @@
 <h2>@Model.Entity.Plural</h2>
 
 <div class="clearfix">
-    <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> Dodaj</a>
+    <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> Add</a>
 
     @if (Model.IsSearchActive)
     {
@@ -70,7 +70,7 @@
             @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
             { 
                 <td class="min-width">
-                    <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> Pokaż</a>
+                    <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> View</a>
                 </td>
             }
             @if (Model.Entity.HasEditLink)
@@ -78,11 +78,11 @@
                 <td class="min-width">
                     @if (!Model.Entity.EditLink.IsNullOrEmpty())
                     { 
-                        <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edytuj</a>
+                        <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edit</a>
                     }
                     else
                     { 
-                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edytuj</a>
+                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edit</a>
                     }
                 </td>
             }
@@ -91,11 +91,11 @@
                 <td class="min-width">
                     @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
                     { 
-                        <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Usuń</a>
+                        <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
                     }
                     else
                     { 
-                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Usuń</a>
+                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
                     }
                 </td>
             }
@@ -125,7 +125,7 @@
 </div>
 
 <div class="offset1">
-    @Html.Pager(Model.PagerInfo.Url, Model.PagerInfo.PerPage, Model.PagerInfo.Current, Model.PagerInfo.TotalItems)
+    @{Html.RenderPartial("_Paging", Model.PagerInfo);}
 </div>
 
 

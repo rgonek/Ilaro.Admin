@@ -67,7 +67,7 @@ WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
 
 WriteLiteral(">\r\n    <link");
 
-WriteLiteral(" href=\"/ra/css/bootstrap_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/bootstrap_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -80,7 +80,7 @@ WriteLiteral(" type=\"text/css\"");
 WriteLiteral(">\r\n        body {\r\n            padding-top: 60px;\r\n            padding-bottom: 40" +
 "px;\r\n        }\r\n    </style>\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/google-bootstrap_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/google-bootstrap_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -88,7 +88,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-responsive_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/bootstrap-responsive_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -96,7 +96,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-datepicker_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/bootstrap-datepicker_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -104,7 +104,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/google-datepicker_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/google-datepicker_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -112,7 +112,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/font-awesome_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/font-awesome_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -120,7 +120,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/font-awesome-ie7_min_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/font-awesome-ie7_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -128,7 +128,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/select2_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/select2_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -136,7 +136,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-wysihtml5_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/bootstrap-wysihtml5_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -144,7 +144,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-jasny_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/bootstrap-jasny_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -152,7 +152,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/Site_css\"");
+WriteLiteral(" href=\"/IlaroAdminResource/css/Site_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -160,19 +160,19 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery-1_9_0_min_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/jquery-1_9_0_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_mb_browser_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/jquery_mb_browser_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/modernizr-2_6_2_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/modernizr-2_6_2_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -323,45 +323,45 @@ WriteLiteral(" id=\"modal-image\"");
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_validate_min_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/jquery_validate_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_validate_unobtrusive_min_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/jquery_validate_unobtrusive_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/select2_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/select2_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-datepicker_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/bootstrap-datepicker_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap_min_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/bootstrap_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/wysihtml5-0_3_0_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/wysihtml5-0_3_0_js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/bootstrap-wysihtml5_js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-jasny_js\"");
+WriteLiteral(" src=\"/IlaroAdminResource/Script/bootstrap-jasny_js\"");
 
 WriteLiteral("></script>\r\n    <script");
 

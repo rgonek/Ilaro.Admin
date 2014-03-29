@@ -212,9 +212,9 @@ namespace Ilaro.Admin.Commons.Paging
             var href = string.Format(url, pageNumber);
             var stringBuilder = new StringBuilder("<a");
 
-            if (ajaxOptions != null)
-                foreach (var ajaxOption in ajaxOptions.ToUnobtrusiveHtmlAttributes())
-                    stringBuilder.AppendFormat(" {0}=\"{1}\"", ajaxOption.Key, ajaxOption.Value);
+            //if (ajaxOptions != null)
+            //    foreach (var ajaxOption in ajaxOptions.ToUnobtrusiveHtmlAttributes())
+            //        stringBuilder.AppendFormat(" {0}=\"{1}\"", ajaxOption.Key, ajaxOption.Value);
 
             if (!string.IsNullOrEmpty(rel))
             {

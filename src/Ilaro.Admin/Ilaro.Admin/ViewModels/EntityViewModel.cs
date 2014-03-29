@@ -101,13 +101,13 @@ namespace Ilaro.Admin.ViewModels
             {
                 this.Singular = verbose.Singular;
                 this.Plural = verbose.Plural ?? this.Singular.Pluralize();
-                this.GroupName = verbose.GroupName ?? "Pozostałe";
+                this.GroupName = verbose.GroupName ?? "Others";
             }
             else
             {
                 this.Singular = type.Name.SplitCamelCase();
                 this.Plural = this.Singular.Pluralize().SplitCamelCase();
-                this.GroupName = "Pozostałe";
+                this.GroupName = "Others";
             }
 
             Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();

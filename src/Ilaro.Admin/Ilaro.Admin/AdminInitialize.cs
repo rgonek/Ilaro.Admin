@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using Ilaro.Admin.App_Start;
+using RazorGenerator.Mvc;
 
 namespace Ilaro.Admin
 {
@@ -32,11 +35,11 @@ namespace Ilaro.Admin
 
 		public static void RegisterResourceRoutes(RouteCollection routes)
 		{
-			routes.MapRoute(
-				name: "Resources",
-				url: "ira/{action}/{id}",
-				defaults: new { controller = "IlaroAdminResource" }
-			);
+            //routes.MapRoute(
+            //    name: "Resources",
+            //    url: "ira/{action}/{id}",
+            //    defaults: new { controller = "IlaroAdminResource" }
+            //);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")
@@ -77,5 +80,11 @@ namespace Ilaro.Admin
 				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
 			);
 		}
-	}
+
+        public static void Initialise()
+        {
+            Bootstrapper.Initialise();
+
+        }
+    }
 }

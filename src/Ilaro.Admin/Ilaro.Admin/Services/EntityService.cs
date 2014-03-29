@@ -458,7 +458,7 @@ ORDER BY {2}.[{3}] {4}";
 				foreach (var groupName in entity.Groups)
 				{
 					var trimedGroupName = groupName.TrimEnd('*');
-					if (groupsDict.ContainsKey(trimedGroupName ?? "Pozostałe"))
+					if (groupsDict.ContainsKey(trimedGroupName ?? "Others"))
 					{
 						var group = groupsDict[trimedGroupName];
 

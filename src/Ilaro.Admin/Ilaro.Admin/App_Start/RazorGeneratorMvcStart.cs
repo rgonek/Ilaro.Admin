@@ -5,10 +5,14 @@ using RazorGenerator.Mvc;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Ilaro.Admin.App_Start.RazorGeneratorMvcStart), "Start")]
 
-namespace Ilaro.Admin.App_Start {
-    public static class RazorGeneratorMvcStart {
-        public static void Start() {
-            var engine = new PrecompiledMvcEngine(typeof(RazorGeneratorMvcStart).Assembly) {
+namespace Ilaro.Admin.App_Start
+{
+    public static class RazorGeneratorMvcStart
+    {
+        public static void Start()
+        {
+            var engine = new PrecompiledMvcEngine(typeof(RazorGeneratorMvcStart).Assembly)
+            {
                 UsePhysicalViewsIfNewer = HttpContext.Current.Request.IsLocal
             };
 
