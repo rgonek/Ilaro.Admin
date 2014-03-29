@@ -51,15 +51,15 @@ WriteLiteral("\r\n\r\n");
 
 DefineSection("Breadcrumb", () => {
 
-WriteLiteral("\r\n<ul");
+WriteLiteral("\r\n    <ul");
 
 WriteLiteral(" class=\"breadcrumb\"");
 
-WriteLiteral(">\r\n    <li>");
+WriteLiteral(">\r\n        <li>");
 
             
             #line 11 "..\..\Views\IlaroAdmin\Edit.cshtml"
-   Write(Html.ActionLink("Administracja", "Index"));
+       Write(Html.ActionLink("Administracja", "Index"));
 
             
             #line default
@@ -68,11 +68,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li>");
+WriteLiteral(">/</span></li>\r\n        <li>");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Edit.cshtml"
-   Write(Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }));
+       Write(Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }));
 
             
             #line default
@@ -81,11 +81,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li>");
+WriteLiteral(">/</span></li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Edit.cshtml"
-   Write(Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }));
+       Write(Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }));
 
             
             #line default
@@ -94,11 +94,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li");
+WriteLiteral(">/</span></li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
-WriteLiteral(">Editing</li>\r\n</ul>\r\n");
+WriteLiteral(">Editing</li>\r\n    </ul>\r\n");
 
 });
 
@@ -113,7 +113,22 @@ Write(Model.Entity.Singular);
             #line hidden
 WriteLiteral("</h2>\r\n\r\n");
 
-WriteLiteral("<div");
+            
+            #line 20 "..\..\Views\IlaroAdmin\Edit.cshtml"
+ using (Html.BeginForm("Edit", "IlaroAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    
+            
+            #line default
+            #line hidden
+            
+            #line 34 "..\..\Views\IlaroAdmin\Edit.cshtml"
+      
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    <div");
 
 WriteLiteral(" class=\"form-actions\"");
 
@@ -135,7 +150,7 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-edit\"");
 
-WriteLiteral("></i> Save and continue edit</button>\r\n        <button");
+WriteLiteral("></i>Save and continue edit</button>\r\n        <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -147,35 +162,44 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-plus\"");
 
-WriteLiteral("></i> Save and add next</button>\r\n        <a");
+WriteLiteral("></i>Save and add next</button>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1421), Tuple.Create("\"", 1490)
+WriteAttribute("href", Tuple.Create(" href=\"", 1399), Tuple.Create("\"", 1468)
             
-            #line 38 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 1428), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
+            #line 39 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 1406), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 1428), false)
+, 1406), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
 
 WriteLiteral(">Cancel</a>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1535), Tuple.Create("\"", 1633)
+WriteAttribute("href", Tuple.Create(" href=\"", 1513), Tuple.Create("\"", 1611)
             
-            #line 39 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 1542), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+            #line 40 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 1520), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
             
             #line default
             #line hidden
-, 1542), false)
+, 1520), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pull-right\"");
 
-WriteLiteral(">Delete</a>\r\n    </div>\r\n}\r\n    \r\n");
+WriteLiteral(">Delete</a>\r\n    </div>\r\n");
+
+            
+            #line 42 "..\..\Views\IlaroAdmin\Edit.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
 
         }
     }

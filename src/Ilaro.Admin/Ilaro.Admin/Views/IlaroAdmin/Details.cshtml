@@ -42,7 +42,7 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th class="min-width"><input type="checkbox" id="check-all" /></th>
+            @*<th class="min-width"><input type="checkbox" id="check-all" /></th>*@
             @foreach (var column in Model.Columns)
             { 
                 <th>
@@ -62,7 +62,7 @@
     @foreach (var row in Model.Data)
     {
         <tr>
-            <td><input type="checkbox" class="row-checkbox" /></td>
+            @*<td><input type="checkbox" class="row-checkbox" /></td>*@
             @foreach (var item in row.Values)
             {
                 <td>@Html.DisplayFor(m => item, item.Property.DisplayTemplateName)</td>
@@ -95,7 +95,7 @@
                     }
                     else
                     { 
-                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
+                        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
                     }
                 </td>
             }
@@ -136,7 +136,7 @@
 <h2>Filters</h2>
 <div class="sidebar-nav well">
     <ul class="nav nav-list">
-        <li><a href="@Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">Wyczyść filtry</a></li>
+        <li><a href="@Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">Remove filters</a></li>
         @foreach (var filter in Model.Filters)
         { 
             <li class="nav-header">
