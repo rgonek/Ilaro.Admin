@@ -9,6 +9,7 @@ using System.Web.Routing;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.EntitiesFilters;
 using Ilaro.Admin.Commons.Notificator;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Controllers
 {
@@ -26,7 +27,7 @@ namespace Ilaro.Admin.Controllers
 		{
 			var viewModel = new IndexViewModel
 			{
-				EntitiesGroups = AdminInitialize.EntitiesTypes
+				EntitiesGroups = AdminInitialise.EntitiesTypes
 								.GroupBy(x => x.GroupName)
 								.Select(x => new EntityGroupViewModel
 								{
@@ -42,7 +43,7 @@ namespace Ilaro.Admin.Controllers
 		{
 			var viewModel = new GroupViewModel
 			{
-				Group = AdminInitialize.EntitiesTypes
+				Group = AdminInitialise.EntitiesTypes
 								.GroupBy(x => x.GroupName)
 								.Where(x => x.Key == groupName)
 								.Select(x => new EntityGroupViewModel
@@ -57,10 +58,10 @@ namespace Ilaro.Admin.Controllers
 
 		public ActionResult Details(string entityName, int page = 1, [Bind(Prefix = "sq")]string searchQuery = "", [Bind(Prefix = "pp")]int perPage = 10, [Bind(Prefix = "o")]string order = "", [Bind(Prefix = "od")]string orderDirection = "")
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 			var filters = entityService.PrepareFilters(entity, Request);
-			var data = entityService.GetData(entity, page, perPage, filters, searchQuery, order, orderDirection);
-			if (!data.Any() && page > 1)
+			var pagedRecords = entityService.GetRecords(entity, page, perPage, filters, searchQuery, order, orderDirection);
+			if (pagedRecords.Records.IsNullOrEmpty() && page > 1)
 			{
 				return RedirectToAction("Details", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
 			}
@@ -68,10 +69,10 @@ namespace Ilaro.Admin.Controllers
 			var url = Url.Action("Details", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
 			var viewModel = new DetailsViewModel
 			{
-				Data = data,
+				Data = pagedRecords.Records,
 				Columns = entityService.PrepareColumns(entity, order, orderDirection),
 				Entity = entity,
-				PagerInfo = new PagerInfo(url, perPage, page, entityService.TotalItems(entity, filters, searchQuery)),
+				PagerInfo = new PagerInfo(url, perPage, page, pagedRecords.TotalItems),
 				Filters = filters,
 				SearchQuery = searchQuery,
 				IsSearchActive = entity.SearchProperties.Any(),
@@ -118,7 +119,7 @@ namespace Ilaro.Admin.Controllers
 
 		public ActionResult Create(string entityName)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 			entityService.ClearProperties(entity);
 
 			var viewModel = new CreateViewModel
@@ -133,7 +134,7 @@ namespace Ilaro.Admin.Controllers
 		[HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
 		public ActionResult Create(string entityName, FormCollection collection)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			entityService.FillEntity(entity, collection);
 			if (entityService.ValidateEntity(entity, ModelState))
@@ -143,7 +144,7 @@ namespace Ilaro.Admin.Controllers
 					var savedItem = entityService.Create(entity);
 					if (savedItem != null)
 					{
-						Success("Dodano " + entity.Singular);
+						Success("Added " + entity.Singular);
 
 						if (Request["ContinueEdit"] != null)
 						{
@@ -183,7 +184,7 @@ namespace Ilaro.Admin.Controllers
 
 		public ActionResult Edit(string entityName, string key)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			try
 			{
@@ -214,7 +215,7 @@ namespace Ilaro.Admin.Controllers
 		[HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
 		public ActionResult Edit(string entityName, string key, FormCollection collection)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			entityService.FillEntity(entity, collection);
 			if (entityService.ValidateEntity(entity, ModelState))
@@ -265,7 +266,7 @@ namespace Ilaro.Admin.Controllers
 
 		public ActionResult Delete(string entityName, string key)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			var viewModel = new DeleteViewModel
 			{
@@ -278,7 +279,7 @@ namespace Ilaro.Admin.Controllers
 		[HttpPost, ValidateAntiForgeryToken]
 		public ActionResult Delete(string entityName, string key, FormCollection collection)
 		{
-			var entity = AdminInitialize.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			try
 			{

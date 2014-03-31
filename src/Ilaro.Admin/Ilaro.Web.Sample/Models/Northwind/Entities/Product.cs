@@ -25,6 +25,6 @@ namespace Ilaro.Sample.Models.Northwind.Entities
 
 		public bool Discontinued { get; set; }
 
-		public ICollection<OrderDetail> Order_Detail { get; set; }
+		public ICollection<OrderDetail> OrderDetails { get; set; }
 	}
 }

@@ -5,203 +5,210 @@ using System.Text;
 using System.Reflection;
 using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Extensions;
+using System.Diagnostics;
 
 namespace Ilaro.Admin.ViewModels
 {
-    public class EntityViewModel
-    {
-        public Type Type { get; set; }
+	[DebuggerDisplay("Entity {Name}")]
+	public class EntityViewModel
+	{
+		public Type Type { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
 
-        public string Singular { get; set; }
+		public string TableName { get; set; }
 
-        public string Plural { get; set; }
+		public string Singular { get; set; }
 
-        public IList<PropertyViewModel> Properties { get; set; }
+		public string Plural { get; set; }
 
-        public IEnumerable<PropertyViewModel> FilterProperties
-        {
-            get
-            {
-                return Properties.Where(x => x.PropertyType == typeof(bool) || x.PropertyType == typeof(bool?));
-            }
-        }
+		public IList<PropertyViewModel> Properties { get; set; }
 
-        public PropertyViewModel Key
-        {
-            get
-            {
-                return Properties.FirstOrDefault(x => x.IsKey);
-            }
-        }
+		public IEnumerable<PropertyViewModel> FilterProperties
+		{
+			get
+			{
+				return Properties.Where(x => x.PropertyType == typeof(bool) || x.PropertyType == typeof(bool?));
+			}
+		}
 
-        public PropertyViewModel LinkKey
-        {
-            get
-            {
-                return Properties.FirstOrDefault(x => x.IsLinkKey);
-            }
-        }
+		public PropertyViewModel Key
+		{
+			get
+			{
+				return Properties.FirstOrDefault(x => x.IsKey);
+			}
+		}
 
-        public string GroupName { get; set; }
+		public PropertyViewModel LinkKey
+		{
+			get
+			{
+				return Properties.FirstOrDefault(x => x.IsLinkKey);
+			}
+		}
 
-        public IList<string> Groups { get; set; }
+		public string GroupName { get; set; }
 
-        public IList<PropertyViewModel> DisplayColumns { get; set; }
+		public IList<string> Groups { get; set; }
 
-        public IEnumerable<PropertyViewModel> SearchProperties { get; set; }
+		public IList<PropertyViewModel> DisplayColumns { get; set; }
 
-        #region Links
+		public IEnumerable<PropertyViewModel> SearchProperties { get; set; }
 
-        public string DisplayLink { get; set; }
+		#region Links
 
-        public string EditLink { get; set; }
+		public string DisplayLink { get; set; }
 
-        public string DeleteLink { get; set; }
+		public string EditLink { get; set; }
 
-        public bool HasEditLink { get; set; }
+		public string DeleteLink { get; set; }
 
-        public bool HasDeleteLink { get; set; }
+		public bool HasEditLink { get; set; }
 
-        public int LinksCount
-        {
-            get
-            {
-                var count = 0;
+		public bool HasDeleteLink { get; set; }
 
-                if (HasEditLink)
-                {
-                    count++;
-                }
+		public int LinksCount
+		{
+			get
+			{
+				var count = 0;
 
-                if (HasDeleteLink)
-                {
-                    count++;
-                }
+				if (HasEditLink)
+				{
+					count++;
+				}
 
-                if (!DisplayLink.IsNullOrEmpty())
-                {
-                    count++;
-                }
+				if (HasDeleteLink)
+				{
+					count++;
+				}
 
-                return count;
-            }
-        }
+				if (!DisplayLink.IsNullOrEmpty())
+				{
+					count++;
+				}
 
-        #endregion
+				return count;
+			}
+		}
 
-        public EntityViewModel(Type type)
-        {
-            this.Type = type;
-            Name = Type.Name;
+		#endregion
 
-            var verbose = (type.GetCustomAttributes(typeof(VerboseAttribute), false) as VerboseAttribute[]).FirstOrDefault();
-            if (verbose != null)
-            {
-                this.Singular = verbose.Singular;
-                this.Plural = verbose.Plural ?? this.Singular.Pluralize();
-                this.GroupName = verbose.GroupName ?? "Others";
-            }
-            else
-            {
-                this.Singular = type.Name.SplitCamelCase();
-                this.Plural = this.Singular.Pluralize().SplitCamelCase();
-                this.GroupName = "Others";
-            }
+		public EntityViewModel(Type type)
+		{
+			this.Type = type;
+			Name = Type.Name;
 
-            Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();
+			// TODO: better determine table name
+			TableName = Name.Pluralize();
 
-            var attributes = type.GetCustomAttributes(false);
+			var verbose = (type.GetCustomAttributes(typeof(VerboseAttribute), false) as VerboseAttribute[]).FirstOrDefault();
+			if (verbose != null)
+			{
+				this.Singular = verbose.Singular;
+				this.Plural = verbose.Plural ?? this.Singular.Pluralize();
+				this.GroupName = verbose.GroupName ?? "Others";
+			}
+			else
+			{
+				this.Singular = type.Name.SplitCamelCase();
+				this.Plural = this.Singular.Pluralize().SplitCamelCase();
+				this.GroupName = "Others";
+			}
 
-            SetColumns(attributes);
-            SetLinks(attributes);
-            SetLinkKey();
+			Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();
 
-            SetSearchProperties(attributes);
+			var attributes = type.GetCustomAttributes(false);
 
-            SetGroups(attributes);
-        }
+			SetColumns(attributes);
+			SetLinks(attributes);
+			SetLinkKey();
 
-        private void SetLinkKey()
-        {
-            if (LinkKey == null)
-            {
-                Key.IsLinkKey = true;
-            }
-        }
+			SetSearchProperties(attributes);
 
-        private void SetColumns(object[] attributes)
-        {
-            var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
-            if (columnsAttribute != null)
-            {
-                DisplayColumns = new List<PropertyViewModel>();
-                foreach (var column in columnsAttribute.Columns)
-                {
-                    DisplayColumns.Add(Properties.FirstOrDefault(x => x.Name == column));
-                }
-                //DisplayColumns = Properties.Where(x => columnsAttribute.Columns.Contains(x.Name));
-            }
-            else
-            {
-                DisplayColumns = Properties.Where(x => !x.IsForeignKey).ToList();
-            }
-        }
+			SetGroups(attributes);
+		}
 
-        private void SetSearchProperties(object[] attributes)
-        {
-            var searchAttribute = attributes.OfType<SearchAttribute>().FirstOrDefault();
-            if (searchAttribute != null)
-            {
-                SearchProperties = Properties.Where(x => searchAttribute.Columns.Contains(x.Name));
-            }
-            else
-            {
-                SearchProperties = Properties.Where(x => !x.IsForeignKey && x.PropertyType.In(typeof(string), typeof(int), typeof(short), typeof(long), typeof(double), typeof(decimal), typeof(int?), typeof(short?), typeof(long?), typeof(double?), typeof(decimal?)));
-            }
-        }
+		private void SetLinkKey()
+		{
+			if (LinkKey == null && Key != null)
+			{
+				Key.IsLinkKey = true;
+			}
+		}
 
-        private void SetGroups(object[] attributes)
-        {
-            var groupsAttribute = attributes.OfType<GroupsAttribute>().FirstOrDefault();
-            if (groupsAttribute != null)
-            {
-                Groups = groupsAttribute.Groups.ToList();
-            }
-        }
+		private void SetColumns(object[] attributes)
+		{
+			var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
+			if (columnsAttribute != null)
+			{
+				DisplayColumns = new List<PropertyViewModel>();
+				foreach (var column in columnsAttribute.Columns)
+				{
+					DisplayColumns.Add(Properties.FirstOrDefault(x => x.Name == column));
+				}
+				//DisplayColumns = Properties.Where(x => columnsAttribute.Columns.Contains(x.Name));
+			}
+			else
+			{
+				DisplayColumns = Properties.Where(x => !x.IsForeignKey).ToList();
+			}
+		}
 
-        private void SetLinks(object[] attributes)
-        {
-            var linksAttribute = attributes.OfType<LinksAttribute>().FirstOrDefault();
-            if (linksAttribute != null)
-            {
-                DisplayLink = linksAttribute.DisplayLink;
-                EditLink = linksAttribute.EditLink;
-                DeleteLink = linksAttribute.DeleteLink;
-                HasEditLink = linksAttribute.HasEditLink;
-                HasDeleteLink = linksAttribute.HasDeleteLink;
-            }
-            else
-            {
-                HasEditLink = true;
-                HasDeleteLink = true;
-            }
-        }
+		private void SetSearchProperties(object[] attributes)
+		{
+			var searchAttribute = attributes.OfType<SearchAttribute>().FirstOrDefault();
+			if (searchAttribute != null)
+			{
+				SearchProperties = Properties.Where(x => searchAttribute.Columns.Contains(x.Name));
+			}
+			else
+			{
+				SearchProperties = Properties.Where(x => !x.IsForeignKey && x.PropertyType.In(typeof(string), typeof(int), typeof(short), typeof(long), typeof(double), typeof(decimal), typeof(int?), typeof(short?), typeof(long?), typeof(double?), typeof(decimal?)));
+			}
+		}
 
-        public IEnumerable<PropertyViewModel> CreateProperties(bool getKey = true)
-        {
-            return Properties.Where(x =>
-                !x.IsForeignKey &&
-                (
-                    !x.IsKey ||
-                        (
-                            x.IsKey &&
-                            x.PropertyType == typeof(string) &&
-                            getKey
-                        )
-                )
-            );
-        }
-    }
+		private void SetGroups(object[] attributes)
+		{
+			var groupsAttribute = attributes.OfType<GroupsAttribute>().FirstOrDefault();
+			if (groupsAttribute != null)
+			{
+				Groups = groupsAttribute.Groups.ToList();
+			}
+		}
+
+		private void SetLinks(object[] attributes)
+		{
+			var linksAttribute = attributes.OfType<LinksAttribute>().FirstOrDefault();
+			if (linksAttribute != null)
+			{
+				DisplayLink = linksAttribute.DisplayLink;
+				EditLink = linksAttribute.EditLink;
+				DeleteLink = linksAttribute.DeleteLink;
+				HasEditLink = linksAttribute.HasEditLink;
+				HasDeleteLink = linksAttribute.HasDeleteLink;
+			}
+			else
+			{
+				HasEditLink = true;
+				HasDeleteLink = true;
+			}
+		}
+
+		public IEnumerable<PropertyViewModel> CreateProperties(bool getKey = true)
+		{
+			return Properties.Where(x =>
+				!x.IsForeignKey &&
+				(
+					!x.IsKey ||
+						(
+							x.IsKey &&
+							x.PropertyType == typeof(string) &&
+							getKey
+						)
+				)
+			);
+		}
+	}
 }

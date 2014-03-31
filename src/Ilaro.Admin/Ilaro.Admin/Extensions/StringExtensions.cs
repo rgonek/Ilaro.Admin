@@ -147,5 +147,17 @@ namespace Ilaro.Admin.Extensions
 				.CreateService(new CultureInfo("en-US"))
 				.Pluralize(value);
 		}
+
+		public static string ToStringSafe(this object value)
+		{
+			if (value == null)
+			{
+				return string.Empty;
+			}
+			else
+			{
+				return value.ToString();
+			}
+		}
 	}
 }

@@ -10,27 +10,38 @@ namespace Ilaro.Admin.Services.Interfaces
 {
 	public interface IEntityService
 	{
+		/// <summary>
+		/// Get list of records for certain page
+		/// </summary>
+		/// <param name="entity">Entity info</param>
+		PagedRecordsViewModel GetRecords(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection);
+
+		/// <summary>
+		/// Clear properties values, for example after edit, or before display add form
+		/// </summary>
+		/// <param name="entity">Entity info</param>
 		void ClearProperties(EntityViewModel entity);
 
 		object Create(EntityViewModel entity);
 
+		/// <summary>
+		/// Delete entity
+		/// </summary>
+		/// <param name="entity">Entity info</param>
 		bool Delete(EntityViewModel entity, string key);
 
 		object Edit(EntityViewModel entity);
 
 		void FillEntity(EntityViewModel entity, string key);
 
+		/// <summary>
+		/// Fill entity properties values with posted form data
+		/// </summary>
+		/// <param name="entity">Entity info</param>
+		/// <param name="collection">Form collection</param>
 		void FillEntity(EntityViewModel entity, FormCollection collection);
 
-		IList<Ilaro.Admin.ViewModels.DataRowViewModel> GetData(EntityViewModel entity);
-
-		IList<DataRowViewModel> GetData(EntityViewModel entity, int page, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection);
-
-		IList<DataRowViewModel> GetData(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection);
-
 		object GetKeyValue(EntityViewModel entity, object savedItem);
-
-		string GetTableName(string sql);
 
 		IList<ColumnViewModel> PrepareColumns(EntityViewModel entity, string order, string orderDirection);
 
@@ -38,8 +49,10 @@ namespace Ilaro.Admin.Services.Interfaces
 
 		IList<GroupPropertiesViewModel> PrepareGroups(EntityViewModel entity, bool getKey = true);
 
-		int TotalItems(EntityViewModel entity, IList<IEntityFilter> filters, string searchQuery);
-
+		/// <summary>
+		/// Validate entity
+		/// </summary>
+		/// <param name="entity">Entity info</param>
 		bool ValidateEntity(EntityViewModel entity, ModelStateDictionary ModelState);
 	}
 }

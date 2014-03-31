@@ -13,6 +13,10 @@ using System.Data;
 using System.Web.Mvc;
 using Ilaro.Admin.Commons.FileUpload;
 using Ilaro.Admin.Commons.Notificator;
+using System.Data.Common;
+using Massive;
+using System.Dynamic;
+using System.Collections.Specialized;
 
 namespace Ilaro.Admin.Services
 {
@@ -23,85 +27,45 @@ namespace Ilaro.Admin.Services
 		{
 		}
 
-		public IList<DataRowViewModel> GetData(EntityViewModel entity)
-		{
-			var context = AdminInitialize.Context;
-			var sql = context.Set(entity.Type).ToString();
-
-			return GetData(entity, context, sql);
-		}
-
-		public IList<DataRowViewModel> GetData(EntityViewModel entity, int page, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
-		{
-			return GetData(entity, page, Consts.ItemsQuantityPerPage, filters, searchQuery, order, orderDirection);
-		}
-
-		public IList<DataRowViewModel> GetData(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
+		public PagedRecordsViewModel GetRecords(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
 		{
 			var skip = (page - 1) * take;
 
-			var context = AdminInitialize.Context;
 			var search = new EntitySearch { Query = searchQuery, Properties = entity.SearchProperties };
 			order = order.IsNullOrEmpty() ? entity.Key.Name : order;
 			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
-			var sql = PreparePagingSQL(context.Set(entity.Type).ToString(), order, orderDirection, skip, take, filters, search);
+			var orderBy = order + " " + orderDirection;
+			var columns = string.Join(",", entity.DisplayColumns.Select(x => x.Name));
+			var where = ConvertFiltersToSQL(filters, search);
 
-			return GetData(entity, context, sql);
-		}
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
-		private IList<DataRowViewModel> GetData(EntityViewModel entity, DbContext context, string sql)
-		{
+			var result = table.Paged(columns: columns, where: where, orderBy: orderBy, currentPage: page, pageSize: take);
+
 			var data = new List<DataRowViewModel>();
-
-			using (var cn = new SqlConnection(context.Database.Connection.ConnectionString))
+			foreach (var item in result.Items)
 			{
-				cn.Open();
-				using (var cm = new SqlCommand(sql, cn))
+				var dict = (IDictionary<String, Object>)item;
+				var row = new DataRowViewModel();
+				row.KeyValue = dict[entity.Key.Name].ToStringSafe();
+				row.LinkKeyValue = dict[entity.LinkKey.Name].ToStringSafe();
+				foreach (var property in entity.DisplayColumns)
 				{
-					using (var rd = cm.ExecuteReader())
+					row.Values.Add(new CellValueViewModel
 					{
-						while (rd.Read())
-						{
-							var row = new DataRowViewModel();
-							row.KeyValue = GetValue(rd, entity.Key.Name);
-							row.LinkKeyValue = GetValue(rd, entity.LinkKey.Name);
-							foreach (var property in entity.DisplayColumns)
-							{
-								row.Values.Add(new CellValueViewModel
-								{
-									Value = GetValue(rd, property.Name),
-									Property = property
-								});
-							}
-							data.Add(row);
-						}
-					}
+						Value = dict[property.Name].ToStringSafe(),
+						Property = property
+					});
 				}
-				cn.Close();
+				data.Add(row);
 			}
 
-			return data;
-		}
-
-		private string PreparePagingSQL(string sql, string order, string orderDirection, int skip, int take, IList<IEntityFilter> filters, EntitySearch search)
-		{
-			var selectText = "SELECT";
-			var start = sql.IndexOf(selectText) + selectText.Length + 1;
-			var end = sql.IndexOf("FROM", start);
-
-			var toSelect = sql.Substring(start, end - start);
-			var alias = toSelect.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
-
-			sql = sql.Replace(toSelect, string.Format("{0}, row_number() OVER (ORDER BY {1}.{2} {3}) AS [row_number]", toSelect, alias, order, orderDirection));
-
-			var selectFormat = @"SELECT TOP ({6}) 
-{1}
-FROM ( {0}
-{7})  AS {2}
-WHERE {2}.[row_number] > {5}
-ORDER BY {2}.[{3}] {4}";
-
-			return string.Format(selectFormat, sql, toSelect, alias, order, orderDirection, skip, take, ConvertFiltersToSQL(filters, search, alias));
+			return new PagedRecordsViewModel
+			{
+				TotalItems = result.TotalRecords,
+				TotalPages = result.TotalPages,
+				Records = data
+			};
 		}
 
 		private string ConvertFiltersToSQL(IList<IEntityFilter> filters, EntitySearch search, string alias = "")
@@ -166,7 +130,7 @@ ORDER BY {2}.[{3}] {4}";
 				return null;
 			}
 
-			return " WHERE" + conditions.TrimEnd("AND".ToCharArray()) + " ";
+			return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
 		}
 
 		public IList<ColumnViewModel> PrepareColumns(EntityViewModel entity, string order, string orderDirection)
@@ -191,67 +155,24 @@ ORDER BY {2}.[{3}] {4}";
 			}).ToList();
 		}
 
-		private string GetValue(IDataReader reader, string name)
-		{
-			var value = reader[name];
-			if (value == System.DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return value.ToString();
-			}
-		}
-
-		public int TotalItems(EntityViewModel entity, IList<IEntityFilter> filters, string searchQuery)
-		{
-			var context = AdminInitialize.Context;
-			var tableName = GetTableName(context.Set(entity.Type).ToString());
-			var search = new EntitySearch { Query = searchQuery, Properties = entity.SearchProperties };
-			var sql = string.Format("SELECT count(*) FROM [dbo].{0}{1}", tableName, ConvertFiltersToSQL(filters, search));
-
-			int totalItems = 0;
-
-			using (var cn = new SqlConnection(context.Database.Connection.ConnectionString))
-			{
-				cn.Open();
-				using (var cm = new SqlCommand(sql, cn))
-				{
-					totalItems = (int)cm.ExecuteScalar();
-				}
-				cn.Close();
-			}
-
-			return totalItems;
-		}
-
-		public string GetTableName(string sql)
-		{
-			var fromText = "FROM [dbo].";
-			var start = sql.IndexOf(fromText) + fromText.Length;
-			var end = sql.IndexOf("]", start) + 1;
-
-			return sql.Substring(start, end - start);
-		}
-
 		public object Create(EntityViewModel entity)
 		{
-			var context = AdminInitialize.Context;
-
-			var existingItem = context.Set(entity.Type).Find(entity.Key.Value);
+			var existingItem = GetEntity(entity, entity.Key.Value);
 			if (existingItem != null)
 			{
 				Error("Already exist");
 				return null;
 			}
 
-			var item = context.Set(entity.Type).Create(entity.Type);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
-			FillEntity(item, entity);
-
-			context.Set(entity.Type).Add(item);
-			context.SaveChanges();
+			var expando = new ExpandoObject();
+			var filler = expando as IDictionary<String, object>;
+			foreach (var property in entity.Properties.Where(x => !x.IsKey && !x.IsForeignKey))
+			{
+				filler[property.Name] = property.Value;
+			}
+			var item = table.Insert(expando);
 
 			ClearProperties(entity);
 
@@ -260,15 +181,13 @@ ORDER BY {2}.[{3}] {4}";
 
 		public object Edit(EntityViewModel entity)
 		{
-			var context = AdminInitialize.Context;
-
 			if (entity.Key.Value == null)
 			{
 				Error("Key is null");
 				return null;
 			}
 
-			var existingItem = GetEntity(context, entity, entity.Key.Value.ToString());
+			var existingItem = GetEntity(entity, entity.Key.Value.ToString());
 			if (existingItem == null)
 			{
 				Error("Not exist");
@@ -277,7 +196,7 @@ ORDER BY {2}.[{3}] {4}";
 
 			FillEntity(existingItem, entity);
 
-			context.SaveChanges();
+			//context.SaveChanges();
 
 			ClearProperties(entity);
 
@@ -335,7 +254,7 @@ ORDER BY {2}.[{3}] {4}";
 		{
 			foreach (var property in entity.Properties)
 			{
-				var value = collection.GetValue("field." + property.Name);
+				var value = collection.GetValue("property." + property.Name);
 				if (value != null)
 				{
 					property.Value = value.ConvertTo(property.PropertyType);
@@ -345,54 +264,68 @@ ORDER BY {2}.[{3}] {4}";
 
 		public void FillEntity(EntityViewModel entity, string key)
 		{
-			var context = AdminInitialize.Context;
-
-			var item = GetEntity(context, entity, key);
+			var item = GetEntity(entity, key);
 			if (item == null)
 			{
 				Error("Not exist");
 				return;
 			}
 
-			foreach (var property in entity.CreateProperties(false))
-			{
-				var propertyInfo = entity.Type.GetProperty(property.Name);
-				property.Value = propertyInfo.GetValue(item, null);
-			}
+			//foreach (var property in entity.CreateProperties(false))
+			//{
+			//	var propertyInfo = entity.Type.GetProperty(property.Name);
+			//	property.Value = propertyInfo.GetValue(item, null);
+			//}
 
-			entity.Key.Value = key;
+			//entity.Key.Value = key;
 		}
 
-		private object GetEntity(DbContext context, EntityViewModel entity, string key)
+		private object GetEntity(EntityViewModel entity, string key)
+		{
+			var keyObject = GetKeyObject(entity, key);
+
+			return GetEntity(entity, keyObject);
+		}
+
+		private object GetEntity(EntityViewModel entity, object key)
+		{
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+
+			var result = table.Single(key);
+
+			return result;
+		}
+
+		private object GetKeyObject(EntityViewModel entity, string key)
 		{
 			var keyType = entity.Key.PropertyType;
 			if (keyType.In(typeof(int), typeof(short), typeof(long)))
 			{
-				return context.Set(entity.Type).Find(long.Parse(key));
+				return long.Parse(key);
 			}
 			else if (keyType.In(typeof(Guid)))
 			{
-				return context.Set(entity.Type).Find(Guid.Parse(key));
+				return Guid.Parse(key);
 			}
 			else
 			{
-				return context.Set(entity.Type).Find(key);
+				return key;
 			}
 		}
 
 		public bool Delete(EntityViewModel entity, string key)
 		{
-			var context = AdminInitialize.Context;
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
-			var item = GetEntity(context, entity, key);
-			if (item == null)
+			var keyObject = GetKeyObject(entity, key);
+
+			var result = table.Delete(keyObject);
+
+			if (result < 1)
 			{
 				Error("Not exist");
 				return false;
 			}
-
-			context.Set(entity.Type).Remove(item);
-			context.SaveChanges();
 
 			return true;
 		}
@@ -433,6 +366,12 @@ ORDER BY {2}.[{3}] {4}";
 
 		public object GetKeyValue(EntityViewModel entity, object savedItem)
 		{
+			// it should be always a ExpandoObject, but just in caase
+			if (savedItem is ExpandoObject)
+			{
+				return ((dynamic)savedItem).ID;
+			}
+
 			var propertyInfo = entity.Type.GetProperty(entity.Key.Name);
 			return propertyInfo.GetValue(savedItem, null);
 		}

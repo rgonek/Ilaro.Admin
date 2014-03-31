@@ -27,18 +27,16 @@ namespace Ilaro.Web.Sample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            AdminInitialize.RegisterRoutes(RouteTable.Routes);
-            AdminInitialize.RegisterResourceRoutes(RouteTable.Routes);
+            AdminInitialise.RegisterRoutes(RouteTable.Routes);
+            AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
-            AdminInitialize.InitEntity<Customer>();
-            AdminInitialize.InitEntity<Employee>();
-            AdminInitialize.InitEntity<Order>();
-            AdminInitialize.InitEntity<OrderDetail>();
-            AdminInitialize.InitEntity<Product>();
-            // This is lame, I need ef context, but i remove this later
-            AdminInitialize.InitContext(new NorthwindContext());
+            AdminInitialise.AddEntity<Customer>();
+            AdminInitialise.AddEntity<Employee>();
+            AdminInitialise.AddEntity<Order>();
+            AdminInitialise.AddEntity<OrderDetail>();
+            AdminInitialise.AddEntity<Product>();
 
-            AdminInitialize.Initialise();
+            AdminInitialise.Initialise();
         }
     }
 }
