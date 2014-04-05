@@ -213,18 +213,37 @@ namespace Ilaro.Admin.Services
 
 		public bool ValidateEntity(EntityViewModel entity, ModelStateDictionary ModelState)
 		{
+			bool isValid = true;
 			var request = HttpContext.Current.Request;
 			foreach (var property in entity.Properties.Where(x => x.DataType == DataType.File))
 			{
-				var file = request.Files["field." + property.Name];
+				var file = request.Files[property.Name];
 				var result = FileUpload.Validate(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, !property.IsRequired);
 
 				if (result != FileUploadValidationResult.Valid)
 				{
-					return false;
+					isValid = false;
+					// TODO: more complex validation message
+					ModelState.AddModelError(property.Name, "unvalid file");
 				}
 			}
-			return true;
+
+			foreach (var property in entity.Properties.Where(x => x.DataType != DataType.File))
+			{
+				foreach (var validator in property.ValidationAttributes)
+				{
+					try
+					{
+						validator.Validate(property.Value, property.Name);
+					}
+					catch (System.ComponentModel.DataAnnotations.ValidationException exc)
+					{
+						isValid = false;
+						ModelState.AddModelError(property.Name, exc.Message);
+					}
+				}
+			}
+			return isValid;
 		}
 
 		private void FillEntity(object item, EntityViewModel entity)
@@ -234,7 +253,7 @@ namespace Ilaro.Admin.Services
 			{
 				if (property.DataType == DataType.File)
 				{
-					var file = request.Files["field." + property.Name];
+					var file = request.Files[property.Name];
 					var fileName = String.Empty;
 					if (property.ImageOptions.NameCreation == NameCreation.UserInput)
 					{
@@ -254,7 +273,7 @@ namespace Ilaro.Admin.Services
 		{
 			foreach (var property in entity.Properties)
 			{
-				var value = collection.GetValue("property." + property.Name);
+				var value = collection.GetValue(property.Name);
 				if (value != null)
 				{
 					property.Value = value.ConvertTo(property.PropertyType);

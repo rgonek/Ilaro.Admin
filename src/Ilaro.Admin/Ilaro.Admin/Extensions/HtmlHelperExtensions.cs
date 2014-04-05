@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Ilaro.Admin.Extensions;
 using System.Web.Mvc.Html;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -82,7 +84,7 @@ namespace Ilaro.Admin.Extensions
 			{
 				routeValues.Add(filter.Property.Name, filter.Value);
 			}
-			
+
 			return htmlHelper.ActionLink(column.DisplayName, "Details", new RouteValueDictionary(routeValues));
 		}
 
@@ -123,6 +125,39 @@ namespace Ilaro.Admin.Extensions
 		public static MvcHtmlString Condition(this HtmlHelper htmlHelper, bool condition, Func<string> trueResult)
 		{
 			return MvcHtmlString.Create(condition ? trueResult() : String.Empty);
+		}
+
+		/// <summary>
+		/// Own TextBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc textbox
+		/// </summary>
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property)
+		{
+			return TextBox(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
+		}
+
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, object htmlAttributes)
+		{
+			return TextBox(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		{
+			// create own metadata based on PropertyViewModel
+			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
+			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+
+			htmlAttributes = validationAttributes.Union(htmlAttributes).ToDictionary(x => x.Key, x => x.Value);
+
+			return htmlHelper.TextBox(name, value, htmlAttributes);
+		}
+
+		/// <summary>
+		/// Clear html field prefix
+		/// </summary>
+		/// <param name="htmlHelper"></param>
+		public static void ClearPrefix(this HtmlHelper htmlHelper)
+		{
+			htmlHelper.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "";
 		}
 	}
 }

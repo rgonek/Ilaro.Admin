@@ -12,6 +12,7 @@ using System.Text;
 using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
 using System.Diagnostics;
+using System.ComponentModel;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -80,6 +81,8 @@ namespace Ilaro.Admin.ViewModels
 		public string EditorTemplateName { get; set; }
 		public string DisplayTemplateName { get; set; }
 
+		[Required]
+		[StringLength(20)]
 		public object Value { get; set; }
 
 		// thats lame, should be in extension method
@@ -131,6 +134,8 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
+		public IList<ValidationAttribute> ValidationAttributes { get; set; }
+
 		public PropertyViewModel(EntityViewModel entity, PropertyInfo property)
 		{
 			Entity = entity;
@@ -140,6 +145,7 @@ namespace Ilaro.Admin.ViewModels
 			DeterminePropertyInfo();
 
 			var attributes = property.GetCustomAttributes(false);
+			ValidationAttributes = attributes.OfType<ValidationAttribute>().ToList();
 
 			SetForeignKey(attributes);
 

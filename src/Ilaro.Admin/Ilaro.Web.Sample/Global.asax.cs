@@ -19,16 +19,16 @@ namespace Ilaro.Web.Sample
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+			AreaRegistration.RegisterAllAreas();
+
+			AdminInitialise.RegisterRoutes(RouteTable.Routes);
+			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
-            AdminInitialise.RegisterRoutes(RouteTable.Routes);
-            AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
             AdminInitialise.AddEntity<Customer>();
             AdminInitialise.AddEntity<Employee>();
