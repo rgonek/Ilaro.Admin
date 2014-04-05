@@ -161,10 +161,6 @@ namespace Massive
 					throw new InvalidOperationException("Need a connection string name - can't determine what it is");
 				}
 			}
-			else
-			{
-				throw new InvalidOperationException("Need a connection string name - can't determine what it is");
-			}
 
 			if (!string.IsNullOrWhiteSpace(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
 				_providerName = ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName;
