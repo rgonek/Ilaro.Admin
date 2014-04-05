@@ -17,7 +17,7 @@ namespace Ilaro.Admin
 	{
 		public static IList<EntityViewModel> EntitiesTypes { get; set; }
 
-		public static string ConnectionString { get; set; }
+		internal static string ConnectionString { get; set; }
 
 		static AdminInitialise()
 		{
@@ -77,8 +77,10 @@ namespace Ilaro.Admin
 			);
 		}
 
-		public static void Initialise()
+		public static void Initialise(string connectionString = "")
 		{
+			ConnectionString = connectionString;
+
 			Bootstrapper.Initialise();
 
 			SetForeignKeysReferences();

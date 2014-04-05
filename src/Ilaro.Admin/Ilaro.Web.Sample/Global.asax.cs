@@ -21,7 +21,7 @@ namespace Ilaro.Web.Sample
         {
 			AreaRegistration.RegisterAllAreas();
 
-			AdminInitialise.RegisterRoutes(RouteTable.Routes);
+			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -36,7 +36,8 @@ namespace Ilaro.Web.Sample
             AdminInitialise.AddEntity<OrderDetail>();
             AdminInitialise.AddEntity<Product>();
 
-            AdminInitialise.Initialise();
+			// If you have only one connection string there is no need to specify it
+            AdminInitialise.Initialise("NorthwindEntities");
         }
     }
 }
