@@ -5,7 +5,7 @@ Ilaro.Admin creates for you admin panel using only POCO classes.
 
 Project was inspired by [Django admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).
 
-Please keep in mind this is stil a alpha version.
+Please keep in mind this is still a alpha version.
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
@@ -47,16 +47,16 @@ And after that when you go to ~/IlaroAdmin url (if you don't define a other pref
 ![Ilaro.Admin create new record](https://dl.dropboxusercontent.com/u/3659823/IlaroAdmin/create_new_record.png)
 
 ##What I use
-Here I try write all libraries, and part of code I use in project.
-- [**Massive**](https://github.com/robconery/massive) - for db access. I'm added few lines commented like that: // Illaro.Admin, so its easy to find
+Here I will try write all libraries, and part of code I use in project.
+- [**Massive**](https://github.com/robconery/massive) - for db access. I added few lines commented like that: // Illaro.Admin, so its easy to find
 - [**ImageResizer**](http://imageresizing.net/) - for resizing image. There's no much need to use this library, you can easy get rid off it, but I like it :)
 - [**Unity**](http://msdn.microsoft.com/en-us/library/ff647202.aspx) - for resolving stuff :), for now I don't resolve too much things
 - [**RazorGenerator**](http://razorgenerator.codeplex.com/) and [extension](http://visualstudiogallery.msdn.microsoft.com/1f6ec6ff-e89b-4c47-8e79-d2d68df894ec) - for generating source code from views, thanks that you don't have add views into your project, just simply add dll. Of cource if you want you can add views files which overrides compiled views
-- Pager - I'm start using https://github.com/troygoode/PagedList (I used earlier version, not including dll but copy a code), but I'm use it only for generating pager, so later I'm move generating pager to view and use some other pager algorithm (I found it in stackoverflow, unfortunately I cannot find it now)
+- Pager - I start using https://github.com/troygoode/PagedList (I used earlier version, not including dll but copy a code), but I use it only for generating pager, so later I move generating pager to view and use some other pager algorithm (I found it in stackoverflow, unfortunately I cannot find it now)
 - [**Twitter bootstrap**](http://getbootstrap.com/) (and some plugins for it)
 
 ##Knowing issue
--  Validation - for validate entity I'm using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.
+-  Validation - for validate entity I using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.
   
    ```C#
 [Required]
