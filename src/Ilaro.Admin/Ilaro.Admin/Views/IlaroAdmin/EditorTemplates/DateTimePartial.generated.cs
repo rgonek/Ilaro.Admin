@@ -38,16 +38,22 @@ namespace Ilaro.Admin.Views.IlaroAdmin.EditorTemplates
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteAttribute("for", Tuple.Create(" for=\"", 57), Tuple.Create("\"", 83)
             
             #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 63), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+  Html.ClearPrefix();
             
             #line default
             #line hidden
-, 63), false)
+WriteLiteral("\r\n<label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 81), Tuple.Create("\"", 107)
+            
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            
+            #line default
+            #line hidden
+, 87), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -55,7 +61,7 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
                                                    Write(Model.DisplayName);
 
             
@@ -64,7 +70,7 @@ WriteLiteral(">");
 WriteLiteral(" ");
 
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
                                                                       Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>"));
 
             
@@ -79,8 +85,8 @@ WriteLiteral(">\r\n");
 WriteLiteral("    ");
 
             
-            #line 5 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
-Write(Html.TextBox(Model.Name, Model.Value, new { @class = "span3 dateTimePicker" }));
+            #line 6 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+Write(Html.TextBox(Model.Name, Model.Value, Model, new { @class = "span3 dateTimePicker" }));
 
             
             #line default
@@ -90,8 +96,19 @@ WriteLiteral("\r\n");
 WriteLiteral("    ");
 
             
-            #line 6 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+WriteLiteral("    ");
+
+            
+            #line 8 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+Write(Html.ValidationMessage(Model.Name));
 
             
             #line default

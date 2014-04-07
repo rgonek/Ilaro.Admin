@@ -187,22 +187,31 @@ namespace Ilaro.Admin.Services
 				return null;
 			}
 
-			var existingItem = GetEntity(entity, entity.Key.Value.ToString());
+			var existingItem = GetEntity(entity, entity.Key.Value);
 			if (existingItem == null)
 			{
 				Error("Not exist");
 				return null;
 			}
 
-			FillEntity(existingItem, entity);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
-			//context.SaveChanges();
+			var expando = new ExpandoObject();
+			var filler = expando as IDictionary<String, object>;
+			foreach (var property in entity.Properties.Where(x => !x.IsKey && !x.IsForeignKey))
+			{
+				filler[property.Name] = property.Value;
+			}
+			var savedItem = table.Update(expando, entity.Key.Value);
 
 			ClearProperties(entity);
 
-			return existingItem;
+			return savedItem;
 		}
 
+		/// <summary>
+		/// Clear properties values
+		/// </summary>
 		public void ClearProperties(EntityViewModel entity)
 		{
 			foreach (var property in entity.Properties)
@@ -249,7 +258,7 @@ namespace Ilaro.Admin.Services
 		private void FillEntity(object item, EntityViewModel entity)
 		{
 			var request = HttpContext.Current.Request;
-			foreach (var property in entity.CreateProperties())
+			foreach (var property in entity.CreateProperties(false))
 			{
 				if (property.DataType == DataType.File)
 				{
@@ -290,13 +299,14 @@ namespace Ilaro.Admin.Services
 				return;
 			}
 
-			//foreach (var property in entity.CreateProperties(false))
-			//{
-			//	var propertyInfo = entity.Type.GetProperty(property.Name);
-			//	property.Value = propertyInfo.GetValue(item, null);
-			//}
+			var propertiesDict = item as IDictionary<string, object>;
 
-			//entity.Key.Value = key;
+			foreach (var property in entity.CreateProperties(false))
+			{
+				property.Value = propertiesDict.ContainsKey(property.Name) ? propertiesDict[property.Name] : null;
+			}
+
+			entity.Key.Value = key;
 		}
 
 		private object GetEntity(EntityViewModel entity, string key)

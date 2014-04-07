@@ -117,7 +117,7 @@ namespace Ilaro.Admin.ViewModels
 					return String.Empty;
 				}
 
-				return Value.ToString();
+				return Value.ToStringSafe();
 			}
 		}
 

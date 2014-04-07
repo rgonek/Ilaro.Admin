@@ -127,8 +127,10 @@ namespace Ilaro.Admin.Extensions
 			return MvcHtmlString.Create(condition ? trueResult() : String.Empty);
 		}
 
+		#region TextBox
+
 		/// <summary>
-		/// Own TextBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc textbox
+		/// Own TextBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc TextBox
 		/// </summary>
 		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property)
 		{
@@ -146,9 +148,111 @@ namespace Ilaro.Admin.Extensions
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
 			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
 
-			htmlAttributes = validationAttributes.Union(htmlAttributes).ToDictionary(x => x.Key, x => x.Value);
+			htmlAttributes = PrepareHtmlAttributes(htmlAttributes, validationAttributes);
 
 			return htmlHelper.TextBox(name, value, htmlAttributes);
+		}
+
+		#endregion // END TextBox
+
+		#region TextArea
+
+		/// <summary>
+		/// Own TextArea extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc TextArea
+		/// </summary>
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property)
+		{
+			return TextArea(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
+		}
+
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property, object htmlAttributes)
+		{
+			return TextArea(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		{
+			// create own metadata based on PropertyViewModel
+			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
+			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+
+			htmlAttributes = PrepareHtmlAttributes(htmlAttributes, validationAttributes);
+
+			return htmlHelper.TextArea(name, value, htmlAttributes);
+		}
+
+		#endregion // END TextArea
+
+		#region CheckBox
+
+		/// <summary>
+		/// Own CheckBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc CheckBox
+		/// </summary>
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property)
+		{
+			return CheckBox(htmlHelper, name, isChecked, property, htmlAttributes: (IDictionary<string, object>)null);
+		}
+
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property, object htmlAttributes)
+		{
+			return CheckBox(htmlHelper, name, isChecked, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		{
+			// create own metadata based on PropertyViewModel
+			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
+			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+
+			htmlAttributes = PrepareHtmlAttributes(htmlAttributes, validationAttributes);
+
+			return htmlHelper.CheckBox(name, isChecked, htmlAttributes);
+		}
+
+		#endregion // END CheckBox
+
+		#region DropDownList
+
+		/// <summary>
+		/// Own DropDownList extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc DropDownList
+		/// </summary>
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property)
+		{
+			return DropDownList(htmlHelper, name, selectList, property, htmlAttributes: (IDictionary<string, object>)null);
+		}
+
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property, object htmlAttributes)
+		{
+			return DropDownList(htmlHelper, name, selectList, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		{
+			// create own metadata based on PropertyViewModel
+			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
+			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+
+			htmlAttributes = PrepareHtmlAttributes(htmlAttributes, validationAttributes);
+
+			return htmlHelper.DropDownList(name, selectList, htmlAttributes);
+		}
+
+		#endregion // END DropDownList
+
+		private static IDictionary<string, object> PrepareHtmlAttributes(IDictionary<string, object> htmlAttributes, IDictionary<string, object> validationAttributes)
+		{
+			if (htmlAttributes == null)
+			{
+				htmlAttributes = new Dictionary<string, object>();
+			}
+			if (validationAttributes == null)
+			{
+				validationAttributes = new Dictionary<string, object>();
+			}
+
+			htmlAttributes = validationAttributes.Union(htmlAttributes).ToDictionary(x => x.Key, x => x.Value);
+
+			return htmlAttributes;
 		}
 
 		/// <summary>

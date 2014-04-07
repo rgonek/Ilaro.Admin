@@ -38,16 +38,22 @@ namespace Ilaro.Admin.Views.IlaroAdmin.EditorTemplates
         }
         public override void Execute()
         {
-WriteLiteral("<label");
-
-WriteAttribute("for", Tuple.Create(" for=\"", 57), Tuple.Create("\"", 83)
             
             #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 63), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+  Html.ClearPrefix();
             
             #line default
             #line hidden
-, 63), false)
+WriteLiteral("\r\n<label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 81), Tuple.Create("\"", 107)
+            
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            
+            #line default
+            #line hidden
+, 87), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -55,7 +61,7 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
                                                    Write(Model.DisplayName);
 
             
@@ -64,7 +70,7 @@ WriteLiteral(">");
 WriteLiteral(" ");
 
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
                                                                       Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>"));
 
             
@@ -110,24 +116,24 @@ WriteLiteral(" class=\"fileupload-exists\"");
 
 WriteLiteral(">Change</span>\r\n                <input");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 720), Tuple.Create("\"", 745)
+WriteAttribute("id", Tuple.Create(" id=\"", 744), Tuple.Create("\"", 769)
             
-            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 725), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 749), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
             #line hidden
-, 725), false)
+, 749), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 746), Tuple.Create("\"", 775)
+WriteAttribute("name", Tuple.Create(" name=\"", 770), Tuple.Create("\"", 799)
             
-            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 753), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 777), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 753), false)
+, 777), false)
 );
 
 WriteLiteral(" type=\"file\"");
@@ -140,13 +146,24 @@ WriteLiteral(" class=\"btn fileupload-exists\"");
 
 WriteLiteral(" data-dismiss=\"fileupload\"");
 
-WriteLiteral(">Usuń</a>\r\n        </div>\r\n    </div>\r\n\r\n");
+WriteLiteral(">Delete</a>\r\n        </div>\r\n    </div>\r\n\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 20 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+            #line 21 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+WriteLiteral("    ");
+
+            
+            #line 22 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+Write(Html.ValidationMessage(Model.Name));
 
             
             #line default

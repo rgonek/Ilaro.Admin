@@ -1,5 +1,6 @@
 ﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
 
+@{Html.ClearPrefix();}
 <label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")</label>
 <div class="controls">
     <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -13,10 +14,11 @@
                 <span class="fileupload-exists">Change</span>
                 <input id="@Html.Id(Model.Name)" name="@Html.Name(Model.Name)" type="file" />
             </span>
-            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Usuń</a>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Delete</a>
         </div>
     </div>
 
     @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    @Html.ValidationMessage(Model.Name)
 </div>
 

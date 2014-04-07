@@ -51,15 +51,15 @@ WriteLiteral("\r\n\r\n");
 
 DefineSection("Breadcrumb", () => {
 
-WriteLiteral("\r\n<ul");
+WriteLiteral("\r\n    <ul");
 
 WriteLiteral(" class=\"breadcrumb\"");
 
-WriteLiteral(">\r\n    <li>");
+WriteLiteral(">\r\n        <li>");
 
             
             #line 11 "..\..\Views\IlaroAdmin\Create.cshtml"
-   Write(Html.ActionLink("Admin", "Index"));
+       Write(Html.ActionLink("Admin", "Index"));
 
             
             #line default
@@ -68,11 +68,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li>");
+WriteLiteral(">/</span></li>\r\n        <li>");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Create.cshtml"
-   Write(Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }));
+       Write(Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }));
 
             
             #line default
@@ -81,11 +81,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li>");
+WriteLiteral(">/</span></li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Create.cshtml"
-   Write(Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }));
+       Write(Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }));
 
             
             #line default
@@ -94,11 +94,11 @@ WriteLiteral(" <span");
 
 WriteLiteral(" class=\"divider\"");
 
-WriteLiteral(">/</span></li>\r\n    <li");
+WriteLiteral(">/</span></li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
-WriteLiteral(">Dodawanie</li>\r\n</ul>\r\n");
+WriteLiteral(">Adding</li>\r\n    </ul>\r\n");
 
 });
 
@@ -145,11 +145,11 @@ Write(Html.ValidationSummary(true));
             
             #line 23 "..\..\Views\IlaroAdmin\Create.cshtml"
                                  
-    
+
     if (Model.PropertiesGroups.Count > 1)
     {
         foreach (var group in Model.PropertiesGroups)
-        { 
+        {
 
             
             #line default
@@ -171,65 +171,65 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1063), Tuple.Create("\"", 1144)
+WriteAttribute("class", Tuple.Create(" class=\"", 1079), Tuple.Create("\"", 1160)
             
             #line 30 "..\..\Views\IlaroAdmin\Create.cshtml"
-                , Tuple.Create(Tuple.Create("", 1071), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")
+                , Tuple.Create(Tuple.Create("", 1087), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")
             
             #line default
             #line hidden
-, 1071), false)
+, 1087), false)
 );
 
 WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1190), Tuple.Create("\"", 1253)
-, Tuple.Create(Tuple.Create("", 1198), Tuple.Create("fields", 1198), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1206), Tuple.Create("\"", 1269)
+, Tuple.Create(Tuple.Create("", 1214), Tuple.Create("fields", 1214), true)
             
             #line 31 "..\..\Views\IlaroAdmin\Create.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1204), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+, Tuple.Create(Tuple.Create(" ", 1220), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1205), false)
+, 1221), false)
 );
 
 WriteLiteral(">\r\n");
 
             
             #line 32 "..\..\Views\IlaroAdmin\Create.cshtml"
-                
+                    
             
             #line default
             #line hidden
             
             #line 32 "..\..\Views\IlaroAdmin\Create.cshtml"
-                 foreach (var property in group.Properties)
-                {
+                     foreach (var property in group.Properties)
+                    {
 
             
             #line default
             #line hidden
-WriteLiteral("                    <div");
+WriteLiteral("                        <div");
 
 WriteLiteral(" class=\"control-group\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("                        ");
+WriteLiteral("                            ");
 
             
             #line 35 "..\..\Views\IlaroAdmin\Create.cshtml"
-                   Write(Html.EditorFor(m => property, property.EditorTemplateName));
+                       Write(Html.EditorFor(m => property, property.EditorTemplateName));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\t                </div>\r\n");
+WriteLiteral("\r\n                        </div>\r\n");
 
             
             #line 37 "..\..\Views\IlaroAdmin\Create.cshtml"
-                }
+                    }
 
             
             #line default
@@ -240,9 +240,9 @@ WriteLiteral("                </div>\r\n            </fieldset>\r\n");
             #line 40 "..\..\Views\IlaroAdmin\Create.cshtml"
         }
     }
-    else if(Model.PropertiesGroups.Count == 1)
+    else if (Model.PropertiesGroups.Count == 1)
     {
-        foreach(var property in Model.PropertiesGroups[0].Properties)
+        foreach (var property in Model.PropertiesGroups[0].Properties)
         {
 
             
@@ -263,13 +263,13 @@ WriteLiteral("                ");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\t        </div>\r\n");
+WriteLiteral("\r\n            </div>\r\n");
 
             
             #line 49 "..\..\Views\IlaroAdmin\Create.cshtml"
         }
     }
-    
+
     
             
             #line default
@@ -284,7 +284,7 @@ Write(Html.Hidden("EntityName", Model.Entity.Name));
             
             #line 52 "..\..\Views\IlaroAdmin\Create.cshtml"
                                                  
-    
+
 
             
             #line default
@@ -325,14 +325,14 @@ WriteLiteral(" class=\"icon-plus\"");
 
 WriteLiteral("></i> Save and add next</button>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2281), Tuple.Create("\"", 2350)
+WriteAttribute("href", Tuple.Create(" href=\"", 2321), Tuple.Create("\"", 2390)
             
             #line 58 "..\..\Views\IlaroAdmin\Create.cshtml"
-, Tuple.Create(Tuple.Create("", 2288), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 2328), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2288), false)
+, 2328), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
