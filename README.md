@@ -5,7 +5,7 @@ Ilaro.Admin creates for you admin panel using only POCO classes.
 
 Project was inspired by [Django admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).
 
-Please keep in mind this is steel a alpha version.
+Please keep in mind this is stil a alpha version.
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
