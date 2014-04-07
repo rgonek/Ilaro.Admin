@@ -24,11 +24,7 @@ namespace Ilaro.Web.Sample
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
 
             AdminInitialise.AddEntity<Customer>();
             AdminInitialise.AddEntity<Employee>();
