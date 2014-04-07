@@ -50,36 +50,36 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 WriteLiteralTo(__razor_helper_writer, "    <li");
 
-WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 3015), Tuple.Create("\"", 3031)
+WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 3169), Tuple.Create("\"", 3185)
 
 #line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3023), Tuple.Create<System.Object, System.Int32>(classes
+, Tuple.Create(Tuple.Create("", 3177), Tuple.Create<System.Object, System.Int32>(classes
 
 #line default
 #line hidden
-, 3023), false)
+, 3177), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, "><a");
 
-WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 3035), Tuple.Create("\"", 3046)
+WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 3189), Tuple.Create("\"", 3200)
 
 #line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3042), Tuple.Create<System.Object, System.Int32>(url
+, Tuple.Create(Tuple.Create("", 3196), Tuple.Create<System.Object, System.Int32>(url
 
 #line default
 #line hidden
-, 3042), false)
+, 3196), false)
 );
 
-WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 3047), Tuple.Create("\"", 3057)
+WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 3201), Tuple.Create("\"", 3211)
 
 #line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3053), Tuple.Create<System.Object, System.Int32>(rel
+, Tuple.Create(Tuple.Create("", 3207), Tuple.Create<System.Object, System.Int32>(rel
 
 #line default
 #line hidden
-, 3053), false)
+, 3207), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, ">");
@@ -205,7 +205,7 @@ WriteLiteral("            ");
 
             
             #line 47 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink("«", Model.Current - 1, Model.Url, "prev"));
+             Write(PagerLink(Resources.IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev"));
 
             
             #line default
@@ -225,7 +225,16 @@ WriteLiteral("            <li");
 
 WriteLiteral(" class=\"disabled\"");
 
-WriteLiteral("><span>«</span></li>\r\n");
+WriteLiteral("><span>");
+
+            
+            #line 51 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                                  Write(Resources.IlaroAdminResources.PreviousPage);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</span></li>\r\n");
 
             
             #line 52 "..\..\Views\IlaroAdmin\_Paging.cshtml"
@@ -421,7 +430,7 @@ WriteLiteral("            ");
 
             
             #line 86 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink("»", Model.Current + 1, Model.Url, "next"));
+             Write(PagerLink(Resources.IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next"));
 
             
             #line default
@@ -441,7 +450,16 @@ WriteLiteral("            <li");
 
 WriteLiteral(" class=\"disabled\"");
 
-WriteLiteral("><span>»</span></li>\r\n");
+WriteLiteral("><span>");
+
+            
+            #line 90 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                                  Write(Resources.IlaroAdminResources.NextPage);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</span></li>\r\n");
 
             
             #line 91 "..\..\Views\IlaroAdmin\_Paging.cshtml"

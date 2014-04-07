@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.ViewModels;
+using Resources;
 
 namespace Ilaro.Admin.EntitiesFilters
 {
@@ -22,16 +23,16 @@ namespace Ilaro.Admin.EntitiesFilters
 
 			Property = property;
 
-			// TODO: localize strings
 			var options = new Dictionary<string, string>
             {
-                { "All", String.Empty },
-                { "Last day", "2013.01.17" },
-                { "Last weekd", "2013.01.11-2013.01.18" },
-                { "Last month", "2012.12.18-2013.01.18" },
-                { "Last quarter", "2012.09.18-2013.01.18" },
-                { "Last half a year", "2012.06.18-2013.01.18" },
-                { "Last year", "2012.01.18-2013.01.18" }
+                { IlaroAdminResources.All, String.Empty },
+                { IlaroAdminResources.Today, DateTime.Today.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.Yesterday, DateTime.Today.AddDays(-1).ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastWeek, DateTime.Today.AddDays(-7).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastMonth, DateTime.Today.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastQuarter, DateTime.Today.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastHalfAYear, DateTime.Today.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastYear, DateTime.Today.AddYears(-1).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") }
             };
 
 			Options = new SelectList(options, "Value", "Key", Value);

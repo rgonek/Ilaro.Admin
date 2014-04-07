@@ -134,6 +134,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminInitialise.cs" />
+    <Compile Include="App_GlobalResources\IlaroAdminResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IlaroAdminResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="Attributes\ColumnsAttribute.cs" />
     <Compile Include="Attributes\GroupsAttribute.cs" />
@@ -241,6 +246,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NumericPartial.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\DisplayTemplates\PasswordPartial.generated.cs">
+      <DependentUpon>PasswordPartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -291,6 +301,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TextAreaPartial.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\PasswordPartial.generated.cs">
+      <DependentUpon>PasswordPartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -333,6 +348,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="App_GlobalResources\IlaroAdminResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IlaroAdminResources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Resources</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.css" />
     <EmbeddedResource Include="Content\css\bootstrap-jasny.css" />
     <EmbeddedResource Include="Content\css\bootstrap-responsive.css" />
@@ -536,9 +556,7 @@
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -748,6 +766,18 @@
     <Content Include="Views\IlaroAdmin\_Paging.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Paging.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\PasswordPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PasswordPartial.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\DisplayTemplates\PasswordPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>PasswordPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

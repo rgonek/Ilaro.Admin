@@ -110,30 +110,48 @@ WriteLiteral(">\r\n                <span");
 
 WriteLiteral(" class=\"fileupload-new\"");
 
-WriteLiteral(">Choose file</span>\r\n                <span");
+WriteLiteral(">");
+
+            
+            #line 13 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+                                        Write(Resources.IlaroAdminResources.ChooseFile);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</span>\r\n                <span");
 
 WriteLiteral(" class=\"fileupload-exists\"");
 
-WriteLiteral(">Change</span>\r\n                <input");
+WriteLiteral(">");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 744), Tuple.Create("\"", 769)
             
-            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 749), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+                                           Write(Resources.IlaroAdminResources.Change);
+
             
             #line default
             #line hidden
-, 749), false)
+WriteLiteral("</span>\r\n                <input");
+
+WriteAttribute("id", Tuple.Create(" id=\"", 805), Tuple.Create("\"", 830)
+            
+            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 810), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            
+            #line default
+            #line hidden
+, 810), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 770), Tuple.Create("\"", 799)
+WriteAttribute("name", Tuple.Create(" name=\"", 831), Tuple.Create("\"", 860)
             
             #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 777), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+, Tuple.Create(Tuple.Create("", 838), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 777), false)
+, 838), false)
 );
 
 WriteLiteral(" type=\"file\"");

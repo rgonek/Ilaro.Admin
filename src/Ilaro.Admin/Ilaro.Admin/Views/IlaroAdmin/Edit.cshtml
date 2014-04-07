@@ -2,16 +2,16 @@
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = "Edit";
+    ViewBag.Title = string.Format(Resources.IlaroAdminResources.Edit_Title, Model.Entity.Name);
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li>@Html.ActionLink("Administracja", "Index") <span class="divider">/</span></li>
+        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index") <span class="divider">/</span></li>
         <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
         <li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name }) <span class="divider">/</span></li>
-        <li class="active">Editing</li>
+        <li class="active">@string.Format(Resources.IlaroAdminResources.Edit_Title, Model.Entity.Name)</li>
     </ul>
 }
 
@@ -52,11 +52,11 @@
     @Html.Hidden("EntityName", Model.Entity.Name)
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button type="submit" class="btn" name="ContinueEdit"><i class="icon-edit"></i>Save and continue edit</button>
-        <button type="submit" class="btn" name="AddNext"><i class="icon-plus"></i>Save and add next</button>
-        <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">Cancel</a>
-        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })" class="btn btn-danger pull-right">Delete</a>
+        <button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
+        <button type="submit" class="btn" name="ContinueEdit"><i class="icon-edit"></i>@Resources.IlaroAdminResources.SaveAndContinueEdit</button>
+        <button type="submit" class="btn" name="AddNext"><i class="icon-plus"></i>@Resources.IlaroAdminResources.SaveAndAddNext</button>
+        <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })" class="btn btn-danger pull-right">@Resources.IlaroAdminResources.Delete</a>
     </div>
 }
 

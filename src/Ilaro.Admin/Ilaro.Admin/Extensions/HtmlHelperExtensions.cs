@@ -155,6 +155,34 @@ namespace Ilaro.Admin.Extensions
 
 		#endregion // END TextBox
 
+		#region Password
+
+		/// <summary>
+		/// Own Password extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc Password
+		/// </summary>
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property)
+		{
+			return Password(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
+		}
+
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, object htmlAttributes)
+		{
+			return Password(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		{
+			// create own metadata based on PropertyViewModel
+			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
+			var validationAttributes = htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+
+			htmlAttributes = PrepareHtmlAttributes(htmlAttributes, validationAttributes);
+
+			return htmlHelper.Password(name, value, htmlAttributes);
+		}
+
+		#endregion // END Password
+
 		#region TextArea
 
 		/// <summary>

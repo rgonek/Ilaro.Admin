@@ -8,7 +8,7 @@
 @section Breadcrumb
 {
 <ul class="breadcrumb">
-    <li>@Html.ActionLink("Admin", "Index") <span class="divider">/</span></li>
+    <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index") <span class="divider">/</span></li>
     <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
     <li class="active">@Model.Entity.Plural</li>
 </ul>
@@ -17,7 +17,7 @@
 <h2>@Model.Entity.Plural</h2>
 
 <div class="clearfix">
-    <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> Add</a>
+    <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> @Resources.IlaroAdminResources.Add</a>
 
     @if (Model.IsSearchActive)
     {
@@ -33,7 +33,7 @@
             @Html.Hidden("od", Model.OrderDirection)
             <div class="input-append">
                 @Html.TextBox("sq", Model.SearchQuery, new { @class = "span2" })
-                <button class="btn">Search</button>
+                <button class="btn">@Resources.IlaroAdminResources.Search</button>
             </div>
         }
     }
@@ -70,7 +70,7 @@
             @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
             { 
                 <td class="min-width">
-                    <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> View</a>
+                    <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> @Resources.IlaroAdminResources.View</a>
                 </td>
             }
             @if (Model.Entity.HasEditLink)
@@ -78,11 +78,11 @@
                 <td class="min-width">
                     @if (!Model.Entity.EditLink.IsNullOrEmpty())
                     { 
-                        <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edit</a>
+                        <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
                     }
                     else
                     { 
-                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> Edit</a>
+                        <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
                     }
                 </td>
             }
@@ -91,11 +91,11 @@
                 <td class="min-width">
                     @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
                     { 
-                        <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
+                        <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
                     }
                     else
                     { 
-                        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> Delete</a>
+                        <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
                     }
                 </td>
             }
@@ -104,7 +104,7 @@
     </tbody>
 </table>
 
-<p class="pull-right">Founded: <strong>@Model.PagerInfo.TotalItems</strong></p>
+<p class="pull-right">@Resources.IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></p>
 
 <div class="pull-left" style="margin-top:1px;">
     @using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
@@ -118,7 +118,7 @@
         @Html.Hidden("o", Model.Order)
         @Html.Hidden("od", Model.OrderDirection)
         <div class="control-group">
-            <label for="pp" class="control-label">On Page:</label>
+            <label for="pp" class="control-label">@Resources.IlaroAdminResources.OnPage</label>
             @Html.DropDownList("pp", new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10), new { @class = "autoPostBack" })
         </div>
     }
@@ -133,10 +133,10 @@
 {
 @if (Model.Filters.Count > 0)
 { 
-<h2>Filters</h2>
+<h2>@Resources.IlaroAdminResources.Filters</h2>
 <div class="sidebar-nav well">
     <ul class="nav nav-list">
-        <li><a href="@Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">Remove filters</a></li>
+        <li><a href="@Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@Resources.IlaroAdminResources.RemoveFilters</a></li>
         @foreach (var filter in Model.Filters)
         { 
             <li class="nav-header">

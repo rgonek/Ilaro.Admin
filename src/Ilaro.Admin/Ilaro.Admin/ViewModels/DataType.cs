@@ -8,6 +8,7 @@ namespace Ilaro.Admin.ViewModels
     public enum DataType
     {
         String,
+		Password,
         Numeric,
         Bool,
         Enum,

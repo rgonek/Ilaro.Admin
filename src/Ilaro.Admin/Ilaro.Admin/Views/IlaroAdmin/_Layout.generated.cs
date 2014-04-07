@@ -298,11 +298,11 @@ WriteLiteral("                ");
             #line default
             #line hidden
 WriteLiteral("\r\n            </div>\r\n        </div>\r\n        <hr>\r\n        <footer>\r\n           " +
-" <p>&copy; Robert Gonek ");
+" <p>&copy; Ilaro.Admin ");
 
             
             #line 62 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-                              Write(System.DateTime.Now.ToString("yyyy"));
+                             Write(System.DateTime.Now.ToString("yyyy"));
 
             
             #line default

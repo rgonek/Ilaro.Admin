@@ -9,7 +9,7 @@ using System.Web.Routing;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.EntitiesFilters;
 using Ilaro.Admin.Commons.Notificator;
-using Ilaro.Admin.Extensions;
+using Resources;
 
 namespace Ilaro.Admin.Controllers
 {
@@ -144,7 +144,7 @@ namespace Ilaro.Admin.Controllers
 					var savedItem = entityService.Create(entity);
 					if (savedItem != null)
 					{
-						Success("Added " + entity.Singular);
+						Success(IlaroAdminResources.AddSuccess, entity.Singular);
 
 						if (Request["ContinueEdit"] != null)
 						{
@@ -159,7 +159,7 @@ namespace Ilaro.Admin.Controllers
 					}
 					else
 					{
-						Error("Something wrong");
+						Error(IlaroAdminResources.UncaughtError);
 					}
 				}
 				catch (Exception ex)
@@ -225,7 +225,7 @@ namespace Ilaro.Admin.Controllers
 					var savedItem = entityService.Edit(entity);
 					if (savedItem != null)
 					{
-						Success("Zapisano " + entity.Singular);
+						Success(IlaroAdminResources.EditSuccess, entity.Singular);
 
 
 						if (Request["ContinueEdit"] != null)
@@ -241,7 +241,7 @@ namespace Ilaro.Admin.Controllers
 					}
 					else
 					{
-						Error("Something wrong");
+						Error(IlaroAdminResources.UncaughtError);
 					}
 				}
 				catch (Exception ex)
@@ -285,13 +285,13 @@ namespace Ilaro.Admin.Controllers
 			{
 				if (entityService.Delete(entity, key))
 				{
-					Success("Usunięto " + entity.Singular);
+					Success(IlaroAdminResources.DeleteSuccess, entity.Singular);
 
 					return RedirectToAction("Details", new { entityName = entityName });
 				}
 				else
 				{
-					Error("Something wrong");
+					Error(IlaroAdminResources.UncaughtError);
 				}
 			}
 			catch (Exception ex)

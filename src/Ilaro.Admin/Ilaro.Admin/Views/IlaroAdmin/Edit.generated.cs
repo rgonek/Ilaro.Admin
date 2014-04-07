@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Views.IlaroAdmin
             #line 3 "..\..\Views\IlaroAdmin\Edit.cshtml"
   
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = "Edit";
+    ViewBag.Title = string.Format(Resources.IlaroAdminResources.Edit_Title, Model.Entity.Name);
 
             
             #line default
@@ -59,7 +59,7 @@ WriteLiteral(">\r\n        <li>");
 
             
             #line 11 "..\..\Views\IlaroAdmin\Edit.cshtml"
-       Write(Html.ActionLink("Administracja", "Index"));
+       Write(Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index"));
 
             
             #line default
@@ -98,7 +98,16 @@ WriteLiteral(">/</span></li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
-WriteLiteral(">Editing</li>\r\n    </ul>\r\n");
+WriteLiteral(">");
+
+            
+            #line 14 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                      Write(string.Format(Resources.IlaroAdminResources.Edit_Title, Model.Entity.Name));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</li>\r\n    </ul>\r\n");
 
 });
 
@@ -171,27 +180,27 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1052), Tuple.Create("\"", 1133)
+WriteAttribute("class", Tuple.Create(" class=\"", 1214), Tuple.Create("\"", 1295)
             
             #line 30 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                , Tuple.Create(Tuple.Create("", 1060), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")
+                , Tuple.Create(Tuple.Create("", 1222), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")
             
             #line default
             #line hidden
-, 1060), false)
+, 1222), false)
 );
 
 WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1179), Tuple.Create("\"", 1242)
-, Tuple.Create(Tuple.Create("", 1187), Tuple.Create("fields", 1187), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1341), Tuple.Create("\"", 1404)
+, Tuple.Create(Tuple.Create("", 1349), Tuple.Create("fields", 1349), true)
             
             #line 31 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1193), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+, Tuple.Create(Tuple.Create(" ", 1355), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1194), false)
+, 1356), false)
 );
 
 WriteLiteral(">\r\n");
@@ -299,7 +308,16 @@ WriteLiteral(" type=\"submit\"");
 
 WriteLiteral(" class=\"btn btn-primary\"");
 
-WriteLiteral(">Save</button>\r\n        <button");
+WriteLiteral(">");
+
+            
+            #line 55 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                                                 Write(Resources.IlaroAdminResources.Save);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</button>\r\n        <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -311,7 +329,16 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-edit\"");
 
-WriteLiteral("></i>Save and continue edit</button>\r\n        <button");
+WriteLiteral("></i>");
+
+            
+            #line 56 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                                                                                  Write(Resources.IlaroAdminResources.SaveAndContinueEdit);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</button>\r\n        <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -323,35 +350,62 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-plus\"");
 
-WriteLiteral("></i>Save and add next</button>\r\n        <a");
+WriteLiteral("></i>");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2289), Tuple.Create("\"", 2358)
             
-            #line 58 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2296), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
+            #line 57 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                                                                             Write(Resources.IlaroAdminResources.SaveAndAddNext);
+
             
             #line default
             #line hidden
-, 2296), false)
+WriteLiteral("</button>\r\n        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 2538), Tuple.Create("\"", 2607)
+            
+            #line 58 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 2545), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
+            
+            #line default
+            #line hidden
+, 2545), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
 
-WriteLiteral(">Cancel</a>\r\n        <a");
+WriteLiteral(">");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2403), Tuple.Create("\"", 2501)
             
-            #line 59 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2410), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+            #line 58 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                                                                                                 Write(Resources.IlaroAdminResources.Cancel);
+
             
             #line default
             #line hidden
-, 2410), false)
+WriteLiteral("</a>\r\n        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 2683), Tuple.Create("\"", 2781)
+            
+            #line 59 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 2690), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+            
+            #line default
+            #line hidden
+, 2690), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pull-right\"");
 
-WriteLiteral(">Delete</a>\r\n    </div>\r\n");
+WriteLiteral(">");
+
+            
+            #line 59 "..\..\Views\IlaroAdmin\Edit.cshtml"
+                                                                                                                                           Write(Resources.IlaroAdminResources.Delete);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</a>\r\n    </div>\r\n");
 
             
             #line 61 "..\..\Views\IlaroAdmin\Edit.cshtml"

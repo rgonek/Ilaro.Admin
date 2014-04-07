@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Views.IlaroAdmin
             #line 3 "..\..\Views\IlaroAdmin\Index.cshtml"
   
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = "Admin";
+    ViewBag.Title = Resources.IlaroAdminResources.Index_Title;
 
             
             #line default
@@ -59,7 +59,16 @@ WriteLiteral(">\r\n    <li");
 
 WriteLiteral(" class=\"active\"");
 
-WriteLiteral(">Admin</li>\r\n</ul>\r\n");
+WriteLiteral(">");
+
+            
+            #line 11 "..\..\Views\IlaroAdmin\Index.cshtml"
+                  Write(Resources.IlaroAdminResources.Index_Title);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</li>\r\n</ul>\r\n");
 
 });
 

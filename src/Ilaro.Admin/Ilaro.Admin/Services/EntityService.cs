@@ -17,6 +17,7 @@ using System.Data.Common;
 using Massive;
 using System.Dynamic;
 using System.Collections.Specialized;
+using Resources;
 
 namespace Ilaro.Admin.Services
 {
@@ -160,7 +161,7 @@ namespace Ilaro.Admin.Services
 			var existingItem = GetEntity(entity, entity.Key.Value);
 			if (existingItem != null)
 			{
-				Error("Already exist");
+				Error(IlaroAdminResources.EntityAlreadyExist);
 				return null;
 			}
 
@@ -183,14 +184,14 @@ namespace Ilaro.Admin.Services
 		{
 			if (entity.Key.Value == null)
 			{
-				Error("Key is null");
+				Error(IlaroAdminResources.EntityKeyIsNull);
 				return null;
 			}
 
 			var existingItem = GetEntity(entity, entity.Key.Value);
 			if (existingItem == null)
 			{
-				Error("Not exist");
+				Error(IlaroAdminResources.EntityNotExist);
 				return null;
 			}
 
@@ -233,7 +234,7 @@ namespace Ilaro.Admin.Services
 				{
 					isValid = false;
 					// TODO: more complex validation message
-					ModelState.AddModelError(property.Name, "unvalid file");
+					ModelState.AddModelError(property.Name, IlaroAdminResources.UnvalidFile);
 				}
 			}
 
@@ -295,7 +296,7 @@ namespace Ilaro.Admin.Services
 			var item = GetEntity(entity, key);
 			if (item == null)
 			{
-				Error("Not exist");
+				Error(IlaroAdminResources.EntityNotExist);
 				return;
 			}
 
@@ -352,7 +353,7 @@ namespace Ilaro.Admin.Services
 
 			if (result < 1)
 			{
-				Error("Not exist");
+				Error(IlaroAdminResources.EntityNotExist);
 				return false;
 			}
 

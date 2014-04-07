@@ -102,7 +102,16 @@ WriteLiteral("><i");
 
 WriteLiteral(" class=\"icon-plus\"");
 
-WriteLiteral("></i> Add</a></td>\r\n                </tr>\r\n");
+WriteLiteral("></i> ");
+
+            
+            #line 11 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                                                                                                                                             Write(Resources.IlaroAdminResources.Add);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</a></td>\r\n                </tr>\r\n");
 
             
             #line 13 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"

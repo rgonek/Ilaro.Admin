@@ -44,11 +44,11 @@
         @* Prev page *@
         @if (Model.Current > 1)
         {
-            <text>@PagerLink("«", Model.Current - 1, Model.Url, "prev")</text>
+            <text>@PagerLink(Resources.IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev")</text>
         }
         else
         { 
-            <li class="disabled"><span>«</span></li>
+            <li class="disabled"><span>@Resources.IlaroAdminResources.PreviousPage</span></li>
         }
 
         @* First Pages *@
@@ -83,11 +83,11 @@
         @* Next page *@
         @if (Model.Current < Model.TotalPages)
         {
-            <text>@PagerLink("»", Model.Current + 1, Model.Url, "next")</text>
+            <text>@PagerLink(Resources.IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next")</text>
         }
         else
         { 
-            <li class="disabled"><span>»</span></li>
+            <li class="disabled"><span>@Resources.IlaroAdminResources.NextPage</span></li>
         }
     </ul>
 </div>

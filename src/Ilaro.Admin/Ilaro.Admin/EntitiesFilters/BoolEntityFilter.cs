@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Resources;
 
 namespace Ilaro.Admin.EntitiesFilters
 {
@@ -21,12 +22,11 @@ namespace Ilaro.Admin.EntitiesFilters
 
             Property = property;
 
-			// TODO: localize strings
             var options = new Dictionary<string, string>
             {
-                { "All", String.Empty },
-                { "Yes", "1" },
-                { "No", "0" }
+                { IlaroAdminResources.All, String.Empty },
+                { IlaroAdminResources.Yes, "1" },
+                { IlaroAdminResources.No, "0" }
             };
 
             Options = new SelectList(options, "Value", "Key", Value);

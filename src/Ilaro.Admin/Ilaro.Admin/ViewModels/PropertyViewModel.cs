@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
 using System.Diagnostics;
 using System.ComponentModel;
+using Resources;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -364,6 +365,10 @@ namespace Ilaro.Admin.ViewModels
 					case ViewModels.DataType.Numeric:
 						EditorTemplateName = DisplayTemplateName = "NumericPartial";
 						break;
+					case ViewModels.DataType.Password:
+						EditorTemplateName = "PasswordPartial";
+						DisplayTemplateName = "PasswordPartial";
+						break;
 					default:
 					case ViewModels.DataType.String:
 						EditorTemplateName = "TextBoxPartial";
@@ -381,8 +386,7 @@ namespace Ilaro.Admin.ViewModels
 
 		public SelectList GetPossibleValues()
 		{
-			// TODO: localize string
-			var options = EnumType.GetOptions(String.Empty, "--Choose--");
+			var options = EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose);
 
 			if (Value != null && Value.GetType().IsEnum)
 			{
