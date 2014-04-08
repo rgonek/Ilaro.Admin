@@ -166,15 +166,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Northwind\Entities\Customer.cs" />
-    <Compile Include="Models\Northwind\Entities\Employee.cs" />
-    <Compile Include="Models\Northwind\Entities\Order.cs" />
-    <Compile Include="Models\Northwind\Entities\OrderDetail.cs" />
-    <Compile Include="Models\Northwind\Entities\Product.cs" />
-    <Compile Include="Models\Northwind\NorthwindContext.cs" />
-    <Compile Include="Models\TestAdmin\Entities\Product.cs" />
-    <Compile Include="Models\TestAdmin\Entities\ProductCategory.cs" />
-    <Compile Include="Models\TestAdmin\TestAdminContext.cs" />
+    <Compile Include="Models\Northwind\Customer.cs" />
+    <Compile Include="Models\Northwind\Employee.cs" />
+    <Compile Include="Models\Northwind\EntityChange.cs" />
+    <Compile Include="Models\Northwind\Order.cs" />
+    <Compile Include="Models\Northwind\OrderDetail.cs" />
+    <Compile Include="Models\Northwind\Product.cs" />
+    <Compile Include="Models\TestAdmin\Product.cs" />
+    <Compile Include="Models\TestAdmin\ProductCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

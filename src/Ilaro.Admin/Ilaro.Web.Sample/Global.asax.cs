@@ -1,6 +1,7 @@
 ﻿using Ilaro.Admin;
 using Ilaro.Sample.Models.Northwind;
 using Ilaro.Sample.Models.Northwind.Entities;
+using Ilaro.Web.Sample.Models.Northwind;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,16 +25,28 @@ namespace Ilaro.Web.Sample
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            RegisterRoutes(RouteTable.Routes);
 
             AdminInitialise.AddEntity<Customer>();
             AdminInitialise.AddEntity<Employee>();
             AdminInitialise.AddEntity<Order>();
             AdminInitialise.AddEntity<OrderDetail>();
-            AdminInitialise.AddEntity<Product>();
+			AdminInitialise.AddEntity<Product>();
+			AdminInitialise.AddEntity<EntityChange>();
 
 			// If you have only one connection string there is no need to specify it
             AdminInitialise.Initialise("NorthwindEntities");
         }
+
+		private void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+			routes.MapRoute(
+				name: "Default",
+				url: "{controller}/{action}/{id}",
+				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+			);
+		}
     }
 }

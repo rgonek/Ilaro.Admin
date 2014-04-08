@@ -17,6 +17,14 @@ namespace Ilaro.Admin
 	{
 		public static IList<EntityViewModel> EntitiesTypes { get; set; }
 
+		public static EntityViewModel ChangeEntity
+		{
+			get
+			{
+				return EntitiesTypes.FirstOrDefault(x => x.IsChangeEntity);
+			}
+		}
+
 		internal static string ConnectionString { get; set; }
 
 		static AdminInitialise()
@@ -31,11 +39,11 @@ namespace Ilaro.Admin
 
 		public static void RegisterResourceRoutes(RouteCollection routes)
 		{
-			//routes.MapRoute(
-			//    name: "Resources",
-			//    url: "ira/{action}/{id}",
-			//    defaults: new { controller = "IlaroAdminResource" }
-			//);
+			routes.MapRoute(
+				name: "Resources",
+				url: "ira/{action}/{id}",
+				defaults: new { controller = "IlaroAdminResource" }
+			);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")

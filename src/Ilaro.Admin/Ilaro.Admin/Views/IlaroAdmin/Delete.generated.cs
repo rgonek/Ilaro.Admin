@@ -181,7 +181,18 @@ WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"controls\"");
 
-WriteLiteral(">\r\n            Are you sure?\r\n        </div>\r\n\t</div>\r\n");
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+            
+            #line 27 "..\..\Views\IlaroAdmin\Delete.cshtml"
+       Write(Resources.IlaroAdminResources.DeleteText);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n        </div>\r\n\t</div>\r\n");
 
             
             #line 30 "..\..\Views\IlaroAdmin\Delete.cshtml"
@@ -211,14 +222,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</button>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1285), Tuple.Create("\"", 1311)
+WriteAttribute("href", Tuple.Create(" href=\"", 1313), Tuple.Create("\"", 1339)
             
             #line 33 "..\..\Views\IlaroAdmin\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1292), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
+, Tuple.Create(Tuple.Create("", 1320), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
             
             #line default
             #line hidden
-, 1292), false)
+, 1320), false)
 );
 
 WriteLiteral(" class=\"btn\"");
@@ -238,14 +249,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</a>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1402), Tuple.Create("\"", 1431)
+WriteAttribute("href", Tuple.Create(" href=\"", 1430), Tuple.Create("\"", 1459)
             
             #line 34 "..\..\Views\IlaroAdmin\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1409), Tuple.Create<System.Object, System.Int32>(Url.Action("Details")
+, Tuple.Create(Tuple.Create("", 1437), Tuple.Create<System.Object, System.Int32>(Url.Action("Details")
             
             #line default
             #line hidden
-, 1409), false)
+, 1437), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

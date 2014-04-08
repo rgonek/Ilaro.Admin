@@ -213,7 +213,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 			else
 			{
-				if (IsSystemType)
+				if (IsSystemType || PropertyType.IsEnum)
 				{
 					IsForeignKey = false;
 				}

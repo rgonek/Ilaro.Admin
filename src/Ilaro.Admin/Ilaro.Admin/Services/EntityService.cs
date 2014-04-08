@@ -18,6 +18,7 @@ using Massive;
 using System.Dynamic;
 using System.Collections.Specialized;
 using Resources;
+using Ilaro.Admin.Model;
 
 namespace Ilaro.Admin.Services
 {
@@ -175,10 +176,14 @@ namespace Ilaro.Admin.Services
 			}
 			var item = table.Insert(expando);
 
+			AddEntityChange(entity.Name, ((object)item.ID).ToStringSafe(), EntityChangeType.Insert);
+
 			ClearProperties(entity);
 
 			return item;
 		}
+
+		//private object Get
 
 		public object Edit(EntityViewModel entity)
 		{
@@ -204,6 +209,9 @@ namespace Ilaro.Admin.Services
 				filler[property.Name] = property.Value;
 			}
 			var savedItem = table.Update(expando, entity.Key.Value);
+
+			// TODO: get info about changed properties
+			AddEntityChange(entity.Name, entity.Key.StringValue, EntityChangeType.Update);
 
 			ClearProperties(entity);
 
@@ -357,6 +365,8 @@ namespace Ilaro.Admin.Services
 				return false;
 			}
 
+			AddEntityChange(entity.Name, key, EntityChangeType.Delete);
+
 			return true;
 		}
 
@@ -396,14 +406,7 @@ namespace Ilaro.Admin.Services
 
 		public object GetKeyValue(EntityViewModel entity, object savedItem)
 		{
-			// it should be always a ExpandoObject, but just in caase
-			if (savedItem is ExpandoObject)
-			{
-				return ((dynamic)savedItem).ID;
-			}
-
-			var propertyInfo = entity.Type.GetProperty(entity.Key.Name);
-			return propertyInfo.GetValue(savedItem, null);
+			return ((dynamic)savedItem).ID;
 		}
 
 		public IList<GroupPropertiesViewModel> PrepareGroups(EntityViewModel entity, bool getKey = true)
@@ -442,6 +445,33 @@ namespace Ilaro.Admin.Services
 			}
 
 			return groups;
+		}
+
+		/// <summary>
+		/// Save record with information about entity change
+		/// </summary>
+		/// <param name="entityName">Entity name</param>
+		/// <param name="entityKey">Entity key of changed record</param>
+		/// <param name="changeType">Change type</param>
+		/// <param name="description">Description for update change type</param>
+		private void AddEntityChange(string entityName, string entityKey, EntityChangeType changeType, string description = null)
+		{
+			if (AdminInitialise.ChangeEntity == null)
+			{
+				return;
+			}
+
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: AdminInitialise.ChangeEntity.TableName, primaryKeyField: "EntityChangeId");
+
+			dynamic changeRecord = new ExpandoObject();
+			changeRecord.EntityName = entityName;
+			changeRecord.EntityKey = entityKey;
+			changeRecord.ChangeType = changeType;
+			changeRecord.Description = description;
+			changeRecord.ChangedOn = DateTime.UtcNow;
+			changeRecord.ChangedBy = HttpContext.Current.User.Identity.Name;
+
+			table.Insert(changeRecord);
 		}
 	}
 }

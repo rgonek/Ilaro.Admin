@@ -6,6 +6,7 @@ using System.Reflection;
 using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Extensions;
 using System.Diagnostics;
+using Ilaro.Admin.Model;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -47,6 +48,8 @@ namespace Ilaro.Admin.ViewModels
 				return Properties.FirstOrDefault(x => x.IsLinkKey);
 			}
 		}
+
+		public bool IsChangeEntity { get; private set; }
 
 		public string GroupName { get; set; }
 
@@ -99,6 +102,8 @@ namespace Ilaro.Admin.ViewModels
 		{
 			this.Type = type;
 			Name = Type.Name;
+
+			IsChangeEntity = typeof(IEntityChange).IsAssignableFrom(Type);
 
 			// TODO: better determine table name
 			TableName = Name.Pluralize();
