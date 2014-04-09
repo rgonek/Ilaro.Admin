@@ -328,11 +328,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_GroupPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_html5shiv.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_html5shiv.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Views\IlaroAdmin\_Layout.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -356,7 +351,6 @@
       <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.css" />
-    <EmbeddedResource Include="Content\css\bootstrap-jasny.css" />
     <EmbeddedResource Include="Content\css\bootstrap-responsive.css" />
     <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.css" />
     <EmbeddedResource Include="Content\css\bootstrap.css" />
@@ -436,34 +430,21 @@
     <EmbeddedResource Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <EmbeddedResource Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <EmbeddedResource Include="Scripts\bootstrap-datepicker.js" />
-    <EmbeddedResource Include="Scripts\bootstrap-jasny.js" />
     <EmbeddedResource Include="Scripts\bootstrap-timepicker.js" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.js" />
     <EmbeddedResource Include="Scripts\bootstrap.js" />
-    <EmbeddedResource Include="Scripts\html5shiv.js" />
     <EmbeddedResource Include="Content\font\fontawesome-webfont.eot" />
     <EmbeddedResource Include="Content\font\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Content\font\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Content\font\FontAwesome.otf" />
-    <EmbeddedResource Include="Scripts\jquery-1.9.0.intellisense.js" />
     <EmbeddedResource Include="Scripts\jquery-1.9.0.js" />
-    <EmbeddedResource Include="Scripts\jquery-ui-1.9.2.js" />
-    <EmbeddedResource Include="Scripts\jquery.mb.browser.js" />
-    <EmbeddedResource Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <EmbeddedResource Include="Scripts\jquery.validate-vsdoc.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive-custom-for-bootstrap.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.js" />
-    <EmbeddedResource Include="Scripts\locales\bootstrap-datepicker.pl.js" />
-    <EmbeddedResource Include="Scripts\locales\bootstrap-wysihtml5.pl-PL.js" />
-    <EmbeddedResource Include="Scripts\modernizr-2.6.2.js" />
     <EmbeddedResource Include="Scripts\select2.js" />
     <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.js" />
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.min.css">
       <DependentUpon>bootstrap-datepicker.css</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Content\css\bootstrap-jasny.min.css">
-      <DependentUpon>bootstrap-jasny.css</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\css\bootstrap-responsive.min.css">
       <DependentUpon>bootstrap-responsive.css</DependentUpon>
@@ -498,9 +479,6 @@
     <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js">
       <DependentUpon>bootstrap-datepicker.js</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\bootstrap-jasny.min.js">
-      <DependentUpon>bootstrap-jasny.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js">
       <DependentUpon>bootstrap-timepicker.js</DependentUpon>
     </EmbeddedResource>
@@ -510,26 +488,8 @@
     <EmbeddedResource Include="Scripts\bootstrap.min.js">
       <DependentUpon>bootstrap.js</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\html5shiv.min.js">
-      <DependentUpon>html5shiv.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\jquery-1.9.0.intellisense.min.js">
-      <DependentUpon>jquery-1.9.0.intellisense.js</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\jquery-1.9.0.min.js">
       <DependentUpon>jquery-1.9.0.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\jquery-ui-1.9.2.min.js">
-      <DependentUpon>jquery-ui-1.9.2.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\jquery.mb.browser.min.js">
-      <DependentUpon>jquery.mb.browser.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\jquery.unobtrusive-ajax.min.js">
-      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\jquery.validate-vsdoc.min.js">
-      <DependentUpon>jquery.validate-vsdoc.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\jquery.validate.min.js">
       <DependentUpon>jquery.validate.js</DependentUpon>
@@ -539,9 +499,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js">
       <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\modernizr-2.6.2.min.js">
-      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\select2.min.js">
       <DependentUpon>select2.js</DependentUpon>
@@ -665,10 +622,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_GroupPartial.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\_html5shiv.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_html5shiv.generated.cs</LastGenOutput>
-    </Content>
     <Content Include="Views\IlaroAdmin\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout.generated.cs</LastGenOutput>
@@ -677,11 +630,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js.map">
       <DependentUpon>bootstrap-datepicker.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\bootstrap-jasny.min.js.map">
-      <DependentUpon>bootstrap-jasny.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -700,38 +648,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\html5shiv.min.js.map">
-      <DependentUpon>html5shiv.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\jquery-1.9.0.intellisense.min.js.map">
-      <DependentUpon>jquery-1.9.0.intellisense.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery-1.9.0.min.js.map">
       <DependentUpon>jquery-1.9.0.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\jquery-ui-1.9.2.min.js.map">
-      <DependentUpon>jquery-ui-1.9.2.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\jquery.mb.browser.min.js.map">
-      <DependentUpon>jquery.mb.browser.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\jquery.unobtrusive-ajax.min.js.map">
-      <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\jquery.validate-vsdoc.min.js.map">
-      <DependentUpon>jquery.validate-vsdoc.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -747,11 +665,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js.map">
       <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\modernizr-2.6.2.min.js.map">
-      <DependentUpon>modernizr-2.6.2.js</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
