@@ -198,8 +198,8 @@ WriteLiteral(">\r\n                    <ul");
 
 WriteLiteral(" class=\"nav\"");
 
-WriteLiteral(">\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n       " +
-" </div>\r\n    </div>\r\n\r\n    <div");
+WriteLiteral("></ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r" +
+"\n    <div");
 
 WriteLiteral(" class=\"container-fluid\"");
 
@@ -216,7 +216,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 46 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 45 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Breadcrumb", false));
 
             
@@ -225,13 +225,13 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 48 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 48 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
               Html.RenderAction("Messages");
             
             #line default
@@ -245,7 +245,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 50 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 49 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderBody());
 
             
@@ -260,18 +260,18 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 53 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 52 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Sidebar", false));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n            </div>\r\n        </div>\r\n        <hr>\r\n        <footer>\r\n           " +
-" <p>&copy; Ilaro.Admin ");
+" <p>© Ilaro.Admin ");
 
             
-            #line 58 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-                             Write(System.DateTime.Now.ToString("yyyy"));
+            #line 57 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+                        Write(System.DateTime.Now.ToString("yyyy"));
 
             
             #line default
@@ -341,7 +341,7 @@ WriteLiteral(@">
             $('.dateTimePicker').datepicker({ format: 'yyyy-mm-dd', autoclose: true });
             $('select').select2();
             $('textarea.html').each(function () {
-                $(this).wysihtml5({ html: true, color: true, stylesheets: false }); 
+                $(this).wysihtml5({ html: true, color: true, stylesheets: false });
             });
             $('th > span').tooltip();
             $('.open-modal').click(function (e) {
@@ -374,7 +374,7 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 109 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 108 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             
