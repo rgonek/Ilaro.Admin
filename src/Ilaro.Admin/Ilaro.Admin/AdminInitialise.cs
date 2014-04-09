@@ -94,7 +94,7 @@ namespace Ilaro.Admin
 			SetForeignKeysReferences();
 		}
 
-		private static void SetForeignKeysReferences()
+		public static void SetForeignKeysReferences()
 		{
 			foreach (var entity in EntitiesTypes)
 			{

@@ -183,8 +183,6 @@ namespace Ilaro.Admin.Services
 			return item;
 		}
 
-		//private object Get
-
 		public object Edit(EntityViewModel entity)
 		{
 			if (entity.Key.Value == null)
