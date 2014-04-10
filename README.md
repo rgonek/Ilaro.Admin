@@ -3,6 +3,8 @@ Ilaro.Admin
 
 Ilaro.Admin creates for you admin panel using only POCO classes.
 
+[Demo](http://admin.ilaro.net/) - using Northwind DB
+
 Project was inspired by [Django admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).
 
 Please keep in mind this is still a alpha version.
