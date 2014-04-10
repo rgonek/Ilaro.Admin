@@ -67,7 +67,7 @@ WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
 
 WriteLiteral(">\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap_css\"");
+WriteLiteral(" href=\"/ira/css/bootstrap_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -80,7 +80,7 @@ WriteLiteral(" type=\"text/css\"");
 WriteLiteral(">\r\n        body {\r\n            padding-top: 60px;\r\n            padding-bottom: 40" +
 "px;\r\n        }\r\n    </style>\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/google-bootstrap_css\"");
+WriteLiteral(" href=\"/ira/css/bootstrap-datepicker_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -88,7 +88,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-responsive_css\"");
+WriteLiteral(" href=\"/ira/css/select2_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -96,7 +96,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-datepicker_css\"");
+WriteLiteral(" href=\"/ira/css/bootstrap-wysihtml5_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -104,47 +104,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/google-datepicker_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/ira/css/font-awesome_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/ira/css/font-awesome-ie7_min_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/ira/css/select2_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/ira/css/bootstrap-wysihtml5_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
-WriteLiteral(" href=\"/ira/css/Site_css\"");
+WriteLiteral(" href=\"/ira/css/site_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -152,7 +112,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/IlaroAdminResource/Script/jquery-1_9_0_min_js\"");
+WriteLiteral(" src=\"/ira/Script/jquery-2_1_0_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -161,7 +121,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("    ");
 
             
-            #line 28 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 23 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -184,7 +144,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 34 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 29 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "brand" }));
 
             
@@ -216,7 +176,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 45 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 40 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Breadcrumb", false));
 
             
@@ -225,13 +185,13 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 42 "..\..\Views\IlaroAdmin\_Layout.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 42 "..\..\Views\IlaroAdmin\_Layout.cshtml"
               Html.RenderAction("Messages");
             
             #line default
@@ -245,7 +205,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 49 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 44 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderBody());
 
             
@@ -260,7 +220,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 52 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Sidebar", false));
 
             
@@ -270,7 +230,7 @@ WriteLiteral("\r\n            </div>\r\n        </div>\r\n        <hr>\r\n      
 " <p>© Ilaro.Admin ");
 
             
-            #line 57 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 52 "..\..\Views\IlaroAdmin\_Layout.cshtml"
                         Write(System.DateTime.Now.ToString("yyyy"));
 
             
@@ -304,17 +264,13 @@ WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_validate_unobtrusive-custom-for-bootstrap_js\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/ira/Script/select2_js\"");
+WriteLiteral(" src=\"/ira/Script/select2_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-datepicker_js\"");
+WriteLiteral(" src=\"/ira/Script/bootstrap-datepicker_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -326,11 +282,11 @@ WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/wysihtml5-0_3_0_js\"");
+WriteLiteral(" src=\"/ira/Script/wysihtml5-0_3_0_min_js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_js\"");
+WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_min_js\"");
 
 WriteLiteral("></script>\r\n    <script");
 
@@ -356,14 +312,14 @@ WriteLiteral(@">
             $('legend .btn').click(function () {
                 var $this = $(this);
                 var $i = $this.children('i');
-                if ($i.hasClass('icon-plus')) {
-                    $i.removeClass('icon-plus');
-                    $i.addClass('icon-minus');
+                if ($i.hasClass('glyphicon glyphicon-plus')) {
+                    $i.removeClass('glyphicon glyphicon-plus');
+                    $i.addClass('glyphicon glyphicon-minus');
                     $this.parent().siblings('.fields').slideDown();
                 }
                 else {
-                    $i.removeClass('icon-minus');
-                    $i.addClass('icon-plus');
+                    $i.removeClass('glyphicon glyphicon-minus');
+                    $i.addClass('glyphicon glyphicon-plus');
                     $this.parent().siblings('.fields').slideUp();
                 }
             });
@@ -374,7 +330,7 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 108 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 102 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

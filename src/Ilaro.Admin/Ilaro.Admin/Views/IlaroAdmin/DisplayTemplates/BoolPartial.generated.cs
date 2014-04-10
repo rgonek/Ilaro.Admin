@@ -48,7 +48,7 @@ namespace Ilaro.Admin.Views.IlaroAdmin.DisplayTemplates
             #line hidden
 WriteLiteral("    <i");
 
-WriteLiteral(" class=\"icon-ok\"");
+WriteLiteral(" class=\"glyphicon glyphicon-ok\"");
 
 WriteLiteral("></i>\r\n");
 
@@ -63,7 +63,7 @@ else if (Model.BoolValue == false)
             #line hidden
 WriteLiteral("    <i");
 
-WriteLiteral(" class=\"icon-remove\"");
+WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 
 WriteLiteral("></i>\r\n");
 

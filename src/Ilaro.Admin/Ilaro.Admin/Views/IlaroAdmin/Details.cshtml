@@ -8,8 +8,8 @@
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index") <span class="divider">/</span></li>
-        <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
+        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+        <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
         <li class="active">@Model.Entity.Plural</li>
     </ul>
 }
@@ -19,7 +19,7 @@
 <div class="clearfix">
     @if (Model.Entity.CanAdd)
     {
-        <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> @Resources.IlaroAdminResources.Add</a>
+        <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><span class="glyphicon glyphglyphicon glyphicon-plus"></span> @Resources.IlaroAdminResources.Add</a>
     }
     <div class="pull-right" style="line-height:30px;margin-right:10px">
         @Html.ActionLink(Resources.IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name })
@@ -54,7 +54,7 @@
                 <th>
                     <span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
                         @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.SearchQuery, Model.PerPage)
-                        <i class="icon-chevron-@column.SortDirection"></i>
+                        <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
                     </span>
                 </th>
             }
@@ -76,7 +76,7 @@
                 @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
                 {
                     <td class="min-width">
-                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> @Resources.IlaroAdminResources.View</a>
+                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><span class="glyphicon glyphglyphicon glyphicon-eye-open"></span> @Resources.IlaroAdminResources.View</a>
                     </td>
                 }
                 @if (Model.Entity.HasEditLink)
@@ -84,11 +84,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.EditLink.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
+                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @Resources.IlaroAdminResources.Edit</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
+                            <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @Resources.IlaroAdminResources.Edit</a>
                         }
                     </td>
                 }
@@ -97,11 +97,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
+                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @Resources.IlaroAdminResources.Delete</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
+                            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @Resources.IlaroAdminResources.Delete</a>
                         }
                     </td>
                 }

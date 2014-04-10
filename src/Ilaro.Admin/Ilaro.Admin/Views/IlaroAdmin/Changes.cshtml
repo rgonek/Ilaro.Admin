@@ -8,9 +8,9 @@
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index") <span class="divider">/</span></li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Plural, "Details", new { entityName = Model.EntityChangesFor.Name }) <span class="divider">/</span></li>
+        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.Plural, "Details", new { entityName = Model.EntityChangesFor.Name })</li>
         <li class="active">@Resources.IlaroAdminResources.Changes</li>
     </ul>
 }
@@ -46,7 +46,7 @@
                 <th>
                     <span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
                         @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.SearchQuery, Model.PerPage)
-                        <i class="icon-chevron-@column.SortDirection"></i>
+                        <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
                     </span>
                 </th>
             }

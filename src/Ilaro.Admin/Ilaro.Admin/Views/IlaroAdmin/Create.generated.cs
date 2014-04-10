@@ -64,11 +64,7 @@ WriteLiteral(">\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Create.cshtml"
@@ -77,11 +73,7 @@ WriteLiteral(">/</span></li>\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Create.cshtml"
@@ -90,11 +82,7 @@ WriteLiteral(">/</span></li>\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li");
+WriteLiteral("</li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
@@ -180,27 +168,27 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1255), Tuple.Create("\"", 1336)
+WriteAttribute("class", Tuple.Create(" class=\"", 1162), Tuple.Create("\"", 1273)
             
             #line 30 "..\..\Views\IlaroAdmin\Create.cshtml"
-                , Tuple.Create(Tuple.Create("", 1263), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "icon-plus", () => "icon-minus")
+                , Tuple.Create(Tuple.Create("", 1170), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
             
             #line default
             #line hidden
-, 1263), false)
+, 1170), false)
 );
 
 WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1382), Tuple.Create("\"", 1445)
-, Tuple.Create(Tuple.Create("", 1390), Tuple.Create("fields", 1390), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1319), Tuple.Create("\"", 1382)
+, Tuple.Create(Tuple.Create("", 1327), Tuple.Create("fields", 1327), true)
             
             #line 31 "..\..\Views\IlaroAdmin\Create.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1396), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+, Tuple.Create(Tuple.Create(" ", 1333), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1397), false)
+, 1334), false)
 );
 
 WriteLiteral(">\r\n");
@@ -327,13 +315,13 @@ WriteLiteral(" name=\"ContinueEdit\"");
 
 WriteLiteral("><i");
 
-WriteLiteral(" class=\"icon-edit\"");
+WriteLiteral(" class=\"glyphicon glyphicon-edit\"");
 
 WriteLiteral("></i> ");
 
             
             #line 56 "..\..\Views\IlaroAdmin\Create.cshtml"
-                                                                                   Write(Resources.IlaroAdminResources.SaveAndContinueEdit);
+                                                                                                  Write(Resources.IlaroAdminResources.SaveAndContinueEdit);
 
             
             #line default
@@ -348,27 +336,27 @@ WriteLiteral(" name=\"AddNext\"");
 
 WriteLiteral("><i");
 
-WriteLiteral(" class=\"icon-plus\"");
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
 WriteLiteral("></i> ");
 
             
             #line 57 "..\..\Views\IlaroAdmin\Create.cshtml"
-                                                                              Write(Resources.IlaroAdminResources.SaveAndAddNext);
+                                                                                             Write(Resources.IlaroAdminResources.SaveAndAddNext);
 
             
             #line default
             #line hidden
 WriteLiteral("</button>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2581), Tuple.Create("\"", 2650)
+WriteAttribute("href", Tuple.Create(" href=\"", 2548), Tuple.Create("\"", 2617)
             
             #line 58 "..\..\Views\IlaroAdmin\Create.cshtml"
-, Tuple.Create(Tuple.Create("", 2588), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 2555), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2588), false)
+, 2555), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

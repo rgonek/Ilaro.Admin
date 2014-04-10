@@ -96,7 +96,7 @@ WriteLiteral(" class=\"uneditable-input\"");
 
 WriteLiteral(">\r\n                <i");
 
-WriteLiteral(" class=\"icon-file fileupload-exists\"");
+WriteLiteral(" class=\"glyphicon glyphicon-file fileupload-exists\"");
 
 WriteLiteral("></i>\r\n                <span");
 
@@ -134,24 +134,24 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</span>\r\n                <input");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 805), Tuple.Create("\"", 830)
+WriteAttribute("id", Tuple.Create(" id=\"", 820), Tuple.Create("\"", 845)
             
             #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 810), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+, Tuple.Create(Tuple.Create("", 825), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
             #line hidden
-, 810), false)
+, 825), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 831), Tuple.Create("\"", 860)
+WriteAttribute("name", Tuple.Create(" name=\"", 846), Tuple.Create("\"", 875)
             
             #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 838), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+, Tuple.Create(Tuple.Create("", 853), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 838), false)
+, 853), false)
 );
 
 WriteLiteral(" type=\"file\"");

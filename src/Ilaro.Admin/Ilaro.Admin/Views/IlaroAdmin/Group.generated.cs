@@ -64,11 +64,7 @@ WriteLiteral(">\r\n    <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n    <li");
+WriteLiteral("</li>\r\n    <li");
 
 WriteLiteral(" class=\"active\"");
 

@@ -30,9 +30,9 @@ namespace Ilaro.Admin.Controllers
 			return GetResource("image", id);
 		}
 
-		public ActionResult Font(string id)
+		public ActionResult Fonts(string id)
 		{
-			return GetResource("font", id);
+			return GetResource("fonts", id);
 		}
 
 		private ActionResult GetResource(string type, string file)
@@ -60,9 +60,9 @@ namespace Ilaro.Admin.Controllers
 					contentType = "image/" + Path.GetExtension(file).TrimStart('.');
 					folder = "Content.img";
 					break;
-				case "FONT":
+				case "FONTS":
 					contentType = "";
-					folder = "Content.font";
+					folder = "Content.fonts";
 					break;
 				default:
 					return HttpNotFound();

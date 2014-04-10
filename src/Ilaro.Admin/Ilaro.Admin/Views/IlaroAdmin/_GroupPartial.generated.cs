@@ -114,15 +114,15 @@ WriteAttribute("href", Tuple.Create(" href=\"", 597), Tuple.Create("\"", 659)
 
 WriteLiteral(" class=\"btn btn-mini btn-link\"");
 
-WriteLiteral("><i");
+WriteLiteral("><span");
 
-WriteLiteral(" class=\"icon-plus\"");
+WriteLiteral(" class=\"glyphicon glyphglyphicon glyphicon-plus\"");
 
-WriteLiteral("></i> ");
+WriteLiteral("></span> ");
 
             
             #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                                                                                                                                             Write(Resources.IlaroAdminResources.Add);
+                                                                                                                                                                                 Write(Resources.IlaroAdminResources.Add);
 
             
             #line default

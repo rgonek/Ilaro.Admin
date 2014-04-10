@@ -7,24 +7,19 @@
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/ira/css/bootstrap_css" rel="stylesheet" type="text/css" />
+    <link href="/ira/css/bootstrap_min_css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
     </style>
-    <link href="/ira/css/google-bootstrap_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/bootstrap-responsive_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/bootstrap-datepicker_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/google-datepicker_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/font-awesome_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/font-awesome-ie7_min_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/select2_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/bootstrap-wysihtml5_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/Site_css" rel="stylesheet" type="text/css" />
+    <link href="/ira/css/bootstrap-datepicker_min_css" rel="stylesheet" type="text/css" />
+    <link href="/ira/css/select2_min_css" rel="stylesheet" type="text/css" />
+    <link href="/ira/css/bootstrap-wysihtml5_min_css" rel="stylesheet" type="text/css" />
+    <link href="/ira/css/site_css" rel="stylesheet" type="text/css" />
 
-    <script src="/IlaroAdminResource/Script/jquery-1_9_0_min_js" type="text/javascript"></script>
+    <script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
     @RenderSection("Header", false)
 </head>
 <body>
@@ -66,12 +61,11 @@
 
     <script src="/ira/Script/jquery_validate_min_js" type="text/javascript"></script>
     <script src="/ira/Script/jquery_validate_unobtrusive_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/jquery_validate_unobtrusive-custom-for-bootstrap_js"></script>
-    <script src="/ira/Script/select2_js" type="text/javascript"></script>
-    <script src="/ira/Script/bootstrap-datepicker_js" type="text/javascript"></script>
+    <script src="/ira/Script/select2_min_js" type="text/javascript"></script>
+    <script src="/ira/Script/bootstrap-datepicker_min_js" type="text/javascript"></script>
     <script src="/ira/Script/bootstrap_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/wysihtml5-0_3_0_js"></script>
-    <script src="/ira/Script/bootstrap-wysihtml5_js"></script>
+    <script src="/ira/Script/wysihtml5-0_3_0_min_js"></script>
+    <script src="/ira/Script/bootstrap-wysihtml5_min_js"></script>
     <script type="text/javascript">
         $(function () {
             $('.dateTimePicker').datepicker({ format: 'yyyy-mm-dd', autoclose: true });
@@ -92,14 +86,14 @@
             $('legend .btn').click(function () {
                 var $this = $(this);
                 var $i = $this.children('i');
-                if ($i.hasClass('icon-plus')) {
-                    $i.removeClass('icon-plus');
-                    $i.addClass('icon-minus');
+                if ($i.hasClass('glyphicon glyphicon-plus')) {
+                    $i.removeClass('glyphicon glyphicon-plus');
+                    $i.addClass('glyphicon glyphicon-minus');
                     $this.parent().siblings('.fields').slideDown();
                 }
                 else {
-                    $i.removeClass('icon-minus');
-                    $i.addClass('icon-plus');
+                    $i.removeClass('glyphicon glyphicon-minus');
+                    $i.addClass('glyphicon glyphicon-plus');
                     $this.parent().siblings('.fields').slideUp();
                 }
             });

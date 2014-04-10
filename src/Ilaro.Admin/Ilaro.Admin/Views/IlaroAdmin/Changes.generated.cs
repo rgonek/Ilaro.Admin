@@ -64,11 +64,7 @@ WriteLiteral(">\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Changes.cshtml"
@@ -77,11 +73,7 @@ WriteLiteral(">/</span></li>\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Changes.cshtml"
@@ -90,11 +82,7 @@ WriteLiteral(">/</span></li>\r\n        <li>");
             
             #line default
             #line hidden
-WriteLiteral(" <span");
-
-WriteLiteral(" class=\"divider\"");
-
-WriteLiteral(">/</span></li>\r\n        <li");
+WriteLiteral("</li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
@@ -295,15 +283,16 @@ WriteLiteral("                        ");
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 2065), Tuple.Create("\"", 2107)
-, Tuple.Create(Tuple.Create("", 2073), Tuple.Create("icon-chevron-", 2073), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1972), Tuple.Create("\"", 2029)
+, Tuple.Create(Tuple.Create("", 1980), Tuple.Create("glyphicon", 1980), true)
+, Tuple.Create(Tuple.Create(" ", 1989), Tuple.Create("glyphicon-chevron-", 1990), true)
             
             #line 49 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 2086), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 2008), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 2086), false)
+, 2008), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -589,14 +578,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n                <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3870), Tuple.Create("\"", 3971)
+WriteAttribute("href", Tuple.Create(" href=\"", 3792), Tuple.Create("\"", 3893)
             
             #line 99 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3877), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
+, Tuple.Create(Tuple.Create("", 3799), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
             
             #line default
             #line hidden
-, 3877), false)
+, 3799), false)
 );
 
 WriteLiteral(">");
