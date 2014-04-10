@@ -1,33 +1,26 @@
-﻿@model Ilaro.Admin.ViewModels.DetailsViewModel
+﻿@model Ilaro.Admin.ViewModels.ChangesViewModel
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = Model.Entity.Plural;
+    ViewBag.Title = Resources.IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Plural;
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index") <span class="divider">/</span></li>
-        <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
-        <li class="active">@Model.Entity.Plural</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.GroupName, "Group", new { groupName = Model.Entity.GroupName }) <span class="divider">/</span></li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.Plural, "Details", new { entityName = Model.EntityChangesFor.Name }) <span class="divider">/</span></li>
+        <li class="active">@Resources.IlaroAdminResources.Changes</li>
     </ul>
 }
 
 <h2>@Model.Entity.Plural</h2>
 
 <div class="clearfix">
-    @if (Model.Entity.CanAdd)
-    {
-        <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right space-bottom"><i class="icon-plus"></i> @Resources.IlaroAdminResources.Add</a>
-    }
-    <div class="pull-right" style="line-height:30px;margin-right:10px">
-        @Html.ActionLink(Resources.IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name })
-    </div>
-
     @if (Model.IsSearchActive)
     {
-        using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get))
+        using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -48,7 +41,6 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            @*<th class="min-width"><input type="checkbox" id="check-all" /></th>*@
             @foreach (var column in Model.Columns)
             {
                 <th>
@@ -58,52 +50,15 @@
                     </span>
                 </th>
             }
-            @if (Model.Entity.LinksCount > 0)
-            {
-                <th colspan="@Model.Entity.LinksCount"></th>
-            }
         </tr>
     </thead>
     <tbody>
         @foreach (var row in Model.Data)
         {
             <tr>
-                @*<td><input type="checkbox" class="row-checkbox" /></td>*@
                 @foreach (var item in row.Values)
                 {
                     <td>@Html.DisplayFor(m => item, item.Property.DisplayTemplateName)</td>
-                }
-                @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
-                {
-                    <td class="min-width">
-                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-eye-open"></i> @Resources.IlaroAdminResources.View</a>
-                    </td>
-                }
-                @if (Model.Entity.HasEditLink)
-                {
-                    <td class="min-width">
-                        @if (!Model.Entity.EditLink.IsNullOrEmpty())
-                        {
-                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link"><i class="icon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
-                        }
-                    </td>
-                }
-                @if (Model.Entity.HasDeleteLink)
-                {
-                    <td class="min-width">
-                        @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
-                        {
-                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
-                        }
-                        else
-                        {
-                            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-mini btn-link text-error"><i class="icon-remove"></i> @Resources.IlaroAdminResources.Delete</a>
-                        }
-                    </td>
                 }
             </tr>
         }
@@ -113,7 +68,7 @@
 <p class="pull-right">@Resources.IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></p>
 
 <div class="pull-left" style="margin-top:1px;">
-    @using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
+    @using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
     {
         foreach (var filter in Model.ActiveFilters)
         {
@@ -156,22 +111,4 @@
             </ul>
         </div>
     }
-}
-
-@section Scripts
-{
-    <script type="text/javascript">
-        $().ready(function () {
-            $('table th #check-all').click(function () {
-                var $this = $(this);
-                var isChecked = $this.prop('checked');
-                $this.parents('table').find('.row-checkbox').prop('checked', isChecked);
-            });
-            $('table tr').click(function () {
-                var $this = $(this);
-                var $checkbox = $this.find('.row-checkbox');
-                //$checkbox.prop('checked', !$checkbox.prop('checked'));
-            });
-        });
-    </script>
 }

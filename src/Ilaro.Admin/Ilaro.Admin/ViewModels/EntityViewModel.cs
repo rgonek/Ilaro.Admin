@@ -98,6 +98,8 @@ namespace Ilaro.Admin.ViewModels
 
 		#endregion
 
+		public bool CanAdd { get; set; }
+
 		public EntityViewModel(Type type)
 		{
 			this.Type = type;
@@ -133,6 +135,12 @@ namespace Ilaro.Admin.ViewModels
 			SetSearchProperties(attributes);
 
 			SetGroups(attributes);
+
+			CanAdd = true;
+			if (IsChangeEntity)
+			{
+				CanAdd = HasDeleteLink = HasEditLink = false;
+			}
 		}
 
 		private void SetLinkKey()

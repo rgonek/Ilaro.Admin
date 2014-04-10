@@ -188,6 +188,7 @@
     <Compile Include="ViewModels\DataRowViewModel.cs" />
     <Compile Include="ViewModels\DataType.cs" />
     <Compile Include="ViewModels\DeleteViewModel.cs" />
+    <Compile Include="ViewModels\ChangesViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModel.cs" />
     <Compile Include="ViewModels\EditViewModel.cs" />
     <Compile Include="ViewModels\EntityGroupViewModel.cs" />
@@ -207,6 +208,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Delete.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Changes.generated.cs">
+      <DependentUpon>Changes.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Views\IlaroAdmin\Details.generated.cs">
       <AutoGen>True</AutoGen>
@@ -515,7 +521,12 @@
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\Changes.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Changes.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

@@ -8,7 +8,12 @@
             {
                 <tr>
                     <td class="max-width">@Html.ActionLink(entity.Plural, "Details", new { entityName = entity.Name })</td>
-                    <td><a href="@Url.Action("Create", new { entityName = entity.Name })" class="btn btn-mini btn-link"><i class="icon-plus"></i> @Resources.IlaroAdminResources.Add</a></td>
+                    <td>
+                        @if (entity.CanAdd) 
+                        { 
+                        <a href="@Url.Action("Create", new { entityName = entity.Name })" class="btn btn-mini btn-link"><i class="icon-plus"></i> @Resources.IlaroAdminResources.Add</a>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

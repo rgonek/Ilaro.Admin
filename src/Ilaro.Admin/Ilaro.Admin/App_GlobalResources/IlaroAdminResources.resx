@@ -133,6 +133,9 @@
   <data name="Change" xml:space="preserve">
     <value>Change</value>
   </data>
+  <data name="Changes" xml:space="preserve">
+    <value>Changes</value>
+  </data>
   <data name="Choose" xml:space="preserve">
     <value>--Choose--</value>
   </data>

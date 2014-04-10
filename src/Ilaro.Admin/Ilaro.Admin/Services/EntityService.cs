@@ -70,6 +70,55 @@ namespace Ilaro.Admin.Services
 			};
 		}
 
+		public PagedRecordsViewModel GetChangesRecords(EntityViewModel entityChangesFor, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
+		{
+			var skip = (page - 1) * take;
+			var changeEntity = AdminInitialise.ChangeEntity;
+
+			var search = new EntitySearch { Query = searchQuery, Properties = changeEntity.SearchProperties };
+			order = order.IsNullOrEmpty() ? changeEntity.Key.Name : order;
+			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
+			var orderBy = order + " " + orderDirection;
+			var columns = string.Join(",", changeEntity.DisplayColumns.Select(x => x.Name));
+			var where = ConvertFiltersToSQL(filters, search);
+			if (where.IsNullOrEmpty())
+			{
+				where += " WHERE EntityName = '" + entityChangesFor.Name + "'";
+			}
+			else
+			{
+				where += " AND EntityName = '" + entityChangesFor.Name + "'";
+			}
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: changeEntity.TableName, primaryKeyField: changeEntity.Key.Name);
+
+			var result = table.Paged(columns: columns, where: where, orderBy: orderBy, currentPage: page, pageSize: take);
+
+			var data = new List<DataRowViewModel>();
+			foreach (var item in result.Items)
+			{
+				var dict = (IDictionary<String, Object>)item;
+				var row = new DataRowViewModel();
+				row.KeyValue = dict[changeEntity.Key.Name].ToStringSafe();
+				row.LinkKeyValue = dict[changeEntity.LinkKey.Name].ToStringSafe();
+				foreach (var property in changeEntity.DisplayColumns)
+				{
+					row.Values.Add(new CellValueViewModel
+					{
+						Value = dict[property.Name].ToStringSafe(),
+						Property = property
+					});
+				}
+				data.Add(row);
+			}
+
+			return new PagedRecordsViewModel
+			{
+				TotalItems = result.TotalRecords,
+				TotalPages = result.TotalPages,
+				Records = data
+			};
+		}
+
 		private string ConvertFiltersToSQL(IList<IEntityFilter> filters, EntitySearch search, string alias = "")
 		{
 			var activeFilters = filters.Where(x => !x.Value.IsNullOrEmpty());
@@ -132,6 +181,10 @@ namespace Ilaro.Admin.Services
 				return null;
 			}
 
+			if (conditions.IsNullOrEmpty())
+			{
+				return String.Empty;
+			}
 			return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
 		}
 

@@ -17,6 +17,12 @@ namespace Ilaro.Admin.Services.Interfaces
 		PagedRecordsViewModel GetRecords(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection);
 
 		/// <summary>
+		/// Get list of changes for entity
+		/// </summary>
+		/// <param name="entity">Entity info</param>
+		PagedRecordsViewModel GetChangesRecords(EntityViewModel entityChangesFor, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection);
+
+		/// <summary>
 		/// Clear properties values, for example after edit, or before display add form
 		/// </summary>
 		/// <param name="entity">Entity info</param>

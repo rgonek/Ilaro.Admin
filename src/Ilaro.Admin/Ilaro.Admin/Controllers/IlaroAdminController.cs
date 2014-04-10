@@ -84,6 +84,36 @@ namespace Ilaro.Admin.Controllers
 			return View(viewModel);
 		}
 
+		public ActionResult Changes(string entityName, int page = 1, [Bind(Prefix = "sq")]string searchQuery = "", [Bind(Prefix = "pp")]int perPage = 10, [Bind(Prefix = "o")]string order = "", [Bind(Prefix = "od")]string orderDirection = "")
+		{
+			var entityChangesFor = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+			var changeEntity = AdminInitialise.ChangeEntity;
+			var filters = entityService.PrepareFilters(changeEntity, Request);
+			var pagedRecords = entityService.GetChangesRecords(entityChangesFor, page, perPage, filters, searchQuery, order, orderDirection);
+			if (pagedRecords.Records.IsNullOrEmpty() && page > 1)
+			{
+				return RedirectToAction("Details", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
+			}
+
+			var url = Url.Action("Details", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
+			var viewModel = new ChangesViewModel
+			{
+				Data = pagedRecords.Records,
+				Columns = entityService.PrepareColumns(changeEntity, order, orderDirection),
+				Entity = changeEntity,
+				EntityChangesFor = entityChangesFor,
+				PagerInfo = new PagerInfo(url, perPage, page, pagedRecords.TotalItems),
+				Filters = filters,
+				SearchQuery = searchQuery,
+				IsSearchActive = changeEntity.SearchProperties.Any(),
+				PerPage = perPage,
+				Order = order,
+				OrderDirection = orderDirection
+			};
+
+			return View(viewModel);
+		}
+
 		private RouteValueDictionary PrepareRouteValues(string entityName, int page, int perPage, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
 		{
 			return PrepareRouteValues(entityName, page.ToString(), perPage, filters, searchQuery, order, orderDirection);

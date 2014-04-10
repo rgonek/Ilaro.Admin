@@ -84,16 +84,32 @@ WriteLiteral(">");
             
             #line default
             #line hidden
-WriteLiteral("</td>\r\n                    <td><a");
+WriteLiteral("</td>\r\n                    <td>\r\n");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 497), Tuple.Create("\"", 559)
             
-            #line 11 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-, Tuple.Create(Tuple.Create("", 504), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = entity.Name })
+            #line 12 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                        
             
             #line default
             #line hidden
-, 504), false)
+            
+            #line 12 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                         if (entity.CanAdd) 
+                        { 
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 597), Tuple.Create("\"", 659)
+            
+            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+, Tuple.Create(Tuple.Create("", 604), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = entity.Name })
+            
+            #line default
+            #line hidden
+, 604), false)
 );
 
 WriteLiteral(" class=\"btn btn-mini btn-link\"");
@@ -105,16 +121,25 @@ WriteLiteral(" class=\"icon-plus\"");
 WriteLiteral("></i> ");
 
             
-            #line 11 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
                                                                                                                                              Write(Resources.IlaroAdminResources.Add);
 
             
             #line default
             #line hidden
-WriteLiteral("</a></td>\r\n                </tr>\r\n");
+WriteLiteral("</a>\r\n");
 
             
-            #line 13 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+            #line 15 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                        }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                    </td>\r\n                </tr>\r\n");
+
+            
+            #line 18 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
             }
 
             

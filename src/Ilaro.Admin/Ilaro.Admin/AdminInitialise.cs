@@ -73,6 +73,12 @@ namespace Ilaro.Admin
 			);
 
 			routes.MapRoute(
+				name: "AdminChanges",
+				url: prefix + "/Changes/{entityName}/{page}",
+				defaults: new { controller = "IlaroAdmin", action = "Changes", page = 1 }
+			);
+
+			routes.MapRoute(
 				name: "AdminDetails",
 				url: prefix + "/{entityName}/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Details", page = 1 }
