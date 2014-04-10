@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Ilaro.Sample.Models.Northwind.Entities
+namespace Ilaro.Admin.Sample.Models.Northwind
 {
 	public class Order
 	{

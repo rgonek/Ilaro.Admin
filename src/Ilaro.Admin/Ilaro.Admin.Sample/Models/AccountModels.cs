@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
-namespace Ilaro.Web.Sample.Models
+namespace Ilaro.Admin.Sample.Models
 {
     public class UsersContext : DbContext
     {

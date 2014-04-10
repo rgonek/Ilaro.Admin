@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Ilaro.Sample.Models.Northwind.Entities
+namespace Ilaro.Admin.Sample.Models.Northwind
 {
 	public class Product
 	{

@@ -6,7 +6,7 @@ using Ilaro.Admin.ViewModels;
 using Ilaro.Admin;
 using System.Linq;
 
-namespace Ilaro.Test
+namespace Ilaro.Admin.Tests
 {
 	[TestClass]
 	public class PropertyViewModelTests

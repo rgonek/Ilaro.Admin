@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Sample.Web.Models.TestAdmin
+namespace Ilaro.Admin.Sample.Models.TestAdmin
 {
     public enum ProductCategory : int
     {

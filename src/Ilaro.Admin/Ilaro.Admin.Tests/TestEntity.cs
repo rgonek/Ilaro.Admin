@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ilaro.Test
+namespace Ilaro.Admin.Tests
 {
 	public class TestEntity
 	{

@@ -1,14 +1,12 @@
 ﻿using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Commons.FileUpload;
-using Robert.Admin.Attributes;
-using Sample.Web.Models.TestAdmin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Ilaro.Sample.Models.TestAdmin
+namespace Ilaro.Admin.Sample.Models.TestAdmin
 {
     //[Columns("Image", "Category", "Name")]
     [Search("Number")]

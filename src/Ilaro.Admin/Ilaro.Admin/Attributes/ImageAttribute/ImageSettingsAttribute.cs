@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 
-namespace Robert.Admin.Attributes
+namespace Ilaro.Admin.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class ImageSettingsAttribute : Attribute

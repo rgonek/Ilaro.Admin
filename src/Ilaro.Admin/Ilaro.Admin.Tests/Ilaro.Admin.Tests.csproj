@@ -6,8 +6,8 @@
     <ProjectGuid>{3DD5C3C0-58B6-4FE3-AC57-73B24194242D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ilaro.Test</RootNamespace>
-    <AssemblyName>Ilaro.Test</AssemblyName>
+    <RootNamespace>Ilaro.Admin.Tests</RootNamespace>
+    <AssemblyName>Ilaro.Admin.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

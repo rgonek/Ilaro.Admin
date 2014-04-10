@@ -1,7 +1,5 @@
 ﻿using Ilaro.Admin;
-using Ilaro.Sample.Models.Northwind;
-using Ilaro.Sample.Models.Northwind.Entities;
-using Ilaro.Web.Sample.Models.Northwind;
+using Ilaro.Admin.Sample.Models.Northwind;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Ilaro.Web.Sample
+namespace Ilaro.Admin.Sample
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -22,8 +20,8 @@ namespace Ilaro.Web.Sample
         {
 			AreaRegistration.RegisterAllAreas();
 
-			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
+			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 
             RegisterRoutes(RouteTable.Routes);
 
@@ -45,7 +43,7 @@ namespace Ilaro.Web.Sample
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
 			);
 		}
     }

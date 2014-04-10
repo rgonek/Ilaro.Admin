@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Ilaro.Web.Sample.Models.Northwind
+namespace Ilaro.Admin.Sample.Models.Northwind
 {
 	public class EntityChange : IEntityChange
 	{
