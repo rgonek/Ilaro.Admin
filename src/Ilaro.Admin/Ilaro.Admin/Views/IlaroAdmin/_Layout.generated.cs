@@ -73,12 +73,7 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" type=\"text/css\"");
 
-WriteLiteral(" />\r\n    <style");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(">\r\n        body {\r\n            padding-top: 60px;\r\n            padding-bottom: 40" +
-"px;\r\n        }\r\n    </style>\r\n    <link");
+WriteLiteral(" />\r\n    <link");
 
 WriteLiteral(" href=\"/ira/css/bootstrap-datepicker_min_css\"");
 
@@ -88,7 +83,7 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/select2_min_css\"");
+WriteLiteral(" href=\"/ira/css/bootstrap-select_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -121,7 +116,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("    ");
 
             
-            #line 23 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 17 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -129,83 +124,70 @@ Write(RenderSection("Header", false));
             #line hidden
 WriteLiteral("\r\n</head>\r\n<body>\r\n    <div");
 
-WriteLiteral(" class=\"navbar navbar-googlebar navbar-fixed-top\"");
+WriteLiteral(" class=\"navbar navbar-default navbar-static-top\"");
+
+WriteLiteral(" role=\"navigation\"");
 
 WriteLiteral(">\r\n        <div");
 
-WriteLiteral(" class=\"navbar-inner\"");
-
-WriteLiteral(">\r\n            <div");
-
 WriteLiteral(" class=\"container-fluid\"");
 
-WriteLiteral(">\r\n");
-
-WriteLiteral("                ");
+WriteLiteral(">\r\n            <h1>");
 
             
-            #line 29 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-           Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "brand" }));
+            #line 22 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+           Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n                <div");
-
-WriteLiteral(" class=\"nav-collapse\"");
-
-WriteLiteral(">\r\n                    <ul");
-
-WriteLiteral(" class=\"nav\"");
-
-WriteLiteral("></ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r" +
-"\n    <div");
+WriteLiteral("</h1>\r\n        </div>\r\n    </div>\r\n\r\n    <div");
 
 WriteLiteral(" class=\"container-fluid\"");
 
 WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"row-fluid\"");
-
-WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"breadcrumb-container\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("                ");
+WriteLiteral("            ");
 
             
-            #line 40 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-           Write(RenderSection("Breadcrumb", false));
+            #line 28 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+       Write(RenderSection("Breadcrumb", false));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </div>\r\n");
+WriteLiteral("\r\n        </div>\r\n");
 
             
-            #line 42 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-            
+            #line 30 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+        
             
             #line default
             #line hidden
             
-            #line 42 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-              Html.RenderAction("Messages");
+            #line 30 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+          Html.RenderAction("Messages");
             
             #line default
             #line hidden
-WriteLiteral("\r\n            <div");
+WriteLiteral("\r\n        <div");
 
-WriteLiteral(" class=\"span9\"");
+WriteLiteral(" class=\"row\"");
+
+WriteLiteral(">\r\n            <div");
+
+WriteLiteral(" class=\"col-md-9\"");
 
 WriteLiteral(">\r\n");
 
 WriteLiteral("                ");
 
             
-            #line 44 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderBody());
 
             
@@ -213,25 +195,29 @@ WriteLiteral("                ");
             #line hidden
 WriteLiteral("\r\n            </div>\r\n            <div");
 
-WriteLiteral(" class=\"span2\"");
+WriteLiteral(" class=\"col-md-3\"");
 
 WriteLiteral(">\r\n");
 
 WriteLiteral("                ");
 
             
-            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Sidebar", false));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n            </div>\r\n        </div>\r\n        <hr>\r\n        <footer>\r\n           " +
-" <p>© Ilaro.Admin ");
+" <p>© <a");
+
+WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
+
+WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 52 "..\..\Views\IlaroAdmin\_Layout.cshtml"
-                        Write(System.DateTime.Now.ToString("yyyy"));
+            #line 41 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+                                                                            Write(System.DateTime.Now.ToString("yyyy"));
 
             
             #line default
@@ -264,7 +250,7 @@ WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/select2_min_js\"");
+WriteLiteral(" src=\"/ira/Script/bootstrap-select_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -295,7 +281,7 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral(@">
         $(function () {
             $('.dateTimePicker').datepicker({ format: 'yyyy-mm-dd', autoclose: true });
-            $('select').select2();
+            $('select').selectpicker();
             $('textarea.html').each(function () {
                 $(this).wysihtml5({ html: true, color: true, stylesheets: false });
             });
@@ -330,7 +316,7 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 102 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 91 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

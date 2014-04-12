@@ -7,10 +7,10 @@
 
 @section Breadcrumb
 {
-<ul class="breadcrumb">
-    <li>@Html.ActionLink("Admin", "Index")</li>
-    <li class="active">@Model.Group.Name</li>
-</ul>
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink("Admin", "Index")</li>
+        <li class="active">@Model.Group.Name</li>
+    </ul>
 }
 
 @{Html.RenderPartial("_GroupPartial", Model.Group);}

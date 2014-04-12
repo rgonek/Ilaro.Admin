@@ -71,7 +71,7 @@ WriteLiteral(" ");
 
             
             #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-                                                                      Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>"));
+                                                                      Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
@@ -134,24 +134,24 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</span>\r\n                <input");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 820), Tuple.Create("\"", 845)
+WriteAttribute("id", Tuple.Create(" id=\"", 821), Tuple.Create("\"", 846)
             
             #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 825), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+, Tuple.Create(Tuple.Create("", 826), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
             #line hidden
-, 825), false)
+, 826), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 846), Tuple.Create("\"", 875)
+WriteAttribute("name", Tuple.Create(" name=\"", 847), Tuple.Create("\"", 876)
             
             #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 853), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+, Tuple.Create(Tuple.Create("", 854), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 853), false)
+, 854), false)
 );
 
 WriteLiteral(" type=\"file\"");

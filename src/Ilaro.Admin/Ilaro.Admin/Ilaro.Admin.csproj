@@ -359,7 +359,7 @@
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css" />
     <EmbeddedResource Include="Content\css\font-awesome-ie7.min.css" />
-    <EmbeddedResource Include="Content\css\select2.min.css" />
+    <EmbeddedResource Include="Content\css\bootstrap-select.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
     <EmbeddedResource Include="Content\img\select2.png" />
     <EmbeddedResource Include="Content\img\select2x2.png" />
@@ -367,7 +367,7 @@
     <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Scripts\select2.min.js" />
+    <EmbeddedResource Include="Scripts\bootstrap-select.min.js" />
     <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap-theme.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap.min.css" />

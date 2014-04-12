@@ -481,7 +481,7 @@ namespace Ilaro.Admin.Services
 				foreach (var groupName in entity.Groups)
 				{
 					var trimedGroupName = groupName.TrimEnd('*');
-					if (groupsDict.ContainsKey(trimedGroupName ?? "Others"))
+					if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
 					{
 						var group = groupsDict[trimedGroupName];
 

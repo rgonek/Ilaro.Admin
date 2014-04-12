@@ -213,6 +213,9 @@
   <data name="OnPage" xml:space="preserve">
     <value>On page:</value>
   </data>
+  <data name="Others" xml:space="preserve">
+    <value>Others</value>
+  </data>
   <data name="PreviousPage" xml:space="preserve">
     <value>«</value>
   </data>

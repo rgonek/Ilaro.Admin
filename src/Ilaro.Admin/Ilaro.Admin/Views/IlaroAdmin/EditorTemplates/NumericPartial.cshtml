@@ -1,9 +1,9 @@
 ﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
 
 @{Html.ClearPrefix();}
-<label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")</label>
-<div class="controls">
-    @Html.TextBox(Model.Name, Model.Value, Model, new { @class = "span3" })
+<label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+<div class="controls col-md-3">
+    @Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" })
     @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
-    @Html.ValidationMessage(Model.Name)
 </div>
+@Html.ValidationMessage(Model.Name)

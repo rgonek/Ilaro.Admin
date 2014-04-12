@@ -51,11 +51,11 @@ WriteLiteral("\r\n\r\n");
 
 DefineSection("Breadcrumb", () => {
 
-WriteLiteral("\r\n<ul");
+WriteLiteral("\r\n    <ul");
 
 WriteLiteral(" class=\"breadcrumb\"");
 
-WriteLiteral(">\r\n    <li");
+WriteLiteral(">\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
@@ -63,18 +63,18 @@ WriteLiteral(">");
 
             
             #line 11 "..\..\Views\IlaroAdmin\Index.cshtml"
-                  Write(Resources.IlaroAdminResources.Index_Title);
+                      Write(Resources.IlaroAdminResources.Index_Title);
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n</ul>\r\n");
+WriteLiteral("</li>\r\n    </ul>\r\n");
 
 });
 
 WriteLiteral("\r\n<ul");
 
-WriteLiteral(" class=\"thumbnails\"");
+WriteLiteral(" class=\"list-unstyled\"");
 
 WriteLiteral(">\r\n");
 
@@ -87,8 +87,33 @@ WriteLiteral(">\r\n");
             
             #line 16 "..\..\Views\IlaroAdmin\Index.cshtml"
      foreach (var group in Model.EntitiesGroups)
-    { 
-        Html.RenderPartial("_GroupPartial", group);
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <li");
+
+WriteLiteral(" class=\"col-md-4\"");
+
+WriteLiteral(">\r\n");
+
+            
+            #line 19 "..\..\Views\IlaroAdmin\Index.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 19 "..\..\Views\IlaroAdmin\Index.cshtml"
+              Html.RenderPartial("_GroupPartial", group);
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n        </li>\r\n");
+
+            
+            #line 21 "..\..\Views\IlaroAdmin\Index.cshtml"
     }
 
             

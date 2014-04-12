@@ -56,13 +56,13 @@ WriteAttribute("for", Tuple.Create(" for=\"", 81), Tuple.Create("\"", 107)
 , 87), false)
 );
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"control-label col-md-2\"");
 
 WriteLiteral(">");
 
             
             #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
-                                                   Write(Model.DisplayName);
+                                                            Write(Model.DisplayName);
 
             
             #line default
@@ -71,14 +71,14 @@ WriteLiteral(" ");
 
             
             #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
-                                                                      Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>"));
+                                                                               Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n<div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"controls col-md-3\"");
 
 WriteLiteral(">\r\n");
 
@@ -86,7 +86,7 @@ WriteLiteral("    ");
 
             
             #line 6 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
-Write(Html.TextBox(Model.Name, Model.Value, Model, new { @class = "span3 dateTimePicker" }));
+Write(Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control dateTimePicker" }));
 
             
             #line default
@@ -102,18 +102,16 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("    ");
+WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 8 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n</div>\r\n");
+WriteLiteral("\r\n");
 
         }
     }

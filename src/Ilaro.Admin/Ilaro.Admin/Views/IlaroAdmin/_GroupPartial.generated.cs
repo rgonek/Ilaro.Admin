@@ -38,81 +38,94 @@ namespace Ilaro.Admin.Views.IlaroAdmin
         }
         public override void Execute()
         {
-WriteLiteral("<li");
-
-WriteLiteral(" class=\"span4\"");
-
-WriteLiteral(">\r\n    <h3>");
-
             
-            #line 4 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-   Write(Html.ActionLink(Model.Name, "Group", new { groupName =  Model.Name }));
+            #line 3 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+ if (!Model.Name.IsNullOrEmpty())
+{
 
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n    <table");
+WriteLiteral("    <h3>");
+
+            
+            #line 5 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+   Write(Html.ActionLink(Model.Name, "Group", new { groupName = Model.Name }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</h3>\r\n");
+
+            
+            #line 6 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+}
+
+            
+            #line default
+            #line hidden
+WriteLiteral("<table");
 
 WriteLiteral(" class=\"table table-striped table-bordered table-hover\"");
 
-WriteLiteral(">\r\n        <tbody>\r\n");
+WriteLiteral(">\r\n    <tbody>\r\n");
 
             
-            #line 7 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-            
+            #line 9 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+        
             
             #line default
             #line hidden
             
-            #line 7 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-             foreach (var entity in Model.Entities) 
-            {
+            #line 9 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+         foreach (var entity in Model.Entities)
+        {
 
             
             #line default
             #line hidden
-WriteLiteral("                <tr>\r\n                    <td");
+WriteLiteral("            <tr>\r\n                <td");
 
 WriteLiteral(" class=\"max-width\"");
 
 WriteLiteral(">");
 
             
-            #line 10 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                                     Write(Html.ActionLink(entity.Plural, "Details", new { entityName = entity.Name }));
+            #line 12 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                                 Write(Html.ActionLink(entity.Plural, "Details", new { entityName = entity.Name }));
 
             
             #line default
             #line hidden
-WriteLiteral("</td>\r\n                    <td>\r\n");
+WriteLiteral("</td>\r\n                <td>\r\n");
 
             
-            #line 12 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                        
+            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                    
             
             #line default
             #line hidden
             
-            #line 12 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                         if (entity.CanAdd) 
-                        { 
+            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                     if (entity.CanAdd)
+                    {
 
             
             #line default
             #line hidden
 WriteLiteral("                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 597), Tuple.Create("\"", 659)
+WriteAttribute("href", Tuple.Create(" href=\"", 567), Tuple.Create("\"", 629)
             
-            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-, Tuple.Create(Tuple.Create("", 604), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = entity.Name })
+            #line 16 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+, Tuple.Create(Tuple.Create("", 574), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = entity.Name })
             
             #line default
             #line hidden
-, 604), false)
+, 574), false)
 );
 
-WriteLiteral(" class=\"btn btn-mini btn-link\"");
+WriteLiteral(" class=\"btn btn-xs btn-link\"");
 
 WriteLiteral("><span");
 
@@ -121,8 +134,8 @@ WriteLiteral(" class=\"glyphicon glyphglyphicon glyphicon-plus\"");
 WriteLiteral("></span> ");
 
             
-            #line 14 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                                                                                                                                                                                 Write(Resources.IlaroAdminResources.Add);
+            #line 16 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                                                                                                                                                                               Write(Resources.IlaroAdminResources.Add);
 
             
             #line default
@@ -130,22 +143,22 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 15 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-                        }
+            #line 17 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+                    }
 
             
             #line default
             #line hidden
-WriteLiteral("                    </td>\r\n                </tr>\r\n");
+WriteLiteral("                </td>\r\n            </tr>\r\n");
 
             
-            #line 18 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
-            }
+            #line 20 "..\..\Views\IlaroAdmin\_GroupPartial.cshtml"
+        }
 
             
             #line default
             #line hidden
-WriteLiteral("        </tbody>\r\n    </table>\r\n</li>");
+WriteLiteral("    </tbody>\r\n</table>");
 
         }
     }

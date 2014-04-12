@@ -191,7 +191,7 @@ WriteLiteral("\r\n        </div>\r\n    </div>\r\n");
             #line hidden
 WriteLiteral("    <div");
 
-WriteLiteral(" class=\"form-actions\"");
+WriteLiteral(" class=\"form-action\"");
 
 WriteLiteral(">\r\n        <button");
 
@@ -210,17 +210,17 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</button>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1238), Tuple.Create("\"", 1264)
+WriteAttribute("href", Tuple.Create(" href=\"", 1237), Tuple.Create("\"", 1263)
             
             #line 33 "..\..\Views\IlaroAdmin\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1245), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
+, Tuple.Create(Tuple.Create("", 1244), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
             
             #line default
             #line hidden
-, 1245), false)
+, 1244), false)
 );
 
-WriteLiteral(" class=\"btn\"");
+WriteLiteral(" class=\"btn btn-default\"");
 
 WriteLiteral("><i");
 
@@ -230,21 +230,21 @@ WriteLiteral("></i> ");
 
             
             #line 33 "..\..\Views\IlaroAdmin\Delete.cshtml"
-                                                                                      Write(Resources.IlaroAdminResources.Edit);
+                                                                                                  Write(Resources.IlaroAdminResources.Edit);
 
             
             #line default
             #line hidden
 WriteLiteral("</a>\r\n        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1370), Tuple.Create("\"", 1399)
+WriteAttribute("href", Tuple.Create(" href=\"", 1381), Tuple.Create("\"", 1410)
             
             #line 34 "..\..\Views\IlaroAdmin\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1377), Tuple.Create<System.Object, System.Int32>(Url.Action("Details")
+, Tuple.Create(Tuple.Create("", 1388), Tuple.Create<System.Object, System.Int32>(Url.Action("Details")
             
             #line default
             #line hidden
-, 1377), false)
+, 1388), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

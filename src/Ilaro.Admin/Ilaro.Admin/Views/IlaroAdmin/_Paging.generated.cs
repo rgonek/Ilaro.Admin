@@ -34,14 +34,14 @@ namespace Ilaro.Admin.Views.IlaroAdmin
     public partial class Paging : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PagerInfo>
     {
 
-#line 95 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+#line 93 "..\..\Views\IlaroAdmin\_Paging.cshtml"
 public System.Web.WebPages.HelperResult PagerLink(string linkText, int pageNumber, string url, string rel = "", string @classes = "")
 {
 #line default
 #line hidden
 return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
-#line 96 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+#line 94 "..\..\Views\IlaroAdmin\_Paging.cshtml"
  
     url = string.Format(url, pageNumber);
 
@@ -50,42 +50,42 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 WriteLiteralTo(__razor_helper_writer, "    <li");
 
-WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 3169), Tuple.Create("\"", 3185)
+WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 2900), Tuple.Create("\"", 2916)
 
-#line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3177), Tuple.Create<System.Object, System.Int32>(classes
+#line 96 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2908), Tuple.Create<System.Object, System.Int32>(classes
 
 #line default
 #line hidden
-, 3177), false)
+, 2908), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, "><a");
 
-WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 3189), Tuple.Create("\"", 3200)
+WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 2920), Tuple.Create("\"", 2931)
 
-#line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3196), Tuple.Create<System.Object, System.Int32>(url
+#line 96 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2927), Tuple.Create<System.Object, System.Int32>(url
 
 #line default
 #line hidden
-, 3196), false)
+, 2927), false)
 );
 
-WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 3201), Tuple.Create("\"", 3211)
+WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 2932), Tuple.Create("\"", 2942)
 
-#line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 3207), Tuple.Create<System.Object, System.Int32>(rel
+#line 96 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2938), Tuple.Create<System.Object, System.Int32>(rel
 
 #line default
 #line hidden
-, 3207), false)
+, 2938), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 98 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+#line 96 "..\..\Views\IlaroAdmin\_Paging.cshtml"
                      WriteTo(__razor_helper_writer, linkText);
 
 
@@ -94,14 +94,14 @@ WriteLiteralTo(__razor_helper_writer, ">");
 WriteLiteralTo(__razor_helper_writer, "</a></li>\r\n");
 
 
-#line 99 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+#line 97 "..\..\Views\IlaroAdmin\_Paging.cshtml"
 
 
 #line default
 #line hidden
 });
 
-#line 99 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+#line 97 "..\..\Views\IlaroAdmin\_Paging.cshtml"
 }
 #line default
 #line hidden
@@ -129,289 +129,299 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<div");
+WriteLiteral("\r\n\r\n<ul");
 
-WriteLiteral(" class=\"pagination\"");
+WriteLiteral(" class=\"pagination pagination-sm\"");
 
-WriteLiteral(">\r\n    <ul>\r\n");
+WriteLiteral(">\r\n");
 
             
-            #line 18 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+            #line 17 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 17 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+      
+        // Make some calculation
+        var start = 1;
+        var end = Model.TotalPages;
         
             
             #line default
             #line hidden
             
-            #line 18 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-          
-            // Make some calculation
-            var start = 1;
-            var end = Model.TotalPages;
-            
-            
-            #line default
-            #line hidden
-            
-            #line 22 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             if (Model.TotalPages > nrOfPagesToDisplay)
+            #line 21 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         if (Model.TotalPages > nrOfPagesToDisplay)
+        {
+            var middle = (int)Math.Ceiling(nrOfPagesToDisplay / 2d) - 1;
+            var below = (Model.Current - middle);
+            var above = (Model.Current + middle);
+
+            if (below < 4)
             {
-                var middle = (int)Math.Ceiling(nrOfPagesToDisplay / 2d) - 1;
-                var below = (Model.Current - middle);
-                var above = (Model.Current + middle);
-
-                if (below < 4)
-                {
-                    above = nrOfPagesToDisplay;
-                    below = 1;
-                }
-                else if (above > (Model.TotalPages - 4))
-                {
-                    above = Model.TotalPages;
-                    below = (Model.TotalPages - nrOfPagesToDisplay);
-                }
-
-                start = below;
-                end = above;
+                above = nrOfPagesToDisplay;
+                below = 1;
             }
+            else if (above > (Model.TotalPages - 4))
+            {
+                above = Model.TotalPages;
+                below = (Model.TotalPages - nrOfPagesToDisplay);
+            }
+
+            start = below;
+            end = above;
+        }
             
             #line default
             #line hidden
             
-            #line 41 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             
-        
+            #line 40 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         
+    
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n        ");
+WriteLiteral("\r\n\r\n    ");
 
 WriteLiteral("\r\n");
 
             
-            #line 45 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        
+            #line 44 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    
             
             #line default
             #line hidden
             
-            #line 45 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-         if (Model.Current > 1)
-        {
+            #line 44 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+     if (Model.Current > 1)
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("            ");
+WriteLiteral("        ");
+
+            
+            #line 46 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         Write(PagerLink(Resources.IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
 
             
             #line 47 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink(Resources.IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev"));
+    }
+    else
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 48 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
-        else
-        { 
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            <li");
+WriteLiteral("        <li");
 
 WriteLiteral(" class=\"disabled\"");
 
 WriteLiteral("><span>");
+
+            
+            #line 50 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                              Write(Resources.IlaroAdminResources.PreviousPage);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</span></li>\r\n");
 
             
             #line 51 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                                  Write(Resources.IlaroAdminResources.PreviousPage);
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("</span></li>\r\n");
-
-            
-            #line 52 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n        ");
+WriteLiteral("\r\n    ");
 
 WriteLiteral("\r\n");
 
             
-            #line 55 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        
+            #line 54 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    
             
             #line default
             #line hidden
             
-            #line 55 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-         if (start > 3)
-        {
+            #line 54 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+     if (start > 3)
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("            ");
+WriteLiteral("        ");
+
+            
+            #line 56 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         Write(PagerLink("1", 1, Model.Url));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+WriteLiteral("        ");
 
             
             #line 57 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink("1", 1, Model.Url));
+         Write(PagerLink("2", 2, Model.Url));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n");
 
-WriteLiteral("            ");
-
-            
-            #line 58 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink("2", 2, Model.Url));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("            <li");
+WriteLiteral("        <li");
 
 WriteLiteral(" class=\"disabled\"");
 
 WriteLiteral("><span>...</span></li>\r\n");
 
             
-            #line 60 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
+            #line 59 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    }
 
-        
+    
             
             #line default
             #line hidden
+            
+            #line 61 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                      
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    ");
+
             
             #line 62 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                          
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        ");
-
-            
-            #line 63 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-         for (var i = start; i <= end; i++)
+     for (var i = start; i <= end; i++)
+    {
+        if (i == Model.Current || (Model.Current <= 0 && i == 0))
         {
-            if (i == Model.Current || (Model.Current <= 0 && i == 0))
-            {
 
             
             #line default
             #line hidden
-WriteLiteral("                ");
+WriteLiteral("            ");
+
+            
+            #line 66 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+             Write(PagerLink(i.ToString(), i, Model.Url, "", "active"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
 
             
             #line 67 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                 Write(PagerLink(i.ToString(), i, Model.Url, "", "active"));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 68 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-            }
-            else
-            {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                ");
-
-            
-            #line 71 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                 Write(PagerLink(i.ToString(), i, Model.Url));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 72 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-            }
         }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n        ");
-
-WriteLiteral("\r\n");
-
-            
-            #line 76 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        
-            
-            #line default
-            #line hidden
-            
-            #line 76 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-         if (end < (Model.TotalPages - 3))
+        else
         {
 
             
             #line default
             #line hidden
-WriteLiteral("            <li");
+WriteLiteral("            ");
+
+            
+            #line 70 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+             Write(PagerLink(i.ToString(), i, Model.Url));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+            
+            #line 71 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+        }
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n    ");
+
+WriteLiteral("\r\n");
+
+            
+            #line 75 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    
+            
+            #line default
+            #line hidden
+            
+            #line 75 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+     if (end < (Model.TotalPages - 3))
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <li");
 
 WriteLiteral(" class=\"disabled\"");
 
 WriteLiteral("><span>...</span></li>\r\n");
 
-WriteLiteral("            ");
+WriteLiteral("        ");
+
+            
+            #line 78 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         Write(PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1, Model.Url));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n");
+
+WriteLiteral("        ");
 
             
             #line 79 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1, Model.Url));
+         Write(PagerLink(Model.TotalPages.ToString(), Model.TotalPages, Model.Url));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n");
-
-WriteLiteral("            ");
 
             
             #line 80 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink(Model.TotalPages.ToString(), Model.TotalPages, Model.Url));
+    }
+
+    
+            
+            #line default
+            #line hidden
+            
+            #line 82 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                   
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("    ");
 
-            
-            #line 81 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
-
-        
-            
-            #line default
-            #line hidden
             
             #line 83 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                       
+     if (Model.Current < Model.TotalPages)
+    {
 
             
             #line default
@@ -419,18 +429,8 @@ WriteLiteral("\r\n");
 WriteLiteral("        ");
 
             
-            #line 84 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-         if (Model.Current < Model.TotalPages)
-        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            ");
-
-            
-            #line 86 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-             Write(PagerLink(Resources.IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next"));
+            #line 85 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+         Write(PagerLink(Resources.IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next"));
 
             
             #line default
@@ -438,23 +438,23 @@ WriteLiteral("            ");
 WriteLiteral("\r\n");
 
             
-            #line 87 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
-        else
-        { 
+            #line 86 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    }
+    else
+    {
 
             
             #line default
             #line hidden
-WriteLiteral("            <li");
+WriteLiteral("        <li");
 
 WriteLiteral(" class=\"disabled\"");
 
 WriteLiteral("><span>");
 
             
-            #line 90 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-                                  Write(Resources.IlaroAdminResources.NextPage);
+            #line 89 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+                              Write(Resources.IlaroAdminResources.NextPage);
 
             
             #line default
@@ -462,13 +462,13 @@ WriteLiteral("><span>");
 WriteLiteral("</span></li>\r\n");
 
             
-            #line 91 "..\..\Views\IlaroAdmin\_Paging.cshtml"
-        }
+            #line 90 "..\..\Views\IlaroAdmin\_Paging.cshtml"
+    }
 
             
             #line default
             #line hidden
-WriteLiteral("    </ul>\r\n</div>\r\n\r\n");
+WriteLiteral("</ul>\r\n\r\n");
 
         }
     }

@@ -166,12 +166,12 @@ namespace Ilaro.Admin.ViewModels
 			{
 				DisplayName = displayAttribute.Name ?? Name.SplitCamelCase();
 				Description = displayAttribute.Description;
-				GroupName = displayAttribute.GroupName ?? "Others";
+				GroupName = displayAttribute.GroupName ?? Resources.IlaroAdminResources.Others;
 			}
 			else
 			{
 				DisplayName = Name.SplitCamelCase();
-				GroupName = "Others";
+				GroupName = Resources.IlaroAdminResources.Others;
 			}
 
 			SetTemplatesName(attributes);

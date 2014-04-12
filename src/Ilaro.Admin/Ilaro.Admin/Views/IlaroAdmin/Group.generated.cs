@@ -51,20 +51,20 @@ WriteLiteral("\r\n\r\n");
 
 DefineSection("Breadcrumb", () => {
 
-WriteLiteral("\r\n<ul");
+WriteLiteral("\r\n    <ul");
 
 WriteLiteral(" class=\"breadcrumb\"");
 
-WriteLiteral(">\r\n    <li>");
+WriteLiteral(">\r\n        <li>");
 
             
             #line 11 "..\..\Views\IlaroAdmin\Group.cshtml"
-   Write(Html.ActionLink("Admin", "Index"));
+       Write(Html.ActionLink("Admin", "Index"));
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n    <li");
+WriteLiteral("</li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
@@ -72,12 +72,12 @@ WriteLiteral(">");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Group.cshtml"
-                  Write(Model.Group.Name);
+                      Write(Model.Group.Name);
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n</ul>\r\n");
+WriteLiteral("</li>\r\n    </ul>\r\n");
 
 });
 

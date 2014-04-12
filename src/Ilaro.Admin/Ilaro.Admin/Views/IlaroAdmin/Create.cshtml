@@ -17,7 +17,7 @@
 
 <h2>@Model.Entity.Singular</h2>
 
-@using (Html.BeginForm("Create", "IlaroAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+@using (Html.BeginForm("Create", "IlaroAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -31,7 +31,7 @@
                 <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
                     @foreach (var property in group.Properties)
                     {
-                        <div class="control-group">
+                        <div class="form-group">
                             @Html.EditorFor(m => property, property.EditorTemplateName)
                         </div>
                     }
@@ -43,7 +43,7 @@
     {
         foreach (var property in Model.PropertiesGroups[0].Properties)
         {
-            <div class="control-group">
+            <div class="form-group">
                 @Html.EditorFor(m => property, property.EditorTemplateName)
             </div>
         }
@@ -51,10 +51,12 @@
 
     @Html.Hidden("EntityName", Model.Entity.Name)
 
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
-        <button type="submit" class="btn" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
-        <button type="submit" class="btn" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
-        <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+    <div class="form-action">
+        <div class="col-md-offset-2">
+            <button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
+            <button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
+            <button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
+            <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+        </div>
     </div>
 }

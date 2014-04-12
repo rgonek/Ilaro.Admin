@@ -1,7 +1,7 @@
 ﻿@model Ilaro.Admin.ViewModels.PropertyViewModel
 
 @{Html.ClearPrefix();}
-<label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-error\">*</span>")</label>
+<label for="@Html.Id(Model.Name)" class="control-label">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="controls">
     <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">

@@ -1,42 +1,121 @@
-﻿.min-width {
-    width: 1px;
+﻿.navbar h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+.pagination {
+	margin-top: 0;
+}
+
+.min-width {
+	width: 1px;
 }
 
 .max-width {
-    width: 100%;
+	width: 100%;
 }
+
+.form-action {
+	padding: 19px 20px 20px 0;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+	border-top: 1px solid #e5e5e5;
+	*zoom: 1;
+}
+
+.select-sm {
+	height: 29px;
+}
+
+	.select-sm > .btn {
+		padding: 4px 10px;
+		font-size: 12px;
+		line-height: 1.5;
+		border-radius: 3px;
+	}
 
 .row-fluid ul.thumbnails li.span12 + li,
 .row-fluid ul.thumbnails li.span6:nth-child(2n + 3),
 .row-fluid ul.thumbnails li.span4:nth-child(3n + 4),
 .row-fluid ul.thumbnails li.span3:nth-child(4n + 5) {
-    margin-left: 0px;
-}
-
-.space-bottom {
-    margin-bottom: 20px;
+	margin-left: 0px;
 }
 
 .well.sidebar-nav {
-    background: #f5f5f5;
+	background: #f5f5f5;
 }
 
 .sidebar-nav {
-    padding: 5px 0;
+	padding: 5px 0;
 }
 
-    .sidebar-nav .nav-list > li > a:hover {
-        background-color: #efefef;
-    }
+	.sidebar-nav .nav-list > li > a:hover {
+		background-color: #efefef;
+	}
 
-a.text-error {
-    color: #953b39;
+a.text-danger {
+	color: #953b39;
 }
 
 textarea.html {
-    height: 120px;
+	height: 120px;
 }
 
-.form-inline .control-label {
-    padding-top: 5px;
+.nav-list {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 0;
+}
+
+	.nav-list > li > a,
+	.nav-list .nav-header {
+		margin-left: -15px;
+		margin-right: -15px;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+	}
+
+	.nav-list > li > a {
+		padding: 3px 15px;
+	}
+
+	.nav-list > li:hover {
+		background-color: none;
+	}
+
+	.nav-list > li > a:hover {
+		border-left: 1px solid #08c;
+		background: none;
+		padding-left: 14px;
+	}
+
+	.nav-list > .active > a,
+	.nav-list > .active > a:hover,
+	.nav-list > .active > a:focus {
+		border-left: 2px solid #08c;
+		padding-left: 13px;
+	}
+
+	.nav-list [class^="icon-"],
+	.nav-list [class*=" icon-"] {
+		margin-right: 2px;
+	}
+
+.nav-header {
+	display: block;
+	padding: 3px 15px;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 1.428571429;
+	color: #999;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+	text-transform: uppercase;
+}
+
+.nav li + .nav-header {
+	margin-top: 9px;
 }

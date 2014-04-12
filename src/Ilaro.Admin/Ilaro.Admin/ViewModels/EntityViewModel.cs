@@ -115,13 +115,13 @@ namespace Ilaro.Admin.ViewModels
 			{
 				this.Singular = verbose.Singular;
 				this.Plural = verbose.Plural ?? this.Singular.Pluralize();
-				this.GroupName = verbose.GroupName ?? "Others";
+				this.GroupName = verbose.GroupName ?? Resources.IlaroAdminResources.Others;
 			}
 			else
 			{
 				this.Singular = type.Name.SplitCamelCase();
 				this.Plural = this.Singular.Pluralize().SplitCamelCase();
-				this.GroupName = "Others";
+				this.GroupName = Resources.IlaroAdminResources.Others;
 			}
 
 			Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();
