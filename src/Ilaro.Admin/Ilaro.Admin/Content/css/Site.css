@@ -279,6 +279,7 @@ select.select-sm + .chosen-container.chosen-container-single .chosen-single {
         top: 3px;
     }
 /* END Chosen bootstrap style */
+
 /* Navbar */
 .nav-item {
     height: 50px;
@@ -290,3 +291,29 @@ select.select-sm + .chosen-container.chosen-container-single .chosen-single {
         margin-top: -2px;
     }
 /* END Navbar */
+
+/* Styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+/* END Validation styles */

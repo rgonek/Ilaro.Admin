@@ -172,7 +172,7 @@ namespace Ilaro.Admin.Extensions
             {
                 try
                 {
-                    return ((decimal)value).ToString(CultureInfo.InvariantCulture);
+                    return Convert.ToDecimal(value).ToString(CultureInfo.InvariantCulture);
                 }
                 catch { }
             }

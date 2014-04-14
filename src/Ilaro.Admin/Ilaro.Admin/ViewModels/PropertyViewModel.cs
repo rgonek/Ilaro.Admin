@@ -144,7 +144,7 @@ namespace Ilaro.Admin.ViewModels
                 {
                     try
                     {
-                        return ((decimal)Value).ToString(CultureInfo.InvariantCulture);
+                        return Convert.ToDecimal(Value).ToString(CultureInfo.InvariantCulture);
                     }
                     catch { }
                 }

@@ -18,61 +18,70 @@
             background-color: #eee;
         }
 
-        .panel {
+        .wrapper {
             max-width: 330px;
             margin: 0 auto;
         }
 
-            .form-signin .checkbox {
-                margin-bottom: 10px;
+        .panel {
+            margin-bottom: 5px;
+        }
+
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin .checkbox {
+            font-weight: normal;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+            .form-signin .form-control:focus {
+                z-index: 2;
             }
 
-            .form-signin .checkbox {
-                font-weight: normal;
-            }
+        .form-signin input#login {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
-            .form-signin .form-control {
-                position: relative;
-                height: auto;
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                box-sizing: border-box;
-                padding: 10px;
-                font-size: 16px;
-            }
-
-                .form-signin .form-control:focus {
-                    z-index: 2;
-                }
-
-            .form-signin input#login {
-                margin-bottom: -1px;
-                border-bottom-right-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-
-            .form-signin input#password {
-                margin-bottom: 10px;
-                border-top-left-radius: 0;
-                border-top-right-radius: 0;
-            }
+        .form-signin input#password {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">Please sign in</div>
-            <div class="panel-body">
-                <div class="alert alert-block alert-info fade in">
-                    <p>Login: <strong>admin</strong></p>
-                    <p>Password: <strong>admin</strong></p>
+        <div class="wrapper">
+            <h1><a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a></h1>
+            <div class="panel panel-default">
+                <div class="panel-heading">Please sign in</div>
+                <div class="panel-body">
+                    <div class="alert alert-block alert-info fade in">
+                        <p>Login: <strong>admin</strong></p>
+                        <p>Password: <strong>admin</strong></p>
+                    </div>
+                    <form class="form-signin" role="form" method="post">
+                        <input type="text" class="form-control" placeholder="Login" id="login" name="login" required="" autofocus="">
+                        <input type="password" class="form-control" placeholder="Password" id="password" name="password" required="">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    </form>
                 </div>
-                <form class="form-signin" role="form" method="post">
-                    <input type="text" class="form-control" placeholder="Login" id="login" name="login" required="" autofocus="">
-                    <input type="password" class="form-control" placeholder="Password" id="password" name="password" required="">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </form>
             </div>
+
+            <p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @System.DateTime.Now.ToString("yyyy")</p>
         </div>
     </div>
 </body>
