@@ -19,6 +19,7 @@ using System.Dynamic;
 using System.Collections.Specialized;
 using Resources;
 using Ilaro.Admin.Model;
+using System.Globalization;
 
 namespace Ilaro.Admin.Services
 {
@@ -55,7 +56,7 @@ namespace Ilaro.Admin.Services
 				{
 					row.Values.Add(new CellValueViewModel
 					{
-						Value = dict[property.Name].ToStringSafe(),
+						Value = dict[property.Name].ToStringSafe(property),
 						Property = property
 					});
 				}
@@ -104,7 +105,7 @@ namespace Ilaro.Admin.Services
 				{
 					row.Values.Add(new CellValueViewModel
 					{
-						Value = dict[property.Name].ToStringSafe(),
+						Value = dict[property.Name].ToStringSafe(property),
 						Property = property
 					});
 				}
@@ -345,7 +346,7 @@ namespace Ilaro.Admin.Services
 				var value = collection.GetValue(property.Name);
 				if (value != null)
 				{
-					property.Value = value.ConvertTo(property.PropertyType);
+					property.Value = value.ConvertTo(property.PropertyType, CultureInfo.InvariantCulture);
 				}
 			}
 		}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ilaro.Admin.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
@@ -148,16 +149,35 @@ namespace Ilaro.Admin.Extensions
 				.Pluralize(value);
 		}
 
-		public static string ToStringSafe(this object value)
-		{
-			if (value == null)
-			{
-				return string.Empty;
-			}
-			else
-			{
-				return value.ToString();
-			}
-		}
+        public static string ToStringSafe(this object value)
+        {
+            if (value == null)
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return value.ToString();
+            }
+        }
+
+        public static string ToStringSafe(this object value, PropertyViewModel property)
+        {
+            if (value == null)
+            {
+                return String.Empty;
+            }
+
+            if (property.DataType == DataType.Numeric)
+            {
+                try
+                {
+                    return ((decimal)value).ToString(CultureInfo.InvariantCulture);
+                }
+                catch { }
+            }
+
+            return value.ToString();
+        }
 	}
 }

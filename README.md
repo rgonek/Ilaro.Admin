@@ -73,6 +73,5 @@ Here I will try write all libraries, and part of code I use in project.
 public string ProductName { get; set; }
    ```
    In this example Required and StringLength works well but there is problem with Compare (in client side works well).
-- Problem with editing decimals
 - Cascade deleting not work (and there is no configuration for it if you want or not cascade delete)
 - Foreign entities not work

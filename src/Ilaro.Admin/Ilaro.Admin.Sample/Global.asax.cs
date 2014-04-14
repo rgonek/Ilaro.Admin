@@ -15,24 +15,25 @@ namespace Ilaro.Admin.Sample
     {
         protected void Application_Start()
         {
-			AreaRegistration.RegisterAllAreas();
-
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
-
-            RegisterRoutes(RouteTable.Routes);
 
             AdminInitialise.AddEntity<Customer>();
             AdminInitialise.AddEntity<Employee>();
             AdminInitialise.AddEntity<Order>();
             AdminInitialise.AddEntity<OrderDetail>();
 			AdminInitialise.AddEntity<Product>();
-			AdminInitialise.AddEntity<EntityChange>();
+            AdminInitialise.AddEntity<EntityChange>();
+
+            // If you want anonymous access to Ilaro.Admin, skip this line
+            // off course you can set Roles and Users for AuthorizeAttribute
+            AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
 
 			// If you have only one connection string there is no need to specify it
             AdminInitialise.Initialise("NorthwindEntities");
 
-            AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
+            AreaRegistration.RegisterAllAreas();
+            RegisterRoutes(RouteTable.Routes);
         }
 
 		private void RegisterRoutes(RouteCollection routes)

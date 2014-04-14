@@ -11,6 +11,10 @@ namespace Ilaro.Admin.Sample.Controllers
     {
         public ActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "IlaroAdmin");
+            }
             return View();
         }
 
