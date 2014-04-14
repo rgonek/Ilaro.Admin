@@ -69,11 +69,16 @@ namespace Ilaro.Admin.Extensions
 				routeValues.Add("sq", searchQuery);
 			}
 
-			routeValues.Add("o", column.Name);
-			if (column.SortDirection == "up")
-			{
-				routeValues.Add("od", "desc");
-			}
+            routeValues.Add("o", column.Name);
+            if (column.SortDirection == "up")
+            {
+                routeValues.Add("od", "desc");
+            }
+            else if (column.SortDirection == "down")
+            {
+                //routeValues.Add("od", "desc");
+                routeValues.Remove("o");
+            }
 			else
 			{
 				routeValues.Add("od", "asc");

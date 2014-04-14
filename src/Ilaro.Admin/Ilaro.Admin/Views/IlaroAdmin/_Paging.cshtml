@@ -13,12 +13,12 @@
 }
 @{var nrOfPagesToDisplay = 10;}
 
-<ul class="pagination pagination-sm">
+<ul id="pagination-entity" class="pagination">
     @{
         // Make some calculation
         var start = 1;
         var end = Model.TotalPages;
-        @if (Model.TotalPages > nrOfPagesToDisplay)
+        if (Model.TotalPages > nrOfPagesToDisplay)
         {
             var middle = (int)Math.Ceiling(nrOfPagesToDisplay / 2d) - 1;
             var below = (Model.Current - middle);

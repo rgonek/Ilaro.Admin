@@ -31,6 +31,8 @@ namespace Ilaro.Admin.Sample
 
 			// If you have only one connection string there is no need to specify it
             AdminInitialise.Initialise("NorthwindEntities");
+
+            AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
         }
 
 		private void RegisterRoutes(RouteCollection routes)
@@ -40,7 +42,7 @@ namespace Ilaro.Admin.Sample
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
 			);
 		}
     }

@@ -14,24 +14,6 @@ namespace Ilaro.Admin.Controllers
 			this.notificator = notificator;
 		}
 
-		[NonAction]
-		public virtual ActionResult SafeRedirect(string returnUrl)
-		{
-			if (!String.IsNullOrWhiteSpace(returnUrl)
-				&& Url.IsLocalUrl(returnUrl)
-				&& returnUrl.Length > 1
-				&& returnUrl.StartsWith("/", StringComparison.Ordinal)
-				&& !returnUrl.StartsWith("//", StringComparison.Ordinal)
-				&& !returnUrl.StartsWith("/\\", StringComparison.Ordinal))
-			{
-				return Redirect(returnUrl);
-			}
-			else
-			{
-				return RedirectToAction("Index", "Home");
-			}
-		}
-
 		#region Notificator
 
 		protected readonly Notificator notificator;

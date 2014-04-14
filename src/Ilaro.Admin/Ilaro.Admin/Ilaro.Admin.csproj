@@ -140,6 +140,7 @@
       <DependentUpon>IlaroAdminResources.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
+    <Compile Include="Attributes\AuthorizeWrapperAttribute.cs" />
     <Compile Include="Attributes\ColumnsAttribute.cs" />
     <Compile Include="Attributes\GroupsAttribute.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageAttribute.cs" />
@@ -214,7 +215,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Details.generated.cs">
+    <Compile Include="Views\IlaroAdmin\Details1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Details.cshtml</DependentUpon>
@@ -329,12 +330,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\_UserInfo.generated.cs">
+      <DependentUpon>_UserInfo.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\_GroupPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_GroupPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_Layout.generated.cs">
+    <Compile Include="Views\IlaroAdmin\_Layout1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Layout.cshtml</DependentUpon>
@@ -361,8 +367,6 @@
     <EmbeddedResource Include="Content\css\font-awesome-ie7.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap-select.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
-    <EmbeddedResource Include="Content\img\select2.png" />
-    <EmbeddedResource Include="Content\img\select2x2.png" />
     <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
@@ -379,6 +383,10 @@
     <EmbeddedResource Include="Scripts\jquery-2.1.0.min.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.min.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <EmbeddedResource Include="Content\css\chosen.min.css" />
+    <EmbeddedResource Include="Content\img\chosen-sprite%402x.png" />
+    <EmbeddedResource Include="Content\img\chosen-sprite.png" />
+    <EmbeddedResource Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -414,7 +422,7 @@
     </Content>
     <Content Include="Views\IlaroAdmin\Details.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Details.generated.cs</LastGenOutput>
+      <LastGenOutput>Details1.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -502,7 +510,7 @@
     </Content>
     <Content Include="Views\IlaroAdmin\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+      <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -521,6 +529,12 @@
     <Content Include="Views\IlaroAdmin\DisplayTemplates\PasswordPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PasswordPartial.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\_UserInfo.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_UserInfo.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

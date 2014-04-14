@@ -5,11 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
-using System.Web.Mvc;
 using System.Web.WebPages;
 using Ilaro.Admin.App_Start;
 using RazorGenerator.Mvc;
 using Ilaro.Admin.Extensions;
+using System.Web.Mvc;
 
 namespace Ilaro.Admin
 {
@@ -24,6 +24,8 @@ namespace Ilaro.Admin
 				return EntitiesTypes.FirstOrDefault(x => x.IsChangeEntity);
 			}
 		}
+
+        public static IAuthorizationFilter Authorize { get; set; }
 
 		internal static string ConnectionString { get; set; }
 
@@ -40,52 +42,58 @@ namespace Ilaro.Admin
 		public static void RegisterResourceRoutes(RouteCollection routes)
 		{
 			routes.MapRoute(
-				name: "Resources",
+                name: "IlaroAdminResources",
 				url: "ira/{action}/{id}",
 				defaults: new { controller = "IlaroAdminResource" }
 			);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")
-		{
-			routes.MapRoute(
-				name: "AdminCreate",
-				url: prefix + "/Create/{entityName}",
-				defaults: new { controller = "IlaroAdmin", action = "Create" }
-			);
+        {
+            routes.MapRoute(
+                name: "IlaroAdminLogout",
+                url: prefix + "/Logout",
+                defaults: new { controller = "IlaroAdmin", action = "Logout" }
+            );
+
+            routes.MapRoute(
+                name: "IlaroAdminCreate",
+                url: prefix + "/Create/{entityName}",
+                defaults: new { controller = "IlaroAdmin", action = "Create" }
+            );
 
 			routes.MapRoute(
-				name: "AdminEdit",
+                name: "IlaroAdminEdit",
 				url: prefix + "/Edit/{entityName}/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Edit" }
 			);
 
 			routes.MapRoute(
-				name: "AdminDelete",
+                name: "IlaroAdminDelete",
 				url: prefix + "/Delete/{entityName}/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Delete" }
 			);
 
 			routes.MapRoute(
-				name: "AdminGroup",
+                name: "IlaroAdminGroup",
 				url: prefix + "/Group/{groupName}",
 				defaults: new { controller = "IlaroAdmin", action = "Group" }
 			);
 
 			routes.MapRoute(
-				name: "AdminChanges",
+                name: "IlaroAdminChanges",
 				url: prefix + "/Changes/{entityName}/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Changes", page = 1 }
 			);
 
 			routes.MapRoute(
-				name: "AdminDetails",
+                name: "IlaroAdminDetails",
 				url: prefix + "/{entityName}/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Details", page = 1 }
 			);
 
 			routes.MapRoute(
-				name: "Admin",
+                name: "IlaroAdmin",
 				url: prefix + "/{action}/{id}",
 				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
 			);
@@ -141,5 +149,5 @@ namespace Ilaro.Admin
 				}
 			}
 		}
-	}
+    }
 }
