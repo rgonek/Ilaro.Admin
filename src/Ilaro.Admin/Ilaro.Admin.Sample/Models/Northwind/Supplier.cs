@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
-	public class Customer
+	public class Supplier
 	{
-		[Key]
-		public string CustomerID { get; set; }
+		public int SupplierID { get; set; }
 
 		[Required, MaxLength(40)]
 		public string CompanyName { get; set; }
@@ -42,6 +40,6 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[MaxLength(24)]
 		public string Fax { get; set; }
 
-		public virtual ICollection<Order> Orders { get; set; }
+		public string HomePage { get; set; }
 	}
 }

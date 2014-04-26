@@ -10,6 +10,8 @@ namespace Ilaro.Admin.ViewModels
     {
         public string Value { get; set; }
 
+        public object RawValue { get; set; }
+
         public PropertyViewModel Property { get; set; }
 
         public bool? BoolValue

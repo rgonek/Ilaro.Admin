@@ -148,7 +148,9 @@
     <Compile Include="Attributes\ImageAttribute\ImageSettingsAttribute.cs" />
     <Compile Include="Attributes\LinkKeyAttribute.cs" />
     <Compile Include="Attributes\LinksAttribute.cs" />
+    <Compile Include="Attributes\RecordDisplayAttribute.cs" />
     <Compile Include="Attributes\SearchAttribute.cs" />
+    <Compile Include="Attributes\TemplateAttribute.cs" />
     <Compile Include="Attributes\VerboseAttribute.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Commons\Consts.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EntityService.cs" />
     <Compile Include="Services\Interfaces\IEntityService.cs" />
+    <Compile Include="Templates.cs" />
     <Compile Include="ViewModels\CellValueViewModel.cs" />
     <Compile Include="ViewModels\ColumnViewModel.cs" />
     <Compile Include="ViewModels\CreateViewModel.cs" />
@@ -305,6 +308,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NumericPartial.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\OneToManyPartial.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OneToManyPartial.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -365,13 +373,11 @@
     <EmbeddedResource Include="Content\css\bootstrap-datepicker.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css" />
     <EmbeddedResource Include="Content\css\font-awesome-ie7.min.css" />
-    <EmbeddedResource Include="Content\css\bootstrap-select.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
     <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Scripts\bootstrap-select.min.js" />
     <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap-theme.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap.min.css" />
@@ -535,6 +541,12 @@
     <Content Include="Views\IlaroAdmin\_UserInfo.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_UserInfo.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\OneToManyPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>OneToManyPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

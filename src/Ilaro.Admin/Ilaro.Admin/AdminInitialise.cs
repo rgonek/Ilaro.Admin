@@ -25,7 +25,7 @@ namespace Ilaro.Admin
 			}
 		}
 
-        public static IAuthorizationFilter Authorize { get; set; }
+		public static IAuthorizationFilter Authorize { get; set; }
 
 		internal static string ConnectionString { get; set; }
 
@@ -42,58 +42,58 @@ namespace Ilaro.Admin
 		public static void RegisterResourceRoutes(RouteCollection routes)
 		{
 			routes.MapRoute(
-                name: "IlaroAdminResources",
+				name: "IlaroAdminResources",
 				url: "ira/{action}/{id}",
 				defaults: new { controller = "IlaroAdminResource" }
 			);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")
-        {
-            routes.MapRoute(
-                name: "IlaroAdminLogout",
-                url: prefix + "/Logout",
-                defaults: new { controller = "IlaroAdmin", action = "Logout" }
-            );
-
-            routes.MapRoute(
-                name: "IlaroAdminCreate",
-                url: prefix + "/Create/{entityName}",
-                defaults: new { controller = "IlaroAdmin", action = "Create" }
-            );
+		{
+			routes.MapRoute(
+				name: "IlaroAdminLogout",
+				url: prefix + "/Logout",
+				defaults: new { controller = "IlaroAdmin", action = "Logout" }
+			);
 
 			routes.MapRoute(
-                name: "IlaroAdminEdit",
+				name: "IlaroAdminCreate",
+				url: prefix + "/Create/{entityName}",
+				defaults: new { controller = "IlaroAdmin", action = "Create" }
+			);
+
+			routes.MapRoute(
+				name: "IlaroAdminEdit",
 				url: prefix + "/Edit/{entityName}/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Edit" }
 			);
 
 			routes.MapRoute(
-                name: "IlaroAdminDelete",
+				name: "IlaroAdminDelete",
 				url: prefix + "/Delete/{entityName}/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Delete" }
 			);
 
 			routes.MapRoute(
-                name: "IlaroAdminGroup",
+				name: "IlaroAdminGroup",
 				url: prefix + "/Group/{groupName}",
 				defaults: new { controller = "IlaroAdmin", action = "Group" }
 			);
 
 			routes.MapRoute(
-                name: "IlaroAdminChanges",
+				name: "IlaroAdminChanges",
 				url: prefix + "/Changes/{entityName}/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Changes", page = 1 }
 			);
 
 			routes.MapRoute(
-                name: "IlaroAdminDetails",
+				name: "IlaroAdminDetails",
 				url: prefix + "/{entityName}/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Details", page = 1 }
 			);
 
 			routes.MapRoute(
-                name: "IlaroAdmin",
+				name: "IlaroAdmin",
 				url: prefix + "/{action}/{id}",
 				defaults: new { controller = "IlaroAdmin", action = "Index", id = UrlParameter.Optional }
 			);
@@ -132,22 +132,30 @@ namespace Ilaro.Admin
 					}
 				}
 
-				foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
+				foreach (var property in entity.Properties)
 				{
-					property.ForeignEntity = EntitiesTypes.FirstOrDefault(x => x.Name == property.ForeignEntityName);
-
-					if (!property.ReferencePropertyName.IsNullOrEmpty())
+					if (property.IsForeignKey)
 					{
-						property.ReferenceProperty = entity.Properties.FirstOrDefault(x => x.Name == property.ReferencePropertyName);
-						if (property.ReferenceProperty != null)
+						property.ForeignEntity = EntitiesTypes.FirstOrDefault(x => x.Name == property.ForeignEntityName);
+
+						if (!property.ReferencePropertyName.IsNullOrEmpty())
 						{
-							property.ReferenceProperty.IsForeignKey = true;
-							property.ReferenceProperty.ForeignEntity = property.ForeignEntity;
-							property.ReferenceProperty.ReferenceProperty = property;
+							property.ReferenceProperty = entity.Properties.FirstOrDefault(x => x.Name == property.ReferencePropertyName);
+							if (property.ReferenceProperty != null)
+							{
+								property.ReferenceProperty.IsForeignKey = true;
+								property.ReferenceProperty.ForeignEntity = property.ForeignEntity;
+								property.ReferenceProperty.ReferenceProperty = property;
+							}
 						}
 					}
 				}
+
+				foreach (var property in entity.Properties)
+				{
+					property.SetTemplatesName();
+				}
 			}
 		}
-    }
+	}
 }

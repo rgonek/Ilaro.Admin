@@ -9,12 +9,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 {
 	public class Order
 	{
-        [Key]
-        public int OrderID { get; set; }
-
-		public string CustomerID { get; set; }
-
-		public int? EmployeeID { get; set; }
+		public int OrderID { get; set; }
 
 		public DateTime? OrderDate { get; set; }
 
@@ -24,16 +19,22 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
 		public decimal? Freight { get; set; }
 
+		[MaxLength(40)]
 		public string ShipName { get; set; }
 
+		[MaxLength(60)]
 		public string ShipAddress { get; set; }
 
+		[MaxLength(15)]
 		public string ShipCity { get; set; }
 
+		[MaxLength(15)]
 		public string ShipRegion { get; set; }
 
+		[MaxLength(10)]
 		public string ShipPostalCode { get; set; }
 
+		[MaxLength(15)]
 		public string ShipCountry { get; set; }
 
 		[ForeignKey("CustomerID")]
@@ -41,6 +42,9 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
 		[ForeignKey("EmployeeID")]
 		public virtual Employee Employee { get; set; }
+
+		[ForeignKey("ShipVia")]
+		public virtual Shipper ShipVia { get; set; }
 
 		public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 	}

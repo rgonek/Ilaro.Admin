@@ -18,12 +18,18 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
 
-            AdminInitialise.AddEntity<Customer>();
-            AdminInitialise.AddEntity<Employee>();
-            AdminInitialise.AddEntity<Order>();
-            AdminInitialise.AddEntity<OrderDetail>();
+			AdminInitialise.AddEntity<Customer>();
+			AdminInitialise.AddEntity<Employee>();
+			AdminInitialise.AddEntity<Order>();
+			AdminInitialise.AddEntity<OrderDetail>();
 			AdminInitialise.AddEntity<Product>();
-            AdminInitialise.AddEntity<EntityChange>();
+			AdminInitialise.AddEntity<Category>();
+			AdminInitialise.AddEntity<EmployeeTerritory>();
+			AdminInitialise.AddEntity<Region>();
+			AdminInitialise.AddEntity<Shipper>();
+			AdminInitialise.AddEntity<Supplier>();
+			AdminInitialise.AddEntity<Territory>();
+			AdminInitialise.AddEntity<EntityChange>();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute

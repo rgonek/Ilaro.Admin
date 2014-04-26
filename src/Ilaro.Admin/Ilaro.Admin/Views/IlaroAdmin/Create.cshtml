@@ -1,62 +1,70 @@
 ﻿@model Ilaro.Admin.ViewModels.CreateViewModel
 
 @{
-    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name);
+	Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+	ViewBag.Title = string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name);
 }
 
 @section Breadcrumb
 {
-    <ul class="breadcrumb">
-        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
-        <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-        <li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name })</li>
-        <li class="active">@string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
-    </ul>
+	<ul class="breadcrumb">
+		<li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
+		<li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name })</li>
+		<li class="active">@string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
+	</ul>
 }
 
 <h2>@Model.Entity.Singular</h2>
 
 @using (Html.BeginForm("Create", "IlaroAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
 
-    if (Model.PropertiesGroups.Count > 1)
-    {
-        foreach (var group in Model.PropertiesGroups)
-        {
-            <fieldset>
-                <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="@Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")"></i></button></legend>
-                <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
-                    @foreach (var property in group.Properties)
-                    {
-                        <div class="form-group">
-                            @Html.EditorFor(m => property, property.EditorTemplateName)
-                        </div>
-                    }
-                </div>
-            </fieldset>
-        }
-    }
-    else if (Model.PropertiesGroups.Count == 1)
-    {
-        foreach (var property in Model.PropertiesGroups[0].Properties)
-        {
-            <div class="form-group">
-                @Html.EditorFor(m => property, property.EditorTemplateName)
-            </div>
-        }
-    }
+	if (Model.PropertiesGroups.Count > 1)
+	{
+		foreach (var group in Model.PropertiesGroups)
+		{
+			<fieldset>
+				<legend>@group.GroupName <button type="button" class="btn pull-right"><i class="@Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")"></i></button></legend>
+				<div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
+					@foreach (var property in group.Properties)
+					{
+						<div class="form-group">
+							@Html.EditorFor(m => property, property.EditorTemplateName)
+							@if (property.IsForeignKey)
+							{
+								<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+							}
+						</div>
+					}
+				</div>
+			</fieldset>
+		}
+	}
+	else if (Model.PropertiesGroups.Count == 1)
+	{
+		foreach (var property in Model.PropertiesGroups[0].Properties)
+		{
+			<div class="form-group">
+				@Html.EditorFor(m => property, property.EditorTemplateName)
+				@if (property.IsForeignKey)
+				{
+					<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+				}
+			</div>
+		}
+	}
 
-    @Html.Hidden("EntityName", Model.Entity.Name)
+	@Html.Hidden("EntityName", Model.Entity.Name)
 
-    <div class="form-action">
-        <div class="col-md-offset-2">
-            <button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
-            <button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
-            <button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
-            <a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
-        </div>
-    </div>
+	<div class="form-action">
+		<div class="col-md-offset-2">
+			<button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
+			<button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
+			<button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
+			<a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+		</div>
+	</div>
 }

@@ -83,14 +83,6 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-select_min_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
-
-WriteLiteral(" />\r\n    <link");
-
 WriteLiteral(" href=\"/ira/css/chosen_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -124,7 +116,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("    ");
 
             
-            #line 18 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 17 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -143,7 +135,7 @@ WriteLiteral(" class=\"container-fluid\"");
 WriteLiteral(">\r\n            <h1>");
 
             
-            #line 23 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 22 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" }));
 
             
@@ -152,13 +144,13 @@ WriteLiteral(">\r\n            <h1>");
 WriteLiteral("</h1>\r\n\r\n");
 
             
-            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 24 "..\..\Views\IlaroAdmin\_Layout.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 24 "..\..\Views\IlaroAdmin\_Layout.cshtml"
               Html.RenderPartial("_UserInfo");
             
             #line default
@@ -176,7 +168,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 31 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 30 "..\..\Views\IlaroAdmin\_Layout.cshtml"
        Write(RenderSection("Breadcrumb", false));
 
             
@@ -185,13 +177,13 @@ WriteLiteral("            ");
 WriteLiteral("\r\n        </div>\r\n");
 
             
-            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 32 "..\..\Views\IlaroAdmin\_Layout.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 32 "..\..\Views\IlaroAdmin\_Layout.cshtml"
           Html.RenderAction("Messages");
             
             #line default
@@ -209,7 +201,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderBody());
 
             
@@ -224,7 +216,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 39 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 38 "..\..\Views\IlaroAdmin\_Layout.cshtml"
            Write(RenderSection("Sidebar", false));
 
             
@@ -238,7 +230,7 @@ WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
 WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 44 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 43 "..\..\Views\IlaroAdmin\_Layout.cshtml"
                                                                             Write(System.DateTime.Now.ToString("yyyy"));
 
             
@@ -267,12 +259,6 @@ WriteLiteral(" type=\"text/javascript\"");
 WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" src=\"/ira/Script/jquery_validate_unobtrusive_min_js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
-
-WriteLiteral("></script>\r\n    <script");
-
-WriteLiteral(" src=\"/ira/Script/bootstrap-select_min_js\"");
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -345,7 +331,7 @@ WriteLiteral(@">
 WriteLiteral("    ");
 
             
-            #line 96 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 94 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             
