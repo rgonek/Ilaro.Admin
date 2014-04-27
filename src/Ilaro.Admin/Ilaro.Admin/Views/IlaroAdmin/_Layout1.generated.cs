@@ -99,6 +99,14 @@ WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n\t<link");
 
+WriteLiteral(" href=\"/ira/css/bootstrap-spinedit_css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" type=\"text/css\"");
+
+WriteLiteral(" />\r\n\t<link");
+
 WriteLiteral(" href=\"/ira/css/site_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -116,7 +124,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("\t");
 
             
-            #line 17 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 18 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -135,7 +143,7 @@ WriteLiteral(" class=\"container-fluid\"");
 WriteLiteral(">\r\n\t\t\t<h1>");
 
             
-            #line 22 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 23 "..\..\Views\IlaroAdmin\_Layout.cshtml"
   Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" }));
 
             
@@ -144,13 +152,13 @@ WriteLiteral(">\r\n\t\t\t<h1>");
 WriteLiteral("</h1>\r\n\r\n");
 
             
-            #line 24 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 			
             
             #line default
             #line hidden
             
-            #line 24 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
      Html.RenderPartial("_UserInfo");
             
             #line default
@@ -168,7 +176,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t");
 
             
-            #line 30 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 31 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Breadcrumb", false));
 
             
@@ -177,13 +185,13 @@ Write(RenderSection("Breadcrumb", false));
 WriteLiteral("\r\n\t\t</div>\r\n");
 
             
-            #line 32 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 		
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
     Html.RenderAction("Messages");
             
             #line default
@@ -201,7 +209,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderBody());
 
             
@@ -216,7 +224,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 38 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 39 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Sidebar", false));
 
             
@@ -229,7 +237,7 @@ WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
 WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 43 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 44 "..\..\Views\IlaroAdmin\_Layout.cshtml"
                                                                    Write(System.DateTime.Now.ToString("yyyy"));
 
             
@@ -295,11 +303,14 @@ WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_min_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
+WriteLiteral(" src=\"/ira/Script/bootstrap-spinedit_js\"");
+
+WriteLiteral("></script>\r\n\t<script");
+
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(@">
 		$(function () {
-			
 			$('.date-time-picker').datetimepicker();
 			$('.date-picker').datetimepicker({
 				pickTime: false
@@ -307,7 +318,11 @@ WriteLiteral(@">
 			$('.time-picker').datetimepicker({
 				pickDate: false
 			});
+
+			$('.numeric').spinedit();
+
 			$('select').chosen({ disable_search_threshold: 10 });
+
 			$('textarea.html').each(function () {
 				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
 			});
@@ -342,7 +357,7 @@ WriteLiteral(@">
 WriteLiteral("\t");
 
             
-            #line 101 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 106 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

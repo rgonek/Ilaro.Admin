@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -38,6 +39,16 @@ namespace Ilaro.Admin.Extensions
 				return (collection.Count == 0);
 			}
 			return true;
+		}
+
+		public static IDictionary<string, object> Merge(this IDictionary<string, object> dictionary1, object htmlAttributes)
+		{
+			return dictionary1.Merge(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+		}
+
+		public static IDictionary<string, object> Merge(this IDictionary<string, object> dictionary1, IDictionary<string, object> dictionary2)
+		{
+			return dictionary1.Union(dictionary2).ToDictionary(x => x.Key, x => x.Value);
 		}
 	}
 }

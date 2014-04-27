@@ -402,6 +402,8 @@
     <EmbeddedResource Include="Scripts\bootstrap-datetimepicker.min.js" />
     <EmbeddedResource Include="Scripts\moment-with-langs.min.js" />
     <EmbeddedResource Include="Scripts\moment.min.js" />
+    <EmbeddedResource Include="Content\css\bootstrap-spinedit.css" />
+    <EmbeddedResource Include="Scripts\bootstrap-spinedit.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

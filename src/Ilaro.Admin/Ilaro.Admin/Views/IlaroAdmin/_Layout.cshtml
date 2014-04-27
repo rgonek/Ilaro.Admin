@@ -11,6 +11,7 @@
 	<link href="/ira/css/bootstrap-datetimepicker_min_css" rel="stylesheet" type="text/css" />
 	<link href="/ira/css/chosen_min_css" rel="stylesheet" type="text/css" />
 	<link href="/ira/css/bootstrap-wysihtml5_min_css" rel="stylesheet" type="text/css" />
+	<link href="/ira/css/bootstrap-spinedit_css" rel="stylesheet" type="text/css" />
 	<link href="/ira/css/site_css" rel="stylesheet" type="text/css" />
 
 	<script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
@@ -58,9 +59,9 @@
 	<script src="/ira/Script/bootstrap_min_js" type="text/javascript"></script>
 	<script src="/ira/Script/wysihtml5-0_3_0_min_js"></script>
 	<script src="/ira/Script/bootstrap-wysihtml5_min_js"></script>
+	<script src="/ira/Script/bootstrap-spinedit_js"></script>
 	<script type="text/javascript">
 		$(function () {
-			
 			$('.date-time-picker').datetimepicker();
 			$('.date-picker').datetimepicker({
 				pickTime: false
@@ -68,7 +69,11 @@
 			$('.time-picker').datetimepicker({
 				pickDate: false
 			});
+
+			$('.numeric').spinedit();
+
 			$('select').chosen({ disable_search_threshold: 10 });
+
 			$('textarea.html').each(function () {
 				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
 			});

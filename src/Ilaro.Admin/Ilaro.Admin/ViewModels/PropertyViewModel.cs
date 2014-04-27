@@ -179,8 +179,11 @@ namespace Ilaro.Admin.ViewModels
 
 		internal System.ComponentModel.DataAnnotations.DataType? SourceDataType { get; set; }
 
+		public IDictionary<string, object> ControlsAttributes { get; set; }
+
 		public PropertyViewModel(EntityViewModel entity, PropertyInfo property)
 		{
+			ControlsAttributes = new Dictionary<string, object>();
 			Entity = entity;
 			// TODO: determine ColumnName
 			ColumnName = Name = property.Name;
@@ -292,6 +295,10 @@ namespace Ilaro.Admin.ViewModels
 			else if (realNumbersTypes.Contains(PropertyType) || floatingPointNumbersTypes.Contains(PropertyType))
 			{
 				DataType = ViewModels.DataType.Numeric;
+				if (floatingPointNumbersTypes.Contains(PropertyType))
+				{
+					ControlsAttributes.Add("data-number-number-of-decimals", "4");
+				}
 			}
 			else if (PropertyType.In(typeof(DateTime), typeof(DateTime?)))
 			{

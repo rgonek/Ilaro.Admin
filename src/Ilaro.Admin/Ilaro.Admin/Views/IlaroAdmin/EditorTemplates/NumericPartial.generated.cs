@@ -80,23 +80,27 @@ WriteLiteral("</label>\r\n<div");
 
 WriteLiteral(" class=\"controls col-md-3\"");
 
+WriteLiteral(">\r\n\t<div");
+
+WriteLiteral(" class=\"input-group\"");
+
 WriteLiteral(">\r\n");
 
-WriteLiteral("    ");
+WriteLiteral("\t\t");
 
             
-            #line 6 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
-Write(Html.TextBox(Model.Name, Model.StringValue, Model, new { @class = "form-control" }));
+            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+Write(Html.TextBox(Model.Name, Model.StringValue, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric" })));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("\r\n\t</div>\r\n");
 
-WriteLiteral("    ");
+WriteLiteral("\t");
 
             
-            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
 
             
@@ -105,7 +109,7 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
 WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 11 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             
