@@ -3,10 +3,10 @@
 @{Html.ClearPrefix();}
 <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="controls col-md-3">
-	<div class="input-group date date-time-picker" data-date-format="YYYY-MM-DD HH:mm">
+	<div class="input-group date time-picker" data-date-format="HH:mm">
 		@Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" })
 		<span class="input-group-addon">
-			<span class="glyphicon glyphicon-calendar"></span>
+			<span class="glyphicon glyphicon-time"></span>
 		</span>
 	</div>
 	@Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")

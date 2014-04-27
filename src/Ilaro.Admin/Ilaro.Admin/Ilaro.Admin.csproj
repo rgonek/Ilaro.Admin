@@ -283,6 +283,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckboxPartial.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\TimePartial.generated.cs">
+      <DependentUpon>TimePartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\DatePartial.generated.cs">
+      <DependentUpon>DatePartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -370,22 +380,17 @@
       <LastGenOutput>IlaroAdminResources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="Content\css\bootstrap-datepicker.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css" />
     <EmbeddedResource Include="Content\css\font-awesome-ie7.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
-    <EmbeddedResource Include="Scripts\bootstrap-datepicker.min.js" />
-    <EmbeddedResource Include="Scripts\bootstrap-timepicker.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
     <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js" />
-    <EmbeddedResource Include="Content\css\bootstrap-theme.min.css" />
     <EmbeddedResource Include="Content\css\bootstrap.min.css" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <EmbeddedResource Include="Content\css\timepicker.min.css" />
     <EmbeddedResource Include="Scripts\jquery-2.1.0.min.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.min.js" />
     <EmbeddedResource Include="Scripts\jquery.validate.unobtrusive.min.js" />
@@ -393,6 +398,10 @@
     <EmbeddedResource Include="Content\img\chosen-sprite%402x.png" />
     <EmbeddedResource Include="Content\img\chosen-sprite.png" />
     <EmbeddedResource Include="Scripts\chosen.jquery.min.js" />
+    <EmbeddedResource Include="Content\css\bootstrap-datetimepicker.min.css" />
+    <EmbeddedResource Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <EmbeddedResource Include="Scripts\moment-with-langs.min.js" />
+    <EmbeddedResource Include="Scripts\moment.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -547,6 +556,18 @@
     <Content Include="Views\IlaroAdmin\EditorTemplates\OneToManyPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>OneToManyPartial.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\DatePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePartial.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TimePartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

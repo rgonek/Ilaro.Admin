@@ -1,96 +1,103 @@
 ﻿@{
-    Layout = null;
+	Layout = null;
 }
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/ira/css/bootstrap_min_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/bootstrap-datepicker_min_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/chosen_min_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/bootstrap-wysihtml5_min_css" rel="stylesheet" type="text/css" />
-    <link href="/ira/css/site_css" rel="stylesheet" type="text/css" />
+	<meta charset="utf-8" />
+	<title>@ViewBag.Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/ira/css/bootstrap_min_css" rel="stylesheet" type="text/css" />
+	<link href="/ira/css/bootstrap-datetimepicker_min_css" rel="stylesheet" type="text/css" />
+	<link href="/ira/css/chosen_min_css" rel="stylesheet" type="text/css" />
+	<link href="/ira/css/bootstrap-wysihtml5_min_css" rel="stylesheet" type="text/css" />
+	<link href="/ira/css/site_css" rel="stylesheet" type="text/css" />
 
-    <script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
-    @RenderSection("Header", false)
+	<script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
+	@RenderSection("Header", false)
 </head>
 <body>
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container-fluid">
-            <h1>@Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" })</h1>
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container-fluid">
+			<h1>@Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" })</h1>
 
-            @{Html.RenderPartial("_UserInfo");}
-        </div>
-    </div>
+			@{Html.RenderPartial("_UserInfo");}
+		</div>
+	</div>
 
-    <div class="container-fluid">
-        <div class="breadcrumb-container">
-            @RenderSection("Breadcrumb", false)
-        </div>
-        @{Html.RenderAction("Messages");}
-        <div class="row">
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
-            <div class="col-md-3">
-                @RenderSection("Sidebar", false)
-            </div>
-        </div>
-        <hr>
-        <footer>
-            <p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @System.DateTime.Now.ToString("yyyy")</p>
-        </footer>
-    </div>
+	<div class="container-fluid">
+		<div class="breadcrumb-container">
+			@RenderSection("Breadcrumb", false)
+		</div>
+		@{Html.RenderAction("Messages");}
+		<div class="row">
+			<div class="col-md-9">
+				@RenderBody()
+			</div>
+			<div class="col-md-3">
+				@RenderSection("Sidebar", false)
+			</div>
+		</div>
+		<hr>
+		<footer>
+			<p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @System.DateTime.Now.ToString("yyyy")</p>
+		</footer>
+	</div>
 
-    <div id="modal" class="modal hide fade">
-        <div class="modal-body">
-            <img id="modal-image" />
-        </div>
-    </div>
+	<div id="modal" class="modal hide fade">
+		<div class="modal-body">
+			<img id="modal-image" />
+		</div>
+	</div>
 
-    <script src="/ira/Script/jquery_validate_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/jquery_validate_unobtrusive_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/chosen_jquery_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/bootstrap-datepicker_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/bootstrap_min_js" type="text/javascript"></script>
-    <script src="/ira/Script/wysihtml5-0_3_0_min_js"></script>
-    <script src="/ira/Script/bootstrap-wysihtml5_min_js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('.dateTimePicker').datepicker({ format: 'yyyy-mm-dd', autoclose: true });
-            //$('select').selectpicker();
-            $('select').chosen({ disable_search_threshold: 10 });
-            $('textarea.html').each(function () {
-                $(this).wysihtml5({ html: true, color: true, stylesheets: false });
-            });
-            $('th > span').tooltip();
-            $('.open-modal').click(function (e) {
-                e.preventDefault();
-                $('#modal-image').attr('src', $(this).attr('href'));
-                $('#modal').modal();
-                return false;
-            });
-            $('.autoPostBack').change(function () {
-                $(this).parents('form').submit();
-            });
-            $('legend .btn').click(function () {
-                var $this = $(this);
-                var $i = $this.children('i');
-                if ($i.hasClass('glyphicon glyphicon-plus')) {
-                    $i.removeClass('glyphicon glyphicon-plus');
-                    $i.addClass('glyphicon glyphicon-minus');
-                    $this.parent().siblings('.fields').slideDown();
-                }
-                else {
-                    $i.removeClass('glyphicon glyphicon-minus');
-                    $i.addClass('glyphicon glyphicon-plus');
-                    $this.parent().siblings('.fields').slideUp();
-                }
-            });
-        });
-    </script>
-    @RenderSection("Scripts", false)
+	<script src="/ira/Script/jquery_validate_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/jquery_validate_unobtrusive_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/chosen_jquery_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/moment_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/bootstrap-datetimepicker_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/bootstrap_min_js" type="text/javascript"></script>
+	<script src="/ira/Script/wysihtml5-0_3_0_min_js"></script>
+	<script src="/ira/Script/bootstrap-wysihtml5_min_js"></script>
+	<script type="text/javascript">
+		$(function () {
+			
+			$('.date-time-picker').datetimepicker();
+			$('.date-picker').datetimepicker({
+				pickTime: false
+			});
+			$('.time-picker').datetimepicker({
+				pickDate: false
+			});
+			$('select').chosen({ disable_search_threshold: 10 });
+			$('textarea.html').each(function () {
+				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
+			});
+			$('th > span').tooltip();
+			$('.open-modal').click(function (e) {
+				e.preventDefault();
+				$('#modal-image').attr('src', $(this).attr('href'));
+				$('#modal').modal();
+				return false;
+			});
+			$('.autoPostBack').change(function () {
+				$(this).parents('form').submit();
+			});
+			$('legend .btn').click(function () {
+				var $this = $(this);
+				var $i = $this.children('i');
+				if ($i.hasClass('glyphicon glyphicon-plus')) {
+					$i.removeClass('glyphicon glyphicon-plus');
+					$i.addClass('glyphicon glyphicon-minus');
+					$this.parent().siblings('.fields').slideDown();
+				}
+				else {
+					$i.removeClass('glyphicon glyphicon-minus');
+					$i.addClass('glyphicon glyphicon-plus');
+					$this.parent().siblings('.fields').slideUp();
+				}
+			});
+		});
+	</script>
+	@RenderSection("Scripts", false)
 </body>
 </html>

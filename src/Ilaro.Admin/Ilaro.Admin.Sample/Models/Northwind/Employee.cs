@@ -24,8 +24,10 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[MaxLength(25)]
 		public string TitleOfCourtesy { get; set; }
 
+		[DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
 		public DateTime? BirthDate { get; set; }
 
+		[DataType(System.ComponentModel.DataAnnotations.DataType.DateTime)]
 		public DateTime? HireDate { get; set; }
 
 		[MaxLength(60)]

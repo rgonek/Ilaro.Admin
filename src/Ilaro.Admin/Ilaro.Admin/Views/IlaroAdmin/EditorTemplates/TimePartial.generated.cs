@@ -30,16 +30,16 @@ namespace Ilaro.Admin.Views.IlaroAdmin.EditorTemplates
     using Ilaro.Admin.Extensions;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/IlaroAdmin/EditorTemplates/DateTimePartial.cshtml")]
-    public partial class _DateTimePartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PropertyViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/IlaroAdmin/EditorTemplates/TimePartial.cshtml")]
+    public partial class _TimePartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PropertyViewModel>
     {
-        public _DateTimePartial()
+        public _TimePartial()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
   Html.ClearPrefix();
             
             #line default
@@ -48,7 +48,7 @@ WriteLiteral("\r\n<label");
 
 WriteAttribute("for", Tuple.Create(" for=\"", 81), Tuple.Create("\"", 107)
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
 , Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
@@ -61,7 +61,7 @@ WriteLiteral(" class=\"control-label col-md-2\"");
 WriteLiteral(">");
 
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
                                                             Write(Model.DisplayName);
 
             
@@ -70,7 +70,7 @@ WriteLiteral(">");
 WriteLiteral(" ");
 
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
                                                                                Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
@@ -82,16 +82,16 @@ WriteLiteral(" class=\"controls col-md-3\"");
 
 WriteLiteral(">\r\n\t<div");
 
-WriteLiteral(" class=\"input-group date date-time-picker\"");
+WriteLiteral(" class=\"input-group date time-picker\"");
 
-WriteLiteral(" data-date-format=\"YYYY-MM-DD HH:mm\"");
+WriteLiteral(" data-date-format=\"HH:mm\"");
 
 WriteLiteral(">\r\n");
 
 WriteLiteral("\t\t");
 
             
-            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
 Write(Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" }));
 
             
@@ -103,14 +103,14 @@ WriteLiteral(" class=\"input-group-addon\"");
 
 WriteLiteral(">\r\n\t\t\t<span");
 
-WriteLiteral(" class=\"glyphicon glyphicon-calendar\"");
+WriteLiteral(" class=\"glyphicon glyphicon-time\"");
 
 WriteLiteral("></span>\r\n\t\t</span>\r\n\t</div>\r\n");
 
 WriteLiteral("\t");
 
             
-            #line 12 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 12 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
 
             
@@ -119,7 +119,7 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
 WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml"
+            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             
