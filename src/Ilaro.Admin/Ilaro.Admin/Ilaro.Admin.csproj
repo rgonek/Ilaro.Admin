@@ -283,6 +283,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckboxPartial.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\MarkdownPartial.generated.cs">
+      <DependentUpon>MarkdownPartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\EditorTemplates\TimePartial.generated.cs">
       <DependentUpon>TimePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -348,6 +353,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\_Layout.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_Layout.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\_UserInfo.generated.cs">
       <DependentUpon>_UserInfo.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -357,11 +367,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_GroupPartial.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\IlaroAdmin\_Layout1.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>_Layout.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\IlaroAdmin\_Messages.generated.cs">
       <AutoGen>True</AutoGen>
@@ -381,7 +386,6 @@
       <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css" />
-    <EmbeddedResource Include="Content\css\font-awesome-ie7.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
     <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
@@ -404,6 +408,11 @@
     <EmbeddedResource Include="Scripts\moment.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap-spinedit.css" />
     <EmbeddedResource Include="Scripts\bootstrap-spinedit.js" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.svg" />
+    <EmbeddedResource Include="Content\css\font-awesome.min.css" />
+    <EmbeddedResource Include="Content\css\bootstrap-markdown.min.css" />
+    <EmbeddedResource Include="Scripts\bootstrap-markdown.js" />
+    <EmbeddedResource Include="Scripts\marked.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -527,7 +536,7 @@
     </Content>
     <Content Include="Views\IlaroAdmin\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +580,18 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TimePartial.generated.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\MarkdownPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>MarkdownPartial.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.eot" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.ttf" />
+    <EmbeddedResource Include="Content\fonts\fontawesome-webfont.woff" />
+    <EmbeddedResource Include="Content\fonts\FontAwesome.otf" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

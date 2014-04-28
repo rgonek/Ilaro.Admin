@@ -71,7 +71,11 @@ WriteLiteral(" href=\"/ira/css/bootstrap_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" type=\"text/css\"");
+WriteLiteral(" />\r\n\t<link");
+
+WriteLiteral(" href=\"/ira/css/font-awesome_min_css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n\t<link");
 
@@ -79,15 +83,11 @@ WriteLiteral(" href=\"/ira/css/bootstrap-datetimepicker_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" type=\"text/css\"");
-
 WriteLiteral(" />\r\n\t<link");
 
 WriteLiteral(" href=\"/ira/css/chosen_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n\t<link");
 
@@ -95,23 +95,23 @@ WriteLiteral(" href=\"/ira/css/bootstrap-wysihtml5_min_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" type=\"text/css\"");
-
 WriteLiteral(" />\r\n\t<link");
 
 WriteLiteral(" href=\"/ira/css/bootstrap-spinedit_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
-WriteLiteral(" type=\"text/css\"");
+WriteLiteral(" />\r\n\t<link");
+
+WriteLiteral(" href=\"/ira/css/bootstrap-markdown_min_css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n\t<link");
 
 WriteLiteral(" href=\"/ira/css/site_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" type=\"text/css\"");
 
 WriteLiteral(" />\r\n\r\n\t<script");
 
@@ -124,7 +124,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("\t");
 
             
-            #line 18 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 20 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -143,7 +143,7 @@ WriteLiteral(" class=\"container-fluid\"");
 WriteLiteral(">\r\n\t\t\t<h1>");
 
             
-            #line 23 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
   Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" }));
 
             
@@ -152,13 +152,13 @@ WriteLiteral(">\r\n\t\t\t<h1>");
 WriteLiteral("</h1>\r\n\r\n");
 
             
-            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 27 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 			
             
             #line default
             #line hidden
             
-            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 27 "..\..\Views\IlaroAdmin\_Layout.cshtml"
      Html.RenderPartial("_UserInfo");
             
             #line default
@@ -176,7 +176,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t");
 
             
-            #line 31 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Breadcrumb", false));
 
             
@@ -185,13 +185,13 @@ Write(RenderSection("Breadcrumb", false));
 WriteLiteral("\r\n\t\t</div>\r\n");
 
             
-            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 		
             
             #line default
             #line hidden
             
-            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
     Html.RenderAction("Messages");
             
             #line default
@@ -209,7 +209,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 38 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderBody());
 
             
@@ -224,7 +224,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 39 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 41 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Sidebar", false));
 
             
@@ -237,7 +237,7 @@ WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
 WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 44 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 46 "..\..\Views\IlaroAdmin\_Layout.cshtml"
                                                                    Write(System.DateTime.Now.ToString("yyyy"));
 
             
@@ -261,37 +261,25 @@ WriteLiteral(" />\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/jquery_validate_min_js\"");
 
-WriteLiteral(" type=\"text/javascript\"");
-
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/jquery_validate_unobtrusive_min_js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/chosen_jquery_min_js\"");
 
-WriteLiteral(" type=\"text/javascript\"");
-
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/moment_min_js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/bootstrap-datetimepicker_min_js\"");
 
-WriteLiteral(" type=\"text/javascript\"");
-
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/bootstrap_min_js\"");
-
-WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
@@ -304,6 +292,14 @@ WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_min_js\"");
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/bootstrap-spinedit_js\"");
+
+WriteLiteral("></script>\r\n\t<script");
+
+WriteLiteral(" src=\"/ira/Script/marked_min_js\"");
+
+WriteLiteral("></script>\r\n\t<script");
+
+WriteLiteral(" src=\"/ira/Script/bootstrap-markdown_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
@@ -322,6 +318,8 @@ WriteLiteral(@">
 			$('.numeric').spinedit();
 
 			$('select').chosen({ disable_search_threshold: 10 });
+
+			$('textarea.markdown').markdown();
 
 			$('textarea.html').each(function () {
 				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
@@ -357,7 +355,7 @@ WriteLiteral(@">
 WriteLiteral("\t");
 
             
-            #line 106 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 112 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

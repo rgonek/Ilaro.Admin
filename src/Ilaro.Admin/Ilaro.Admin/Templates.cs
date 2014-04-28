@@ -31,6 +31,8 @@ namespace Ilaro.Admin
 
 			public const string Html = "HtmlPartial";
 
+			public const string Markdown = "MarkdownPartial";
+
 			public const string TextArea = "TextAreaPartial";
 
 			public const string TextBox = "TextBoxPartial";

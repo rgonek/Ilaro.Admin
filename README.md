@@ -65,6 +65,8 @@ Here I will try write all libraries, and part of code I use in project.
 - [**Chosen**](http://harvesthq.github.io/chosen/) and bootstrap style for it https://gist.github.com/koenpunt/6424137
 - [**Bootstrap-DateTimePicker**](https://github.com/Eonasdan/bootstrap-datetimepicker) - for DateTime picker, Date picker and Time picker
 - [**Bootstrap-SpinEdit**](https://github.com/scyv/bootstrap-spinedit/blob/bootstrap3/js/bootstrap-spinedit.js) - for numeric editor
+- [**Bootstrap-Markdown**](http://toopay.github.io/bootstrap-markdown/) - for markdown editor
+- [**Marked**](https://github.com/chjj/marked) - for parsing markdown
 
 ##Knowing issue
 -  Validation - for validate entity I using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.
