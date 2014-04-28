@@ -67,6 +67,7 @@ Here I will try write all libraries, and part of code I use in project.
 - [**Bootstrap-SpinEdit**](https://github.com/scyv/bootstrap-spinedit/blob/bootstrap3/js/bootstrap-spinedit.js) - for numeric editor
 - [**Bootstrap-Markdown**](http://toopay.github.io/bootstrap-markdown/) - for markdown editor
 - [**Marked**](https://github.com/chjj/marked) - for parsing markdown
+- [**Summernote**](https://github.com/HackerWins/summernote) - for html wysiwyg editor
 
 ##Knowing issue
 -  Validation - for validate entity I using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.

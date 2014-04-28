@@ -353,7 +353,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_Layout.generated.cs">
+    <Compile Include="Views\IlaroAdmin\_Layout1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Layout.cshtml</DependentUpon>
@@ -385,11 +385,8 @@
       <LastGenOutput>IlaroAdminResources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resources</CustomToolNamespace>
     </EmbeddedResource>
-    <EmbeddedResource Include="Content\css\bootstrap-wysihtml5.min.css" />
     <EmbeddedResource Include="Content\css\site.css" />
-    <EmbeddedResource Include="Scripts\bootstrap-wysihtml5.min.js" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />
-    <EmbeddedResource Include="Scripts\wysihtml5-0.3.0.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap.min.css" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <EmbeddedResource Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -413,6 +410,8 @@
     <EmbeddedResource Include="Content\css\bootstrap-markdown.min.css" />
     <EmbeddedResource Include="Scripts\bootstrap-markdown.js" />
     <EmbeddedResource Include="Scripts\marked.min.js" />
+    <EmbeddedResource Include="Scripts\summernote.min.js" />
+    <EmbeddedResource Include="Content\css\summernote.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -536,7 +535,7 @@
     </Content>
     <Content Include="Views\IlaroAdmin\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+      <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -11,9 +11,9 @@
 	<link href="/ira/css/font-awesome_min_css" rel="stylesheet" />
 	<link href="/ira/css/bootstrap-datetimepicker_min_css" rel="stylesheet" />
 	<link href="/ira/css/chosen_min_css" rel="stylesheet" />
-	<link href="/ira/css/bootstrap-wysihtml5_min_css" rel="stylesheet" />
 	<link href="/ira/css/bootstrap-spinedit_css" rel="stylesheet" />
 	<link href="/ira/css/bootstrap-markdown_min_css" rel="stylesheet" />
+	<link href="/ira/css/summernote_css" rel="stylesheet" />
 	<link href="/ira/css/site_css" rel="stylesheet" />
 
 	<script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
@@ -59,11 +59,10 @@
 	<script src="/ira/Script/moment_min_js"></script>
 	<script src="/ira/Script/bootstrap-datetimepicker_min_js"></script>
 	<script src="/ira/Script/bootstrap_min_js"></script>
-	<script src="/ira/Script/wysihtml5-0_3_0_min_js"></script>
-	<script src="/ira/Script/bootstrap-wysihtml5_min_js"></script>
 	<script src="/ira/Script/bootstrap-spinedit_js"></script>
 	<script src="/ira/Script/marked_min_js"></script>
 	<script src="/ira/Script/bootstrap-markdown_js"></script>
+	<script src="/ira/Script/summernote_min_js"></script>
 	<script type="text/javascript">
 		$(function () {
 			$('.date-time-picker').datetimepicker();
@@ -80,9 +79,8 @@
 
 			$('textarea.markdown').markdown();
 
-			$('textarea.html').each(function () {
-				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
-			});
+			$('textarea.html').summernote({ height: 100 });
+
 			$('th > span').tooltip();
 			$('.open-modal').click(function (e) {
 				e.preventDefault();

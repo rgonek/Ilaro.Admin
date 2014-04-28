@@ -91,12 +91,6 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n\t<link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-wysihtml5_min_css\"");
-
-WriteLiteral(" rel=\"stylesheet\"");
-
-WriteLiteral(" />\r\n\t<link");
-
 WriteLiteral(" href=\"/ira/css/bootstrap-spinedit_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -104,6 +98,12 @@ WriteLiteral(" rel=\"stylesheet\"");
 WriteLiteral(" />\r\n\t<link");
 
 WriteLiteral(" href=\"/ira/css/bootstrap-markdown_min_css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n\t<link");
+
+WriteLiteral(" href=\"/ira/css/summernote_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
 
@@ -283,14 +283,6 @@ WriteLiteral(" src=\"/ira/Script/bootstrap_min_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
-WriteLiteral(" src=\"/ira/Script/wysihtml5-0_3_0_min_js\"");
-
-WriteLiteral("></script>\r\n\t<script");
-
-WriteLiteral(" src=\"/ira/Script/bootstrap-wysihtml5_min_js\"");
-
-WriteLiteral("></script>\r\n\t<script");
-
 WriteLiteral(" src=\"/ira/Script/bootstrap-spinedit_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
@@ -300,6 +292,10 @@ WriteLiteral(" src=\"/ira/Script/marked_min_js\"");
 WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/bootstrap-markdown_js\"");
+
+WriteLiteral("></script>\r\n\t<script");
+
+WriteLiteral(" src=\"/ira/Script/summernote_min_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
@@ -321,9 +317,8 @@ WriteLiteral(@">
 
 			$('textarea.markdown').markdown();
 
-			$('textarea.html').each(function () {
-				$(this).wysihtml5({ html: true, color: true, stylesheets: false });
-			});
+			$('textarea.html').summernote({ height: 100 });
+
 			$('th > span').tooltip();
 			$('.open-modal').click(function (e) {
 				e.preventDefault();
@@ -355,7 +350,7 @@ WriteLiteral(@">
 WriteLiteral("\t");
 
             
-            #line 112 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 110 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             
