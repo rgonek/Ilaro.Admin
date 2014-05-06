@@ -37,9 +37,11 @@ namespace Ilaro.Admin
 
 			public const string TextBox = "TextBoxPartial";
 
+			public const string CheckBox = "CheckBoxPartial";
+
 			public const string DropDownList = "DropDownListPartial";
 
-			public const string CheckBox = "CheckBoxPartial";
+			public const string DualList = "DualListPartial";
 		}
 
 		/// <summary>

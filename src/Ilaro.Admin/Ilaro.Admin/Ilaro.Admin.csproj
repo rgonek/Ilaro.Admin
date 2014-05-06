@@ -172,6 +172,7 @@
     <Compile Include="EntitiesFilters\DateTimeEntityFilter.cs" />
     <Compile Include="EntitiesFilters\EntitySearch.cs" />
     <Compile Include="EntitiesFilters\EnumEntityFilter.cs" />
+    <Compile Include="EntitiesFilters\ForeignEntityFilter.cs" />
     <Compile Include="EntitiesFilters\IEntityFilter.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ComparableExtensions.cs" />
@@ -282,6 +283,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckboxPartial.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\EditorTemplates\DualListPartial.generated.cs">
+      <DependentUpon>DualListPartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Views\IlaroAdmin\EditorTemplates\MarkdownPartial.generated.cs">
       <DependentUpon>MarkdownPartial.cshtml</DependentUpon>
@@ -412,6 +418,8 @@
     <EmbeddedResource Include="Scripts\marked.min.js" />
     <EmbeddedResource Include="Scripts\summernote.min.js" />
     <EmbeddedResource Include="Content\css\summernote.css" />
+    <EmbeddedResource Include="Scripts\jquery.bootstrap-duallistbox.min.js" />
+    <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -591,6 +599,12 @@
     <EmbeddedResource Include="Content\fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Content\fonts\fontawesome-webfont.woff" />
     <EmbeddedResource Include="Content\fonts\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DualListPartial.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

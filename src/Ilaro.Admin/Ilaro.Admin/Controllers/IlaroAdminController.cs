@@ -239,7 +239,7 @@ namespace Ilaro.Admin.Controllers
             var viewModel = new EditViewModel
             {
                 Entity = entity,
-                PropertiesGroups = entityService.PrepareGroups(entity, false)
+                PropertiesGroups = entityService.PrepareGroups(entity, false, key)
             };
 
             return View(viewModel);
@@ -255,15 +255,15 @@ namespace Ilaro.Admin.Controllers
             {
                 try
                 {
-                    var savedItem = entityService.Edit(entity);
-                    if (savedItem != null)
+                    var savedItems = entityService.Edit(entity);
+                    if (savedItems > 0)
                     {
                         Success(IlaroAdminResources.EditSuccess, entity.Singular);
 
 
                         if (Request["ContinueEdit"] != null)
                         {
-                            return RedirectToAction("Edit", new { entityName = entityName, key = entityService.GetKeyValue(entity, savedItem) });
+                            return RedirectToAction("Edit", new { entityName = entityName, key = key });
                         }
                         else if (Request["AddNext"] != null)
                         {

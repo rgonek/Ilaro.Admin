@@ -48,15 +48,15 @@ namespace Ilaro.Admin.EntitiesFilters
 				{
 					if (!dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
 					{
-						return string.Format("({0}[{1}] >= '{2}' AND {0}[{1}] <= '{3}')", alias, Property.Name, dates[0], dates[1]);
+						return string.Format("({0}[{1}] >= '{2}' AND {0}[{1}] <= '{3}')", alias, Property.ColumnName, dates[0], dates[1]);
 					}
 					else if (dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
 					{
-						return string.Format("{0}[{1}] <= '{2}'", alias, Property.Name, dates[1]);
+						return string.Format("{0}[{1}] <= '{2}'", alias, Property.ColumnName, dates[1]);
 					}
 					else if (!dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty())
 					{
-						return string.Format("{0}[{1}] >= '{2}'", alias, Property.Name, dates[0]);
+						return string.Format("{0}[{1}] >= '{2}'", alias, Property.ColumnName, dates[0]);
 					}
 				}
 
@@ -64,7 +64,7 @@ namespace Ilaro.Admin.EntitiesFilters
 			}
 			else
 			{
-				return string.Format("{0}[{1}] = '{2}'", alias, Property.Name, Value);
+				return string.Format("{0}[{1}] = '{2}'", alias, Property.ColumnName, Value);
 			}
 		}
 	}

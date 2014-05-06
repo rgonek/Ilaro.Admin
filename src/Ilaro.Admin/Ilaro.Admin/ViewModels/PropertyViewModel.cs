@@ -26,11 +26,12 @@ namespace Ilaro.Admin.ViewModels
         {
             typeof(sbyte), typeof(sbyte?),
             typeof(byte), typeof(byte?),
-            typeof(short), typeof(byte?),
+            typeof(short), typeof(short?),
             typeof(ushort), typeof(ushort?),
             typeof(int), typeof(int?),
             typeof(uint), typeof(uint?),
-            typeof(long), typeof(ulong?)
+            typeof(long), typeof(long?),
+            typeof(ulong), typeof(ulong?)
         };
 
 		private IList<Type> floatingPointNumbersTypes = new List<Type>
@@ -106,9 +107,9 @@ namespace Ilaro.Admin.ViewModels
 		public string EditorTemplateName { get; set; }
 		public string DisplayTemplateName { get; set; }
 
-		[Required]
-		[StringLength(20)]
 		public object Value { get; set; }
+
+		public IList<object> Values { get; set; }
 
 		// thats lame, should be in extension method
 		public bool? BoolValue
@@ -171,7 +172,7 @@ namespace Ilaro.Admin.ViewModels
 		/// <summary>
 		/// Possible values for foreign entity
 		/// </summary>
-		public IDictionary<string, string> Values { get; set; }
+		public IDictionary<string, string> PossibleValues { get; set; }
 
 		public object[] Attributes { get; set; }
 
@@ -251,7 +252,7 @@ namespace Ilaro.Admin.ViewModels
 				}
 				else
 				{
-					ReferencePropertyName = foreignKeyAttribute.Name;
+					ReferencePropertyName = ColumnName = foreignKeyAttribute.Name;
 					ForeignEntityName = PropertyType.Name;
 				}
 			}
@@ -298,6 +299,11 @@ namespace Ilaro.Admin.ViewModels
 				if (floatingPointNumbersTypes.Contains(PropertyType))
 				{
 					ControlsAttributes.Add("data-number-number-of-decimals", "4");
+				}
+				// if its nullable
+				if (Nullable.GetUnderlyingType(PropertyType) != null)
+				{
+					ControlsAttributes.Add("data-number-value", "");
 				}
 			}
 			else if (PropertyType.In(typeof(DateTime), typeof(DateTime?)))
@@ -419,7 +425,14 @@ namespace Ilaro.Admin.ViewModels
 			{
 				if (IsForeignKey)
 				{
-					EditorTemplateName = Templates.Editor.DropDownList;
+					if (IsCollection)
+					{
+						EditorTemplateName = Templates.Editor.DualList;
+					}
+					else
+					{
+						EditorTemplateName = Templates.Editor.DropDownList;
+					}
 					DisplayTemplateName = Templates.Display.Text;
 				}
 				else if (SourceDataType != null)
@@ -511,18 +524,30 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public SelectList GetPossibleValues()
+		public MultiSelectList GetPossibleValues(bool addChooseItem = true)
 		{
 			if (IsForeignKey)
 			{
-				var values = new Dictionary<string, string> { { String.Empty, IlaroAdminResources.Choose } };
-				values = values.Union(Values).ToDictionary(x => x.Key, x => x.Value);
+				var options = new Dictionary<string, string>();
 
-				return new SelectList(values, "Key", "Value", Value);
+				if (addChooseItem)
+				{
+					options.Add(String.Empty, IlaroAdminResources.Choose);
+				}
+				options = options.Union(PossibleValues).ToDictionary(x => x.Key, x => x.Value);
+
+				if (IsCollection)
+				{
+					return new MultiSelectList(options, "Key", "Value", Values);
+				}
+				else
+				{
+					return new SelectList(options, "Key", "Value", Value);
+				}
 			}
 			else
 			{
-				var options = EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose);
+				var options = addChooseItem ? EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose) : EnumType.GetOptions();
 
 				if (Value != null && Value.GetType().IsEnum)
 				{

@@ -30,16 +30,16 @@ namespace Ilaro.Admin.Views.IlaroAdmin.EditorTemplates
     using Ilaro.Admin.Extensions;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/IlaroAdmin/EditorTemplates/NumericPartial.cshtml")]
-    public partial class _NumericPartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PropertyViewModel>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Views/IlaroAdmin/EditorTemplates/DualListPartial.cshtml")]
+    public partial class _DualListPartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PropertyViewModel>
     {
-        public _NumericPartial()
+        public _DualListPartial()
         {
         }
         public override void Execute()
         {
             
-            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 3 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
   Html.ClearPrefix();
             
             #line default
@@ -48,7 +48,7 @@ WriteLiteral("\r\n<label");
 
 WriteAttribute("for", Tuple.Create(" for=\"", 81), Tuple.Create("\"", 107)
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
 , Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
@@ -61,7 +61,7 @@ WriteLiteral(" class=\"control-label col-md-2\"");
 WriteLiteral(">");
 
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
                                                             Write(Model.DisplayName);
 
             
@@ -70,7 +70,7 @@ WriteLiteral(">");
 WriteLiteral(" ");
 
             
-            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
                                                                                Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
@@ -78,29 +78,25 @@ WriteLiteral(" ");
             #line hidden
 WriteLiteral("</label>\r\n<div");
 
-WriteLiteral(" class=\"controls col-md-3\"");
-
-WriteLiteral(">\r\n\t<div");
-
-WriteLiteral(" class=\"input-group\"");
+WriteLiteral(" class=\"controls col-md-6\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("\t\t");
+WriteLiteral("    ");
 
             
-            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
-Write(Html.TextBox(Model.Name, Model.StringValue, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
+            #line 6 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
+Write(Html.DropDownList(Model.Name, Model.GetPossibleValues(false), Model, new { @class = "form-control dual-list", multiple = "true" }));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\t</div>\r\n");
+WriteLiteral("\r\n");
 
-WriteLiteral("\t");
+WriteLiteral("    ");
 
             
-            #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
 
             
@@ -109,7 +105,7 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
 WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 11 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
+            #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             

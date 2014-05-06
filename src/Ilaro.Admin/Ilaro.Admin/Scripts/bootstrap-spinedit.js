@@ -72,13 +72,12 @@ jQuery.fn.mousehold = function (f) {
 		}
 
 		var value = $.fn.spinedit.defaults.value;
-		if (hasOptions && typeof options.value == 'number') {
+		if (this.element.val()) {
+			var initialValue = parseFloat(this.element.val());
+			if (!isNaN(initialValue)) value = initialValue.toFixed(this.numberOfDecimals);
+		}
+		else if (hasOptions && (options.value == '' || typeof options.value == 'number')) {
 			value = options.value;
-		} else {
-			if (this.element.val()) {
-				var initialValue = parseFloat(this.element.val());
-				if (!isNaN(initialValue)) value = initialValue.toFixed(this.numberOfDecimals);
-			}
 		}
 		this.setValue(value);
 
@@ -99,6 +98,8 @@ jQuery.fn.mousehold = function (f) {
 
 		template.find('.glyphicon-chevron-up').mousehold($.proxy(this.increase, this));
 		template.find('.glyphicon-chevron-down').mousehold($.proxy(this.decrease, this));
+
+		this.element.on('keydown', $.proxy(this._keydown, this));
 		this.element.on('keypress', $.proxy(this._keypress, this));
 		this.element.on('blur', $.proxy(this._checkConstraints, this));
 	};
@@ -123,23 +124,35 @@ jQuery.fn.mousehold = function (f) {
 		},
 
 		setValue: function (value) {
-			value = parseFloat(value);
-			if (isNaN(value))
-				value = this.minimum;
-			if (this.value == value)
-				return;
-			if (this.minimum && value < this.minimum)
-				value = this.minimum;
-			if (this.maximum && value > this.maximum)
-				value = this.maximum;
-			this.value = value;
-			this.element.val(this.value.toFixed(this.numberOfDecimals));
-			this.element.change();
+			if (value != '') {
+				value = parseFloat(value);
+				if (isNaN(value))
+					value = this.minimum;
+				if (this.value == value)
+					return;
+				if (this.minimum && value < this.minimum)
+					value = this.minimum;
+				if (this.maximum && value > this.maximum)
+					value = this.maximum;
+				this.value = value;
+				this.element.val(this.value.toFixed(this.numberOfDecimals));
+				this.element.change();
 
-			this.element.trigger({
-				type: "valueChanged",
-				value: parseFloat(this.value.toFixed(this.numberOfDecimals))
-			});
+				this.element.trigger({
+					type: "valueChanged",
+					value: parseFloat(this.value.toFixed(this.numberOfDecimals))
+				});
+			}
+			else {
+				this.value = value;
+				this.element.val(this.value);
+				this.element.change();
+
+				this.element.trigger({
+					type: "valueChanged",
+					value: this.value
+				});
+			}
 		},
 
 		increase: function () {
@@ -147,6 +160,10 @@ jQuery.fn.mousehold = function (f) {
 			// while the cursor is within the textfield (the potentionally new 
 			// value has not been validated and set at this time yet)
 			this.setValue(this.element.val());
+
+			if (!this.value) {
+				this.value = 0;
+			}
 
 			var newValue = this.value + this.step;
 			this.setValue(newValue);
@@ -158,25 +175,28 @@ jQuery.fn.mousehold = function (f) {
 			// value has not been validated and set at this time yet)
 			this.setValue(this.element.val());
 
+			if (!this.value) {
+				this.value = 0;
+			}
+
 			var newValue = this.value - this.step;
 			this.setValue(newValue);
 		},
 
+		_keydown: function (event) {
+			var pressedKey = event.keyCode || event.which;
+			if (pressedKey === 38) {
+				this.increase();
+			}
+			else if (pressedKey === 40) {
+				this.decrease();
+			}
+		},
+
 		_keypress: function (event) {
 
+			//var pressedKey = event.keyCode || event.which;
 			var pressedKey = event.keyCode || event.charCode;
-
-			// Special feature for FF: increase on key up
-			if (pressedKey == 38) {
-				this.increase();
-				return;
-			}
-
-			// Special feature for FF: decrease on key up
-			if (pressedKey == 40) {
-				this.decrease();
-				return;
-			}
 
 			// Allow: -
 			if (pressedKey == 45) {
@@ -210,6 +230,7 @@ jQuery.fn.mousehold = function (f) {
 
 		dataToOptions: function (options) {
 			var eData = this.element.data();
+
 			if (eData.numberValue !== undefined) options.value = eData.numberValue;
 			if (eData.numberMinimum !== undefined) options.minimum = eData.numberMinimum;
 			if (eData.numberMaximum !== undefined) options.maximum = eData.numberMaximum;

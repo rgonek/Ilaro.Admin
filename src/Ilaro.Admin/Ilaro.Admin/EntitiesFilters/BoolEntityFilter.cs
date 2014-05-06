@@ -34,7 +34,7 @@ namespace Ilaro.Admin.EntitiesFilters
 
         public string GetSQLCondition(string alias)
         {
-            return string.Format("{0}[{1}] = {2}", alias, Property.Name, Value);
+            return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, Value);
         }
     }
 }

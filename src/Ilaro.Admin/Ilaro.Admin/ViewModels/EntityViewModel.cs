@@ -241,7 +241,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public IEnumerable<PropertyViewModel> CreateProperties(bool getKey = true)
+		public IEnumerable<PropertyViewModel> CreateProperties(bool getKey = true, bool getForeignCollection = true)
 		{
 			foreach (var property in Properties)
 			{
@@ -258,13 +258,13 @@ namespace Ilaro.Admin.ViewModels
 				else if (property.IsForeignKey)
 				{
 					// If is foreign key and not have reference property
-					if (property.ReferenceProperty == null && !property.IsCollection)
+					if (property.ReferenceProperty == null && (getForeignCollection || (!getForeignCollection && !property.IsCollection)))
 					{
 						yield return property;
 					}
 					// If is foreign key and have foreign key, that means, we have two properties for one database column, 
 					// so I want only that one who is a system type
-					else if (property.ReferenceProperty != null && property.IsSystemType && !property.IsCollection)
+					else if (property.ReferenceProperty != null && property.IsSystemType && (getForeignCollection || (!getForeignCollection && !property.IsCollection)))
 					{
 						yield return property;
 					}

@@ -131,7 +131,10 @@ namespace Ilaro.Admin
 						entityKey.IsLinkKey = true;
 					}
 				}
+			}
 
+			foreach (var entity in EntitiesTypes)
+			{
 				foreach (var property in entity.Properties)
 				{
 					if (property.IsForeignKey)
@@ -146,6 +149,18 @@ namespace Ilaro.Admin
 								property.ReferenceProperty.IsForeignKey = true;
 								property.ReferenceProperty.ForeignEntity = property.ForeignEntity;
 								property.ReferenceProperty.ReferenceProperty = property;
+							}
+							else if (!property.IsSystemType)
+							{
+								if (property.ForeignEntity != null)
+								{
+									property.PropertyType = property.ForeignEntity.Key.PropertyType;
+								}
+								else
+								{
+									// by default foreign property is int
+									property.PropertyType = typeof(int);
+								}
 							}
 						}
 					}

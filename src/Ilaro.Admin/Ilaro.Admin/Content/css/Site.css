@@ -321,3 +321,7 @@ input[type="checkbox"].input-validation-error {
 .md-editor > textarea {
 	background: #fff;
 }
+
+.field-validation-error {
+	line-height: 34px;
+}

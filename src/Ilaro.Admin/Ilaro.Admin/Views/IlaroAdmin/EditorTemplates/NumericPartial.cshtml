@@ -4,7 +4,7 @@
 <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="controls col-md-3">
 	<div class="input-group">
-		@Html.TextBox(Model.Name, Model.StringValue, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric" }))
+		@Html.TextBox(Model.Name, Model.StringValue, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" }))
 	</div>
 	@Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
 </div>

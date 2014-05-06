@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Services.Interfaces
 		/// <param name="entity">Entity info</param>
 		bool Delete(EntityViewModel entity, string key);
 
-		object Edit(EntityViewModel entity);
+		int Edit(EntityViewModel entity);
 
 		void FillEntity(EntityViewModel entity, string key);
 
@@ -53,7 +53,7 @@ namespace Ilaro.Admin.Services.Interfaces
 
 		IList<IEntityFilter> PrepareFilters(EntityViewModel entity, HttpRequestBase request);
 
-		IList<GroupPropertiesViewModel> PrepareGroups(EntityViewModel entity, bool getKey = true);
+		IList<GroupPropertiesViewModel> PrepareGroups(EntityViewModel entity, bool getKey = true, string key = null);
 
 		/// <summary>
 		/// Validate entity

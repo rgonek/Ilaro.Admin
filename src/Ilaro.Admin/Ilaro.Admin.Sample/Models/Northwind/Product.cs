@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[MaxLength(20)]
 		public string QuantityPerUnit { get; set; }
 
-		public decimal? UnitPrice { get; set; }
+		public decimal UnitPrice { get; set; }
 
 		public short? UnitsInStock { get; set; }
 
@@ -35,7 +35,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[Required]
 		public bool Discontinued { get; set; }
 
-		public ICollection<OrderDetail> OrderDetails { get; set; }
+		//public ICollection<OrderDetail> OrderDetails { get; set; }
 
 		public override string ToString()
 		{

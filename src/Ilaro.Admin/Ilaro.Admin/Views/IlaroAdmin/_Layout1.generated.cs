@@ -109,6 +109,12 @@ WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n\t<link");
 
+WriteLiteral(" href=\"/ira/css/bootstrap-duallistbox_min_css\"");
+
+WriteLiteral(" rel=\"stylesheet\"");
+
+WriteLiteral(" />\r\n\t<link");
+
 WriteLiteral(" href=\"/ira/css/site_css\"");
 
 WriteLiteral(" rel=\"stylesheet\"");
@@ -124,7 +130,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("\t");
 
             
-            #line 20 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 21 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Header", false));
 
             
@@ -143,7 +149,7 @@ WriteLiteral(" class=\"container-fluid\"");
 WriteLiteral(">\r\n\t\t\t<h1>");
 
             
-            #line 25 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 26 "..\..\Views\IlaroAdmin\_Layout.cshtml"
   Write(Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" }));
 
             
@@ -152,13 +158,13 @@ WriteLiteral(">\r\n\t\t\t<h1>");
 WriteLiteral("</h1>\r\n\r\n");
 
             
-            #line 27 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 28 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 			
             
             #line default
             #line hidden
             
-            #line 27 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 28 "..\..\Views\IlaroAdmin\_Layout.cshtml"
      Html.RenderPartial("_UserInfo");
             
             #line default
@@ -176,7 +182,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t");
 
             
-            #line 33 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 34 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Breadcrumb", false));
 
             
@@ -185,13 +191,13 @@ Write(RenderSection("Breadcrumb", false));
 WriteLiteral("\r\n\t\t</div>\r\n");
 
             
-            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 		
             
             #line default
             #line hidden
             
-            #line 35 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 36 "..\..\Views\IlaroAdmin\_Layout.cshtml"
     Html.RenderAction("Messages");
             
             #line default
@@ -209,7 +215,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 38 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 39 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderBody());
 
             
@@ -224,7 +230,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("\t\t\t\t");
 
             
-            #line 41 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 42 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Sidebar", false));
 
             
@@ -237,7 +243,7 @@ WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
 WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 46 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 47 "..\..\Views\IlaroAdmin\_Layout.cshtml"
                                                                    Write(System.DateTime.Now.ToString("yyyy"));
 
             
@@ -299,25 +305,35 @@ WriteLiteral(" src=\"/ira/Script/summernote_min_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
+WriteLiteral(" src=\"/ira/Script/jquery_bootstrap-duallistbox_min_js\"");
+
+WriteLiteral("></script>\r\n\t<script");
+
 WriteLiteral(" type=\"text/javascript\"");
 
 WriteLiteral(@">
 		$(function () {
 			$('.date-time-picker').datetimepicker();
+
 			$('.date-picker').datetimepicker({
 				pickTime: false
 			});
+
 			$('.time-picker').datetimepicker({
 				pickDate: false
 			});
 
-			$('.numeric').spinedit();
+			$('.numeric').spinedit({ value: 0 });
 
-			$('select').chosen({ disable_search_threshold: 10 });
+			$('select:not(.dual-list)').chosen({ disable_search_threshold: 10 });
 
 			$('textarea.markdown').markdown();
 
 			$('textarea.html').summernote({ height: 100 });
+
+			$('.dual-list').bootstrapDualListbox({
+				moveOnSelect: false
+			});
 
 			$('th > span').tooltip();
 			$('.open-modal').click(function (e) {
@@ -350,7 +366,7 @@ WriteLiteral(@">
 WriteLiteral("\t");
 
             
-            #line 110 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 118 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             
