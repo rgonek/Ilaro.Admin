@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
 		//public byte[] Picture { get; set; }
 
-		[OnDelete(DeleteOption.Nothing)]
+		[OnDelete(DeleteOption.AskUser)]
 		public ICollection<Product> Products { get; set; }
 	}
 }

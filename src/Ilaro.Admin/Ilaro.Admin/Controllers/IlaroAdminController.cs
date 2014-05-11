@@ -305,7 +305,8 @@ namespace Ilaro.Admin.Controllers
 			var viewModel = new DeleteViewModel
 			{
 				Entity = entity,
-				PropertiesDeleteOptions = entity.Properties.Where(x => x.IsForeignKey && x.DeleteOption == DeleteOption.AskUser).Select(x => new PropertyDeleteViewModel { PropertyName = x.Name }).ToList(),
+				PropertiesDeleteOptions = entity.Properties.Where(x => x.IsForeignKey && x.DeleteOption == DeleteOption.AskUser)
+					.Select(x => new PropertyDeleteViewModel { PropertyName = x.ForeignEntity.Name }).ToList(),
 				RecordHierarchy = entityService.GetRecordHierarchy(entity)
 			};
 
@@ -343,7 +344,8 @@ namespace Ilaro.Admin.Controllers
 			var viewModel = new DeleteViewModel
 			{
 				Entity = entity,
-				PropertiesDeleteOptions = entity.Properties.Where(x => x.IsForeignKey && x.DeleteOption == DeleteOption.AskUser).Select(x => new PropertyDeleteViewModel { PropertyName = x.Name }).ToList(),
+				PropertiesDeleteOptions = entity.Properties.Where(x => x.IsForeignKey && x.DeleteOption == DeleteOption.AskUser)
+					.Select(x => new PropertyDeleteViewModel { PropertyName = x.ForeignEntity.Name }).ToList(),
 				RecordHierarchy = entityService.GetRecordHierarchy(entity)
 			};
 

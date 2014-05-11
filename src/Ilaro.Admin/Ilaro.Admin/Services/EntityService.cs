@@ -569,27 +569,47 @@ namespace Ilaro.Admin.Services
 			var deleteOptions = propertiesDeleteOptions.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
 			foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
 			{
-				if (!deleteOptions.ContainsKey(property.Name))
+				if (!deleteOptions.ContainsKey(property.ForeignEntity.Name))
 				{
-					deleteOptions[property.Name] = property.DeleteOption;
+					deleteOptions[property.ForeignEntity.Name] = property.DeleteOption;
 				}
 			}
 
 			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
 			var keyObject = GetKeyObject(entity, key);
+			var result = 0;
 
+			if (deleteOptions.All(x => x.Value == DeleteOption.Nothing))
+			{
+				result = table.Delete(keyObject);
+			}
+			else
+			{
+				var sql = String.Empty;
+				var recordHierarchy = GetRecordHierarchy(entity);
+				foreach (var subRecord in recordHierarchy.SubRecordsHierarchies)
+				{
+					var deleteOption = DeleteOption.Nothing;
+					if (deleteOptions.ContainsKey(subRecord.Entity.Name))
+					{
+						deleteOption = deleteOptions[subRecord.Entity.Name];
+					}
+					if (deleteOption == DeleteOption.SetNull)
+					{
+						sql += GetSetToNullUpdateSql(entity, subRecord) + Environment.NewLine;
+					}
+					else if (deleteOption == DeleteOption.CascadeDelete)
+					{
+						// TODO: cascade delete
+						//sql += string.Join(Environment.NewLine, GetDeleteRelatedEntityDeleteSql(subRecord).Reverse()) + Environment.NewLine;
+					}
+				}
+				var cmd = table.CreateDeleteCommand(key: keyObject);
+				cmd.CommandText = sql + cmd.CommandText;
 
-			//if (deleteOptions.All(x => x.Value == DeleteOption.Nothing))
-			//{
-			var result = table.Delete(keyObject);
-			//}
-			//else
-			//{
-			//	var recordHierarchy = GetRecordHierarchy(entity);
-			//	GetDeleteOrUpdateSQLs(recordHierarchy, )
-			//	table.CreateDeleteCommand(key: keyObject);
-			//}
+				result = table.Execute(cmd);
+			}
 
 			if (result < 1)
 			{
@@ -600,6 +620,44 @@ namespace Ilaro.Admin.Services
 			AddEntityChange(entity.Name, key, EntityChangeType.Delete);
 
 			return true;
+		}
+
+		private IList<string> GetDeleteRelatedEntityDeleteSql(RecordHierarchy record)
+		{
+			var sqls = new List<string>();
+
+			// {0} - Foreign table
+			// {1} - Primary key
+			// {2} - Key value
+			var deleteFormat = "DELETE FROM {0} WHERE {1} = {2};";
+
+			sqls.Add(string.Format(deleteFormat, record.Entity.TableName, record.Entity.Key.ColumnName, DecorateSqlValue(record.KeyValue, record.Entity.Key)));
+
+			foreach (var subRecord in record.SubRecordsHierarchies)
+			{
+				sqls.AddRange(GetDeleteRelatedEntityDeleteSql(subRecord));
+			}
+
+			return sqls;
+		}
+
+		private string GetSetToNullUpdateSql(EntityViewModel entity, RecordHierarchy subRecord)
+		{
+			// {0} - Foreign table
+			// {1} - Foreign key
+			// {2} - Primary key
+			// {3} - Key value
+			var updateFormat = "UPDATE {0} SET {1} = NULL WHERE {2} = {3};";
+			//UPDATE Products SET CategoryID = null WHERE ProductID = 7
+
+			var foreignTable = subRecord.Entity.TableName;
+			var foreignKey = subRecord.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == entity).ColumnName;
+			var primaryKey = subRecord.Entity.Key.ColumnName;
+			var keyValue = DecorateSqlValue(subRecord.KeyValue, subRecord.Entity.Key);
+
+			var updateSql = string.Format(updateFormat, foreignTable, foreignKey, primaryKey, keyValue);
+
+			return updateSql;
 		}
 
 		public IList<IEntityFilter> PrepareFilters(EntityViewModel entity, HttpRequestBase request)
