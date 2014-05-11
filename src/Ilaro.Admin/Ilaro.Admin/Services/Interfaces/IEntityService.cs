@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Services.Interfaces
 		/// Delete entity
 		/// </summary>
 		/// <param name="entity">Entity info</param>
-		bool Delete(EntityViewModel entity, string key);
+		bool Delete(EntityViewModel entity, string key, IList<PropertyDeleteViewModel> propertiesDeleteOptions);
 
 		int Edit(EntityViewModel entity);
 
@@ -60,5 +60,7 @@ namespace Ilaro.Admin.Services.Interfaces
 		/// </summary>
 		/// <param name="entity">Entity info</param>
 		bool ValidateEntity(EntityViewModel entity, ModelStateDictionary ModelState);
+
+		RecordHierarchy GetRecordHierarchy(EntityViewModel entity);
 	}
 }

@@ -148,6 +148,7 @@
     <Compile Include="Attributes\ImageAttribute\ImageSettingsAttribute.cs" />
     <Compile Include="Attributes\LinkKeyAttribute.cs" />
     <Compile Include="Attributes\LinksAttribute.cs" />
+    <Compile Include="Attributes\OnDeleteAttribute.cs" />
     <Compile Include="Attributes\RecordDisplayAttribute.cs" />
     <Compile Include="Attributes\SearchAttribute.cs" />
     <Compile Include="Attributes\TemplateAttribute.cs" />
@@ -192,6 +193,9 @@
     <Compile Include="ViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\DataRowViewModel.cs" />
     <Compile Include="ViewModels\DataType.cs" />
+    <Compile Include="ViewModels\DeleteOption.cs" />
+    <Compile Include="ViewModels\EntityHierarchy.cs" />
+    <Compile Include="ViewModels\PropertyDeleteViewModel.cs" />
     <Compile Include="ViewModels\DeleteViewModel.cs" />
     <Compile Include="ViewModels\ChangesViewModel.cs" />
     <Compile Include="ViewModels\DetailsViewModel.cs" />
@@ -204,20 +208,21 @@
     <Compile Include="ViewModels\PagedRecordsViewModel.cs" />
     <Compile Include="ViewModels\PagerInfo.cs" />
     <Compile Include="ViewModels\PropertyViewModel.cs" />
+    <Compile Include="ViewModels\RecordHierarchy.cs" />
     <Compile Include="Views\IlaroAdmin\Create.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Delete.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Delete.cshtml</DependentUpon>
-    </Compile>
     <Compile Include="Views\IlaroAdmin\Changes.generated.cs">
       <DependentUpon>Changes.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\IlaroAdmin\Delete1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Delete.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\IlaroAdmin\Details1.generated.cs">
       <AutoGen>True</AutoGen>
@@ -451,7 +456,7 @@
     </Content>
     <Content Include="Views\IlaroAdmin\Delete.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Delete.generated.cs</LastGenOutput>
+      <LastGenOutput>Delete1.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\Details.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -605,6 +610,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DualListPartial.generated.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

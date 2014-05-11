@@ -68,7 +68,7 @@ Here I will try write all libraries, and part of code I use in project.
 - [**Bootstrap-Markdown**](http://toopay.github.io/bootstrap-markdown/) - for markdown editor
 - [**Marked**](https://github.com/chjj/marked) - for parsing markdown
 - [**Summernote**](https://github.com/HackerWins/summernote) - for html wysiwyg editor
-- [****](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) - for one to many editor
+- [**Bootstrap Dual Listbox**](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) - for one to many editor
 
 ##Knowing issue
 -  Validation - for validate entity I using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.

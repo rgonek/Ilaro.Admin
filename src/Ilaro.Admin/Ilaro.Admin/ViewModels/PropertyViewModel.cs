@@ -100,6 +100,8 @@ namespace Ilaro.Admin.ViewModels
 
 		public DataType DataType { get; set; }
 
+		public DeleteOption DeleteOption { get; set; }
+
 		public Type EnumType { get; set; }
 
 		public ImageOptions ImageOptions { get; set; }
@@ -199,6 +201,8 @@ namespace Ilaro.Admin.ViewModels
 
 			SetDataType(Attributes);
 
+			SetDeleteOption(Attributes);
+
 			IsKey = Attributes.OfType<KeyAttribute>().Any();
 			IsLinkKey = Attributes.OfType<LinkKeyAttribute>().Any();
 
@@ -220,6 +224,19 @@ namespace Ilaro.Admin.ViewModels
 			{
 				DisplayName = Name.SplitCamelCase();
 				GroupName = Resources.IlaroAdminResources.Others;
+			}
+		}
+
+		private void SetDeleteOption(object[] attributes)
+		{
+			var onDeleteAttribute = attributes.OfType<OnDeleteAttribute>().FirstOrDefault();
+			if (onDeleteAttribute != null)
+			{
+				DeleteOption = onDeleteAttribute.DeleteOption;
+			}
+			else
+			{
+				DeleteOption = DeleteOption.Nothing;
 			}
 		}
 

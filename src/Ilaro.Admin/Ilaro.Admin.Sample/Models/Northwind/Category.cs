@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ilaro.Admin.Attributes;
+using Ilaro.Admin.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
 		//public byte[] Picture { get; set; }
 
+		[OnDelete(DeleteOption.Nothing)]
 		public ICollection<Product> Products { get; set; }
 	}
 }

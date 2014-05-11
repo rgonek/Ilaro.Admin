@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -41,5 +42,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		public string Fax { get; set; }
 
 		public string HomePage { get; set; }
+		
+		public IList<Product> Products { get; set; }
 	}
 }

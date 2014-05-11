@@ -11,7 +11,7 @@ namespace Ilaro.Admin.ViewModels
 
         public string LinkKeyValue { get; set; }
 
-        public string DisplayValue { get; set; }
+        public string DisplayName { get; set; }
 
         public IList<CellValueViewModel> Values { get; set; }
 

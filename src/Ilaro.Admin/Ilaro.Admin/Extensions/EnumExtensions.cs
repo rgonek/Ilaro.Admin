@@ -1,12 +1,27 @@
-﻿using System;
+﻿using Ilaro.Admin.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Ilaro.Admin.Extensions
 {
 	public static class EnumExtensions
 	{
+		public static SelectList GetSelectList(this DeleteOption deleteOption, string key = "", string value = "")
+		{
+			var options = deleteOption.GetOptions();
+			options.Remove(((int)DeleteOption.AskUser).ToString());
+
+			return new SelectList(options, "Key", "Value", (int)deleteOption);
+		}
+
+		public static IDictionary<string, string> GetOptions(this Enum enumObject, string key = "", string value = "")
+		{
+			return enumObject.GetType().GetOptions(key, value);
+		}
+
 		public static IDictionary<string, string> GetOptions(this Type type, string key = "", string value = "")
 		{
 			if (!type.IsEnum)

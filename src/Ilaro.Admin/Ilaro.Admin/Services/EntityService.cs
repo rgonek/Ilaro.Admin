@@ -88,21 +88,7 @@ namespace Ilaro.Admin.Services
 			var data = new List<DataRowViewModel>();
 			foreach (var item in result)
 			{
-				var dict = (IDictionary<String, Object>)item;
-				var row = new DataRowViewModel();
-				row.KeyValue = dict[entity.Key.ColumnName].ToStringSafe();
-				row.LinkKeyValue = dict[entity.LinkKey.ColumnName].ToStringSafe();
-				foreach (var property in entity.Properties.Where(x => !x.IsForeignKey || (!x.IsCollection && x.IsForeignKey)))
-				{
-					row.Values.Add(new CellValueViewModel
-					{
-						RawValue = dict[property.ColumnName],
-						Value = dict[property.ColumnName].ToStringSafe(property),
-						Property = property
-					});
-				}
-
-				data.Add(row);
+				data.Add(ExpandoToDataRow(item, entity));
 			}
 
 
@@ -110,14 +96,39 @@ namespace Ilaro.Admin.Services
 			{
 				foreach (var row in data)
 				{
-					row.DisplayValue = GetDisplayValue(entity, row);
+					row.DisplayName = GetDisplayName(entity, row);
 				}
 			}
 
 			return data;
 		}
 
-		private string GetDisplayValue(EntityViewModel entity, DataRowViewModel row)
+		private DataRowViewModel ExpandoToDataRow(dynamic record, EntityViewModel entity, string prefix = null)
+		{
+			var recordDict = (IDictionary<String, Object>)record;
+
+			return ExpandoToDataRow(recordDict, entity, prefix);
+		}
+
+		private DataRowViewModel ExpandoToDataRow(IDictionary<String, Object> recordDict, EntityViewModel entity, string prefix = null)
+		{
+			var row = new DataRowViewModel();
+			row.KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe();
+			row.LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe();
+			foreach (var property in entity.Properties.Where(x => !x.IsForeignKey || (x.IsForeignKey && !x.IsCollection)))
+			{
+				row.Values.Add(new CellValueViewModel
+				{
+					RawValue = recordDict[prefix + property.ColumnName],
+					Value = recordDict[prefix + property.ColumnName].ToStringSafe(property),
+					Property = property
+				});
+			}
+
+			return row;
+		}
+
+		private string GetDisplayName(EntityViewModel entity, DataRowViewModel row)
 		{
 			// check if has to string attribute
 			if (!entity.RecordDisplayFormat.IsNullOrEmpty())
@@ -553,13 +564,32 @@ namespace Ilaro.Admin.Services
 			}
 		}
 
-		public bool Delete(EntityViewModel entity, string key)
+		public bool Delete(EntityViewModel entity, string key, IList<PropertyDeleteViewModel> propertiesDeleteOptions)
 		{
+			var deleteOptions = propertiesDeleteOptions.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
+			foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
+			{
+				if (!deleteOptions.ContainsKey(property.Name))
+				{
+					deleteOptions[property.Name] = property.DeleteOption;
+				}
+			}
+
 			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
 
 			var keyObject = GetKeyObject(entity, key);
 
+
+			//if (deleteOptions.All(x => x.Value == DeleteOption.Nothing))
+			//{
 			var result = table.Delete(keyObject);
+			//}
+			//else
+			//{
+			//	var recordHierarchy = GetRecordHierarchy(entity);
+			//	GetDeleteOrUpdateSQLs(recordHierarchy, )
+			//	table.CreateDeleteCommand(key: keyObject);
+			//}
 
 			if (result < 1)
 			{
@@ -618,7 +648,7 @@ namespace Ilaro.Admin.Services
 			foreach (var foreign in properties.Where(x => x.IsForeignKey))
 			{
 				var records = GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
-				foreign.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayValue);
+				foreign.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
 				if (foreign.IsCollection)
 				{
 					foreign.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.Value == key)).Select(x => x.KeyValue).OfType<object>().ToList();
@@ -685,6 +715,163 @@ namespace Ilaro.Admin.Services
 			changeRecord.ChangedBy = HttpContext.Current.User.Identity.Name;
 
 			table.Insert(changeRecord);
+		}
+
+		public RecordHierarchy GetRecordHierarchy(EntityViewModel entity)
+		{
+			var hierarchy = GetEntityHierarchy(null, entity, 0);
+			var sql = GenerateHierarchySQL(hierarchy);
+			var model = new DynamicModel(AdminInitialise.ConnectionString);
+			var records = model.Query(sql, entity.Key.Value);
+
+			var recordHierarchy = GetHierarchyRecords(records, hierarchy);
+
+			return recordHierarchy;
+
+			// TODO: test it
+			//			SELECT [t0].*, [t1].*, [t2].*
+			//FROM [Categories] AS [t0]
+			//LEFT OUTER JOIN [Products] AS [t1] ON [t1].[CategoryID] = [t0].[CategoryID]
+			//LEFT OUTER JOIN [Suppliers] AS [t2] ON [t2].[SupplierID] = [t1].[SupplierID]
+			//WHERE [t0].CategoryID = 9
+			//ORDER BY [t0].[CategoryID], [t1].[ProductID], [t2].[SupplierID]
+		}
+
+		private RecordHierarchy GetHierarchyRecords(IEnumerable<dynamic> records, EntityHierarchy hierarchy)
+		{
+			var baseRecord = records.FirstOrDefault();
+			var prefix = hierarchy.Alias.Trim("[]".ToCharArray()) + "_";
+			var rowData = ExpandoToDataRow(baseRecord, hierarchy.Entity, prefix);
+
+			var recordHierarchy = new RecordHierarchy
+			{
+				Entity = hierarchy.Entity,
+				KeyValue = rowData.KeyValue,
+				DisplayName = GetDisplayName(hierarchy.Entity, rowData),
+				SubRecordsHierarchies = new List<RecordHierarchy>()
+			};
+
+			GetHierarchyRecords(recordHierarchy, records, hierarchy.SubHierarchies);
+
+			return recordHierarchy;
+		}
+
+		private void GetHierarchyRecords(RecordHierarchy parentHierarchy, IEnumerable<dynamic> records, IList<EntityHierarchy> subHierarchies, string foreignKey = null, string foreignKeyValue = null)
+		{
+			foreach (var hierarchy in subHierarchies)
+			{
+				var prefix = hierarchy.Alias.Trim("[]".ToCharArray()) + "_";
+
+				foreach (var record in records)
+				{
+					var recordDict = (IDictionary<string, object>)record;
+					var rowData = ExpandoToDataRow(recordDict, hierarchy.Entity, prefix);
+
+					var subRecord = new RecordHierarchy
+					{
+						Entity = hierarchy.Entity,
+						KeyValue = rowData.KeyValue,
+						DisplayName = GetDisplayName(hierarchy.Entity, rowData),
+						SubRecordsHierarchies = new List<RecordHierarchy>()
+					};
+
+					if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
+						(foreignKey.IsNullOrEmpty() || recordDict[foreignKey].ToStringSafe() == foreignKeyValue))
+					{
+						parentHierarchy.SubRecordsHierarchies.Add(subRecord);
+
+						GetHierarchyRecords(subRecord, records, hierarchy.SubHierarchies, prefix + hierarchy.Entity.Key.ColumnName, rowData.KeyValue);
+					}
+				}
+			}
+		}
+
+		private string GenerateHierarchySQL(EntityHierarchy hierarchy)
+		{
+			var flatHierarchy = FlatHierarchy(hierarchy);
+
+			// {0} - Columns
+			// {1} - Base table
+			// {2} - Base table alias
+			// {3} - Joins
+			// {4} - Where
+			// {5} - Order by
+			var selectFormat = @"SELECT {0} 
+FROM {1} AS {2}
+{3}
+WHERE {4}
+ORDER BY {5}";
+			// {0} - Foreign table
+			// {1} - Foreign alias
+			// {2} - Foreign key
+			// {3} - Base table alias
+			// {4} - Base table primary key
+			var joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
+
+			var columns = flatHierarchy.SelectMany(x => x.Entity.Properties.Where(y => !y.IsForeignKey || (y.IsForeignKey && !y.IsCollection))
+				.Select(y => x.Alias + "." + y.ColumnName + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y.ColumnName)).ToList();
+			var joins = new List<string>();
+			foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
+			{
+				var foreignTable = item.Entity.TableName;
+				var foreignAlias = item.Alias;
+				var foreignKey = String.Empty;
+				var baseTableAlias = item.ParentHierarchy.Alias;
+				var baseTablePrimaryKey = String.Empty;
+				var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
+				if (foreignProperty == null || foreignProperty.IsCollection)
+				{
+					foreignKey = item.Entity.Key.ColumnName;
+					baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.Entity).ColumnName;
+				}
+				else
+				{
+					foreignKey = foreignProperty.ColumnName;
+					baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.ColumnName;
+				}
+				joins.Add(string.Format(joinFormat, foreignTable, foreignAlias, foreignKey, baseTableAlias, baseTablePrimaryKey));
+			}
+			var orders = flatHierarchy.Select(x => x.Alias + "." + x.Entity.Key.ColumnName).ToList();
+
+			var where = hierarchy.Alias + "." + hierarchy.Entity.Key.ColumnName + " = @0";
+
+			var sql = string.Format(selectFormat, string.Join(", ", columns), hierarchy.Entity.TableName, hierarchy.Alias, string.Join(Environment.NewLine, joins), where, string.Join(", ", orders));
+
+			return sql;
+		}
+
+		private IList<EntityHierarchy> FlatHierarchy(EntityHierarchy hierarchy)
+		{
+			var flatHierarchy = new List<EntityHierarchy> { hierarchy };
+
+			foreach (var subHierarchy in hierarchy.SubHierarchies)
+			{
+				flatHierarchy.AddRange(FlatHierarchy(subHierarchy));
+			}
+
+			return flatHierarchy;
+		}
+
+		private EntityHierarchy GetEntityHierarchy(EntityHierarchy parent, EntityViewModel entity, int index)
+		{
+			var hierarchy = new EntityHierarchy
+			{
+				Entity = entity,
+				Alias = "[t" + index + "]",
+				SubHierarchies = new List<EntityHierarchy>(),
+				ParentHierarchy = parent
+			};
+
+			foreach (var property in entity.CreateProperties().Where(x => x.IsForeignKey))
+			{
+				if (parent == null || (parent != null && parent.Entity != property.ForeignEntity))
+				{
+					index++;
+					hierarchy.SubHierarchies.Add(GetEntityHierarchy(hierarchy, property.ForeignEntity, index));
+				}
+			}
+
+			return hierarchy;
 		}
 	}
 }
