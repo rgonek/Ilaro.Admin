@@ -9,7 +9,7 @@
         @foreach (var entity in Model.Entities)
         {
             <tr>
-                <td class="max-width">@Html.ActionLink(entity.Plural, "Details", new { entityName = entity.Name })</td>
+                <td class="max-width">@Html.ActionLink(entity.Plural, "List", new { entityName = entity.Name })</td>
                 <td>
                     @if (entity.CanAdd)
                     {

@@ -198,7 +198,7 @@
     <Compile Include="ViewModels\PropertyDeleteViewModel.cs" />
     <Compile Include="ViewModels\DeleteViewModel.cs" />
     <Compile Include="ViewModels\ChangesViewModel.cs" />
-    <Compile Include="ViewModels\DetailsViewModel.cs" />
+    <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\EditViewModel.cs" />
     <Compile Include="ViewModels\EntityGroupViewModel.cs" />
     <Compile Include="ViewModels\EntityViewModel.cs" />
@@ -223,11 +223,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Delete.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\IlaroAdmin\Details1.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Details.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.generated.cs">
       <AutoGen>True</AutoGen>
@@ -364,6 +359,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IlaroAdmin\List.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>List.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IlaroAdmin\_Layout1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -458,9 +458,9 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Delete1.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\Details.cshtml">
+    <Content Include="Views\IlaroAdmin\List.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Details1.generated.cs</LastGenOutput>
+      <LastGenOutput>List.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml">
       <Generator>RazorGenerator</Generator>

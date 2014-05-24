@@ -11,6 +11,9 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 	public class EmployeeTerritory
 	{
 		[Key]
+		public int EmployeeTerritoryID { get; set; }
+
+		[ForeignKey("Employee")]
 		public int EmployeeID { get; set; }
 
 		[Required, ForeignKey("TerritoryID")]

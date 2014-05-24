@@ -77,7 +77,7 @@ WriteLiteral("</li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Changes.cshtml"
-       Write(Html.ActionLink(Model.EntityChangesFor.Plural, "Details", new { entityName = Model.EntityChangesFor.Name }));
+       Write(Html.ActionLink(Model.EntityChangesFor.Plural, "List", new { entityName = Model.EntityChangesFor.Name }));
 
             
             #line default
@@ -127,8 +127,8 @@ WriteLiteral("</h2>\r\n");
             
             #line 20 "..\..\Views\IlaroAdmin\Changes.cshtml"
      if (Model.IsSearchActive)
-    {
-        using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
+	{
+		using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -325,16 +325,16 @@ WriteLiteral("                        ");
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 2535), Tuple.Create("\"", 2592)
-, Tuple.Create(Tuple.Create("", 2543), Tuple.Create("glyphicon", 2543), true)
-, Tuple.Create(Tuple.Create(" ", 2552), Tuple.Create("glyphicon-chevron-", 2553), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 2523), Tuple.Create("\"", 2580)
+, Tuple.Create(Tuple.Create("", 2531), Tuple.Create("glyphicon", 2531), true)
+, Tuple.Create(Tuple.Create(" ", 2540), Tuple.Create("glyphicon-chevron-", 2541), true)
             
             #line 57 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 2571), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 2559), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 2571), false)
+, 2559), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -425,7 +425,7 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 78 "..\..\Views\IlaroAdmin\Changes.cshtml"
-         using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
+         using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -626,14 +626,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4587), Tuple.Create("\"", 4688)
+WriteAttribute("href", Tuple.Create(" href=\"", 4575), Tuple.Create("\"", 4676)
             
             #line 110 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 4594), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
+, Tuple.Create(Tuple.Create("", 4582), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
             
             #line default
             #line hidden
-, 4594), false)
+, 4582), false)
 );
 
 WriteLiteral(">");

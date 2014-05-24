@@ -10,7 +10,7 @@
 	<ul class="breadcrumb">
 		<li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
 		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-		<li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name })</li>
+		<li>@Html.ActionLink(Model.Entity.Plural, "List", new { entityName = Model.Entity.Name })</li>
 		<li class="active">@string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
 	</ul>
 }
@@ -64,7 +64,7 @@
 			<button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
 			<button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
 			<button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
-			<a href="@Url.Action("Details", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+			<a href="@Url.Action("List", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
 		</div>
 	</div>
 }

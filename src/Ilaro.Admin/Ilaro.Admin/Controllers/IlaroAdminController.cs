@@ -59,18 +59,18 @@ namespace Ilaro.Admin.Controllers
 			return View(viewModel);
 		}
 
-		public ActionResult Details(string entityName, int page = 1, [Bind(Prefix = "sq")]string searchQuery = "", [Bind(Prefix = "pp")]int perPage = 10, [Bind(Prefix = "o")]string order = "", [Bind(Prefix = "od")]string orderDirection = "")
+		public ActionResult List(string entityName, int page = 1, [Bind(Prefix = "sq")]string searchQuery = "", [Bind(Prefix = "pp")]int perPage = 10, [Bind(Prefix = "o")]string order = "", [Bind(Prefix = "od")]string orderDirection = "")
 		{
 			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 			var filters = entityService.PrepareFilters(entity, Request);
 			var pagedRecords = entityService.GetRecords(entity, page, perPage, filters, searchQuery, order, orderDirection);
 			if (pagedRecords.Records.IsNullOrEmpty() && page > 1)
 			{
-				return RedirectToAction("Details", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
+				return RedirectToAction("List", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
 			}
 
-			var url = Url.Action("Details", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
-			var viewModel = new DetailsViewModel
+			var url = Url.Action("List", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
+			var viewModel = new ListViewModel
 			{
 				Data = pagedRecords.Records,
 				Columns = entityService.PrepareColumns(entity, order, orderDirection),
@@ -95,10 +95,10 @@ namespace Ilaro.Admin.Controllers
 			var pagedRecords = entityService.GetChangesRecords(entityChangesFor, page, perPage, filters, searchQuery, order, orderDirection);
 			if (pagedRecords.Records.IsNullOrEmpty() && page > 1)
 			{
-				return RedirectToAction("Details", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
+				return RedirectToAction("Changes", PrepareRouteValues(entityName, 1, perPage, filters, searchQuery, order, orderDirection));
 			}
 
-			var url = Url.Action("Details", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
+			var url = Url.Action("Changes", PrepareRouteValues(entityName, "-page-", perPage, filters, searchQuery, order, orderDirection)).Replace("-page-", "{0}");
 			var viewModel = new ChangesViewModel
 			{
 				Data = pagedRecords.Records,
@@ -188,7 +188,7 @@ namespace Ilaro.Admin.Controllers
 							return RedirectToAction("Create", new { entityName = entityName });
 						}
 
-						return RedirectToAction("Details", new { entityName = entityName });
+						return RedirectToAction("List", new { entityName = entityName });
 					}
 					else
 					{
@@ -233,7 +233,7 @@ namespace Ilaro.Admin.Controllers
 				}
 				Error(message);
 
-				return RedirectToAction("Details", new { entityName = entityName });
+				return RedirectToAction("List", new { entityName = entityName });
 			}
 
 			var viewModel = new EditViewModel
@@ -270,7 +270,7 @@ namespace Ilaro.Admin.Controllers
 							return RedirectToAction("Create", new { entityName = entityName });
 						}
 
-						return RedirectToAction("Details", new { entityName = entityName });
+						return RedirectToAction("List", new { entityName = entityName });
 					}
 					else
 					{
@@ -324,7 +324,7 @@ namespace Ilaro.Admin.Controllers
 				{
 					Success(IlaroAdminResources.DeleteSuccess, entity.Singular);
 
-					return RedirectToAction("Details", new { entityName = model.EntityName });
+					return RedirectToAction("List", new { entityName = model.EntityName });
 				}
 				else
 				{

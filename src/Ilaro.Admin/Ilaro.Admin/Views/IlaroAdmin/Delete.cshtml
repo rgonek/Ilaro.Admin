@@ -9,7 +9,7 @@
 	<ul class="breadcrumb">
 		<li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
 		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-		<li>@Html.ActionLink(Model.Entity.Plural, "Details", new { entityName = Model.Entity.Name })</li>
+		<li>@Html.ActionLink(Model.Entity.Plural, "List", new { entityName = Model.Entity.Name })</li>
 		<li class="active">@string.Format(Resources.IlaroAdminResources.Delete_Title, Model.Entity.Name)</li>
 	</ul>
 }
@@ -49,7 +49,7 @@
 		<div class="col-md-offset-2">
 			<button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Delete</button>
 			<a href="@Url.Action("Edit")" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
-			<a href="@Url.Action("Details")" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+			<a href="@Url.Action("List")" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
 		</div>
 	</div>
 }

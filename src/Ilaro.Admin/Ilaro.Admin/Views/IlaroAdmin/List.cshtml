@@ -1,4 +1,4 @@
-﻿@model Ilaro.Admin.ViewModels.DetailsViewModel
+﻿@model Ilaro.Admin.ViewModels.ListViewModel
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
@@ -17,8 +17,8 @@
 <div class="clearfix">
     <h2 class="pull-left">@Model.Entity.Plural</h2>
     @if (Model.IsSearchActive)
-    {
-        using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
+	{
+		using (Html.BeginForm("List", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -118,7 +118,7 @@
 
 <div class="clearfix">
     <div class="pull-left" style="margin-right:10px">
-        @using (Html.BeginForm("Details", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
+        @using (Html.BeginForm("List", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "form-inline" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -150,7 +150,7 @@
     {
         <h2>@Resources.IlaroAdminResources.Filters</h2>
         <ul class="nav nav-list">
-            <li><a href="@Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@Resources.IlaroAdminResources.RemoveFilters</a></li>
+            <li><a href="@Url.Action("List", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@Resources.IlaroAdminResources.RemoveFilters</a></li>
             @foreach (var filter in Model.Filters)
             {
                 <li class="nav-header">

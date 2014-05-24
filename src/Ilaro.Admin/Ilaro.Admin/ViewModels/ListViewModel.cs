@@ -7,7 +7,7 @@ using Ilaro.Admin.EntitiesFilters;
 
 namespace Ilaro.Admin.ViewModels
 {
-    public class DetailsViewModel
+    public class ListViewModel
     {
         public EntityViewModel Entity { get; set; }
 

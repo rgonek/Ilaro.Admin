@@ -11,6 +11,9 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 	public class OrderDetail
 	{
 		[Key]
+		public int OrderDetailsID { get; set; }
+
+		[ForeignKey("Order")]
 		public int OrderID { get; set; }
 
 		public int ProductID { get; set; }

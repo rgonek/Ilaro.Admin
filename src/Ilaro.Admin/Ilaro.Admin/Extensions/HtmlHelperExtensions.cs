@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Extensions
 				routeValues.Add(currentFilter.Property.Name, option.Value);
 			}
 
-			return htmlHelper.ActionLink(option.Text, "Details", new RouteValueDictionary(routeValues));
+			return htmlHelper.ActionLink(option.Text, "List", new RouteValueDictionary(routeValues));
 		}
 
 		public static MvcHtmlString GetFilterIcon(this HtmlHelper htmlHelper, IEntityFilter filter)
@@ -90,7 +90,7 @@ namespace Ilaro.Admin.Extensions
 				routeValues.Add(filter.Property.Name, filter.Value);
 			}
 
-			return htmlHelper.ActionLink(column.DisplayName, "Details", new RouteValueDictionary(routeValues));
+			return htmlHelper.ActionLink(column.DisplayName, "List", new RouteValueDictionary(routeValues));
 		}
 
 		public static MvcHtmlString Image(this HtmlHelper htmlHelper, CellValueViewModel cell)

@@ -603,10 +603,10 @@ WriteLiteral("</a>\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4405), Tuple.Create("\"", 4491)
+WriteAttribute("href", Tuple.Create(" href=\"", 4405), Tuple.Create("\"", 4492)
             
             #line 97 "..\..\Views\IlaroAdmin\Details.cshtml"
-, Tuple.Create(Tuple.Create("", 4412), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })
+, Tuple.Create(Tuple.Create("", 4412), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit", new { entityName = Model.Entity.Name, keys = row.KeyValue })
             
             #line default
             #line hidden
@@ -623,7 +623,7 @@ WriteLiteral("></span> ");
 
             
             #line 97 "..\..\Views\IlaroAdmin\Details.cshtml"
-                                                                                                                                                                                                           Write(Resources.IlaroAdminResources.Edit);
+                                                                                                                                                                                                            Write(Resources.IlaroAdminResources.Edit);
 
             
             #line default
@@ -678,14 +678,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4939), Tuple.Create("\"", 5003)
+WriteAttribute("href", Tuple.Create(" href=\"", 4940), Tuple.Create("\"", 5004)
             
             #line 106 "..\..\Views\IlaroAdmin\Details.cshtml"
-, Tuple.Create(Tuple.Create("", 4946), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)
+, Tuple.Create(Tuple.Create("", 4947), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)
             
             #line default
             #line hidden
-, 4946), false)
+, 4947), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link text-danger\"");
@@ -716,14 +716,14 @@ WriteLiteral("</a>\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 5266), Tuple.Create("\"", 5354)
+WriteAttribute("href", Tuple.Create(" href=\"", 5267), Tuple.Create("\"", 5356)
             
             #line 110 "..\..\Views\IlaroAdmin\Details.cshtml"
-, Tuple.Create(Tuple.Create("", 5273), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })
+, Tuple.Create(Tuple.Create("", 5274), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, keys = row.KeyValue })
             
             #line default
             #line hidden
-, 5273), false)
+, 5274), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link text-danger\"");
@@ -736,7 +736,7 @@ WriteLiteral("></span> ");
 
             
             #line 110 "..\..\Views\IlaroAdmin\Details.cshtml"
-                                                                                                                                                                                                                           Write(Resources.IlaroAdminResources.Delete);
+                                                                                                                                                                                                                            Write(Resources.IlaroAdminResources.Delete);
 
             
             #line default
@@ -989,14 +989,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7201), Tuple.Create("\"", 7302)
+WriteAttribute("href", Tuple.Create(" href=\"", 7203), Tuple.Create("\"", 7304)
             
             #line 153 "..\..\Views\IlaroAdmin\Details.cshtml"
-, Tuple.Create(Tuple.Create("", 7208), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
+, Tuple.Create(Tuple.Create("", 7210), Tuple.Create<System.Object, System.Int32>(Url.Action("Details", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
             
             #line default
             #line hidden
-, 7208), false)
+, 7210), false)
 );
 
 WriteLiteral(">");

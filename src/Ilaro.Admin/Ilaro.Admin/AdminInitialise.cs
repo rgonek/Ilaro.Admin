@@ -58,38 +58,38 @@ namespace Ilaro.Admin
 
 			routes.MapRoute(
 				name: "IlaroAdminCreate",
-				url: prefix + "/Create/{entityName}",
+				url: prefix + "/{entityName}/Create",
 				defaults: new { controller = "IlaroAdmin", action = "Create" }
 			);
 
 			routes.MapRoute(
 				name: "IlaroAdminEdit",
-				url: prefix + "/Edit/{entityName}/{key}",
+				url: prefix + "/{entityName}/Edit/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Edit" }
 			);
 
 			routes.MapRoute(
 				name: "IlaroAdminDelete",
-				url: prefix + "/Delete/{entityName}/{key}",
+				url: prefix + "/{entityName}/Delete/{key}",
 				defaults: new { controller = "IlaroAdmin", action = "Delete" }
 			);
 
 			routes.MapRoute(
 				name: "IlaroAdminGroup",
-				url: prefix + "/Group/{groupName}",
+				url: prefix + "/{groupName}/Group",
 				defaults: new { controller = "IlaroAdmin", action = "Group" }
 			);
 
 			routes.MapRoute(
 				name: "IlaroAdminChanges",
-				url: prefix + "/Changes/{entityName}/{page}",
+				url: prefix + "/{entityName}/Changes/{page}",
 				defaults: new { controller = "IlaroAdmin", action = "Changes", page = 1 }
 			);
 
 			routes.MapRoute(
-				name: "IlaroAdminDetails",
+				name: "IlaroAdminList",
 				url: prefix + "/{entityName}/{page}",
-				defaults: new { controller = "IlaroAdmin", action = "Details", page = 1 }
+				defaults: new { controller = "IlaroAdmin", action = "List", page = 1 }
 			);
 
 			routes.MapRoute(
