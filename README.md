@@ -20,8 +20,8 @@ In global.asax you must do three things:
 1. Register routes
 
    ```C#
-   //                                                prefix is optional, by default = IlaroAdmin
-   AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
+   // prefix is optional, by default = IlaroAdmin
+   AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
    AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
    ```
    It should be before register default routes because you lose a friendly urls

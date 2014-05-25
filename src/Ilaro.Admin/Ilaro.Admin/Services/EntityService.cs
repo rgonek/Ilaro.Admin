@@ -36,13 +36,13 @@ namespace Ilaro.Admin.Services
 			var skip = (page - 1) * take;
 
 			var search = new EntitySearch { Query = searchQuery, Properties = entity.SearchProperties };
-			order = order.IsNullOrEmpty() ? entity.Key.Name : order;
+			order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
 			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
 			var orderBy = order + " " + orderDirection;
 			var columns = string.Join(",", entity.DisplayColumns.Select(x => x.ColumnName));
 			var where = ConvertFiltersToSQL(filters, search);
 
-			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var result = table.Paged(columns: columns, where: where, orderBy: orderBy, currentPage: page, pageSize: take);
 
@@ -128,6 +128,12 @@ namespace Ilaro.Admin.Services
 			return row;
 		}
 
+		/// <summary>
+		/// Get display name for entity
+		/// </summary>
+		/// <param name="entity">Entity</param>
+		/// <param name="row">Instance value</param>
+		/// <returns>Display name</returns>
 		private string GetDisplayName(EntityViewModel entity, DataRowViewModel row)
 		{
 			// check if has to string attribute
@@ -158,23 +164,26 @@ namespace Ilaro.Admin.Services
 				return result.ToStringSafe();
 			}
 			// if not get first matching property
-			// %Name%, %Description%, %Value%
-			//if not found any property use KeyValue
-			var value = row.Values.FirstOrDefault(x => x.Property.Name.ToLower().Contains("name"));
-			if (value == null)
+			// %Name%, %Title%, %Description%, %Value%
+			// if not found any property use KeyValue
+			var possibleNames = new List<string> { "name", "title", "description", "value" };
+			var value = String.Empty;
+			foreach (var possibleName in possibleNames)
 			{
-				value = row.Values.FirstOrDefault(x => x.Property.Name.ToLower().Contains("description"));
-				if (value == null)
+				var cell = row.Values.FirstOrDefault(x => x.Property.Name.ToLower().Contains("name"));
+				if (cell != null)
 				{
-					value = row.Values.FirstOrDefault(x => x.Property.Name.ToLower().Contains("value"));
+					value = cell.Value;
+					break;
 				}
 			}
-			if (value == null)
+
+			if (value.IsNullOrEmpty())
 			{
-				return row.KeyValue;
+				return "#" + row.KeyValue;
 			}
 
-			return value.Value;
+			return value;
 		}
 
 		public PagedRecordsViewModel GetChangesRecords(EntityViewModel entityChangesFor, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
@@ -183,7 +192,7 @@ namespace Ilaro.Admin.Services
 			var changeEntity = AdminInitialise.ChangeEntity;
 
 			var search = new EntitySearch { Query = searchQuery, Properties = changeEntity.SearchProperties };
-			order = order.IsNullOrEmpty() ? changeEntity.Key.Name : order;
+			order = order.IsNullOrEmpty() ? changeEntity.Key.ColumnName : order;
 			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
 			var orderBy = order + " " + orderDirection;
 			var columns = string.Join(",", changeEntity.DisplayColumns.Select(x => x.ColumnName));
@@ -203,19 +212,7 @@ namespace Ilaro.Admin.Services
 			var data = new List<DataRowViewModel>();
 			foreach (var item in result.Items)
 			{
-				var dict = (IDictionary<String, Object>)item;
-				var row = new DataRowViewModel();
-				row.KeyValue = dict[changeEntity.Key.Name].ToStringSafe();
-				row.LinkKeyValue = dict[changeEntity.LinkKey.Name].ToStringSafe();
-				foreach (var property in changeEntity.DisplayColumns)
-				{
-					row.Values.Add(new CellValueViewModel
-					{
-						Value = dict[property.Name].ToStringSafe(property),
-						Property = property
-					});
-				}
-				data.Add(row);
+				data.Add(ExpandoToDataRow(item, changeEntity));
 			}
 
 			return new PagedRecordsViewModel
@@ -331,7 +328,7 @@ namespace Ilaro.Admin.Services
 				return null;
 			}
 
-			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var expando = new ExpandoObject();
 			var filler = expando as IDictionary<String, object>;
@@ -372,7 +369,7 @@ namespace Ilaro.Admin.Services
 				return 0;
 			}
 
-			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var expando = new ExpandoObject();
 			var filler = expando as IDictionary<String, object>;
@@ -540,7 +537,7 @@ namespace Ilaro.Admin.Services
 
 		private object GetEntity(EntityViewModel entity, object key)
 		{
-			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var result = table.Single(key);
 
@@ -575,7 +572,7 @@ namespace Ilaro.Admin.Services
 				}
 			}
 
-			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.Name);
+			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var keyObject = GetKeyObject(entity, key);
 			var result = 0;
@@ -602,13 +599,13 @@ namespace Ilaro.Admin.Services
 					else if (deleteOption == DeleteOption.CascadeDelete)
 					{
 						// TODO: cascade delete
-						//sql += string.Join(Environment.NewLine, GetDeleteRelatedEntityDeleteSql(subRecord).Reverse()) + Environment.NewLine;
+						sql += string.Join(Environment.NewLine, GetDeleteRelatedEntityDeleteSql(subRecord).Reverse()) + Environment.NewLine;
 					}
 				}
 				var cmd = table.CreateDeleteCommand(key: keyObject);
 				cmd.CommandText = sql + cmd.CommandText;
 
-				result = table.Execute(cmd);
+				//result = table.Execute(cmd);
 			}
 
 			if (result < 1)

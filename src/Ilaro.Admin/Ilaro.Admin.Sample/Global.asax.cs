@@ -11,12 +11,12 @@ using System.Web.Routing;
 
 namespace Ilaro.Admin.Sample
 {
-    public class MvcApplication : System.Web.HttpApplication
-    {
-        protected void Application_Start()
-        {
+	public class MvcApplication : System.Web.HttpApplication
+	{
+		protected void Application_Start()
+		{
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
-			AdminInitialise.RegisterRoutes(RouteTable.Routes, "Admin");
+			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
 
 			AdminInitialise.AddEntity<Customer>();
 			AdminInitialise.AddEntity<Employee>();
@@ -31,16 +31,16 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.AddEntity<Territory>();
 			AdminInitialise.AddEntity<EntityChange>();
 
-            // If you want anonymous access to Ilaro.Admin, skip this line
-            // off course you can set Roles and Users for AuthorizeAttribute
-            AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
+			// If you want anonymous access to Ilaro.Admin, skip this line
+			// off course you can set Roles and Users for AuthorizeAttribute
+			AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
 
 			// If you have only one connection string there is no need to specify it
-            AdminInitialise.Initialise("NorthwindEntities");
+			AdminInitialise.Initialise("NorthwindEntities");
 
-            AreaRegistration.RegisterAllAreas();
-            RegisterRoutes(RouteTable.Routes);
-        }
+			AreaRegistration.RegisterAllAreas();
+			RegisterRoutes(RouteTable.Routes);
+		}
 
 		private void RegisterRoutes(RouteCollection routes)
 		{
@@ -52,5 +52,5 @@ namespace Ilaro.Admin.Sample
 				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
 			);
 		}
-    }
+	}
 }
