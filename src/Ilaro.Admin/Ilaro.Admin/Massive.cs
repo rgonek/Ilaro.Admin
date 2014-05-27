@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace Massive
 {
@@ -256,8 +257,11 @@ namespace Massive
 			using (var conn = OpenConnection())
 			{
 				var rdr = CreateCommand(sql, conn, args).ExecuteReader();
+				var index = 0;
 				while (rdr.Read())
 				{
+					index++;
+					Debug.WriteLine("Item: " + index);
 					yield return rdr.RecordToExpando();
 				}
 			}

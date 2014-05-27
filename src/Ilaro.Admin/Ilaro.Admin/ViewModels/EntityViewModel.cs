@@ -105,6 +105,8 @@ namespace Ilaro.Admin.ViewModels
 
 		public string RecordDisplayFormat { get; set; }
 
+		public object[] Attributes { get; set; }
+
 		public EntityViewModel(Type type)
 		{
 			this.Type = type;
@@ -128,16 +130,16 @@ namespace Ilaro.Admin.ViewModels
 
 			Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();
 
-			var attributes = type.GetCustomAttributes(false);
+			Attributes = type.GetCustomAttributes(false);
 
-			SetTableName(attributes);
-			SetColumns(attributes);
-			SetLinks(attributes);
+			SetTableName(Attributes);
+			//SetColumns(attributes);
+			SetLinks(Attributes);
 			SetLinkKey();
 
-			SetSearchProperties(attributes);
+			SetSearchProperties(Attributes);
 
-			SetGroups(attributes);
+			SetGroups(Attributes);
 
 			CanAdd = true;
 			if (IsChangeEntity)
@@ -148,7 +150,7 @@ namespace Ilaro.Admin.ViewModels
 			// check if has ToString() method
 			HasToStringMethod = Type.GetMethod("ToString").DeclaringType.Name != "Object";
 
-			var recordDisplay = attributes.OfType<RecordDisplayAttribute>().FirstOrDefault();
+			var recordDisplay = Attributes.OfType<RecordDisplayAttribute>().FirstOrDefault();
 			if (recordDisplay != null)
 			{
 				RecordDisplayFormat = recordDisplay.DisplayFormat;
@@ -183,6 +185,11 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
+		public void SetColumns()
+		{
+			SetColumns(Attributes);
+		}
+
 		private void SetColumns(object[] attributes)
 		{
 			var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
@@ -197,7 +204,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 			else
 			{
-				DisplayColumns = Properties.Where(x => !x.IsForeignKey).ToList();
+				DisplayColumns = GetDisplayProperties().ToList();
 			}
 		}
 
@@ -265,6 +272,33 @@ namespace Ilaro.Admin.ViewModels
 					// If is foreign key and have foreign key, that means, we have two properties for one database column, 
 					// so I want only that one who is a system type
 					else if (property.ReferenceProperty != null && property.IsSystemType && (getForeignCollection || (!getForeignCollection && !property.IsCollection)))
+					{
+						yield return property;
+					}
+				}
+			}
+		}
+
+		private IEnumerable<PropertyViewModel> GetDisplayProperties()
+		{
+			foreach (var property in Properties)
+			{
+				// Get all properties which is not a key and foreign key
+				if (!property.IsForeignKey)
+				{
+					yield return property;
+				}
+				
+				else if (property.IsForeignKey)
+				{
+					// If is foreign key and not have reference property
+					if (property.ReferenceProperty == null && !property.IsCollection)
+					{
+						yield return property;
+					}
+					// If is foreign key and have foreign key, that means, we have two properties for one database column, 
+					// so I want only that one who is a system type
+					else if (property.ReferenceProperty != null && property.IsSystemType && !property.IsCollection)
 					{
 						yield return property;
 					}

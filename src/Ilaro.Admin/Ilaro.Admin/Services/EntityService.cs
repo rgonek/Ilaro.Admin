@@ -51,13 +51,13 @@ namespace Ilaro.Admin.Services
 			{
 				var dict = (IDictionary<String, Object>)item;
 				var row = new DataRowViewModel();
-				row.KeyValue = dict[entity.Key.Name].ToStringSafe();
-				row.LinkKeyValue = dict[entity.LinkKey.Name].ToStringSafe();
+				row.KeyValue = dict[entity.Key.ColumnName].ToStringSafe();
+				row.LinkKeyValue = dict[entity.LinkKey.ColumnName].ToStringSafe();
 				foreach (var property in entity.DisplayColumns)
 				{
 					row.Values.Add(new CellValueViewModel
 					{
-						Value = dict[property.Name].ToStringSafe(property),
+						Value = dict[property.ColumnName].ToStringSafe(property),
 						Property = property
 					});
 				}
@@ -115,7 +115,7 @@ namespace Ilaro.Admin.Services
 			var row = new DataRowViewModel();
 			row.KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe();
 			row.LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe();
-			foreach (var property in entity.Properties.Where(x => !x.IsForeignKey || (x.IsForeignKey && !x.IsCollection)))
+			foreach (var property in entity.DisplayColumns)
 			{
 				row.Values.Add(new CellValueViewModel
 				{
@@ -774,7 +774,8 @@ namespace Ilaro.Admin.Services
 
 		public RecordHierarchy GetRecordHierarchy(EntityViewModel entity)
 		{
-			var hierarchy = GetEntityHierarchy(null, entity, 0);
+			var index = 0;
+			var hierarchy = GetEntityHierarchy(null, entity, ref index);
 			var sql = GenerateHierarchySQL(hierarchy);
 			var model = new DynamicModel(AdminInitialise.ConnectionString);
 			var records = model.Query(sql, entity.Key.Value);
@@ -863,7 +864,7 @@ ORDER BY {5}";
 			// {4} - Base table primary key
 			var joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
-			var columns = flatHierarchy.SelectMany(x => x.Entity.Properties.Where(y => !y.IsForeignKey || (y.IsForeignKey && !y.IsCollection))
+			var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayColumns
 				.Select(y => x.Alias + "." + y.ColumnName + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y.ColumnName)).ToList();
 			var joins = new List<string>();
 			foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
@@ -907,7 +908,7 @@ ORDER BY {5}";
 			return flatHierarchy;
 		}
 
-		private EntityHierarchy GetEntityHierarchy(EntityHierarchy parent, EntityViewModel entity, int index)
+		private EntityHierarchy GetEntityHierarchy(EntityHierarchy parent, EntityViewModel entity, ref int index)
 		{
 			var hierarchy = new EntityHierarchy
 			{
@@ -917,12 +918,12 @@ ORDER BY {5}";
 				ParentHierarchy = parent
 			};
 
-			foreach (var property in entity.CreateProperties().Where(x => x.IsForeignKey))
+			foreach (var property in entity.CreateProperties().Where(x => x.IsForeignKey && x.IsCollection))
 			{
 				if (parent == null || (parent != null && parent.Entity != property.ForeignEntity))
 				{
 					index++;
-					hierarchy.SubHierarchies.Add(GetEntityHierarchy(hierarchy, property.ForeignEntity, index));
+					hierarchy.SubHierarchies.Add(GetEntityHierarchy(hierarchy, property.ForeignEntity, ref index));
 				}
 			}
 

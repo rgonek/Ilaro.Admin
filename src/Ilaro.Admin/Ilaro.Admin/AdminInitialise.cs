@@ -170,6 +170,8 @@ namespace Ilaro.Admin
 				{
 					property.SetTemplatesName();
 				}
+
+				entity.SetColumns();
 			}
 		}
 	}

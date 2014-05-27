@@ -35,7 +35,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[Required]
 		public bool Discontinued { get; set; }
 
-		//public ICollection<OrderDetail> OrderDetails { get; set; }
+		public ICollection<OrderDetail> OrderDetails { get; set; }
 
 		public override string ToString()
 		{
