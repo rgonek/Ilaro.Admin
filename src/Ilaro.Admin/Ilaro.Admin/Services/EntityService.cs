@@ -49,19 +49,7 @@ namespace Ilaro.Admin.Services
 			var data = new List<DataRowViewModel>();
 			foreach (var item in result.Items)
 			{
-				var dict = (IDictionary<String, Object>)item;
-				var row = new DataRowViewModel();
-				row.KeyValue = dict[entity.Key.ColumnName].ToStringSafe();
-				row.LinkKeyValue = dict[entity.LinkKey.ColumnName].ToStringSafe();
-				foreach (var property in entity.DisplayColumns)
-				{
-					row.Values.Add(new CellValueViewModel
-					{
-						Value = dict[property.ColumnName].ToStringSafe(property),
-						Property = property
-					});
-				}
-				data.Add(row);
+				data.Add(ExpandoToDataRow(item, entity));
 			}
 
 			return new PagedRecordsViewModel

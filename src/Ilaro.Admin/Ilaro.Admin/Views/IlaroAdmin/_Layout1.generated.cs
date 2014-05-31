@@ -208,7 +208,7 @@ WriteLiteral(" class=\"row\"");
 
 WriteLiteral(">\r\n\t\t\t<div");
 
-WriteLiteral(" class=\"col-md-9\"");
+WriteLiteral(" class=\"col-md-10\"");
 
 WriteLiteral(">\r\n");
 
@@ -223,7 +223,7 @@ Write(RenderBody());
             #line hidden
 WriteLiteral("\r\n\t\t\t</div>\r\n\t\t\t<div");
 
-WriteLiteral(" class=\"col-md-3\"");
+WriteLiteral(" class=\"col-md-2\"");
 
 WriteLiteral(">\r\n");
 

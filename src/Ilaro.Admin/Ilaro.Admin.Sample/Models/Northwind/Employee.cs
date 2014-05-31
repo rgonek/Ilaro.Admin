@@ -9,6 +9,8 @@ using System.Web;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+	[Columns("EmployeeID", "LastName", "FirstName", "Title", "TitleOfCourtesy", "BirthDate", "HireDate",
+		"Address", "City", "Region", "PostalCode", "Country")]
 	public class Employee
 	{
 		[Key]
@@ -29,7 +31,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
 		public DateTime? BirthDate { get; set; }
 
-		[DataType(System.ComponentModel.DataAnnotations.DataType.DateTime)]
+		[DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
 		public DateTime? HireDate { get; set; }
 
 		[MaxLength(60)]
