@@ -9,6 +9,11 @@ Project was inspired by [Django admin site](https://docs.djangoproject.com/en/de
 
 Please keep in mind this is still a alpha version.
 
+Get it from nuget:
+```
+Install-Package Ilaro.Admin
+```
+
 ##Requirements:
 - POCO classes (or pseudo POCO)
 - ASP MVC 4
