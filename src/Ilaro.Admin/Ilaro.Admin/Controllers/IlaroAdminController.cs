@@ -320,7 +320,7 @@ namespace Ilaro.Admin.Controllers
 
 			try
 			{
-				if (entityService.Delete(entity, model.Key, model.PropertiesDeleteOptions))
+				if (entityService.Delete(entity, model.Key, model.PropertiesDeleteOptions ?? new List<PropertyDeleteViewModel>()))
 				{
 					Success(IlaroAdminResources.DeleteSuccess, entity.Singular);
 
@@ -351,7 +351,6 @@ namespace Ilaro.Admin.Controllers
 
 			return View(viewModel);
 		}
-
 
 		[ChildActionOnly]
 		public virtual ActionResult Messages()

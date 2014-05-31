@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ilaro.Admin.Attributes;
+using Ilaro.Admin.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -63,6 +65,10 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[ForeignKey("ReportsTo")]
 		public virtual Employee Manager { get; set; }
 
+		[OnDelete(DeleteOption.AskUser)]
 		public virtual ICollection<Order> Orders { get; set; }
+
+		[OnDelete(DeleteOption.AskUser)]
+		public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
 	}
 }

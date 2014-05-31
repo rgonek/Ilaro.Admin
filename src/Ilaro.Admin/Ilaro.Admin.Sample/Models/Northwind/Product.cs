@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Attributes;
+using Ilaro.Admin.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,6 +36,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[Required]
 		public bool Discontinued { get; set; }
 
+		[OnDelete(DeleteOption.AskUser)]
 		public ICollection<OrderDetail> OrderDetails { get; set; }
 
 		public override string ToString()

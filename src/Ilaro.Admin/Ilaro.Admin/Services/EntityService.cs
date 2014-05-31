@@ -564,7 +564,7 @@ namespace Ilaro.Admin.Services
 		public bool Delete(EntityViewModel entity, string key, IList<PropertyDeleteViewModel> propertiesDeleteOptions)
 		{
 			var deleteOptions = propertiesDeleteOptions.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
-			foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
+			foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection))
 			{
 				if (!deleteOptions.ContainsKey(property.ForeignEntity.Name))
 				{
@@ -598,14 +598,13 @@ namespace Ilaro.Admin.Services
 					}
 					else if (deleteOption == DeleteOption.CascadeDelete)
 					{
-						// TODO: cascade delete
 						sql += string.Join(Environment.NewLine, GetDeleteRelatedEntityDeleteSql(subRecord).Reverse()) + Environment.NewLine;
 					}
 				}
 				var cmd = table.CreateDeleteCommand(key: keyObject);
 				cmd.CommandText = sql + cmd.CommandText;
 
-				//result = table.Execute(cmd);
+				result = table.Execute(cmd);
 			}
 
 			if (result < 1)
