@@ -238,17 +238,27 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t\t\t\t<button");
+WriteLiteral("\t\t\t\t\t\t\t\t<a");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 1463), Tuple.Create("\"", 1541)
+            
+            #line 38 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 1470), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+            
+            #line default
+            #line hidden
+, 1470), false)
+);
 
-WriteLiteral(" type=\"button\"");
+WriteLiteral(" target=\"_blank\"");
+
+WriteLiteral(" class=\"btn btn-primary create-foreign\"");
 
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></span></button>\r\n");
+WriteLiteral("></span></a>\r\n");
 
             
             #line 39 "..\..\Views\IlaroAdmin\Edit.cshtml"
@@ -311,17 +321,27 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t<button");
+WriteLiteral("\t\t\t\t\t<a");
 
-WriteLiteral(" class=\"btn btn-primary\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 1981), Tuple.Create("\"", 2059)
+            
+            #line 54 "..\..\Views\IlaroAdmin\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 1988), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+            
+            #line default
+            #line hidden
+, 1988), false)
+);
 
-WriteLiteral(" type=\"button\"");
+WriteLiteral(" target=\"_blank\"");
+
+WriteLiteral(" class=\"btn btn-primary create-foreign\"");
 
 WriteLiteral("><span");
 
 WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 
-WriteLiteral("></span></button>\r\n");
+WriteLiteral("></span></a>\r\n");
 
             
             #line 55 "..\..\Views\IlaroAdmin\Edit.cshtml"
@@ -423,14 +443,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n\t\t\t<a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2568), Tuple.Create("\"", 2634)
+WriteAttribute("href", Tuple.Create(" href=\"", 2740), Tuple.Create("\"", 2806)
             
             #line 67 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2575), Tuple.Create<System.Object, System.Int32>(Url.Action("List", new { entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 2747), Tuple.Create<System.Object, System.Int32>(Url.Action("List", new { entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2575), false)
+, 2747), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
@@ -446,14 +466,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</a>\r\n\t\t\t<a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2705), Tuple.Create("\"", 2803)
+WriteAttribute("href", Tuple.Create(" href=\"", 2877), Tuple.Create("\"", 2975)
             
             #line 68 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2712), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+, Tuple.Create(Tuple.Create("", 2884), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
             
             #line default
             #line hidden
-, 2712), false)
+, 2884), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pull-right\"");
@@ -476,7 +496,55 @@ WriteLiteral("</a>\r\n\t\t</div>\r\n\t</div>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
+WriteLiteral("\r\n<div");
+
+WriteLiteral(" class=\"modal fade\"");
+
+WriteLiteral(" id=\"foreign-modal\"");
+
+WriteLiteral(" tabindex=\"-1\"");
+
+WriteLiteral(" role=\"dialog\"");
+
+WriteLiteral(" aria-labelledby=\"Create foreign entity\"");
+
+WriteLiteral(" aria-hidden=\"true\"");
+
+WriteLiteral(">\r\n\t<div");
+
+WriteLiteral(" class=\"modal-dialog\"");
+
+WriteLiteral(" style=\"width:90%\"");
+
+WriteLiteral(">\r\n\t\t<div");
+
+WriteLiteral(" class=\"modal-content\"");
+
+WriteLiteral(">\r\n\t\t\t<div");
+
+WriteLiteral(" class=\"modal-header\"");
+
+WriteLiteral(">\r\n\t\t\t\t<button");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral(" class=\"close\"");
+
+WriteLiteral(" data-dismiss=\"modal\"");
+
+WriteLiteral(" aria-hidden=\"true\"");
+
+WriteLiteral(">&times;</button>\r\n\t\t\t\t<h4");
+
+WriteLiteral(" class=\"modal-title\"");
+
+WriteLiteral(" id=\"myModalLabel\"");
+
+WriteLiteral(">Create foreign entity</h4>\r\n\t\t\t</div>\r\n\t\t\t<div");
+
+WriteLiteral(" class=\"modal-body\"");
+
+WriteLiteral(">\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n");
 
         }
     }

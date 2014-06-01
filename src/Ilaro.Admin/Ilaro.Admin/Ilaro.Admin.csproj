@@ -409,6 +409,7 @@
     <EmbeddedResource Include="Content\css\summernote.css" />
     <EmbeddedResource Include="Scripts\jquery.bootstrap-duallistbox.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
+    <EmbeddedResource Include="Scripts\ilaro.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

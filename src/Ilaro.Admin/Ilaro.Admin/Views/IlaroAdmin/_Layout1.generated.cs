@@ -309,64 +309,14 @@ WriteLiteral(" src=\"/ira/Script/jquery_bootstrap-duallistbox_min_js\"");
 
 WriteLiteral("></script>\r\n\t<script");
 
-WriteLiteral(" type=\"text/javascript\"");
+WriteLiteral(" src=\"/ira/Script/ilaro_js\"");
 
-WriteLiteral(@">
-		$(function () {
-			$('.date-time-picker').datetimepicker();
-
-			$('.date-picker').datetimepicker({
-				pickTime: false
-			});
-
-			$('.time-picker').datetimepicker({
-				pickDate: false
-			});
-
-			$('.numeric').spinedit({ value: 0 });
-
-			$('select:not(.dual-list)').chosen({ disable_search_threshold: 10 });
-
-			$('textarea.markdown').markdown();
-
-			$('textarea.html').summernote({ height: 100 });
-
-			$('.dual-list').bootstrapDualListbox({
-				moveOnSelect: false
-			});
-
-			$('th > span').tooltip();
-			$('.open-modal').click(function (e) {
-				e.preventDefault();
-				$('#modal-image').attr('src', $(this).attr('href'));
-				$('#modal').modal();
-				return false;
-			});
-			$('.autoPostBack').change(function () {
-				$(this).parents('form').submit();
-			});
-			$('legend .btn').click(function () {
-				var $this = $(this);
-				var $i = $this.children('i');
-				if ($i.hasClass('glyphicon glyphicon-plus')) {
-					$i.removeClass('glyphicon glyphicon-plus');
-					$i.addClass('glyphicon glyphicon-minus');
-					$this.parent().siblings('.fields').slideDown();
-				}
-				else {
-					$i.removeClass('glyphicon glyphicon-minus');
-					$i.addClass('glyphicon glyphicon-plus');
-					$this.parent().siblings('.fields').slideUp();
-				}
-			});
-		});
-	</script>
-");
+WriteLiteral("></script>\r\n");
 
 WriteLiteral("\t");
 
             
-            #line 118 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 69 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

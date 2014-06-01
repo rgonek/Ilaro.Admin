@@ -159,6 +159,8 @@ namespace Ilaro.Admin.Controllers
 
 		public ActionResult Create(string entityName)
 		{
+			ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
+
 			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 			entityService.ClearProperties(entity);
 
@@ -174,6 +176,8 @@ namespace Ilaro.Admin.Controllers
 		[HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
 		public ActionResult Create(string entityName, FormCollection collection)
 		{
+			ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
+
 			var entity = AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
 
 			entityService.FillEntity(entity, collection);
