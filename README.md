@@ -10,8 +10,23 @@ Project was inspired by [Django admin site](https://docs.djangoproject.com/en/de
 Please keep in mind this is still a alpha version.
 
 Get it from nuget:
+
+If you are using Unity install:
+```
+Install-Package Ilaro.Admin.Unity
+```
+Or if you using Ninject install:
+```
+Install-Package Ilaro.Admin.Ninject
+```
+Or you can just install:
 ```
 Install-Package Ilaro.Admin
+```
+And register:
+```
+Notificator in session scope
+IEntityService => EntityService
 ```
 
 ##Requirements:
