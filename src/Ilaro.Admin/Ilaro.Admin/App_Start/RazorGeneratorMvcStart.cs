@@ -2,6 +2,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using RazorGenerator.Mvc;
+using Ilaro.Admin.Commons;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Ilaro.Admin.App_Start.RazorGeneratorMvcStart), "Start")]
 
@@ -11,9 +12,9 @@ namespace Ilaro.Admin.App_Start
 	{
 		public static void Start()
 		{
-			var engine = new PrecompiledMvcEngine(typeof(RazorGeneratorMvcStart).Assembly)
+			var engine = new IlaroPrecompiledMvcEngine(typeof(RazorGeneratorMvcStart).Assembly)
 			{
-				UsePhysicalViewsIfNewer = HttpContext.Current.Request.IsLocal
+				AlwaysUsePhysicalViews = true
 			};
 
 			ViewEngines.Engines.Insert(0, engine);
