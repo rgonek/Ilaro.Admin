@@ -103,8 +103,6 @@ namespace Ilaro.Admin
 		{
 			ConnectionString = connectionString;
 
-			Bootstrapper.Initialise();
-
 			SetForeignKeysReferences();
 		}
 

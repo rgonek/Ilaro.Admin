@@ -14,9 +14,14 @@ namespace Ilaro.Admin.Controllers
 			this.notificator = notificator;
 		}
 
+		public BaseController()
+		{
+
+		}
+
 		#region Notificator
 
-		protected readonly Notificator notificator;
+		protected Notificator notificator;
 
 		public void Success(string message)
 		{

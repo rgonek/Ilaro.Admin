@@ -194,6 +194,10 @@
     <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin.Ninject\Ilaro.Admin.Ninject.csproj">
+      <Project>{eaca1818-aa0c-4b92-8f64-da4fe4aec46b}</Project>
+      <Name>Ilaro.Admin.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ilaro.Admin\Ilaro.Admin.csproj">
       <Project>{87db09c0-33de-4198-95db-7c157d1a705c}</Project>
       <Name>Ilaro.Admin</Name>

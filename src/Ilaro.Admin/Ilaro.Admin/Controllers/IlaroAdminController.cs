@@ -26,6 +26,13 @@ namespace Ilaro.Admin.Controllers
 			this.entityService = entityService;
 		}
 
+		public IlaroAdminController()
+		{
+			// Just in case
+			this.notificator = DependencyResolver.Current.GetService<Notificator>();
+			this.entityService = DependencyResolver.Current.GetService<IEntityService>();
+		}
+
 		public ActionResult Index()
 		{
 			var viewModel = new IndexViewModel
