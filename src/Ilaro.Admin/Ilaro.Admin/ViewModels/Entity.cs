@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Ilaro.Admin.ViewModels
 {
 	[DebuggerDisplay("Entity {Name}")]
-	public class EntityViewModel
+	public class Entity
 	{
 		public Type Type { get; set; }
 
@@ -24,9 +24,9 @@ namespace Ilaro.Admin.ViewModels
 
 		public string Plural { get; set; }
 
-		public IList<PropertyViewModel> Properties { get; set; }
+		public IList<Property> Properties { get; set; }
 
-		public IEnumerable<PropertyViewModel> FilterProperties
+		public IEnumerable<Property> FilterProperties
 		{
 			get
 			{
@@ -34,7 +34,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public PropertyViewModel Key
+		public Property Key
 		{
 			get
 			{
@@ -42,7 +42,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public PropertyViewModel LinkKey
+		public Property LinkKey
 		{
 			get
 			{
@@ -54,11 +54,11 @@ namespace Ilaro.Admin.ViewModels
 
 		public string GroupName { get; set; }
 
-		public IList<string> Groups { get; set; }
+		public IList<GroupPropertiesViewModel> Groups { get; set; }
 
-		public IList<PropertyViewModel> DisplayColumns { get; set; }
+		public IList<Property> DisplayProperties { get; set; }
 
-		public IEnumerable<PropertyViewModel> SearchProperties { get; set; }
+		public IEnumerable<Property> SearchProperties { get; set; }
 
 		#region Links
 
@@ -107,7 +107,12 @@ namespace Ilaro.Admin.ViewModels
 
 		public object[] Attributes { get; set; }
 
-		public EntityViewModel(Type type)
+		public Property this[string propertyName]
+		{
+			get { return Properties.FirstOrDefault(x => x.Name == propertyName); }
+		}
+
+		public Entity(Type type)
 		{
 			this.Type = type;
 			Name = Type.Name;
@@ -128,7 +133,7 @@ namespace Ilaro.Admin.ViewModels
 				this.GroupName = Resources.IlaroAdminResources.Others;
 			}
 
-			Properties = type.GetProperties().Select(x => new PropertyViewModel(this, x)).ToList();
+			Properties = type.GetProperties().Select(x => new Property(this, x)).ToList();
 
 			Attributes = type.GetCustomAttributes(false);
 
@@ -162,22 +167,27 @@ namespace Ilaro.Admin.ViewModels
 			var tableAttribute = attributes.OfType<TableAttribute>().FirstOrDefault();
 			if (tableAttribute != null)
 			{
-				if (!tableAttribute.Schema.IsNullOrEmpty())
-				{
-					TableName = "[" + tableAttribute.Schema + "].[" + tableAttribute.Name + "]";
-				}
-				else
-				{
-					TableName = "[" + tableAttribute.Name + "]";
-				}
+				SetTableName(tableAttribute.Name, tableAttribute.Schema);
 			}
 			else
 			{
-				TableName = Name.Pluralize();
+				TableName = "[" + Name.Pluralize() + "]";
 			}
 		}
 
-		private void SetLinkKey()
+		internal void SetTableName(string table, string schema = null)
+		{
+			if (!schema.IsNullOrEmpty())
+			{
+				TableName = "[" + schema + "].[" + table + "]";
+			}
+			else
+			{
+				TableName = "[" + table + "]";
+			}
+		}
+
+		public void SetLinkKey()
 		{
 			if (LinkKey == null && Key != null)
 			{
@@ -192,19 +202,28 @@ namespace Ilaro.Admin.ViewModels
 
 		private void SetColumns(object[] attributes)
 		{
-			var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
-			if (columnsAttribute != null)
+			// if there any display properties that mean it was setted by fluent configuration 
+			// and we don't want replace them
+			if (DisplayProperties.IsNullOrEmpty())
 			{
-				DisplayColumns = new List<PropertyViewModel>();
-				foreach (var column in columnsAttribute.Columns)
+				var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
+				if (columnsAttribute != null)
 				{
-					DisplayColumns.Add(Properties.FirstOrDefault(x => x.Name == column));
+					SetDisplayProperties(columnsAttribute.Columns);
 				}
-				//DisplayColumns = Properties.Where(x => columnsAttribute.Columns.Contains(x.Name));
+				else
+				{
+					DisplayProperties = GetDisplayProperties().ToList();
+				}
 			}
-			else
+		}
+
+		internal void SetDisplayProperties(IEnumerable<string> properties)
+		{
+			DisplayProperties = new List<Property>();
+			foreach (var column in properties)
 			{
-				DisplayColumns = GetDisplayProperties().ToList();
+				DisplayProperties.Add(Properties.FirstOrDefault(x => x.Name == column));
 			}
 		}
 
@@ -213,12 +232,18 @@ namespace Ilaro.Admin.ViewModels
 			var searchAttribute = attributes.OfType<SearchAttribute>().FirstOrDefault();
 			if (searchAttribute != null)
 			{
-				SearchProperties = Properties.Where(x => searchAttribute.Columns.Contains(x.Name));
+				SetSearchProperties(searchAttribute.Columns);
 			}
 			else
 			{
+				// TODO: Move types to other class
 				SearchProperties = Properties.Where(x => !x.IsForeignKey && x.PropertyType.In(typeof(string), typeof(int), typeof(short), typeof(long), typeof(double), typeof(decimal), typeof(int?), typeof(short?), typeof(long?), typeof(double?), typeof(decimal?)));
 			}
+		}
+
+		internal void SetSearchProperties(IEnumerable<string> properties)
+		{
+			SearchProperties = Properties.Where(x => properties.Contains(x.Name));
 		}
 
 		private void SetGroups(object[] attributes)
@@ -226,8 +251,63 @@ namespace Ilaro.Admin.ViewModels
 			var groupsAttribute = attributes.OfType<GroupsAttribute>().FirstOrDefault();
 			if (groupsAttribute != null)
 			{
-				Groups = groupsAttribute.Groups.ToList();
+				PrepareGroups(groupsAttribute.Groups);
 			}
+			else
+			{
+				PrepareGroups(new List<string>());
+			}
+		}
+
+		private void PrepareGroups(IList<string> groupsNames)
+		{
+			var groupsDict = CreateProperties().GroupBy(x => x.GroupName).ToDictionary(x => x.Key);
+
+			Groups = new List<GroupPropertiesViewModel>();
+			if (groupsNames.IsNullOrEmpty())
+			{
+				foreach (var group in groupsDict)
+				{
+					Groups.Add(new GroupPropertiesViewModel
+					{
+						GroupName = group.Key,
+						Properties = group.Value.ToList()
+					});
+				}
+			}
+			else
+			{
+				foreach (var groupName in groupsNames)
+				{
+					var trimedGroupName = groupName.TrimEnd('*');
+					if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
+					{
+						var group = groupsDict[trimedGroupName];
+
+						Groups.Add(new GroupPropertiesViewModel
+						{
+							GroupName = group.Key,
+							Properties = group.ToList(),
+							IsCollapsed = groupName.EndsWith("*")
+						});
+					}
+				}
+			}
+		}
+
+		internal void AddGroup(string group, bool isCollapsed, IEnumerable<string> propertiesNames)
+		{
+			if (Groups == null)
+			{
+				Groups = new List<GroupPropertiesViewModel>();
+			}
+
+			Groups.Add(new GroupPropertiesViewModel
+			{
+				GroupName = group,
+				Properties = Properties.Where(x => propertiesNames.Contains(x.Name)),
+				IsCollapsed = isCollapsed
+			});
 		}
 
 		private void SetLinks(object[] attributes)
@@ -248,7 +328,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public IEnumerable<PropertyViewModel> CreateProperties(bool getKey = true, bool getForeignCollection = true)
+		public IEnumerable<Property> CreateProperties(bool getKey = true, bool getForeignCollection = true)
 		{
 			foreach (var property in Properties)
 			{
@@ -279,7 +359,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		private IEnumerable<PropertyViewModel> GetDisplayProperties()
+		private IEnumerable<Property> GetDisplayProperties()
 		{
 			foreach (var property in Properties)
 			{
@@ -288,7 +368,7 @@ namespace Ilaro.Admin.ViewModels
 				{
 					yield return property;
 				}
-				
+
 				else if (property.IsForeignKey)
 				{
 					// If is foreign key and not have reference property
@@ -304,6 +384,20 @@ namespace Ilaro.Admin.ViewModels
 					}
 				}
 			}
+		}
+
+		internal void SetKey(string propertyName)
+		{
+			var property = Properties.FirstOrDefault(x => x.Name == propertyName);
+
+			property.IsKey = true;
+		}
+
+		internal void SetLinkKey(string propertyName)
+		{
+			var property = Properties.FirstOrDefault(x => x.Name == propertyName);
+
+			property.IsLinkKey = true;
 		}
 	}
 }

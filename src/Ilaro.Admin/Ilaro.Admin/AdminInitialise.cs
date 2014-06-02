@@ -10,14 +10,15 @@ using Ilaro.Admin.App_Start;
 using RazorGenerator.Mvc;
 using Ilaro.Admin.Extensions;
 using System.Web.Mvc;
+using System.Linq.Expressions;
 
 namespace Ilaro.Admin
 {
 	public static class AdminInitialise
 	{
-		public static IList<EntityViewModel> EntitiesTypes { get; set; }
+		public static IList<Entity> EntitiesTypes { get; set; }
 
-		public static EntityViewModel ChangeEntity
+		public static Entity ChangeEntity
 		{
 			get
 			{
@@ -31,12 +32,15 @@ namespace Ilaro.Admin
 
 		static AdminInitialise()
 		{
-			EntitiesTypes = new List<EntityViewModel>();
+			EntitiesTypes = new List<Entity>();
 		}
 
-		public static void AddEntity<TEntity>()
+		public static Entity AddEntity<TEntity>()
 		{
-			EntitiesTypes.Add(new EntityViewModel(typeof(TEntity)));
+			var entity = new Entity(typeof(TEntity));
+			EntitiesTypes.Add(entity);
+
+			return entity;
 		}
 
 		public static void RegisterResourceRoutes(RouteCollection routes)
@@ -170,6 +174,7 @@ namespace Ilaro.Admin
 				}
 
 				entity.SetColumns();
+				entity.SetLinkKey();
 			}
 		}
 	}

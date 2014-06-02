@@ -9,13 +9,13 @@ namespace Ilaro.Admin.EntitiesFilters
 {
 	public interface IEntityFilter
 	{
-		PropertyViewModel Property { get; set; }
+		Property Property { get; set; }
 
 		SelectList Options { get; set; }
 
 		string Value { get; set; }
 
-		void Initialize(PropertyViewModel property, string value = "");
+		void Initialize(Property property, string value = "");
 
 		string GetSQLCondition(string alias);
 	}

@@ -31,7 +31,7 @@ namespace Ilaro.Admin.Views.IlaroAdmin.EditorTemplates
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Views/IlaroAdmin/EditorTemplates/TextAreaPartial.cshtml")]
-    public partial class _TextAreaPartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.PropertyViewModel>
+    public partial class _TextAreaPartial : System.Web.Mvc.WebViewPage<Ilaro.Admin.ViewModels.Property>
     {
         public _TextAreaPartial()
         {

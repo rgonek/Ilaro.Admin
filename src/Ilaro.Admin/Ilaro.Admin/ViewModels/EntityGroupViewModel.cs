@@ -9,6 +9,6 @@ namespace Ilaro.Admin.ViewModels
     {
         public string Name { get; set; }
 
-        public IList<EntityViewModel> Entities { get; set; }
+        public IList<Entity> Entities { get; set; }
     }
 }

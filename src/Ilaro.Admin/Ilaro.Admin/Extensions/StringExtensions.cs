@@ -161,7 +161,7 @@ namespace Ilaro.Admin.Extensions
             }
         }
 
-        public static string ToStringSafe(this object value, PropertyViewModel property)
+        public static string ToStringSafe(this object value, Property property)
         {
             if (value == null)
             {

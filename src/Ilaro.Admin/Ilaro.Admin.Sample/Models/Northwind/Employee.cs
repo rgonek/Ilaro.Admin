@@ -9,8 +9,6 @@ using System.Web;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
-	[Columns("EmployeeID", "LastName", "FirstName", "Title", "TitleOfCourtesy", "BirthDate", "HireDate",
-		"Address", "City", "Region", "PostalCode", "Country")]
 	public class Employee
 	{
 		[Key]

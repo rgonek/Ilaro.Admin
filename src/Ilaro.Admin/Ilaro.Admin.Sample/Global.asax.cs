@@ -1,5 +1,7 @@
 ﻿using Ilaro.Admin;
+using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
+using Ilaro.Admin.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +20,27 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
 
-			AdminInitialise.AddEntity<Customer>();
-			AdminInitialise.AddEntity<Employee>();
-			AdminInitialise.AddEntity<Order>();
-			AdminInitialise.AddEntity<OrderDetail>();
-			AdminInitialise.AddEntity<Product>();
-			AdminInitialise.AddEntity<Category>();
-			AdminInitialise.AddEntity<EmployeeTerritory>();
-			AdminInitialise.AddEntity<Region>();
-			AdminInitialise.AddEntity<Shipper>();
-			AdminInitialise.AddEntity<Supplier>();
-			AdminInitialise.AddEntity<Territory>();
-			AdminInitialise.AddEntity<EntityChange>();
+			Entity<Customer>.Add()
+				//.SetKey(x => x.CustomerID)
+				//.SetTableName("Customers")
+				//.SetDisplayProperties(x => x.Address, x => x.City, x => x.Country, x => x.CustomerID, x => x.CompanyName)
+				//.SetSearchProperties(x => x.City)
+				//.AddPropertiesGroup("Super", x => x.Address, x => x.City)
+				//.SetDisplayFormat("")
+				.ConfigureProperty(Property<Customer>.Configure(x => x.CompanyName).Required());
+
+			//Entity<Employee>.Add().SetDisplayProperties(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
+			//	x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.Country);
+			//Entity<Order>.Add();
+			//Entity<OrderDetail>.Add().SetTableName("Order Details");
+			//Entity<Product>.Add();
+			//Entity<Category>.Add();
+			//Entity<EmployeeTerritory>.Add();
+			//Entity<Region>.Add();
+			//Entity<Shipper>.Add();
+			//Entity<Supplier>.Add();
+			//Entity<Territory>.Add();
+			//Entity<EntityChange>.Add();
 
 			// If you want anonymous access to Ilaro.Admin, skip this line
 			// off course you can set Roles and Users for AuthorizeAttribute

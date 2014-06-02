@@ -9,7 +9,7 @@ namespace Ilaro.Admin.ViewModels
     {
         public string GroupName { get; set; }
 
-        public IList<PropertyViewModel> Properties { get; set; }
+        public IEnumerable<Property> Properties { get; set; }
 
         public bool IsCollapsed { get; set; }
     }

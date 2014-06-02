@@ -7,7 +7,6 @@ using System.Web;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
-	[Table("Order Details")]
 	public class OrderDetail
 	{
 		[Key]

@@ -9,7 +9,7 @@ namespace Ilaro.Admin.ViewModels
 {
     public class ListViewModel
     {
-        public EntityViewModel Entity { get; set; }
+        public Entity Entity { get; set; }
 
         public IList<DataRowViewModel> Data { get; set; }
 

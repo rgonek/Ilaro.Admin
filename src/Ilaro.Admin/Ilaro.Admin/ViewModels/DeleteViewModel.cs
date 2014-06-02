@@ -8,7 +8,7 @@ namespace Ilaro.Admin.ViewModels
 {
 	public class DeleteViewModel
 	{
-		public EntityViewModel Entity { get; set; }
+		public Entity Entity { get; set; }
 
 		public string EntityName { get; set; }
 

@@ -7,7 +7,7 @@ namespace Ilaro.Admin.ViewModels
 {
     public class EditViewModel
     {
-        public EntityViewModel Entity { get; set; }
+        public Entity Entity { get; set; }
 
         public IList<GroupPropertiesViewModel> PropertiesGroups { get; set; }
     }

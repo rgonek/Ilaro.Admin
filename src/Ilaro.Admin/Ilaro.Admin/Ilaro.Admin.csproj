@@ -160,11 +160,13 @@
     <Compile Include="EntitiesFilters\EnumEntityFilter.cs" />
     <Compile Include="EntitiesFilters\ForeignEntityFilter.cs" />
     <Compile Include="EntitiesFilters\IEntityFilter.cs" />
+    <Compile Include="Fluent\EntityFluent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ComparableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Fluent\PropertyFluent.cs" />
     <Compile Include="Massive.cs" />
     <Compile Include="Model\EntityChangeType.cs" />
     <Compile Include="Model\IEntityChange.cs" />
@@ -186,13 +188,13 @@
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\EditViewModel.cs" />
     <Compile Include="ViewModels\EntityGroupViewModel.cs" />
-    <Compile Include="ViewModels\EntityViewModel.cs" />
+    <Compile Include="ViewModels\Entity.cs" />
     <Compile Include="ViewModels\GroupPropertiesViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\IndexViewModel.cs" />
     <Compile Include="ViewModels\PagedRecordsViewModel.cs" />
     <Compile Include="ViewModels\PagerInfo.cs" />
-    <Compile Include="ViewModels\PropertyViewModel.cs" />
+    <Compile Include="ViewModels\Property.cs" />
     <Compile Include="ViewModels\RecordHierarchy.cs" />
     <Compile Include="Views\IlaroAdmin\Create.generated.cs">
       <AutoGen>True</AutoGen>

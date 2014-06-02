@@ -9,6 +9,6 @@ namespace Ilaro.Admin.ViewModels
 {
 	public class ChangesViewModel : ListViewModel
 	{
-		public EntityViewModel EntityChangesFor { get; set; }
+		public Entity EntityChangesFor { get; set; }
 	}
 }

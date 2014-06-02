@@ -18,7 +18,7 @@ using System.Globalization;
 namespace Ilaro.Admin.ViewModels
 {
 	[DebuggerDisplay("Property {Name}")]
-	public class PropertyViewModel
+	public class Property
 	{
 		#region Fields
 
@@ -43,7 +43,7 @@ namespace Ilaro.Admin.ViewModels
 
 		#endregion
 
-		public EntityViewModel Entity { get; set; }
+		public Entity Entity { get; set; }
 
 		public Type PropertyType { get; set; }
 
@@ -87,11 +87,11 @@ namespace Ilaro.Admin.ViewModels
 		/// </summary>
 		public bool IsForeignKey { get; set; }
 
-		public EntityViewModel ForeignEntity { get; set; }
+		public Entity ForeignEntity { get; set; }
 
 		public string ForeignEntityName { get; set; }
 
-		public PropertyViewModel ReferenceProperty { get; set; }
+		public Property ReferenceProperty { get; set; }
 
 		public string ReferencePropertyName { get; set; }
 
@@ -184,7 +184,7 @@ namespace Ilaro.Admin.ViewModels
 
 		public IDictionary<string, object> ControlsAttributes { get; set; }
 
-		public PropertyViewModel(EntityViewModel entity, PropertyInfo property)
+		public Property(Entity entity, PropertyInfo property)
 		{
 			ControlsAttributes = new Dictionary<string, object>();
 			Entity = entity;

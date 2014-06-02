@@ -15,22 +15,22 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_SimpleTypes_IsNotForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("Id"));
+			var property = new Property(null, entityType.GetProperty("Id"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("Name"));
+			property = new Property(null, entityType.GetProperty("Name"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("IsSpecial"));
+			property = new Property(null, entityType.GetProperty("IsSpecial"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("DateAdd"));
+			property = new Property(null, entityType.GetProperty("DateAdd"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("Price"));
+			property = new Property(null, entityType.GetProperty("Price"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("Percent"));
+			property = new Property(null, entityType.GetProperty("Percent"));
 			Assert.IsFalse(property.IsForeignKey);
 		}
 
@@ -38,10 +38,10 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_Collections_IsNotForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("Tags"));
+			var property = new Property(null, entityType.GetProperty("Tags"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("Dimensions"));
+			property = new Property(null, entityType.GetProperty("Dimensions"));
 			Assert.IsFalse(property.IsForeignKey);
 		}
 
@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_Collections_IsForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("Siblings"));
+			var property = new Property(null, entityType.GetProperty("Siblings"));
 			Assert.IsTrue(property.IsForeignKey);
 		}
 
@@ -57,10 +57,10 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_Enums_IsNotForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("Option"));
+			var property = new Property(null, entityType.GetProperty("Option"));
 			Assert.IsFalse(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("SplitOption"));
+			property = new Property(null, entityType.GetProperty("SplitOption"));
 			Assert.IsFalse(property.IsForeignKey);
 		}
 
@@ -68,10 +68,10 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_ComplexTypes_IsForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("Parent"));
+			var property = new Property(null, entityType.GetProperty("Parent"));
 			Assert.IsTrue(property.IsForeignKey);
 
-			property = new PropertyViewModel(null, entityType.GetProperty("Child"));
+			property = new Property(null, entityType.GetProperty("Child"));
 			Assert.IsTrue(property.IsForeignKey);
 		}
 
@@ -79,7 +79,7 @@ namespace Ilaro.Admin.Tests
 		public void SetForeigns_SimpleTypForeignAttribute_IsForeignKey()
 		{
 			var entityType = typeof(TestEntity);
-			var property = new PropertyViewModel(null, entityType.GetProperty("RoleId"));
+			var property = new Property(null, entityType.GetProperty("RoleId"));
 			Assert.IsTrue(property.IsForeignKey);
 		}
 

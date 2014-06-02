@@ -11,7 +11,7 @@ namespace Ilaro.Admin.ViewModels
 
 		public string DisplayName { get; set; }
 
-		public EntityViewModel Entity { get; set; }
+		public Entity Entity { get; set; }
 
 		public IList<RecordHierarchy> SubRecordsHierarchies { get; set; }
 	}

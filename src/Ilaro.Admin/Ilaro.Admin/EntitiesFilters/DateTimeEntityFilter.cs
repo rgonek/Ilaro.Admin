@@ -11,13 +11,13 @@ namespace Ilaro.Admin.EntitiesFilters
 {
 	public class DateTimeEntityFilter : IEntityFilter
 	{
-		public PropertyViewModel Property { get; set; }
+		public Property Property { get; set; }
 
 		public SelectList Options { get; set; }
 
 		public string Value { get; set; }
 
-		public void Initialize(PropertyViewModel property, string value = "")
+		public void Initialize(Property property, string value = "")
 		{
 			Value = value ?? String.Empty;
 

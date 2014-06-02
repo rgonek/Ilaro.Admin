@@ -11,7 +11,7 @@ namespace Ilaro.Admin.EntitiesFilters
     {
         public string Query { get; set; }
 
-        public IEnumerable<PropertyViewModel> Properties { get; set; }
+        public IEnumerable<Property> Properties { get; set; }
 
         public bool IsActive
         {

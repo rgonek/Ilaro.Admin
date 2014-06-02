@@ -47,13 +47,13 @@
 	});
 
 	$('.create-foreign').click(function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 
-		var url = $(this).attr('href');
+		//var url = $(this).attr('href');
 
-		$.get(url, function (data) {
-			$('#foreign-modal .modal-body').html(data);
-			$('#foreign-modal').modal('show');
-		});
+		//$.get(url, function (data) {
+		//	$('#foreign-modal .modal-body').html(data);
+		//	$('#foreign-modal').modal('show');
+		//});
 	});
 });

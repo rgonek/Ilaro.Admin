@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Extensions
 {
 	public static class HtmlHelperExtensions
 	{
-		public static MvcHtmlString FilterOptionLink(this HtmlHelper htmlHelper, EntityViewModel entity, IEntityFilter currentFilter, SelectListItem option, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection, int perPage)
+		public static MvcHtmlString FilterOptionLink(this HtmlHelper htmlHelper, Entity entity, IEntityFilter currentFilter, SelectListItem option, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection, int perPage)
 		{
 			var routeValues = new Dictionary<string, object> { { "entityName", entity.Name }, { "pp", perPage } };
 			if (!searchQuery.IsNullOrEmpty())
@@ -61,7 +61,7 @@ namespace Ilaro.Admin.Extensions
 			return null;
 		}
 
-		public static MvcHtmlString SortColumnLink(this HtmlHelper htmlHelper, EntityViewModel entity, ColumnViewModel column, IList<IEntityFilter> filters, string searchQuery, int perPage)
+		public static MvcHtmlString SortColumnLink(this HtmlHelper htmlHelper, Entity entity, ColumnViewModel column, IList<IEntityFilter> filters, string searchQuery, int perPage)
 		{
 			var routeValues = new Dictionary<string, object> { { "entityName", entity.Name }, { "pp", perPage } };
 			if (!searchQuery.IsNullOrEmpty())
@@ -137,17 +137,17 @@ namespace Ilaro.Admin.Extensions
 		/// <summary>
 		/// Own TextBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc TextBox
 		/// </summary>
-		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property)
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, Property property)
 		{
 			return TextBox(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
 		}
 
-		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, object htmlAttributes)
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, Property property, object htmlAttributes)
 		{
 			return TextBox(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		public static MvcHtmlString TextBox(this HtmlHelper htmlHelper, string name, object value, Property property, IDictionary<string, object> htmlAttributes)
 		{
 			// create own metadata based on PropertyViewModel
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
@@ -165,17 +165,17 @@ namespace Ilaro.Admin.Extensions
 		/// <summary>
 		/// Own Password extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc Password
 		/// </summary>
-		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property)
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, Property property)
 		{
 			return Password(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
 		}
 
-		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, object htmlAttributes)
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, Property property, object htmlAttributes)
 		{
 			return Password(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		public static MvcHtmlString Password(this HtmlHelper htmlHelper, string name, object value, Property property, IDictionary<string, object> htmlAttributes)
 		{
 			// create own metadata based on PropertyViewModel
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
@@ -193,17 +193,17 @@ namespace Ilaro.Admin.Extensions
 		/// <summary>
 		/// Own TextArea extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc TextArea
 		/// </summary>
-		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property)
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, Property property)
 		{
 			return TextArea(htmlHelper, name, value, property, htmlAttributes: (IDictionary<string, object>)null);
 		}
 
-		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property, object htmlAttributes)
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, Property property, object htmlAttributes)
 		{
 			return TextArea(htmlHelper, name, value, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		public static MvcHtmlString TextArea(this HtmlHelper htmlHelper, string name, string value, Property property, IDictionary<string, object> htmlAttributes)
 		{
 			// create own metadata based on PropertyViewModel
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
@@ -221,17 +221,17 @@ namespace Ilaro.Admin.Extensions
 		/// <summary>
 		/// Own CheckBox extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc CheckBox
 		/// </summary>
-		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property)
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, Property property)
 		{
 			return CheckBox(htmlHelper, name, isChecked, property, htmlAttributes: (IDictionary<string, object>)null);
 		}
 
-		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property, object htmlAttributes)
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, Property property, object htmlAttributes)
 		{
 			return CheckBox(htmlHelper, name, isChecked, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		public static MvcHtmlString CheckBox(this HtmlHelper htmlHelper, string name, bool isChecked, Property property, IDictionary<string, object> htmlAttributes)
 		{
 			// create own metadata based on PropertyViewModel
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);
@@ -249,17 +249,17 @@ namespace Ilaro.Admin.Extensions
 		/// <summary>
 		/// Own DropDownList extensions, thanks that we create own metadata and based on we get unobtrusive validation attibute and pass this attributes to mvc DropDownList
 		/// </summary>
-		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property)
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, Property property)
 		{
 			return DropDownList(htmlHelper, name, selectList, property, htmlAttributes: (IDictionary<string, object>)null);
 		}
 
-		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property, object htmlAttributes)
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, Property property, object htmlAttributes)
 		{
 			return DropDownList(htmlHelper, name, selectList, property, htmlAttributes: HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, PropertyViewModel property, IDictionary<string, object> htmlAttributes)
+		public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, IEnumerable<SelectListItem> selectList, Property property, IDictionary<string, object> htmlAttributes)
 		{
 			// create own metadata based on PropertyViewModel
 			var metadata = new ModelMetadata(ModelMetadataProviders.Current, property.Entity.Type, null, property.PropertyType, property.Name);

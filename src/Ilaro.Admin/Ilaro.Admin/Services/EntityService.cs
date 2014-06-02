@@ -31,7 +31,7 @@ namespace Ilaro.Admin.Services
 		{
 		}
 
-		public PagedRecordsViewModel GetRecords(EntityViewModel entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
+		public PagedRecordsViewModel GetRecords(Entity entity, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
 		{
 			var skip = (page - 1) * take;
 
@@ -39,7 +39,7 @@ namespace Ilaro.Admin.Services
 			order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
 			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
 			var orderBy = order + " " + orderDirection;
-			var columns = string.Join(",", entity.DisplayColumns.Select(x => x.ColumnName));
+			var columns = GetColumns(entity);
 			var where = ConvertFiltersToSQL(filters, search);
 
 			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
@@ -60,7 +60,16 @@ namespace Ilaro.Admin.Services
 			};
 		}
 
-		public IList<DataRowViewModel> GetRecords(EntityViewModel entity, IList<IEntityFilter> filters = null, string searchQuery = null, string order = null, string orderDirection = null, bool determineDisplayValue = false)
+		private string GetColumns(Entity entity)
+		{
+			var columns = entity.DisplayProperties.Select(x => x.ColumnName).ToList();
+			columns.Insert(0, entity.LinkKey.Name);
+			columns.Insert(0, entity.Key.Name);
+
+			return string.Join(",", columns.Distinct());
+		}
+
+		public IList<DataRowViewModel> GetRecords(Entity entity, IList<IEntityFilter> filters = null, string searchQuery = null, string order = null, string orderDirection = null, bool determineDisplayValue = false)
 		{
 			var search = new EntitySearch { Query = searchQuery, Properties = entity.SearchProperties };
 			order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
@@ -79,7 +88,6 @@ namespace Ilaro.Admin.Services
 				data.Add(ExpandoToDataRow(item, entity));
 			}
 
-
 			if (determineDisplayValue)
 			{
 				foreach (var row in data)
@@ -91,19 +99,19 @@ namespace Ilaro.Admin.Services
 			return data;
 		}
 
-		private DataRowViewModel ExpandoToDataRow(dynamic record, EntityViewModel entity, string prefix = null)
+		private DataRowViewModel ExpandoToDataRow(dynamic record, Entity entity, string prefix = null)
 		{
 			var recordDict = (IDictionary<String, Object>)record;
 
 			return ExpandoToDataRow(recordDict, entity, prefix);
 		}
 
-		private DataRowViewModel ExpandoToDataRow(IDictionary<String, Object> recordDict, EntityViewModel entity, string prefix = null)
+		private DataRowViewModel ExpandoToDataRow(IDictionary<String, Object> recordDict, Entity entity, string prefix = null)
 		{
 			var row = new DataRowViewModel();
 			row.KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe();
 			row.LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe();
-			foreach (var property in entity.DisplayColumns)
+			foreach (var property in entity.DisplayProperties)
 			{
 				row.Values.Add(new CellValueViewModel
 				{
@@ -122,7 +130,7 @@ namespace Ilaro.Admin.Services
 		/// <param name="entity">Entity</param>
 		/// <param name="row">Instance value</param>
 		/// <returns>Display name</returns>
-		private string GetDisplayName(EntityViewModel entity, DataRowViewModel row)
+		private string GetDisplayName(Entity entity, DataRowViewModel row)
 		{
 			// check if has to string attribute
 			if (!entity.RecordDisplayFormat.IsNullOrEmpty())
@@ -174,7 +182,7 @@ namespace Ilaro.Admin.Services
 			return value;
 		}
 
-		public PagedRecordsViewModel GetChangesRecords(EntityViewModel entityChangesFor, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
+		public PagedRecordsViewModel GetChangesRecords(Entity entityChangesFor, int page, int take, IList<IEntityFilter> filters, string searchQuery, string order, string orderDirection)
 		{
 			var skip = (page - 1) * take;
 			var changeEntity = AdminInitialise.ChangeEntity;
@@ -183,7 +191,7 @@ namespace Ilaro.Admin.Services
 			order = order.IsNullOrEmpty() ? changeEntity.Key.ColumnName : order;
 			orderDirection = orderDirection.IsNullOrEmpty() ? "ASC" : orderDirection.ToUpper();
 			var orderBy = order + " " + orderDirection;
-			var columns = string.Join(",", changeEntity.DisplayColumns.Select(x => x.ColumnName));
+			var columns = GetColumns(changeEntity);
 			var where = ConvertFiltersToSQL(filters, search);
 			if (where.IsNullOrEmpty())
 			{
@@ -285,7 +293,7 @@ namespace Ilaro.Admin.Services
 			return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
 		}
 
-		public IList<ColumnViewModel> PrepareColumns(EntityViewModel entity, string order, string orderDirection)
+		public IList<ColumnViewModel> PrepareColumns(Entity entity, string order, string orderDirection)
 		{
 			if (orderDirection == "asc")
 			{
@@ -298,7 +306,7 @@ namespace Ilaro.Admin.Services
 
 			order = order.ToLower();
 
-			return entity.DisplayColumns.Select(x => new ColumnViewModel
+			return entity.DisplayProperties.Select(x => new ColumnViewModel
 			{
 				Name = x.Name,
 				DisplayName = x.DisplayName,
@@ -307,7 +315,7 @@ namespace Ilaro.Admin.Services
 			}).ToList();
 		}
 
-		public object Create(EntityViewModel entity)
+		public object Create(Entity entity)
 		{
 			var existingItem = GetEntity(entity, entity.Key.Value);
 			if (existingItem != null)
@@ -342,7 +350,7 @@ namespace Ilaro.Admin.Services
 			return item;
 		}
 
-		public int Edit(EntityViewModel entity)
+		public int Edit(Entity entity)
 		{
 			if (entity.Key.Value == null)
 			{
@@ -389,7 +397,7 @@ namespace Ilaro.Admin.Services
 			return savedItems;
 		}
 
-		private string DecorateSqlValue(IList<object> values, PropertyViewModel property)
+		private string DecorateSqlValue(IList<object> values, Property property)
 		{
 			if (property.DataType == DataType.Numeric)
 			{
@@ -399,7 +407,7 @@ namespace Ilaro.Admin.Services
 			return "'" + string.Join("','", values) + "'";
 		}
 
-		private string DecorateSqlValue(object value, PropertyViewModel property)
+		private string DecorateSqlValue(object value, Property property)
 		{
 			if (property.DataType == DataType.Numeric)
 			{
@@ -412,7 +420,7 @@ namespace Ilaro.Admin.Services
 		/// <summary>
 		/// Clear properties values
 		/// </summary>
-		public void ClearProperties(EntityViewModel entity)
+		public void ClearProperties(Entity entity)
 		{
 			foreach (var property in entity.Properties)
 			{
@@ -420,7 +428,7 @@ namespace Ilaro.Admin.Services
 			}
 		}
 
-		public bool ValidateEntity(EntityViewModel entity, ModelStateDictionary ModelState)
+		public bool ValidateEntity(Entity entity, ModelStateDictionary ModelState)
 		{
 			bool isValid = true;
 			var request = HttpContext.Current.Request;
@@ -455,7 +463,7 @@ namespace Ilaro.Admin.Services
 			return isValid;
 		}
 
-		private void FillEntity(object item, EntityViewModel entity)
+		private void FillEntity(object item, Entity entity)
 		{
 			var request = HttpContext.Current.Request;
 			foreach (var property in entity.CreateProperties(false))
@@ -478,7 +486,7 @@ namespace Ilaro.Admin.Services
 			}
 		}
 
-		public void FillEntity(EntityViewModel entity, FormCollection collection)
+		public void FillEntity(Entity entity, FormCollection collection)
 		{
 			foreach (var property in entity.Properties)
 			{
@@ -497,7 +505,7 @@ namespace Ilaro.Admin.Services
 			}
 		}
 
-		public void FillEntity(EntityViewModel entity, string key)
+		public void FillEntity(Entity entity, string key)
 		{
 			var item = GetEntity(entity, key);
 			if (item == null)
@@ -516,14 +524,14 @@ namespace Ilaro.Admin.Services
 			entity.Key.Value = key;
 		}
 
-		private object GetEntity(EntityViewModel entity, string key)
+		private object GetEntity(Entity entity, string key)
 		{
 			var keyObject = GetKeyObject(entity, key);
 
 			return GetEntity(entity, keyObject);
 		}
 
-		private object GetEntity(EntityViewModel entity, object key)
+		private object GetEntity(Entity entity, object key)
 		{
 			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
@@ -532,7 +540,7 @@ namespace Ilaro.Admin.Services
 			return result;
 		}
 
-		private object GetKeyObject(EntityViewModel entity, string key)
+		private object GetKeyObject(Entity entity, string key)
 		{
 			var keyType = entity.Key.PropertyType;
 			if (keyType.In(typeof(int), typeof(short), typeof(long)))
@@ -549,7 +557,7 @@ namespace Ilaro.Admin.Services
 			}
 		}
 
-		public bool Delete(EntityViewModel entity, string key, IList<PropertyDeleteViewModel> propertiesDeleteOptions)
+		public bool Delete(Entity entity, string key, IList<PropertyDeleteViewModel> propertiesDeleteOptions)
 		{
 			var deleteOptions = propertiesDeleteOptions.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
 			foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection))
@@ -625,7 +633,7 @@ namespace Ilaro.Admin.Services
 			return sqls;
 		}
 
-		private string GetSetToNullUpdateSql(EntityViewModel entity, RecordHierarchy subRecord)
+		private string GetSetToNullUpdateSql(Entity entity, RecordHierarchy subRecord)
 		{
 			// {0} - Foreign table
 			// {1} - Foreign key
@@ -644,7 +652,7 @@ namespace Ilaro.Admin.Services
 			return updateSql;
 		}
 
-		public IList<IEntityFilter> PrepareFilters(EntityViewModel entity, HttpRequestBase request)
+		public IList<IEntityFilter> PrepareFilters(Entity entity, HttpRequestBase request)
 		{
 			var filters = new List<IEntityFilter>();
 
@@ -678,15 +686,14 @@ namespace Ilaro.Admin.Services
 			return filters;
 		}
 
-		public object GetKeyValue(EntityViewModel entity, object savedItem)
+		public object GetKeyValue(Entity entity, object savedItem)
 		{
 			return ((dynamic)savedItem).ID;
 		}
 
-		public IList<GroupPropertiesViewModel> PrepareGroups(EntityViewModel entity, bool getKey = true, string key = null)
+		public IList<GroupPropertiesViewModel> PrepareGroups(Entity entity, bool getKey = true, string key = null)
 		{
 			var properties = entity.CreateProperties(getKey);
-			var rnd = new Random();
 			foreach (var foreign in properties.Where(x => x.IsForeignKey))
 			{
 				var records = GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
@@ -696,40 +703,40 @@ namespace Ilaro.Admin.Services
 					foreign.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.Value == key)).Select(x => x.KeyValue).OfType<object>().ToList();
 				}
 			}
-			var groupsDict = entity.CreateProperties(getKey).GroupBy(x => x.GroupName).ToDictionary(x => x.Key);
+			//var groupsDict = properties.GroupBy(x => x.GroupName).ToDictionary(x => x.Key);
 
-			var groups = new List<GroupPropertiesViewModel>();
-			if (entity.Groups.IsNullOrEmpty())
-			{
-				foreach (var group in groupsDict)
-				{
-					groups.Add(new GroupPropertiesViewModel
-					{
-						GroupName = group.Key,
-						Properties = group.Value.ToList()
-					});
-				}
-			}
-			else
-			{
-				foreach (var groupName in entity.Groups)
-				{
-					var trimedGroupName = groupName.TrimEnd('*');
-					if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
-					{
-						var group = groupsDict[trimedGroupName];
+			//var groups = new List<GroupPropertiesViewModel>();
+			//if (entity.Groups.IsNullOrEmpty())
+			//{
+			//	foreach (var group in groupsDict)
+			//	{
+			//		groups.Add(new GroupPropertiesViewModel
+			//		{
+			//			GroupName = group.Key,
+			//			Properties = group.Value.ToList()
+			//		});
+			//	}
+			//}
+			//else
+			//{
+			//	foreach (var groupName in entity.Groups)
+			//	{
+			//		var trimedGroupName = groupName.TrimEnd('*');
+			//		if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
+			//		{
+			//			var group = groupsDict[trimedGroupName];
 
-						groups.Add(new GroupPropertiesViewModel
-						{
-							GroupName = group.Key,
-							Properties = group.ToList(),
-							IsCollapsed = groupName.EndsWith("*")
-						});
-					}
-				}
-			}
+			//			groups.Add(new GroupPropertiesViewModel
+			//			{
+			//				GroupName = group.Key,
+			//				Properties = group.ToList(),
+			//				IsCollapsed = groupName.EndsWith("*")
+			//			});
+			//		}
+			//	}
+			//}
 
-			return groups;
+			return entity.Groups;
 		}
 
 		/// <summary>
@@ -759,7 +766,7 @@ namespace Ilaro.Admin.Services
 			table.Insert(changeRecord);
 		}
 
-		public RecordHierarchy GetRecordHierarchy(EntityViewModel entity)
+		public RecordHierarchy GetRecordHierarchy(Entity entity)
 		{
 			var index = 0;
 			var hierarchy = GetEntityHierarchy(null, entity, ref index);
@@ -851,7 +858,7 @@ ORDER BY {5}";
 			// {4} - Base table primary key
 			var joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
-			var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayColumns
+			var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties
 				.Select(y => x.Alias + "." + y.ColumnName + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y.ColumnName)).ToList();
 			var joins = new List<string>();
 			foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
@@ -895,7 +902,7 @@ ORDER BY {5}";
 			return flatHierarchy;
 		}
 
-		private EntityHierarchy GetEntityHierarchy(EntityHierarchy parent, EntityViewModel entity, ref int index)
+		private EntityHierarchy GetEntityHierarchy(EntityHierarchy parent, Entity entity, ref int index)
 		{
 			var hierarchy = new EntityHierarchy
 			{
