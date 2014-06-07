@@ -21,6 +21,7 @@ using Ilaro.Admin.Model;
 using System.Globalization;
 using System.Diagnostics;
 using Ilaro.Admin.FileUpload;
+using System.IO;
 
 namespace Ilaro.Admin.Services
 {
@@ -62,11 +63,18 @@ namespace Ilaro.Admin.Services
 
 		private string GetColumns(Entity entity)
 		{
-			var columns = entity.DisplayProperties.Select(x => x.ColumnName).ToList();
-			columns.Insert(0, entity.LinkKey.Name);
-			columns.Insert(0, entity.Key.Name);
+			var columns = GetPropertiesForColumns(entity).Select(x => x.ColumnName).ToList();
 
 			return string.Join(",", columns.Distinct());
+		}
+
+		private IList<Property> GetPropertiesForColumns(Entity entity)
+		{
+			var properties = entity.DisplayProperties.ToList();
+			properties.Insert(0, entity.LinkKey);
+			properties.Insert(0, entity.Key);
+
+			return properties.Distinct().ToList();
 		}
 
 		public IList<DataRowViewModel> GetRecords(Entity entity, IList<IEntityFilter> filters = null, string searchQuery = null, string order = null, string orderDirection = null, bool determineDisplayValue = false)
@@ -324,6 +332,8 @@ namespace Ilaro.Admin.Services
 				return null;
 			}
 
+			FileHandle(entity);
+
 			var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
 			var expando = new ExpandoObject();
@@ -334,13 +344,16 @@ namespace Ilaro.Admin.Services
 			}
 			var cmd = table.CreateInsertCommand(expando);
 			cmd.CommandText += Environment.NewLine + ";DECLARE @newID int; SELECT @newID = SCOPE_IDENTITY()";
-			foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection))
+			foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection && !x.Values.IsNullOrEmpty()))
 			{
 				// UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
 				var updateFormat = Environment.NewLine + ";UPDATE {0} SET {1} = @newID WHERE {2} In ({3})";
 				cmd.CommandText += string.Format(updateFormat, property.ForeignEntity.TableName, entity.Key.ColumnName, property.ForeignEntity.Key.ColumnName, DecorateSqlValue(property.Values, property.ForeignEntity.Key));
 			}
 			cmd.CommandText += Environment.NewLine + ";SELECT @newID";
+
+			FixParamsSqlType(entity, cmd, filler);
+
 			var item = table.Execute(cmd);
 
 			AddEntityChange(entity.Name, item.ToString(), EntityChangeType.Insert);
@@ -348,6 +361,64 @@ namespace Ilaro.Admin.Services
 			ClearProperties(entity);
 
 			return item;
+		}
+
+		private void FixParamsSqlType(Entity entity, DbCommand cmd, IDictionary<string, object> values)
+		{
+			foreach (var property in entity.CreateProperties(getForeignCollection: false).Where(x => x.DataType == DataType.File))
+			{
+
+				if (property.PropertyType != typeof(string))
+				{
+					var index = GetIndex(values, property.ColumnName);
+
+					var parameter = cmd.Parameters.OfType<SqlParameter>().FirstOrDefault(x => x.ParameterName == "@" + index);
+					parameter.SqlDbType = SqlDbType.Image;
+				}
+			}
+		}
+
+		private int GetIndex(IDictionary<string, object> values, string key)
+		{
+			var index = 0;
+			foreach (var item in values)
+			{
+				if (item.Key == key)
+				{
+					return index;
+				}
+
+				index++;
+			}
+			return -1;
+		}
+
+		private void FileHandle(Entity entity)
+		{
+			foreach (var property in entity.CreateProperties(getForeignCollection: false).Where(x => x.DataType == DataType.File))
+			{
+				if (property.PropertyType == typeof(string))
+				{
+					// we must save file to disk and save file path in db
+					var file = (HttpPostedFile)property.Value;
+					var fileName = String.Empty;
+					if (property.ImageOptions.NameCreation == NameCreation.UserInput)
+					{
+						fileName = "test.jpg";
+					}
+					fileName = FileUpload.FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
+
+					property.Value = fileName;
+				}
+				else
+				{
+					// we must save file in db as byte array
+
+					var file = (HttpPostedFile)property.Value;
+					var bytes = FileUpload.FileUpload.GetImageByte(file, property.ImageOptions.Settings.ToArray());
+					property.Value = bytes;
+				}
+			}
 		}
 
 		public int Edit(Entity entity)
@@ -431,10 +502,10 @@ namespace Ilaro.Admin.Services
 		public bool ValidateEntity(Entity entity, ModelStateDictionary ModelState)
 		{
 			bool isValid = true;
-			var request = HttpContext.Current.Request;
+			//var request = HttpContext.Current.Request;
 			foreach (var property in entity.Properties.Where(x => x.DataType == DataType.File))
 			{
-				var file = request.Files[property.Name];
+				var file = (HttpPostedFile)property.Value;// request.Files[property.Name];
 				var result = FileUpload.FileUpload.Validate(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, !property.IsRequired);
 
 				if (result != FileUploadValidationResult.Valid)
@@ -474,9 +545,9 @@ namespace Ilaro.Admin.Services
 					var fileName = String.Empty;
 					if (property.ImageOptions.NameCreation == NameCreation.UserInput)
 					{
-						fileName = "test";
+						fileName = "test.jpg";
 					}
-					FileUpload.FileUpload.SaveImage(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, out fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
+					fileName = FileUpload.FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
 
 					property.Value = fileName;
 				}
@@ -488,18 +559,27 @@ namespace Ilaro.Admin.Services
 
 		public void FillEntity(Entity entity, FormCollection collection)
 		{
+			var request = HttpContext.Current.Request;
 			foreach (var property in entity.Properties)
 			{
-				var value = collection.GetValue(property.Name);
-				if (value != null)
+				if (property.DataType == DataType.File)
 				{
-					if (property.IsForeignKey && property.IsCollection)
+					var file = request.Files[property.Name];
+					property.Value = file;
+				}
+				else
+				{
+					var value = collection.GetValue(property.Name);
+					if (value != null)
 					{
-						property.Values = value.AttemptedValue.Split(",".ToCharArray()).OfType<object>().ToList();
-					}
-					else
-					{
-						property.Value = value.ConvertTo(property.PropertyType, CultureInfo.InvariantCulture);
+						if (property.IsForeignKey && property.IsCollection)
+						{
+							property.Values = value.AttemptedValue.Split(",".ToCharArray()).OfType<object>().ToList();
+						}
+						else
+						{
+							property.Value = value.ConvertTo(property.PropertyType, CultureInfo.InvariantCulture);
+						}
 					}
 				}
 			}
@@ -703,38 +783,6 @@ namespace Ilaro.Admin.Services
 					foreign.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.Value == key)).Select(x => x.KeyValue).OfType<object>().ToList();
 				}
 			}
-			//var groupsDict = properties.GroupBy(x => x.GroupName).ToDictionary(x => x.Key);
-
-			//var groups = new List<GroupPropertiesViewModel>();
-			//if (entity.Groups.IsNullOrEmpty())
-			//{
-			//	foreach (var group in groupsDict)
-			//	{
-			//		groups.Add(new GroupPropertiesViewModel
-			//		{
-			//			GroupName = group.Key,
-			//			Properties = group.Value.ToList()
-			//		});
-			//	}
-			//}
-			//else
-			//{
-			//	foreach (var groupName in entity.Groups)
-			//	{
-			//		var trimedGroupName = groupName.TrimEnd('*');
-			//		if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
-			//		{
-			//			var group = groupsDict[trimedGroupName];
-
-			//			groups.Add(new GroupPropertiesViewModel
-			//			{
-			//				GroupName = group.Key,
-			//				Properties = group.ToList(),
-			//				IsCollapsed = groupName.EndsWith("*")
-			//			});
-			//		}
-			//	}
-			//}
 
 			return entity.Groups;
 		}
@@ -817,20 +865,23 @@ namespace Ilaro.Admin.Services
 					var recordDict = (IDictionary<string, object>)record;
 					var rowData = ExpandoToDataRow(recordDict, hierarchy.Entity, prefix);
 
-					var subRecord = new RecordHierarchy
+					if (!rowData.KeyValue.IsNullOrEmpty())
 					{
-						Entity = hierarchy.Entity,
-						KeyValue = rowData.KeyValue,
-						DisplayName = GetDisplayName(hierarchy.Entity, rowData),
-						SubRecordsHierarchies = new List<RecordHierarchy>()
-					};
+						var subRecord = new RecordHierarchy
+						{
+							Entity = hierarchy.Entity,
+							KeyValue = rowData.KeyValue,
+							DisplayName = GetDisplayName(hierarchy.Entity, rowData),
+							SubRecordsHierarchies = new List<RecordHierarchy>()
+						};
 
-					if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
-						(foreignKey.IsNullOrEmpty() || recordDict[foreignKey].ToStringSafe() == foreignKeyValue))
-					{
-						parentHierarchy.SubRecordsHierarchies.Add(subRecord);
+						if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
+							(foreignKey.IsNullOrEmpty() || recordDict[foreignKey].ToStringSafe() == foreignKeyValue))
+						{
+							parentHierarchy.SubRecordsHierarchies.Add(subRecord);
 
-						GetHierarchyRecords(subRecord, records, hierarchy.SubHierarchies, prefix + hierarchy.Entity.Key.ColumnName, rowData.KeyValue);
+							GetHierarchyRecords(subRecord, records, hierarchy.SubHierarchies, prefix + hierarchy.Entity.Key.ColumnName, rowData.KeyValue);
+						}
 					}
 				}
 			}
@@ -858,7 +909,7 @@ ORDER BY {5}";
 			// {4} - Base table primary key
 			var joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
-			var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties
+			var columns = flatHierarchy.SelectMany(x => GetPropertiesForColumns(x.Entity)
 				.Select(y => x.Alias + "." + y.ColumnName + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y.ColumnName)).ToList();
 			var joins = new List<string>();
 			foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))

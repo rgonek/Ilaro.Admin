@@ -69,16 +69,16 @@ namespace Ilaro.Admin.Extensions
 				routeValues.Add("sq", searchQuery);
 			}
 
-            routeValues.Add("o", column.Name);
-            if (column.SortDirection == "up")
-            {
-                routeValues.Add("od", "desc");
-            }
-            else if (column.SortDirection == "down")
-            {
-                //routeValues.Add("od", "desc");
-                routeValues.Remove("o");
-            }
+			routeValues.Add("o", column.Name);
+			if (column.SortDirection == "up")
+			{
+				routeValues.Add("od", "desc");
+			}
+			else if (column.SortDirection == "down")
+			{
+				//routeValues.Add("od", "desc");
+				routeValues.Remove("o");
+			}
 			else
 			{
 				routeValues.Add("od", "asc");
@@ -100,12 +100,24 @@ namespace Ilaro.Admin.Extensions
 				return null;
 			}
 
-			var minSettings = cell.Property.ImageOptions.Settings.FirstOrDefault(x => x.IsMiniature) ?? cell.Property.ImageOptions.Settings.FirstOrDefault();
-			var bigSettings = cell.Property.ImageOptions.Settings.FirstOrDefault(x => x.IsBig) ?? cell.Property.ImageOptions.Settings.FirstOrDefault();
-			var minPath = Path.Combine(minSettings.SubPath, cell.Value).TrimStart('/');
-			var bigPath = Path.Combine(bigSettings.SubPath, cell.Value).TrimStart('/');
+			if (cell.Property.PropertyType == typeof(string))
+			{
+				// I have a path to image so easy to display
+				var minSettings = cell.Property.ImageOptions.Settings.FirstOrDefault(x => x.IsMiniature) ?? cell.Property.ImageOptions.Settings.FirstOrDefault();
+				var bigSettings = cell.Property.ImageOptions.Settings.FirstOrDefault(x => x.IsBig) ?? cell.Property.ImageOptions.Settings.FirstOrDefault();
+				var minPath = Path.Combine(minSettings.SubPath, cell.Value).TrimStart('/');
+				var bigPath = Path.Combine(bigSettings.SubPath, cell.Value).TrimStart('/');
 
-			return MvcHtmlString.Create(string.Format("<a href=\"/{1}\" class=\"open-modal\"><img src=\"/{0}\" class=\"img-polaroid\" /></a>", minPath, bigPath));
+				return MvcHtmlString.Create(string.Format("<a href=\"/{1}\" class=\"open-modal\"><img src=\"/{0}\" class=\"img-polaroid\" /></a>", minPath, bigPath));
+			}
+			else
+			{
+				// I have a byte array so I must convert it to base64
+
+				var base64 = Convert.ToBase64String((byte[])cell.RawValue);
+
+				return MvcHtmlString.Create(string.Format("<img src=\"data:image/jpg;base64,{0}\" class=\"img-polaroid\" />", base64));
+			}
 		}
 
 		/// <summary>

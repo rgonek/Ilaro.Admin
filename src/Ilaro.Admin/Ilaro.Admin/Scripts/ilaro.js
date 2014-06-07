@@ -21,6 +21,8 @@
 		moveOnSelect: false
 	});
 
+	$('input[type=file]').bootstrapFileInput();
+
 	$('th > span').tooltip();
 	$('.open-modal').click(function (e) {
 		e.preventDefault();

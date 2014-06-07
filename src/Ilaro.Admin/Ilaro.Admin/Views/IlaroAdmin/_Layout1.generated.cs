@@ -311,12 +311,16 @@ WriteLiteral("></script>\r\n\t<script");
 
 WriteLiteral(" src=\"/ira/Script/ilaro_js\"");
 
+WriteLiteral("></script>\r\n\t<script");
+
+WriteLiteral(" src=\"/ira/Script/bootstrap_file-input_js\"");
+
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("\t");
 
             
-            #line 69 "..\..\Views\IlaroAdmin\_Layout.cshtml"
+            #line 70 "..\..\Views\IlaroAdmin\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

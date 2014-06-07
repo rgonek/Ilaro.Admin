@@ -56,13 +56,13 @@ WriteAttribute("for", Tuple.Create(" for=\"", 72), Tuple.Create("\"", 98)
 , 78), false)
 );
 
-WriteLiteral(" class=\"control-label\"");
+WriteLiteral(" class=\"control-label col-md-2\"");
 
 WriteLiteral(">");
 
             
             #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-                                                   Write(Model.DisplayName);
+                                                            Write(Model.DisplayName);
 
             
             #line default
@@ -71,102 +71,44 @@ WriteLiteral(" ");
 
             
             #line 4 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-                                                                      Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
+                                                                               Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n<div");
 
-WriteLiteral(" class=\"controls\"");
+WriteLiteral(" class=\"col-md-3\"");
 
-WriteLiteral(">\r\n    <div");
+WriteLiteral(">\r\n\t");
 
-WriteLiteral(" class=\"fileupload fileupload-new\"");
+WriteLiteral("\r\n\t<input");
 
-WriteLiteral(" data-provides=\"fileupload\"");
-
-WriteLiteral(">\r\n        <div");
-
-WriteLiteral(" class=\"input-append\"");
-
-WriteLiteral(">\r\n            <div");
-
-WriteLiteral(" class=\"uneditable-input\"");
-
-WriteLiteral(">\r\n                <i");
-
-WriteLiteral(" class=\"glyphicon glyphicon-file fileupload-exists\"");
-
-WriteLiteral("></i>\r\n                <span");
-
-WriteLiteral(" class=\"fileupload-preview\"");
-
-WriteLiteral("></span>\r\n            </div>\r\n            <span");
-
-WriteLiteral(" class=\"btn btn-file\"");
-
-WriteLiteral(">\r\n                <span");
-
-WriteLiteral(" class=\"fileupload-new\"");
-
-WriteLiteral(">");
-
+WriteAttribute("id", Tuple.Create(" id=\"", 923), Tuple.Create("\"", 948)
             
-            #line 13 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-                                        Write(Resources.IlaroAdminResources.ChooseFile);
-
+            #line 20 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 928), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
             #line hidden
-WriteLiteral("</span>\r\n                <span");
-
-WriteLiteral(" class=\"fileupload-exists\"");
-
-WriteLiteral(">");
-
-            
-            #line 14 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-                                           Write(Resources.IlaroAdminResources.Change);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</span>\r\n                <input");
-
-WriteAttribute("id", Tuple.Create(" id=\"", 812), Tuple.Create("\"", 837)
-            
-            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 817), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
-            
-            #line default
-            #line hidden
-, 817), false)
+, 928), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 838), Tuple.Create("\"", 867)
+WriteAttribute("name", Tuple.Create(" name=\"", 949), Tuple.Create("\"", 978)
             
-            #line 15 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 845), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+            #line 20 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 956), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 845), false)
+, 956), false)
 );
 
 WriteLiteral(" type=\"file\"");
 
-WriteLiteral(" />\r\n            </span>\r\n            <a");
+WriteLiteral(" />\r\n");
 
-WriteLiteral(" href=\"#\"");
-
-WriteLiteral(" class=\"btn fileupload-exists\"");
-
-WriteLiteral(" data-dismiss=\"fileupload\"");
-
-WriteLiteral(">Delete</a>\r\n        </div>\r\n    </div>\r\n\r\n");
-
-WriteLiteral("    ");
+WriteLiteral("\t");
 
             
             #line 21 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
@@ -175,18 +117,16 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
             
             #line default
             #line hidden
-WriteLiteral("\r\n");
-
-WriteLiteral("    ");
+WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 22 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
+            #line 23 "..\..\Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n</div>\r\n\r\n");
+WriteLiteral("\r\n\r\n");
 
         }
     }

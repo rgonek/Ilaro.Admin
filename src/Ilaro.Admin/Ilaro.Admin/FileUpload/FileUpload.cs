@@ -42,14 +42,8 @@ namespace Ilaro.Admin.FileUpload
 			return FileUploadValidationResult.WrongExtension;
 		}
 
-		public static FileUploadValidationResult SaveImage(HttpPostedFile file, long maxFileSize, string[] allowedFileExtensions, out string fileName, NameCreation nameCreation, params ImageSettings[] settings)
+		public static string SaveImage(HttpPostedFile file, string fileName, NameCreation nameCreation, params ImageSettings[] settings)
 		{
-			fileName = String.Empty;
-			var validationResult = Validate(file, maxFileSize, allowedFileExtensions, false);
-			if (validationResult != FileUploadValidationResult.Valid)
-			{
-				return validationResult;
-			}
 			Image img;
 			try
 			{
@@ -57,9 +51,8 @@ namespace Ilaro.Admin.FileUpload
 			}
 			catch
 			{
-				return FileUploadValidationResult.NotImage;
+				throw new Exception(GetErrorMessage(FileUploadValidationResult.NotImage, ""));
 			}
-
 
 			switch (nameCreation)
 			{
@@ -74,9 +67,6 @@ namespace Ilaro.Admin.FileUpload
 					fileName = string.Format("{0}.jpg", DateTime.Now.ToString("ddMMyyhhmmss"));
 					break;
 				case NameCreation.UserInput:
-					//because of "out"
-					var tempFileName = fileName;
-					fileName = tempFileName;
 					break;
 			}
 
@@ -88,16 +78,11 @@ namespace Ilaro.Admin.FileUpload
 			file.InputStream.Dispose();
 			img.Dispose();
 
-			return validationResult;
+			return fileName;
 		}
 
-		public static FileUploadValidationResult SaveImage(HttpPostedFile file, long maxFileSize, string[] allowedFileExtensions, string fileName, params ImageSettings[] settings)
+		public static void SaveImage(HttpPostedFile file, string fileName, params ImageSettings[] settings)
 		{
-			var validationResult = Validate(file, maxFileSize, allowedFileExtensions, false);
-			if (validationResult != FileUploadValidationResult.Valid)
-			{
-				return validationResult;
-			}
 			Image img;
 			try
 			{
@@ -105,7 +90,7 @@ namespace Ilaro.Admin.FileUpload
 			}
 			catch
 			{
-				return FileUploadValidationResult.NotImage;
+				throw new Exception(GetErrorMessage(FileUploadValidationResult.NotImage, ""));
 			}
 
 			foreach (var setting in settings)
@@ -115,13 +100,32 @@ namespace Ilaro.Admin.FileUpload
 
 			file.InputStream.Dispose();
 			img.Dispose();
-
-			return validationResult;
 		}
 
-		public static FileUploadValidationResult SaveImage(HttpPostedFile file, long maxFileSize, string[] allowedFileExtensions, params ImageSettings[] settings)
+		public static void SaveImage(HttpPostedFile file, params ImageSettings[] settings)
 		{
-			return SaveImage(file, maxFileSize, allowedFileExtensions, file.FileName, settings);
+			SaveImage(file, file.FileName, settings);
+		}
+
+		public static byte[] GetImageByte(HttpPostedFile file, params ImageSettings[] settings)
+		{
+			Image img;
+			try
+			{
+				img = Image.FromStream(file.InputStream);
+			}
+			catch
+			{
+				throw new Exception(GetErrorMessage(FileUploadValidationResult.NotImage, ""));
+			}
+
+			var setting = settings.FirstOrDefault();
+			var bytes = ResizeImage(setting, img);
+
+			file.InputStream.Dispose();
+			img.Dispose();
+
+			return bytes;
 		}
 
 		public static long GetFileSize(string subPath, string fileName)
@@ -188,12 +192,94 @@ namespace Ilaro.Admin.FileUpload
 			img.Dispose();
 		}
 
+		private static byte[] ResizeImage(ImageSettings settings, Image img)
+		{
+			if (settings.Width.HasValue || settings.Height.HasValue)
+			{
+				if (settings.Width.HasValue && settings.Height.HasValue)
+				{
+					using (var ms = new MemoryStream())
+					{
+						var imgJob = new ImageJob(img, ms, new Instructions(new NameValueCollection
+						{
+							{ "width", settings.Width.Value.ToString() },
+							{ "height", settings.Height.Value.ToString() },
+							{ "format", "jpg" },
+							{ "mode", "crop" }
+						}));
+
+						imgJob.Build();
+
+						return ms.ToArray();
+					}
+				}
+				else if (settings.Width.HasValue)
+				{
+					using (var ms = new MemoryStream())
+					{
+						var imgJob = new ImageJob(img, ms, new Instructions(new NameValueCollection
+						{
+							{ "width", settings.Width.Value.ToString() },
+							{ "format", "jpg" },
+							{ "mode", "crop" }
+						}));
+
+						imgJob.Build();
+
+						return ms.ToArray();
+					}
+				}
+				else //if (settings.Height.HasValue)
+				{
+					using (var ms = new MemoryStream())
+					{
+						var imgJob = new ImageJob(img, ms, new Instructions(new NameValueCollection
+						{
+							{ "height", settings.Height.Value.ToString() },
+							{ "format", "jpg" },
+							{ "mode", "crop" }
+						}));
+
+						imgJob.Build();
+
+						return ms.ToArray();
+					}
+				}
+			}
+			else
+			{
+				using (var ms = new MemoryStream())
+				{
+					var imgJob = new ImageJob(img, ms, new Instructions());
+
+					imgJob.Build();
+
+					return ms.ToArray();
+				}
+			}
+		}
+
+		private byte[] ConvertImageToByteArray(HttpPostedFile file)
+		{
+			try
+			{
+				using (var binaryReader = new BinaryReader(file.InputStream))
+				{
+					return binaryReader.ReadBytes(file.ContentLength);
+				}
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		private static bool IsImage(HttpPostedFile file)
 		{
 			return System.Text.RegularExpressions.Regex.IsMatch(file.ContentType, "image/\\S+");
 		}
 
-		public static string GetErrorMessage(FileUploadValidationResult validationResult, string[] allowedFileExtensions)
+		public static string GetErrorMessage(FileUploadValidationResult validationResult, params string[] allowedFileExtensions)
 		{
 			switch (validationResult)
 			{

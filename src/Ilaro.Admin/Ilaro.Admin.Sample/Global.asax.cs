@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin;
+using Ilaro.Admin.FileUpload;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
 using Ilaro.Admin.ViewModels;
@@ -31,9 +32,15 @@ namespace Ilaro.Admin.Sample
 			//.SetDisplayFormat("")
 			//.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
 
-			Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
-				x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.Country);
-				//.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo).SetImageOptions(NameCreation.Timestamp, ));
+			Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
+				x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.PhotoPath, x => x.Photo)
+				.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo)
+					.SetImageOptions(NameCreation.Timestamp, FileUploadDefault.MaxFileSize, false, FileUploadDefault.ImageExtensions)
+					.SetImageSettings("", 100, 100, true, true))
+				.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.PhotoPath)
+					.SetImageOptions(NameCreation.Timestamp, FileUploadDefault.MaxFileSize, false, FileUploadDefault.ImageExtensions)
+					.SetImageSettings("content/employee/min", 100, 100, true, false)
+					.SetImageSettings("content/employee/big", 500, 500, false, true));
 			Entity<Order>.Add();
 			Entity<OrderDetail>.Add().SetTableName("Order Details");
 			Entity<Product>.Add();
