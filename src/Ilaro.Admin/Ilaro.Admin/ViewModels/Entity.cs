@@ -144,8 +144,6 @@ namespace Ilaro.Admin.ViewModels
 
 			SetSearchProperties(Attributes);
 
-			SetGroups(Attributes);
-
 			CanAdd = true;
 			if (IsChangeEntity)
 			{
@@ -209,7 +207,7 @@ namespace Ilaro.Admin.ViewModels
 				var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
 				if (columnsAttribute != null)
 				{
-					SetDisplayProperties(columnsAttribute.Columns);
+					SetColumns(columnsAttribute.Columns);
 				}
 				else
 				{
@@ -218,7 +216,7 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		internal void SetDisplayProperties(IEnumerable<string> properties)
+		internal void SetColumns(IEnumerable<string> properties)
 		{
 			DisplayProperties = new List<Property>();
 			foreach (var column in properties)
@@ -244,6 +242,16 @@ namespace Ilaro.Admin.ViewModels
 		internal void SetSearchProperties(IEnumerable<string> properties)
 		{
 			SearchProperties = Properties.Where(x => properties.Contains(x.Name));
+		}
+
+		public void PrepareGroups()
+		{
+			if(!Groups.IsNullOrEmpty())
+			{
+				return;
+			}
+
+			SetGroups(Attributes);
 		}
 
 		private void SetGroups(object[] attributes)

@@ -175,6 +175,7 @@ namespace Ilaro.Admin
 
 				entity.SetColumns();
 				entity.SetLinkKey();
+				entity.PrepareGroups();
 			}
 		}
 	}

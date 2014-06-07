@@ -206,6 +206,12 @@ namespace Ilaro.Admin.ViewModels
 			IsKey = Attributes.OfType<KeyAttribute>().Any();
 			IsLinkKey = Attributes.OfType<LinkKeyAttribute>().Any();
 
+			var columnAttribute = Attributes.OfType<ColumnAttribute>().FirstOrDefault();
+			if (columnAttribute != null)
+			{
+				ColumnName = columnAttribute.Name;
+			}
+
 			var requiredAttribute = Attributes.OfType<RequiredAttribute>().FirstOrDefault();
 			if (requiredAttribute != null)
 			{
@@ -353,7 +359,8 @@ namespace Ilaro.Admin.ViewModels
 						AllowedFileExtensions = imageAttribute.AllowedFileExtensions,
 						MaxFileSize = imageAttribute.MaxFileSize,
 						NameCreation = imageAttribute.NameCreation,
-						IsMultiple = imageAttribute.IsMulti
+						IsMultiple = imageAttribute.IsMulti,
+						Settings = new List<ImageSettings>()
 					};
 				}
 				else
@@ -362,7 +369,8 @@ namespace Ilaro.Admin.ViewModels
 					{
 						AllowedFileExtensions = Consts.AllowedFileExtensions,
 						MaxFileSize = Consts.MaxFileSize,
-						NameCreation = NameCreation.OriginalFileName
+						NameCreation = NameCreation.OriginalFileName,
+						Settings = new List<ImageSettings>()
 					};
 				}
 

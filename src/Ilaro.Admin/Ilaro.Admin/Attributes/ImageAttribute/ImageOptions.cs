@@ -6,16 +6,16 @@ using System.Web;
 
 namespace Ilaro.Admin.Attributes
 {
-    public class ImageOptions
-    {
-        public NameCreation NameCreation { get; set; }
+	public class ImageOptions
+	{
+		public NameCreation NameCreation { get; set; }
 
-        public long MaxFileSize { get; set; }
+		public long MaxFileSize { get; set; }
 
-        public string[] AllowedFileExtensions { get; set; }
+		public string[] AllowedFileExtensions { get; set; }
 
-        public ImageSettings[] Settings { get; set; }
+		public IList<ImageSettings> Settings { get; set; }
 
-        public bool IsMultiple { get; set; }
-    }
+		public bool IsMultiple { get; set; }
+	}
 }

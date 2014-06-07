@@ -476,7 +476,7 @@ namespace Ilaro.Admin.Services
 					{
 						fileName = "test";
 					}
-					FileUpload.SaveImage(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, out fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings);
+					FileUpload.SaveImage(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, out fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
 
 					property.Value = fileName;
 				}

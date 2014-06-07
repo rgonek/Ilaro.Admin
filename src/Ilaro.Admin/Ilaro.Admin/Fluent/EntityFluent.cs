@@ -7,10 +7,16 @@ using System.Web;
 
 namespace Ilaro.Admin.Fluent
 {
+	/// <summary>
+	/// Fluent entity configurator
+	/// </summary>
 	public class Entity<TEntity>
 	{
 		private Entity _entity;
 
+		/// <summary>
+		/// Add entity to Ilaro.Admin
+		/// </summary>
 		public static Entity<TEntity> Add()
 		{
 			return new Entity<TEntity>
@@ -19,6 +25,9 @@ namespace Ilaro.Admin.Fluent
 			};
 		}
 
+		/// <summary>
+		/// Set SQL table name and schema
+		/// </summary>
 		public Entity<TEntity> SetTableName(string table, string schema = null)
 		{
 			_entity.SetTableName(table, schema);
@@ -26,15 +35,23 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
-		public Entity<TEntity> SetDisplayProperties(params Expression<Func<TEntity, object>>[] expressions)
+		/// <summary>
+		/// Set which properties are display in entity list
+		/// </summary>
+		/// <param name="expressions"></param>
+		/// <returns></returns>
+		public Entity<TEntity> SetColumns(params Expression<Func<TEntity, object>>[] expressions)
 		{
 			var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
 			var properties = members.Select(x => x.Member.Name);
-			_entity.SetDisplayProperties(properties);
+			_entity.SetColumns(properties);
 
 			return this;
 		}
 
+		/// <summary>
+		/// Set on which properties searching should be done
+		/// </summary>
 		public Entity<TEntity> SetSearchProperties(params Expression<Func<TEntity, object>>[] expressions)
 		{
 			var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
@@ -44,20 +61,31 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
-		public Entity<TEntity> AddPropertiesGroup(string group, params Expression<Func<TEntity, object>>[] expressions)
+		/// <summary>
+		/// Add property group, it used to display create or edit form
+		/// </summary>
+		public Entity<TEntity> AddPropertiesGroup(string group, params Expression<Func<TEntity, object>>[] properties)
 		{
-			return AddPropertiesGroup(group, false, expressions);
+			return AddPropertiesGroup(group, false, properties);
 		}
 
-		public Entity<TEntity> AddPropertiesGroup(string group, bool isCollapsed, params Expression<Func<TEntity, object>>[] expressions)
+		/// <summary>
+		/// Add property group, it used to display create or edit form
+		/// </summary>
+		public Entity<TEntity> AddPropertiesGroup(string group, bool isCollapsed, params Expression<Func<TEntity, object>>[] properties)
 		{
-			var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
-			var properties = members.Select(x => x.Member.Name);
-			_entity.AddGroup(group, isCollapsed, properties);
+			var members = properties.Select(x => x.Body).OfType<MemberExpression>();
+			var propertiesNames = members.Select(x => x.Member.Name);
+			_entity.AddGroup(group, isCollapsed, propertiesNames);
 
 			return this;
 		}
 
+		/// <summary>
+		/// Set display format, it used to display entity record name on delete or on create or update form
+		/// </summary>
+		/// <param name="displayFormat">Display format can hold a property name, eg. "Item of id #{Id}"</param>
+		/// <returns></returns>
 		public Entity<TEntity> SetDisplayFormat(string displayFormat)
 		{
 			_entity.RecordDisplayFormat = displayFormat;
@@ -65,6 +93,9 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set primary key for entity
+		/// </summary>
 		public Entity<TEntity> SetKey<TProperty>(Expression<Func<TEntity, TProperty>> expression)
 		{
 			var property = (expression.Body as MemberExpression).Member.Name;
@@ -73,6 +104,10 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set link key for entity, is used to display provided display, edit and delete link.
+		/// If not setted primary key is used.
+		/// </summary>
 		public Entity<TEntity> SetLinkKey<TProperty>(Expression<Func<TEntity, TProperty>> expression)
 		{
 			var property = (expression.Body as MemberExpression).Member.Name;
@@ -81,6 +116,9 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set singular and plural display name
+		/// </summary>
 		public Entity<TEntity> SetDisplayName(string singular, string plural)
 		{
 			_entity.Singular = singular;
@@ -89,6 +127,9 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set entity group
+		/// </summary>
 		public Entity<TEntity> SetGroup(string group)
 		{
 			_entity.GroupName = group;
@@ -96,6 +137,10 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+
+		/// <summary>
+		/// Set display link
+		/// </summary>
 		public Entity<TEntity> SetDisplayLink(string link)
 		{
 			_entity.DisplayLink = link;
@@ -103,6 +148,9 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set edit link
+		/// </summary>
 		public Entity<TEntity> SetEditLink(string link)
 		{
 			_entity.EditLink = link;
@@ -111,6 +159,11 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
+		/// <summary>
+		/// Set delete link
+		/// </summary>
+		/// <param name="link"></param>
+		/// <returns></returns>
 		public Entity<TEntity> SetDeleteLink(string link)
 		{
 			_entity.DeleteLink = link;
@@ -119,7 +172,10 @@ namespace Ilaro.Admin.Fluent
 			return this;
 		}
 
-		public Entity<TEntity> ConfigureProperty(Property<TEntity> prop)
+		/// <summary>
+		/// Configure entity property
+		/// </summary>
+		public Entity<TEntity> ConfigureProperty(PropertyOf<TEntity> property)
 		{
 			return this;
 		}

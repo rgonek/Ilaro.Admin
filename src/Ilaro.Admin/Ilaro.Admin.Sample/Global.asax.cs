@@ -20,27 +20,29 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
 
-			Entity<Customer>.Add()
+			Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
+				//.AddPropertiesGroup("Main section", c => c.CompanyName)
+				//.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
 				//.SetKey(x => x.CustomerID)
 				//.SetTableName("Customers")
-				//.SetDisplayProperties(x => x.Address, x => x.City, x => x.Country, x => x.CustomerID, x => x.CompanyName)
+				//.SetColumns(x => x.Address, x => x.City, x => x.Country, x => x.CustomerID, x => x.CompanyName)
 				//.SetSearchProperties(x => x.City)
 				//.AddPropertiesGroup("Super", x => x.Address, x => x.City)
 				//.SetDisplayFormat("")
-				.ConfigureProperty(Property<Customer>.Configure(x => x.CompanyName).Required());
+				//.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
 
-			//Entity<Employee>.Add().SetDisplayProperties(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
-			//	x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.Country);
-			//Entity<Order>.Add();
-			//Entity<OrderDetail>.Add().SetTableName("Order Details");
-			//Entity<Product>.Add();
-			//Entity<Category>.Add();
-			//Entity<EmployeeTerritory>.Add();
-			//Entity<Region>.Add();
-			//Entity<Shipper>.Add();
-			//Entity<Supplier>.Add();
-			//Entity<Territory>.Add();
-			//Entity<EntityChange>.Add();
+			Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
+				x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.Country);
+			Entity<Order>.Add();
+			Entity<OrderDetail>.Add().SetTableName("Order Details");
+			Entity<Product>.Add();
+			Entity<Category>.Add();
+			Entity<EmployeeTerritory>.Add();
+			Entity<Region>.Add();
+			Entity<Shipper>.Add();
+			Entity<Supplier>.Add();
+			Entity<Territory>.Add();
+			Entity<EntityChange>.Add();
 
 			// If you want anonymous access to Ilaro.Admin, skip this line
 			// off course you can set Roles and Users for AuthorizeAttribute
