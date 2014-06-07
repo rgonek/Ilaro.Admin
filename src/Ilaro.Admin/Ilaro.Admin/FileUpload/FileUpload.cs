@@ -1,4 +1,5 @@
-﻿using ImageResizer;
+﻿using Ilaro.Admin.FileUpload;
+using ImageResizer;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Ilaro.Admin.Commons.FileUpload
+namespace Ilaro.Admin.FileUpload
 {
 	public class FileUpload
 	{

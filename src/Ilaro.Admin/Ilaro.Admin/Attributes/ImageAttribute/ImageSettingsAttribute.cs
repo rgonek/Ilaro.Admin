@@ -1,4 +1,4 @@
-﻿using Ilaro.Admin.Commons.FileUpload;
+﻿using Ilaro.Admin.FileUpload;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

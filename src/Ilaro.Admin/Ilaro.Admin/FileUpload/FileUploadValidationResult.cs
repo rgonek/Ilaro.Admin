@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ilaro.Admin.Commons.FileUpload
+namespace Ilaro.Admin.FileUpload
 {
     public enum FileUploadValidationResult
     {

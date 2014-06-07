@@ -9,9 +9,5 @@ namespace Ilaro.Admin.Commons
 	public class Consts
 	{
 		public const int ItemsQuantityPerPage = 10;
-
-		public const long MaxFileSize = 2048000;
-
-		public readonly static string[] AllowedFileExtensions = new string[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
 	}
 }

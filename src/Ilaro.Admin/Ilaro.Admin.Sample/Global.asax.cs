@@ -21,18 +21,19 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
 
 			Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
-				//.AddPropertiesGroup("Main section", c => c.CompanyName)
-				//.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
-				//.SetKey(x => x.CustomerID)
-				//.SetTableName("Customers")
-				//.SetColumns(x => x.Address, x => x.City, x => x.Country, x => x.CustomerID, x => x.CompanyName)
-				//.SetSearchProperties(x => x.City)
-				//.AddPropertiesGroup("Super", x => x.Address, x => x.City)
-				//.SetDisplayFormat("")
-				//.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
+			//.AddPropertiesGroup("Main section", c => c.CompanyName)
+			//.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
+			//.SetKey(x => x.CustomerID)
+			//.SetTableName("Customers")
+			//.SetColumns(x => x.Address, x => x.City, x => x.Country, x => x.CustomerID, x => x.CompanyName)
+			//.SetSearchProperties(x => x.City)
+			//.AddPropertiesGroup("Super", x => x.Address, x => x.City)
+			//.SetDisplayFormat("")
+			//.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
 
 			Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
 				x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.Country);
+				//.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo).SetImageOptions(NameCreation.Timestamp, ));
 			Entity<Order>.Add();
 			Entity<OrderDetail>.Add().SetTableName("Order Details");
 			Entity<Product>.Add();

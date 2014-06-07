@@ -11,7 +11,6 @@ using System.Data.Entity;
 using Ilaro.Admin.Commons;
 using System.Data;
 using System.Web.Mvc;
-using Ilaro.Admin.Commons.FileUpload;
 using Ilaro.Admin.Commons.Notificator;
 using System.Data.Common;
 using Massive;
@@ -21,6 +20,7 @@ using Resources;
 using Ilaro.Admin.Model;
 using System.Globalization;
 using System.Diagnostics;
+using Ilaro.Admin.FileUpload;
 
 namespace Ilaro.Admin.Services
 {
@@ -435,7 +435,7 @@ namespace Ilaro.Admin.Services
 			foreach (var property in entity.Properties.Where(x => x.DataType == DataType.File))
 			{
 				var file = request.Files[property.Name];
-				var result = FileUpload.Validate(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, !property.IsRequired);
+				var result = FileUpload.FileUpload.Validate(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, !property.IsRequired);
 
 				if (result != FileUploadValidationResult.Valid)
 				{
@@ -476,7 +476,7 @@ namespace Ilaro.Admin.Services
 					{
 						fileName = "test";
 					}
-					FileUpload.SaveImage(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, out fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
+					FileUpload.FileUpload.SaveImage(file, property.ImageOptions.MaxFileSize, property.ImageOptions.AllowedFileExtensions, out fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
 
 					property.Value = fileName;
 				}

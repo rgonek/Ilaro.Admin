@@ -1,6 +1,5 @@
 ﻿using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Commons;
-using Ilaro.Admin.Commons.FileUpload;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +13,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using Resources;
 using System.Globalization;
+using Ilaro.Admin.FileUpload;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -367,8 +367,8 @@ namespace Ilaro.Admin.ViewModels
 				{
 					ImageOptions = new ImageOptions
 					{
-						AllowedFileExtensions = Consts.AllowedFileExtensions,
-						MaxFileSize = Consts.MaxFileSize,
+						AllowedFileExtensions = FileUploadDefault.ImageExtensions,
+						MaxFileSize = FileUploadDefault.MaxFileSize,
 						NameCreation = NameCreation.OriginalFileName,
 						Settings = new List<ImageSettings>()
 					};

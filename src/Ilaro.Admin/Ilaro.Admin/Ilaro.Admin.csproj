@@ -130,7 +130,8 @@
     <Compile Include="Attributes\ColumnsAttribute.cs" />
     <Compile Include="Attributes\GroupsAttribute.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageAttribute.cs" />
-    <Compile Include="Attributes\ImageAttribute\ImageOptions.cs" />
+    <Compile Include="FileUpload\FileUploadDefault.cs" />
+    <Compile Include="FileUpload\ImageOptions.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageSettingsAttribute.cs" />
     <Compile Include="Attributes\LinkKeyAttribute.cs" />
     <Compile Include="Attributes\LinksAttribute.cs" />
@@ -140,10 +141,10 @@
     <Compile Include="Attributes\TemplateAttribute.cs" />
     <Compile Include="Attributes\VerboseAttribute.cs" />
     <Compile Include="Commons\Consts.cs" />
-    <Compile Include="Commons\FileUpload\FileUpload.cs" />
-    <Compile Include="Commons\FileUpload\FileUploadValidationResult.cs" />
-    <Compile Include="Commons\FileUpload\ImageSettings.cs" />
-    <Compile Include="Commons\FileUpload\NameCreation.cs" />
+    <Compile Include="FileUpload\FileUpload.cs" />
+    <Compile Include="FileUpload\FileUploadValidationResult.cs" />
+    <Compile Include="FileUpload\ImageSettings.cs" />
+    <Compile Include="FileUpload\NameCreation.cs" />
     <Compile Include="Commons\IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Commons\Notificator\NotificateType.cs" />
     <Compile Include="Commons\Notificator\Notificator.cs" />
@@ -413,6 +414,7 @@
     <EmbeddedResource Include="Scripts\jquery.bootstrap-duallistbox.min.js" />
     <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
     <EmbeddedResource Include="Scripts\ilaro.js" />
+    <EmbeddedResource Include="Scripts\bootstrap.file-input.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

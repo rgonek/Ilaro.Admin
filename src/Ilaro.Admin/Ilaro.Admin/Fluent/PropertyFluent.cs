@@ -1,6 +1,6 @@
 ﻿using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Commons;
-using Ilaro.Admin.Commons.FileUpload;
+using Ilaro.Admin.FileUpload;
 using Ilaro.Admin.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -119,7 +119,7 @@ namespace Ilaro.Admin.Fluent
 		/// </summary>
 		public PropertyOf<TEntity> SetImageOptions(NameCreation nameCreation, long maxFileSize, bool isMultiple, params string[] allowedFileExtensions)
 		{
-			_property.ImageOptions = new Attributes.ImageOptions
+			_property.ImageOptions = new ImageOptions
 			{
 				NameCreation = nameCreation,
 				MaxFileSize = maxFileSize,
@@ -139,8 +139,8 @@ namespace Ilaro.Admin.Fluent
 			{
 				_property.ImageOptions = new ImageOptions
 				{
-					AllowedFileExtensions = Consts.AllowedFileExtensions,
-					MaxFileSize = Consts.MaxFileSize,
+					AllowedFileExtensions = FileUploadDefault.ImageExtensions,
+					MaxFileSize = FileUploadDefault.MaxFileSize,
 					NameCreation = NameCreation.OriginalFileName,
 					Settings = new List<ImageSettings>()
 				};
