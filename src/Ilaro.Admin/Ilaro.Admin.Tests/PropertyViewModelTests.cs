@@ -1,10 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Linq;
 using Ilaro.Admin.ViewModels;
-using Ilaro.Admin;
-using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ilaro.Admin.Tests
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Ilaro.Admin.Sample.Models.TestAdmin
+﻿namespace Ilaro.Admin.Sample.Models.TestAdmin
 {
     public enum ProductCategory : int
     {

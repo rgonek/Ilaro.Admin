@@ -130,6 +130,11 @@
     <Compile Include="Attributes\ColumnsAttribute.cs" />
     <Compile Include="Attributes\GroupsAttribute.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageAttribute.cs" />
+    <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperDropDownListExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperPasswordExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelpersTextAreaExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperTextBoxExtensions.cs" />
     <Compile Include="FileUpload\FileUploadDefault.cs" />
     <Compile Include="FileUpload\ImageOptions.cs" />
     <Compile Include="Attributes\ImageAttribute\ImageSettingsAttribute.cs" />
@@ -383,6 +388,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IlaroAdminResources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Content\css\site.css" />
     <EmbeddedResource Include="Scripts\bootstrap.min.js" />

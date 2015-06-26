@@ -1,16 +1,18 @@
-﻿@model Ilaro.Admin.ViewModels.DeleteViewModel
+﻿@using Ilaro.Admin.ViewModels
+@using Resources
+@model Ilaro.Admin.ViewModels.DeleteViewModel
 @{
 	Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-	ViewBag.Title = string.Format(Resources.IlaroAdminResources.Delete_Title, Model.Entity.Name);
+	ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name);
 }
 
 @section Breadcrumb
 {
 	<ul class="breadcrumb">
-		<li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+		<li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
 		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
 		<li>@Html.ActionLink(Model.Entity.Plural, "List", new { entityName = Model.Entity.Name })</li>
-		<li class="active">@string.Format(Resources.IlaroAdminResources.Delete_Title, Model.Entity.Name)</li>
+		<li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name)</li>
 	</ul>
 }
 
@@ -25,7 +27,7 @@
 
 	<div class="form-group">
 		<div class="controls col-md-3">
-			@Resources.IlaroAdminResources.DeleteText
+		    @IlaroAdminResources.DeleteText
 		</div>
 	</div>
 
@@ -47,14 +49,14 @@
 
 	<div class="form-action">
 		<div class="col-md-offset-2">
-			<button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Delete</button>
-			<a href="@Url.Action("Edit")" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.Edit</a>
-			<a href="@Url.Action("List")" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+			<button type="submit" class="btn btn-primary">@IlaroAdminResources.Delete</button>
+			<a href="@Url.Action("Edit")" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i> @IlaroAdminResources.Edit</a>
+			<a href="@Url.Action("List")" class="btn btn-link">@IlaroAdminResources.Cancel</a>
 		</div>
 	</div>
 }
 
-@helper DisplayRecordHierarchy(Ilaro.Admin.ViewModels.RecordHierarchy record)
+@helper DisplayRecordHierarchy(RecordHierarchy record)
 {
 	<li>
 		@record.Entity.Name: @Html.ActionLink(record.DisplayName, "Edit", new { entityName = record.Entity.Name, key = record.KeyValue })

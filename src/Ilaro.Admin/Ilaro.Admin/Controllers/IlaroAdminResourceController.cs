@@ -1,10 +1,6 @@
-﻿using Ilaro.Admin.Commons.Notificator;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using System.IO;
 using System.Web.Mvc;
+using Ilaro.Admin.Commons.Notificator;
 
 namespace Ilaro.Admin.Controllers
 {
@@ -84,7 +80,8 @@ namespace Ilaro.Admin.Controllers
 
 		private Stream GetResourceStream(string folder, string file)
 		{
-			return this.GetType().Assembly.GetManifestResourceStream("Ilaro.Admin." + folder + "." + file);
+			return GetType().Assembly
+                .GetManifestResourceStream("Ilaro.Admin." + folder + "." + file);
 		}
 	}
 }

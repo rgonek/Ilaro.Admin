@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.ViewModels;
@@ -38,34 +37,30 @@ namespace Ilaro.Admin.EntitiesFilters
 			Options = new SelectList(options, "Value", "Key", Value);
 		}
 
-		public string GetSQLCondition(string alias)
+		public string GetSqlCondition(string alias)
 		{
-			if (Value.Contains('-'))
-			{
-				var dates = Value.Split("-".ToCharArray());
+		    if (!Value.Contains('-')) 
+                return string.Format("{0}[{1}] = '{2}'", alias, Property.ColumnName, Value);
+		    
+            var dates = Value.Split("-".ToCharArray());
 
-				if (dates.Length == 2)
-				{
-					if (!dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
-					{
-						return string.Format("({0}[{1}] >= '{2}' AND {0}[{1}] <= '{3}')", alias, Property.ColumnName, dates[0], dates[1]);
-					}
-					else if (dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
-					{
-						return string.Format("{0}[{1}] <= '{2}'", alias, Property.ColumnName, dates[1]);
-					}
-					else if (!dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty())
-					{
-						return string.Format("{0}[{1}] >= '{2}'", alias, Property.ColumnName, dates[0]);
-					}
-				}
+		    if (dates.Length != 2) 
+                return null;
 
-				return null;
-			}
-			else
-			{
-				return string.Format("{0}[{1}] = '{2}'", alias, Property.ColumnName, Value);
-			}
+		    if (!dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
+		    {
+		        return string.Format("({0}[{1}] >= '{2}' AND {0}[{1}] <= '{3}')", alias, Property.ColumnName, dates[0], dates[1]);
+		    }
+		    if (dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
+		    {
+		        return string.Format("{0}[{1}] <= '{2}'", alias, Property.ColumnName, dates[1]);
+		    }
+		    if (!dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty())
+		    {
+		        return string.Format("{0}[{1}] >= '{2}'", alias, Property.ColumnName, dates[0]);
+		    }
+
+		    return null;
 		}
 	}
 }

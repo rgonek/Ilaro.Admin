@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Reflection;
 using Ilaro.Admin.Attributes;
 using Ilaro.Admin.Extensions;
-using System.Diagnostics;
 using Ilaro.Admin.Model;
-using System.ComponentModel.DataAnnotations.Schema;
+using Resources;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -30,7 +29,10 @@ namespace Ilaro.Admin.ViewModels
 		{
 			get
 			{
-				return Properties.Where(x => x.PropertyType == typeof(bool) || x.PropertyType == typeof(bool?));
+				return Properties
+                    .Where(x => 
+                        x.PropertyType == typeof(bool) || 
+                        x.PropertyType == typeof(bool?));
 			}
 		}
 
@@ -114,23 +116,26 @@ namespace Ilaro.Admin.ViewModels
 
 		public Entity(Type type)
 		{
-			this.Type = type;
+			Type = type;
 			Name = Type.Name;
 
 			IsChangeEntity = typeof(IEntityChange).IsAssignableFrom(Type);
 
-			var verbose = (type.GetCustomAttributes(typeof(VerboseAttribute), false) as VerboseAttribute[]).FirstOrDefault();
+			var verbose = (type.GetCustomAttributes(
+                typeof(VerboseAttribute), 
+                false) as VerboseAttribute[])
+                .FirstOrDefault();
 			if (verbose != null)
 			{
-				this.Singular = verbose.Singular ?? type.Name.SplitCamelCase();
-				this.Plural = verbose.Plural ?? this.Singular.Pluralize().SplitCamelCase();
-				this.GroupName = verbose.GroupName ?? Resources.IlaroAdminResources.Others;
+				Singular = verbose.Singular ?? type.Name.SplitCamelCase();
+				Plural = verbose.Plural ?? Singular.Pluralize().SplitCamelCase();
+				GroupName = verbose.GroupName ?? IlaroAdminResources.Others;
 			}
 			else
 			{
-				this.Singular = type.Name.SplitCamelCase();
-				this.Plural = this.Singular.Pluralize().SplitCamelCase();
-				this.GroupName = Resources.IlaroAdminResources.Others;
+				Singular = type.Name.SplitCamelCase();
+				Plural = Singular.Pluralize().SplitCamelCase();
+				GroupName = IlaroAdminResources.Others;
 			}
 
 			Properties = type.GetProperties().Select(x => new Property(this, x)).ToList();
@@ -151,7 +156,9 @@ namespace Ilaro.Admin.ViewModels
 			}
 
 			// check if has ToString() method
-			HasToStringMethod = Type.GetMethod("ToString").DeclaringType.Name != "Object";
+			HasToStringMethod = 
+                Type.GetMethod("ToString")
+                .DeclaringType.Name != "Object";
 
 			var recordDisplay = Attributes.OfType<RecordDisplayAttribute>().FirstOrDefault();
 			if (recordDisplay != null)
@@ -162,7 +169,9 @@ namespace Ilaro.Admin.ViewModels
 
 		private void SetTableName(object[] attributes)
 		{
-			var tableAttribute = attributes.OfType<TableAttribute>().FirstOrDefault();
+			var tableAttribute = attributes
+                .OfType<TableAttribute>()
+                .FirstOrDefault();
 			if (tableAttribute != null)
 			{
 				SetTableName(tableAttribute.Name, tableAttribute.Schema);
@@ -200,20 +209,22 @@ namespace Ilaro.Admin.ViewModels
 
 		private void SetColumns(object[] attributes)
 		{
-			// if there any display properties that mean it was setted by fluent configuration 
+			// if there any display properties that mean 
+            // it was setted by fluent configuration 
 			// and we don't want replace them
-			if (DisplayProperties.IsNullOrEmpty())
-			{
-				var columnsAttribute = attributes.OfType<ColumnsAttribute>().FirstOrDefault();
-				if (columnsAttribute != null)
-				{
-					SetColumns(columnsAttribute.Columns);
-				}
-				else
-				{
-					DisplayProperties = GetDisplayProperties().ToList();
-				}
-			}
+		    if (!DisplayProperties.IsNullOrEmpty()) return;
+
+		    var columnsAttribute = attributes
+                .OfType<ColumnsAttribute>()
+                .FirstOrDefault();
+		    if (columnsAttribute != null)
+		    {
+		        SetColumns(columnsAttribute.Columns);
+		    }
+		    else
+		    {
+		        DisplayProperties = GetDisplayProperties().ToList();
+		    }
 		}
 
 		internal void SetColumns(IEnumerable<string> properties)
@@ -221,13 +232,16 @@ namespace Ilaro.Admin.ViewModels
 			DisplayProperties = new List<Property>();
 			foreach (var column in properties)
 			{
-				DisplayProperties.Add(Properties.FirstOrDefault(x => x.Name == column));
+				DisplayProperties
+                    .Add(Properties.FirstOrDefault(x => x.Name == column));
 			}
 		}
 
-		private void SetSearchProperties(object[] attributes)
+		private void SetSearchProperties(IEnumerable<object> attributes)
 		{
-			var searchAttribute = attributes.OfType<SearchAttribute>().FirstOrDefault();
+			var searchAttribute = attributes
+                .OfType<SearchAttribute>()
+                .FirstOrDefault();
 			if (searchAttribute != null)
 			{
 				SetSearchProperties(searchAttribute.Columns);
@@ -235,7 +249,21 @@ namespace Ilaro.Admin.ViewModels
 			else
 			{
 				// TODO: Move types to other class
-				SearchProperties = Properties.Where(x => !x.IsForeignKey && x.PropertyType.In(typeof(string), typeof(int), typeof(short), typeof(long), typeof(double), typeof(decimal), typeof(int?), typeof(short?), typeof(long?), typeof(double?), typeof(decimal?)));
+				SearchProperties = Properties
+                    .Where(x => 
+                        !x.IsForeignKey && 
+                        x.PropertyType.In(
+                            typeof(string), 
+                            typeof(int), 
+                            typeof(short), 
+                            typeof(long), 
+                            typeof(double), 
+                            typeof(decimal), 
+                            typeof(int?), 
+                            typeof(short?), 
+                            typeof(long?), 
+                            typeof(double?), 
+                            typeof(decimal?)));
 			}
 		}
 
@@ -254,22 +282,21 @@ namespace Ilaro.Admin.ViewModels
 			SetGroups(Attributes);
 		}
 
-		private void SetGroups(object[] attributes)
+		private void SetGroups(IEnumerable<object> attributes)
 		{
-			var groupsAttribute = attributes.OfType<GroupsAttribute>().FirstOrDefault();
-			if (groupsAttribute != null)
-			{
-				PrepareGroups(groupsAttribute.Groups);
-			}
-			else
-			{
-				PrepareGroups(new List<string>());
-			}
+		    var groupsAttribute = 
+                attributes.OfType<GroupsAttribute>().FirstOrDefault();
+		    PrepareGroups(
+                groupsAttribute != null ? 
+                    groupsAttribute.Groups : 
+                    new List<string>());
 		}
 
-		private void PrepareGroups(IList<string> groupsNames)
+	    private void PrepareGroups(IList<string> groupsNames)
 		{
-			var groupsDict = CreateProperties().GroupBy(x => x.GroupName).ToDictionary(x => x.Key);
+			var groupsDict = CreateProperties()
+                .GroupBy(x => x.GroupName)
+                .ToDictionary(x => x.Key);
 
 			Groups = new List<GroupPropertiesViewModel>();
 			if (groupsNames.IsNullOrEmpty())
@@ -288,22 +315,24 @@ namespace Ilaro.Admin.ViewModels
 				foreach (var groupName in groupsNames)
 				{
 					var trimedGroupName = groupName.TrimEnd('*');
-					if (groupsDict.ContainsKey(trimedGroupName ?? Resources.IlaroAdminResources.Others))
-					{
-						var group = groupsDict[trimedGroupName];
+				    if (!groupsDict.ContainsKey(trimedGroupName)) continue;
 
-						Groups.Add(new GroupPropertiesViewModel
-						{
-							GroupName = group.Key,
-							Properties = group.ToList(),
-							IsCollapsed = groupName.EndsWith("*")
-						});
-					}
+				    var group = groupsDict[trimedGroupName];
+
+				    Groups.Add(new GroupPropertiesViewModel
+				    {
+				        GroupName = @group.Key,
+				        Properties = @group.ToList(),
+				        IsCollapsed = groupName.EndsWith("*")
+				    });
 				}
 			}
 		}
 
-		internal void AddGroup(string group, bool isCollapsed, IEnumerable<string> propertiesNames)
+		internal void AddGroup(
+            string group, 
+            bool isCollapsed, 
+            IEnumerable<string> propertiesNames)
 		{
 			if (Groups == null)
 			{
@@ -318,9 +347,10 @@ namespace Ilaro.Admin.ViewModels
 			});
 		}
 
-		private void SetLinks(object[] attributes)
+		private void SetLinks(IEnumerable<object> attributes)
 		{
-			var linksAttribute = attributes.OfType<LinksAttribute>().FirstOrDefault();
+			var linksAttribute = 
+                attributes.OfType<LinksAttribute>().FirstOrDefault();
 			if (linksAttribute != null)
 			{
 				DisplayLink = linksAttribute.DisplayLink;
@@ -336,7 +366,9 @@ namespace Ilaro.Admin.ViewModels
 			}
 		}
 
-		public IEnumerable<Property> CreateProperties(bool getKey = true, bool getForeignCollection = true)
+		public IEnumerable<Property> CreateProperties(
+            bool getKey = true, 
+            bool getForeignCollection = true)
 		{
 			foreach (var property in Properties)
 			{
@@ -345,21 +377,31 @@ namespace Ilaro.Admin.ViewModels
 				{
 					yield return property;
 				}
-				// If property is key, and I want get a key (getKey == true) && data type is string
-				else if (property.IsKey && property.DataType == DataType.Text && getKey)
+				// If property is key,  
+                // and I want get a key (getKey == true) && data type is string
+				else if (
+                    property.IsKey && 
+                    property.DataType == DataType.Text && 
+                    getKey)
 				{
 					yield return property;
 				}
 				else if (property.IsForeignKey)
 				{
 					// If is foreign key and not have reference property
-					if (property.ReferenceProperty == null && (getForeignCollection || (!getForeignCollection && !property.IsCollection)))
+					if (
+                        property.ReferenceProperty == null && 
+                        (getForeignCollection || !property.IsCollection))
 					{
 						yield return property;
 					}
-					// If is foreign key and have foreign key, that means, we have two properties for one database column, 
+					// If is foreign key and have foreign key, that means, 
+                    // we have two properties for one database column, 
 					// so I want only that one who is a system type
-					else if (property.ReferenceProperty != null && property.IsSystemType && (getForeignCollection || (!getForeignCollection && !property.IsCollection)))
+					else if (
+                        property.ReferenceProperty != null && 
+                        property.IsSystemType && 
+                        (getForeignCollection || !property.IsCollection))
 					{
 						yield return property;
 					}
@@ -380,13 +422,19 @@ namespace Ilaro.Admin.ViewModels
 				else if (property.IsForeignKey)
 				{
 					// If is foreign key and not have reference property
-					if (property.ReferenceProperty == null && !property.IsCollection)
+					if (
+                        property.ReferenceProperty == null && 
+                        !property.IsCollection)
 					{
 						yield return property;
 					}
-					// If is foreign key and have foreign key, that means, we have two properties for one database column, 
+					// If is foreign key and have foreign key, that means, 
+                    // we have two properties for one database column, 
 					// so I want only that one who is a system type
-					else if (property.ReferenceProperty != null && property.IsSystemType && !property.IsCollection)
+					else if (
+                        property.ReferenceProperty != null && 
+                        property.IsSystemType && 
+                        !property.IsCollection)
 					{
 						yield return property;
 					}

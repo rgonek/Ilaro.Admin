@@ -1,78 +1,69 @@
-﻿using Ilaro.Admin.Commons.Notificator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Ilaro.Admin.Commons.Notificator;
 
 namespace Ilaro.Admin.Controllers
 {
-	public partial class BaseController : Controller
-	{
-		public BaseController(Notificator notificator)
-		{
-			this.notificator = notificator;
-		}
+    public class BaseController : Controller
+    {
+        protected BaseController(Notificator notificator)
+        {
+            Notificator = notificator;
+        }
 
-		public BaseController()
-		{
+        #region Notificator
 
-		}
+        protected readonly Notificator Notificator;
 
-		#region Notificator
+        protected void Success(string message)
+        {
+            Notificate(message, NotificateType.Success);
+        }
 
-		protected Notificator notificator;
+        protected void Success(string message, params object[] args)
+        {
+            Notificate(message, NotificateType.Success, args);
+        }
 
-		public void Success(string message)
-		{
-			Notificate(message, NotificateType.Success);
-		}
+        protected void Info(string message)
+        {
+            Notificate(message, NotificateType.Info);
+        }
 
-		public void Success(string message, params object[] args)
-		{
-			Notificate(message, NotificateType.Success, args);
-		}
+        protected void Info(string message, params object[] args)
+        {
+            Notificate(message, NotificateType.Info, args);
+        }
 
-		public void Info(string message)
-		{
-			Notificate(message, NotificateType.Info);
-		}
+        protected void Warning(string message)
+        {
+            Notificate(message, NotificateType.Warning);
+        }
 
-		public void Info(string message, params object[] args)
-		{
-			Notificate(message, NotificateType.Info, args);
-		}
+        protected void Warning(string message, params object[] args)
+        {
+            Notificate(message, NotificateType.Warning, args);
+        }
 
-		public void Warning(string message)
-		{
-			Notificate(message, NotificateType.Warning);
-		}
+        protected void Error(string message)
+        {
+            Notificate(message, NotificateType.Danger);
+        }
 
-		public void Warning(string message, params object[] args)
-		{
-			Notificate(message, NotificateType.Warning, args);
-		}
+        protected void Error(string message, params object[] args)
+        {
+            Notificate(message, NotificateType.Danger, args);
+        }
 
-		public void Error(string message)
-		{
-			Notificate(message, NotificateType.Danger);
-		}
+        private void Notificate(string message, NotificateType type)
+        {
+            Notificator.Messages[type].Enqueue(message);
+        }
 
-		public void Error(string message, params object[] args)
-		{
-			Notificate(message, NotificateType.Danger, args);
-		}
+        private void Notificate(string message, NotificateType type, params object[] args)
+        {
+            Notificator.Messages[type].Enqueue(string.Format(message, args));
+        }
 
-		public void Notificate(string message, NotificateType type)
-		{
-			notificator.Messages[type].Enqueue(message);
-		}
-
-		public void Notificate(string message, NotificateType type, params object[] args)
-		{
-			notificator.Messages[type].Enqueue(string.Format(message, args));
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

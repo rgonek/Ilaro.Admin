@@ -1,11 +1,6 @@
-﻿using Ninject.Activation;
+﻿using System.Web;
+using Ninject.Activation;
 using Ninject.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace Ilaro.Admin.Ninject
 {

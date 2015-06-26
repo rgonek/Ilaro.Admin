@@ -1,9 +1,6 @@
-﻿using Ilaro.Admin.FileUpload;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Web;
+using Ilaro.Admin.FileUpload;
 
 namespace Ilaro.Admin.Attributes
 {

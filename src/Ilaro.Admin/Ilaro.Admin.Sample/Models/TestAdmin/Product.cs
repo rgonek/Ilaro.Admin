@@ -1,16 +1,13 @@
-﻿using Ilaro.Admin.Attributes;
-using Ilaro.Admin.FileUpload;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using Ilaro.Admin.Attributes;
+using Ilaro.Admin.FileUpload;
 
 namespace Ilaro.Admin.Sample.Models.TestAdmin
 {
     //[Columns("Image", "Category", "Name")]
     [Search("Number")]
-    [GroupsAttribute("Podstawowe", "Daty*", "Status*", "Pozostałe*")]
+    [Groups("Podstawowe", "Daty*", "Status*", "Pozostałe*")]
     public class Product
     {
         [Key]

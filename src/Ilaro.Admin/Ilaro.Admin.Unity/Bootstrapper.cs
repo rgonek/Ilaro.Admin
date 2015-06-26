@@ -1,10 +1,10 @@
 using System.Web.Mvc;
+using Ilaro.Admin.Commons;
+using Ilaro.Admin.Commons.Notificator;
+using Ilaro.Admin.Services;
+using Ilaro.Admin.Services.Interfaces;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
-using Ilaro.Admin.Commons.Notificator;
-using Ilaro.Admin.Services.Interfaces;
-using Ilaro.Admin.Services;
-using Ilaro.Admin.Commons;
 
 namespace Ilaro.Admin.Unity
 {
@@ -28,9 +28,12 @@ namespace Ilaro.Admin.Unity
 			return container;
 		}
 
-		public static void RegisterTypes(IUnityContainer container)
+	    private static void RegisterTypes(IUnityContainer container)
 		{
-			container.RegisterType(typeof(Notificator), new PerUserCacheLifetimeManager(), new InjectionConstructor());
+			container.RegisterType(
+                typeof(Notificator), 
+                new PerUserCacheLifetimeManager(), 
+                new InjectionConstructor());
 			container.RegisterType<IEntityService, EntityService>();
 		}
 	}

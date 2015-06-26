@@ -1,4 +1,5 @@
-﻿@model Ilaro.Admin.ViewModels.CreateViewModel
+﻿@using Resources
+@model Ilaro.Admin.ViewModels.CreateViewModel
 
 @{
 	if (ViewBag.IsAjaxRequest)
@@ -9,16 +10,16 @@
 	{
 		Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
 	}
-	ViewBag.Title = string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name);
+	ViewBag.Title = string.Format(IlaroAdminResources.Create_Title, Model.Entity.Name);
 }
 
 @section Breadcrumb
 {
 	<ul class="breadcrumb">
-		<li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+		<li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
 		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
 		<li>@Html.ActionLink(Model.Entity.Plural, "List", new { entityName = Model.Entity.Name })</li>
-		<li class="active">@string.Format(Resources.IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
+		<li class="active">@string.Format(IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
 	</ul>
 }
 
@@ -68,10 +69,10 @@
 
 	<div class="form-action">
 		<div class="col-md-offset-2">
-			<button type="submit" class="btn btn-primary">@Resources.IlaroAdminResources.Save</button>
-			<button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @Resources.IlaroAdminResources.SaveAndContinueEdit</button>
-			<button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @Resources.IlaroAdminResources.SaveAndAddNext</button>
-			<a href="@Url.Action("List", new { entityName = Model.Entity.Name })" class="btn btn-link">@Resources.IlaroAdminResources.Cancel</a>
+			<button type="submit" class="btn btn-primary">@IlaroAdminResources.Save</button>
+			<button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @IlaroAdminResources.SaveAndContinueEdit</button>
+			<button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @IlaroAdminResources.SaveAndAddNext</button>
+			<a href="@Url.Action("List", new { entityName = Model.Entity.Name })" class="btn btn-link">@IlaroAdminResources.Cancel</a>
 		</div>
 	</div>
 }

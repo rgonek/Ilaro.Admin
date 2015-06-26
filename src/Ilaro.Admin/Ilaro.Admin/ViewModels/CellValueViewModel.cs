@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.ViewModels
@@ -31,7 +28,7 @@ namespace Ilaro.Admin.ViewModels
         {
             get
             {
-                if (Property.DataType == ViewModels.DataType.Enum)
+                if (Property.DataType == DataType.Enum)
                 {
                     var enumValue = (Enum)Enum.Parse(Property.EnumType, Value);
                     if (enumValue == null)
@@ -39,7 +36,10 @@ namespace Ilaro.Admin.ViewModels
                         return Value;
                     }
 
-					//return enumValue.GetDescription() ?? enumValue.ToString().SplitCamelCase();
+                    // TODO: localization
+					//return 
+                    //    enumValue.GetDescription() ?? 
+                    //    enumValue.ToString().SplitCamelCase();
 					return enumValue.ToString().SplitCamelCase();
                 }
 

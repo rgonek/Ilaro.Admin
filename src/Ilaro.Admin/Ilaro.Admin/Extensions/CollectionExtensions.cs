@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Ilaro.Admin.Extensions
@@ -41,14 +39,29 @@ namespace Ilaro.Admin.Extensions
 			return true;
 		}
 
-		public static IDictionary<string, object> Merge(this IDictionary<string, object> dictionary1, object htmlAttributes)
+		public static IDictionary<string, object> Merge(
+            this IDictionary<string, object> dictionary1, 
+            object htmlAttributes)
 		{
-			return dictionary1.Merge(HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+			return dictionary1.Merge(
+                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
 		}
 
-		public static IDictionary<string, object> Merge(this IDictionary<string, object> dictionary1, IDictionary<string, object> dictionary2)
-		{
-			return dictionary1.Union(dictionary2).ToDictionary(x => x.Key, x => x.Value);
+		public static IDictionary<string, object> Merge(
+            this IDictionary<string, object> dictionary1, 
+            IDictionary<string, object> dictionary2)
+        {
+            if (dictionary1 == null)
+            {
+                dictionary1 = new Dictionary<string, object>();
+            }
+            if (dictionary2 == null)
+            {
+                dictionary2 = new Dictionary<string, object>();
+            }
+
+			return dictionary1.Union(dictionary2)
+                .ToDictionary(x => x.Key, x => x.Value);
 		}
 	}
 }

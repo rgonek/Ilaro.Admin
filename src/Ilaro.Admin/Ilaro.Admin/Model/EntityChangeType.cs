@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Ilaro.Admin.Model
+﻿namespace Ilaro.Admin.Model
 {
 	public enum EntityChangeType : byte
 	{

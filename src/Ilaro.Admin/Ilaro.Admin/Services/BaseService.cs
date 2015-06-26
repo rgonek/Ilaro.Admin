@@ -1,70 +1,69 @@
 ﻿using Ilaro.Admin.Commons.Notificator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Ilaro.Admin.Services
 {
 	public class BaseService
 	{
-		public BaseService(Notificator notificator)
+		protected BaseService(Notificator notificator)
 		{
-			this.notificator = notificator;
+            _notificator = notificator;
 		}
 
 		#region Notificator
 
-		protected readonly Notificator notificator;
+        private readonly Notificator _notificator;
 
-		public void Success(string message)
+        protected void Success(string message)
 		{
 			Notificate(message, NotificateType.Success);
 		}
 
-		public void Success(string message, params object[] args)
+        protected void Success(string message, params object[] args)
 		{
 			Notificate(message, NotificateType.Success, args);
 		}
 
-		public void Info(string message)
+        protected void Info(string message)
 		{
 			Notificate(message, NotificateType.Info);
 		}
 
-		public void Info(string message, params object[] args)
+        protected void Info(string message, params object[] args)
 		{
 			Notificate(message, NotificateType.Info, args);
 		}
 
-		public void Warning(string message)
+        protected void Warning(string message)
 		{
 			Notificate(message, NotificateType.Warning);
 		}
 
-		public void Warning(string message, params object[] args)
+        protected void Warning(string message, params object[] args)
 		{
 			Notificate(message, NotificateType.Warning, args);
 		}
 
-		public void Error(string message)
+	    protected void Error(string message)
 		{
 			Notificate(message, NotificateType.Danger);
 		}
 
-		public void Error(string message, params object[] args)
+        protected void Error(string message, params object[] args)
 		{
 			Notificate(message, NotificateType.Danger, args);
 		}
 
-		public void Notificate(string message, NotificateType type)
+	    private void Notificate(string message, NotificateType type)
 		{
-			notificator.Messages[type].Enqueue(message);
+            _notificator.Messages[type].Enqueue(message);
 		}
 
-		public void Notificate(string message, NotificateType type, params object[] args)
+	    private void Notificate(
+            string message, 
+            NotificateType type, 
+            params object[] args)
 		{
-			notificator.Messages[type].Enqueue(string.Format(message, args));
+            _notificator.Messages[type].Enqueue(string.Format(message, args));
 		}
 
 		#endregion

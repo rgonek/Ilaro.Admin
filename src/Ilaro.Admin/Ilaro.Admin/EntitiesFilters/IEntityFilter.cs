@@ -1,9 +1,5 @@
-﻿using Ilaro.Admin.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.EntitiesFilters
 {
@@ -17,6 +13,6 @@ namespace Ilaro.Admin.EntitiesFilters
 
 		void Initialize(Property property, string value = "");
 
-		string GetSQLCondition(string alias);
+		string GetSqlCondition(string alias);
 	}
 }

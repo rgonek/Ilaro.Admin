@@ -1,20 +1,13 @@
-﻿using Ilaro.Admin;
+﻿using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Ilaro.Admin.FileUpload;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
-using Ilaro.Admin.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
 
 namespace Ilaro.Admin.Sample
 {
-	public class MvcApplication : System.Web.HttpApplication
+	public class MvcApplication : HttpApplication
 	{
 		protected void Application_Start()
 		{
@@ -54,7 +47,7 @@ namespace Ilaro.Admin.Sample
 
 			// If you want anonymous access to Ilaro.Admin, skip this line
 			// off course you can set Roles and Users for AuthorizeAttribute
-			AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute();
+			AdminInitialise.Authorize = new AuthorizeAttribute();
 
 			// If you have only one connection string there is no need to specify it
 			AdminInitialise.Initialise("NorthwindEntities");

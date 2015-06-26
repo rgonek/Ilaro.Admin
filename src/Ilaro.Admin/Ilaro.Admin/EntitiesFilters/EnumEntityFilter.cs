@@ -1,10 +1,8 @@
-﻿using Ilaro.Admin.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.EntitiesFilters
 {
@@ -29,13 +27,13 @@ namespace Ilaro.Admin.EntitiesFilters
 
 			foreach (var option in property.EnumType.GetOptions())
 			{
-				options.Add(option.Value, option.Key.ToString());
+				options.Add(option.Value, option.Key);
 			}
 
 			Options = new SelectList(options, "Value", "Key", Value);
 		}
 
-		public string GetSQLCondition(string alias)
+		public string GetSqlCondition(string alias)
 		{
 			return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, Value);
 		}

@@ -12,32 +12,103 @@ namespace Ilaro.Admin.Commons.Paging
     {
         #region AjaxHelper extensions
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            AjaxOptions ajaxOptions)
         {
-            return Pager(ajaxHelper, pageSize, currentPage, totalItemCount, null, null, ajaxOptions);
+            return Pager(
+                ajaxHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                null,
+                ajaxOptions);
         }
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, string actionName, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName,
+            AjaxOptions ajaxOptions)
         {
-            return Pager(ajaxHelper, pageSize, currentPage, totalItemCount, actionName, null, ajaxOptions);
+            return Pager(
+                ajaxHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                actionName,
+                null,
+                ajaxOptions);
         }
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, object values, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            object values,
+            AjaxOptions ajaxOptions)
         {
-            return Pager(ajaxHelper, pageSize, currentPage, totalItemCount, null, new RouteValueDictionary(values), ajaxOptions);
+            return Pager(
+                ajaxHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                new RouteValueDictionary(values),
+                ajaxOptions);
         }
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, string actionName, object values, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName,
+            object values,
+            AjaxOptions ajaxOptions)
         {
-            return Pager(ajaxHelper, pageSize, currentPage, totalItemCount, actionName, new RouteValueDictionary(values), ajaxOptions);
+            return Pager(
+                ajaxHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                actionName,
+                new RouteValueDictionary(values), ajaxOptions);
         }
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, RouteValueDictionary valuesDictionary, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            RouteValueDictionary valuesDictionary,
+            AjaxOptions ajaxOptions)
         {
-            return Pager(ajaxHelper, pageSize, currentPage, totalItemCount, null, valuesDictionary, ajaxOptions);
+            return Pager(
+                ajaxHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                valuesDictionary,
+                ajaxOptions);
         }
 
-        public static HtmlString Pager(this AjaxHelper ajaxHelper, int pageSize, int currentPage, int totalItemCount, string actionName, RouteValueDictionary valuesDictionary, AjaxOptions ajaxOptions)
+        public static HtmlString Pager(
+            this AjaxHelper ajaxHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName,
+            RouteValueDictionary valuesDictionary,
+            AjaxOptions ajaxOptions)
         {
             if (valuesDictionary == null)
             {
@@ -47,11 +118,18 @@ namespace Ilaro.Admin.Commons.Paging
             {
                 if (valuesDictionary.ContainsKey("action"))
                 {
-                    throw new ArgumentException("The valuesDictionary already contains an action.", "actionName");
+                    throw new ArgumentException(
+                        "The valuesDictionary already contains an action.",
+                        "actionName");
                 }
                 valuesDictionary.Add("action", actionName);
             }
-            var pager = new Pager(ajaxHelper.ViewContext, pageSize, currentPage, totalItemCount, valuesDictionary, ajaxOptions);
+            var pager = new Pager(
+                ajaxHelper.ViewContext,
+                pageSize, currentPage,
+                totalItemCount,
+                valuesDictionary,
+                ajaxOptions);
             return pager.RenderHtml();
         }
 
@@ -59,38 +137,110 @@ namespace Ilaro.Admin.Commons.Paging
 
         #region HtmlHelper extensions
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount)
         {
-            return Pager(htmlHelper, pageSize, currentPage, totalItemCount, null, null);
+            return Pager(
+                htmlHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                null);
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName)
         {
-            return Pager(htmlHelper, pageSize, currentPage, totalItemCount, actionName, null);
+            return Pager(
+                htmlHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                actionName,
+                null);
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, object values)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            object values)
         {
-            return Pager(htmlHelper, pageSize, currentPage, totalItemCount, null, new RouteValueDictionary(values));
+            return Pager(
+                htmlHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                new RouteValueDictionary(values));
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, object values)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName,
+            object values)
         {
-            return Pager(htmlHelper, pageSize, currentPage, totalItemCount, actionName, new RouteValueDictionary(values));
+            return Pager(
+                htmlHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                actionName,
+                new RouteValueDictionary(values));
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, RouteValueDictionary valuesDictionary)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            RouteValueDictionary valuesDictionary)
         {
-            return Pager(htmlHelper, pageSize, currentPage, totalItemCount, null, valuesDictionary);
+            return Pager(
+                htmlHelper,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                valuesDictionary);
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, string url, int pageSize, int currentPage, int totalItemCount)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            string url,
+            int pageSize,
+            int currentPage,
+            int totalItemCount)
         {
-            var pager = new Pager(htmlHelper.ViewContext, pageSize, currentPage, totalItemCount, null, null);
+            var pager = new Pager(
+                htmlHelper.ViewContext,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                null,
+                null);
             return pager.RenderHtml(url);
         }
 
-        public static HtmlString Pager(this HtmlHelper htmlHelper, int pageSize, int currentPage, int totalItemCount, string actionName, RouteValueDictionary valuesDictionary)
+        public static HtmlString Pager(
+            this HtmlHelper htmlHelper,
+            int pageSize,
+            int currentPage,
+            int totalItemCount,
+            string actionName,
+            RouteValueDictionary valuesDictionary)
         {
             if (valuesDictionary == null)
             {
@@ -100,11 +250,19 @@ namespace Ilaro.Admin.Commons.Paging
             {
                 if (valuesDictionary.ContainsKey("action"))
                 {
-                    throw new ArgumentException("The valuesDictionary already contains an action.", "actionName");
+                    throw new ArgumentException(
+                        "The valuesDictionary already contains an action.",
+                        "actionName");
                 }
                 valuesDictionary.Add("action", actionName);
             }
-            var pager = new Pager(htmlHelper.ViewContext, pageSize, currentPage, totalItemCount, valuesDictionary, null);
+            var pager = new Pager(
+                htmlHelper.ViewContext,
+                pageSize,
+                currentPage,
+                totalItemCount,
+                valuesDictionary,
+                null);
             return pager.RenderHtml();
         }
 
@@ -112,7 +270,11 @@ namespace Ilaro.Admin.Commons.Paging
 
         #region IQueryable<T> extensions
 
-        public static IPagedList<T> ToPagedList<T>(this IQueryable<T> source, int pageIndex, int pageSize, int? totalCount = null)
+        public static IPagedList<T> ToPagedList<T>(
+            this IQueryable<T> source,
+            int pageIndex,
+            int pageSize,
+            int? totalCount = null)
         {
             return new PagedList<T>(source, pageIndex, pageSize, totalCount);
         }
@@ -121,7 +283,11 @@ namespace Ilaro.Admin.Commons.Paging
 
         #region IEnumerable<T> extensions
 
-        public static IPagedList<T> ToPagedList<T>(this IEnumerable<T> source, int pageIndex, int pageSize, int? totalCount = null)
+        public static IPagedList<T> ToPagedList<T>(
+            this IEnumerable<T> source,
+            int pageIndex,
+            int pageSize,
+            int? totalCount = null)
         {
             return new PagedList<T>(source, pageIndex, pageSize, totalCount);
         }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Ilaro.Admin.FileUpload
 {
@@ -18,7 +15,10 @@ namespace Ilaro.Admin.FileUpload
 
         public bool IsBig { get; set; }
 
-        public ImageSettings(string subPath, int? width = null, int? height = null)
+        public ImageSettings(
+            string subPath,
+            int? width = null,
+            int? height = null)
         {
             SubPath = subPath;
             Width = width;

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Ilaro.Admin.ViewModels
 {
@@ -21,7 +18,7 @@ namespace Ilaro.Admin.ViewModels
         {
             Url = url;
             Current = current;
-            TotalPages = TotalPages;
+            TotalPages = totalPages;
         }
 
         public PagerInfo(string url, int perPage, int page, int totalItems)

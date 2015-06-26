@@ -1,4 +1,5 @@
-﻿@model Ilaro.Admin.ViewModels.ListViewModel
+﻿@using Resources
+@model Ilaro.Admin.ViewModels.ListViewModel
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
@@ -8,7 +9,7 @@
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+        <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
         <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
         <li class="active">@Model.Entity.Plural</li>
     </ul>
@@ -31,16 +32,17 @@
             <div class="input-group">
                 @Html.TextBox("sq", Model.SearchQuery, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">@Resources.IlaroAdminResources.Search</button>
+                    <button class="btn btn-default" type="submit">@IlaroAdminResources.Search</button>
                 </span>
             </div>
         }
     }
-    @Html.ActionLink(Resources.IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" })
+
+    @Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" })
 
     @if (Model.Entity.CanAdd)
     {
-        <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> @Resources.IlaroAdminResources.Add</a>
+        <a href="@Url.Action("Create", new { entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
     }
 </div>
 
@@ -82,7 +84,7 @@
                 @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
                 {
                     <td class="min-width">
-                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-eye-open"></span> @Resources.IlaroAdminResources.View</a>
+                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
                     </td>
                 }
                 @if (Model.Entity.HasEditLink)
@@ -90,11 +92,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.EditLink.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @Resources.IlaroAdminResources.Edit</a>
+                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @Resources.IlaroAdminResources.Edit</a>
+                            <a href="@Url.Action("Edit", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                     </td>
                 }
@@ -103,11 +105,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @Resources.IlaroAdminResources.Delete</a>
+                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @Resources.IlaroAdminResources.Delete</a>
+                            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = row.KeyValue })" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                     </td>
                 }
@@ -129,7 +131,7 @@
             @Html.Hidden("o", Model.Order)
             @Html.Hidden("od", Model.OrderDirection)
             <div class="form-group">
-                <label for="pp" class="control-label">@Resources.IlaroAdminResources.OnPage</label>
+                <label for="pp" class="control-label">@IlaroAdminResources.OnPage</label>
                 @Html.DropDownList("pp",
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } })
@@ -141,16 +143,17 @@
         @{Html.RenderPartial("_Paging", Model.PagerInfo);}
     </div>
 
-    <div class="pull-left" style="line-height:29px">@Resources.IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></div>
+    <div class="pull-left" style="line-height:29px">
+        @IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></div>
 </div>
 
 @section Sidebar
 {
     @if (Model.Filters.Count > 0)
     {
-        <h2>@Resources.IlaroAdminResources.Filters</h2>
+        <h2>@IlaroAdminResources.Filters</h2>
         <ul class="nav nav-list">
-            <li><a href="@Url.Action("List", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@Resources.IlaroAdminResources.RemoveFilters</a></li>
+            <li><a href="@Url.Action("List", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@IlaroAdminResources.RemoveFilters</a></li>
             @foreach (var filter in Model.Filters)
             {
                 <li class="nav-header">

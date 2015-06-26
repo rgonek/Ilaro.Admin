@@ -1,12 +1,10 @@
-﻿using Ilaro.Admin.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
+using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -48,8 +46,8 @@ namespace Ilaro.Admin.Extensions
 
 		public static string RemoveAccent(this string txt)
 		{
-			byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
-			return System.Text.Encoding.ASCII.GetString(bytes);
+			byte[] bytes = Encoding.GetEncoding("Cyrillic").GetBytes(txt);
+			return Encoding.ASCII.GetString(bytes);
 		}
 
 		/// <summary>
@@ -179,5 +177,10 @@ namespace Ilaro.Admin.Extensions
 
             return value.ToString();
         }
+
+	    public static string Fill(this string format, params object[] args)
+	    {
+	        return string.Format(format, args);
+	    }
 	}
 }

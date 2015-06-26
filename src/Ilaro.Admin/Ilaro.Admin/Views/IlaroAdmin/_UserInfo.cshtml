@@ -1,7 +1,8 @@
-﻿@if (User.Identity.IsAuthenticated)
+﻿@using Ilaro.Admin
+@if (User.Identity.IsAuthenticated)
 {
     <div class="pull-right">
-        @if (Ilaro.Admin.AdminInitialise.Authorize != null)
+        @if (AdminInitialise.Authorize != null)
         {
             <div class="nav-item">
                 @User.Identity.Name

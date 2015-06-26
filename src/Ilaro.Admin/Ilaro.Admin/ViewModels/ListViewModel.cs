@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Ilaro.Admin.Extensions;
 using Ilaro.Admin.EntitiesFilters;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.ViewModels
 {

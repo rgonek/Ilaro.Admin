@@ -1,9 +1,6 @@
-﻿using Ilaro.Admin.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
+using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.EntitiesFilters
 {
@@ -27,7 +24,7 @@ namespace Ilaro.Admin.EntitiesFilters
 			Property = property;
 		}
 
-		public string GetSQLCondition(string alias)
+		public string GetSqlCondition(string alias)
 		{
 			return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, Value);
 		}

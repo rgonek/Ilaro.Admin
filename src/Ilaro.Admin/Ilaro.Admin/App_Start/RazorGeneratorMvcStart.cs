@@ -1,10 +1,10 @@
-using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using RazorGenerator.Mvc;
+using Ilaro.Admin.App_Start;
 using Ilaro.Admin.Commons;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Ilaro.Admin.App_Start.RazorGeneratorMvcStart), "Start")]
+[assembly: PostApplicationStartMethod(typeof(RazorGeneratorMvcStart), "Start")]
 
 namespace Ilaro.Admin.App_Start
 {

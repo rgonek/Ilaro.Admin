@@ -1,15 +1,13 @@
-﻿using Ilaro.Admin.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.Extensions
 {
 	public static class EnumExtensions
 	{
-		public static SelectList GetSelectList(this DeleteOption deleteOption, string key = "", string value = "")
+		public static SelectList GetSelectList(this DeleteOption deleteOption)
 		{
 			var options = deleteOption.GetOptions();
 			options.Remove(((int)DeleteOption.AskUser).ToString());
@@ -17,12 +15,18 @@ namespace Ilaro.Admin.Extensions
 			return new SelectList(options, "Key", "Value", (int)deleteOption);
 		}
 
-		public static IDictionary<string, string> GetOptions(this Enum enumObject, string key = "", string value = "")
+		public static IDictionary<string, string> GetOptions(
+            this Enum enumObject, 
+            string key = "", 
+            string value = "")
 		{
 			return enumObject.GetType().GetOptions(key, value);
 		}
 
-		public static IDictionary<string, string> GetOptions(this Type type, string key = "", string value = "")
+		public static IDictionary<string, string> GetOptions(
+            this Type type, 
+            string key = "", 
+            string value = "")
 		{
 			if (!type.IsEnum)
 			{
@@ -39,8 +43,12 @@ namespace Ilaro.Admin.Extensions
 			foreach (Enum item in Enum.GetValues(type))
 			{
 				// TODO: Localize Enums
-				//dict.Add(Convert.ToInt32(item).ToString(), item.GetDescription() ?? item.ToString().SplitCamelCase());
-				dict.Add(Convert.ToInt32(item).ToString(), item.ToString().SplitCamelCase());
+				//dict.Add(
+                //    Convert.ToInt32(item).ToString(), 
+                //    item.GetDescription() ?? item.ToString().SplitCamelCase());
+				dict.Add(
+                    Convert.ToInt32(item).ToString(), 
+                    item.ToString().SplitCamelCase());
 			}
 
 			return dict;

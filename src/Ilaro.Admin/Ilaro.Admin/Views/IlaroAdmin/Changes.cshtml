@@ -1,17 +1,18 @@
-﻿@model Ilaro.Admin.ViewModels.ChangesViewModel
+﻿@using Resources
+@model Ilaro.Admin.ViewModels.ChangesViewModel
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = Resources.IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Plural;
+    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Plural;
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li>@Html.ActionLink(Resources.IlaroAdminResources.Index_Title, "Index")</li>
+        <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
         <li>@Html.ActionLink(Model.EntityChangesFor.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
         <li>@Html.ActionLink(Model.EntityChangesFor.Plural, "List", new { entityName = Model.EntityChangesFor.Name })</li>
-        <li class="active">@Resources.IlaroAdminResources.Changes</li>
+        <li class="active">@IlaroAdminResources.Changes</li>
     </ul>
 }
 
@@ -32,7 +33,7 @@
             <div class="input-group">
                 @Html.TextBox("sq", Model.SearchQuery, new { @class = "form-control" })
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">@Resources.IlaroAdminResources.Search</button>
+                    <button class="btn btn-default" type="submit">@IlaroAdminResources.Search</button>
                 </span>
             </div>
         }
@@ -86,7 +87,7 @@
             @Html.Hidden("o", Model.Order)
             @Html.Hidden("od", Model.OrderDirection)
             <div class="form-group">
-                <label for="pp" class="control-label">@Resources.IlaroAdminResources.OnPage</label>
+                <label for="pp" class="control-label">@IlaroAdminResources.OnPage</label>
                 @Html.DropDownList("pp",
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } })
@@ -98,16 +99,17 @@
         @{Html.RenderPartial("_Paging", Model.PagerInfo);}
     </div>
 
-    <div class="pull-left" style="line-height:29px">@Resources.IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></div>
+    <div class="pull-left" style="line-height:29px">
+        @IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></div>
 </div>
 
 @section Sidebar
 {
     @if (Model.Filters.Count > 0)
     {
-        <h2>@Resources.IlaroAdminResources.Filters</h2>
+        <h2>@IlaroAdminResources.Filters</h2>
         <ul class="nav nav-list">
-            <li><a href="@Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@Resources.IlaroAdminResources.RemoveFilters</a></li>
+            <li><a href="@Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })">@IlaroAdminResources.RemoveFilters</a></li>
             @foreach (var filter in Model.Filters)
             {
                 <li class="nav-header">

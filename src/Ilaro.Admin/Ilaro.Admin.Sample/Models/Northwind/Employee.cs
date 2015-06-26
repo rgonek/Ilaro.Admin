@@ -1,11 +1,10 @@
-﻿using Ilaro.Admin.Attributes;
-using Ilaro.Admin.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+using Ilaro.Admin.Attributes;
+using Ilaro.Admin.ViewModels;
+using DataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
@@ -26,10 +25,10 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[MaxLength(25)]
 		public string TitleOfCourtesy { get; set; }
 
-		[DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+		[DataType(DataType.Date)]
 		public DateTime? BirthDate { get; set; }
 
-		[DataType(System.ComponentModel.DataAnnotations.DataType.Date)]
+		[DataType(DataType.Date)]
 		public DateTime? HireDate { get; set; }
 
 		[MaxLength(60)]

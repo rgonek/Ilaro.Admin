@@ -1,14 +1,15 @@
-﻿@model Ilaro.Admin.ViewModels.IndexViewModel
+﻿@using Resources
+@model Ilaro.Admin.ViewModels.IndexViewModel
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = Resources.IlaroAdminResources.Index_Title;
+    ViewBag.Title = IlaroAdminResources.Index_Title;
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
-        <li class="active">@Resources.IlaroAdminResources.Index_Title</li>
+        <li class="active">@IlaroAdminResources.Index_Title</li>
     </ul>
 }
 

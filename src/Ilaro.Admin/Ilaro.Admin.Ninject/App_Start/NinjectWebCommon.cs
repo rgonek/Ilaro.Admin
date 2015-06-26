@@ -1,16 +1,18 @@
 using System;
 using System.Web;
+using System.Web.Mvc;
+using Ilaro.Admin.Commons.Notificator;
+using Ilaro.Admin.Ninject.App_Start;
+using Ilaro.Admin.Services;
+using Ilaro.Admin.Services.Interfaces;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-using Ilaro.Admin.Services.Interfaces;
-using Ilaro.Admin.Services;
-using Ilaro.Admin.Commons.Notificator;
 using Ninject.Web.Mvc;
-using System.Web.Mvc;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Ilaro.Admin.Ninject.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Ilaro.Admin.Ninject.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: ApplicationShutdownMethod(typeof(NinjectWebCommon), "Stop")]
 
 namespace Ilaro.Admin.Ninject.App_Start
 {

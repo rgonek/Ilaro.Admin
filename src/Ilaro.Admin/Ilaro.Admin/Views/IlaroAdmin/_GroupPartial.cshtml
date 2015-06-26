@@ -1,4 +1,5 @@
-﻿@model Ilaro.Admin.ViewModels.EntityGroupViewModel
+﻿@using Resources
+@model Ilaro.Admin.ViewModels.EntityGroupViewModel
 
 @if (!Model.Name.IsNullOrEmpty())
 {
@@ -13,7 +14,7 @@
                 <td>
                     @if (entity.CanAdd)
                     {
-                        <a href="@Url.Action("Create", new { entityName = entity.Name })" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-plus"></span> @Resources.IlaroAdminResources.Add</a>
+                        <a href="@Url.Action("Create", new { entityName = entity.Name })" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
                     }
                 </td>
             </tr>

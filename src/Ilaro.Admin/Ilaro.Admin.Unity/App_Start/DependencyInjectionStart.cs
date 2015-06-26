@@ -1,8 +1,7 @@
-using System.Web;
-using System.Web.Mvc;
-using System.Web.WebPages;
+using Ilaro.Admin.Unity.App_Start;
+using WebActivatorEx;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(Ilaro.Admin.Unity.App_Start.DependencyInjectionStart), "Start")]
+[assembly: PostApplicationStartMethod(typeof(DependencyInjectionStart), "Start")]
 
 namespace Ilaro.Admin.Unity.App_Start
 {
