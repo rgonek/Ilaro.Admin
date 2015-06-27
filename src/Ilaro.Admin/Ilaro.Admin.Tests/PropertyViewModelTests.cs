@@ -4,102 +4,135 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ilaro.Admin.Tests
 {
-	[TestClass]
-	public class PropertyViewModelTests
-	{
-		[TestMethod]
-		public void SetForeigns_SimpleTypes_IsNotForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("Id"));
-			Assert.IsFalse(property.IsForeignKey);
+    [TestClass]
+    public class PropertyViewModelTests
+    {
+        [TestMethod]
+        public void SetForeigns_SimpleTypes_IsNotForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-			property = new Property(null, entityType.GetProperty("Name"));
-			Assert.IsFalse(property.IsForeignKey);
+            var property = entity["Id"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-			property = new Property(null, entityType.GetProperty("IsSpecial"));
-			Assert.IsFalse(property.IsForeignKey);
+            property = entity["Name"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-			property = new Property(null, entityType.GetProperty("DateAdd"));
-			Assert.IsFalse(property.IsForeignKey);
+            property = entity["IsSpecial"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-			property = new Property(null, entityType.GetProperty("Price"));
-			Assert.IsFalse(property.IsForeignKey);
+            property = entity["DateAdd"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-			property = new Property(null, entityType.GetProperty("Percent"));
-			Assert.IsFalse(property.IsForeignKey);
-		}
+            property = entity["Price"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-		[TestMethod]
-		public void SetForeigns_Collections_IsNotForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("Tags"));
-			Assert.IsFalse(property.IsForeignKey);
+            property = entity["Percent"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
+        }
 
-			property = new Property(null, entityType.GetProperty("Dimensions"));
-			Assert.IsFalse(property.IsForeignKey);
-		}
+        [TestMethod]
+        public void SetForeigns_Collections_IsNotForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-		[TestMethod]
-		public void SetForeigns_Collections_IsForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("Siblings"));
-			Assert.IsTrue(property.IsForeignKey);
-		}
+            var property = entity["Tags"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-		[TestMethod]
-		public void SetForeigns_Enums_IsNotForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("Option"));
-			Assert.IsFalse(property.IsForeignKey);
+            property = entity["Dimensions"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
+        }
 
-			property = new Property(null, entityType.GetProperty("SplitOption"));
-			Assert.IsFalse(property.IsForeignKey);
-		}
+        [TestMethod]
+        public void SetForeigns_Collections_IsForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-		[TestMethod]
-		public void SetForeigns_ComplexTypes_IsForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("Parent"));
-			Assert.IsTrue(property.IsForeignKey);
+            var property = entity["Siblings"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+        }
 
-			property = new Property(null, entityType.GetProperty("Child"));
-			Assert.IsTrue(property.IsForeignKey);
-		}
+        [TestMethod]
+        public void SetForeigns_Enums_IsNotForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-		[TestMethod]
-		public void SetForeigns_SimpleTypForeignAttribute_IsForeignKey()
-		{
-			var entityType = typeof(TestEntity);
-			var property = new Property(null, entityType.GetProperty("RoleId"));
-			Assert.IsTrue(property.IsForeignKey);
-		}
+            var property = entity["Option"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
 
-		[TestMethod]
-		public void SetForeigns_ForeignAttribute_SetForeignKeysReferences()
-		{
-			AdminInitialise.AddEntity<TestEntity>();
-			AdminInitialise.SetForeignKeysReferences();
+            property = entity["SplitOption"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
+        }
 
-			var testEntity = AdminInitialise.EntitiesTypes.FirstOrDefault();
-			var property = testEntity.Properties.FirstOrDefault(x => x.Name == "Parent");
-			Assert.IsTrue(property.IsForeignKey);
+        [TestMethod]
+        public void SetForeigns_ComplexTypes_IsForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-			property = testEntity.Properties.FirstOrDefault(x => x.Name == "ParentId");
-			Assert.IsFalse(property.IsForeignKey);
+            var property = entity["Parent"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
 
-			property = testEntity.Properties.FirstOrDefault(x => x.Name == "Child");
-			Assert.IsTrue(property.IsForeignKey);
+            property = entity["Child"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+        }
 
-			property = testEntity.Properties.FirstOrDefault(x => x.Name == "ChildId");
-			Assert.IsTrue(property.IsForeignKey);
+        [TestMethod]
+        public void SetForeigns_SimpleTypForeignAttribute_IsForeignKey()
+        {
+            var entityType = typeof(TestEntity);
+            var entity = new Entity(entityType);
 
-			property = testEntity.Properties.FirstOrDefault(x => x.Name == "RoleId");
-			Assert.IsTrue(property.IsForeignKey);
-		}
-	}
+            var property = entity["RoleId"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+        }
+
+        [TestMethod]
+        public void SetForeigns_ForeignAttribute_SetForeignKeysReferences()
+        {
+            AdminInitialise.AddEntity<TestEntity>();
+            AdminInitialise.SetForeignKeysReferences();
+
+            var entity = AdminInitialise.EntitiesTypes.FirstOrDefault();
+            Assert.IsNotNull(entity);
+
+            var property = entity["Parent"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+
+            property = entity["ParentId"];
+            Assert.IsNotNull(property);
+            Assert.IsFalse(property.IsForeignKey);
+
+            property = entity["Child"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+
+            property = entity["ChildId"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+
+            property = entity["RoleId"];
+            Assert.IsNotNull(property);
+            Assert.IsTrue(property.IsForeignKey);
+        }
+    }
 }

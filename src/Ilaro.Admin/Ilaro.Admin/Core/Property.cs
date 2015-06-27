@@ -84,6 +84,8 @@ namespace Ilaro.Admin.Core
         {
             if (property == null)
                 throw new ArgumentNullException("property");
+            if (entity == null)
+                throw new ArgumentNullException("entity");
 
             Entity = entity;
             PropertyInfo = property;
