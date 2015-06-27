@@ -17,13 +17,13 @@
 {
 	<ul class="breadcrumb">
 		<li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
-		<li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-		<li>@Html.ActionLink(Model.Entity.Plural, "List", new { entityName = Model.Entity.Name })</li>
+		<li>@Html.ActionLink(Model.Entity.Verbose.Group, "Group", new { groupName = Model.Entity.Verbose.Group })</li>
+		<li>@Html.ActionLink(Model.Entity.Verbose.Plural, "List", new { entityName = Model.Entity.Name })</li>
 		<li class="active">@string.Format(IlaroAdminResources.Create_Title, Model.Entity.Name)</li>
 	</ul>
 }
 
-<h2>@Model.Entity.Singular</h2>
+<h2>@Model.Entity.Verbose.Singular</h2>
 
 @using (Html.BeginForm("Create", "IlaroAdmin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
@@ -40,7 +40,7 @@
 					@foreach (var property in group.Properties)
 					{
 						<div class="form-group">
-							@Html.EditorFor(m => property, property.EditorTemplateName)
+							@Html.EditorFor(m => property, property.Template.Editor)
 							@if (property.IsForeignKey)
 							{
 								<a href="@Url.Action("Create", new { entityName = property.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
@@ -56,7 +56,7 @@
 		foreach (var property in Model.PropertiesGroups[0].Properties)
 		{
 			<div class="form-group">
-				@Html.EditorFor(m => property, property.EditorTemplateName)
+				@Html.EditorFor(m => property, property.Template.Editor)
 				@if (property.IsForeignKey)
 				{
 					<a href="@Url.Action("Create", new { entityName = property.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>

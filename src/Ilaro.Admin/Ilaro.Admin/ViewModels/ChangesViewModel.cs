@@ -1,4 +1,6 @@
-﻿namespace Ilaro.Admin.ViewModels
+﻿using Ilaro.Admin.Core;
+
+namespace Ilaro.Admin.ViewModels
 {
 	public class ChangesViewModel : ListViewModel
 	{

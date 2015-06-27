@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Fluent
 {
@@ -133,8 +133,8 @@ namespace Ilaro.Admin.Fluent
 		/// </summary>
 		public Entity<TEntity> SetDisplayName(string singular, string plural)
 		{
-			_entity.Singular = singular;
-			_entity.Plural = plural;
+			_entity.Verbose.Singular = singular;
+            _entity.Verbose.Plural = plural;
 
 			return this;
 		}
@@ -144,7 +144,7 @@ namespace Ilaro.Admin.Fluent
 		/// </summary>
 		public Entity<TEntity> SetGroup(string group)
 		{
-			_entity.GroupName = group;
+            _entity.Verbose.Group = group;
 
 			return this;
 		}
@@ -155,7 +155,7 @@ namespace Ilaro.Admin.Fluent
 		/// </summary>
 		public Entity<TEntity> SetDisplayLink(string link)
 		{
-			_entity.DisplayLink = link;
+			_entity.Links.Display = link;
 
 			return this;
 		}
@@ -165,8 +165,8 @@ namespace Ilaro.Admin.Fluent
 		/// </summary>
 		public Entity<TEntity> SetEditLink(string link)
 		{
-			_entity.EditLink = link;
-			_entity.HasEditLink = true;
+            _entity.Links.Edit = link;
+            _entity.Links.HasEdit = true;
 
 			return this;
 		}
@@ -178,8 +178,8 @@ namespace Ilaro.Admin.Fluent
 		/// <returns></returns>
 		public Entity<TEntity> SetDeleteLink(string link)
 		{
-			_entity.DeleteLink = link;
-			_entity.HasDeleteLink = true;
+            _entity.Links.Delete = link;
+            _entity.Links.HasDelete = true;
 
 			return this;
 		}

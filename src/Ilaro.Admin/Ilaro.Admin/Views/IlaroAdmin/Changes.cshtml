@@ -3,21 +3,21 @@
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Plural;
+    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Verbose.Plural;
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Plural, "List", new { entityName = Model.EntityChangesFor.Name })</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Group, "Group", new { groupName = Model.Entity.Verbose.Group })</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "List", new { entityName = Model.EntityChangesFor.Name })</li>
         <li class="active">@IlaroAdminResources.Changes</li>
     </ul>
 }
 
 <div class="clearfix">
-    <h2 class="pull-left">@Model.Entity.Plural</h2>
+    <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
     @if (Model.IsSearchActive)
 	{
 		using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
@@ -67,7 +67,7 @@
             <tr>
                 @foreach (var item in row.Values)
                 {
-                    <td>@Html.DisplayFor(m => item, item.Property.DisplayTemplateName)</td>
+                    <td>@Html.DisplayFor(m => item, item.Property.Template.Display)</td>
                 }
             </tr>
         }

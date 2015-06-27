@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Ilaro.Admin.FileUpload;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.FileUpload;
 
 namespace Ilaro.Admin.Fluent
 {
@@ -89,7 +89,7 @@ namespace Ilaro.Admin.Fluent
         /// </summary>
         public PropertyOf<TEntity> SetDisplayTemplate(string template)
         {
-            _property.DisplayTemplateName = template;
+            _property.Template.Display = template;
 
             return this;
         }
@@ -99,7 +99,7 @@ namespace Ilaro.Admin.Fluent
         /// </summary>
         public PropertyOf<TEntity> SetEditorTemplate(string template)
         {
-            _property.EditorTemplateName = template;
+            _property.Template.Editor = template;
 
             return this;
         }
@@ -109,7 +109,7 @@ namespace Ilaro.Admin.Fluent
         /// </summary>
         public PropertyOf<TEntity> SetDataType(DataType dataType)
         {
-            _property.DataType = dataType;
+            _property.TypeInfo.DataType = dataType;
 
             return this;
         }
@@ -123,7 +123,7 @@ namespace Ilaro.Admin.Fluent
             bool isMultiple,
             params string[] allowedFileExtensions)
         {
-            _property.DataType = DataType.File;
+            _property.TypeInfo.DataType = DataType.File;
 
             _property.ImageOptions = new ImageOptions
             {
@@ -146,7 +146,7 @@ namespace Ilaro.Admin.Fluent
             bool isMiniature,
             bool isBig)
         {
-            _property.DataType = DataType.File;
+            _property.TypeInfo.DataType = DataType.File;
 
             if (_property.ImageOptions == null)
             {

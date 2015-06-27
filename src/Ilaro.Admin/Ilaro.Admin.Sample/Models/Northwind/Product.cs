@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Ilaro.Admin.Attributes;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {

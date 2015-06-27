@@ -1,4 +1,5 @@
 ﻿using System;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.ViewModels
@@ -28,9 +29,9 @@ namespace Ilaro.Admin.ViewModels
         {
             get
             {
-                if (Property.DataType == DataType.Enum)
+                if (Property.TypeInfo.DataType == DataType.Enum)
                 {
-                    var enumValue = (Enum)Enum.Parse(Property.EnumType, Value);
+                    var enumValue = (Enum)Enum.Parse(Property.TypeInfo.EnumType, Value);
                     if (enumValue == null)
                     {
                         return Value;
@@ -43,7 +44,7 @@ namespace Ilaro.Admin.ViewModels
 					return enumValue.ToString().SplitCamelCase();
                 }
 
-                return Convert.ChangeType(Value, Property.PropertyType);
+                return Convert.ChangeType(Value, Property.TypeInfo.Type);
             }
         }
     }

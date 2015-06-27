@@ -2,7 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 using Resources;
 
 #pragma warning disable 1591

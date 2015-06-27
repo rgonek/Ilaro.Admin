@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Extensions
 {

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ilaro.Admin.FileUpload;
+using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
 

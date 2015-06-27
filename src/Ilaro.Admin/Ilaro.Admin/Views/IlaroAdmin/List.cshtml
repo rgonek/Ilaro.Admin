@@ -3,20 +3,20 @@
 
 @{
     Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-    ViewBag.Title = Model.Entity.Plural;
+    ViewBag.Title = Model.Entity.Verbose.Plural;
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index")</li>
-        <li>@Html.ActionLink(Model.Entity.GroupName, "Group", new { groupName = Model.Entity.GroupName })</li>
-        <li class="active">@Model.Entity.Plural</li>
+        <li>@Html.ActionLink(Model.Entity.Verbose.Group, "Group", new { groupName = Model.Entity.Verbose.Group })</li>
+        <li class="active">@Model.Entity.Verbose.Plural</li>
     </ul>
 }
 
 <div class="clearfix">
-    <h2 class="pull-left">@Model.Entity.Plural</h2>
+    <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
     @if (Model.IsSearchActive)
 	{
 		using (Html.BeginForm("List", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
@@ -66,9 +66,9 @@
                     </span>
                 </th>
             }
-            @if (Model.Entity.LinksCount > 0)
+            @if (Model.Entity.Links.Count > 0)
             {
-                <th colspan="@Model.Entity.LinksCount"></th>
+                <th colspan="@Model.Entity.Links.Count"></th>
             }
         </tr>
     </thead>
@@ -79,20 +79,20 @@
                 @*<td><input type="checkbox" class="row-checkbox" /></td>*@
                 @foreach (var item in row.Values)
                 {
-                    <td>@Html.DisplayFor(m => item, item.Property.DisplayTemplateName)</td>
+                    <td>@Html.DisplayFor(m => item, item.Property.Template.Display)</td>
                 }
-                @if (!Model.Entity.DisplayLink.IsNullOrEmpty())
+                @if (!Model.Entity.Links.Display.IsNullOrEmpty())
                 {
                     <td class="min-width">
-                        <a href="@string.Format(Model.Entity.DisplayLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
+                        <a href="@string.Format(Model.Entity.Links.Display, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
                     </td>
                 }
-                @if (Model.Entity.HasEditLink)
+                @if (Model.Entity.Links.HasEdit)
                 {
                     <td class="min-width">
-                        @if (!Model.Entity.EditLink.IsNullOrEmpty())
+                        @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.EditLink, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
+                            <a href="@string.Format(Model.Entity.Links.Edit, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphglyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                         else
                         {
@@ -100,12 +100,12 @@
                         }
                     </td>
                 }
-                @if (Model.Entity.HasDeleteLink)
+                @if (Model.Entity.Links.HasDelete)
                 {
                     <td class="min-width">
-                        @if (!Model.Entity.DeleteLink.IsNullOrEmpty())
+                        @if (!Model.Entity.Links.Delete.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.DeleteLink, row.LinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
+                            <a href="@string.Format(Model.Entity.Links.Delete, row.LinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                         else
                         {

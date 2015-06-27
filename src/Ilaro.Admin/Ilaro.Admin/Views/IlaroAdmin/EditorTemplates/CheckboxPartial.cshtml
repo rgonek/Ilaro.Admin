@@ -1,4 +1,4 @@
-﻿@model Ilaro.Admin.ViewModels.Property
+﻿@model Property
 
 @{Html.ClearPrefix();}
 <div class="col-md-offset-2">
@@ -7,7 +7,7 @@
             <label for="@Html.Id(Model.Name)">
                 @Model.DisplayName
                 @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")
-                @Html.CheckBox(Model.Name, Model.BoolValue.GetValueOrDefault(), Model)
+                @Html.CheckBox(Model.Name, Model.Value.AsBool.GetValueOrDefault(), Model)
             </label>
         </div>
         @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"description\">" + Model.Description + "</span>")

@@ -3,8 +3,8 @@ using System.CodeDom.Compiler;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.WebPages;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
-using Ilaro.Admin.ViewModels;
 
 #pragma warning disable 1591
 //------------------------------------------------------------------------------

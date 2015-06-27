@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using Ilaro.Admin.EntitiesFilters;
+using Ilaro.Admin.Core;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.ViewModels;
 
 namespace Ilaro.Admin.Services.Interfaces

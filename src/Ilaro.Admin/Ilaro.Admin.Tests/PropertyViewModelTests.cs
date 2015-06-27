@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ilaro.Admin.Tests

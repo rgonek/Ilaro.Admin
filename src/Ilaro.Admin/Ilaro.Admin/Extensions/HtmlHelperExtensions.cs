@@ -5,8 +5,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using Ilaro.Admin.EntitiesFilters;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -131,7 +132,7 @@ namespace Ilaro.Admin.Extensions
                 return null;
             }
 
-            if (cell.Property.PropertyType == typeof(string))
+            if (cell.Property.TypeInfo.IsString)
             {
                 // I have a path to image so easy to display
                 var minSettings = cell.Property.ImageOptions.Settings

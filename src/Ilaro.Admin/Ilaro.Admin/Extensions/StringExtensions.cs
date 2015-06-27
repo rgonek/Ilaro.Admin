@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -166,7 +166,7 @@ namespace Ilaro.Admin.Extensions
                 return String.Empty;
             }
 
-            if (property.DataType == DataType.Numeric)
+            if (property.TypeInfo.DataType == DataType.Numeric)
             {
                 try
                 {

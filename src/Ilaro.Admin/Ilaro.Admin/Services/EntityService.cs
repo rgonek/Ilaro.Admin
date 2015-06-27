@@ -10,15 +10,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Commons.Notificator;
-using Ilaro.Admin.EntitiesFilters;
+using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.Extensions;
-using Ilaro.Admin.FileUpload;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.Model;
 using Ilaro.Admin.Services.Interfaces;
 using Ilaro.Admin.ViewModels;
 using Massive;
 using Resources;
-using DataType = Ilaro.Admin.ViewModels.DataType;
+using DataType = Ilaro.Admin.Core.DataType;
 
 namespace Ilaro.Admin.Services
 {
@@ -117,7 +118,7 @@ namespace Ilaro.Admin.Services
                 entity.Properties
                     .Where(x =>
                         !x.IsForeignKey ||
-                        (!x.IsCollection && x.IsForeignKey))
+                        (!x.TypeInfo.IsCollection && x.IsForeignKey))
                     .Select(x => x.ColumnName)
                     .Distinct());
             var where = ConvertFiltersToSQL(filters, search);
@@ -206,7 +207,7 @@ namespace Ilaro.Admin.Services
                 foreach (var cell in row.Values
                     .Where(x =>
                         !x.Property.IsForeignKey ||
-                        (x.Property.IsForeignKey && x.Property.IsSystemType)))
+                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
                 {
                     var propertyInfo = entity.Type.GetProperty(cell.Property.Name);
                     propertyInfo.SetValue(instance, cell.RawValue);
@@ -339,7 +340,7 @@ namespace Ilaro.Admin.Services
                 {
                     var query = search.Query.TrimStart('>', '<');
                     decimal temp;
-                    if (property.PropertyType.In(typeof(string)))
+                    if (property.TypeInfo.IsString)
                     {
                         searchCondition += " {0}[{1}] LIKE '%{2}%' OR"
                             .Fill(alias, property.Name, search.Query);
@@ -431,8 +432,8 @@ namespace Ilaro.Admin.Services
             foreach (var property in entity.Properties
                 .Where(x =>
                     x.IsForeignKey &&
-                    x.IsCollection &&
-                    !x.Values.IsNullOrEmpty()))
+                    x.TypeInfo.IsCollection &&
+                    !x.Value.Values.IsNullOrEmpty()))
             {
                 // UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
                 var updateFormat =
@@ -442,7 +443,7 @@ namespace Ilaro.Admin.Services
                     property.ForeignEntity.TableName,
                     entity.Key.ColumnName,
                     property.ForeignEntity.Key.ColumnName,
-                    DecorateSqlValue(property.Values,
+                    DecorateSqlValue(property.Value.Values,
                     property.ForeignEntity.Key));
             }
             cmd.CommandText += Environment.NewLine + ";SELECT @newID";
@@ -463,9 +464,10 @@ namespace Ilaro.Admin.Services
             DbCommand cmd,
             IDictionary<string, object> values)
         {
-            foreach (var property in entity.CreateProperties(getForeignCollection: false).Where(x => x.DataType == DataType.File))
+            foreach (var property in entity.CreateProperties(getForeignCollection: false)
+                .Where(x => x.TypeInfo.DataType == DataType.File))
             {
-                if (property.PropertyType != typeof(string))
+                if (!property.TypeInfo.IsString)
                 {
                     var index = GetIndex(values, property.ColumnName);
 
@@ -496,28 +498,28 @@ namespace Ilaro.Admin.Services
         {
             foreach (var property in entity
                 .CreateProperties(getForeignCollection: false)
-                .Where(x => x.DataType == DataType.File))
+                .Where(x => x.TypeInfo.DataType == DataType.File))
             {
-                if (property.PropertyType == typeof(string))
+                if (property.TypeInfo.Type == typeof(string))
                 {
                     // we must save file to disk and save file path in db
-                    var file = (HttpPostedFile)property.Value;
+                    var file = (HttpPostedFile)property.Value.Raw;
                     var fileName = String.Empty;
                     if (property.ImageOptions.NameCreation == NameCreation.UserInput)
                     {
                         fileName = "test.jpg";
                     }
-                    fileName = FileUpload.FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
+                    fileName = FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
 
-                    property.Value = fileName;
+                    property.Value.Raw = fileName;
                 }
                 else
                 {
                     // we must save file in db as byte array
 
-                    var file = (HttpPostedFile)property.Value;
-                    var bytes = FileUpload.FileUpload.GetImageByte(file, property.ImageOptions.Settings.ToArray());
-                    property.Value = bytes;
+                    var file = (HttpPostedFile)property.Value.Raw;
+                    var bytes = FileUpload.GetImageByte(file, property.ImageOptions.Settings.ToArray());
+                    property.Value.Raw = bytes;
                 }
             }
         }
@@ -549,7 +551,7 @@ namespace Ilaro.Admin.Services
                 filler[property.ColumnName] = property.Value;
             }
             var cmd = table.CreateUpdateCommand(expando, entity.Key.Value);
-            foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection))
+            foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.TypeInfo.IsCollection))
             {
                 var actualRecords = GetRecords(
                     property.ForeignEntity,
@@ -561,7 +563,7 @@ namespace Ilaro.Admin.Services
                     });
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.KeyValue)
-                    .Except(property.Values.OfType<string>())
+                    .Except(property.Value.Values.OfType<string>())
                     .ToList();
                 // UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
                 var updateFormat =
@@ -587,12 +589,12 @@ namespace Ilaro.Admin.Services
                         entity.Key.ColumnName, 
                         DecorateSqlValue(entity.Key.Value, entity.Key), 
                         property.ForeignEntity.Key.ColumnName, 
-                        DecorateSqlValue(property.Values, property.ForeignEntity.Key));
+                        DecorateSqlValue(property.Value.Values, property.ForeignEntity.Key));
             }
             var savedItems = table.Execute(cmd);
 
             // TODO: get info about changed properties
-            AddEntityChange(entity.Name, entity.Key.StringValue, EntityChangeType.Update);
+            AddEntityChange(entity.Name, entity.Key.Value.AsString, EntityChangeType.Update);
 
             ClearProperties(entity);
 
@@ -601,7 +603,7 @@ namespace Ilaro.Admin.Services
 
         private string DecorateSqlValue(IList<object> values, Property property)
         {
-            if (property.DataType == DataType.Numeric)
+            if (property.TypeInfo.DataType == DataType.Numeric)
             {
                 return string.Join(",", values);
             }
@@ -611,7 +613,7 @@ namespace Ilaro.Admin.Services
 
         private string DecorateSqlValue(object value, Property property)
         {
-            if (property.DataType == DataType.Numeric)
+            if (property.TypeInfo.DataType == DataType.Numeric)
             {
                 return value.ToStringSafe();
             }
@@ -626,7 +628,7 @@ namespace Ilaro.Admin.Services
         {
             foreach (var property in entity.Properties)
             {
-                property.Value = null;
+                property.Value.Raw = null;
             }
         }
 
@@ -634,10 +636,10 @@ namespace Ilaro.Admin.Services
         {
             bool isValid = true;
             //var request = HttpContext.Current.Request;
-            foreach (var property in entity.Properties.Where(x => x.DataType == DataType.File))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.File))
             {
-                var file = (HttpPostedFile)property.Value;// request.Files[property.Name];
-                var result = FileUpload.FileUpload.Validate(
+                var file = (HttpPostedFile)property.Value.Raw;// request.Files[property.Name];
+                var result = FileUpload.Validate(
                     file, 
                     property.ImageOptions.MaxFileSize, 
                     property.ImageOptions.AllowedFileExtensions, 
@@ -651,7 +653,7 @@ namespace Ilaro.Admin.Services
                 }
             }
 
-            foreach (var property in entity.Properties.Where(x => x.DataType != DataType.File))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType != DataType.File))
             {
                 foreach (var validator in property.ValidationAttributes)
                 {
@@ -674,7 +676,7 @@ namespace Ilaro.Admin.Services
             var request = HttpContext.Current.Request;
             foreach (var property in entity.CreateProperties(false))
             {
-                if (property.DataType == DataType.File)
+                if (property.TypeInfo.DataType == DataType.File)
                 {
                     var file = request.Files[property.Name];
                     var fileName = String.Empty;
@@ -682,12 +684,12 @@ namespace Ilaro.Admin.Services
                     {
                         fileName = "test.jpg";
                     }
-                    fileName = FileUpload.FileUpload.SaveImage(file, 
+                    fileName = FileUpload.SaveImage(file, 
                         fileName, 
                         property.ImageOptions.NameCreation, 
                         property.ImageOptions.Settings.ToArray());
 
-                    property.Value = fileName;
+                    property.Value.Raw = fileName;
                 }
 
                 var propertyInfo = entity.Type.GetProperty(property.Name);
@@ -700,25 +702,25 @@ namespace Ilaro.Admin.Services
             var request = HttpContext.Current.Request;
             foreach (var property in entity.Properties)
             {
-                if (property.DataType == DataType.File)
+                if (property.TypeInfo.DataType == DataType.File)
                 {
                     var file = request.Files[property.Name];
-                    property.Value = file;
+                    property.Value.Raw = file;
                 }
                 else
                 {
                     var value = collection.GetValue(property.Name);
                     if (value != null)
                     {
-                        if (property.IsForeignKey && property.IsCollection)
+                        if (property.IsForeignKey && property.TypeInfo.IsCollection)
                         {
-                            property.Values = value.AttemptedValue
+                            property.Value.Values = value.AttemptedValue
                                 .Split(",".ToCharArray()).OfType<object>().ToList();
                         }
                         else
                         {
-                            property.Value = value.ConvertTo(
-                                property.PropertyType, 
+                            property.Value.Raw = value.ConvertTo(
+                                property.TypeInfo.Type, 
                                 CultureInfo.InvariantCulture);
                         }
                     }
@@ -739,10 +741,10 @@ namespace Ilaro.Admin.Services
 
             foreach (var property in entity.CreateProperties(false))
             {
-                property.Value = propertiesDict.ContainsKey(property.ColumnName) ? propertiesDict[property.ColumnName] : null;
+                property.Value.Raw = propertiesDict.ContainsKey(property.ColumnName) ? propertiesDict[property.ColumnName] : null;
             }
 
-            entity.Key.Value = key;
+            entity.Key.Value.Raw = key;
         }
 
         private object GetEntity(Entity entity, string key)
@@ -763,25 +765,22 @@ namespace Ilaro.Admin.Services
 
         private object GetKeyObject(Entity entity, string key)
         {
-            var keyType = entity.Key.PropertyType;
+            var keyType = entity.Key.TypeInfo.Type;
             if (keyType.In(typeof(int), typeof(short), typeof(long)))
             {
                 return long.Parse(key);
             }
-            else if (keyType.In(typeof(Guid)))
+            if (keyType.In(typeof(Guid)))
             {
                 return Guid.Parse(key);
             }
-            else
-            {
-                return key;
-            }
+            return key;
         }
 
         public bool Delete(Entity entity, string key, IEnumerable<PropertyDeleteViewModel> propertiesDeleteOptions)
         {
             var deleteOptions = propertiesDeleteOptions.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
-            foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.IsCollection))
+            foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.TypeInfo.IsCollection))
             {
                 if (!deleteOptions.ContainsKey(property.ForeignEntity.Name))
                 {
@@ -877,7 +876,7 @@ namespace Ilaro.Admin.Services
         {
             var filters = new List<IEntityFilter>();
 
-            foreach (var property in entity.Properties.Where(x => x.DataType == DataType.Bool))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Bool))
             {
                 var value = request[property.Name];
 
@@ -886,7 +885,7 @@ namespace Ilaro.Admin.Services
                 filters.Add(filter);
             }
 
-            foreach (var property in entity.Properties.Where(x => x.DataType == DataType.Enum))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Enum))
             {
                 var value = request[property.Name];
 
@@ -895,7 +894,7 @@ namespace Ilaro.Admin.Services
                 filters.Add(filter);
             }
 
-            foreach (var property in entity.Properties.Where(x => x.DataType == DataType.DateTime))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.DateTime))
             {
                 var value = request[property.Name];
 
@@ -918,10 +917,10 @@ namespace Ilaro.Admin.Services
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
                 var records = GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
-                foreign.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
-                if (foreign.IsCollection)
+                foreign.Value.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
+                if (foreign.TypeInfo.IsCollection)
                 {
-                    foreign.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.Value == key)).Select(x => x.KeyValue).OfType<object>().ToList();
+                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.Value == key)).Select(x => x.KeyValue).OfType<object>().ToList();
                 }
             }
 
@@ -1061,7 +1060,7 @@ ORDER BY {5}";
                 var baseTableAlias = item.ParentHierarchy.Alias;
                 var baseTablePrimaryKey = String.Empty;
                 var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
-                if (foreignProperty == null || foreignProperty.IsCollection)
+                if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
                     foreignKey = item.Entity.Key.ColumnName;
                     baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.Entity).ColumnName;
@@ -1105,7 +1104,7 @@ ORDER BY {5}";
             };
 
             foreach (var property in entity.CreateProperties()
-                .Where(x => x.IsForeignKey && x.IsCollection)
+                .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
                 .Where(property => 
                     parent == null || 
                     parent.Entity != property.ForeignEntity))

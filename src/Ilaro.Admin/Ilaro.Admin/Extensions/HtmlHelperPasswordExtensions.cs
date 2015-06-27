@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -52,7 +52,7 @@ namespace Ilaro.Admin.Extensions
                 ModelMetadataProviders.Current,
                 property.Entity.Type,
                 null,
-                property.PropertyType,
+                property.TypeInfo.Type,
                 property.Name);
             var validationAttributes =
                 htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);

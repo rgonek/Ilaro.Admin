@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
-using Ilaro.Admin.Attributes;
+using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Commons.Notificator;
-using Ilaro.Admin.EntitiesFilters;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.Services.Interfaces;
 using Ilaro.Admin.ViewModels;
 using Resources;
@@ -37,7 +38,7 @@ namespace Ilaro.Admin.Controllers
             var viewModel = new IndexViewModel
             {
                 EntitiesGroups = AdminInitialise.EntitiesTypes
-                                .GroupBy(x => x.GroupName)
+                                .GroupBy(x => x.Verbose.Group)
                                 .Select(x => new EntityGroupViewModel
                                 {
                                     Name = x.Key,
@@ -53,7 +54,7 @@ namespace Ilaro.Admin.Controllers
             var viewModel = new GroupViewModel
             {
                 Group = AdminInitialise.EntitiesTypes
-                                .GroupBy(x => x.GroupName)
+                                .GroupBy(x => x.Verbose.Group)
                                 .Where(x => x.Key == groupName)
                                 .Select(x => new EntityGroupViewModel
                                 {
@@ -279,7 +280,7 @@ namespace Ilaro.Admin.Controllers
                     var savedItem = _entityService.Create(entity);
                     if (savedItem != null)
                     {
-                        Success(IlaroAdminResources.AddSuccess, entity.Singular);
+                        Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
 
                         if (Request["ContinueEdit"] != null)
                         {
@@ -372,7 +373,7 @@ namespace Ilaro.Admin.Controllers
                     var savedItems = _entityService.Edit(entity);
                     if (savedItems > 0)
                     {
-                        Success(IlaroAdminResources.EditSuccess, entity.Singular);
+                        Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
 
 
                         if (Request["ContinueEdit"] != null)
@@ -415,7 +416,7 @@ namespace Ilaro.Admin.Controllers
         {
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
-            entity.Key.Value = key;
+            entity.Key.Value.Raw = key;
 
             var viewModel = new DeleteViewModel
             {
@@ -449,7 +450,7 @@ namespace Ilaro.Admin.Controllers
                     new List<PropertyDeleteViewModel>();
                 if (_entityService.Delete(entity, model.Key, deleteOptions))
                 {
-                    Success(IlaroAdminResources.DeleteSuccess, entity.Singular);
+                    Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
 
                     return RedirectToAction("List", new { entityName = model.EntityName });
                 }

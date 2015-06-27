@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Ilaro.Admin.Attributes;
-using Ilaro.Admin.FileUpload;
+using Ilaro.Admin.Core.FileUpload;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Sample.Models.TestAdmin
 {

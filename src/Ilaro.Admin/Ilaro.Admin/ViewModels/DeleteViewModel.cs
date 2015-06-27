@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.ViewModels
 {
