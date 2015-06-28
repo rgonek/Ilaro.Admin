@@ -134,8 +134,8 @@ WriteLiteral("</h2>\r\n");
             
             #line 21 "..\..\Views\IlaroAdmin\Changes.cshtml"
      if (Model.IsSearchActive)
-	{
-		using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
+    {
+        using (Html.BeginForm("Changes", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -332,16 +332,16 @@ WriteLiteral("                        ");
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 2533), Tuple.Create("\"", 2590)
-, Tuple.Create(Tuple.Create("", 2541), Tuple.Create("glyphicon", 2541), true)
-, Tuple.Create(Tuple.Create(" ", 2550), Tuple.Create("glyphicon-chevron-", 2551), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 2542), Tuple.Create("\"", 2599)
+, Tuple.Create(Tuple.Create("", 2550), Tuple.Create("glyphicon", 2550), true)
+, Tuple.Create(Tuple.Create(" ", 2559), Tuple.Create("glyphicon-chevron-", 2560), true)
             
             #line 58 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 2569), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 2578), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 2569), false)
+, 2578), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -598,20 +598,20 @@ WriteLiteral(" <strong>");
             
             #line default
             #line hidden
-WriteLiteral("</strong></div>\r\n</div>\r\n\r\n");
+WriteLiteral("</strong>\r\n    </div>\r\n</div>\r\n\r\n");
 
 DefineSection("Sidebar", () => {
 
 WriteLiteral("\r\n");
 
             
-            #line 108 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 109 "..\..\Views\IlaroAdmin\Changes.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 108 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 109 "..\..\Views\IlaroAdmin\Changes.cshtml"
      if (Model.Filters.Count > 0)
     {
 
@@ -621,7 +621,7 @@ WriteLiteral("\r\n");
 WriteLiteral("        <h2>");
 
             
-            #line 110 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 111 "..\..\Views\IlaroAdmin\Changes.cshtml"
        Write(IlaroAdminResources.Filters);
 
             
@@ -635,20 +635,20 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4562), Tuple.Create("\"", 4663)
+WriteAttribute("href", Tuple.Create(" href=\"", 4577), Tuple.Create("\"", 4678)
             
-            #line 112 "..\..\Views\IlaroAdmin\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 4569), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
+            #line 113 "..\..\Views\IlaroAdmin\Changes.cshtml"
+, Tuple.Create(Tuple.Create("", 4584), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.PagerInfo.Current })
             
             #line default
             #line hidden
-, 4569), false)
+, 4584), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 112 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 113 "..\..\Views\IlaroAdmin\Changes.cshtml"
                                                                                                                     Write(IlaroAdminResources.RemoveFilters);
 
             
@@ -657,13 +657,13 @@ WriteLiteral(">");
 WriteLiteral("</a></li>\r\n");
 
             
-            #line 113 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 114 "..\..\Views\IlaroAdmin\Changes.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 113 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 114 "..\..\Views\IlaroAdmin\Changes.cshtml"
              foreach (var filter in Model.Filters)
             {
 
@@ -681,7 +681,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    ");
 
             
-            #line 117 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 118 "..\..\Views\IlaroAdmin\Changes.cshtml"
                Write(filter.Property.DisplayName);
 
             
@@ -690,7 +690,7 @@ WriteLiteral("                    ");
 WriteLiteral("\r\n                </li>\r\n");
 
             
-            #line 119 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 120 "..\..\Views\IlaroAdmin\Changes.cshtml"
                 foreach (var option in filter.Options)
                 {
 
@@ -700,7 +700,7 @@ WriteLiteral("\r\n                </li>\r\n");
 WriteLiteral("                    <li ");
 
             
-            #line 121 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 122 "..\..\Views\IlaroAdmin\Changes.cshtml"
                    Write(Html.Condition(option.Selected, () => "class=\"active\""));
 
             
@@ -709,7 +709,7 @@ WriteLiteral("                    <li ");
 WriteLiteral(">");
 
             
-            #line 121 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 122 "..\..\Views\IlaroAdmin\Changes.cshtml"
                                                                               Write(Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.SearchQuery, Model.Order, Model.OrderDirection, Model.PerPage));
 
             
@@ -718,7 +718,7 @@ WriteLiteral(">");
 WriteLiteral("</li>\r\n");
 
             
-            #line 122 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 123 "..\..\Views\IlaroAdmin\Changes.cshtml"
                 }
             }
 
@@ -728,7 +728,7 @@ WriteLiteral("</li>\r\n");
 WriteLiteral("        </ul>\r\n");
 
             
-            #line 125 "..\..\Views\IlaroAdmin\Changes.cshtml"
+            #line 126 "..\..\Views\IlaroAdmin\Changes.cshtml"
     }
 
             

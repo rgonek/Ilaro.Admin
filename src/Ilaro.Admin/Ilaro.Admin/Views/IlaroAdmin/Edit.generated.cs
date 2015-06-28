@@ -48,8 +48,8 @@ namespace ASP
             
             #line 4 "..\..\Views\IlaroAdmin\Edit.cshtml"
   
-	Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
-	ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name);
+    Layout = "~/Views/IlaroAdmin/_Layout.cshtml";
+    ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name);
 
             
             #line default
@@ -58,38 +58,38 @@ WriteLiteral("\r\n\r\n");
 
 DefineSection("Breadcrumb", () => {
 
-WriteLiteral("\r\n\t<ul");
+WriteLiteral("\r\n    <ul");
 
 WriteLiteral(" class=\"breadcrumb\"");
 
-WriteLiteral(">\r\n\t\t<li>");
+WriteLiteral(">\r\n        <li>");
 
             
             #line 12 "..\..\Views\IlaroAdmin\Edit.cshtml"
- Write(Html.ActionLink(IlaroAdminResources.Index_Title, "Index"));
+       Write(Html.ActionLink(IlaroAdminResources.Index_Title, "Index"));
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n\t\t<li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 13 "..\..\Views\IlaroAdmin\Edit.cshtml"
- Write(Html.ActionLink(Model.Entity.Verbose.Group, "Group", new { groupName = Model.Entity.Verbose.Group }));
+       Write(Html.ActionLink(Model.Entity.Verbose.Group, "Group", new { groupName = Model.Entity.Verbose.Group }));
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n\t\t<li>");
+WriteLiteral("</li>\r\n        <li>");
 
             
             #line 14 "..\..\Views\IlaroAdmin\Edit.cshtml"
- Write(Html.ActionLink(Model.Entity.Verbose.Plural, "List", new { entityName = Model.Entity.Name }));
+       Write(Html.ActionLink(Model.Entity.Verbose.Plural, "List", new { entityName = Model.Entity.Name }));
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n\t\t<li");
+WriteLiteral("</li>\r\n        <li");
 
 WriteLiteral(" class=\"active\"");
 
@@ -97,12 +97,12 @@ WriteLiteral(">");
 
             
             #line 15 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                Write(string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name));
+                      Write(string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name));
 
             
             #line default
             #line hidden
-WriteLiteral("</li>\r\n\t</ul>\r\n");
+WriteLiteral("</li>\r\n    </ul>\r\n");
 
 });
 
@@ -121,7 +121,7 @@ WriteLiteral("</h2>\r\n\r\n");
             #line 21 "..\..\Views\IlaroAdmin\Edit.cshtml"
  using (Html.BeginForm("Edit", "IlaroAdmin", FormMethod.Post, new { @class = "form-horizontal" }))
 {
-	
+    
             
             #line default
             #line hidden
@@ -134,8 +134,8 @@ Write(Html.AntiForgeryToken());
             #line hidden
             
             #line 23 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                         
-	
+                            
+    
             
             #line default
             #line hidden
@@ -148,21 +148,21 @@ Write(Html.ValidationSummary(true));
             #line hidden
             
             #line 24 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                              
+                                 
 
-	if (Model.PropertiesGroups.Count > 1)
-	{
-		foreach (var group in Model.PropertiesGroups)
-		{
+    if (Model.PropertiesGroups.Count > 1)
+    {
+        foreach (var group in Model.PropertiesGroups)
+        {
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t<fieldset>\r\n\t\t\t\t<legend>");
+WriteLiteral("            <fieldset>\r\n                <legend>");
 
             
             #line 31 "..\..\Views\IlaroAdmin\Edit.cshtml"
-       Write(group.GroupName);
+                   Write(group.GroupName);
 
             
             #line default
@@ -175,56 +175,56 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1049), Tuple.Create("\"", 1160)
+WriteAttribute("class", Tuple.Create(" class=\"", 1130), Tuple.Create("\"", 1241)
             
             #line 31 "..\..\Views\IlaroAdmin\Edit.cshtml"
-    , Tuple.Create(Tuple.Create("", 1057), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
+                , Tuple.Create(Tuple.Create("", 1138), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
             
             #line default
             #line hidden
-, 1057), false)
+, 1138), false)
 );
 
-WriteLiteral("></i></button></legend>\r\n\t\t\t\t<div");
+WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1194), Tuple.Create("\"", 1257)
-, Tuple.Create(Tuple.Create("", 1202), Tuple.Create("fields", 1202), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1287), Tuple.Create("\"", 1350)
+, Tuple.Create(Tuple.Create("", 1295), Tuple.Create("fields", 1295), true)
             
             #line 32 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1208), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+, Tuple.Create(Tuple.Create(" ", 1301), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1209), false)
+, 1302), false)
 );
 
 WriteLiteral(">\r\n");
 
             
             #line 33 "..\..\Views\IlaroAdmin\Edit.cshtml"
-					
+                    
             
             #line default
             #line hidden
             
             #line 33 "..\..\Views\IlaroAdmin\Edit.cshtml"
-      foreach (var property in group.Properties)
-					{
+                     foreach (var property in group.Properties)
+                    {
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t\t<div");
+WriteLiteral("                        <div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("\t\t\t\t\t\t\t");
+WriteLiteral("                            ");
 
             
             #line 36 "..\..\Views\IlaroAdmin\Edit.cshtml"
-  Write(Html.EditorFor(m => property, property.Template.Editor));
+                       Write(Html.EditorFor(m => property, property.Template.Editor));
 
             
             #line default
@@ -233,28 +233,28 @@ WriteLiteral("\r\n");
 
             
             #line 37 "..\..\Views\IlaroAdmin\Edit.cshtml"
-							
+                            
             
             #line default
             #line hidden
             
             #line 37 "..\..\Views\IlaroAdmin\Edit.cshtml"
-        if (property.IsForeignKey)
-							{
+                             if (property.IsForeignKey)
+                            {
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t\t\t\t<a");
+WriteLiteral("                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1472), Tuple.Create("\"", 1550)
+WriteAttribute("href", Tuple.Create(" href=\"", 1700), Tuple.Create("\"", 1778)
             
             #line 39 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 1479), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+, Tuple.Create(Tuple.Create("", 1707), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 1479), false)
+, 1707), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -269,45 +269,45 @@ WriteLiteral("></span></a>\r\n");
 
             
             #line 40 "..\..\Views\IlaroAdmin\Edit.cshtml"
-							}
+                            }
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t\t</div>\r\n");
+WriteLiteral("                        </div>\r\n");
 
             
             #line 42 "..\..\Views\IlaroAdmin\Edit.cshtml"
-					}
+                    }
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t</div>\r\n\t\t\t</fieldset>\r\n");
+WriteLiteral("                </div>\r\n            </fieldset>\r\n");
 
             
             #line 45 "..\..\Views\IlaroAdmin\Edit.cshtml"
-		}
-	}
-	else if (Model.PropertiesGroups.Count == 1)
-	{
-		foreach (var property in Model.PropertiesGroups[0].Properties)
-		{
+        }
+    }
+    else if (Model.PropertiesGroups.Count == 1)
+    {
+        foreach (var property in Model.PropertiesGroups[0].Properties)
+        {
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t<div");
+WriteLiteral("            <div");
 
 WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("\t\t\t\t");
+WriteLiteral("                ");
 
             
             #line 52 "..\..\Views\IlaroAdmin\Edit.cshtml"
-Write(Html.EditorFor(m => property, property.Template.Editor));
+           Write(Html.EditorFor(m => property, property.Template.Editor));
 
             
             #line default
@@ -316,28 +316,28 @@ WriteLiteral("\r\n");
 
             
             #line 53 "..\..\Views\IlaroAdmin\Edit.cshtml"
-				
+                
             
             #line default
             #line hidden
             
             #line 53 "..\..\Views\IlaroAdmin\Edit.cshtml"
-     if (property.IsForeignKey)
-				{
+                 if (property.IsForeignKey)
+                {
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t\t\t<a");
+WriteLiteral("                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1987), Tuple.Create("\"", 2065)
+WriteAttribute("href", Tuple.Create(" href=\"", 2377), Tuple.Create("\"", 2455)
             
             #line 55 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 1994), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+, Tuple.Create(Tuple.Create("", 2384), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 1994), false)
+, 2384), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -352,19 +352,19 @@ WriteLiteral("></span></a>\r\n");
 
             
             #line 56 "..\..\Views\IlaroAdmin\Edit.cshtml"
-				}
+                }
 
             
             #line default
             #line hidden
-WriteLiteral("\t\t\t</div>\r\n");
+WriteLiteral("            </div>\r\n");
 
             
             #line 58 "..\..\Views\IlaroAdmin\Edit.cshtml"
-		}
-	}
+        }
+    }
 
-	
+    
             
             #line default
             #line hidden
@@ -377,21 +377,21 @@ Write(Html.Hidden("EntityName", Model.Entity.Name));
             #line hidden
             
             #line 61 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                              
+                                                 
 
 
             
             #line default
             #line hidden
-WriteLiteral("\t<div");
+WriteLiteral("    <div");
 
 WriteLiteral(" class=\"form-action\"");
 
-WriteLiteral(">\r\n\t\t<div");
+WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"col-md-offset-2\"");
 
-WriteLiteral(">\r\n\t\t\t<button");
+WriteLiteral(">\r\n            <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -401,12 +401,12 @@ WriteLiteral(">");
 
             
             #line 65 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                            Write(IlaroAdminResources.Save);
+                                                     Write(IlaroAdminResources.Save);
 
             
             #line default
             #line hidden
-WriteLiteral("</button>\r\n\t\t\t<button");
+WriteLiteral("</button>\r\n            <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -422,12 +422,12 @@ WriteLiteral("></i> ");
 
             
             #line 66 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                                                                                         Write(IlaroAdminResources.SaveAndContinueEdit);
+                                                                                                                  Write(IlaroAdminResources.SaveAndContinueEdit);
 
             
             #line default
             #line hidden
-WriteLiteral("</button>\r\n\t\t\t<button");
+WriteLiteral("</button>\r\n            <button");
 
 WriteLiteral(" type=\"submit\"");
 
@@ -443,21 +443,21 @@ WriteLiteral("></i> ");
 
             
             #line 67 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                                                                                    Write(IlaroAdminResources.SaveAndAddNext);
+                                                                                                             Write(IlaroAdminResources.SaveAndAddNext);
 
             
             #line default
             #line hidden
-WriteLiteral("</button>\r\n\t\t\t<a");
+WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2716), Tuple.Create("\"", 2782)
+WriteAttribute("href", Tuple.Create(" href=\"", 3184), Tuple.Create("\"", 3250)
             
             #line 68 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2723), Tuple.Create<System.Object, System.Int32>(Url.Action("List", new { entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 3191), Tuple.Create<System.Object, System.Int32>(Url.Action("List", new { entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2723), false)
+, 3191), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
@@ -466,21 +466,21 @@ WriteLiteral(">");
 
             
             #line 68 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                                                                         Write(IlaroAdminResources.Cancel);
+                                                                                                  Write(IlaroAdminResources.Cancel);
 
             
             #line default
             #line hidden
-WriteLiteral("</a>\r\n\t\t\t<a");
+WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2843), Tuple.Create("\"", 2941)
+WriteAttribute("href", Tuple.Create(" href=\"", 3320), Tuple.Create("\"", 3418)
             
             #line 69 "..\..\Views\IlaroAdmin\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2850), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+, Tuple.Create(Tuple.Create("", 3327), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
             
             #line default
             #line hidden
-, 2850), false)
+, 3327), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pull-right\"");
@@ -489,12 +489,12 @@ WriteLiteral(">");
 
             
             #line 69 "..\..\Views\IlaroAdmin\Edit.cshtml"
-                                                                                                                                      Write(IlaroAdminResources.Delete);
+                                                                                                                                               Write(IlaroAdminResources.Delete);
 
             
             #line default
             #line hidden
-WriteLiteral("</a>\r\n\t\t</div>\r\n\t</div>\r\n");
+WriteLiteral("</a>\r\n        </div>\r\n    </div>\r\n");
 
             
             #line 72 "..\..\Views\IlaroAdmin\Edit.cshtml"
@@ -517,21 +517,21 @@ WriteLiteral(" aria-labelledby=\"Create foreign entity\"");
 
 WriteLiteral(" aria-hidden=\"true\"");
 
-WriteLiteral(">\r\n\t<div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"modal-dialog\"");
 
 WriteLiteral(" style=\"width:90%\"");
 
-WriteLiteral(">\r\n\t\t<div");
+WriteLiteral(">\r\n        <div");
 
 WriteLiteral(" class=\"modal-content\"");
 
-WriteLiteral(">\r\n\t\t\t<div");
+WriteLiteral(">\r\n            <div");
 
 WriteLiteral(" class=\"modal-header\"");
 
-WriteLiteral(">\r\n\t\t\t\t<button");
+WriteLiteral(">\r\n                <button");
 
 WriteLiteral(" type=\"button\"");
 
@@ -541,17 +541,17 @@ WriteLiteral(" data-dismiss=\"modal\"");
 
 WriteLiteral(" aria-hidden=\"true\"");
 
-WriteLiteral(">&times;</button>\r\n\t\t\t\t<h4");
+WriteLiteral(">&times;</button>\r\n                <h4");
 
 WriteLiteral(" class=\"modal-title\"");
 
 WriteLiteral(" id=\"myModalLabel\"");
 
-WriteLiteral(">Create foreign entity</h4>\r\n\t\t\t</div>\r\n\t\t\t<div");
+WriteLiteral(">Create foreign entity</h4>\r\n            </div>\r\n            <div");
 
 WriteLiteral(" class=\"modal-body\"");
 
-WriteLiteral(">\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n");
+WriteLiteral(">\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n");
 
         }
     }

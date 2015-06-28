@@ -1,72 +1,72 @@
 ﻿@{
-	Layout = null;
+    Layout = null;
 }
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>@ViewBag.Title</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="/ira/css/bootstrap_min_css" rel="stylesheet" />
-	<link href="/ira/css/font-awesome_min_css" rel="stylesheet" />
-	<link href="/ira/css/bootstrap-datetimepicker_min_css" rel="stylesheet" />
-	<link href="/ira/css/chosen_min_css" rel="stylesheet" />
-	<link href="/ira/css/bootstrap-spinedit_css" rel="stylesheet" />
-	<link href="/ira/css/bootstrap-markdown_min_css" rel="stylesheet" />
-	<link href="/ira/css/summernote_css" rel="stylesheet" />
-	<link href="/ira/css/bootstrap-duallistbox_min_css" rel="stylesheet" />
-	<link href="/ira/css/site_css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/ira/css/bootstrap_min_css" rel="stylesheet" />
+    <link href="/ira/css/font-awesome_min_css" rel="stylesheet" />
+    <link href="/ira/css/bootstrap-datetimepicker_min_css" rel="stylesheet" />
+    <link href="/ira/css/chosen_min_css" rel="stylesheet" />
+    <link href="/ira/css/bootstrap-spinedit_css" rel="stylesheet" />
+    <link href="/ira/css/bootstrap-markdown_min_css" rel="stylesheet" />
+    <link href="/ira/css/summernote_css" rel="stylesheet" />
+    <link href="/ira/css/bootstrap-duallistbox_min_css" rel="stylesheet" />
+    <link href="/ira/css/site_css" rel="stylesheet" />
 
-	<script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
-	@RenderSection("Header", false)
+    <script src="/ira/Script/jquery-2_1_0_min_js" type="text/javascript"></script>
+    @RenderSection("Header", false)
 </head>
 <body>
-	<div class="navbar navbar-default navbar-static-top" role="navigation">
-		<div class="container-fluid">
-			<h1>@Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" })</h1>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <h1>@Html.ActionLink("Admin", "Index", "IlaroAdmin", null, new { @class = "navbar-brand" })</h1>
 
-			@{Html.RenderPartial("_UserInfo");}
-		</div>
-	</div>
+            @{Html.RenderPartial("_UserInfo");}
+        </div>
+    </div>
 
-	<div class="container-fluid">
-		<div class="breadcrumb-container">
-			@RenderSection("Breadcrumb", false)
-		</div>
-		@{Html.RenderAction("Messages");}
-		<div class="row">
-			<div class="col-md-10">
-				@RenderBody()
-			</div>
-			<div class="col-md-2">
-				@RenderSection("Sidebar", false)
-			</div>
-		</div>
-		<hr>
-		<footer>
-			<p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @DateTime.Now.ToString("yyyy")</p>
-		</footer>
-	</div>
+    <div class="container-fluid">
+        <div class="breadcrumb-container">
+            @RenderSection("Breadcrumb", false)
+        </div>
+        @{Html.RenderAction("Messages");}
+        <div class="row">
+            <div class="col-md-10">
+                @RenderBody()
+            </div>
+            <div class="col-md-2">
+                @RenderSection("Sidebar", false)
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @DateTime.Now.ToString("yyyy")</p>
+        </footer>
+    </div>
 
-	<div id="modal" class="modal hide fade">
-		<div class="modal-body">
-			<img id="modal-image" />
-		</div>
-	</div>
+    <div id="modal" class="modal hide fade">
+        <div class="modal-body">
+            <img id="modal-image" />
+        </div>
+    </div>
 
-	<script src="/ira/Script/jquery_validate_min_js"></script>
-	<script src="/ira/Script/jquery_validate_unobtrusive_min_js"></script>
-	<script src="/ira/Script/chosen_jquery_min_js"></script>
-	<script src="/ira/Script/moment_min_js"></script>
-	<script src="/ira/Script/bootstrap-datetimepicker_min_js"></script>
-	<script src="/ira/Script/bootstrap_min_js"></script>
-	<script src="/ira/Script/bootstrap-spinedit_js"></script>
-	<script src="/ira/Script/marked_min_js"></script>
-	<script src="/ira/Script/bootstrap-markdown_js"></script>
-	<script src="/ira/Script/summernote_min_js"></script>
-	<script src="/ira/Script/jquery_bootstrap-duallistbox_min_js"></script>
-	<script src="/ira/Script/ilaro_js"></script>
-	<script src="/ira/Script/bootstrap_file-input_js"></script>
-	@RenderSection("Scripts", false)
+    <script src="/ira/Script/jquery_validate_min_js"></script>
+    <script src="/ira/Script/jquery_validate_unobtrusive_min_js"></script>
+    <script src="/ira/Script/chosen_jquery_min_js"></script>
+    <script src="/ira/Script/moment_min_js"></script>
+    <script src="/ira/Script/bootstrap-datetimepicker_min_js"></script>
+    <script src="/ira/Script/bootstrap_min_js"></script>
+    <script src="/ira/Script/bootstrap-spinedit_js"></script>
+    <script src="/ira/Script/marked_min_js"></script>
+    <script src="/ira/Script/bootstrap-markdown_js"></script>
+    <script src="/ira/Script/summernote_min_js"></script>
+    <script src="/ira/Script/jquery_bootstrap-duallistbox_min_js"></script>
+    <script src="/ira/Script/ilaro_js"></script>
+    <script src="/ira/Script/bootstrap_file-input_js"></script>
+    @RenderSection("Scripts", false)
 </body>
 </html>

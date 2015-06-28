@@ -18,8 +18,8 @@
 <div class="clearfix">
     <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
     @if (Model.IsSearchActive)
-	{
-		using (Html.BeginForm("List", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
+    {
+        using (Html.BeginForm("List", "IlaroAdmin", new { page = Model.PagerInfo.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
             foreach (var filter in Model.ActiveFilters)
             {
@@ -144,7 +144,8 @@
     </div>
 
     <div class="pull-left" style="line-height:29px">
-        @IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong></div>
+        @IlaroAdminResources.Founded <strong>@Model.PagerInfo.TotalItems</strong>
+    </div>
 </div>
 
 @section Sidebar

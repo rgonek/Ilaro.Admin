@@ -1,14 +1,14 @@
-﻿@model Ilaro.Admin.ViewModels.Property
+﻿@model Property
 
 @{Html.ClearPrefix();}
 <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="controls col-md-3">
-	<div class="input-group date date-picker" data-date-format="YYYY-MM-DD">
-		@Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" })
-		<span class="input-group-addon">
-			<span class="glyphicon glyphicon-calendar"></span>
-		</span>
-	</div>
-	@Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    <div class="input-group date date-picker" data-date-format="YYYY-MM-DD">
+        @Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" })
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
 </div>
 @Html.ValidationMessage(Model.Name)

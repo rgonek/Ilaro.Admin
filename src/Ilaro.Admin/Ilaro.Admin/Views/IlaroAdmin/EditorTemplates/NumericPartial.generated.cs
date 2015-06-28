@@ -81,24 +81,24 @@ WriteLiteral("</label>\r\n<div");
 
 WriteLiteral(" class=\"controls col-md-3\"");
 
-WriteLiteral(">\r\n\t<div");
+WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"input-group\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("\t\t");
+WriteLiteral("        ");
 
             
             #line 7 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
-Write(Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
+   Write(Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\t</div>\r\n");
+WriteLiteral("\r\n    </div>\r\n");
 
-WriteLiteral("\t");
+WriteLiteral("    ");
 
             
             #line 9 "..\..\Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml"
