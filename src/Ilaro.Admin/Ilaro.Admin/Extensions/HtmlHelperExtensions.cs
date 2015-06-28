@@ -6,8 +6,8 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using Ilaro.Admin.Filters;
-using Ilaro.Admin.ViewModels;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -26,6 +26,7 @@ namespace Ilaro.Admin.Extensions
         {
             var routeValues = new Dictionary<string, object>
             {
+                { "area", "IlaroAdmin" }, 
                 { "entityName", entity.Name }, 
                 { "pp", perPage }
             };
@@ -52,8 +53,10 @@ namespace Ilaro.Admin.Extensions
 
             return htmlHelper.ActionLink(
                 option.Text,
-                "List",
-                new RouteValueDictionary(routeValues));
+                "Index",
+                "Entities",
+                new RouteValueDictionary(routeValues),
+                null);
         }
 
         public static MvcHtmlString GetFilterIcon(
@@ -79,13 +82,14 @@ namespace Ilaro.Admin.Extensions
         public static MvcHtmlString SortColumnLink(
             this HtmlHelper htmlHelper,
             Entity entity,
-            ColumnViewModel column,
+            Column column,
             IEnumerable<IEntityFilter> filters,
             string searchQuery,
             int perPage)
         {
             var routeValues = new Dictionary<string, object>
             {
+                { "area", "IlaroAdmin" }, 
                 { "entityName", entity.Name }, 
                 { "pp", perPage }
             };
@@ -119,31 +123,33 @@ namespace Ilaro.Admin.Extensions
 
             return htmlHelper.ActionLink(
                 column.DisplayName,
-                "List",
-                new RouteValueDictionary(routeValues));
+                "Index",
+                "Entities",
+                new RouteValueDictionary(routeValues),
+                null);
         }
 
         public static MvcHtmlString Image(
             this HtmlHelper htmlHelper,
-            CellValueViewModel cell)
+            CellValue value)
         {
-            if (cell.Value.IsNullOrEmpty())
+            if (value.AsString.IsNullOrEmpty())
             {
                 return null;
             }
 
-            if (cell.Property.TypeInfo.IsString)
+            if (value.Property.TypeInfo.IsString)
             {
                 // I have a path to image so easy to display
-                var minSettings = cell.Property.ImageOptions.Settings
+                var minSettings = value.Property.ImageOptions.Settings
                     .FirstOrDefault(x => x.IsMiniature) ??
-                    cell.Property.ImageOptions.Settings.FirstOrDefault();
-                var bigSettings = cell.Property.ImageOptions.Settings
+                    value.Property.ImageOptions.Settings.FirstOrDefault();
+                var bigSettings = value.Property.ImageOptions.Settings
                     .FirstOrDefault(x => x.IsBig) ??
-                    cell.Property.ImageOptions.Settings.FirstOrDefault();
-                var minPath = Path.Combine(minSettings.SubPath, cell.Value)
+                    value.Property.ImageOptions.Settings.FirstOrDefault();
+                var minPath = Path.Combine(minSettings.SubPath, value.AsString)
                     .TrimStart('/');
-                var bigPath = Path.Combine(bigSettings.SubPath, cell.Value)
+                var bigPath = Path.Combine(bigSettings.SubPath, value.AsString)
                     .TrimStart('/');
 
                 return MvcHtmlString.Create(
@@ -151,7 +157,7 @@ namespace Ilaro.Admin.Extensions
                     .Fill(minPath, bigPath));
             }
             // I have a byte array so I must convert it to base64
-            var base64 = Convert.ToBase64String((byte[])cell.RawValue);
+            var base64 = Convert.ToBase64String((byte[])value.Raw);
 
             return MvcHtmlString.Create("<img src=\"data:image/jpg;base64,{0}\" class=\"img-polaroid\" />"
                 .Fill(base64));

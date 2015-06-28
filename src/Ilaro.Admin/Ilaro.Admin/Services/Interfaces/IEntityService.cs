@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Filters;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Services.Interfaces
 {
@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Services.Interfaces
         /// Get list of records for certain page
         /// </summary>
         /// <param name="entity">Entity info</param>
-        PagedRecordsViewModel GetRecords(
+        PagedRecords GetRecords(
             Entity entity,
             int page,
             int take,
@@ -26,7 +26,7 @@ namespace Ilaro.Admin.Services.Interfaces
         /// Get list of changes for entity
         /// </summary>
         /// <param name="entity">Entity info</param>
-        PagedRecordsViewModel GetChangesRecords(
+        PagedRecords GetChangesRecords(
             Entity entityChangesFor,
             int page,
             int take,
@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Services.Interfaces
         bool Delete(
             Entity entity,
             string key,
-            IEnumerable<PropertyDeleteViewModel> propertiesDeleteOptions);
+            IEnumerable<PropertyDeleteOption> propertiesDeleteOptions);
 
         int Edit(Entity entity);
 
@@ -66,7 +66,7 @@ namespace Ilaro.Admin.Services.Interfaces
 
         object GetKeyValue(Entity entity, object savedItem);
 
-        IList<ColumnViewModel> PrepareColumns(
+        IList<Column> PrepareColumns(
             Entity entity,
             string order,
             string orderDirection);
@@ -75,7 +75,7 @@ namespace Ilaro.Admin.Services.Interfaces
             Entity entity,
             HttpRequestBase request);
 
-        IList<GroupPropertiesViewModel> PrepareGroups(
+        IList<GroupProperties> PrepareGroups(
             Entity entity,
             bool getKey = true,
             string key = null);

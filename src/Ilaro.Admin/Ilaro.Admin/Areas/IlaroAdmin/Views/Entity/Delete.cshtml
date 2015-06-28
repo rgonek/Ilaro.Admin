@@ -1,0 +1,71 @@
+﻿@model EntityDeleteModel
+@{
+    Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name);
+}
+
+@section Breadcrumb
+{
+    <ul class="breadcrumb">
+        <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
+        <li>@Html.ActionLink(Model.Entity.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
+        <li>@Html.ActionLink(Model.Entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)</li>
+        <li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name)</li>
+    </ul>
+}
+
+<h2>@Model.Entity.Verbose.Singular</h2>
+
+@using (Html.BeginForm("Delete", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    @Html.Hidden("EntityName", Model.Entity.Name)
+    @Html.Hidden("Key", Model.Entity.Key.Value)
+
+    <div class="form-group">
+        <div class="controls col-md-3">
+            @IlaroAdminResources.DeleteText
+        </div>
+    </div>
+
+    for (int i = 0; i < Model.PropertiesDeleteOptions.Count; i++)
+    {
+        <div class="form-group">
+            <label for="@Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)" class="control-label col-md-2">@Model.PropertiesDeleteOptions[i].PropertyName</label>
+            <div class="controls col-md-3">
+                @Html.HiddenFor(m => Model.PropertiesDeleteOptions[i].PropertyName)
+                @Html.DropDownListFor(m => Model.PropertiesDeleteOptions[i].DeleteOption, Model.PropertiesDeleteOptions[i].DeleteOption.GetSelectList(), new { @class = "form-control" })
+            </div>
+        </div>
+    }
+
+    <h4>If all foreign entities are to be cascade delete, all of the following items will be deleted:</h4>
+    <ul class="list-delete">
+        @DisplayRecordHierarchy(Model.RecordHierarchy)
+    </ul>
+
+    <div class="form-action">
+        <div class="col-md-offset-2">
+            <button type="submit" class="btn btn-primary">@IlaroAdminResources.Delete</button>
+            <a href="@Url.Action("Edit")" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i> @IlaroAdminResources.Edit</a>
+            <a href="@Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)" class="btn btn-link">@IlaroAdminResources.Cancel</a>
+        </div>
+    </div>
+}
+
+@helper DisplayRecordHierarchy(RecordHierarchy record)
+{
+    <li>
+        @record.Entity.Name: @Html.ActionLink(record.DisplayName, "Edit", new { entityName = record.Entity.Name, key = record.KeyValue })
+        @if (record.SubRecordsHierarchies.Any())
+        {
+            <ul>
+                @foreach (var subRecord in record.SubRecordsHierarchies)
+                {
+                    <text>@DisplayRecordHierarchy(subRecord)</text>
+                }
+            </ul>
+        }
+    </li>
+}
