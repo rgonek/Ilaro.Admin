@@ -7,8 +7,8 @@ namespace Ilaro.Admin.Commons.Paging
     public class PagedList<T> : List<T>, IPagedList<T>
     {
         public PagedList(
-            IEnumerable<T> source, 
-            int index, 
+            IEnumerable<T> source,
+            int index,
             int pageSize,
             int? totalCount = null)
             : this(source.AsQueryable(), index, pageSize, totalCount)
@@ -16,18 +16,18 @@ namespace Ilaro.Admin.Commons.Paging
         }
 
         public PagedList(
-            IQueryable<T> source, 
-            int index, 
-            int pageSize, 
+            IQueryable<T> source,
+            int index,
+            int pageSize,
             int? totalCount = null)
         {
             if (index < 0)
                 throw new ArgumentOutOfRangeException(
-                    "index", 
+                    "index",
                     "Value can not be below 0.");
             if (pageSize < 1)
                 throw new ArgumentOutOfRangeException(
-                    "pageSize", 
+                    "pageSize",
                     "Value can not be less than 1.");
 
             if (source == null)
@@ -37,11 +37,11 @@ namespace Ilaro.Admin.Commons.Paging
 
             PageSize = pageSize;
             PageIndex = index;
-            TotalItemCount = totalCount.HasValue ? 
-                totalCount.Value : 
+            TotalItemCount = totalCount.HasValue ?
+                totalCount.Value :
                 realTotalCount;
-            PageCount = TotalItemCount > 0 ? 
-                (int)Math.Ceiling(TotalItemCount / (double)PageSize) : 
+            PageCount = TotalItemCount > 0 ?
+                (int)Math.Ceiling(TotalItemCount / (double)PageSize) :
                 0;
 
             HasPreviousPage = (PageIndex > 0);
@@ -52,7 +52,7 @@ namespace Ilaro.Admin.Commons.Paging
             if (TotalItemCount <= 0)
                 return;
 
-            var realTotalPages = 
+            var realTotalPages =
                 (int)Math.Ceiling(realTotalCount / (double)PageSize);
 
             if (realTotalCount < TotalItemCount && realTotalPages <= PageIndex)

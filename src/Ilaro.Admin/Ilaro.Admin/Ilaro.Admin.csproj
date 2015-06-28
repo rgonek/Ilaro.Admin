@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,10 +40,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.4.2\lib\ImageResizer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RazorGenerator.Mvc">
       <HintPath>..\packages\RazorGenerator.Mvc.2.2.2\lib\net40\RazorGenerator.Mvc.dll</HintPath>
     </Reference>
@@ -57,6 +64,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -73,9 +83,6 @@
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -117,6 +124,9 @@
     <Reference Include="WebActivatorEx">
       <HintPath>..\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminInitialise.cs" />
@@ -126,6 +136,13 @@
       <DependentUpon>IlaroAdminResources.resx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\EntitiesController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\EntityController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\GroupController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\ResourceController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\SharedController.cs" />
+    <Compile Include="Areas\IlaroAdmin\IlaroAdminAreaRegistration.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
@@ -158,15 +175,13 @@
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
     <Compile Include="Commons\IlaroPrecompiledMvcEngine.cs" />
-    <Compile Include="Commons\Notificator\NotificateType.cs" />
-    <Compile Include="Commons\Notificator\Notificator.cs" />
+    <Compile Include="Core\NotificateType.cs" />
+    <Compile Include="Core\Notificator.cs" />
     <Compile Include="Commons\Paging\IPagedList.cs" />
     <Compile Include="Commons\Paging\PagedList.cs" />
     <Compile Include="Commons\Paging\Pager.cs" />
     <Compile Include="Commons\Paging\PagingExtensions.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\IlaroAdminController.cs" />
-    <Compile Include="Controllers\IlaroAdminResourceController.cs" />
+    <Compile Include="Areas\IlaroAdmin\Controllers\BaseController.cs" />
     <Compile Include="Filters\BoolEntityFilter.cs" />
     <Compile Include="Filters\DateTimeEntityFilter.cs" />
     <Compile Include="Filters\EntitySearch.cs" />
@@ -188,203 +203,202 @@
     <Compile Include="Services\EntityService.cs" />
     <Compile Include="Services\Interfaces\IEntityService.cs" />
     <Compile Include="Templates.cs" />
-    <Compile Include="ViewModels\CellValueViewModel.cs" />
-    <Compile Include="ViewModels\ColumnViewModel.cs" />
-    <Compile Include="ViewModels\CreateViewModel.cs" />
-    <Compile Include="ViewModels\DataRowViewModel.cs" />
+    <Compile Include="Models\CellValue.cs" />
+    <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\EntityCreateModel.cs" />
+    <Compile Include="Models\DataRow.cs" />
     <Compile Include="Core\DataType.cs" />
     <Compile Include="Core\DeleteOption.cs" />
     <Compile Include="Core\EntityHierarchy.cs" />
-    <Compile Include="ViewModels\PropertyDeleteViewModel.cs" />
-    <Compile Include="ViewModels\DeleteViewModel.cs" />
-    <Compile Include="ViewModels\ChangesViewModel.cs" />
-    <Compile Include="ViewModels\ListViewModel.cs" />
-    <Compile Include="ViewModels\EditViewModel.cs" />
-    <Compile Include="ViewModels\EntityGroupViewModel.cs" />
+    <Compile Include="Models\PropertyDeleteOption.cs" />
+    <Compile Include="Models\EntityDeleteModel.cs" />
+    <Compile Include="Models\EntitiesChangesModel.cs" />
+    <Compile Include="Models\EntitiesIndexModel.cs" />
+    <Compile Include="Models\EntityEditModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Core\Entity.cs" />
-    <Compile Include="ViewModels\GroupPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\GroupViewModel.cs" />
-    <Compile Include="ViewModels\IndexViewModel.cs" />
-    <Compile Include="ViewModels\PagedRecordsViewModel.cs" />
-    <Compile Include="Core\PagerInfo.cs" />
+    <Compile Include="Models\GroupProperties.cs" />
+    <Compile Include="Models\GroupIndexModel.cs" />
+    <Compile Include="Models\PagedRecords.cs" />
+    <Compile Include="Models\PagerInfo.cs" />
     <Compile Include="Core\Property.cs" />
     <Compile Include="Core\RecordHierarchy.cs" />
-    <Compile Include="Views\IlaroAdmin\Create.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\Create.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Changes.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes.generated.cs">
       <DependentUpon>Changes.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Delete1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Delete.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\BoolPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BoolPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DatePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DatePartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DateTimePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DateTimePartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\EnumPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\HtmlPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HtmlPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImagePartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\NumericPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NumericPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\PasswordPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\PasswordPartial.generated.cs">
       <DependentUpon>PasswordPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\TextPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TextPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\UrlPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UrlPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Edit.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\Edit.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Edit.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CheckboxPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\DualListPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DualListPartial.generated.cs">
       <DependentUpon>DualListPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\MarkdownPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\MarkdownPartial.generated.cs">
       <DependentUpon>MarkdownPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\TimePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TimePartial.generated.cs">
       <DependentUpon>TimePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\DatePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.generated.cs">
       <DependentUpon>DatePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DateTimePartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DropDownListPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DropDownListPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\FilePartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FilePartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\HtmlPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HtmlPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NumericPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\OneToManyPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\OneToManyPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OneToManyPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TextAreaPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TextAreaPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\PasswordPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\PasswordPartial.generated.cs">
       <DependentUpon>PasswordPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TextBoxPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TextBoxPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Group.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Group\Details.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Group.cshtml</DependentUpon>
+      <DependentUpon>Details.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\Index.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Group\Index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\List.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\Index.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>List.cshtml</DependentUpon>
+      <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_Layout1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Layout1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Layout.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_UserInfo.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_UserInfo.generated.cs">
       <DependentUpon>_UserInfo.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_GroupPartial.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Group\_GroupPartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_GroupPartial.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_Messages.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Messages.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Messages.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IlaroAdmin\_Paging.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Paging.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Paging.cshtml</DependentUpon>
@@ -435,10 +449,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\Changes.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entities\Changes.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Changes.generated.cs</LastGenOutput>
     </Content>
@@ -447,157 +460,157 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\_Messages.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\_Messages.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Messages.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\Create.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entity\Create.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Create.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\Delete.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entity\Delete.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Delete1.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\List.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>List.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\BoolPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>BoolPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\DatePartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DatePartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\DateTimePartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\EnumPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>EnumPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\HtmlPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\ImagePartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>ImagePartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\NumericPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\TextPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\UrlPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>UrlPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\Edit.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Edit.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\CheckboxPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>CheckboxPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DateTimePartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DropDownListPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>DropDownListPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\FilePartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>FilePartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\HtmlPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\NumericPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\TextAreaPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextAreaPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\TextBoxPartial.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>TextBoxPartial.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\Group.cshtml">
-      <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Group.generated.cs</LastGenOutput>
-    </Content>
-    <Content Include="Views\IlaroAdmin\Index.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entities\Index.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>Index.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\_GroupPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\BoolPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>BoolPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DatePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DatePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DateTimePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\EnumPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>EnumPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\HtmlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>ImagePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\NumericPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\TextPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\UrlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>UrlPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Entity\Edit.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Edit.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CheckboxPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DropDownListPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DropDownListPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FilePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\HtmlPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>HtmlPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>NumericPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TextAreaPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextAreaPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TextBoxPartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>TextBoxPartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Group\Details.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Details.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Group\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_GroupPartial.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Views\IlaroAdmin\_Layout.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\_Paging.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\_Paging.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Paging.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\PasswordPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\PasswordPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PasswordPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\DisplayTemplates\PasswordPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\PasswordPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>PasswordPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\_UserInfo.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\_UserInfo.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_UserInfo.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\OneToManyPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\OneToManyPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>OneToManyPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DatePartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DatePartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\TimePartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\TimePartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>TimePartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\MarkdownPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\MarkdownPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>MarkdownPartial.generated.cs</LastGenOutput>
     </Content>
@@ -609,14 +622,16 @@
     <EmbeddedResource Include="Content\fonts\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\IlaroAdmin\EditorTemplates\DualListPartial.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\EditorTemplates\DualListPartial.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>DualListPartial.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\IlaroAdmin\Views\Web.config" />
     <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

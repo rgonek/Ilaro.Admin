@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
-using Ilaro.Admin.ViewModels;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Core
 {
@@ -51,19 +51,19 @@ namespace Ilaro.Admin.Core
             get { return TypeInfo.IsChangeEntity(Type); }
         }
 
-        public IList<GroupPropertiesViewModel> Groups { get; set; }
+        public IList<GroupProperties> Groups { get; private set; }
 
-        public IList<Property> DisplayProperties { get; set; }
+        public IList<Property> DisplayProperties { get; private set; }
 
-        public IEnumerable<Property> SearchProperties { get; set; }
+        public IEnumerable<Property> SearchProperties { get; private set; }
 
-        public Links Links { get; set; }
+        public Links Links { get; private set; }
 
-        public bool CanAdd { get; set; }
+        public bool CanAdd { get; private set; }
 
-        public bool HasToStringMethod { get; set; }
+        public bool HasToStringMethod { get; private set; }
 
-        public string RecordDisplayFormat { get; set; }
+        public string RecordDisplayFormat { get; internal set; }
 
         private object[] Attributes
         {
@@ -233,12 +233,12 @@ namespace Ilaro.Admin.Core
                 .GroupBy(x => x.GroupName)
                 .ToDictionary(x => x.Key);
 
-            Groups = new List<GroupPropertiesViewModel>();
+            Groups = new List<GroupProperties>();
             if (groupsNames.IsNullOrEmpty())
             {
                 foreach (var group in groupsDict)
                 {
-                    Groups.Add(new GroupPropertiesViewModel
+                    Groups.Add(new GroupProperties
                     {
                         GroupName = group.Key,
                         Properties = group.Value.ToList()
@@ -254,7 +254,7 @@ namespace Ilaro.Admin.Core
 
                     var group = groupsDict[trimedGroupName];
 
-                    Groups.Add(new GroupPropertiesViewModel
+                    Groups.Add(new GroupProperties
                     {
                         GroupName = @group.Key,
                         Properties = @group.ToList(),
@@ -271,10 +271,10 @@ namespace Ilaro.Admin.Core
         {
             if (Groups == null)
             {
-                Groups = new List<GroupPropertiesViewModel>();
+                Groups = new List<GroupProperties>();
             }
 
-            Groups.Add(new GroupPropertiesViewModel
+            Groups.Add(new GroupProperties
             {
                 GroupName = group,
                 Properties = Properties.Where(x => propertiesNames.Contains(x.Name)),

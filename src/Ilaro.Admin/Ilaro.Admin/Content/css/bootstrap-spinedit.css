@@ -15,22 +15,22 @@
 */
 
 div.spinedit {
-	padding: 0 4px 0 4px;
+    padding: 0 4px 0 4px;
 }
 
-	div.spinedit .glyphicon-chevron-up,
-	div.spinedit .glyphicon-chevron-down {
-		cursor: pointer;
-		float: left;
-		position: relative;
-	}
+    div.spinedit .glyphicon-chevron-up,
+    div.spinedit .glyphicon-chevron-down {
+        cursor: pointer;
+        float: left;
+        position: relative;
+    }
 
-	div.spinedit .glyphicon-chevron-up {
-		top: -1px;
-		left: 0px;
-	}
+    div.spinedit .glyphicon-chevron-up {
+        top: -1px;
+        left: 0px;
+    }
 
-	div.spinedit .glyphicon-chevron-down {
-		top: 1px;
-		left: -1px;
-	}
+    div.spinedit .glyphicon-chevron-down {
+        top: 1px;
+        left: -1px;
+    }

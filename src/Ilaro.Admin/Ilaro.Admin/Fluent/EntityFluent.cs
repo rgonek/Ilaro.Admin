@@ -5,191 +5,191 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Fluent
 {
-	/// <summary>
-	/// Fluent entity configurator
-	/// </summary>
-	public class Entity<TEntity>
-	{
-		private Entity _entity;
+    /// <summary>
+    /// Fluent entity configurator
+    /// </summary>
+    public class Entity<TEntity>
+    {
+        private Entity _entity;
 
-		/// <summary>
-		/// Add entity to Ilaro.Admin
-		/// </summary>
-		public static Entity<TEntity> Add()
-		{
-			return new Entity<TEntity>
-			{
-				_entity = AdminInitialise.AddEntity<TEntity>()
-			};
-		}
+        /// <summary>
+        /// Add entity to Ilaro.Admin
+        /// </summary>
+        public static Entity<TEntity> Add()
+        {
+            return new Entity<TEntity>
+            {
+                _entity = AdminInitialise.AddEntity<TEntity>()
+            };
+        }
 
-		/// <summary>
-		/// Set SQL table name and schema
-		/// </summary>
-		public Entity<TEntity> SetTableName(string table, string schema = null)
-		{
-			_entity.SetTableName(table, schema);
+        /// <summary>
+        /// Set SQL table name and schema
+        /// </summary>
+        public Entity<TEntity> SetTableName(string table, string schema = null)
+        {
+            _entity.SetTableName(table, schema);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set which properties are display in entity list
-		/// </summary>
-		/// <param name="expressions"></param>
-		/// <returns></returns>
-		public Entity<TEntity> SetColumns(
+        /// <summary>
+        /// Set which properties are display in entity list
+        /// </summary>
+        /// <param name="expressions"></param>
+        /// <returns></returns>
+        public Entity<TEntity> SetColumns(
             params Expression<Func<TEntity, object>>[] expressions)
-		{
-			var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
-			var properties = members.Select(x => x.Member.Name);
-			_entity.SetColumns(properties);
+        {
+            var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
+            var properties = members.Select(x => x.Member.Name);
+            _entity.SetColumns(properties);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set on which properties searching should be done
-		/// </summary>
-		public Entity<TEntity> SetSearchProperties(
+        /// <summary>
+        /// Set on which properties searching should be done
+        /// </summary>
+        public Entity<TEntity> SetSearchProperties(
             params Expression<Func<TEntity, object>>[] expressions)
-		{
-			var members = expressions
+        {
+            var members = expressions
                 .Select(x => x.Body)
                 .OfType<MemberExpression>();
-			var properties = members.Select(x => x.Member.Name);
-			_entity.SetSearchProperties(properties);
+            var properties = members.Select(x => x.Member.Name);
+            _entity.SetSearchProperties(properties);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Add property group, it used to display create or edit form
-		/// </summary>
-		public Entity<TEntity> AddPropertiesGroup(
-            string group, 
+        /// <summary>
+        /// Add property group, it used to display create or edit form
+        /// </summary>
+        public Entity<TEntity> AddPropertiesGroup(
+            string group,
             params Expression<Func<TEntity, object>>[] properties)
-		{
-			return AddPropertiesGroup(group, false, properties);
-		}
+        {
+            return AddPropertiesGroup(group, false, properties);
+        }
 
-		/// <summary>
-		/// Add property group, it used to display create or edit form
-		/// </summary>
-		public Entity<TEntity> AddPropertiesGroup(
-            string group, 
-            bool isCollapsed, 
+        /// <summary>
+        /// Add property group, it used to display create or edit form
+        /// </summary>
+        public Entity<TEntity> AddPropertiesGroup(
+            string group,
+            bool isCollapsed,
             params Expression<Func<TEntity, object>>[] properties)
-		{
-			var members = properties.Select(x => x.Body).OfType<MemberExpression>();
-			var propertiesNames = members.Select(x => x.Member.Name);
-			_entity.AddGroup(group, isCollapsed, propertiesNames);
+        {
+            var members = properties.Select(x => x.Body).OfType<MemberExpression>();
+            var propertiesNames = members.Select(x => x.Member.Name);
+            _entity.AddGroup(group, isCollapsed, propertiesNames);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set display format, it used to display entity record name on 
-		/// delete or on create or update form
-		/// </summary>
-		/// <param name="displayFormat">
-		/// Display format can hold a property name, eg. "Item of id #{Id}"
-		/// </param>
-		/// <returns></returns>
-		public Entity<TEntity> SetDisplayFormat(string displayFormat)
-		{
-			_entity.RecordDisplayFormat = displayFormat;
+        /// <summary>
+        /// Set display format, it used to display entity record name on 
+        /// delete or on create or update form
+        /// </summary>
+        /// <param name="displayFormat">
+        /// Display format can hold a property name, eg. "Item of id #{Id}"
+        /// </param>
+        /// <returns></returns>
+        public Entity<TEntity> SetDisplayFormat(string displayFormat)
+        {
+            _entity.RecordDisplayFormat = displayFormat;
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set primary key for entity
-		/// </summary>
-		public Entity<TEntity> SetKey<TProperty>(
+        /// <summary>
+        /// Set primary key for entity
+        /// </summary>
+        public Entity<TEntity> SetKey<TProperty>(
             Expression<Func<TEntity, TProperty>> expression)
-		{
-			var property = (expression.Body as MemberExpression).Member.Name;
-			_entity.SetKey(property);
+        {
+            var property = (expression.Body as MemberExpression).Member.Name;
+            _entity.SetKey(property);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set link key for entity, is used to display provided display, 
-		/// edit and delete link. If not setted primary key is used.
-		/// </summary>
-		public Entity<TEntity> SetLinkKey<TProperty>(
+        /// <summary>
+        /// Set link key for entity, is used to display provided display, 
+        /// edit and delete link. If not setted primary key is used.
+        /// </summary>
+        public Entity<TEntity> SetLinkKey<TProperty>(
             Expression<Func<TEntity, TProperty>> expression)
-		{
-			var property = (expression.Body as MemberExpression).Member.Name;
-			_entity.SetLinkKey(property);
+        {
+            var property = (expression.Body as MemberExpression).Member.Name;
+            _entity.SetLinkKey(property);
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set singular and plural display name
-		/// </summary>
-		public Entity<TEntity> SetDisplayName(string singular, string plural)
-		{
-			_entity.Verbose.Singular = singular;
+        /// <summary>
+        /// Set singular and plural display name
+        /// </summary>
+        public Entity<TEntity> SetDisplayName(string singular, string plural)
+        {
+            _entity.Verbose.Singular = singular;
             _entity.Verbose.Plural = plural;
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set entity group
-		/// </summary>
-		public Entity<TEntity> SetGroup(string group)
-		{
+        /// <summary>
+        /// Set entity group
+        /// </summary>
+        public Entity<TEntity> SetGroup(string group)
+        {
             _entity.Verbose.Group = group;
 
-			return this;
-		}
+            return this;
+        }
 
 
-		/// <summary>
-		/// Set display link
-		/// </summary>
-		public Entity<TEntity> SetDisplayLink(string link)
-		{
-			_entity.Links.Display = link;
+        /// <summary>
+        /// Set display link
+        /// </summary>
+        public Entity<TEntity> SetDisplayLink(string link)
+        {
+            _entity.Links.Display = link;
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set edit link
-		/// </summary>
-		public Entity<TEntity> SetEditLink(string link)
-		{
+        /// <summary>
+        /// Set edit link
+        /// </summary>
+        public Entity<TEntity> SetEditLink(string link)
+        {
             _entity.Links.Edit = link;
             _entity.Links.HasEdit = true;
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Set delete link
-		/// </summary>
-		/// <param name="link"></param>
-		/// <returns></returns>
-		public Entity<TEntity> SetDeleteLink(string link)
-		{
+        /// <summary>
+        /// Set delete link
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        public Entity<TEntity> SetDeleteLink(string link)
+        {
             _entity.Links.Delete = link;
             _entity.Links.HasDelete = true;
 
-			return this;
-		}
+            return this;
+        }
 
-		/// <summary>
-		/// Configure entity property
-		/// </summary>
-		public Entity<TEntity> ConfigureProperty(PropertyOf<TEntity> property)
-		{
-			return this;
-		}
-	}
+        /// <summary>
+        /// Configure entity property
+        /// </summary>
+        public Entity<TEntity> ConfigureProperty(PropertyOf<TEntity> property)
+        {
+            return this;
+        }
+    }
 }

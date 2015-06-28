@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Commons.Paging
 
         public HtmlString RenderHtml(string url)
         {
-            var pageCount = 
+            var pageCount =
                 (int)Math.Ceiling(_totalItemCount / (double)_pageSize);
 
             if (pageCount <= 1)
@@ -47,8 +47,8 @@ namespace Ilaro.Admin.Commons.Paging
             var sb = new StringBuilder();
 
             // Previous
-            sb.Append(_currentPage > 1 ? 
-                GeneratePageLink("«", _currentPage - 1, url, "prev") : 
+            sb.Append(_currentPage > 1 ?
+                GeneratePageLink("«", _currentPage - 1, url, "prev") :
                 "<li class=\"disabled\"><span>«</span></li>");
 
             var start = 1;
@@ -101,13 +101,13 @@ namespace Ilaro.Admin.Commons.Paging
             }
 
             // Next
-            sb.Append(_currentPage < pageCount ? 
-                GeneratePageLink("»", (_currentPage + 1), url, "next") : 
+            sb.Append(_currentPage < pageCount ?
+                GeneratePageLink("»", (_currentPage + 1), url, "next") :
                 "<li class=\"disabled\"><span>»</span></li>");
 
             return new HtmlString(
-                "<div class=\"pagination\"><ul>" + 
-                sb + 
+                "<div class=\"pagination\"><ul>" +
+                sb +
                 "</ul></div>");
         }
 
@@ -119,8 +119,8 @@ namespace Ilaro.Admin.Commons.Paging
             var sb = new StringBuilder();
 
             // Previous
-            sb.Append(_currentPage > 1 ? 
-                GeneratePageLink("&lt;", _currentPage - 1, "previous") : 
+            sb.Append(_currentPage > 1 ?
+                GeneratePageLink("&lt;", _currentPage - 1, "previous") :
                 "<span class=\"disabled\">&lt;</span>");
 
             var start = 1;
@@ -173,8 +173,8 @@ namespace Ilaro.Admin.Commons.Paging
             }
 
             // Next
-            sb.Append(_currentPage < pageCount ? 
-                GeneratePageLink("&gt;", (_currentPage + 1), "next") : 
+            sb.Append(_currentPage < pageCount ?
+                GeneratePageLink("&gt;", (_currentPage + 1), "next") :
                 "<span class=\"disabled\">&gt;</span>");
 
             return new HtmlString(sb.ToString());
@@ -187,7 +187,7 @@ namespace Ilaro.Admin.Commons.Paging
             // Avoid canonical errors when page count is equal to 1.
             if (pageNumber == 1)
             {
-                pageLinkValueDictionary = 
+                pageLinkValueDictionary =
                     new RouteValueDictionary(_linkWithoutPageValuesDictionary);
                 if (routeDataValues.ContainsKey("page"))
                 {
@@ -196,7 +196,7 @@ namespace Ilaro.Admin.Commons.Paging
             }
             else
             {
-                pageLinkValueDictionary = 
+                pageLinkValueDictionary =
                     new RouteValueDictionary(_linkWithoutPageValuesDictionary)
                     {
                         { "page", pageNumber }
@@ -204,12 +204,12 @@ namespace Ilaro.Admin.Commons.Paging
             }
 
             // To be sure we get the right route, ensure the controller and action are specified.
-            if (!pageLinkValueDictionary.ContainsKey("controller") && 
+            if (!pageLinkValueDictionary.ContainsKey("controller") &&
                 routeDataValues.ContainsKey("controller"))
             {
                 pageLinkValueDictionary.Add("controller", routeDataValues["controller"]);
             }
-            if (!pageLinkValueDictionary.ContainsKey("action") && 
+            if (!pageLinkValueDictionary.ContainsKey("action") &&
                 routeDataValues.ContainsKey("action"))
             {
                 pageLinkValueDictionary.Add("action", routeDataValues["action"]);
@@ -217,7 +217,7 @@ namespace Ilaro.Admin.Commons.Paging
 
             // 'Render' virtual path.
             var virtualPathForArea = RouteTable.Routes.GetVirtualPathForArea(
-                _viewContext.RequestContext, 
+                _viewContext.RequestContext,
                 pageLinkValueDictionary);
 
             if (virtualPathForArea == null)
@@ -228,8 +228,8 @@ namespace Ilaro.Admin.Commons.Paging
             if (_ajaxOptions != null)
                 foreach (var ajaxOption in _ajaxOptions.ToUnobtrusiveHtmlAttributes())
                     stringBuilder.AppendFormat(
-                        " {0}=\"{1}\"", 
-                        ajaxOption.Key, 
+                        " {0}=\"{1}\"",
+                        ajaxOption.Key,
                         ajaxOption.Value);
 
             stringBuilder.AppendFormat(
@@ -242,9 +242,9 @@ namespace Ilaro.Admin.Commons.Paging
 
         private string GeneratePageLink(
             string linkText,
-            int pageNumber, 
-            string url, 
-            string rel = "", 
+            int pageNumber,
+            string url,
+            string rel = "",
             string @class = "")
         {
             var href = string.Format(url, pageNumber);

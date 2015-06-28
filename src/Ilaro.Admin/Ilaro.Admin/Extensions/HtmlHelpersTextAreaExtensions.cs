@@ -50,12 +50,12 @@ namespace Ilaro.Admin.Extensions
         {
             // create own metadata based on PropertyViewModel
             var metadata = new ModelMetadata(
-                ModelMetadataProviders.Current, 
-                property.Entity.Type, 
-                null, 
+                ModelMetadataProviders.Current,
+                property.Entity.Type,
+                null,
                 property.TypeInfo.Type,
                 property.Name);
-            var validationAttributes = 
+            var validationAttributes =
                 htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
 
             htmlAttributes = htmlAttributes.Merge(validationAttributes);

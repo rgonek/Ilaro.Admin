@@ -3,16 +3,16 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Filters
 {
-	public interface IEntityFilter
-	{
-		Property Property { get; set; }
+    public interface IEntityFilter
+    {
+        Property Property { get; set; }
 
-		SelectList Options { get; set; }
+        SelectList Options { get; set; }
 
-		string Value { get; set; }
+        string Value { get; set; }
 
-		void Initialize(Property property, string value = "");
+        void Initialize(Property property, string value = "");
 
-		string GetSqlCondition(string alias);
-	}
+        string GetSqlCondition(string alias);
+    }
 }
