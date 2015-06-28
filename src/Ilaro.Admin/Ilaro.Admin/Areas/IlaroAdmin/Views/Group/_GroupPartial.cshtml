@@ -2,18 +2,18 @@
 
 @if (!Model.Name.IsNullOrEmpty())
 {
-    <h3>@Html.ActionLink(Model.Name, "Details", new { groupName = Model.Name })</h3>
+    <h3>@Html.ActionLink(Model.Name, "Index", new { groupName = Model.Name })</h3>
 }
 <table class="table table-striped table-bordered table-hover">
     <tbody>
         @foreach (var entity in Model.Entities)
         {
             <tr>
-                <td class="max-width">@Html.ActionLink(entity.Verbose.Plural, "Index", new { entityName = entity.Name })</td>
+                <td class="max-width">@Html.ActionLink(entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = entity.Name }, null)</td>
                 <td>
                     @if (entity.CanAdd)
                     {
-                        <a href="@Url.Action("Create", "Entity", new { entityName = entity.Name })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
+                        <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = entity.Name })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
                     }
                 </td>
             </tr>

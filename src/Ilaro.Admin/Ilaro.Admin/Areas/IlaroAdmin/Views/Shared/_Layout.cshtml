@@ -23,7 +23,7 @@
 <body>
     <div class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
-            <h1>@Html.ActionLink("Admin", "Index", "Groups", null, new { area = "IlaroAdmin", @class = "navbar-brand" })</h1>
+            <h1>@Html.ActionLink("Admin", "Index", "Group", new { area = "IlaroAdmin" }, new { @class = "navbar-brand" })</h1>
 
             @{Html.RenderPartial("_UserInfo");}
         </div>
@@ -33,7 +33,7 @@
         <div class="breadcrumb-container">
             @RenderSection("Breadcrumb", false)
         </div>
-        @{Html.RenderAction("Messages");}
+        @{Html.RenderAction("Messages", "Shared", new { area = "IlaroAdmin" });}
         <div class="row">
             <div class="col-md-10">
                 @RenderBody()

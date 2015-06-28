@@ -54,7 +54,7 @@ WriteLiteral("    <h3>");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml"
-   Write(Html.ActionLink(Model.Name, "Details", new { groupName = Model.Name }));
+   Write(Html.ActionLink(Model.Name, "Index", new { groupName = Model.Name }));
 
             
             #line default
@@ -96,7 +96,7 @@ WriteLiteral(">");
 
             
             #line 12 "..\..\Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml"
-                                 Write(Html.ActionLink(entity.Verbose.Plural, "Index", new { entityName = entity.Name }));
+                                 Write(Html.ActionLink(entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = entity.Name }, null));
 
             
             #line default
@@ -119,14 +119,14 @@ WriteLiteral("</td>\r\n                <td>\r\n");
             #line hidden
 WriteLiteral("                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 542), Tuple.Create("\"", 614)
+WriteAttribute("href", Tuple.Create(" href=\"", 579), Tuple.Create("\"", 672)
             
             #line 16 "..\..\Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml"
-, Tuple.Create(Tuple.Create("", 549), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", "Entity", new { entityName = entity.Name })
+, Tuple.Create(Tuple.Create("", 586), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = entity.Name })
             
             #line default
             #line hidden
-, 549), false)
+, 586), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link\"");
@@ -139,7 +139,7 @@ WriteLiteral("></span> ");
 
             
             #line 16 "..\..\Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml"
-                                                                                                                                                                          Write(IlaroAdminResources.Add);
+                                                                                                                                                                                               Write(IlaroAdminResources.Add);
 
             
             #line default

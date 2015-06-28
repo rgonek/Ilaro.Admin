@@ -27,9 +27,11 @@ namespace ASP
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
-    using Ilaro.Admin.Commons.Paging;
+    using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Extensions;
+    using Ilaro.Admin.Models;
+    using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml")]
@@ -152,7 +154,7 @@ WriteLiteral(">\r\n            <h1>");
 
             
             #line 26 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
-           Write(Html.ActionLink("Admin", "Index", "Groups", null, new { area = "IlaroAdmin", @class = "navbar-brand" }));
+           Write(Html.ActionLink("Admin", "Index", "Group", new { area = "IlaroAdmin" }, new { @class = "navbar-brand" }));
 
             
             #line default
@@ -200,7 +202,7 @@ WriteLiteral("\r\n        </div>\r\n");
             #line hidden
             
             #line 36 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
-          Html.RenderAction("Messages");
+          Html.RenderAction("Messages", "Shared", new { area = "IlaroAdmin" });
             
             #line default
             #line hidden

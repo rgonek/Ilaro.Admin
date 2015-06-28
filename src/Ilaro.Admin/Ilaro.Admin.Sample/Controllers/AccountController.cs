@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Sample.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "IlaroAdmin");
+                return RedirectToAction("Index", "Group", new { area = "IlaroAdmin" });
             }
             return View();
         }
@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Sample.Controllers
             if (login == "admin" && password == "admin")
             {
                 FormsAuthentication.SetAuthCookie(login, false);
-                return RedirectToAction("Index", "IlaroAdmin");
+                return RedirectToAction("Index", "Group", new { area = "IlaroAdmin" });
             }
 
             ModelState.AddModelError(String.Empty, "Wrong login data");
