@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 
-namespace Ilaro.Admin.Commons.Paging
+namespace Ilaro.Admin.Models.Paging
 {
     public class Pager
     {

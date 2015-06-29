@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ilaro.Admin.Commons.Paging
+namespace Ilaro.Admin.Models.Paging
 {
     public interface IPagedList<T> : IList<T>
     {

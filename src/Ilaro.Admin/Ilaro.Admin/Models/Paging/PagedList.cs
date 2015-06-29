@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ilaro.Admin.Commons.Paging
+namespace Ilaro.Admin.Models.Paging
 {
     public class PagedList<T> : List<T>, IPagedList<T>
     {
