@@ -26,7 +26,12 @@ namespace Ilaro.Admin.Filters
 
         public string GetSqlCondition(string alias)
         {
-            return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, Value);
+            var val = Value;
+            if (Property.TypeInfo.IsString)
+            {
+                val = "'" + Value + "'";
+            }
+            return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, val);
         }
     }
 }

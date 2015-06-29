@@ -4,7 +4,7 @@
 <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="controls col-md-3">
     <div class="input-group date time-picker" data-date-format="HH:mm">
-        @Html.TextBox(Model.Name, Model.Value, Model, new { @class = "form-control" })
+        @Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" })
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-time"></span>
         </span>

@@ -12,7 +12,6 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
-using Ilaro.Admin.Model;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Services.Interfaces;
 using Massive;
@@ -403,7 +402,7 @@ namespace Ilaro.Admin.Services
 
         public object Create(Entity entity)
         {
-            var existingItem = GetEntity(entity, entity.Key.Value);
+            var existingItem = GetEntity(entity, entity.Key.Value.Raw);
             if (existingItem != null)
             {
                 Error(IlaroAdminResources.EntityAlreadyExist);
@@ -421,7 +420,7 @@ namespace Ilaro.Admin.Services
             var filler = (IDictionary<String, object>)expando;
             foreach (var property in entity.CreateProperties(getForeignCollection: false))
             {
-                filler[property.ColumnName] = property.Value;
+                filler[property.ColumnName] = property.Value.Raw;
             }
             var cmd = table.CreateInsertCommand(expando);
             cmd.CommandText +=
@@ -524,13 +523,13 @@ namespace Ilaro.Admin.Services
 
         public int Edit(Entity entity)
         {
-            if (entity.Key.Value == null)
+            if (entity.Key.Value.Raw == null)
             {
                 Error(IlaroAdminResources.EntityKeyIsNull);
                 return 0;
             }
 
-            var existingItem = GetEntity(entity, entity.Key.Value);
+            var existingItem = GetEntity(entity, entity.Key.Value.Raw);
             if (existingItem == null)
             {
                 Error(IlaroAdminResources.EntityNotExist);
@@ -546,9 +545,9 @@ namespace Ilaro.Admin.Services
             var filler = expando as IDictionary<String, object>;
             foreach (var property in entity.CreateProperties(getForeignCollection: false))
             {
-                filler[property.ColumnName] = property.Value;
+                filler[property.ColumnName] = property.Value.Raw;
             }
-            var cmd = table.CreateUpdateCommand(expando, entity.Key.Value);
+            var cmd = table.CreateUpdateCommand(expando, entity.Key.Value.Raw);
             foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.TypeInfo.IsCollection))
             {
                 var actualRecords = GetRecords(
@@ -557,7 +556,7 @@ namespace Ilaro.Admin.Services
                     {
                         new ForeignEntityFilter(
                             entity.Key, 
-                            entity.Key.Value.ToStringSafe())
+                            entity.Key.Value.Raw.ToStringSafe())
                     });
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.KeyValue)
@@ -584,8 +583,8 @@ namespace Ilaro.Admin.Services
                     Environment.NewLine + 
                     updateFormat.Fill(
                         property.ForeignEntity.TableName, 
-                        entity.Key.ColumnName, 
-                        DecorateSqlValue(entity.Key.Value, entity.Key), 
+                        entity.Key.ColumnName,
+                        DecorateSqlValue(entity.Key.Value.Raw, entity.Key), 
                         property.ForeignEntity.Key.ColumnName, 
                         DecorateSqlValue(property.Value.Values, property.ForeignEntity.Key));
             }
@@ -657,7 +656,7 @@ namespace Ilaro.Admin.Services
                 {
                     try
                     {
-                        validator.Validate(property.Value, property.Name);
+                        validator.Validate(property.Value.Raw, property.Name);
                     }
                     catch (ValidationException exc)
                     {
@@ -691,7 +690,7 @@ namespace Ilaro.Admin.Services
                 }
 
                 var propertyInfo = entity.Type.GetProperty(property.Name);
-                propertyInfo.SetValue(item, property.Value, null);
+                propertyInfo.SetValue(item, property.Value.Raw, null);
             }
         }
 
@@ -958,7 +957,7 @@ namespace Ilaro.Admin.Services
             var hierarchy = GetEntityHierarchy(null, entity, ref index);
             var sql = GenerateHierarchySQL(hierarchy);
             var model = new DynamicModel(AdminInitialise.ConnectionString);
-            var records = model.Query(sql, entity.Key.Value);
+            var records = model.Query(sql, entity.Key.Value.Raw);
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 

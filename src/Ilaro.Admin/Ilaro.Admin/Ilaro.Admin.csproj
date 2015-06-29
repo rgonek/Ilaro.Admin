@@ -196,8 +196,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Fluent\PropertyFluent.cs" />
     <Compile Include="Massive.cs" />
-    <Compile Include="Model\EntityChangeType.cs" />
-    <Compile Include="Model\IEntityChange.cs" />
+    <Compile Include="Models\EntityChangeType.cs" />
+    <Compile Include="Models\IEntityChange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EntityService.cs" />

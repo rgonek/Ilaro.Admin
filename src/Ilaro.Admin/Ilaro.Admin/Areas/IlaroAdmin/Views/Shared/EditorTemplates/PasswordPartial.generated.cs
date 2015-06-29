@@ -27,9 +27,11 @@ namespace ASP
     using System.Web.Security;
     using System.Web.UI;
     using System.Web.WebPages;
-    using Ilaro.Admin.Commons.Paging;
+    using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Extensions;
+    using Ilaro.Admin.Models;
+    using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/EditorTemplates/PasswordPartial.cshtml")]
@@ -88,7 +90,7 @@ WriteLiteral("    ");
 
             
             #line 6 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\PasswordPartial.cshtml"
-Write(Html.Password(Model.Name, Model.Value, Model, new { @class = "form-control" }));
+Write(Html.Password(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" }));
 
             
             #line default

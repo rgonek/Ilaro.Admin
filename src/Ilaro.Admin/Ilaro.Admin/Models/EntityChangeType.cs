@@ -1,4 +1,4 @@
-﻿namespace Ilaro.Admin.Model
+﻿namespace Ilaro.Admin.Models
 {
     public enum EntityChangeType : byte
     {
