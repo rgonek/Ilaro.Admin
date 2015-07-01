@@ -17,7 +17,7 @@
 
 <div class="clearfix">
     <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
-    @if (Model.IsSearchActive)
+    @if (Model.Entity.IsSearchActive)
     {
         using (Html.BeginForm("Changes", "Entities", new { area = "IlaroAdmin", page = Model.Pager.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
@@ -26,11 +26,11 @@
                 @Html.Hidden(filter.Property.Name, filter.Value)
             }
             @Html.Hidden("entityName", Model.Entity.Name)
-            @Html.Hidden("pp", Model.PerPage)
-            @Html.Hidden("o", Model.Order)
-            @Html.Hidden("od", Model.OrderDirection)
+            @Html.Hidden(Model.Configuration.PerPageRequestName, Model.TableInfo.PerPage)
+            @Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order)
+            @Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection)
             <div class="input-group">
-                @Html.TextBox("sq", Model.SearchQuery, new { @class = "form-control" })
+                @Html.TextBox(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery, new { @class = "form-control" })
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="submit">@IlaroAdminResources.Search</button>
                 </span>
@@ -53,7 +53,7 @@
             {
                 <th>
                     <span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
-                        @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.SearchQuery, Model.PerPage)
+                        @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
                         <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
                     </span>
                 </th>
@@ -82,12 +82,12 @@
                 @Html.Hidden(filter.Property.Name, filter.Value)
             }
             @Html.Hidden("entityName", Model.Entity.Name)
-            @Html.Hidden("sq", Model.SearchQuery)
-            @Html.Hidden("o", Model.Order)
-            @Html.Hidden("od", Model.OrderDirection)
+            @Html.Hidden(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery)
+            @Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order)
+            @Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection)
             <div class="form-group">
-                <label for="pp" class="control-label">@IlaroAdminResources.OnPage</label>
-                @Html.DropDownList("pp",
+                <label for="@Model.Configuration.PerPageRequestName" class="control-label">@IlaroAdminResources.OnPage</label>
+                @Html.DropDownList(Model.Configuration.PageRequestName,
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } })
             </div>
@@ -118,7 +118,7 @@
                 </li>
                 foreach (var option in filter.Options)
                 {
-                    <li @Html.Condition(option.Selected, () => "class=\"active\"")>@Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.SearchQuery, Model.Order, Model.OrderDirection, Model.PerPage)</li>
+                    <li @Html.Condition(option.Selected, () => "class=\"active\"")>@Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.Order, Model.TableInfo.OrderDirection, Model.TableInfo.PerPage)</li>
                 }
             }
         </ul>

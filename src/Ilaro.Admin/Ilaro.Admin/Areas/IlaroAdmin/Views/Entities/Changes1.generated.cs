@@ -31,6 +31,7 @@ namespace ASP
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
+    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -130,7 +131,7 @@ WriteLiteral("</h2>\r\n");
             #line hidden
             
             #line 20 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-     if (Model.IsSearchActive)
+     if (Model.Entity.IsSearchActive)
     {
         using (Html.BeginForm("Changes", "Entities", new { area = "IlaroAdmin", page = Model.Pager.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
         {
@@ -171,42 +172,42 @@ WriteLiteral("</h2>\r\n");
             #line hidden
             
             #line 29 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("pp", Model.PerPage));
+       Write(Html.Hidden(Model.Configuration.PerPageRequestName, Model.TableInfo.PerPage));
 
             
             #line default
             #line hidden
             
             #line 29 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                             
+                                                                                         
             
             
             #line default
             #line hidden
             
             #line 30 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("o", Model.Order));
+       Write(Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order));
 
             
             #line default
             #line hidden
             
             #line 30 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                          
+                                                                                     
             
             
             #line default
             #line hidden
             
             #line 31 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("od", Model.OrderDirection));
+       Write(Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection));
 
             
             #line default
             #line hidden
             
             #line 31 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                    
+                                                                                                       
 
             
             #line default
@@ -221,7 +222,7 @@ WriteLiteral("                ");
 
             
             #line 33 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-           Write(Html.TextBox("sq", Model.SearchQuery, new { @class = "form-control" }));
+           Write(Html.TextBox(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery, new { @class = "form-control" }));
 
             
             #line default
@@ -322,23 +323,23 @@ WriteLiteral("                        ");
 
             
             #line 56 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                   Write(Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.SearchQuery, Model.PerPage));
+                   Write(Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 2616), Tuple.Create("\"", 2673)
-, Tuple.Create(Tuple.Create("", 2624), Tuple.Create("glyphicon", 2624), true)
-, Tuple.Create(Tuple.Create(" ", 2633), Tuple.Create("glyphicon-chevron-", 2634), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 2829), Tuple.Create("\"", 2886)
+, Tuple.Create(Tuple.Create("", 2837), Tuple.Create("glyphicon", 2837), true)
+, Tuple.Create(Tuple.Create(" ", 2846), Tuple.Create("glyphicon-chevron-", 2847), true)
             
             #line 57 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 2652), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 2865), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 2652), false)
+, 2865), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -468,42 +469,42 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("sq", Model.SearchQuery));
+       Write(Html.Hidden(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery));
 
             
             #line default
             #line hidden
             
             #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                 
+                                                                                                 
             
             
             #line default
             #line hidden
             
             #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("o", Model.Order));
+       Write(Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order));
 
             
             #line default
             #line hidden
             
             #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                          
+                                                                                     
             
             
             #line default
             #line hidden
             
             #line 87 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.Hidden("od", Model.OrderDirection));
+       Write(Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection));
 
             
             #line default
             #line hidden
             
             #line 87 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                    
+                                                                                                       
 
             
             #line default
@@ -514,7 +515,15 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
-WriteLiteral(" for=\"pp\"");
+WriteAttribute("for", Tuple.Create(" for=\"", 4123), Tuple.Create("\"", 4168)
+            
+            #line 89 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+, Tuple.Create(Tuple.Create("", 4129), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
+            
+            #line default
+            #line hidden
+, 4129), false)
+);
 
 WriteLiteral(" class=\"control-label\"");
 
@@ -522,7 +531,7 @@ WriteLiteral(">");
 
             
             #line 89 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                 Write(IlaroAdminResources.OnPage);
+                                                                                      Write(IlaroAdminResources.OnPage);
 
             
             #line default
@@ -533,7 +542,7 @@ WriteLiteral("                ");
 
             
             #line 90 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-           Write(Html.DropDownList("pp",
+           Write(Html.DropDownList(Model.Configuration.PageRequestName,
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } }));
 
@@ -632,14 +641,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4658), Tuple.Create("\"", 4755)
+WriteAttribute("href", Tuple.Create(" href=\"", 5081), Tuple.Create("\"", 5178)
             
             #line 112 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 4665), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.Pager.Current })
+, Tuple.Create(Tuple.Create("", 5088), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.Pager.Current })
             
             #line default
             #line hidden
-, 4665), false)
+, 5088), false)
 );
 
 WriteLiteral(">");
@@ -707,7 +716,7 @@ WriteLiteral(">");
 
             
             #line 121 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                              Write(Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.SearchQuery, Model.Order, Model.OrderDirection, Model.PerPage));
+                                                                              Write(Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.Order, Model.TableInfo.OrderDirection, Model.TableInfo.PerPage));
 
             
             #line default

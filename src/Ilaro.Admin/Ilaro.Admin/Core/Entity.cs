@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
@@ -56,6 +59,11 @@ namespace Ilaro.Admin.Core
         public IList<Property> DisplayProperties { get; private set; }
 
         public IEnumerable<Property> SearchProperties { get; private set; }
+
+        public bool IsSearchActive
+        {
+            get { return SearchProperties.Any(); }
+        }
 
         public Links Links { get; private set; }
 
@@ -376,6 +384,118 @@ namespace Ilaro.Admin.Core
                     "Not found property with gived name {0}.".Fill(propertyName));
 
             property.IsLinkKey = true;
+        }
+
+        public void ClearProperties()
+        {
+            foreach (var property in Properties)
+            {
+                property.Clear();
+            }
+        }
+
+        public void Fill(FormCollection collection, HttpFileCollectionBase files)
+        {
+            foreach (var property in Properties)
+            {
+                if (property.TypeInfo.DataType == DataType.File)
+                {
+                    var file = files[property.Name];
+                    property.Value.Raw = file;
+                }
+                else
+                {
+                    var value = collection.GetValue(property.Name);
+                    if (value == null)
+                        continue;
+
+                    if (property.IsForeignKey && property.TypeInfo.IsCollection)
+                    {
+                        property.Value.Values = value.AttemptedValue
+                            .Split(",".ToCharArray()).OfType<object>().ToList();
+                    }
+                    else
+                    {
+                        property.Value.Raw = value.ConvertTo(
+                            property.TypeInfo.Type,
+                            CultureInfo.InvariantCulture);
+                    }
+                }
+            }
+        }
+
+        public IList<string> GetColumns()
+        {
+            var properties = DisplayProperties.ToList();
+            properties.Insert(0, LinkKey);
+            properties.Insert(0, Key);
+
+            return properties
+                .Select(x => x.ColumnName)
+                .Distinct()
+                .ToList();
+        }
+
+        /// <summary>
+        /// Get display name for entity
+        /// </summary>
+        /// <param name="row">Instance value</param>
+        /// <returns>Display name</returns>
+        public string ToString(DataRow row)
+        {
+            // check if has to string attribute
+            if (!RecordDisplayFormat.IsNullOrEmpty())
+            {
+                var result = RecordDisplayFormat;
+                foreach (var cellValue in row.Values)
+                {
+                    result = result.Replace("{" + cellValue.Property.Name + "}", cellValue.AsString);
+                }
+
+                return result;
+            }
+            // if not check if has ToString() method
+            if (HasToStringMethod)
+            {
+                var methodInfo = Type.GetMethod("ToString");
+                var instance = Activator.CreateInstance(Type, null);
+
+                foreach (var cellValue in row.Values
+                    .Where(x =>
+                        !x.Property.IsForeignKey ||
+                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
+                {
+                    var propertyInfo = Type.GetProperty(cellValue.Property.Name);
+                    propertyInfo.SetValue(instance, cellValue.Raw);
+                }
+
+                var result = methodInfo.Invoke(instance, null);
+
+                return result.ToStringSafe();
+            }
+            // if not get first matching property
+            // %Name%, %Title%, %Description%, %Value%
+            // if not found any property use KeyValue
+            var possibleNames = new List<string> { "name", "title", "description", "value" };
+            var value = String.Empty;
+            foreach (var possibleName in possibleNames)
+            {
+                var cell = row.Values
+                    .FirstOrDefault(x =>
+                        x.Property.Name.ToLower().Contains(possibleName));
+                if (cell != null)
+                {
+                    value = cell.AsString;
+                    break;
+                }
+            }
+
+            if (value.IsNullOrEmpty())
+            {
+                return "#" + row.KeyValue;
+            }
+
+            return value;
         }
     }
 }

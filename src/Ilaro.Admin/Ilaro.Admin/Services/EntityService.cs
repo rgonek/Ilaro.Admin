@@ -1,411 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Ilaro.Admin.Models;
-using Ilaro.Admin.Services.Interfaces;
 using Massive;
 using Resources;
 using DataType = Ilaro.Admin.Core.DataType;
 
 namespace Ilaro.Admin.Services
 {
-    public class EntityService : BaseService, IEntityService
+    public class EntityService : IEntityService
     {
-        public EntityService(Notificator notificator)
-            : base(notificator)
+        private readonly Notificator _notificator;
+        private readonly IFetchingEntitiesRecords _entitiesSource;
+
+        public EntityService(
+            Notificator notificator,
+            IFetchingEntitiesRecords entitiesSource)
         {
-        }
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+            if (entitiesSource == null)
+                throw new ArgumentNullException("entitiesSource");
 
-        public PagedRecords GetRecords(
-            Entity entity,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection)
-        {
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = entity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = GetColumns(entity);
-            var where = ConvertFiltersToSQL(filters, search);
-
-            var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
-                entity.TableName,
-                entity.Key.ColumnName);
-
-            var result = table.Paged(
-                columns: columns,
-                where: where,
-                orderBy: orderBy,
-                currentPage: page,
-                pageSize: take);
-
-            var data = new List<DataRow>();
-            foreach (var item in result.Items)
-            {
-                data.Add(ExpandoToDataRow(item, entity));
-            }
-
-            return new PagedRecords
-            {
-                TotalItems = result.TotalRecords,
-                TotalPages = result.TotalPages,
-                Records = data
-            };
-        }
-
-        private string GetColumns(Entity entity)
-        {
-            var columns = GetPropertiesForColumns(entity)
-                .Select(x => x.ColumnName)
-                .ToList();
-
-            return string.Join(",", columns.Distinct());
-        }
-
-        private IList<Property> GetPropertiesForColumns(Entity entity)
-        {
-            var properties = entity.DisplayProperties.ToList();
-            properties.Insert(0, entity.LinkKey);
-            properties.Insert(0, entity.Key);
-
-            return properties.Distinct().ToList();
-        }
-
-        public IList<DataRow> GetRecords(
-            Entity entity,
-            IList<IEntityFilter> filters = null,
-            string searchQuery = null,
-            string order = null,
-            string orderDirection = null,
-            bool determineDisplayValue = false)
-        {
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = entity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = string.Join(",",
-                entity.Properties
-                    .Where(x =>
-                        !x.IsForeignKey ||
-                        (!x.TypeInfo.IsCollection && x.IsForeignKey))
-                    .Select(x => x.ColumnName)
-                    .Distinct());
-            var where = ConvertFiltersToSQL(filters, search);
-
-            var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
-                entity.TableName,
-                entity.Key.ColumnName);
-
-            var result = table.All(columns: columns, where: where, orderBy: orderBy);
-
-            var data = result
-                .Select(item => ExpandoToDataRow(item, entity))
-                .Cast<DataRow>()
-                .ToList();
-
-            if (determineDisplayValue)
-            {
-                foreach (var row in data)
-                {
-                    row.DisplayName = GetDisplayName(entity, row);
-                }
-            }
-
-            return data;
-        }
-
-        private static DataRow ExpandoToDataRow(
-            dynamic record,
-            Entity entity,
-            string prefix = null)
-        {
-            var recordDict = (IDictionary<String, Object>)record;
-
-            return ExpandoToDataRow(recordDict, entity, prefix);
-        }
-
-        private static DataRow ExpandoToDataRow(
-            IDictionary<String, Object> recordDict,
-            Entity entity,
-            string prefix = null)
-        {
-            var row = new DataRow
-            {
-                KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe(),
-                LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe()
-            };
-            foreach (var property in entity.DisplayProperties)
-            {
-                row.Values.Add(new CellValue
-                {
-                    Raw = recordDict[prefix + property.ColumnName],
-                    AsString = recordDict[prefix + property.ColumnName].ToStringSafe(property),
-                    Property = property
-                });
-            }
-
-            return row;
-        }
-
-        /// <summary>
-        /// Get display name for entity
-        /// </summary>
-        /// <param name="entity">Entity</param>
-        /// <param name="row">Instance value</param>
-        /// <returns>Display name</returns>
-        private string GetDisplayName(Entity entity, DataRow row)
-        {
-            // check if has to string attribute
-            if (!entity.RecordDisplayFormat.IsNullOrEmpty())
-            {
-                var result = entity.RecordDisplayFormat;
-                foreach (var cellValue in row.Values)
-                {
-                    result = result.Replace("{" + cellValue.Property.Name + "}", cellValue.AsString);
-                }
-
-                return result;
-            }
-            // if not check if has ToString() method
-            if (entity.HasToStringMethod)
-            {
-                var methodInfo = entity.Type.GetMethod("ToString");
-                var instance = Activator.CreateInstance(entity.Type, null);
-
-                foreach (var cellValue in row.Values
-                    .Where(x =>
-                        !x.Property.IsForeignKey ||
-                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
-                {
-                    var propertyInfo = entity.Type.GetProperty(cellValue.Property.Name);
-                    propertyInfo.SetValue(instance, cellValue.Raw);
-                }
-
-                var result = methodInfo.Invoke(instance, null);
-
-                return result.ToStringSafe();
-            }
-            // if not get first matching property
-            // %Name%, %Title%, %Description%, %Value%
-            // if not found any property use KeyValue
-            var possibleNames = new List<string> { "name", "title", "description", "value" };
-            var value = String.Empty;
-            foreach (var possibleName in possibleNames)
-            {
-                var cell = row.Values
-                    .FirstOrDefault(x =>
-                        x.Property.Name.ToLower().Contains(possibleName));
-                if (cell != null)
-                {
-                    value = cell.AsString;
-                    break;
-                }
-            }
-
-            if (value.IsNullOrEmpty())
-            {
-                return "#" + row.KeyValue;
-            }
-
-            return value;
-        }
-
-        public PagedRecords GetChangesRecords(
-            Entity entityChangesFor,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection)
-        {
-            var changeEntity = AdminInitialise.ChangeEntity;
-
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = changeEntity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? changeEntity.Key.ColumnName : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = GetColumns(changeEntity);
-            var where = ConvertFiltersToSQL(filters, search);
-            if (where.IsNullOrEmpty())
-            {
-                where += " WHERE EntityName = '" + entityChangesFor.Name + "'";
-            }
-            else
-            {
-                where += " AND EntityName = '" + entityChangesFor.Name + "'";
-            }
-            var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
-                changeEntity.TableName,
-                changeEntity.Key.Name);
-
-            var result = table.Paged(
-                columns: columns,
-                where: where,
-                orderBy: orderBy,
-                currentPage: page,
-                pageSize: take);
-
-            var data = new List<DataRow>();
-            foreach (var item in result.Items)
-            {
-                data.Add(ExpandoToDataRow(item, changeEntity));
-            }
-
-            return new PagedRecords
-            {
-                TotalItems = result.TotalRecords,
-                TotalPages = result.TotalPages,
-                Records = data
-            };
-        }
-
-        private string ConvertFiltersToSQL(
-            IList<IEntityFilter> filters,
-            EntitySearch search,
-            string alias = "")
-        {
-            if (filters == null)
-            {
-                filters = new List<IEntityFilter>();
-            }
-
-            var activeFilters = filters
-                .Where(x => !x.Value.IsNullOrEmpty())
-                .ToList();
-            if (!activeFilters.Any() && !search.IsActive)
-            {
-                return null;
-            }
-
-            if (!alias.IsNullOrEmpty())
-            {
-                alias += ".";
-            }
-
-            var conditions = String.Empty;
-            foreach (var filter in activeFilters)
-            {
-                var condition = filter.GetSqlCondition(alias);
-
-                if (!condition.IsNullOrEmpty())
-                {
-                    conditions += " {0} AND".Fill(filter.GetSqlCondition(alias));
-                }
-            }
-
-            if (search.IsActive)
-            {
-                var searchCondition = String.Empty;
-                foreach (var property in search.Properties)
-                {
-                    var query = search.Query.TrimStart('>', '<');
-                    decimal temp;
-                    if (property.TypeInfo.IsString)
-                    {
-                        searchCondition += " {0}[{1}] LIKE '%{2}%' OR"
-                            .Fill(alias, property.Name, search.Query);
-                    }
-                    else if (decimal.TryParse(query, out temp))
-                    {
-                        var sign = "=";
-                        if (search.Query.StartsWith(">"))
-                        {
-                            sign = ">=";
-                        }
-                        else if (search.Query.StartsWith("<"))
-                        {
-                            sign = "<=";
-                        }
-
-                        searchCondition += " {0}[{1}] {3} {2} OR"
-                            .Fill(alias, property.Name, query.Replace(",", "."), sign);
-                    }
-                }
-
-                if (!searchCondition.IsNullOrEmpty())
-                {
-                    conditions +=
-                        " (" +
-                        searchCondition
-                            .TrimStart(' ')
-                            .TrimEnd("OR".ToCharArray()) +
-                        ")";
-                }
-            }
-
-            if (conditions.IsNullOrEmpty())
-            {
-                return null;
-            }
-
-            if (conditions.IsNullOrEmpty())
-            {
-                return String.Empty;
-            }
-            return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
-        }
-
-        public IList<Column> PrepareColumns(
-            Entity entity,
-            string order,
-            string orderDirection)
-        {
-            orderDirection = orderDirection == "asc" ? "up" : "down";
-
-            order = order.ToLower();
-
-            return entity.DisplayProperties.Select(x => new Column
-            {
-                Name = x.Name,
-                DisplayName = x.DisplayName,
-                Description = x.Description,
-                SortDirection = x.Name.ToLower() == order ? orderDirection : String.Empty
-            }).ToList();
+            _notificator = notificator;
+            _entitiesSource = entitiesSource;
         }
 
         public object Create(Entity entity)
         {
-            var existingItem = GetEntity(entity, entity.Key.Value.Raw);
+            var existingItem = _entitiesSource
+                .GetRecord(entity, entity.Key.Value.AsObject);
             if (existingItem != null)
             {
-                Error(IlaroAdminResources.EntityAlreadyExist);
+                _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
                 return null;
             }
 
@@ -451,7 +87,7 @@ namespace Ilaro.Admin.Services
 
             AddEntityChange(entity.Name, item.ToString(), EntityChangeType.Insert);
 
-            ClearProperties(entity);
+            entity.ClearProperties();
 
             return item;
         }
@@ -525,14 +161,14 @@ namespace Ilaro.Admin.Services
         {
             if (entity.Key.Value.Raw == null)
             {
-                Error(IlaroAdminResources.EntityKeyIsNull);
+                _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
                 return 0;
             }
 
-            var existingItem = GetEntity(entity, entity.Key.Value.Raw);
+            var existingItem = _entitiesSource.GetRecord(entity, entity.Key.Value.AsObject);
             if (existingItem == null)
             {
-                Error(IlaroAdminResources.EntityNotExist);
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return 0;
             }
 
@@ -550,7 +186,7 @@ namespace Ilaro.Admin.Services
             var cmd = table.CreateUpdateCommand(expando, entity.Key.Value.Raw);
             foreach (var property in entity.Properties.Where(x => x.IsForeignKey && x.TypeInfo.IsCollection))
             {
-                var actualRecords = GetRecords(
+                var actualRecords = _entitiesSource.GetRecords(
                     property.ForeignEntity,
                     new List<IEntityFilter>
                     {
@@ -568,24 +204,24 @@ namespace Ilaro.Admin.Services
                     ";UPDATE {0} SET {1} = {2} WHERE {3} In ({4})";
                 if (idsToRemoveRelation.Any())
                 {
-                    cmd.CommandText += 
-                        Environment.NewLine + 
+                    cmd.CommandText +=
+                        Environment.NewLine +
                         updateFormat.Fill(
-                            property.ForeignEntity.TableName, 
-                            entity.Key.ColumnName, 
-                            "NULL", 
-                            property.ForeignEntity.Key.ColumnName, 
+                            property.ForeignEntity.TableName,
+                            entity.Key.ColumnName,
+                            "NULL",
+                            property.ForeignEntity.Key.ColumnName,
                             DecorateSqlValue(
-                                idsToRemoveRelation.OfType<object>().ToList(), 
+                                idsToRemoveRelation.OfType<object>().ToList(),
                                 property.ForeignEntity.Key));
                 }
-                cmd.CommandText += 
-                    Environment.NewLine + 
+                cmd.CommandText +=
+                    Environment.NewLine +
                     updateFormat.Fill(
-                        property.ForeignEntity.TableName, 
+                        property.ForeignEntity.TableName,
                         entity.Key.ColumnName,
-                        DecorateSqlValue(entity.Key.Value.Raw, entity.Key), 
-                        property.ForeignEntity.Key.ColumnName, 
+                        DecorateSqlValue(entity.Key.Value.Raw, entity.Key),
+                        property.ForeignEntity.Key.ColumnName,
                         DecorateSqlValue(property.Value.Values, property.ForeignEntity.Key));
             }
             var savedItems = table.Execute(cmd);
@@ -593,7 +229,7 @@ namespace Ilaro.Admin.Services
             // TODO: get info about changed properties
             AddEntityChange(entity.Name, entity.Key.Value.AsString, EntityChangeType.Update);
 
-            ClearProperties(entity);
+            entity.ClearProperties();
 
             return savedItems;
         }
@@ -618,56 +254,6 @@ namespace Ilaro.Admin.Services
             return "'" + value.ToStringSafe() + "'";
         }
 
-        /// <summary>
-        /// Clear properties values
-        /// </summary>
-        public void ClearProperties(Entity entity)
-        {
-            foreach (var property in entity.Properties)
-            {
-                property.Value.Raw = null;
-            }
-        }
-
-        public bool ValidateEntity(Entity entity, ModelStateDictionary modelState)
-        {
-            bool isValid = true;
-            //var request = HttpContext.Current.Request;
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.File))
-            {
-                var file = (HttpPostedFile)property.Value.Raw;// request.Files[property.Name];
-                var result = FileUpload.Validate(
-                    file, 
-                    property.ImageOptions.MaxFileSize, 
-                    property.ImageOptions.AllowedFileExtensions, 
-                    !property.IsRequired);
-
-                if (result != FileUploadValidationResult.Valid)
-                {
-                    isValid = false;
-                    // TODO: more complex validation message
-                    modelState.AddModelError(property.Name, IlaroAdminResources.UnvalidFile);
-                }
-            }
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType != DataType.File))
-            {
-                foreach (var validator in property.ValidationAttributes)
-                {
-                    try
-                    {
-                        validator.Validate(property.Value.Raw, property.Name);
-                    }
-                    catch (ValidationException exc)
-                    {
-                        isValid = false;
-                        modelState.AddModelError(property.Name, exc.Message);
-                    }
-                }
-            }
-            return isValid;
-        }
-
         private void FillEntity(object item, Entity entity)
         {
             var request = HttpContext.Current.Request;
@@ -681,9 +267,9 @@ namespace Ilaro.Admin.Services
                     {
                         fileName = "test.jpg";
                     }
-                    fileName = FileUpload.SaveImage(file, 
-                        fileName, 
-                        property.ImageOptions.NameCreation, 
+                    fileName = FileUpload.SaveImage(file,
+                        fileName,
+                        property.ImageOptions.NameCreation,
                         property.ImageOptions.Settings.ToArray());
 
                     property.Value.Raw = fileName;
@@ -692,86 +278,6 @@ namespace Ilaro.Admin.Services
                 var propertyInfo = entity.Type.GetProperty(property.Name);
                 propertyInfo.SetValue(item, property.Value.Raw, null);
             }
-        }
-
-        public void FillEntity(Entity entity, FormCollection collection)
-        {
-            var request = HttpContext.Current.Request;
-            foreach (var property in entity.Properties)
-            {
-                if (property.TypeInfo.DataType == DataType.File)
-                {
-                    var file = request.Files[property.Name];
-                    property.Value.Raw = file;
-                }
-                else
-                {
-                    var value = collection.GetValue(property.Name);
-                    if (value != null)
-                    {
-                        if (property.IsForeignKey && property.TypeInfo.IsCollection)
-                        {
-                            property.Value.Values = value.AttemptedValue
-                                .Split(",".ToCharArray()).OfType<object>().ToList();
-                        }
-                        else
-                        {
-                            property.Value.Raw = value.ConvertTo(
-                                property.TypeInfo.Type, 
-                                CultureInfo.InvariantCulture);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void FillEntity(Entity entity, string key)
-        {
-            var item = GetEntity(entity, key);
-            if (item == null)
-            {
-                Error(IlaroAdminResources.EntityNotExist);
-                return;
-            }
-
-            var propertiesDict = item as IDictionary<string, object>;
-
-            foreach (var property in entity.CreateProperties(false))
-            {
-                property.Value.Raw = propertiesDict.ContainsKey(property.ColumnName) ? propertiesDict[property.ColumnName] : null;
-            }
-
-            entity.Key.Value.Raw = key;
-        }
-
-        private object GetEntity(Entity entity, string key)
-        {
-            var keyObject = GetKeyObject(entity, key);
-
-            return GetEntity(entity, keyObject);
-        }
-
-        private object GetEntity(Entity entity, object key)
-        {
-            var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
-
-            var result = table.Single(key);
-
-            return result;
-        }
-
-        private object GetKeyObject(Entity entity, string key)
-        {
-            var keyType = entity.Key.TypeInfo.Type;
-            if (keyType.In(typeof(int), typeof(short), typeof(long)))
-            {
-                return long.Parse(key);
-            }
-            if (keyType.In(typeof(Guid)))
-            {
-                return Guid.Parse(key);
-            }
-            return key;
         }
 
         public bool Delete(Entity entity, string key, IEnumerable<PropertyDeleteOption> propertiesDeleteOptions)
@@ -787,7 +293,7 @@ namespace Ilaro.Admin.Services
 
             var table = new DynamicModel(AdminInitialise.ConnectionString, tableName: entity.TableName, primaryKeyField: entity.Key.ColumnName);
 
-            var keyObject = GetKeyObject(entity, key);
+            var keyObject = entity.Key.Value.ToObject(key);
             var result = 0;
 
             if (deleteOptions.All(x => x.Value == DeleteOption.Nothing))
@@ -822,7 +328,7 @@ namespace Ilaro.Admin.Services
 
             if (result < 1)
             {
-                Error(IlaroAdminResources.EntityNotExist);
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
 
@@ -869,40 +375,6 @@ namespace Ilaro.Admin.Services
             return updateSql;
         }
 
-        public IList<IEntityFilter> PrepareFilters(Entity entity, HttpRequestBase request)
-        {
-            var filters = new List<IEntityFilter>();
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Bool))
-            {
-                var value = request[property.Name];
-
-                var filter = new BoolEntityFilter();
-                filter.Initialize(property, value);
-                filters.Add(filter);
-            }
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Enum))
-            {
-                var value = request[property.Name];
-
-                var filter = new EnumEntityFilter();
-                filter.Initialize(property, value);
-                filters.Add(filter);
-            }
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.DateTime))
-            {
-                var value = request[property.Name];
-
-                var filter = new DateTimeEntityFilter();
-                filter.Initialize(property, value);
-                filters.Add(filter);
-            }
-
-            return filters;
-        }
-
         public object GetKeyValue(Entity entity, object savedItem)
         {
             return ((dynamic)savedItem).ID;
@@ -913,14 +385,14 @@ namespace Ilaro.Admin.Services
             var properties = entity.CreateProperties(getKey);
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
-                var records = GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
+                var records = _entitiesSource.GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
                 foreign.Value.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
                 if (foreign.TypeInfo.IsCollection)
                 {
                     foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.KeyValue).OfType<object>().ToList();
                 }
             }
-            
+
             return entity.Groups;
         }
 
@@ -976,13 +448,13 @@ namespace Ilaro.Admin.Services
         {
             var baseRecord = records.FirstOrDefault();
             var prefix = hierarchy.Alias.Trim("[]".ToCharArray()) + "_";
-            var rowData = ExpandoToDataRow(baseRecord, hierarchy.Entity, prefix);
+            var rowData = new DataRow(baseRecord, hierarchy.Entity, prefix);
 
             var recordHierarchy = new RecordHierarchy
             {
                 Entity = hierarchy.Entity,
                 KeyValue = rowData.KeyValue,
-                DisplayName = GetDisplayName(hierarchy.Entity, rowData),
+                DisplayName = hierarchy.Entity.ToString(rowData),
                 SubRecordsHierarchies = new List<RecordHierarchy>()
             };
 
@@ -1000,7 +472,7 @@ namespace Ilaro.Admin.Services
                 foreach (var record in records)
                 {
                     var recordDict = (IDictionary<string, object>)record;
-                    var rowData = ExpandoToDataRow(recordDict, hierarchy.Entity, prefix);
+                    var rowData = new DataRow(recordDict, hierarchy.Entity, prefix);
 
                     if (!rowData.KeyValue.IsNullOrEmpty())
                     {
@@ -1008,7 +480,7 @@ namespace Ilaro.Admin.Services
                         {
                             Entity = hierarchy.Entity,
                             KeyValue = rowData.KeyValue,
-                            DisplayName = GetDisplayName(hierarchy.Entity, rowData),
+                            DisplayName = hierarchy.Entity.ToString(rowData),
                             SubRecordsHierarchies = new List<RecordHierarchy>()
                         };
 
@@ -1046,8 +518,8 @@ ORDER BY {5}";
             // {4} - Base table primary key
             var joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
-            var columns = flatHierarchy.SelectMany(x => GetPropertiesForColumns(x.Entity)
-                .Select(y => x.Alias + "." + y.ColumnName + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y.ColumnName)).ToList();
+            var columns = flatHierarchy.SelectMany(x => x.Entity.GetColumns()
+                .Select(y => x.Alias + "." + y + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y)).ToList();
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {
@@ -1102,8 +574,8 @@ ORDER BY {5}";
 
             foreach (var property in entity.CreateProperties()
                 .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
-                .Where(property => 
-                    parent == null || 
+                .Where(property =>
+                    parent == null ||
                     parent.Entity != property.ForeignEntity))
             {
                 index++;

@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin
 {
@@ -119,8 +120,8 @@ namespace Ilaro.Admin
                 foreach (var property in entity.Properties)
                 {
                     property.Template = new PropertyTemplate(
-                        property.Attributes, 
-                        property.TypeInfo, 
+                        property.Attributes,
+                        property.TypeInfo,
                         property.IsForeignKey);
                 }
 
@@ -128,6 +129,13 @@ namespace Ilaro.Admin
                 entity.SetLinkKey();
                 entity.PrepareGroups();
             }
+        }
+
+        public static void AddBinders(ModelBinderDictionary modelBinders)
+        {
+            modelBinders.Add(typeof(TableInfo), 
+                new TableInfoModelBinder(
+                    (IConfiguration)DependencyResolver.Current.GetService(typeof(IConfiguration))));
         }
     }
 }

@@ -1,8 +1,9 @@
 using System.Web.Mvc;
 using Ilaro.Admin.Commons;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Services;
-using Ilaro.Admin.Services.Interfaces;
+using Ilaro.Admin.Validation;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
 
@@ -35,6 +36,10 @@ namespace Ilaro.Admin.Unity
                 new PerUserCacheLifetimeManager(),
                 new InjectionConstructor());
             container.RegisterType<IEntityService, EntityService>();
+            container.RegisterType<IFetchingEntitiesRecords, EntitiesSource>();
+            container.RegisterType<IValidateEntity, EntityValidator>();
+            container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
+            container.RegisterType<IConfiguration, Configuration>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Web.Compilation;
 using System.Web.Mvc;
 using RazorGenerator.Mvc;
 
-namespace Ilaro.Admin.Commons
+namespace Ilaro.Admin
 {
     /// <summary>
     /// Code from http://razorgenerator.codeplex.com/workitem/61
@@ -52,18 +52,17 @@ namespace Ilaro.Admin.Commons
 
         private bool PhysicalFileExists(string virtualPath)
         {
-            if (virtualPath.StartsWith(_baseVirtualPath ?? String.Empty, StringComparison.Ordinal))
-            {
-                // If a base virtual path is specified, we should remove it as a prefix. Everything that follows should map to a view file on disk.
-                if (!String.IsNullOrEmpty(_baseVirtualPath))
-                {
-                    virtualPath = '~' + virtualPath.Substring(_baseVirtualPath.Length);
-                }
+            if (!virtualPath.StartsWith(_baseVirtualPath ?? String.Empty, StringComparison.Ordinal))
+                return false;
 
-                string path = HttpContext.Current.Request.MapPath(virtualPath);
-                return File.Exists(path);
+            // If a base virtual path is specified, we should remove it as a prefix. Everything that follows should map to a view file on disk.
+            if (!String.IsNullOrEmpty(_baseVirtualPath))
+            {
+                virtualPath = '~' + virtualPath.Substring(_baseVirtualPath.Length);
             }
-            return false;
+
+            var path = HttpContext.Current.Request.MapPath(virtualPath);
+            return File.Exists(path);
         }
 
         public new object CreateInstance(string virtualPath)

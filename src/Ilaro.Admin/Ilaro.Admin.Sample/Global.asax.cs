@@ -10,9 +10,10 @@ namespace Ilaro.Admin.Sample
 	public class MvcApplication : HttpApplication
 	{
 		protected void Application_Start()
-		{
+        {            
 			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
 			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
+		    AdminInitialise.AddBinders(ModelBinders.Binders);
 
 			Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
 			//.AddPropertiesGroup("Main section", c => c.CompanyName)

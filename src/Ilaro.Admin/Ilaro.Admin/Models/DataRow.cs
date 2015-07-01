@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Models
 {
@@ -12,9 +15,37 @@ namespace Ilaro.Admin.Models
 
         public IList<CellValue> Values { get; set; }
 
-        public DataRow()
+        private DataRow()
         {
             Values = new List<CellValue>();
+        }
+
+        public DataRow(
+            dynamic record,
+            Entity entity,
+            string prefix = null)
+            : this((IDictionary<String, Object>)record, entity, prefix)
+        {
+        }
+
+        public DataRow(
+            IDictionary<String, object> recordDict,
+            Entity entity,
+            string prefix = null)
+            : this()
+        {
+            KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe();
+            LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe();
+
+            foreach (var property in entity.DisplayProperties)
+            {
+                Values.Add(new CellValue
+                {
+                    Raw = recordDict[prefix + property.ColumnName],
+                    AsString = recordDict[prefix + property.ColumnName].ToStringSafe(property),
+                    Property = property
+                });
+            }
         }
     }
 }

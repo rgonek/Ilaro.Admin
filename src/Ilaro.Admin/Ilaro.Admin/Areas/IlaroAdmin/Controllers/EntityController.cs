@@ -1,22 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
-using Ilaro.Admin.Services.Interfaces;
+using Ilaro.Admin.Services;
 using Resources;
+using Ilaro.Admin.Validation;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
-    public class EntityController : BaseController
+    public class EntityController : Controller
     {
+        private readonly Notificator _notificator;
         private readonly IEntityService _entityService;
+        private readonly IFetchingEntitiesRecords _entitiesSource;
+        private readonly IValidateEntity _validator;
 
-        public EntityController(Notificator notificator, IEntityService entityService)
-            : base(notificator)
+        public EntityController(
+            Notificator notificator,
+            IEntityService entityService,
+            IValidateEntity validator,
+            IFetchingEntitiesRecords entitiesSource)
         {
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+            if (entityService == null)
+                throw new ArgumentNullException("entityService");
+            if (validator == null)
+                throw new ArgumentNullException("validator");
+            if (entitiesSource == null)
+                throw new ArgumentNullException("entitiesSource");
+
+            _notificator = notificator;
             _entityService = entityService;
+            _validator = validator;
+            _entitiesSource = entitiesSource;
         }
 
         public virtual ActionResult Create(string entityName)
@@ -25,7 +46,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
-            _entityService.ClearProperties(entity);
+            if (entity == null)
+            {
+                throw new NoNullAllowedException("entity is null");
+            }
+
+            entity.ClearProperties();
 
             var model = new EntityCreateModel
             {
@@ -43,16 +69,20 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
+            if (entity == null)
+            {
+                throw new NoNullAllowedException("entity is null");
+            }
 
-            _entityService.FillEntity(entity, collection);
-            if (_entityService.ValidateEntity(entity, ModelState))
+            entity.Fill(collection, Request.Files);
+            if (_validator.Validate(entity))
             {
                 try
                 {
                     var savedItem = _entityService.Create(entity);
                     if (savedItem != null)
                     {
-                        Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
+                        _notificator.Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
 
                         if (Request["ContinueEdit"] != null)
                         {
@@ -72,7 +102,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
                         return RedirectToAction("Index", "Entities", new { entityName });
                     }
-                    Error(IlaroAdminResources.UncaughtError);
+                    _notificator.Error(IlaroAdminResources.UncaughtError);
                 }
                 catch (Exception ex)
                 {
@@ -81,7 +111,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     {
                         message += "<br />" + ex.InnerException.Message;
                     }
-                    Error(message);
+                    _notificator.Error(message);
                 }
             }
 
@@ -96,12 +126,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Edit(string entityName, string key)
         {
-            var entity = AdminInitialise.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
-
+            var entity = _entitiesSource.GetEntityWithData(entityName, key);
             try
             {
-                _entityService.FillEntity(entity, key);
+                //_entityService.FillEntity(entity, key);
                 // catch error
             }
             catch (Exception ex)
@@ -111,7 +139,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 {
                     message += "<br />" + ex.InnerException.Message;
                 }
-                Error(message);
+                _notificator.Error(message);
 
                 return RedirectToAction("Index", "Entities", new { entityName });
             }
@@ -133,16 +161,20 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
+            if (entity == null)
+            {
+                throw new NoNullAllowedException("entity is null");
+            }
 
-            _entityService.FillEntity(entity, collection);
-            if (_entityService.ValidateEntity(entity, ModelState))
+            entity.Fill(collection, Request.Files);
+            if (_validator.Validate(entity))
             {
                 try
                 {
                     var savedItems = _entityService.Edit(entity);
                     if (savedItems > 0)
                     {
-                        Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
+                        _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
 
 
                         if (Request["ContinueEdit"] != null)
@@ -156,7 +188,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
                         return RedirectToAction("Index", "Entities", new { entityName });
                     }
-                    Error(IlaroAdminResources.UncaughtError);
+                    _notificator.Error(IlaroAdminResources.UncaughtError);
                 }
                 catch (Exception ex)
                 {
@@ -165,14 +197,14 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     {
                         message += "<br />" + ex.InnerException.Message;
                     }
-                    Error(message);
+                    _notificator.Error(message);
                 }
             }
 
             var model = new EntityEditModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entity, false)
+                PropertiesGroups = _entityService.PrepareGroups(entity, false, key)
             };
 
             return View(model);
@@ -182,6 +214,11 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
+            if (entity == null)
+            {
+                throw new NoNullAllowedException("entity is null");
+            }
+
             entity.Key.Value.Raw = key;
 
             var model = new EntityDeleteModel
@@ -208,6 +245,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var entity = AdminInitialise.EntitiesTypes
                 .FirstOrDefault(x => x.Name == model.EntityName);
+            if (entity == null)
+            {
+                throw new NoNullAllowedException("entity is null");
+            }
 
             try
             {
@@ -216,12 +257,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     new List<PropertyDeleteOption>();
                 if (_entityService.Delete(entity, model.Key, deleteOptions))
                 {
-                    Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
+                    _notificator.Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
 
                     return RedirectToAction("Index", "Entities", new { entityName = model.EntityName });
                 }
 
-                Error(IlaroAdminResources.UncaughtError);
+                _notificator.Error(IlaroAdminResources.UncaughtError);
             }
             catch (Exception ex)
             {
@@ -230,18 +271,18 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 {
                     message += "<br />" + ex.InnerException.Message;
                 }
-                Error(message);
+                _notificator.Error(message);
             }
 
             model = new EntityDeleteModel
             {
                 Entity = entity,
-                PropertiesDeleteOptions = 
+                PropertiesDeleteOptions =
                     entity.Properties
-                    .Where(x => 
-                        x.IsForeignKey && 
+                    .Where(x =>
+                        x.IsForeignKey &&
                         x.DeleteOption == DeleteOption.AskUser)
-                    .Select(x => 
+                    .Select(x =>
                         new PropertyDeleteOption
                         {
                             PropertyName = x.ForeignEntity.Name

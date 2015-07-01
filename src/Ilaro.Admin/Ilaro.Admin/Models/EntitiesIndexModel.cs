@@ -26,14 +26,8 @@ namespace Ilaro.Admin.Models
             }
         }
 
-        public string SearchQuery { get; set; }
+        public TableInfo TableInfo { get; set; }
 
-        public bool IsSearchActive { get; set; }
-
-        public int PerPage { get; set; }
-
-        public string Order { get; set; }
-
-        public string OrderDirection { get; set; }
+        public IConfiguration Configuration { get; set; }
     }
 }

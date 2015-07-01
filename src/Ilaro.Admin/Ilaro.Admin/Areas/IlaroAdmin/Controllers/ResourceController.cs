@@ -1,14 +1,20 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
-    public class ResourceController : BaseController
+    public class ResourceController : Controller
     {
+        private readonly Notificator _notificator;
+
         public ResourceController(Notificator notificator)
-            : base(notificator)
         {
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+
+            _notificator = notificator;
         }
 
         public virtual ActionResult Css(string id)

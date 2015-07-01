@@ -1,15 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
-    public class GroupController : BaseController
+    public class GroupController : Controller
     {
+        private readonly Notificator _notificator;
+
         public GroupController(Notificator notificator)
-            : base(notificator)
         {
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+
+            _notificator = notificator;
         }
 
         public virtual ActionResult Index()

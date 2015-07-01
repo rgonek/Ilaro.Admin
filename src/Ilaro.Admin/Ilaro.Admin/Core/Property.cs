@@ -226,5 +226,10 @@ namespace Ilaro.Admin.Core
                 return new SelectList(options, "Key", "Value", Value);
             }
         }
+
+        public void Clear()
+        {
+            Value.Raw = null;
+        }
     }
 }

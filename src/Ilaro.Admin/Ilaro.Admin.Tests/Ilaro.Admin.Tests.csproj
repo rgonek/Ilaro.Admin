@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.25.2\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="xunit.abstractions">
@@ -62,8 +65,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\Property_IsForeignKey.cs" />
-    <Compile Include="PropertyViewModelTests.cs" />
+    <Compile Include="Core\Property_DetermineForeignKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEntity.cs" />
   </ItemGroup>

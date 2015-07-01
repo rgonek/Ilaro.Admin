@@ -2,9 +2,10 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Ninject.App_Start;
 using Ilaro.Admin.Services;
-using Ilaro.Admin.Services.Interfaces;
+using Ilaro.Admin.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -71,6 +72,10 @@ namespace Ilaro.Admin.Ninject.App_Start
         {
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
             kernel.Bind<IEntityService>().To<EntityService>();
+            kernel.Bind<IFetchingEntitiesRecords>().To<EntitiesSource>();
+            kernel.Bind<IValidateEntity>().To<EntityValidator>();
+            kernel.Bind<IConfigurationProvider>().To<ConfigurationProvider>();
+            kernel.Bind<IConfiguration>().To<Configuration>();
         }
     }
 }

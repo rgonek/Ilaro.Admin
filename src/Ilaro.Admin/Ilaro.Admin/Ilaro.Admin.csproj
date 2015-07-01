@@ -143,6 +143,18 @@
     <Compile Include="Areas\IlaroAdmin\Controllers\ResourceController.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\SharedController.cs" />
     <Compile Include="Areas\IlaroAdmin\IlaroAdminAreaRegistration.cs" />
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Changes.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Core\Configuration.cs" />
+    <Compile Include="Core\ConfigurationProvider.cs" />
+    <Compile Include="Core\Data\EntitiesSource.cs" />
+    <Compile Include="Core\Data\IFetchingEntitiesRecords.cs" />
+    <Compile Include="Core\IConfiguration.cs" />
+    <Compile Include="Core\IConfigurationProvider.cs" />
+    <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
@@ -169,19 +181,17 @@
     <Compile Include="DataAnnotations\SearchAttribute.cs" />
     <Compile Include="DataAnnotations\TemplateAttribute.cs" />
     <Compile Include="DataAnnotations\VerboseAttribute.cs" />
-    <Compile Include="Commons\Consts.cs" />
     <Compile Include="Core\FileUpload\FileUpload.cs" />
     <Compile Include="Core\FileUpload\FileUploadValidationResult.cs" />
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
-    <Compile Include="Commons\IlaroPrecompiledMvcEngine.cs" />
+    <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />
-    <Compile Include="Commons\Paging\IPagedList.cs" />
-    <Compile Include="Commons\Paging\PagedList.cs" />
-    <Compile Include="Commons\Paging\Pager.cs" />
-    <Compile Include="Commons\Paging\PagingExtensions.cs" />
-    <Compile Include="Areas\IlaroAdmin\Controllers\BaseController.cs" />
+    <Compile Include="Models\Paging\IPagedList.cs" />
+    <Compile Include="Models\Paging\PagedList.cs" />
+    <Compile Include="Models\Paging\Pager.cs" />
+    <Compile Include="Models\Paging\PagingExtensions.cs" />
     <Compile Include="Filters\BoolEntityFilter.cs" />
     <Compile Include="Filters\DateTimeEntityFilter.cs" />
     <Compile Include="Filters\EntitySearch.cs" />
@@ -198,10 +208,11 @@
     <Compile Include="Massive.cs" />
     <Compile Include="Models\EntityChangeType.cs" />
     <Compile Include="Models\IEntityChange.cs" />
+    <Compile Include="Models\TableInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\EntityService.cs" />
-    <Compile Include="Services\Interfaces\IEntityService.cs" />
+    <Compile Include="Services\IEntityService.cs" />
+    <Compile Include="TableInfoModelBinder.cs" />
     <Compile Include="Templates.cs" />
     <Compile Include="Models\CellValue.cs" />
     <Compile Include="Models\Column.cs" />
@@ -227,11 +238,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cshtml</DependentUpon>
-    </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes.generated.cs">
-      <DependentUpon>Changes.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete1.generated.cs">
       <AutoGen>True</AutoGen>
@@ -403,6 +409,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Paging.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\EntityValidator.cs" />
+    <Compile Include="Validation\IValidateEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\IlaroAdminResources.resx">
@@ -453,7 +461,7 @@
   <ItemGroup>
     <Content Include="Areas\IlaroAdmin\Views\Entities\Changes.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Changes.generated.cs</LastGenOutput>
+      <LastGenOutput>Changes1.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

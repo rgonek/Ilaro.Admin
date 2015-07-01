@@ -81,5 +81,11 @@ namespace Ilaro.Admin.Core
         {
             _typeInfo = typeInfo;
         }
+
+        public object ToObject(string value)
+        {
+            Raw = value;
+            return AsObject;
+        }
     }
 }
