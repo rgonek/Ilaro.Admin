@@ -543,7 +543,7 @@ WriteLiteral("                ");
             
             #line 90 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
            Write(Html.DropDownList(Model.Configuration.PageRequestName,
-                 new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
+                 new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", Model.TableInfo.PerPage),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } }));
 
             
@@ -641,14 +641,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 5081), Tuple.Create("\"", 5178)
+WriteAttribute("href", Tuple.Create(" href=\"", 5102), Tuple.Create("\"", 5199)
             
             #line 112 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 5088), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.Pager.Current })
+, Tuple.Create(Tuple.Create("", 5109), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.Pager.Current })
             
             #line default
             #line hidden
-, 5088), false)
+, 5109), false)
 );
 
 WriteLiteral(">");

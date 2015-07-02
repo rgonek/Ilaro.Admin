@@ -132,7 +132,7 @@
             <div class="form-group">
                 <label for="@Model.Configuration.PerPageRequestName" class="control-label">@IlaroAdminResources.OnPage</label>
                 @Html.DropDownList(Model.Configuration.PerPageRequestName,
-                 new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", 10),
+                 new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", Model.TableInfo.PerPage),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } })
             </div>
         }
