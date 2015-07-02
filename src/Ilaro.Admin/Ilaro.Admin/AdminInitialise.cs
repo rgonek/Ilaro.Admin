@@ -23,7 +23,9 @@ namespace Ilaro.Admin
 
         public static IAuthorizationFilter Authorize { get; set; }
 
-        internal static string ConnectionString { get; set; }
+        internal static string ConnectionString { get; private set; }
+
+        public static string RoutesPrefix { get; private set; }
 
         static AdminInitialise()
         {
@@ -38,23 +40,14 @@ namespace Ilaro.Admin
             return entity;
         }
 
-        public static void RegisterResourceRoutes(RouteCollection routes)
+        public static void Initialise(string connectionString = "", string routesPrefix = "IlaroAdmin")
         {
-            routes.MapRoute(
-                name: "IlaroAdminResources",
-                url: "ira/{action}/{id}",
-                defaults: new { controller = "Resource" },
-                namespaces: new[] { "Ilaro.Admin.Areas.IlaroAdmin.Controllers" }
-            );
-        }
-
-        public static void RegisterRoutes(RouteCollection routes, string prefix = "IlaroAdmin")
-        {
-        }
-
-        public static void Initialise(string connectionString = "")
-        {
+            RoutesPrefix = routesPrefix;
             ConnectionString = connectionString;
+
+            ModelBinders.Binders.Add(typeof(TableInfo),
+                new TableInfoModelBinder(
+                    (IConfiguration)DependencyResolver.Current.GetService(typeof(IConfiguration))));
 
             SetForeignKeysReferences();
         }
@@ -129,13 +122,6 @@ namespace Ilaro.Admin
                 entity.SetLinkKey();
                 entity.PrepareGroups();
             }
-        }
-
-        public static void AddBinders(ModelBinderDictionary modelBinders)
-        {
-            modelBinders.Add(typeof(TableInfo), 
-                new TableInfoModelBinder(
-                    (IConfiguration)DependencyResolver.Current.GetService(typeof(IConfiguration))));
         }
     }
 }

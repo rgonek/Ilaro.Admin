@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin
 {
@@ -14,7 +15,16 @@ namespace Ilaro.Admin.Areas.IlaroAdmin
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            var prefix = "IlaroAdmin";
+            var prefix = AdminInitialise.RoutesPrefix.IsNullOrWhiteSpace() ?
+                "IlaroAdmin" :
+                AdminInitialise.RoutesPrefix;
+
+            context.MapRoute(
+                name: "IlaroAdminResources",
+                url: "ira/{action}/{id}",
+                defaults: new { controller = "Resource" },
+                namespaces: new[] { "Ilaro.Admin.Areas.IlaroAdmin.Controllers" }
+            );
 
             context.MapRoute(
                 name: "IlaroAdmin_Logout",

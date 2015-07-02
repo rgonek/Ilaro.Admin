@@ -22,8 +22,8 @@ namespace Ilaro.Admin
             var request = controllerContext.RequestContext.HttpContext.Request.Params;
             var model = new TableInfo
             {
-                Page = TryConvert(request[_configuration.PerPageRequestName], 1),
-                PerPage = TryConvert(request[_configuration.SearchQueryRequestName], _configuration.ItemsQuantityPerPage),
+                Page = TryConvert(request[_configuration.PageRequestName], 1),
+                PerPage = TryConvert(request[_configuration.PerPageRequestName], _configuration.ItemsQuantityPerPage),
                 SearchQuery = TryConvert(request[_configuration.SearchQueryRequestName], ""),
                 Order = TryConvert(request[_configuration.OrderRequestName], ""),
                 OrderDirection = TryConvert(request[_configuration.OrderDirectionRequestName], "")

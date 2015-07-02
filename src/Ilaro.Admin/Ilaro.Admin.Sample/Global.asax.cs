@@ -10,11 +10,7 @@ namespace Ilaro.Admin.Sample
 	public class MvcApplication : HttpApplication
 	{
 		protected void Application_Start()
-        {            
-			AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
-			AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
-		    AdminInitialise.AddBinders(ModelBinders.Binders);
-
+        {
 			Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
 			//.AddPropertiesGroup("Main section", c => c.CompanyName)
 			//.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
@@ -51,7 +47,7 @@ namespace Ilaro.Admin.Sample
 			AdminInitialise.Authorize = new AuthorizeAttribute();
 
 			// If you have only one connection string there is no need to specify it
-			AdminInitialise.Initialise("NorthwindEntities");
+			AdminInitialise.Initialise("NorthwindEntities", "Admin");
 
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
