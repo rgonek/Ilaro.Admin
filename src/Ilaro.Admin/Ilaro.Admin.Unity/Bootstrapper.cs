@@ -40,6 +40,7 @@ namespace Ilaro.Admin.Unity
             container.RegisterType<IValidateEntity, EntityValidator>();
             container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
             container.RegisterType<IConfiguration, Configuration>();
+            container.RegisterType<IExecutingDbCommand, DbCommandExecutor>();
         }
     }
 }

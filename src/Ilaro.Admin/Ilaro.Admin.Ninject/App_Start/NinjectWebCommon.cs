@@ -76,6 +76,7 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<IValidateEntity>().To<EntityValidator>();
             kernel.Bind<IConfigurationProvider>().To<ConfigurationProvider>();
             kernel.Bind<IConfiguration>().To<Configuration>();
+            kernel.Bind<IExecutingDbCommand>().To<DbCommandExecutor>();
         }
     }
 }
