@@ -79,6 +79,7 @@ Maybe some of them I skip, and I probably I will back to them after release v1.
    - [ ] IEntityFilters should generate sql with parameters
    - [ ] Entire AdminInitialisation is static, I must found better way to store entity infos
    - [ ] Bundling
+   - [ ] Remove ImageResizer dependency
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
