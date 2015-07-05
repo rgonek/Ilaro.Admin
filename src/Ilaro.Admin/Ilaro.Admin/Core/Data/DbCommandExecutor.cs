@@ -8,13 +8,23 @@ namespace Ilaro.Admin.Core.Data
 {
     public class DbCommandExecutor : IExecutingDbCommand
     {
+        private readonly Notificator _notificator;
+
+        public DbCommandExecutor(Notificator notificator)
+        {
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+
+            _notificator = notificator;
+        }
+
         public object ExecuteWithChanges(DbCommand cmd, ChangeInfo changeInfo)
         {
             object result;
-            var db = new DynamicModel(AdminInitialise.ConnectionString);
-            using (var conn = db.OpenConnection())
+            using (var conn = DB.OpenConnection())
+            using (var tx = conn.BeginTransaction())
             {
-                using (var tx = conn.BeginTransaction())
+                try
                 {
                     cmd.Connection = conn;
                     cmd.Transaction = tx;
@@ -23,14 +33,20 @@ namespace Ilaro.Admin.Core.Data
                     if (AdminInitialise.IsChangesEnabled)
                     {
                         var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
-
-                        changeCmd.Parameters[1].Value = result;
                         changeCmd.Connection = conn;
                         changeCmd.Transaction = tx;
                         changeCmd.ExecuteNonQuery();
                     }
 
+                    throw new Exception("test");
+
                     tx.Commit();
+                }
+                catch (Exception ex)
+                {
+                    result = null;
+                    _notificator.Error(ex.Message);
+                    tx.Rollback();
                 }
             }
 

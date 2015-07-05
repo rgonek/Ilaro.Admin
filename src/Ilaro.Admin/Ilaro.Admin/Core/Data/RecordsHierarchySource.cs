@@ -101,7 +101,7 @@ namespace Ilaro.Admin.Core.Data
 FROM {1} AS {2}
 {3}
 WHERE {4}
-ORDER BY {5}";
+ORDER BY {5};";
             // {0} - Foreign table
             // {1} - Foreign alias
             // {2} - Foreign key

@@ -2,6 +2,6 @@
 {
     public interface ICreatingRecords
     {
-        object Create(Entity entity);
+        string Create(Entity entity);
     }
 }

@@ -72,11 +72,15 @@ namespace Ilaro.Admin.Ninject.App_Start
         {
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
             kernel.Bind<IEntityService>().To<EntityService>();
-            kernel.Bind<IFetchingEntitiesRecords>().To<EntitiesSource>();
             kernel.Bind<IValidateEntity>().To<EntityValidator>();
             kernel.Bind<IConfigurationProvider>().To<ConfigurationProvider>();
             kernel.Bind<IConfiguration>().To<Configuration>();
+            kernel.Bind<IFetchingRecords>().To<RecordsSource>();
+            kernel.Bind<IFetchingRecordsHierarchy>().To<RecordsHierarchySource>();
             kernel.Bind<IExecutingDbCommand>().To<DbCommandExecutor>();
+            kernel.Bind<ICreatingRecords>().To<RecordsCreator>();
+            kernel.Bind<IUpdatingRecords>().To<RecordsUpdater>();
+            kernel.Bind<IDeletingRecords>().To<RecordsDeleter>();
         }
     }
 }

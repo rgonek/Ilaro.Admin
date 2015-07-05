@@ -386,11 +386,11 @@ namespace Ilaro.Admin.Core
             property.IsLinkKey = true;
         }
 
-        public void ClearProperties()
+        public void ClearPropertiesValues()
         {
             foreach (var property in Properties)
             {
-                property.Clear();
+                property.Value.Clear();
             }
         }
 
@@ -496,6 +496,14 @@ namespace Ilaro.Admin.Core
             }
 
             return value;
+        }
+
+        public IEnumerable<Property> GetForeignsForUpdate()
+        {
+            return Properties
+                .Where(x =>
+                    x.IsForeignKey &&
+                    x.TypeInfo.IsCollection);
         }
     }
 }

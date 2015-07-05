@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
+using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Extensions2;
 
 namespace Ilaro.Admin.Core.Data
@@ -11,19 +12,22 @@ namespace Ilaro.Admin.Core.Data
     {
         private readonly Notificator _notificator;
         private readonly IExecutingDbCommand _executor;
-        private DB _db;
 
         private const string SqlFormat =
-@"INSERT INTO {0} ({1}) 
+@"-- insert record
+INSERT INTO {0} ({1}) 
 VALUES ({2});
-DECLARE @newID int = SCOPE_IDENTITY();
-SELECT @newID;";
+-- return record id
+DECLARE @newID {3} = {4};
+SELECT @newID;
+-- update foreign entities records";
 
         /// <summary>
         /// UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
         /// </summary>
         private const string RelatedRecordsUpdateSqlFormat =
-            "UPDATE {0} SET {1} = @newID WHERE {2} In ({3});";
+@"UPDATE {0} SET {1} = @newID 
+WHERE {2} In ({3});";
 
         public RecordsCreator(Notificator notificator, IExecutingDbCommand executor)
         {
@@ -36,41 +40,32 @@ SELECT @newID;";
             _executor = executor;
         }
 
-        public object Create(Entity entity)
+        public string Create(Entity entity)
         {
-            //FileHandle(entity);
-            _db = new DB();
+            try
+            {
+                var cmd = CreateCommand(entity);
 
-            var cmd = CreateCommand(entity);
+                var result = _executor
+                    .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Insert));
 
-            var item = _executor
-                .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Insert));
-
-            entity.ClearPropertiesValues();
-
-            return item;
+                return result.ToStringSafe();
+            }
+            catch (Exception ex)
+            {
+                _notificator.Error("");
+                return null;
+            }
+            finally
+            {
+                entity.ClearPropertiesValues();
+            }
         }
 
         private DbCommand CreateCommand(Entity entity)
         {
             var cmd = CreateBaseCommand(entity);
-
-            var sbUpdates = new StringBuilder();
-            var paramIndex = cmd.Parameters.Count;
-            foreach (var property in entity.GetForeignsForUpdate())
-            {
-                var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
-                sbUpdates.AppendLine();
-                sbUpdates.AppendFormat(
-                    RelatedRecordsUpdateSqlFormat,
-                    property.ForeignEntity.TableName,
-                    entity.Key.ColumnName,
-                    property.ForeignEntity.Key.ColumnName,
-                    values);
-                cmd.AddParams(property.Value.Values);
-            }
-
-            cmd.CommandText += sbUpdates.ToString();
+            AddForeignsUpdate(cmd, entity);
 
             return cmd;
         }
@@ -80,7 +75,7 @@ SELECT @newID;";
             var sbKeys = new StringBuilder();
             var sbVals = new StringBuilder();
 
-            var cmd = _db.CreateCommand();
+            var cmd = DB.CreateCommand();
             var counter = 0;
             foreach (var property in entity.CreateProperties(getForeignCollection: false))
             {
@@ -91,10 +86,39 @@ SELECT @newID;";
             }
             var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
             var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
-            var sql = string.Format(SqlFormat, entity.TableName, keys, vals);
+            var idType = "int";
+            var insertedId = "SCOPE_IDENTITY()";
+            if (entity.Key.TypeInfo.IsString)
+            {
+                idType = "nvarchar(max)";
+                insertedId = "@" + counter;
+                cmd.AddParam(entity.Key.Value.Raw);
+            }
+            var sql = SqlFormat.Fill(entity.TableName, keys, vals, idType, insertedId);
             cmd.CommandText = sql;
 
             return cmd;
+        }
+
+        private void AddForeignsUpdate(DbCommand cmd, Entity entity)
+        {
+            var sbUpdates = new StringBuilder();
+            var paramIndex = cmd.Parameters.Count;
+            foreach (var property in
+                entity.GetForeignsForUpdate().Where(x => x.Value.Values.IsNullOrEmpty() == false))
+            {
+                var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
+                sbUpdates.AppendLine();
+                sbUpdates.AppendFormat(
+                    RelatedRecordsUpdateSqlFormat,
+                    property.ForeignEntity.TableName,
+                    entity.Key.ColumnName,
+                    property.ForeignEntity.Key.ColumnName,
+                    values);
+                cmd.AddParams(property.Value.Values.ToArray());
+            }
+
+            cmd.CommandText += sbUpdates.ToString();
         }
 
         private static void AddParam(DbCommand cmd, Property property)
@@ -104,35 +128,5 @@ SELECT @newID;";
             else
                 cmd.AddParam(property.Value.Raw);
         }
-
-        //private void FileHandle(Entity entity)
-        //{
-        //    foreach (var property in entity
-        //        .CreateProperties(getForeignCollection: false)
-        //        .Where(x => x.TypeInfo.DataType == DataType.File))
-        //    {
-        //        if (property.TypeInfo.Type == typeof(string))
-        //        {
-        //            // we must save file to disk and save file path in db
-        //            var file = (HttpPostedFile)property.Value.Raw;
-        //            var fileName = String.Empty;
-        //            if (property.ImageOptions.NameCreation == NameCreation.UserInput)
-        //            {
-        //                fileName = "test.jpg";
-        //            }
-        //            fileName = FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
-
-        //            property.Value.Raw = fileName;
-        //        }
-        //        else
-        //        {
-        //            // we must save file in db as byte array
-
-        //            var file = (HttpPostedFile)property.Value.Raw;
-        //            var bytes = FileUpload.GetImageByte(file, property.ImageOptions.Settings.ToArray());
-        //            property.Value.Raw = bytes;
-        //        }
-        //    }
-        //}
     }
 }

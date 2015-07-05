@@ -36,11 +36,15 @@ namespace Ilaro.Admin.Unity
                 new PerUserCacheLifetimeManager(),
                 new InjectionConstructor());
             container.RegisterType<IEntityService, EntityService>();
-            container.RegisterType<IFetchingEntitiesRecords, EntitiesSource>();
             container.RegisterType<IValidateEntity, EntityValidator>();
             container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
             container.RegisterType<IConfiguration, Configuration>();
+            container.RegisterType<IFetchingRecords, RecordsSource>();
+            container.RegisterType<IFetchingRecordsHierarchy, RecordsHierarchySource>();
             container.RegisterType<IExecutingDbCommand, DbCommandExecutor>();
+            container.RegisterType<ICreatingRecords, RecordsCreator>();
+            container.RegisterType<IUpdatingRecords, RecordsUpdater>();
+            container.RegisterType<IDeletingRecords, RecordsDeleter>();
         }
     }
 }

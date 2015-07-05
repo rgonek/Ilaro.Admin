@@ -21,6 +21,11 @@ namespace Ilaro.Admin
             }
         }
 
+        public static bool IsChangesEnabled
+        {
+            get { return ChangeEntity != null; }
+        }
+
         public static IAuthorizationFilter Authorize { get; set; }
 
         internal static string ConnectionString { get; private set; }

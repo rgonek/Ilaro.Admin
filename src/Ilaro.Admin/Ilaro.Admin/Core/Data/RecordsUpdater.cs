@@ -17,14 +17,20 @@ namespace Ilaro.Admin.Core.Data
         private readonly IFetchingRecords _source;
 
         private const string SqlFormat =
-@"UPDATE {0} SET {1} WHERE {2} = @{3};
-SELECT @{3}";
+@"-- update record
+UPDATE {0} SET 
+    {1} 
+    WHERE {2} = @{3};
+-- return record id
+SELECT @{3};
+-- update foreign entities records";
 
         /// <summary>
         /// UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
         /// </summary>
         private const string RelatedRecordsUpdateSqlFormat =
-            "UPDATE {0} SET {1} = @{2} WHERE {3} In ({4});";
+@"UPDATE {0} SET {1} = @{2} 
+WHERE {3} In ({4});";
 
         public RecordsUpdater(
             Notificator notificator,
@@ -45,15 +51,25 @@ SELECT @{3}";
 
         public bool Update(Entity entity)
         {
-            var cmd = CreateCommand(entity);
+            try
+            {
+                var cmd = CreateCommand(entity);
 
-            // TODO: get info about changed properties
-            var result = (int)_executor
-                .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Update));
+                // TODO: get info about changed properties
+                var result = _executor
+                    .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Update));
 
-            entity.ClearPropertiesValues();
-
-            return result > 0;
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                _notificator.Error("");
+                return true;
+            }
+            finally
+            {
+                entity.ClearPropertiesValues();
+            }
         }
 
         private DbCommand CreateCommand(Entity entity)
@@ -74,7 +90,7 @@ SELECT @{3}";
                 entity.CreateProperties(getForeignCollection: false).Where(x => x.IsKey == false))
             {
                 AddParam(cmd, property);
-                sbKeys.AppendFormat("{0} = @{1}, \r\n", property.ColumnName, counter);
+                sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter);
                 counter++;
             }
             cmd.AddParam(entity.Key.Value.Raw);
@@ -126,8 +142,8 @@ SELECT @{3}";
                         paramIndex++,
                         property.ForeignEntity.Key.ColumnName,
                         values);
-                cmd.AddParams(property.Value.Values);
-                cmd.AddParams(entity.Key.Value.Raw);
+                cmd.AddParams(property.Value.Values.ToArray());
+                cmd.AddParam(entity.Key.Value.Raw);
             }
         }
 

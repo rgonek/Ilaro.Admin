@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Core.Data
 
         private const string SqlFormat =
 @"DELETE FROM {0} WHERE {1} = @0;
-SELECT @0";
+SELECT @0;";
 
         public RecordsDeleter(
             Notificator notificator,

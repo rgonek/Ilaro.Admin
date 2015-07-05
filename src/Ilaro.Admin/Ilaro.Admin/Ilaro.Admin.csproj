@@ -148,10 +148,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Core\ChangeInfo.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
-    <Compile Include="Core\Data\EntitiesSource.cs" />
-    <Compile Include="Core\Data\IFetchingEntitiesRecords.cs" />
+    <Compile Include="Core\Data\DB.cs" />
+    <Compile Include="Core\Data\DbCommandExecutor.cs" />
+    <Compile Include="Core\Data\ICreatingRecords.cs" />
+    <Compile Include="Core\Data\IDeletingRecords.cs" />
+    <Compile Include="Core\Data\IFetchingRecordsHierarchy.cs" />
+    <Compile Include="Core\Data\IUpdatingRecords.cs" />
+    <Compile Include="Core\Data\RecordsCreator.cs" />
+    <Compile Include="Core\Data\RecordsDeleter.cs" />
+    <Compile Include="Core\Data\RecordsHierarchySource.cs" />
+    <Compile Include="Core\Data\RecordsSource.cs" />
+    <Compile Include="Core\Data\IExecutingDbCommand.cs" />
+    <Compile Include="Core\Data\IFetchingRecords.cs" />
+    <Compile Include="Core\Data\RecordsUpdater.cs" />
     <Compile Include="Core\IConfiguration.cs" />
     <Compile Include="Core\IConfigurationProvider.cs" />
     <Compile Include="Core\ValueConverter.cs" />
@@ -185,6 +197,7 @@
     <Compile Include="Core\FileUpload\FileUploadValidationResult.cs" />
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />
@@ -206,8 +219,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Fluent\PropertyFluent.cs" />
     <Compile Include="Massive.cs" />
-    <Compile Include="Models\EntityChangeType.cs" />
-    <Compile Include="Models\IEntityChange.cs" />
+    <Compile Include="Core\EntityChangeType.cs" />
+    <Compile Include="Core\IEntityChange.cs" />
     <Compile Include="Models\TableInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EntityService.cs" />

@@ -5,14 +5,15 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Ilaro.Admin.Models;
 using Massive;
+using Resources;
 
 namespace Ilaro.Admin.Core.Data
 {
-    public class EntitiesSource : IFetchingEntitiesRecords
+    public class RecordsSource : IFetchingRecords
     {
         private readonly Notificator _notificator;
 
-        public EntitiesSource(Notificator notificator)
+        public RecordsSource(Notificator notificator)
         {
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
@@ -31,8 +32,8 @@ namespace Ilaro.Admin.Core.Data
             var item = GetRecord(entity, entity.Key.Value.ToObject(key));
             if (item == null)
             {
-                //Error(IlaroAdminResources.EntityNotExist);
-                //return;
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
+                return null;
             }
 
             var propertiesDict = item as IDictionary<string, object>;
