@@ -29,6 +29,20 @@ Notificator in session scope
 IEntityService => EntityService
 ```
 
+##TODO
+- [ ] Entities changes
+   - [ ] Write sql command text in change description as option
+   - [ ] Changes for a specific record 
+- [ ] Upload files
+   - [ ] Handle file upload on create and edit
+      - [ ] Delete old files on edit
+   - [ ] Delete files on delete
+   - [ ] File names
+      - [ ] Predefined format for property
+      - [ ] User input
+- [ ] Refactor
+   - [ ] Move entity.ClearPropertiesValues() to ActionFilterAttribute
+
 ##Requirements:
 - POCO classes (or pseudo POCO)
 - ASP MVC 4
