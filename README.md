@@ -77,7 +77,8 @@ Maybe some of them I skip, and I probably I will back to them after release v1.
    - [ ] Move entity.ClearPropertiesValues() to ActionFilterAttribute
    - [ ] Move logic from EntityController to EntityService
    - [ ] Completely remove Massive (there are only read methods left)
-   - [ ] IEntityFilters should generate sql with parameters
+   - [x] IEntityFilters should generate sql with parameters
+   - [ ] Get rid of all inline values from sqls
    - [ ] Entire AdminInitialisation is static, I must found better way to store entity infos
    - [ ] Bundling
    - [ ] Remove ImageResizer dependency
