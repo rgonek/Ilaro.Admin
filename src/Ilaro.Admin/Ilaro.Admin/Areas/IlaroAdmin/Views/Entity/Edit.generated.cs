@@ -31,6 +31,7 @@ namespace ASP
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
+    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -470,10 +471,10 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3475), Tuple.Create("\"", 3573)
+WriteAttribute("href", Tuple.Create(" href=\"", 3475), Tuple.Create("\"", 3582)
             
             #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 3482), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value })
+, Tuple.Create(Tuple.Create("", 3482), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value.AsString })
             
             #line default
             #line hidden
@@ -486,7 +487,7 @@ WriteLiteral(">");
 
             
             #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                                                                                                                                               Write(IlaroAdminResources.Delete);
+                                                                                                                                                        Write(IlaroAdminResources.Delete);
 
             
             #line default

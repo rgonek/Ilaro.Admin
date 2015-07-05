@@ -17,12 +17,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     public class EntitiesController : Controller
     {
         private readonly Notificator _notificator;
-        private readonly IFetchingEntitiesRecords _entitiesSource;
+        private readonly IFetchingRecords _entitiesSource;
         private readonly IConfiguration _configuration;
 
         public EntitiesController(
             Notificator notificator,
-            IFetchingEntitiesRecords entitiesSource,
+            IFetchingRecords entitiesSource,
             IConfiguration configuration)
         {
             if (notificator == null)

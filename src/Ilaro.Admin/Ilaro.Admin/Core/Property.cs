@@ -90,7 +90,8 @@ namespace Ilaro.Admin.Core
             Entity = entity;
             PropertyInfo = property;
 
-            ColumnName = Name = property.Name;
+            Name = property.Name;
+            ColumnName = property.Name;
             ControlsAttributes = new Dictionary<string, object>();
             // TODO: determine ColumnName
 
@@ -225,11 +226,6 @@ namespace Ilaro.Admin.Core
 
                 return new SelectList(options, "Key", "Value", Value);
             }
-        }
-
-        public void Clear()
-        {
-            Value.Raw = null;
         }
     }
 }

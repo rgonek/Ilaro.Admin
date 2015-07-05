@@ -1,5 +1,5 @@
 ﻿using System;
-using Ilaro.Admin.Models;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {

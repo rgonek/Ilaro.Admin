@@ -4,7 +4,7 @@ using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Core.Data
 {
-    public interface IFetchingEntitiesRecords
+    public interface IFetchingRecords
     {
         Entity GetEntityWithData(string entityName, string key);
 

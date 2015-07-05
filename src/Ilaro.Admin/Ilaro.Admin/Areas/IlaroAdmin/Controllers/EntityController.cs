@@ -16,14 +16,16 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     {
         private readonly Notificator _notificator;
         private readonly IEntityService _entityService;
-        private readonly IFetchingEntitiesRecords _entitiesSource;
+        private readonly IFetchingRecords _source;
+        private readonly IFetchingRecordsHierarchy _hierarchySource;
         private readonly IValidateEntity _validator;
 
         public EntityController(
             Notificator notificator,
             IEntityService entityService,
             IValidateEntity validator,
-            IFetchingEntitiesRecords entitiesSource)
+            IFetchingRecords source,
+            IFetchingRecordsHierarchy hierarchySource)
         {
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
@@ -31,13 +33,16 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new ArgumentNullException("entityService");
             if (validator == null)
                 throw new ArgumentNullException("validator");
-            if (entitiesSource == null)
-                throw new ArgumentNullException("entitiesSource");
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (hierarchySource == null)
+                throw new ArgumentNullException("hierarchySource");
 
             _notificator = notificator;
             _entityService = entityService;
             _validator = validator;
-            _entitiesSource = entitiesSource;
+            _source = source;
+            _hierarchySource = hierarchySource;
         }
 
         public virtual ActionResult Create(string entityName)
@@ -51,7 +56,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
 
-            entity.ClearProperties();
+            entity.ClearPropertiesValues();
 
             var model = new EntityCreateModel
             {
@@ -79,8 +84,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 try
                 {
-                    var savedItem = _entityService.Create(entity);
-                    if (savedItem != null)
+                    var savedId = _entityService.Create(entity);
+                    if (savedId != null)
                     {
                         _notificator.Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
 
@@ -91,8 +96,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                                 new
                                 {
                                     entityName,
-                                    key = _entityService
-                                        .GetKeyValue(entity, savedItem)
+                                    key = entity.Key.Value.ToObject(savedId)
                                 });
                         }
                         if (Request["AddNext"] != null)
@@ -126,24 +130,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Edit(string entityName, string key)
         {
-            var entity = _entitiesSource.GetEntityWithData(entityName, key);
-            try
+            var entity = _source.GetEntityWithData(entityName, key);
+            if (entity == null)
             {
-                //_entityService.FillEntity(entity, key);
-                // catch error
-            }
-            catch (Exception ex)
-            {
-                var message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    message += "<br />" + ex.InnerException.Message;
-                }
-                _notificator.Error(message);
-
                 return RedirectToAction("Index", "Entities", new { entityName });
             }
 
+            entity.ClearPropertiesValues();
             var model = new EntityEditModel
             {
                 Entity = entity,
@@ -171,8 +164,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 try
                 {
-                    var savedItems = _entityService.Edit(entity);
-                    if (savedItems > 0)
+                    var result = _entityService.Edit(entity);
+                    if (result)
                     {
                         _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
 
@@ -234,7 +227,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                             PropertyName = x.ForeignEntity.Name
                         })
                     .ToList(),
-                RecordHierarchy = _entityService.GetRecordHierarchy(entity)
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
             };
 
             return View(model);
@@ -288,7 +281,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                             PropertyName = x.ForeignEntity.Name
                         })
                     .ToList(),
-                RecordHierarchy = _entityService.GetRecordHierarchy(entity)
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
             };
 
             return View(model);

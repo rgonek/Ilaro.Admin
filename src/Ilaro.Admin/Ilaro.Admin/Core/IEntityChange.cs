@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ilaro.Admin.Models
+namespace Ilaro.Admin.Core
 {
     /// <summary>
     /// Interface for entity wchich contains info 

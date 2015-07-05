@@ -31,6 +31,7 @@ namespace ASP
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
+    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -71,61 +72,91 @@ WriteLiteral(" content=\"width=device-width, initial-scale=1.0\"");
 
 WriteLiteral(">\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 210), Tuple.Create("\"", 244)
+, Tuple.Create(Tuple.Create("", 217), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/bootstrap_min_css")
+, 217), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/font-awesome_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 276), Tuple.Create("\"", 313)
+, Tuple.Create(Tuple.Create("", 283), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/font-awesome_min_css")
+, 283), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-datetimepicker_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 345), Tuple.Create("\"", 394)
+, Tuple.Create(Tuple.Create("", 352), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/bootstrap-datetimepicker_min_css")
+, 352), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/chosen_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 426), Tuple.Create("\"", 457)
+, Tuple.Create(Tuple.Create("", 433), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/chosen_min_css")
+, 433), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-spinedit_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 489), Tuple.Create("\"", 528)
+, Tuple.Create(Tuple.Create("", 496), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/bootstrap-spinedit_css")
+, 496), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-markdown_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 560), Tuple.Create("\"", 603)
+, Tuple.Create(Tuple.Create("", 567), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/bootstrap-markdown_min_css")
+, 567), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/summernote_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 635), Tuple.Create("\"", 666)
+, Tuple.Create(Tuple.Create("", 642), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/summernote_css")
+, 642), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/bootstrap-duallistbox_min_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 698), Tuple.Create("\"", 744)
+, Tuple.Create(Tuple.Create("", 705), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/bootstrap-duallistbox_min_css")
+, 705), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n    <link");
 
-WriteLiteral(" href=\"/ira/css/site_css\"");
+WriteAttribute("href", Tuple.Create(" href=\"", 776), Tuple.Create("\"", 801)
+, Tuple.Create(Tuple.Create("", 783), Tuple.Create<System.Object, System.Int32>(Href("~/ira/css/site_css")
+, 783), false)
+);
 
 WriteLiteral(" rel=\"stylesheet\"");
 
 WriteLiteral(" />\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery-2_1_0_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 837), Tuple.Create("\"", 875)
+, Tuple.Create(Tuple.Create("", 843), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/jquery-2_1_0_min_js")
+, 843), false)
+);
 
 WriteLiteral(" type=\"text/javascript\"");
 
@@ -270,55 +301,94 @@ WriteLiteral(" id=\"modal-image\"");
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_validate_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2094), Tuple.Create("\"", 2135)
+, Tuple.Create(Tuple.Create("", 2100), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/jquery_validate_min_js")
+, 2100), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_validate_unobtrusive_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2159), Tuple.Create("\"", 2212)
+, Tuple.Create(Tuple.Create("", 2165), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/jquery_validate_unobtrusive_min_js")
+, 2165), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/chosen_jquery_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2236), Tuple.Create("\"", 2275)
+, Tuple.Create(Tuple.Create("", 2242), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/chosen_jquery_min_js")
+, 2242), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/moment_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2299), Tuple.Create("\"", 2331)
+, Tuple.Create(Tuple.Create("", 2305), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/moment_min_js")
+, 2305), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-datetimepicker_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2355), Tuple.Create("\"", 2405)
+, Tuple.Create(Tuple.Create("", 2361), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/bootstrap-datetimepicker_min_js")
+, 2361), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2429), Tuple.Create("\"", 2464)
+, Tuple.Create(Tuple.Create("", 2435), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/bootstrap_min_js")
+, 2435), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-spinedit_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2488), Tuple.Create("\"", 2528)
+, Tuple.Create(Tuple.Create("", 2494), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/bootstrap-spinedit_js")
+, 2494), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/marked_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2552), Tuple.Create("\"", 2584)
+, Tuple.Create(Tuple.Create("", 2558), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/marked_min_js")
+, 2558), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap-markdown_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2608), Tuple.Create("\"", 2648)
+, Tuple.Create(Tuple.Create("", 2614), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/bootstrap-markdown_js")
+, 2614), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/summernote_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2672), Tuple.Create("\"", 2708)
+, Tuple.Create(Tuple.Create("", 2678), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/summernote_min_js")
+, 2678), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/jquery_bootstrap-duallistbox_min_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2732), Tuple.Create("\"", 2786)
+, Tuple.Create(Tuple.Create("", 2738), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/jquery_bootstrap-duallistbox_min_js")
+, 2738), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/ilaro_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2810), Tuple.Create("\"", 2837)
+, Tuple.Create(Tuple.Create("", 2816), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/ilaro_js")
+, 2816), false)
+);
 
 WriteLiteral("></script>\r\n    <script");
 
-WriteLiteral(" src=\"/ira/Script/bootstrap_file-input_js\"");
+WriteAttribute("src", Tuple.Create(" src=\"", 2861), Tuple.Create("\"", 2903)
+, Tuple.Create(Tuple.Create("", 2867), Tuple.Create<System.Object, System.Int32>(Href("~/ira/Script/bootstrap_file-input_js")
+, 2867), false)
+);
 
 WriteLiteral("></script>\r\n");
 

@@ -87,5 +87,12 @@ namespace Ilaro.Admin.Core
             Raw = value;
             return AsObject;
         }
+
+        public void Clear()
+        {
+            Raw = null;
+            Values = new List<object>();
+            PossibleValues = new Dictionary<string, string>();
+        }
     }
 }

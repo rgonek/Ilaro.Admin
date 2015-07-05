@@ -58,6 +58,11 @@ namespace Ilaro.Admin.Core
             get { return Type == typeof(string); }
         }
 
+        public bool IsFileStoredInDb
+        {
+            get { return DataType == DataType.File && IsString == false; }
+        }
+
         public PropertyTypeInfo(Type type, object[] attributes)
         {
             Type = type;
