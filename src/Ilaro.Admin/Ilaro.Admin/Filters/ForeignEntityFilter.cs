@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 
@@ -24,14 +25,11 @@ namespace Ilaro.Admin.Filters
             Property = property;
         }
 
-        public string GetSqlCondition(string alias)
+        public string GetSqlCondition(string alias, ref List<object> args)
         {
-            var val = Value;
-            if (Property.TypeInfo.IsString)
-            {
-                val = "'" + Value + "'";
-            }
-            return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, val);
+            var sql = string.Format("{0}[{1}] = @{2}", alias, Property.ColumnName, args.Count);
+            args.Add(Value);
+            return sql;
         }
     }
 }

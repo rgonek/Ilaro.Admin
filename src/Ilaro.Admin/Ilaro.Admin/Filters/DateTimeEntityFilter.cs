@@ -37,27 +37,39 @@ namespace Ilaro.Admin.Filters
             Options = new SelectList(options, "Value", "Key", Value);
         }
 
-        public string GetSqlCondition(string alias)
+        public string GetSqlCondition(string alias, ref List<object> args)
         {
-            if (!Value.Contains('-'))
-                return string.Format("{0}[{1}] = '{2}'", alias, Property.ColumnName, Value);
+            if (Value.Contains('-') == false)
+            {
+                var sql = "({0}[{1}] >= @{2} AND {0}[{1}] <= @{3})".Fill(alias, Property.ColumnName, args.Count, args.Count + 1);
+                args.Add(Value + " 00:00");
+                args.Add(Value + " 23:59");
+                return sql;
+            }
 
-            var dates = Value.Split("-".ToCharArray());
+            var dates = Value.Split('-');
 
             if (dates.Length != 2)
                 return null;
 
-            if (!dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
+            if (dates[0].IsNullOrEmpty() == false && dates[1].IsNullOrEmpty() == false)
             {
-                return string.Format("({0}[{1}] >= '{2}' AND {0}[{1}] <= '{3}')", alias, Property.ColumnName, dates[0], dates[1]);
+                var sql = "({0}[{1}] >= @{2} AND {0}[{1}] <= @{3})".Fill(alias, Property.ColumnName, args.Count, args.Count + 1);
+                args.Add(dates[0] + " 00:00");
+                args.Add(dates[1] + " 23:59");
+                return sql;
             }
-            if (dates[0].IsNullOrEmpty() && !dates[1].IsNullOrEmpty())
+            if (dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty() == false)
             {
-                return string.Format("{0}[{1}] <= '{2}'", alias, Property.ColumnName, dates[1]);
+                var sql = "{0}[{1}] <= @{2}".Fill(alias, Property.ColumnName, args.Count);
+                args.Add(dates[1] + " 23:59");
+                return sql;
             }
-            if (!dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty())
+            if (dates[0].IsNullOrEmpty() == false && dates[1].IsNullOrEmpty())
             {
-                return string.Format("{0}[{1}] >= '{2}'", alias, Property.ColumnName, dates[0]);
+                var sql = "{0}[{1}] >= @{2}".Fill(alias, Property.ColumnName, args.Count);
+                args.Add(dates[0] + " 00:00");
+                return sql;
             }
 
             return null;

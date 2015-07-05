@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
 using Resources;
 
 namespace Ilaro.Admin.Filters
@@ -30,9 +31,12 @@ namespace Ilaro.Admin.Filters
             Options = new SelectList(options, "Value", "Key", Value);
         }
 
-        public string GetSqlCondition(string alias)
+        public string GetSqlCondition(string alias, ref List<object> args)
         {
-            return string.Format("{0}[{1}] = {2}", alias, Property.ColumnName, Value);
+            var sql = "{0}[{1}] = @{2}".Fill(alias, Property.ColumnName, args.Count);
+            args.Add(Value);
+
+            return sql;
         }
     }
 }

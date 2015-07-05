@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Core.Data
 
             foreach (var property in entity.CreateProperties(false))
             {
-                property.Value.Raw = 
+                property.Value.Raw =
                     propertiesDict.ContainsKey(property.ColumnName) ?
                     propertiesDict[property.ColumnName] :
                     null;
@@ -52,8 +52,8 @@ namespace Ilaro.Admin.Core.Data
         public object GetRecord(Entity entity, object key)
         {
             var table = new DynamicModel(
-                AdminInitialise.ConnectionStringName, 
-                tableName: entity.TableName, 
+                AdminInitialise.ConnectionStringName,
+                tableName: entity.TableName,
                 primaryKeyField: entity.Key.ColumnName);
 
             var result = table.Single(key);
@@ -81,7 +81,8 @@ namespace Ilaro.Admin.Core.Data
                 orderDirection.ToUpper();
             var orderBy = order + " " + orderDirection;
             var columns = string.Join(",", entity.GetColumns());
-            var where = ConvertFiltersToSql(filters, search);
+            List<object> args;
+            var where = ConvertFiltersToSql(filters, search, out args);
 
             var table = new DynamicModel(
                 AdminInitialise.ConnectionStringName,
@@ -93,7 +94,8 @@ namespace Ilaro.Admin.Core.Data
                 where: where,
                 orderBy: orderBy,
                 currentPage: page,
-                pageSize: take);
+                pageSize: take,
+                args: args.ToArray());
 
             var data = new List<DataRow>();
             foreach (var item in result.Items)
@@ -134,14 +136,19 @@ namespace Ilaro.Admin.Core.Data
                         (!x.TypeInfo.IsCollection && x.IsForeignKey))
                     .Select(x => x.ColumnName)
                     .Distinct());
-            var where = ConvertFiltersToSql(filters, search);
+            List<object> args;
+            var where = ConvertFiltersToSql(filters, search, out args);
 
             var table = new DynamicModel(
                 AdminInitialise.ConnectionStringName,
                 entity.TableName,
                 entity.Key.ColumnName);
 
-            var result = table.All(columns: columns, where: where, orderBy: orderBy);
+            var result = table.All(
+                columns: columns,
+                where: where,
+                orderBy: orderBy,
+                args: args.ToArray());
 
             var data = result
                 .Select(item => new DataRow(item, entity))
@@ -180,15 +187,11 @@ namespace Ilaro.Admin.Core.Data
                 orderDirection.ToUpper();
             var orderBy = order + " " + orderDirection;
             var columns = string.Join(",", changeEntity.GetColumns());
-            var where = ConvertFiltersToSql(filters, search);
-            if (where.IsNullOrEmpty())
-            {
-                where += " WHERE EntityName = '" + entityChangesFor.Name + "'";
-            }
-            else
-            {
-                where += " AND EntityName = '" + entityChangesFor.Name + "'";
-            }
+            List<object> args;
+            var where = ConvertFiltersToSql(filters, search, out args);
+            where += where.IsNullOrEmpty() ? " WHERE " : " AND ";
+            where += "EntityName = @" + args.Count;
+            args.Add(entityChangesFor.Name);
             var table = new DynamicModel(
                 AdminInitialise.ConnectionStringName,
                 changeEntity.TableName,
@@ -199,7 +202,8 @@ namespace Ilaro.Admin.Core.Data
                 where: where,
                 orderBy: orderBy,
                 currentPage: page,
-                pageSize: take);
+                pageSize: take,
+                args: args.ToArray());
 
             var data = new List<DataRow>();
             foreach (var item in result.Items)
@@ -218,8 +222,10 @@ namespace Ilaro.Admin.Core.Data
         private static string ConvertFiltersToSql(
             IList<IEntityFilter> filters,
             EntitySearch search,
+            out List<object> args,
             string alias = "")
         {
+            args = new List<object>();
             if (filters == null)
             {
                 filters = new List<IEntityFilter>();
@@ -241,11 +247,11 @@ namespace Ilaro.Admin.Core.Data
             var conditions = String.Empty;
             foreach (var filter in activeFilters)
             {
-                var condition = filter.GetSqlCondition(alias);
+                var condition = filter.GetSqlCondition(alias, ref args);
 
                 if (!condition.IsNullOrEmpty())
                 {
-                    conditions += " {0} AND".Fill(filter.GetSqlCondition(alias));
+                    conditions += " {0} AND".Fill(filter.GetSqlCondition(alias, ref args));
                 }
             }
 

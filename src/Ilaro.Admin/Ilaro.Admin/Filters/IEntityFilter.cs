@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Filters
@@ -13,6 +14,6 @@ namespace Ilaro.Admin.Filters
 
         void Initialize(Property property, string value = "");
 
-        string GetSqlCondition(string alias);
+        string GetSqlCondition(string alias, ref List<object> args);
     }
 }
