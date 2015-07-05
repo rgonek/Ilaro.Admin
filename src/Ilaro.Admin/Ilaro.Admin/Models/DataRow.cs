@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Models
 {

@@ -1,5 +1,5 @@
-﻿using Ilaro.Admin.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Models
 {
