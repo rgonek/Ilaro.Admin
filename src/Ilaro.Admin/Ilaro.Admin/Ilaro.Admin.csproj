@@ -197,7 +197,6 @@
     <Compile Include="Core\FileUpload\FileUploadValidationResult.cs" />
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />

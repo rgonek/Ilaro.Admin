@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 
 namespace Massive
 {
@@ -25,7 +23,7 @@ namespace Massive
         /// <summary>
         /// Extension for adding single parameter
         /// </summary>
-        public static void AddParam(this DbCommand cmd, object item)
+        public static void AddParam(this DbCommand cmd, object item, DbType? type = null)
         {
             var p = cmd.CreateParameter();
             p.ParameterName = string.Format("@{0}", cmd.Parameters.Count);
@@ -49,23 +47,13 @@ namespace Massive
                 else
                 {
                     p.Value = item;
+                    if (type.HasValue)
+                        p.DbType = type.Value;
                 }
                 if (item.GetType() == typeof(string))
                     p.Size = ((string)item).Length > 4000 ? -1 : 4000;
             }
             cmd.Parameters.Add(p);
-        }
-        /// <summary>
-        /// Turns an IDataReader to a Dynamic list of things
-        /// </summary>
-        public static List<dynamic> ToExpandoList(this IDataReader rdr)
-        {
-            var result = new List<dynamic>();
-            while (rdr.Read())
-            {
-                result.Add(rdr.RecordToExpando());
-            }
-            return result;
         }
         public static dynamic RecordToExpando(this IDataReader rdr)
         {
@@ -80,37 +68,6 @@ namespace Massive
             }
             return e;
         }
-        /// <summary>
-        /// Turns the object into an ExpandoObject
-        /// </summary>
-        public static dynamic ToExpando(this object o)
-        {
-            if (o.GetType() == typeof(ExpandoObject)) return o; //shouldn't have to... but just in case
-            var result = new ExpandoObject();
-            var d = result as IDictionary<string, object>; //work with the Expando as a Dictionary
-            if (o.GetType() == typeof(NameValueCollection) || o.GetType().IsSubclassOf(typeof(NameValueCollection)))
-            {
-                var nv = (NameValueCollection)o;
-                nv.Cast<string>().Select(key => new KeyValuePair<string, object>(key, nv[key])).ToList().ForEach(i => d.Add(i));
-            }
-            else
-            {
-                var props = o.GetType().GetProperties();
-                foreach (var item in props)
-                {
-                    d.Add(item.Name, item.GetValue(o, null));
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Turns the object into a Dictionary
-        /// </summary>
-        public static IDictionary<string, object> ToDictionary(this object thingy)
-        {
-            return (IDictionary<string, object>)thingy.ToExpando();
-        }
     }
 
     /// <summary>
@@ -120,7 +77,7 @@ namespace Massive
     {
         DbProviderFactory _factory;
         string ConnectionString;
-        
+
         public DynamicModel(string connectionStringName, string tableName = "",
             string primaryKeyField = "", string descriptorField = "")
         {
@@ -146,16 +103,6 @@ namespace Massive
             using (var conn = OpenConnection())
             {
                 var rdr = CreateCommand(sql, conn, args).ExecuteReader();
-                while (rdr.Read())
-                {
-                    yield return rdr.RecordToExpando(); ;
-                }
-            }
-        }
-        public virtual IEnumerable<dynamic> Query(string sql, DbConnection connection, params object[] args)
-        {
-            using (var rdr = CreateCommand(sql, connection, args).ExecuteReader())
-            {
                 while (rdr.Read())
                 {
                     yield return rdr.RecordToExpando(); ;
@@ -226,11 +173,6 @@ namespace Massive
             return BuildPagedResult(where: where, orderBy: orderBy, columns: columns, pageSize: pageSize, currentPage: currentPage, args: args);
         }
 
-        public virtual dynamic Paged(string sql, string primaryKey, string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
-        {
-            return BuildPagedResult(sql, primaryKey, where, orderBy, columns, pageSize, currentPage, args);
-        }
-
         private dynamic BuildPagedResult(string sql = "", string primaryKeyField = "", string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
         {
             dynamic result = new ExpandoObject();
@@ -269,14 +211,7 @@ namespace Massive
             result.Items = Query(string.Format(query, columns, TableName), args);
             return result;
         }
-        /// <summary>
-        /// Returns a single row from the database
-        /// </summary>
-        public virtual dynamic Single(string where, params object[] args)
-        {
-            var sql = string.Format("SELECT * FROM {0} WHERE {1}", TableName, where);
-            return Query(sql, args).FirstOrDefault();
-        }
+
         /// <summary>
         /// Returns a single row from the database
         /// </summary>
@@ -284,32 +219,6 @@ namespace Massive
         {
             var sql = string.Format("SELECT {0} FROM {1} WHERE {2} = @0", columns, TableName, PrimaryKeyField);
             return Query(sql, key).FirstOrDefault();
-        }
-        public virtual DbCommand CreateInsertCommand(dynamic expando)
-        {
-            DbCommand result = null;
-            var settings = (IDictionary<string, object>)expando;
-            var sbKeys = new StringBuilder();
-            var sbVals = new StringBuilder();
-            var stub = "INSERT INTO {0} ({1}) \r\n VALUES ({2})";
-            result = CreateCommand(stub, null);
-            int counter = 0;
-            foreach (var item in settings)
-            {
-                sbKeys.AppendFormat("{0},", item.Key);
-                sbVals.AppendFormat("@{0},", counter.ToString());
-                result.AddParam(item.Value);
-                counter++;
-            }
-            if (counter > 0)
-            {
-                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
-                var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
-                var sql = string.Format(stub, TableName, keys, vals);
-                result.CommandText = sql;
-            }
-            else throw new InvalidOperationException("Can't parse this object to the database - there are no properties set");
-            return result;
         }
     }
 }

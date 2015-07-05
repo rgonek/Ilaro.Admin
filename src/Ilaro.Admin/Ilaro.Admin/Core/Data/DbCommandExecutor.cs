@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Dynamic;
+using System.Text;
 using System.Web;
+using Ilaro.Admin.Extensions;
 using Massive;
 
 namespace Ilaro.Admin.Core.Data
@@ -38,8 +41,6 @@ namespace Ilaro.Admin.Core.Data
                         changeCmd.ExecuteNonQuery();
                     }
 
-                    throw new Exception("test");
-
                     tx.Commit();
                 }
                 catch (Exception ex)
@@ -55,20 +56,20 @@ namespace Ilaro.Admin.Core.Data
 
         private DbCommand CreateChangeCommand(ChangeInfo changeInfo, string keyValue)
         {
-            var changes = new DynamicModel(
-                AdminInitialise.ConnectionStringName,
-                AdminInitialise.ChangeEntity.TableName,
-                "EntityChangeId");
+            var cmd = DB.CreateCommand();
 
-            dynamic changeRecord = new ExpandoObject();
-            changeRecord.EntityName = changeInfo.EntityName;
-            changeRecord.EntityKey = keyValue;
-            changeRecord.ChangeType = changeInfo.Type;
-            changeRecord.Description = changeInfo.Description;
-            changeRecord.ChangedOn = DateTime.UtcNow;
-            changeRecord.ChangedBy = HttpContext.Current.User.Identity.Name;
+            var sql =
+@"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
+VALUES (@0,@1,@2,@3,@4,@5);".Fill(AdminInitialise.ChangeEntity.TableName);
 
-            DbCommand cmd = changes.CreateInsertCommand(changeRecord);
+            cmd.AddParam(changeInfo.EntityName);
+            cmd.AddParam(keyValue);
+            cmd.AddParam(changeInfo.Type);
+            cmd.AddParam(changeInfo.Description);
+            cmd.AddParam(DateTime.UtcNow);
+            cmd.AddParam(HttpContext.Current.User.Identity.Name);
+
+            cmd.CommandText = sql;
 
             return cmd;
         }

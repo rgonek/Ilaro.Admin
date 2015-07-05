@@ -136,7 +136,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("Index", "Entities", new { entityName });
             }
 
-            entity.ClearPropertiesValues();
             var model = new EntityEditModel
             {
                 Entity = entity,
