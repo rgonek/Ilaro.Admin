@@ -80,6 +80,7 @@ Maybe some of them I skip, and I probably I will back to them after release v1.
    - [ ] Entire AdminInitialisation is static, I must found better way to store entity infos
    - [ ] Bundling
    - [ ] Remove ImageResizer dependency
+- [ ] Daily (at least) recreate db in demo page
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
