@@ -46,6 +46,7 @@ Maybe some of them I skip, and I probably I will back to them after release v1.
       - [ ] Ability to choose between saved views, for example "pending orders", "shipped orders"
    - [ ] Wizard form
    - [ ] More filters
+      - [ ] Custom date range in DateTimeEntityFilter
    - [ ] Multi columns sorting
    - [ ] Export data
       - [ ] Formats
