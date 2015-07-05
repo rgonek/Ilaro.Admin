@@ -26,6 +26,8 @@ Install-Package Ilaro.Admin
 And register by yourself all needed stuff.
 
 ##TODO
+I don't plan milestones, so I will do things in random order. 
+Maybe some of them I skip, and I probably I will back to them after release v1.
 - [ ] Entities changes
    - [ ] Write sql command text in change description as option
    - [ ] Changes for a specific record
@@ -36,7 +38,36 @@ And register by yourself all needed stuff.
    - [ ] File names
       - [ ] Predefined format for property
       - [ ] User input
+- [ ] Views
+   - [ ] Better layout
+   - [ ] Default sorting and filtering
+   - [ ] Changing visibility of columns
+   - [ ] Saving sortings, gilterings and etc. in cookie (as option)
+      - [ ] Ability to choose between saved views, for example "pending orders", "shipped orders"
+   - [ ] Wizard form
+   - [ ] More filters
+   - [ ] Multi columns sorting
+   - [ ] Export data
+      - [ ] Formats
+         - [ ] csv
+         - [ ] excel
+         - [ ] xml
+         - [ ] json
+      - [ ] Columns
+         - [ ] all
+         - [ ] visible
+         - [ ] selected
+      - [ ] Records
+         - [ ] all
+         - [ ] filtered
+         - [ ] from current page
+   - [ ] Import data
+- [ ] Privileges (v2)
+   - [ ] blocking access to some entities (or actions) depending on roles
+- [ ] Defaults values (for example we can autmatic update CreateTime property, or LastEditTime)
+- [ ] Full text search
 - [ ] Composite keys
+- [ ] On delete record page, display option what to do with related records (nothing, set to null, cascade delete)
 - [ ] Entity validation
 - [ ] Code is almost untested, but should be
 - [ ] Disable editing primary key
@@ -46,6 +77,8 @@ And register by yourself all needed stuff.
    - [ ] Move logic from EntityController to EntityService
    - [ ] Completely remove Massive (there are only read methods left)
    - [ ] IEntityFilters should generate sql with parameters
+   - [ ] Entire AdminInitialisation is static, I must found better way to store entity infos
+   - [ ] Bundling
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
