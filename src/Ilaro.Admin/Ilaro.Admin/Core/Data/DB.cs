@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Core.Data
 
         private static DbProviderFactory GetFactory()
         {
-            var connectionStringName = AdminInitialise.ConnectionString;
+            var connectionStringName = AdminInitialise.ConnectionStringName;
             var providerName = "System.Data.SqlClient";
 
             if (!string.IsNullOrWhiteSpace(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
@@ -37,7 +37,7 @@ namespace Ilaro.Admin.Core.Data
 
         private static string GetConnectionString()
         {
-            var connectionStringName = AdminInitialise.ConnectionString;
+            var connectionStringName = AdminInitialise.ConnectionStringName;
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
             return connectionString;

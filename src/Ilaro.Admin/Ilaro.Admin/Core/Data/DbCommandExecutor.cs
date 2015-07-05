@@ -56,7 +56,7 @@ namespace Ilaro.Admin.Core.Data
         private DbCommand CreateChangeCommand(ChangeInfo changeInfo, string keyValue)
         {
             var changes = new DynamicModel(
-                AdminInitialise.ConnectionString,
+                AdminInitialise.ConnectionStringName,
                 AdminInitialise.ChangeEntity.TableName,
                 "EntityChangeId");
 

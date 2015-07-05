@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -28,7 +29,7 @@ namespace Ilaro.Admin
 
         public static IAuthorizationFilter Authorize { get; set; }
 
-        internal static string ConnectionString { get; private set; }
+        internal static string ConnectionStringName { get; private set; }
 
         public static string RoutesPrefix { get; private set; }
 
@@ -45,10 +46,21 @@ namespace Ilaro.Admin
             return entity;
         }
 
-        public static void Initialise(string connectionString = "", string routesPrefix = "IlaroAdmin")
+        public static void Initialise(string connectionStringName = "", string routesPrefix = "IlaroAdmin")
         {
             RoutesPrefix = routesPrefix;
-            ConnectionString = connectionString;
+            if (string.IsNullOrEmpty(connectionStringName))
+            {
+                if (ConfigurationManager.ConnectionStrings.Count > 1)
+                {
+                    connectionStringName = ConfigurationManager.ConnectionStrings[1].Name;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Need a connection string name - can't determine what it is");
+                }
+            }
+            ConnectionStringName = connectionStringName;
 
             ModelBinders.Binders.Add(typeof(TableInfo),
                 new TableInfoModelBinder(

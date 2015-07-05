@@ -52,7 +52,7 @@ namespace Ilaro.Admin.Core.Data
         public object GetRecord(Entity entity, object key)
         {
             var table = new DynamicModel(
-                AdminInitialise.ConnectionString, 
+                AdminInitialise.ConnectionStringName, 
                 tableName: entity.TableName, 
                 primaryKeyField: entity.Key.ColumnName);
 
@@ -84,7 +84,7 @@ namespace Ilaro.Admin.Core.Data
             var where = ConvertFiltersToSql(filters, search);
 
             var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
+                AdminInitialise.ConnectionStringName,
                 entity.TableName,
                 entity.Key.ColumnName);
 
@@ -137,7 +137,7 @@ namespace Ilaro.Admin.Core.Data
             var where = ConvertFiltersToSql(filters, search);
 
             var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
+                AdminInitialise.ConnectionStringName,
                 entity.TableName,
                 entity.Key.ColumnName);
 
@@ -190,7 +190,7 @@ namespace Ilaro.Admin.Core.Data
                 where += " AND EntityName = '" + entityChangesFor.Name + "'";
             }
             var table = new DynamicModel(
-                AdminInitialise.ConnectionString,
+                AdminInitialise.ConnectionStringName,
                 changeEntity.TableName,
                 changeEntity.Key.Name);
 
