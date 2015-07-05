@@ -23,16 +23,12 @@ Or you can just install:
 ```
 Install-Package Ilaro.Admin
 ```
-And register:
-```
-Notificator in session scope
-IEntityService => EntityService
-```
+And register by yourself all needed stuff.
 
 ##TODO
 - [ ] Entities changes
    - [ ] Write sql command text in change description as option
-   - [ ] Changes for a specific record 
+   - [ ] Changes for a specific record
 - [ ] Upload files
    - [ ] Handle file upload on create and edit
       - [ ] Delete old files on edit
@@ -40,8 +36,16 @@ IEntityService => EntityService
    - [ ] File names
       - [ ] Predefined format for property
       - [ ] User input
+- [ ] Composite keys
+- [ ] Entity validation
+- [ ] Code is almost untested, but should be
+- [ ] Disable editing primary key
+- [ ] ?Maybe we can get some interesting infos from db schema?
 - [ ] Refactor
    - [ ] Move entity.ClearPropertiesValues() to ActionFilterAttribute
+   - [ ] Move logic from EntityController to EntityService
+   - [ ] Completely remove Massive (there are only read methods left)
+   - [ ] IEntityFilters should generate sql with parameters
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
@@ -91,7 +95,7 @@ And after that when you go to ~/IlaroAdmin url (if you don't define a other pref
 
 ##What I use
 Here I will try write all libraries, and part of code I use in project.
-- [**Massive**](https://github.com/robconery/massive) - for db access. I added few lines commented like that: // Illaro.Admin, so its easy to find
+- [**Massive**](https://github.com/robconery/massive) - for db access. I Removed lots methods I left only read methods, thanks that I have much better control on created commands, and in future I want to completely removed massive.
 - [**ImageResizer**](http://imageresizing.net/) - for resizing image. There's no much need to use this library, you can easy get rid off it, but I like it :)
 - [**Unity**](http://msdn.microsoft.com/en-us/library/ff647202.aspx) - for resolving stuff :), for now I don't resolve too much things
 - [**RazorGenerator**](http://razorgenerator.codeplex.com/) and [extension](http://visualstudiogallery.msdn.microsoft.com/1f6ec6ff-e89b-4c47-8e79-d2d68df894ec) - for generating source code from views, thanks that you don't have add views into your project, just simply add dll. Of cource if you want you can add views files which overrides compiled views
