@@ -28,61 +28,8 @@ And register by yourself all needed stuff.
 ##TODO
 I don't plan milestones, so I will do things in random order. 
 Maybe some of them I skip, and I probably I will back to them after release v1.
-- [ ] Entities changes
-   - [ ] Write sql command text in change description as option
-   - [ ] Changes for a specific record
-- [ ] Upload files
-   - [ ] Handle file upload on create and edit
-      - [ ] Delete old files on edit
-   - [ ] Delete files on delete
-   - [ ] File names
-      - [ ] Predefined format for property
-      - [ ] User input
-- [ ] Views
-   - [ ] Better layout
-   - [ ] Default sorting and filtering
-   - [ ] Changing visibility of columns
-   - [ ] Saving sortings, gilterings and etc. in cookie (as option)
-      - [ ] Ability to choose between saved views, for example "pending orders", "shipped orders"
-   - [ ] Wizard form
-   - [ ] More filters
-      - [ ] Custom date range in DateTimeEntityFilter
-   - [ ] Multi columns sorting
-   - [ ] Export data
-      - [ ] Formats
-         - [ ] csv
-         - [ ] excel
-         - [ ] xml
-         - [ ] json
-      - [ ] Columns
-         - [ ] all
-         - [ ] visible
-         - [ ] selected
-      - [ ] Records
-         - [ ] all
-         - [ ] filtered
-         - [ ] from current page
-   - [ ] Import data
-- [ ] Privileges (v2)
-   - [ ] blocking access to some entities (or actions) depending on roles
-- [ ] Defaults values (for example we can autmatic update CreateTime property, or LastEditTime)
-- [ ] Full text search
-- [ ] Composite keys
-- [ ] On delete record page, display option what to do with related records (nothing, set to null, cascade delete)
-- [ ] Entity validation
-- [ ] Code is almost untested, but should be
-- [ ] Disable editing primary key
-- [ ] ?Maybe we can get some interesting infos from db schema?
-- [ ] Refactor
-   - [ ] Move entity.ClearPropertiesValues() to ActionFilterAttribute
-   - [ ] Move logic from EntityController to EntityService
-   - [ ] Completely remove Massive (there are only read methods left)
-   - [x] IEntityFilters should generate sql with parameters
-   - [ ] Get rid of all inline values from sqls
-   - [ ] Entire AdminInitialisation is static, I must found better way to store entity infos
-   - [ ] Bundling
-   - [ ] Remove ImageResizer dependency
-- [ ] Daily (at least) recreate db in demo page
+
+I moved [TODO](https://github.com/rgonek/Ilaro.Admin/wiki/TODO) to wiki pages, because here, it did a mess in commits, and I rather would simple list than a issues pages.
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
