@@ -1,13 +1,21 @@
 ﻿USE [master]
+IF (exists (select * from sysdatabases where name='IlaroTestDb'))
+BEGIN
+	return
+END
 CREATE DATABASE IlaroTestDb;
 GO
 USE [IlaroTestDb]
-GO
+IF (EXISTS (SELECT * 
+                 FROM INFORMATION_SCHEMA.TABLES 
+                 WHERE TABLE_SCHEMA = 'dbo' 
+                 AND  TABLE_NAME = 'Categories'))
+BEGIN
+    return
+END
 /****** Object:  Table [dbo].[Categories]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Categories](
 	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
 	[CategoryName] [nvarchar](15) NOT NULL,
@@ -19,12 +27,9 @@ CREATE TABLE [dbo].[Categories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[CustomerCustomerDemo]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[CustomerCustomerDemo](
 	[CustomerCustomerDemoID] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerID] [nchar](5) NOT NULL,
@@ -35,12 +40,9 @@ CREATE TABLE [dbo].[CustomerCustomerDemo](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[CustomerDemographics]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[CustomerDemographics](
 	[CustomerTypeID] [nchar](10) NOT NULL,
 	[CustomerDesc] [ntext] NULL,
@@ -50,12 +52,9 @@ CREATE TABLE [dbo].[CustomerDemographics](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Customers]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Customers](
 	[CustomerID] [nchar](5) NOT NULL,
 	[CompanyName] [nvarchar](40) NOT NULL,
@@ -74,12 +73,9 @@ CREATE TABLE [dbo].[Customers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Employees]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Employees](
 	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
 	[LastName] [nvarchar](20) NOT NULL,
@@ -105,12 +101,9 @@ CREATE TABLE [dbo].[Employees](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[EmployeeTerritories]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[EmployeeTerritories](
 	[EmployeeTerritoryID] [int] IDENTITY(1,1) NOT NULL,
 	[EmployeeID] [int] NOT NULL,
@@ -121,12 +114,9 @@ CREATE TABLE [dbo].[EmployeeTerritories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[EntityChanges]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[EntityChanges](
 	[EntityChangeId] [int] IDENTITY(1,1) NOT NULL,
 	[EntityName] [nvarchar](100) NOT NULL,
@@ -141,12 +131,9 @@ CREATE TABLE [dbo].[EntityChanges](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Order Details]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Order Details](
 	[OrderDetailsID] [int] IDENTITY(1,1) NOT NULL,
 	[OrderID] [int] NOT NULL,
@@ -160,12 +147,9 @@ CREATE TABLE [dbo].[Order Details](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Orders]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Orders](
 	[OrderID] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerID] [nchar](5) NULL,
@@ -187,12 +171,9 @@ CREATE TABLE [dbo].[Orders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Products]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Products](
 	[ProductID] [int] IDENTITY(1,1) NOT NULL,
 	[ProductName] [nvarchar](40) NOT NULL,
@@ -210,12 +191,9 @@ CREATE TABLE [dbo].[Products](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Region]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Region](
 	[RegionID] [int] NOT NULL,
 	[RegionDescription] [nchar](50) NOT NULL,
@@ -225,12 +203,9 @@ CREATE TABLE [dbo].[Region](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Shippers]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Shippers](
 	[ShipperID] [int] IDENTITY(1,1) NOT NULL,
 	[CompanyName] [nvarchar](40) NOT NULL,
@@ -241,12 +216,9 @@ CREATE TABLE [dbo].[Shippers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
 /****** Object:  Table [dbo].[Suppliers]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
 SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Suppliers](
 	[SupplierID] [int] IDENTITY(1,1) NOT NULL,
 	[CompanyName] [nvarchar](40) NOT NULL,
@@ -266,12 +238,12 @@ CREATE TABLE [dbo].[Suppliers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
+
 /****** Object:  Table [dbo].[Territories]    Script Date: 2015-07-06 20:27:05 ******/
 SET ANSI_NULLS ON
-GO
+
 SET QUOTED_IDENTIFIER ON
-GO
+
 CREATE TABLE [dbo].[Territories](
 	[TerritoryID] [nvarchar](20) NOT NULL,
 	[TerritoryDescription] [nchar](50) NOT NULL,
@@ -282,101 +254,60 @@ CREATE TABLE [dbo].[Territories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-GO
+
 ALTER TABLE [dbo].[CustomerCustomerDemo]  WITH CHECK ADD  CONSTRAINT [FK_CustomerCustomerDemo] FOREIGN KEY([CustomerTypeID])
 REFERENCES [dbo].[CustomerDemographics] ([CustomerTypeID])
-GO
 ALTER TABLE [dbo].[CustomerCustomerDemo] CHECK CONSTRAINT [FK_CustomerCustomerDemo]
-GO
 ALTER TABLE [dbo].[CustomerCustomerDemo]  WITH CHECK ADD  CONSTRAINT [FK_CustomerCustomerDemo_Customers] FOREIGN KEY([CustomerID])
 REFERENCES [dbo].[Customers] ([CustomerID])
-GO
 ALTER TABLE [dbo].[CustomerCustomerDemo] CHECK CONSTRAINT [FK_CustomerCustomerDemo_Customers]
-GO
 ALTER TABLE [dbo].[Employees]  WITH NOCHECK ADD  CONSTRAINT [FK_Employees_Employees] FOREIGN KEY([ReportsTo])
 REFERENCES [dbo].[Employees] ([EmployeeID])
-GO
 ALTER TABLE [dbo].[Employees] CHECK CONSTRAINT [FK_Employees_Employees]
-GO
 ALTER TABLE [dbo].[EmployeeTerritories]  WITH CHECK ADD  CONSTRAINT [FK_EmployeeTerritories_Employees] FOREIGN KEY([EmployeeID])
 REFERENCES [dbo].[Employees] ([EmployeeID])
-GO
 ALTER TABLE [dbo].[EmployeeTerritories] CHECK CONSTRAINT [FK_EmployeeTerritories_Employees]
-GO
 ALTER TABLE [dbo].[EmployeeTerritories]  WITH CHECK ADD  CONSTRAINT [FK_EmployeeTerritories_Territories] FOREIGN KEY([TerritoryID])
 REFERENCES [dbo].[Territories] ([TerritoryID])
-GO
 ALTER TABLE [dbo].[EmployeeTerritories] CHECK CONSTRAINT [FK_EmployeeTerritories_Territories]
-GO
 ALTER TABLE [dbo].[Order Details]  WITH NOCHECK ADD  CONSTRAINT [FK_Order_Details_Orders] FOREIGN KEY([OrderID])
 REFERENCES [dbo].[Orders] ([OrderID])
-GO
 ALTER TABLE [dbo].[Order Details] CHECK CONSTRAINT [FK_Order_Details_Orders]
-GO
 ALTER TABLE [dbo].[Order Details]  WITH NOCHECK ADD  CONSTRAINT [FK_Order_Details_Products] FOREIGN KEY([ProductID])
 REFERENCES [dbo].[Products] ([ProductID])
-GO
 ALTER TABLE [dbo].[Order Details] CHECK CONSTRAINT [FK_Order_Details_Products]
-GO
 ALTER TABLE [dbo].[Orders]  WITH NOCHECK ADD  CONSTRAINT [FK_Orders_Customers] FOREIGN KEY([CustomerID])
 REFERENCES [dbo].[Customers] ([CustomerID])
-GO
 ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Customers]
-GO
 ALTER TABLE [dbo].[Orders]  WITH NOCHECK ADD  CONSTRAINT [FK_Orders_Employees] FOREIGN KEY([EmployeeID])
 REFERENCES [dbo].[Employees] ([EmployeeID])
-GO
 ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Employees]
-GO
 ALTER TABLE [dbo].[Orders]  WITH NOCHECK ADD  CONSTRAINT [FK_Orders_Shippers] FOREIGN KEY([ShipVia])
 REFERENCES [dbo].[Shippers] ([ShipperID])
-GO
 ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Shippers]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [FK_Products_Categories] FOREIGN KEY([CategoryID])
 REFERENCES [dbo].[Categories] ([CategoryID])
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_Products_Categories]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [FK_Products_Suppliers] FOREIGN KEY([SupplierID])
 REFERENCES [dbo].[Suppliers] ([SupplierID])
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [FK_Products_Suppliers]
-GO
 ALTER TABLE [dbo].[Territories]  WITH CHECK ADD  CONSTRAINT [FK_Territories_Region] FOREIGN KEY([RegionID])
 REFERENCES [dbo].[Region] ([RegionID])
-GO
 ALTER TABLE [dbo].[Territories] CHECK CONSTRAINT [FK_Territories_Region]
-GO
 ALTER TABLE [dbo].[Employees]  WITH NOCHECK ADD  CONSTRAINT [CK_Birthdate] CHECK  (([BirthDate] < getdate()))
-GO
 ALTER TABLE [dbo].[Employees] CHECK CONSTRAINT [CK_Birthdate]
-GO
 ALTER TABLE [dbo].[Order Details]  WITH NOCHECK ADD  CONSTRAINT [CK_Discount] CHECK  (([Discount]>=(0) AND [Discount]<=(1)))
-GO
 ALTER TABLE [dbo].[Order Details] CHECK CONSTRAINT [CK_Discount]
-GO
 ALTER TABLE [dbo].[Order Details]  WITH NOCHECK ADD  CONSTRAINT [CK_Quantity] CHECK  (([Quantity]>(0)))
-GO
 ALTER TABLE [dbo].[Order Details] CHECK CONSTRAINT [CK_Quantity]
-GO
 ALTER TABLE [dbo].[Order Details]  WITH NOCHECK ADD  CONSTRAINT [CK_UnitPrice] CHECK  (([UnitPrice]>=(0)))
-GO
 ALTER TABLE [dbo].[Order Details] CHECK CONSTRAINT [CK_UnitPrice]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [CK_Products_UnitPrice] CHECK  (([UnitPrice] >= 0))
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [CK_Products_UnitPrice]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [CK_ReorderLevel] CHECK  (([ReorderLevel] >= 0))
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [CK_ReorderLevel]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [CK_UnitsInStock] CHECK  (([UnitsInStock] >= 0))
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [CK_UnitsInStock]
-GO
 ALTER TABLE [dbo].[Products]  WITH NOCHECK ADD  CONSTRAINT [CK_UnitsOnOrder] CHECK  (([UnitsOnOrder] >= 0))
-GO
 ALTER TABLE [dbo].[Products] CHECK CONSTRAINT [CK_UnitsOnOrder]
 GO
