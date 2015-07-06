@@ -28,7 +28,7 @@ namespace Ilaro.Admin
 
         public static IAuthorizationFilter Authorize { get; set; }
 
-        internal static string ConnectionStringName { get; private set; }
+        public static string ConnectionStringName { get; set; }
 
         public static string RoutesPrefix { get; private set; }
 

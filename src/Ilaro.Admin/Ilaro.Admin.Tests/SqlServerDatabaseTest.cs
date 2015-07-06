@@ -11,11 +11,16 @@ namespace Ilaro.Admin.Tests
     {
         protected dynamic DB { get; private set; }
 
+        protected string ConnectionStringName
+        {
+            get { return "IlaroTestDb"; }
+        }
+
         public SqlServerDatabaseTest()
         {
             RecreateDatabase();
 
-            DB = Database.OpenNamedConnection("IlaroTestDb");
+            DB = Database.OpenNamedConnection(ConnectionStringName);
         }
 
         private void RecreateDatabase()
