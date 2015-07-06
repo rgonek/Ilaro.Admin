@@ -3,14 +3,19 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using Ilaro.Admin.Tests.Utils;
+using Simple.Data;
 
 namespace Ilaro.Admin.Tests
 {
     public class SqlServerDatabaseTest
     {
+        protected dynamic DB { get; private set; }
+
         public SqlServerDatabaseTest()
         {
             RecreateDatabase();
+
+            DB = Database.OpenNamedConnection("IlaroTestDb");
         }
 
         private void RecreateDatabase()
@@ -27,7 +32,7 @@ namespace Ilaro.Admin.Tests
             }
         }
 
-        private void CreateDatabase(DbConnection connection)
+        protected virtual void CreateDatabase(DbConnection connection)
         {
             DatabaseCommandExecutor.ExecuteScript(
                   TestUtils.GetDatabaseScript(@"CreateDatabase.sql"),
