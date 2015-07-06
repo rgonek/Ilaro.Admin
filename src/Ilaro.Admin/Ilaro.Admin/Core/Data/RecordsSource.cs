@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Ilaro.Admin.Models;
@@ -244,14 +245,14 @@ namespace Ilaro.Admin.Core.Data
                 alias += ".";
             }
 
-            var conditions = String.Empty;
+            var sbConditions = new StringBuilder();
             foreach (var filter in activeFilters)
             {
                 var condition = filter.GetSqlCondition(alias, ref args);
 
                 if (!condition.IsNullOrEmpty())
                 {
-                    conditions += " {0} AND".Fill(filter.GetSqlCondition(alias, ref args));
+                    sbConditions.AppendFormat(" {0} AND", condition);
                 }
             }
 
@@ -264,8 +265,9 @@ namespace Ilaro.Admin.Core.Data
                     decimal temp;
                     if (property.TypeInfo.IsString)
                     {
-                        searchCondition += " {0}[{1}] LIKE '%{2}%' OR"
-                            .Fill(alias, property.Name, search.Query);
+                        searchCondition += " {0}[{1}] LIKE @{2} OR"
+                            .Fill(alias, property.Name, args.Count);
+                        args.Add("%" + search.Query + "%");
                     }
                     else if (decimal.TryParse(query, out temp))
                     {
@@ -279,31 +281,27 @@ namespace Ilaro.Admin.Core.Data
                             sign = "<=";
                         }
 
-                        searchCondition += " {0}[{1}] {3} {2} OR"
-                            .Fill(alias, property.Name, query.Replace(",", "."), sign);
+                        searchCondition += " {0}[{1}] {2} @{3} OR"
+                            .Fill(alias, property.Name, sign, args.Count);
+                        args.Add(temp);
                     }
                 }
 
                 if (!searchCondition.IsNullOrEmpty())
                 {
-                    conditions +=
-                        " (" +
-                        searchCondition
-                            .TrimStart(' ')
-                            .TrimEnd("OR".ToCharArray()) +
-                        ")";
+                    searchCondition = searchCondition
+                        .TrimStart(' ')
+                        .TrimEnd("OR".ToCharArray());
+                    sbConditions.AppendFormat(" ({0})", searchCondition);
                 }
             }
 
+            var conditions = sbConditions.ToString();
             if (conditions.IsNullOrEmpty())
             {
                 return null;
             }
 
-            if (conditions.IsNullOrEmpty())
-            {
-                return String.Empty;
-            }
             return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
         }
     }
