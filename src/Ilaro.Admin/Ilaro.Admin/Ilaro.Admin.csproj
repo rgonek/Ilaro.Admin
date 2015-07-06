@@ -166,6 +166,7 @@
     <Compile Include="Core\Data\RecordsUpdater.cs" />
     <Compile Include="Core\IConfiguration.cs" />
     <Compile Include="Core\IConfigurationProvider.cs" />
+    <Compile Include="Core\SystemClock.cs" />
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Core\FileUpload\FileUploadValidationResult.cs" />
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
+    <Compile Include="Core\IKnowTheTime.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />

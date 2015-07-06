@@ -202,7 +202,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 var value = Request[property.Name];
 
-                var filter = new DateTimeEntityFilter();
+                var filter = new DateTimeEntityFilter(SystemClock.Instance);
                 filter.Initialize(property, value);
                 filters.Add(filter);
             }

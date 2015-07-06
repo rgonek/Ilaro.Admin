@@ -10,11 +10,19 @@ namespace Ilaro.Admin.Filters
 {
     public class DateTimeEntityFilter : IEntityFilter
     {
+        private readonly IKnowTheTime _clock;
+
         public Property Property { get; set; }
-
         public SelectList Options { get; set; }
-
         public string Value { get; set; }
+
+        public DateTimeEntityFilter(IKnowTheTime clock)
+        {
+            if (clock == null)
+                throw new ArgumentNullException("clock");
+
+            _clock = clock;
+        }
 
         public void Initialize(Property property, string value = "")
         {
@@ -25,13 +33,13 @@ namespace Ilaro.Admin.Filters
             var options = new Dictionary<string, string>
             {
                 { IlaroAdminResources.All, String.Empty },
-                { IlaroAdminResources.Today, DateTime.Today.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.Yesterday, DateTime.Today.AddDays(-1).ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastWeek, DateTime.Today.AddDays(-7).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastMonth, DateTime.Today.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastQuarter, DateTime.Today.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastHalfAYear, DateTime.Today.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastYear, DateTime.Today.AddYears(-1).ToString("yyyy.MM.dd") + "-" + DateTime.Today.ToString("yyyy.MM.dd") }
+                { IlaroAdminResources.Today, _clock.Now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.Yesterday, _clock.Now.AddDays(-1).ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastWeek, _clock.Now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastMonth, _clock.Now.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastQuarter, _clock.Now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastHalfAYear, _clock.Now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastYear, _clock.Now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") }
             };
 
             Options = new SelectList(options, "Value", "Key", Value);
