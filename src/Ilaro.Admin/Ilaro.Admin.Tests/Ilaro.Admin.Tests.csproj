@@ -40,6 +40,7 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.25.2\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Simple.Data">
       <HintPath>..\packages\Simple.Data.Core.0.19.0.0\lib\net40\Simple.Data.dll</HintPath>
     </Reference>
@@ -77,10 +78,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\Data\RecordsSource_Filters.cs" />
+    <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
     <Compile Include="DatabaseCommandExecutor.cs" />
     <Compile Include="FakeClock.cs" />
+    <Compile Include="Filters\ForeignEntityFilter_.cs" />
+    <Compile Include="Filters\EnumEntityFilter_.cs" />
     <Compile Include="Filters\DateTimeEntityFilter_.cs" />
     <Compile Include="Filters\BoolEntityFilter_.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

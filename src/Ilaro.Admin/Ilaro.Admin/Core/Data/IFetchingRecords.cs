@@ -10,25 +10,15 @@ namespace Ilaro.Admin.Core.Data
 
         object GetRecord(Entity entity, object key);
 
-        /// <summary>
-        /// Get list of records for certain page
-        /// </summary>
         PagedRecords GetRecords(
-            Entity entity,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection);
-
-        IList<DataRow> GetRecords(
             Entity entity,
             IList<IEntityFilter> filters = null,
             string searchQuery = null,
             string order = null,
             string orderDirection = null,
-            bool determineDisplayValue = false);
+            bool determineDisplayValue = false,
+            int? page = null,
+            int? take = null);
 
         /// <summary>
         /// Get list of changes for entity

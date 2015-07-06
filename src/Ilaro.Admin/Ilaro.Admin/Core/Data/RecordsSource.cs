@@ -64,61 +64,13 @@ namespace Ilaro.Admin.Core.Data
 
         public PagedRecords GetRecords(
             Entity entity,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection)
-        {
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = entity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = string.Join(",", entity.GetColumns());
-            List<object> args;
-            var where = ConvertFiltersToSql(filters, search, out args);
-
-            var table = new DynamicModel(
-                AdminInitialise.ConnectionStringName,
-                entity.TableName,
-                entity.Key.ColumnName);
-
-            var result = table.Paged(
-                columns: columns,
-                where: where,
-                orderBy: orderBy,
-                currentPage: page,
-                pageSize: take,
-                args: args.ToArray());
-
-            var data = new List<DataRow>();
-            foreach (var item in result.Items)
-            {
-                data.Add(new DataRow(item, entity));
-            }
-
-            return new PagedRecords
-            {
-                TotalItems = result.TotalRecords,
-                TotalPages = result.TotalPages,
-                Records = data
-            };
-        }
-
-        public IList<DataRow> GetRecords(
-            Entity entity,
             IList<IEntityFilter> filters = null,
             string searchQuery = null,
             string order = null,
             string orderDirection = null,
-            bool determineDisplayValue = false)
+            bool determineDisplayValue = false,
+            int? page = null,
+            int? take = null)
         {
             var search = new EntitySearch
             {
@@ -145,25 +97,54 @@ namespace Ilaro.Admin.Core.Data
                 entity.TableName,
                 entity.Key.ColumnName);
 
-            var result = table.All(
-                columns: columns,
-                where: where,
-                orderBy: orderBy,
-                args: args.ToArray());
-
-            var data = result
-                .Select(item => new DataRow(item, entity))
-                .ToList();
-
-            if (determineDisplayValue)
+            if (page.HasValue && take.HasValue)
             {
-                foreach (var row in data)
-                {
-                    row.DisplayName = entity.ToString(row);
-                }
-            }
+                var result = table.Paged(
+                    columns: columns,
+                    where: where,
+                    orderBy: orderBy,
+                    currentPage: page.Value,
+                    pageSize: take.Value,
+                    args: args.ToArray());
 
-            return data;
+                var data = new List<DataRow>();
+                foreach (var item in result.Items)
+                {
+                    data.Add(new DataRow(item, entity));
+                }
+
+                return new PagedRecords
+                {
+                    TotalItems = result.TotalRecords,
+                    TotalPages = result.TotalPages,
+                    Records = data
+                };
+            }
+            else
+            {
+                var result = table.All(
+                    columns: columns,
+                    where: where,
+                    orderBy: orderBy,
+                    args: args.ToArray());
+
+                var data = result
+                    .Select(item => new DataRow(item, entity))
+                    .ToList();
+
+                if (determineDisplayValue)
+                {
+                    foreach (var row in data)
+                    {
+                        row.DisplayName = entity.ToString(row);
+                    }
+                }
+
+                return new PagedRecords
+                {
+                    Records = data
+                };
+            }
         }
 
         public PagedRecords GetChangesRecords(

@@ -48,12 +48,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             var filters = PrepareFilters(entity);
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
-                tableInfo.Page,
-                tableInfo.PerPage,
                 filters,
                 tableInfo.SearchQuery,
                 tableInfo.Order,
-                tableInfo.OrderDirection);
+                tableInfo.OrderDirection,
+                false,
+                tableInfo.Page,
+                tableInfo.PerPage);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(

@@ -113,7 +113,7 @@ WHERE {3} In ({4});";
                         new ForeignEntityFilter(
                             entity.Key, 
                             entity.Key.Value.Raw.ToStringSafe())
-                    });
+                    }).Records;
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.KeyValue)
                     .Except(property.Value.Values.OfType<string>())

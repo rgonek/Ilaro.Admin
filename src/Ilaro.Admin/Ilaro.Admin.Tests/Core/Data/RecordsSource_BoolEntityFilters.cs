@@ -33,18 +33,18 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void empty_bool_filter_should_return_two_records()
         {
             var result = _source.GetRecords(_entity);
-            Assert.Equal(2, result.Count);
+            Assert.Equal(2, result.Records.Count);
 
             var filters = new List<IEntityFilter>();
             result = _source.GetRecords(_entity, filters);
-            Assert.Equal(2, result.Count);
+            Assert.Equal(2, result.Records.Count);
 
             filters = new List<IEntityFilter>
             {
                 new BoolEntityFilter()
             };
             result = _source.GetRecords(_entity, filters);
-            Assert.Equal(2, result.Count);
+            Assert.Equal(2, result.Records.Count);
 
             var filter = new BoolEntityFilter();
             filter.Initialize(_property);
@@ -53,7 +53,7 @@ namespace Ilaro.Admin.Tests.Core.Data
                 filter
             };
             result = _source.GetRecords(_entity, filters);
-            Assert.Equal(2, result.Count);
+            Assert.Equal(2, result.Records.Count);
         }
 
         [Fact]
@@ -66,8 +66,8 @@ namespace Ilaro.Admin.Tests.Core.Data
                 filter
             };
             var result = _source.GetRecords(_entity, filters);
-            Assert.Equal(1, result.Count);
-            Assert.Equal("Product", result[0].Values[1].AsString);
+            Assert.Equal(1, result.Records.Count);
+            Assert.Equal("Product", result.Records[0].Values[1].AsString);
         }
 
         [Fact]
@@ -80,8 +80,8 @@ namespace Ilaro.Admin.Tests.Core.Data
                 filter
             };
             var result = _source.GetRecords(_entity, filters);
-            Assert.Equal(1, result.Count);
-            Assert.Equal("Product2", result[0].Values[1].AsString);
+            Assert.Equal(1, result.Records.Count);
+            Assert.Equal("Product2", result.Records[0].Values[1].AsString);
         }
     }
 }
