@@ -9,15 +9,16 @@ namespace Ilaro.Admin.Tests.Filters
 {
     public class BoolEntityFilter_
     {
-        private readonly BoolEntityFilter _filter;
+        private BoolEntityFilter _filter;
+        private Property _property;
 
         public BoolEntityFilter_()
         {
             var entity = new Entity(typeof(TestEntity));
-            var property = entity["IsSpecial"];
+            _property = entity["IsSpecial"];
 
             _filter = new BoolEntityFilter();
-            _filter.Initialize(property, "1");
+            _filter.Initialize(_property, "1");
         }
 
         [Fact]
@@ -28,6 +29,18 @@ namespace Ilaro.Admin.Tests.Filters
             Assert.Equal(String.Empty, options[0].Value);
             Assert.Equal("1", options[1].Value);
             Assert.Equal("0", options[2].Value);
+        }
+
+        [Fact]
+        public void selected_value_should_match()
+        {
+            _filter.Initialize(_property, "1");
+            var options = _filter.Options.ToList();
+            Assert.True(options[1].Selected);
+
+            _filter.Initialize(_property, "0");
+            options = _filter.Options.ToList();
+            Assert.True(options[2].Selected);
         }
 
         [Fact]
