@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         }
 
         [Fact]
-        public void empty_enum_filter_should_return_two_records()
+        public void empty_enum_filter_should_return_three_records()
         {
             var result = _source.GetRecords(_entity);
             Assert.Equal(3, result.Records.Count);
