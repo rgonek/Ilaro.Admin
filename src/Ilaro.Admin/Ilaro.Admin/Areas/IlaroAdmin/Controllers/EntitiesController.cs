@@ -101,14 +101,17 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             }
             var changeEntity = AdminInitialise.ChangeEntity;
             var filters = PrepareFilters(changeEntity);
-            var pagedRecords = _entitiesSource.GetChangesRecords(
-                entityChangesFor,
-                tableInfo.Page,
-                tableInfo.PerPage,
-                filters,
+            var filters2 = filters.ToList();
+            filters2.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));
+            var pagedRecords = _entitiesSource.GetRecords(
+                changeEntity,
+                filters2,
                 tableInfo.SearchQuery,
                 tableInfo.Order,
-                tableInfo.OrderDirection);
+                tableInfo.OrderDirection,
+                false,
+                tableInfo.Page,
+                tableInfo.PerPage);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(

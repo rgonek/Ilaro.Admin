@@ -147,60 +147,6 @@ namespace Ilaro.Admin.Core.Data
             }
         }
 
-        public PagedRecords GetChangesRecords(
-            Entity entityChangesFor,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection)
-        {
-            var changeEntity = AdminInitialise.ChangeEntity;
-
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = changeEntity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? changeEntity.Key.ColumnName : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = string.Join(",", changeEntity.GetColumns());
-            List<object> args;
-            var where = ConvertFiltersToSql(filters, search, out args);
-            where += where.IsNullOrEmpty() ? " WHERE " : " AND ";
-            where += "EntityName = @" + args.Count;
-            args.Add(entityChangesFor.Name);
-            var table = new DynamicModel(
-                AdminInitialise.ConnectionStringName,
-                changeEntity.TableName,
-                changeEntity.Key.Name);
-
-            var result = table.Paged(
-                columns: columns,
-                where: where,
-                orderBy: orderBy,
-                currentPage: page,
-                pageSize: take,
-                args: args.ToArray());
-
-            var data = new List<DataRow>();
-            foreach (var item in result.Items)
-            {
-                data.Add(new DataRow(item, changeEntity));
-            }
-
-            return new PagedRecords
-            {
-                TotalItems = result.TotalRecords,
-                TotalPages = result.TotalPages,
-                Records = data
-            };
-        }
-
         private static string ConvertFiltersToSql(
             IList<IEntityFilter> filters,
             EntitySearch search,

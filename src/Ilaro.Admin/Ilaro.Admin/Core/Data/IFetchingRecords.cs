@@ -19,17 +19,5 @@ namespace Ilaro.Admin.Core.Data
             bool determineDisplayValue = false,
             int? page = null,
             int? take = null);
-
-        /// <summary>
-        /// Get list of changes for entity
-        /// </summary>
-        PagedRecords GetChangesRecords(
-            Entity entityChangesFor,
-            int page,
-            int take,
-            IList<IEntityFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection);
     }
 }
