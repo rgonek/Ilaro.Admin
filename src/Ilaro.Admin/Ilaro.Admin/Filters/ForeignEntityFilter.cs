@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Filters
 {
@@ -27,7 +28,7 @@ namespace Ilaro.Admin.Filters
 
         public string GetSqlCondition(string alias, ref List<object> args)
         {
-            var sql = string.Format("{0}[{1}] = @{2}", alias, Property.ColumnName, args.Count);
+            var sql = "{0}[{1}] = @{2}".Fill(alias, Property.ColumnName, args.Count);
             args.Add(Value);
             return sql;
         }

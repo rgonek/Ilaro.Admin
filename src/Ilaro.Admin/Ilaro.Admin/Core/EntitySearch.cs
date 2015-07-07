@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 
-namespace Ilaro.Admin.Filters
+namespace Ilaro.Admin.Core
 {
     public class EntitySearch
     {
