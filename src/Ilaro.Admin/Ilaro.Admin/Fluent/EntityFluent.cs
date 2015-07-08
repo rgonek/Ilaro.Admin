@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Fluent
@@ -57,7 +58,15 @@ namespace Ilaro.Admin.Fluent
             var members = expressions
                 .Select(x => x.Body)
                 .OfType<MemberExpression>();
-            var properties = members.Select(x => x.Member.Name);
+
+            members = members.Union(
+                expressions
+                    .Select(x => x.Body)
+                    .OfType<UnaryExpression>()
+                    .Select(x => x.Operand)
+                    .OfType<MemberExpression>());
+
+            var properties = members.Select(x => x.Member.Name).ToList();
             _entity.SetSearchProperties(properties);
 
             return this;
