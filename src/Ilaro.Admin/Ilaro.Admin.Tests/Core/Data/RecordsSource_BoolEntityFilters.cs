@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Products.Insert(ProductName: "Product2", Discontinued: false);
 
             _source = new RecordsSource(new Notificator());
-            _entity = new Entity(typeof(Product));
+            AdminInitialise.AddEntity<Product>();
             AdminInitialise.SetForeignKeysReferences();
             AdminInitialise.ConnectionStringName = ConnectionStringName;
             _entity = AdminInitialise.EntitiesTypes
