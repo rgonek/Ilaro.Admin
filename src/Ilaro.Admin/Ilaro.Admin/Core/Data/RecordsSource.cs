@@ -196,7 +196,8 @@ namespace Ilaro.Admin.Core.Data
                             .Fill(alias, property.Name, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
-                    else if (decimal.TryParse(query, out temp))
+                        // TODO: Temporary solution
+                    else if (decimal.TryParse(query.Replace(".", ","), out temp))
                     {
                         var sign = "=";
                         if (search.Query.StartsWith(">"))
