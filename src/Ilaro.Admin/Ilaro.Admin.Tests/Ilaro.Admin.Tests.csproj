@@ -78,10 +78,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\Data\RecordsSource_DateTimeEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsSource_EnumEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
     <Compile Include="DatabaseCommandExecutor.cs" />
     <Compile Include="FakeClock.cs" />
+    <Compile Include="Filters\ChangeEntityFilter_.cs" />
     <Compile Include="Filters\ForeignEntityFilter_.cs" />
     <Compile Include="Filters\EnumEntityFilter_.cs" />
     <Compile Include="Filters\DateTimeEntityFilter_.cs" />
