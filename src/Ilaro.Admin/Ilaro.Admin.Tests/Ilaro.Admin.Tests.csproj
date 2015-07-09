@@ -78,6 +78,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\Data\DbCommandExecutor_.cs" />
+    <Compile Include="Core\Data\RecordsCreator_.cs" />
+    <Compile Include="Core\Data\RecordsSource_DetermineDisplayValue.cs" />
     <Compile Include="Core\Data\RecordsSource_GetEntityWithData.cs" />
     <Compile Include="Core\Data\RecordsSource_GetRecord.cs" />
     <Compile Include="Core\Data\RecordsSource_Searching_Numeric.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="Core\Data\RecordsSource_DateTimeEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsSource_EnumEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsUpdater_.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
     <Compile Include="DatabaseCommandExecutor.cs" />
     <Compile Include="FakeClock.cs" />
