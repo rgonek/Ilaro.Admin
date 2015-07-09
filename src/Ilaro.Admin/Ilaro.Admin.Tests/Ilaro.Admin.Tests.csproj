@@ -78,6 +78,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\Data\RecordsSource_GetEntityWithData.cs" />
+    <Compile Include="Core\Data\RecordsSource_GetRecord.cs" />
     <Compile Include="Core\Data\RecordsSource_Searching_Numeric.cs" />
     <Compile Include="Core\Data\RecordsSource_Searching_String.cs" />
     <Compile Include="Core\Data\RecordsSource_Paging.cs" />
