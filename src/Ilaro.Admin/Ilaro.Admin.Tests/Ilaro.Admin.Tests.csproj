@@ -78,8 +78,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Core\Data\RecordsSource_Numeric_Searching.cs" />
-    <Compile Include="Core\Data\RecordsSource_String_Searching.cs" />
+    <Compile Include="Core\Data\RecordsSource_Searching_Numeric.cs" />
+    <Compile Include="Core\Data\RecordsSource_Searching_String.cs" />
     <Compile Include="Core\Data\RecordsSource_Paging.cs" />
     <Compile Include="Core\Data\RecordsSource_Ordering.cs" />
     <Compile Include="Core\Data\RecordsSource_ChangesEntityFilters.cs" />
