@@ -8,14 +8,14 @@ namespace Ilaro.Admin.Core.Data
 {
     public class DbCommandExecutor : IExecutingDbCommand
     {
-        private readonly Notificator _notificator;
+        private readonly IProvidingUser _user;
 
-        public DbCommandExecutor(Notificator notificator)
+        public DbCommandExecutor(IProvidingUser user)
         {
-            if (notificator == null)
-                throw new ArgumentNullException("notificator");
+            if (user == null)
+                throw new ArgumentNullException("user");
 
-            _notificator = notificator;
+            _user = user;
         }
 
         public object ExecuteWithChanges(DbCommand cmd, ChangeInfo changeInfo)
@@ -42,9 +42,8 @@ namespace Ilaro.Admin.Core.Data
                 }
                 catch (Exception ex)
                 {
-                    result = null;
-                    _notificator.Error(ex.Message);
                     tx.Rollback();
+                    throw ex;
                 }
             }
 
@@ -64,7 +63,7 @@ VALUES (@0,@1,@2,@3,@4,@5);".Fill(AdminInitialise.ChangeEntity.TableName);
             cmd.AddParam(changeInfo.Type);
             cmd.AddParam(changeInfo.Description);
             cmd.AddParam(DateTime.UtcNow);
-            cmd.AddParam(HttpContext.Current.User.Identity.Name);
+            cmd.AddParam(_user.Current());
 
             cmd.CommandText = sql;
 
