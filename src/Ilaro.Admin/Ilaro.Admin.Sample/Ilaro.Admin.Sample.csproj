@@ -230,8 +230,6 @@
     <Compile Include="Models\Northwind\Shipper.cs" />
     <Compile Include="Models\Northwind\Supplier.cs" />
     <Compile Include="Models\Northwind\Territory.cs" />
-    <Compile Include="Models\TestAdmin\Product.cs" />
-    <Compile Include="Models\TestAdmin\ProductCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
