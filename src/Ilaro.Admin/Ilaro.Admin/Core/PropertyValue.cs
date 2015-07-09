@@ -7,8 +7,8 @@ namespace Ilaro.Admin.Core
 {
     public class PropertyValue
     {
-        public object Raw { get; internal set; }
-        public IList<object> Values { get; internal set; }
+        public object Raw { get; set; }
+        public IList<object> Values { get; set; }
         public bool? AsBool
         {
             get
@@ -73,7 +73,7 @@ namespace Ilaro.Admin.Core
         /// <summary>
         /// Possible values for foreign entity
         /// </summary>
-        public IDictionary<string, string> PossibleValues { get; internal set; }
+        public IDictionary<string, string> PossibleValues { get; set; }
 
         private readonly PropertyTypeInfo _typeInfo;
 
