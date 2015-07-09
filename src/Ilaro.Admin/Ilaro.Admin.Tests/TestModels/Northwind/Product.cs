@@ -38,7 +38,7 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
 
 		public override string ToString()
 		{
-			return ProductName;
+            return ProductName + "_ToString";
 		}
 	}
 }
