@@ -164,8 +164,10 @@
     <Compile Include="Core\Data\IExecutingDbCommand.cs" />
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
+    <Compile Include="Core\HttpContextUserProvider.cs" />
     <Compile Include="Core\IConfiguration.cs" />
     <Compile Include="Core\IConfigurationProvider.cs" />
+    <Compile Include="Core\IProvidingUser.cs" />
     <Compile Include="Core\SystemClock.cs" />
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
