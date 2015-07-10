@@ -105,7 +105,7 @@ WHERE {2} In ({3});";
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
             foreach (var property in
-                entity.GetForeignsForUpdate().Where(x => x.Value.Values.IsNullOrEmpty() == false))
+                entity.GetForeignsForUpdate().Where(x => x.Value.Values.IsNullOrEmpty<object>() == false))
             {
                 var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
                 sbUpdates.AppendLine();

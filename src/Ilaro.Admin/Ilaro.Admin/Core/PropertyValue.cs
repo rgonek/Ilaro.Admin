@@ -8,7 +8,7 @@ namespace Ilaro.Admin.Core
     public class PropertyValue
     {
         public object Raw { get; set; }
-        public IList<object> Values { get; set; }
+        public List<object> Values { get; set; }
         public bool? AsBool
         {
             get
@@ -80,6 +80,7 @@ namespace Ilaro.Admin.Core
         public PropertyValue(PropertyTypeInfo typeInfo)
         {
             _typeInfo = typeInfo;
+            Values = new List<object>();
         }
 
         public object ToObject(string value)
