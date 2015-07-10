@@ -22,7 +22,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var model = new GroupIndexModel
             {
-                Groups = AdminInitialise.EntitiesTypes
+                Groups = Admin.EntitiesTypes
                     .GroupBy(x => x.Verbose.Group)
                     .Select(x => new GroupModel
                     {
@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Details(string groupName)
         {
-            var model = AdminInitialise.EntitiesTypes
+            var model = Admin.EntitiesTypes
                 .GroupBy(x => x.Verbose.Group)
                 .Where(x => x.Key == groupName)
                 .Select(x => new GroupModel

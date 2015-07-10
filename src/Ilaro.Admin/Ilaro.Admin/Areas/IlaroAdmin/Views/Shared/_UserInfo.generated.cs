@@ -48,7 +48,7 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\_UserInfo.cshtml"
-         if (AdminInitialise.Authorize != null)
+         if (Admin.Authorize != null)
         {
 
             

@@ -14,10 +14,10 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_GetRecord()
         {
             _source = new RecordsSource(new Notificator());
-            AdminInitialise.AddEntity<Product>();
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
-            _entity = AdminInitialise.EntitiesTypes
+            Admin.AddEntity<Product>();
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
+            _entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == "Product");
         }
 

@@ -44,10 +44,10 @@ namespace Ilaro.Admin.Sample
 
 			// If you want anonymous access to Ilaro.Admin, skip this line
 			// off course you can set Roles and Users for AuthorizeAttribute
-			AdminInitialise.Authorize = new AuthorizeAttribute();
+			Admin.Authorize = new AuthorizeAttribute();
 
 			// If you have only one connection string there is no need to specify it
-			AdminInitialise.Initialise("NorthwindEntities", "Admin");
+			Admin.Initialise("NorthwindEntities", "Admin");
 
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);

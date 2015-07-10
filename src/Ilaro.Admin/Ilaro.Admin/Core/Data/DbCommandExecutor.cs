@@ -30,7 +30,7 @@ namespace Ilaro.Admin.Core.Data
                     cmd.Transaction = tx;
                     result = cmd.ExecuteScalar();
 
-                    if (AdminInitialise.IsChangesEnabled)
+                    if (Admin.IsChangesEnabled)
                     {
                         var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
                         changeCmd.Connection = conn;
@@ -56,7 +56,7 @@ namespace Ilaro.Admin.Core.Data
 
             var sql =
 @"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
-VALUES (@0,@1,@2,@3,@4,@5);".Fill(AdminInitialise.ChangeEntity.TableName);
+VALUES (@0,@1,@2,@3,@4,@5);".Fill(Admin.ChangeEntity.TableName);
 
             cmd.AddParam(changeInfo.EntityName);
             cmd.AddParam(keyValue);

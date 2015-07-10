@@ -8,9 +8,9 @@ namespace Ilaro.Admin.DataAnnotations
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (AdminInitialise.Authorize != null)
+            if (Admin.Authorize != null)
             {
-                AdminInitialise.Authorize.OnAuthorization(filterContext);
+                Admin.Authorize.OnAuthorization(filterContext);
             }
         }
     }

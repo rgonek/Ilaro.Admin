@@ -13,11 +13,11 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_DetermineDisplayValue()
         {
             _source = new RecordsSource(new Notificator());
-            AdminInitialise.AddEntity<Product>();
-            AdminInitialise.AddEntity<Customer>();
-            AdminInitialise.AddEntity<EmployeeTerritory>();
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
+            Admin.AddEntity<Product>();
+            Admin.AddEntity<Customer>();
+            Admin.AddEntity<EmployeeTerritory>();
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Products.Insert(ProductName: "Product");
 
             var productEntity =
-                AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
+                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
 
             var result = _source.GetRecords(productEntity, determineDisplayValue: true);
 
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Customers.Insert(CustomerID: "MICRO", CompanyName: "Microsoft");
 
             var customerEntity =
-                AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == "Customer");
+                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Customer");
 
             var result = _source.GetRecords(customerEntity, determineDisplayValue: true);
 
@@ -57,7 +57,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var employeeTorritory = DB.EmployeeTerritories.Insert(TerritoryID: 0123, EmployeeID: employee.EmployeeID);
 
             var employeeTerritoryEntity =
-                AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == "EmployeeTerritory");
+                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "EmployeeTerritory");
 
             var result = _source.GetRecords(employeeTerritoryEntity, determineDisplayValue: true);
 

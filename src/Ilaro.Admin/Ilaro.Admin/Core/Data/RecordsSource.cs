@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Core.Data
 
         public Entity GetEntityWithData(string entityName, string key)
         {
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
 
             if (entity == null)
@@ -53,7 +53,7 @@ namespace Ilaro.Admin.Core.Data
         public object GetRecord(Entity entity, object key)
         {
             var table = new DynamicModel(
-                AdminInitialise.ConnectionStringName,
+                Admin.ConnectionStringName,
                 tableName: entity.TableName,
                 primaryKeyField: entity.Key.ColumnName);
 
@@ -93,7 +93,7 @@ namespace Ilaro.Admin.Core.Data
             var where = ConvertFiltersToSql(filters, search, out args);
 
             var table = new DynamicModel(
-                AdminInitialise.ConnectionStringName,
+                Admin.ConnectionStringName,
                 entity.TableName,
                 entity.Key.ColumnName);
 

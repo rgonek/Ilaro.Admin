@@ -32,10 +32,10 @@ namespace Ilaro.Admin.Tests.Core.Data
             });
 
             _source = new RecordsSource(new Notificator());
-            AdminInitialise.AddEntity<EntityChange>();
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
-            _entity = AdminInitialise.ChangeEntity;
+            Admin.AddEntity<EntityChange>();
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
+            _entity = Admin.ChangeEntity;
             _property = _entity["EntityName"];
         }
 

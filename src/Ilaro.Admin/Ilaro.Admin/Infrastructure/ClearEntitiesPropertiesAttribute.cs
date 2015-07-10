@@ -11,7 +11,7 @@ namespace Ilaro.Admin.Infrastructure
                 (filterContext.Controller.GetType() == typeof(EntitiesController) ||
                 filterContext.Controller.GetType() == typeof(EntityController)))
             {
-                foreach (var entity in AdminInitialise.EntitiesTypes)
+                foreach (var entity in Admin.EntitiesTypes)
                 {
                     entity.ClearPropertiesValues();
                 }

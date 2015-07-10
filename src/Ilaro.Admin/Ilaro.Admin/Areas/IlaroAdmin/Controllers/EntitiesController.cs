@@ -39,7 +39,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Index(string entityName, TableInfo tableInfo)
         {
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entity == null)
             {
@@ -93,13 +93,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Changes(string entityName, TableInfo tableInfo)
         {
-            var entityChangesFor = AdminInitialise.EntitiesTypes
+            var entityChangesFor = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entityChangesFor == null)
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            var changeEntity = AdminInitialise.ChangeEntity;
+            var changeEntity = Admin.ChangeEntity;
             var filters = PrepareFilters(changeEntity);
             var filters2 = filters.ToList();
             filters2.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));

@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Core.Data
             var index = 0;
             var hierarchy = GetEntityHierarchy(null, entity, ref index);
             var sql = GenerateHierarchySql(hierarchy);
-            var model = new DynamicModel(AdminInitialise.ConnectionStringName);
+            var model = new DynamicModel(Admin.ConnectionStringName);
             var records = model.Query(sql, entity.Key.Value.Raw).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);

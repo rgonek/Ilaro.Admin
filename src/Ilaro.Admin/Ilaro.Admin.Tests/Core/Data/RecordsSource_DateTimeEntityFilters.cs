@@ -28,10 +28,10 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Orders.Insert(ShipCity: "City4", OrderDate: "2014.08.20 11:33");
 
             _source = new RecordsSource(new Notificator());
-            AdminInitialise.AddEntity<Order>();
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
-            _entity = AdminInitialise.EntitiesTypes
+            Admin.AddEntity<Order>();
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
+            _entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == "Order");
             _property = _entity["OrderDate"];
         }

@@ -17,7 +17,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var user = A.Fake<IProvidingUser>();
             A.CallTo(() => user.Current()).Returns("Test");
             _executor = new DbCommandExecutor(user);
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
+            Admin.ConnectionStringName = ConnectionStringName;
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void create_entity_change_record_when_entity_change_is_added()
         {
-            AdminInitialise.AddEntity<EntityChange>();
+            Admin.AddEntity<EntityChange>();
             var cmd = new SqlCommand { CommandText = "SELECT 1;" };
 
             _executor.ExecuteWithChanges(cmd, new ChangeInfo("Product", EntityChangeType.Insert));

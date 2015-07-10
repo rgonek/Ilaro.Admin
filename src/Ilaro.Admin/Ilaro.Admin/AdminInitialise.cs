@@ -10,7 +10,7 @@ using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin
 {
-    public static class AdminInitialise
+    public static class Admin
     {
         public static IList<Entity> EntitiesTypes { get; set; }
 
@@ -33,7 +33,7 @@ namespace Ilaro.Admin
 
         public static string RoutesPrefix { get; private set; }
 
-        static AdminInitialise()
+        static Admin()
         {
             EntitiesTypes = new List<Entity>();
         }

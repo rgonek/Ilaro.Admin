@@ -19,9 +19,9 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             _source = new RecordsSource(new Notificator());
             Entity<Product>.Add().SetSearchProperties(x => x.UnitPrice);
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
-            _entity = AdminInitialise.EntitiesTypes
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
+            _entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == "Product");
         }
 

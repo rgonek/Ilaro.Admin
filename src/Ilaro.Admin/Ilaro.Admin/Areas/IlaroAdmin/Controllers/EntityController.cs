@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
 
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entity == null)
             {
@@ -70,7 +70,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
 
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entity == null)
             {
@@ -149,7 +149,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             string key,
             FormCollection collection)
         {
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entity == null)
             {
@@ -202,7 +202,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Delete(string entityName, string key)
         {
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
             if (entity == null)
             {
@@ -233,7 +233,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public virtual ActionResult Delete(EntityDeleteModel model)
         {
-            var entity = AdminInitialise.EntitiesTypes
+            var entity = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == model.EntityName);
             if (entity == null)
             {

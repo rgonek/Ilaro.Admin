@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Fluent
         {
             return new Entity<TEntity>
             {
-                _entity = AdminInitialise.AddEntity<TEntity>()
+                _entity = Admin.AddEntity<TEntity>()
             };
         }
 

@@ -20,11 +20,11 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
             _creator = new RecordsCreator(executor);
-            AdminInitialise.AddEntity<Product>();
-            AdminInitialise.SetForeignKeysReferences();
-            AdminInitialise.ConnectionStringName = ConnectionStringName;
+            Admin.AddEntity<Product>();
+            Admin.SetForeignKeysReferences();
+            Admin.ConnectionStringName = ConnectionStringName;
             _entity =
-                AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
+                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void creates_record_and_does_create_entity_change_when_is_added()
         {
-            AdminInitialise.AddEntity<EntityChange>();
+            Admin.AddEntity<EntityChange>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _creator.Create(_entity);
@@ -62,7 +62,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_one_to_many_foreign_property()
         {
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            AdminInitialise.AddEntity<Category>();
+            Admin.AddEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -77,10 +77,10 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_many_to_one_foreign_property()
         {
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            AdminInitialise.AddEntity<Category>();
-            AdminInitialise.SetForeignKeysReferences();
+            Admin.AddEntity<Category>();
+            Admin.SetForeignKeysReferences();
             _entity =
-                AdminInitialise.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
+                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values.Add(productId);
             _creator.Create(_entity);
