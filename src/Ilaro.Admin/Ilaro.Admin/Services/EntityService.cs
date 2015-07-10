@@ -140,7 +140,7 @@ namespace Ilaro.Admin.Services
             var properties = entity.CreateProperties(getKey);
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
-                var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true);
+                var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true).Records;
                 foreign.Value.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
                 if (foreign.TypeInfo.IsCollection)
                 {

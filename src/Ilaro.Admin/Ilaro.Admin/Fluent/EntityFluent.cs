@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Fluent
@@ -41,7 +43,7 @@ namespace Ilaro.Admin.Fluent
         public Entity<TEntity> SetColumns(
             params Expression<Func<TEntity, object>>[] expressions)
         {
-            var members = expressions.Select(x => x.Body).OfType<MemberExpression>();
+            var members = GetMemberExpressions(expressions);
             var properties = members.Select(x => x.Member.Name);
             _entity.SetColumns(properties);
 
@@ -54,10 +56,9 @@ namespace Ilaro.Admin.Fluent
         public Entity<TEntity> SetSearchProperties(
             params Expression<Func<TEntity, object>>[] expressions)
         {
-            var members = expressions
-                .Select(x => x.Body)
-                .OfType<MemberExpression>();
-            var properties = members.Select(x => x.Member.Name);
+            var members = GetMemberExpressions(expressions);
+
+            var properties = members.Select(x => x.Member.Name).ToList();
             _entity.SetSearchProperties(properties);
 
             return this;
@@ -81,7 +82,7 @@ namespace Ilaro.Admin.Fluent
             bool isCollapsed,
             params Expression<Func<TEntity, object>>[] properties)
         {
-            var members = properties.Select(x => x.Body).OfType<MemberExpression>();
+            var members = GetMemberExpressions(properties);
             var propertiesNames = members.Select(x => x.Member.Name);
             _entity.AddGroup(group, isCollapsed, propertiesNames);
 
@@ -190,6 +191,23 @@ namespace Ilaro.Admin.Fluent
         public Entity<TEntity> ConfigureProperty(PropertyOf<TEntity> property)
         {
             return this;
+        }
+
+        private IEnumerable<MemberExpression> GetMemberExpressions(
+            Expression<Func<TEntity, object>>[] expressions)
+        {
+            var members = expressions
+                .Select(x => x.Body)
+                .OfType<MemberExpression>();
+
+            members = members.Union(
+                expressions
+                    .Select(x => x.Body)
+                    .OfType<UnaryExpression>()
+                    .Select(x => x.Operand)
+                    .OfType<MemberExpression>());
+
+            return members;
         }
     }
 }

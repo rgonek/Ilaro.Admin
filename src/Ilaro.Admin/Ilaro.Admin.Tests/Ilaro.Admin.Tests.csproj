@@ -40,8 +40,21 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.25.2\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Simple.Data">
+      <HintPath>..\packages\Simple.Data.Core.0.19.0.0\lib\net40\Simple.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Simple.Data.Ado">
+      <HintPath>..\packages\Simple.Data.Ado.0.19.0.0\lib\net40\Simple.Data.Ado.dll</HintPath>
+    </Reference>
+    <Reference Include="Simple.Data.SqlServer">
+      <HintPath>..\packages\Simple.Data.SqlServer.0.19.0.0\lib\net40\Simple.Data.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
@@ -65,9 +78,45 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\Data\DbCommandExecutor_.cs" />
+    <Compile Include="Core\Data\RecordsCreator_.cs" />
+    <Compile Include="Core\Data\RecordsSource_DetermineDisplayValue.cs" />
+    <Compile Include="Core\Data\RecordsSource_GetEntityWithData.cs" />
+    <Compile Include="Core\Data\RecordsSource_GetRecord.cs" />
+    <Compile Include="Core\Data\RecordsSource_Searching_Numeric.cs" />
+    <Compile Include="Core\Data\RecordsSource_Searching_String.cs" />
+    <Compile Include="Core\Data\RecordsSource_Paging.cs" />
+    <Compile Include="Core\Data\RecordsSource_Ordering.cs" />
+    <Compile Include="Core\Data\RecordsSource_ChangesEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsSource_ForeignEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsSource_DateTimeEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsSource_EnumEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
+    <Compile Include="Core\Data\RecordsUpdater_.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
+    <Compile Include="DatabaseCommandExecutor.cs" />
+    <Compile Include="FakeClock.cs" />
+    <Compile Include="Filters\ChangeEntityFilter_.cs" />
+    <Compile Include="Filters\ForeignEntityFilter_.cs" />
+    <Compile Include="Filters\EnumEntityFilter_.cs" />
+    <Compile Include="Filters\DateTimeEntityFilter_.cs" />
+    <Compile Include="Filters\BoolEntityFilter_.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerDatabaseTest.cs" />
     <Compile Include="TestEntity.cs" />
+    <Compile Include="TestModels\Northwind\Category.cs" />
+    <Compile Include="TestModels\Northwind\Customer.cs" />
+    <Compile Include="TestModels\Northwind\Employee.cs" />
+    <Compile Include="TestModels\Northwind\EmployeeTerritory.cs" />
+    <Compile Include="TestModels\Northwind\EntityChange.cs" />
+    <Compile Include="TestModels\Northwind\Order.cs" />
+    <Compile Include="TestModels\Northwind\OrderDetail.cs" />
+    <Compile Include="TestModels\Northwind\Product.cs" />
+    <Compile Include="TestModels\Northwind\Region.cs" />
+    <Compile Include="TestModels\Northwind\Shipper.cs" />
+    <Compile Include="TestModels\Northwind\Supplier.cs" />
+    <Compile Include="TestModels\Northwind\Territory.cs" />
+    <Compile Include="Utils\TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ilaro.Admin\Ilaro.Admin.csproj">
@@ -78,6 +127,15 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Database\CreateDatabase.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Database\DropAllObjects.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -503,7 +503,8 @@ namespace Ilaro.Admin.Core
             return Properties
                 .Where(x =>
                     x.IsForeignKey &&
-                    x.TypeInfo.IsCollection);
+                    x.TypeInfo.IsCollection &&
+                    x.ForeignEntity != null);
         }
     }
 }

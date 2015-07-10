@@ -6,7 +6,7 @@ using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Filters
 {
-    public class ForeignEntityFilter : IEntityFilter
+    public class ChangeEntityFilter : IEntityFilter
     {
         public Property Property { get; set; }
 
@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Filters
 
         public string Value { get; set; }
 
-        public ForeignEntityFilter(Property property, string value = "")
+        public ChangeEntityFilter(Property property, string value = "")
         {
             Initialize(property, value);
         }
