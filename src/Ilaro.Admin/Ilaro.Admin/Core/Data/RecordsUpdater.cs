@@ -12,7 +12,6 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsUpdater : IUpdatingRecords
     {
-        private readonly Notificator _notificator;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecords _source;
 
@@ -33,18 +32,14 @@ SELECT @{3};
 WHERE {3} In ({4});";
 
         public RecordsUpdater(
-            Notificator notificator,
             IExecutingDbCommand executor,
             IFetchingRecords source)
         {
-            if (notificator == null)
-                throw new ArgumentNullException("notificator");
             if (executor == null)
                 throw new ArgumentNullException("executor");
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            _notificator = notificator;
             _executor = executor;
             _source = source;
         }
@@ -63,8 +58,8 @@ WHERE {3} In ({4});";
             }
             catch (Exception ex)
             {
-                _notificator.Error("");
-                return true;
+                // log
+                throw ex;
             }
             finally
             {
@@ -116,7 +111,7 @@ WHERE {3} In ({4});";
                     }).Records;
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.KeyValue)
-                    .Except(property.Value.Values.OfType<string>())
+                    .Except(property.Value.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())
                 {
@@ -129,22 +124,24 @@ WHERE {3} In ({4});";
                         paramIndex++,
                         property.ForeignEntity.Key.ColumnName,
                         removeValues);
-                    cmd.AddParams(idsToRemoveRelation);
-                    cmd.AddParams(null);
+                    cmd.AddParams(idsToRemoveRelation.OfType<object>().ToArray());
+                    cmd.AddParam(null);
                 }
 
                 var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
-                cmd.CommandText +=
-                    Environment.NewLine +
-                    RelatedRecordsUpdateSqlFormat.Fill(
-                        property.ForeignEntity.TableName,
-                        entity.Key.ColumnName,
-                        paramIndex++,
-                        property.ForeignEntity.Key.ColumnName,
-                        values);
+                sbUpdates.AppendLine();
+                sbUpdates.AppendFormat(
+                    RelatedRecordsUpdateSqlFormat,
+                    property.ForeignEntity.TableName,
+                    entity.Key.ColumnName,
+                    paramIndex++,
+                    property.ForeignEntity.Key.ColumnName,
+                    values);
                 cmd.AddParams(property.Value.Values.ToArray());
                 cmd.AddParam(entity.Key.Value.Raw);
             }
+
+            cmd.CommandText += sbUpdates.ToString();
         }
 
         private static void AddParam(DbCommand cmd, Property property)

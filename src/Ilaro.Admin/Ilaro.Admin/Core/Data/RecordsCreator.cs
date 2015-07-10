@@ -10,7 +10,6 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsCreator : ICreatingRecords
     {
-        private readonly Notificator _notificator;
         private readonly IExecutingDbCommand _executor;
 
         private const string SqlFormat =
@@ -29,14 +28,11 @@ SELECT @newID;
 @"UPDATE {0} SET {1} = @newID 
 WHERE {2} In ({3});";
 
-        public RecordsCreator(Notificator notificator, IExecutingDbCommand executor)
+        public RecordsCreator(IExecutingDbCommand executor)
         {
-            if (notificator == null)
-                throw new ArgumentNullException("notificator");
             if (executor == null)
                 throw new ArgumentNullException("executor");
 
-            _notificator = notificator;
             _executor = executor;
         }
 
@@ -53,8 +49,8 @@ WHERE {2} In ({3});";
             }
             catch (Exception ex)
             {
-                _notificator.Error("");
-                return null;
+                // log
+                throw ex;
             }
             finally
             {

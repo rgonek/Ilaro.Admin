@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
-            _creator = new RecordsCreator(new Notificator(), executor);
+            _creator = new RecordsCreator(executor);
             AdminInitialise.AddEntity<Product>();
             AdminInitialise.SetForeignKeysReferences();
             AdminInitialise.ConnectionStringName = ConnectionStringName;
