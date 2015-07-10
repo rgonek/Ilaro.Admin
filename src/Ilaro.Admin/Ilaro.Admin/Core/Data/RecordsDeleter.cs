@@ -10,7 +10,6 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsDeleter : IDeletingRecords
     {
-        private readonly Notificator _notificator;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
 
@@ -19,18 +18,14 @@ namespace Ilaro.Admin.Core.Data
 SELECT @0;";
 
         public RecordsDeleter(
-            Notificator notificator,
             IExecutingDbCommand executor,
             IFetchingRecordsHierarchy hierarchySource)
         {
-            if (notificator == null)
-                throw new ArgumentNullException("notificator");
             if (executor == null)
                 throw new ArgumentNullException("executor");
             if (hierarchySource == null)
                 throw new ArgumentNullException("hierarchySource");
 
-            _notificator = notificator;
             _executor = executor;
             _hierarchySource = hierarchySource;
         }
@@ -48,12 +43,7 @@ SELECT @0;";
             }
             catch (Exception ex)
             {
-                _notificator.Error("");
-                return false;
-            }
-            finally
-            {
-                entity.ClearPropertiesValues();
+                throw ex;
             }
         }
 

@@ -52,10 +52,6 @@ WHERE {2} In ({3});";
                 // log
                 throw ex;
             }
-            finally
-            {
-                entity.ClearPropertiesValues();
-            }
         }
 
         private DbCommand CreateCommand(Entity entity)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Infrastructure;
 using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin
@@ -64,6 +65,8 @@ namespace Ilaro.Admin
             ModelBinders.Binders.Add(typeof(TableInfo),
                 new TableInfoModelBinder(
                     (IConfiguration)DependencyResolver.Current.GetService(typeof(IConfiguration))));
+
+            GlobalFilters.Filters.Add(new ClearEntitiesPropertiesAttribute());
 
             SetForeignKeysReferences();
         }

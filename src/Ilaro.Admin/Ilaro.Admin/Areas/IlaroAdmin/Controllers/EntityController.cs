@@ -56,8 +56,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
 
-            entity.ClearPropertiesValues();
-
             var model = new EntityCreateModel
             {
                 Entity = entity,
@@ -158,6 +156,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
 
+            entity.Key.Value.ToObject(key);
             entity.Fill(collection, Request.Files);
             if (_validator.Validate(entity))
             {
@@ -167,7 +166,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     if (result)
                     {
                         _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
-
 
                         if (Request["ContinueEdit"] != null)
                         {
@@ -211,7 +209,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
 
-            entity.Key.Value.Raw = key;
+            entity.Key.Value.ToObject(key);
 
             var model = new EntityDeleteModel
             {
