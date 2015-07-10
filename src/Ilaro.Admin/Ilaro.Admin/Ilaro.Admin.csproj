@@ -129,7 +129,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdminInitialise.cs" />
+    <Compile Include="Admin.cs" />
     <Compile Include="App_GlobalResources\IlaroAdminResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
