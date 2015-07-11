@@ -7,14 +7,26 @@ namespace Ilaro.Admin.Core
     public sealed class Notificator
     {
         public IDictionary<NotificateType, Queue<string>> Messages { get; private set; }
+        private readonly IDictionary<string, string> _modelErrors;
 
         public Notificator()
         {
             Messages = new Dictionary<NotificateType, Queue<string>>();
+            _modelErrors = new Dictionary<string, string>();
             foreach (NotificateType type in Enum.GetValues(typeof(NotificateType)))
             {
                 Messages[type] = new Queue<string>();
             }
+        }
+
+        public void AddModelError(string key, string errorMessage)
+        {
+            _modelErrors.Add(key, errorMessage);
+        }
+
+        public IDictionary<string, string> GetModelErrors()
+        {
+            return _modelErrors;
         }
 
         public void Success(string message)
@@ -57,12 +69,12 @@ namespace Ilaro.Admin.Core
             Notificate(message, NotificateType.Danger, args);
         }
 
-        private void Notificate(string message, NotificateType type)
+        public void Notificate(string message, NotificateType type)
         {
             Messages[type].Enqueue(message);
         }
 
-        private void Notificate(string message, NotificateType type, params object[] args)
+        public void Notificate(string message, NotificateType type, params object[] args)
         {
             Messages[type].Enqueue(message.Fill(args));
         }
