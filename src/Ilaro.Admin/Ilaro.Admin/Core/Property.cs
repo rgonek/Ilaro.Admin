@@ -22,7 +22,18 @@ namespace Ilaro.Admin.Core
 
         public string Name { get; set; }
 
-        public string ColumnName { get; set; }
+        private string _columnName;
+        public string ColumnName
+        {
+            get { return _columnName; }
+            set
+            {
+                if (value.StartsWith("[") && value.EndsWith("]"))
+                    _columnName = value;
+                else
+                    _columnName = "[" + value + "]";
+            }
+        }
 
         public string DisplayName { get; set; }
 

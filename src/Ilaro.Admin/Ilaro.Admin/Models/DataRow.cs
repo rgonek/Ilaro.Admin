@@ -34,15 +34,14 @@ namespace Ilaro.Admin.Models
             string prefix = null)
             : this()
         {
-            KeyValue = recordDict[prefix + entity.Key.ColumnName].ToStringSafe();
-            LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName].ToStringSafe();
+            KeyValue = recordDict[prefix + entity.Key.ColumnName.UnDecorate()].ToStringSafe();
+            LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName.UnDecorate()].ToStringSafe();
 
             foreach (var property in entity.DisplayProperties)
             {
                 Values.Add(new CellValue
                 {
-                    Raw = recordDict[prefix + property.ColumnName],
-                    AsString = recordDict[prefix + property.ColumnName].ToStringSafe(property),
+                    Raw = recordDict[prefix + property.ColumnName.UnDecorate()],
                     Property = property
                 });
             }

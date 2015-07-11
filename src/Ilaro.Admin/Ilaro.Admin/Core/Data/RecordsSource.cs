@@ -36,8 +36,8 @@ namespace Ilaro.Admin.Core.Data
             foreach (var property in entity.CreateProperties(false))
             {
                 property.Value.Raw =
-                    propertiesDict.ContainsKey(property.ColumnName) ?
-                    propertiesDict[property.ColumnName] :
+                    propertiesDict.ContainsKey(property.ColumnName.UnDecorate()) ?
+                    propertiesDict[property.ColumnName.UnDecorate()] :
                     null;
             }
 
@@ -186,8 +186,8 @@ namespace Ilaro.Admin.Core.Data
                     decimal temp;
                     if (property.TypeInfo.IsString)
                     {
-                        searchCondition += " {0}[{1}] LIKE @{2} OR"
-                            .Fill(alias, property.Name, args.Count);
+                        searchCondition += " {0}{1} LIKE @{2} OR"
+                            .Fill(alias, property.ColumnName, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
                         // TODO: Temporary solution
@@ -203,8 +203,8 @@ namespace Ilaro.Admin.Core.Data
                             sign = "<=";
                         }
 
-                        searchCondition += " {0}[{1}] {2} @{3} OR"
-                            .Fill(alias, property.Name, sign, args.Count);
+                        searchCondition += " {0}{1} {2} @{3} OR"
+                            .Fill(alias, property.ColumnName, sign, args.Count);
                         args.Add(temp);
                     }
                 }

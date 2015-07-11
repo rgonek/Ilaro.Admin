@@ -6,11 +6,14 @@ namespace Ilaro.Admin.Models
 {
     public class CellValue
     {
-        public string AsString { get; set; }
-
         public object Raw { get; set; }
 
         public Property Property { get; set; }
+
+        public string AsString
+        {
+            get { return Raw.ToStringSafe(Property); }
+        }
 
         public bool? AsBool
         {
@@ -31,7 +34,7 @@ namespace Ilaro.Admin.Models
             {
                 if (Property.TypeInfo.DataType == DataType.Enum)
                 {
-                    var enumValue = 
+                    var enumValue =
                         (Enum)Enum.Parse(Property.TypeInfo.EnumType, AsString);
                     if (enumValue == null)
                     {

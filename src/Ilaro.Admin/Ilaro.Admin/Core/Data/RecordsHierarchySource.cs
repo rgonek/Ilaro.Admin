@@ -27,7 +27,7 @@ namespace Ilaro.Admin.Core.Data
             EntityHierarchy hierarchy)
         {
             var baseRecord = records.FirstOrDefault();
-            var prefix = hierarchy.Alias.Trim("[]".ToCharArray()) + "_";
+            var prefix = hierarchy.Alias.UnDecorate() + "_";
             var rowData = new DataRow(baseRecord, hierarchy.Entity, prefix);
 
             var recordHierarchy = new RecordHierarchy
@@ -110,7 +110,7 @@ ORDER BY {5};";
             const string joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
             var columns = flatHierarchy.SelectMany(x => x.Entity.GetColumns()
-                .Select(y => x.Alias + "." + y + " AS " + x.Alias.Trim("[]".ToCharArray()) + "_" + y)).ToList();
+                .Select(y => x.Alias + "." + y + " AS " + x.Alias.UnDecorate() + "_" + y.UnDecorate())).ToList();
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {

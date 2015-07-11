@@ -182,5 +182,10 @@ namespace Ilaro.Admin.Extensions
         {
             return string.Format(format, args);
         }
+
+        public static string UnDecorate(this string text)
+        {
+            return text.TrimStart('[').TrimEnd(']');
+        }
     }
 }

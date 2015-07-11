@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Filters
 
         public string GetSqlCondition(string alias, ref List<object> args)
         {
-            var sql = "{0}[{1}] = @{2}".Fill(alias, Property.ColumnName, args.Count);
+            var sql = "{0}{1} = @{2}".Fill(alias, Property.ColumnName, args.Count);
             args.Add(Value);
             return sql;
         }
