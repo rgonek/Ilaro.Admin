@@ -38,6 +38,11 @@ namespace Ilaro.Admin
             EntitiesTypes = new List<Entity>();
         }
 
+        internal static Entity GetEntity(string entityName)
+        {
+            return EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+        }
+
         public static Entity AddEntity<TEntity>()
         {
             var entity = new Entity(typeof(TEntity));
@@ -67,6 +72,9 @@ namespace Ilaro.Admin
                     (IConfiguration)DependencyResolver.Current.GetService(typeof(IConfiguration))));
 
             GlobalFilters.Filters.Add(new ClearEntitiesPropertiesAttribute());
+            GlobalFilters.Filters.Add(new CopyIsAjaxRequestFromRequestToViewBagAttribute());
+            GlobalFilters.Filters.Add(new ModelStateErrorsBulderAttribute());
+            GlobalFilters.Filters.Add(new NotificatorAttribute());
 
             SetForeignKeysReferences();
         }
