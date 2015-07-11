@@ -210,6 +210,7 @@
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
     <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
+    <Compile Include="Logging.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
     <Compile Include="Models\Paging\Pager.cs" />
