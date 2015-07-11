@@ -206,6 +206,9 @@
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />
     <Compile Include="Infrastructure\ClearEntitiesPropertiesAttribute.cs" />
+    <Compile Include="Infrastructure\CopyIsAjaxRequestFromRequestToViewBagAttribute.cs" />
+    <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
+    <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
     <Compile Include="Models\Paging\Pager.cs" />
