@@ -10,6 +10,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsDeleter : IDeletingRecords
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsDeleter));
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
 
@@ -43,6 +44,7 @@ SELECT @0;";
             }
             catch (Exception ex)
             {
+                _log.Error(ex);
                 throw ex;
             }
         }

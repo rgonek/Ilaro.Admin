@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsUpdater : IUpdatingRecords
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsUpdater));
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecords _source;
 
@@ -58,7 +59,7 @@ WHERE {3} In ({4});";
             }
             catch (Exception ex)
             {
-                // log
+                _log.Error(ex);
                 throw ex;
             }
         }

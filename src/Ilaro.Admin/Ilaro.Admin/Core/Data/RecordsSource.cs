@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsSource : IFetchingRecords
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsSource));
         private readonly Notificator _notificator;
 
         public RecordsSource(Notificator notificator)

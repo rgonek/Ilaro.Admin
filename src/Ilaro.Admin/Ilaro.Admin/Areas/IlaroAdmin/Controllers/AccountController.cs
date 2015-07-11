@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public virtual ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            return Redirect("/");
+            return Redirect("~/");
         }
     }
 }

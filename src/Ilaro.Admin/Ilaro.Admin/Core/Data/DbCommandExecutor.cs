@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Common;
-using System.Web;
 using Ilaro.Admin.Extensions;
 using Massive;
 
@@ -8,6 +7,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public class DbCommandExecutor : IExecutingDbCommand
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(DbCommandExecutor));
         private readonly IProvidingUser _user;
 
         public DbCommandExecutor(IProvidingUser user)
@@ -20,6 +20,7 @@ namespace Ilaro.Admin.Core.Data
 
         public object ExecuteWithChanges(DbCommand cmd, ChangeInfo changeInfo)
         {
+            _log.DebugFormat("Executing command: \r\n {0}", cmd.CommandText);
             object result;
             using (var conn = DB.OpenConnection())
             using (var tx = conn.BeginTransaction())
@@ -33,6 +34,7 @@ namespace Ilaro.Admin.Core.Data
                     if (Admin.IsChangesEnabled)
                     {
                         var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
+                        _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
                         changeCmd.Connection = conn;
                         changeCmd.Transaction = tx;
                         changeCmd.ExecuteNonQuery();
@@ -42,6 +44,7 @@ namespace Ilaro.Admin.Core.Data
                 }
                 catch (Exception ex)
                 {
+                    _log.Error(ex);
                     tx.Rollback();
                     throw ex;
                 }

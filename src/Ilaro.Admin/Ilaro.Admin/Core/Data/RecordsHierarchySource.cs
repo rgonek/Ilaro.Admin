@@ -9,11 +9,16 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsHierarchySource : IFetchingRecordsHierarchy
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsHierarchySource));
+
         public RecordHierarchy GetRecordHierarchy(Entity entity)
         {
+            _log.InfoFormat("Getting record hierarchy for entity record ({0}#{1})", entity.Name, entity.Key.Value.AsString);
+
             var index = 0;
             var hierarchy = GetEntityHierarchy(null, entity, ref index);
             var sql = GenerateHierarchySql(hierarchy);
+            _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
             var model = new DynamicModel(Admin.ConnectionStringName);
             var records = model.Query(sql, entity.Key.Value.Raw).ToList();
 
@@ -44,10 +49,10 @@ namespace Ilaro.Admin.Core.Data
         }
 
         private void GetHierarchyRecords(
-            RecordHierarchy parentHierarchy, 
-            IList<dynamic> records, 
-            IEnumerable<EntityHierarchy> subHierarchies, 
-            string foreignKey = null, 
+            RecordHierarchy parentHierarchy,
+            IList<dynamic> records,
+            IEnumerable<EntityHierarchy> subHierarchies,
+            string foreignKey = null,
             string foreignKeyValue = null)
         {
             foreach (var hierarchy in subHierarchies)
@@ -75,10 +80,10 @@ namespace Ilaro.Admin.Core.Data
                             parentHierarchy.SubRecordsHierarchies.Add(subRecord);
 
                             GetHierarchyRecords(
-                                subRecord, 
-                                records, 
-                                hierarchy.SubHierarchies, 
-                                prefix + hierarchy.Entity.Key.ColumnName, 
+                                subRecord,
+                                records,
+                                hierarchy.SubHierarchies,
+                                prefix + hierarchy.Entity.Key.ColumnName,
                                 rowData.KeyValue);
                         }
                     }
@@ -131,11 +136,11 @@ ORDER BY {5};";
                     baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.ColumnName;
                 }
                 joins.Add(
-                    string.Format(joinFormat, 
-                        foreignTable, 
-                        foreignAlias, 
-                        foreignKey, 
-                        baseTableAlias, 
+                    string.Format(joinFormat,
+                        foreignTable,
+                        foreignAlias,
+                        foreignKey,
+                        baseTableAlias,
                         baseTablePrimaryKey));
             }
             var orders = flatHierarchy.Select(x => x.Alias + "." + x.Entity.Key.ColumnName).ToList();

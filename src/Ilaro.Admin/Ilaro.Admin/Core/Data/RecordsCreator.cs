@@ -10,6 +10,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public class RecordsCreator : ICreatingRecords
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsCreator));
         private readonly IExecutingDbCommand _executor;
 
         private const string SqlFormat =
@@ -49,7 +50,7 @@ WHERE {2} In ({3});";
             }
             catch (Exception ex)
             {
-                // log
+                _log.Error(ex);
                 throw ex;
             }
         }

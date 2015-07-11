@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Services;
-using Ilaro.Admin.Validation;
 using Resources;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
     public class EntityController : Controller
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityController));
         private readonly Notificator _notificator;
         private readonly IEntityService _entityService;
         private readonly IFetchingRecords _source;
@@ -42,6 +39,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Create(string entityName)
         {
+            _log.Error("test internal");
             var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
@@ -210,6 +208,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult NotFound(string entityName)
         {
+            _log.ErrorFormat("Not found entity ({0}).", entityName);
             return Content("not found");
         }
     }
