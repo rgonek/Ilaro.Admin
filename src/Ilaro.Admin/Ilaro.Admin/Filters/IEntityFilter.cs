@@ -6,13 +6,13 @@ namespace Ilaro.Admin.Filters
 {
     public interface IEntityFilter
     {
-        Property Property { get; set; }
+        Property Property { get; }
 
-        SelectList Options { get; set; }
+        SelectList Options { get; }
 
-        string Value { get; set; }
+        string Value { get; }
 
-        void Initialize(Property property, string value = "");
+        //void Initialize(Property property, string value = "");
 
         string GetSqlCondition(string alias, ref List<object> args);
     }

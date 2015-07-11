@@ -180,7 +180,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             return new RouteValueDictionary(routeValues);
         }
 
-        public IList<IEntityFilter> PrepareFilters(Entity entity)
+        public IList<BaseFilter> PrepareFilters(Entity entity)
         {
             var filters = new List<IEntityFilter>();
 
@@ -188,27 +188,21 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 var value = Request[property.Name];
 
-                var filter = new BoolEntityFilter();
-                filter.Initialize(property, value);
-                filters.Add(filter);
+                filters.Add(new BoolEntityFilter(property, value));
             }
 
             foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Enum))
             {
                 var value = Request[property.Name];
 
-                var filter = new EnumEntityFilter();
-                filter.Initialize(property, value);
-                filters.Add(filter);
+                filters.Add(new EnumEntityFilter(property, value));
             }
 
             foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.DateTime))
             {
                 var value = Request[property.Name];
 
-                var filter = new DateTimeEntityFilter(SystemClock.Instance);
-                filter.Initialize(property, value);
-                filters.Add(filter);
+                filters.Add(new DateTimeEntityFilter(SystemClock.Instance, property, value));
             }
 
             return filters;

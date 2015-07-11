@@ -48,16 +48,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             filters = new List<IEntityFilter>
             {
-                new DateTimeEntityFilter(_fakeClock)
-            };
-            result = _source.GetRecords(_entity, filters);
-            Assert.Equal(4, result.Records.Count);
-
-            var filter = new DateTimeEntityFilter(_fakeClock);
-            filter.Initialize(_property);
-            filters = new List<IEntityFilter>
-            {
-                filter
+                new DateTimeEntityFilter(_fakeClock, _property)
             };
             result = _source.GetRecords(_entity, filters);
             Assert.Equal(4, result.Records.Count);
@@ -77,11 +68,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         [InlineData("2015.07.20-", 1)]
         public void date_time_filter_with_provided_value__returned_count_results_should_match_with_provided_count(string value, int resultsCount)
         {
-            var filter = new DateTimeEntityFilter(_fakeClock);
-            filter.Initialize(_property, value);
             var filters = new List<IEntityFilter>
             {
-                filter
+                new DateTimeEntityFilter(_fakeClock,_property, value)
             };
             var result = _source.GetRecords(_entity, filters);
             Assert.Equal(resultsCount, result.Records.Count);

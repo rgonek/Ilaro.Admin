@@ -7,20 +7,16 @@ using Resources;
 
 namespace Ilaro.Admin.Filters
 {
-    public class BoolEntityFilter : IEntityFilter
+    public class BoolEntityFilter : BaseFilter<bool>
     {
-        public Property Property { get; set; }
+        public override Property Property { get; protected set; }
+        public override sealed SelectList Options { get; protected set; }
+        public override sealed string Value { get; protected set; }
+        public override bool DisplayInUi { get { return true; } }
 
-        public SelectList Options { get; set; }
-
-        public string Value { get; set; }
-
-        public void Initialize(Property property, string value = "")
+        public BoolEntityFilter(Property property, string value = "")
+            : base(property, value)
         {
-            Value = value ?? String.Empty;
-
-            Property = property;
-
             var options = new Dictionary<string, string>
             {
                 { IlaroAdminResources.All, String.Empty },
@@ -31,7 +27,7 @@ namespace Ilaro.Admin.Filters
             Options = new SelectList(options, "Value", "Key", Value);
         }
 
-        public string GetSqlCondition(string alias, ref List<object> args)
+        public override string GetSqlCondition(string alias, ref List<object> args)
         {
             var sql = "{0}{1} = @{2}".Fill(alias, Property.ColumnName, args.Count);
             args.Add(Value);

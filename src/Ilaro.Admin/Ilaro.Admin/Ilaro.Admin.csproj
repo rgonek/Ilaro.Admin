@@ -201,6 +201,7 @@
     <Compile Include="Core\FileUpload\ImageSettings.cs" />
     <Compile Include="Core\FileUpload\NameCreation.cs" />
     <Compile Include="Core\IKnowTheTime.cs" />
+    <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\ChangeEntityFilter.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />

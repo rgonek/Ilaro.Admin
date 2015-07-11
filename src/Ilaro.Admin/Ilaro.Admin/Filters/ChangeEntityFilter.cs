@@ -6,27 +6,19 @@ using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Filters
 {
-    public class ChangeEntityFilter : IEntityFilter
+    public class ChangeEntityFilter : BaseFilter
     {
-        public Property Property { get; set; }
-
-        public SelectList Options { get; set; }
-
-        public string Value { get; set; }
+        public override Property Property { get; protected set; }
+        public override sealed SelectList Options { get; protected set; }
+        public override sealed string Value { get; protected set; }
+        public override bool DisplayInUi { get { return false; } }
 
         public ChangeEntityFilter(Property property, string value = "")
+            : base(property, value)
         {
-            Initialize(property, value);
         }
 
-        public void Initialize(Property property, string value = "")
-        {
-            Value = value ?? String.Empty;
-
-            Property = property;
-        }
-
-        public string GetSqlCondition(string alias, ref List<object> args)
+        public override string GetSqlCondition(string alias, ref List<object> args)
         {
             var sql = "{0}{1} = @{2}".Fill(alias, Property.ColumnName, args.Count);
             args.Add(Value);

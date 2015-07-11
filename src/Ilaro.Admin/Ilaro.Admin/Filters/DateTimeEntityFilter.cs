@@ -8,44 +8,36 @@ using Resources;
 
 namespace Ilaro.Admin.Filters
 {
-    public class DateTimeEntityFilter : IEntityFilter
+    public class DateTimeEntityFilter : BaseFilter<DateTime>
     {
-        private readonly IKnowTheTime _clock;
+        public override Property Property { get; protected set; }
+        public override sealed SelectList Options { get; protected set; }
+        public override sealed string Value { get; protected set; }
+        public override bool DisplayInUi { get { return true; } }
 
-        public Property Property { get; set; }
-        public SelectList Options { get; set; }
-        public string Value { get; set; }
-
-        public DateTimeEntityFilter(IKnowTheTime clock)
+        public DateTimeEntityFilter(IKnowTheTime clock, Property property, string value = "")
+            : base(property, value)
         {
             if (clock == null)
                 throw new ArgumentNullException("clock");
 
-            _clock = clock;
-        }
-
-        public void Initialize(Property property, string value = "")
-        {
-            Value = value ?? String.Empty;
-
-            Property = property;
-
+            var now = clock.Now;
             var options = new Dictionary<string, string>
             {
                 { IlaroAdminResources.All, String.Empty },
-                { IlaroAdminResources.Today, _clock.Now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.Yesterday, _clock.Now.AddDays(-1).ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastWeek, _clock.Now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastMonth, _clock.Now.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastQuarter, _clock.Now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastHalfAYear, _clock.Now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastYear, _clock.Now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + _clock.Now.ToString("yyyy.MM.dd") }
+                { IlaroAdminResources.Today, now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.Yesterday, now.AddDays(-1).ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastWeek, now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastMonth, now.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastQuarter, now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastHalfAYear, now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
+                { IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") }
             };
 
             Options = new SelectList(options, "Value", "Key", Value);
         }
 
-        public string GetSqlCondition(string alias, ref List<object> args)
+        public override string GetSqlCondition(string alias, ref List<object> args)
         {
             if (Value.Contains('-') == false)
             {

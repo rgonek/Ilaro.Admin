@@ -17,8 +17,7 @@ namespace Ilaro.Admin.Tests.Filters
             var entity = new Entity(typeof(TestEntity));
             _property = entity["Option"];
 
-            _filter = new EnumEntityFilter();
-            _filter.Initialize(_property, "0");
+            _filter = new EnumEntityFilter(_property, "0");
         }
 
         [Fact]
@@ -36,11 +35,11 @@ namespace Ilaro.Admin.Tests.Filters
         [Fact]
         public void selected_value_should_match()
         {
-            _filter.Initialize(_property, "0");
+            _filter = new EnumEntityFilter(_property, "0");
             var options = _filter.Options.ToList();
             Assert.True(options[1].Selected);
 
-            _filter.Initialize(_property, "1");
+            _filter = new EnumEntityFilter(_property, "1");
             options = _filter.Options.ToList();
             Assert.True(options[2].Selected);
         }

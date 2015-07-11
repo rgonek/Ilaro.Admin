@@ -40,16 +40,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             filters = new List<IEntityFilter>
             {
-                new BoolEntityFilter()
-            };
-            result = _source.GetRecords(_entity, filters);
-            Assert.Equal(2, result.Records.Count);
-
-            var filter = new BoolEntityFilter();
-            filter.Initialize(_property);
-            filters = new List<IEntityFilter>
-            {
-                filter
+                new BoolEntityFilter(_property)
             };
             result = _source.GetRecords(_entity, filters);
             Assert.Equal(2, result.Records.Count);
@@ -58,11 +49,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void true_bool_filter_should_return_one_records()
         {
-            var filter = new BoolEntityFilter();
-            filter.Initialize(_property, "1");
             var filters = new List<IEntityFilter>
             {
-                filter
+                new BoolEntityFilter(_property, "1")
             };
             var result = _source.GetRecords(_entity, filters);
             Assert.Equal(1, result.Records.Count);
@@ -72,11 +61,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void false_bool_filter_should_return_one_records()
         {
-            var filter = new BoolEntityFilter();
-            filter.Initialize(_property, "0");
             var filters = new List<IEntityFilter>
             {
-                filter
+                new BoolEntityFilter(_property, "0")
             };
             var result = _source.GetRecords(_entity, filters);
             Assert.Equal(1, result.Records.Count);

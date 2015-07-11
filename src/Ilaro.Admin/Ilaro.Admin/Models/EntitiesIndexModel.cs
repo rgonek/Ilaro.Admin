@@ -16,13 +16,13 @@ namespace Ilaro.Admin.Models
 
         public PagerInfo Pager { get; set; }
 
-        public IList<IEntityFilter> Filters { get; set; }
+        public IList<BaseFilter> Filters { get; set; }
 
-        public IList<IEntityFilter> ActiveFilters
+        public IList<BaseFilter> ActiveFilters
         {
             get
             {
-                return Filters.Where(x => !x.Value.IsNullOrEmpty()).ToList();
+                return Filters.Where(x => x.IsActive).ToList();
             }
         }
 
