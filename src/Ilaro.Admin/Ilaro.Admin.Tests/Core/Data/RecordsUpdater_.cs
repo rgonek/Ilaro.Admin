@@ -29,7 +29,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.ConnectionStringName = ConnectionStringName;
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _entity = _source.GetEntityWithData("Product", _productId.ToString());
+            _entity = _source.GetEntityWithData(Admin.GetEntity("Product"), _productId.ToString());
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.SetForeignKeysReferences();
             _entity =
                 Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
-            _entity = _source.GetEntityWithData("Category", category.CategoryID.ToString());
+            _entity = _source.GetEntityWithData(Admin.GetEntity("Category"), category.CategoryID.ToString());
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values = new List<object> { _productId };
             _updater.Update(_entity);

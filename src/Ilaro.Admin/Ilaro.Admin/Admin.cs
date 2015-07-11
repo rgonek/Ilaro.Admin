@@ -38,7 +38,7 @@ namespace Ilaro.Admin
             EntitiesTypes = new List<Entity>();
         }
 
-        internal static Entity GetEntity(string entityName)
+        public static Entity GetEntity(string entityName)
         {
             return EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
         }

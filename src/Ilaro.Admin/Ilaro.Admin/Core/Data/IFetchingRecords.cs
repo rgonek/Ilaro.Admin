@@ -6,7 +6,7 @@ namespace Ilaro.Admin.Core.Data
 {
     public interface IFetchingRecords
     {
-        Entity GetEntityWithData(string entityName, string key);
+        Entity GetEntityWithData(Entity entity, string key);
 
         object GetRecord(Entity entity, object key);
 

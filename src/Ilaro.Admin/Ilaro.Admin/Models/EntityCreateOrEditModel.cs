@@ -3,7 +3,7 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Models
 {
-    public class EntityEditModel
+    public class EntityCreateOrEditModel
     {
         public Entity Entity { get; set; }
 

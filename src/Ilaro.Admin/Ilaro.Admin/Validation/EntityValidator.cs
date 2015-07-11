@@ -1,14 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.FileUpload;
+using Resources;
 using DataType = Ilaro.Admin.Core.DataType;
 
 namespace Ilaro.Admin.Validation
 {
     public class EntityValidator : IValidateEntity
     {
+        private readonly Notificator _notificator;
+
+        public EntityValidator(Notificator notificator)
+        {
+            if (notificator == null)
+                throw new ArgumentNullException("notificator");
+
+            _notificator = notificator;
+        }
+
         public bool Validate(Entity entity)
         {
             var isValid = true;
@@ -25,7 +37,7 @@ namespace Ilaro.Admin.Validation
                 {
                     isValid = false;
                     // TODO: more complex validation message
-                    //modelState.AddModelError(property.Name, IlaroAdminResources.UnvalidFile);
+                    _notificator.AddModelError(property.Name, IlaroAdminResources.UnvalidFile);
                 }
             }
 
@@ -37,10 +49,10 @@ namespace Ilaro.Admin.Validation
                     {
                         validator.Validate(property.Value.Raw, property.Name);
                     }
-                    catch (ValidationException exc)
+                    catch (ValidationException ex)
                     {
                         isValid = false;
-                        //modelState.AddModelError(property.Name, exc.Message);
+                        _notificator.AddModelError(property.Name, ex.Message);
                     }
                 }
             }

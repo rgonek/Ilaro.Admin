@@ -1,13 +1,15 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class ModelStateErrorsBulderAttribute : ActionFilterAttribute
+    public class ModelStateErrorsBulderAttribute : IlaroAdminFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            if (IsIlaroAdminController(filterContext.Controller) == false)
+                return;
+
             var notificator = 
                 (Notificator)DependencyResolver.Current.GetService(typeof(Notificator));
             var modelState = filterContext.Controller.ViewData.ModelState;

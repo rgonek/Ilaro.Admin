@@ -18,12 +18,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         private readonly IEntityService _entityService;
         private readonly IFetchingRecords _source;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
-        private readonly IValidateEntity _validator;
 
         public EntityController(
             Notificator notificator,
             IEntityService entityService,
-            IValidateEntity validator,
             IFetchingRecords source,
             IFetchingRecordsHierarchy hierarchySource)
         {
@@ -31,8 +29,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new ArgumentNullException("notificator");
             if (entityService == null)
                 throw new ArgumentNullException("entityService");
-            if (validator == null)
-                throw new ArgumentNullException("validator");
             if (source == null)
                 throw new ArgumentNullException("source");
             if (hierarchySource == null)
@@ -40,23 +36,19 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
             _notificator = notificator;
             _entityService = entityService;
-            _validator = validator;
             _source = source;
             _hierarchySource = hierarchySource;
         }
 
         public virtual ActionResult Create(string entityName)
         {
-            ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
-
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
-                throw new NoNullAllowedException("entity is null");
+                return RedirectToAction("NotFound", new { entityName });
             }
 
-            var model = new EntityCreateModel
+            var model = new EntityCreateOrEditModel
             {
                 Entity = entity,
                 PropertiesGroups = _entityService.PrepareGroups(entity)
@@ -68,56 +60,28 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
         public ActionResult Create(string entityName, FormCollection collection)
         {
-            ViewBag.IsAjaxRequest = HttpContext.Request.IsAjaxRequest();
-
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
-                throw new NoNullAllowedException("entity is null");
+                return RedirectToAction("NotFound", new { entityName });
             }
 
-            entity.Fill(collection, Request.Files);
-            if (_validator.Validate(entity))
+            try
             {
-                try
+                var savedId = _entityService.Create(entity, collection, Request.Files);
+                if (savedId != null)
                 {
-                    var savedId = _entityService.Create(entity);
-                    if (savedId != null)
-                    {
-                        _notificator.Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
+                    _notificator.Success(IlaroAdminResources.AddSuccess, entity.Verbose.Singular);
 
-                        if (Request["ContinueEdit"] != null)
-                        {
-                            return RedirectToAction(
-                                "Edit",
-                                new
-                                {
-                                    entityName,
-                                    key = entity.Key.Value.ToObject(savedId)
-                                });
-                        }
-                        if (Request["AddNext"] != null)
-                        {
-                            return RedirectToAction("Create", new { entityName });
-                        }
-
-                        return RedirectToAction("Index", "Entities", new { entityName });
-                    }
-                    _notificator.Error(IlaroAdminResources.UncaughtError);
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message;
-                    if (ex.InnerException != null)
-                    {
-                        message += "<br />" + ex.InnerException.Message;
-                    }
-                    _notificator.Error(message);
+                    return SaveOrUpdateSucceed(entityName, savedId);
                 }
             }
+            catch (Exception ex)
+            {
+                _notificator.Error(ex.Message);
+            }
 
-            var model = new EntityCreateModel
+            var model = new EntityCreateOrEditModel
             {
                 Entity = entity,
                 PropertiesGroups = _entityService.PrepareGroups(entity)
@@ -128,13 +92,19 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Edit(string entityName, string key)
         {
-            var entity = _source.GetEntityWithData(entityName, key);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
-                return RedirectToAction("Index", "Entities", new { entityName });
+                return RedirectToAction("NotFound", new { entityName });
             }
 
-            var model = new EntityEditModel
+            entity = _source.GetEntityWithData(entity, key);
+            if (entity == null)
+            {
+                return RedirectToAction("Index", "Entities", new { area = "IlaroAdmin", entityName });
+            }
+
+            var model = new EntityCreateOrEditModel
             {
                 Entity = entity,
                 PropertiesGroups = _entityService.PrepareGroups(entity, false, key)
@@ -144,54 +114,30 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
-        public ActionResult Edit(
-            string entityName,
-            string key,
-            FormCollection collection)
+        public ActionResult Edit(string entityName, string key, FormCollection collection)
         {
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
-                throw new NoNullAllowedException("entity is null");
+                return RedirectToAction("NotFound", new { entityName });
             }
 
-            entity.Key.Value.ToObject(key);
-            entity.Fill(collection, Request.Files);
-            if (_validator.Validate(entity))
+            try
             {
-                try
+                var isSuccess = _entityService.Edit(entity, key, collection, Request.Files);
+                if (isSuccess)
                 {
-                    var result = _entityService.Edit(entity);
-                    if (result)
-                    {
-                        _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
+                    _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
 
-                        if (Request["ContinueEdit"] != null)
-                        {
-                            return RedirectToAction("Edit", new { entityName, key });
-                        }
-                        if (Request["AddNext"] != null)
-                        {
-                            return RedirectToAction("Create", new { entityName });
-                        }
-
-                        return RedirectToAction("Index", "Entities", new { entityName });
-                    }
-                    _notificator.Error(IlaroAdminResources.UncaughtError);
-                }
-                catch (Exception ex)
-                {
-                    var message = ex.Message;
-                    if (ex.InnerException != null)
-                    {
-                        message += "<br />" + ex.InnerException.Message;
-                    }
-                    _notificator.Error(message);
+                    return SaveOrUpdateSucceed(entityName, key);
                 }
             }
+            catch (Exception ex)
+            {
+                _notificator.Error(ex.Message);
+            }
 
-            var model = new EntityEditModel
+            var model = new EntityCreateOrEditModel
             {
                 Entity = entity,
                 PropertiesGroups = _entityService.PrepareGroups(entity, false, key)
@@ -200,30 +146,30 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             return View(model);
         }
 
+        protected virtual ActionResult SaveOrUpdateSucceed(string entityName, string key)
+        {
+            if (Request["ContinueEdit"] != null)
+                return RedirectToAction("Edit", new { entityName, key });
+            if (Request["AddNext"] != null)
+                return RedirectToAction("Create", new { entityName });
+            return RedirectToAction("Index", "Entities", new { entityName });
+        }
+
         public virtual ActionResult Delete(string entityName, string key)
         {
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
-                throw new NoNullAllowedException("entity is null");
+                return RedirectToAction("NotFound", new { entityName });
             }
 
-            entity.Key.Value.ToObject(key);
-
-            var model = new EntityDeleteModel
+            if (_entityService.IsRecordExists(entity, key) == false)
             {
-                Entity = entity,
-                PropertiesDeleteOptions = entity.Properties
-                    .Where(x =>
-                        x.IsForeignKey &&
-                        x.DeleteOption == DeleteOption.AskUser)
-                    .Select(x =>
-                        new PropertyDeleteOption
-                        {
-                            PropertyName = x.ForeignEntity.Name
-                        })
-                    .ToList(),
+                return RedirectToAction("Index", "Entities", new { area = "IlaroAdmin", entityName });
+            }
+
+            var model = new EntityDeleteModel(entity)
+            {
                 RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
             };
 
@@ -233,55 +179,38 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public virtual ActionResult Delete(EntityDeleteModel model)
         {
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == model.EntityName);
+            var entity = Admin.GetEntity(model.EntityName);
             if (entity == null)
             {
-                throw new NoNullAllowedException("entity is null");
+                return RedirectToAction("NotFound", new { entityName = model.EntityName });
             }
 
             try
             {
-                var deleteOptions =
-                    model.PropertiesDeleteOptions ??
-                    new List<PropertyDeleteOption>();
-                if (_entityService.Delete(entity, model.Key, deleteOptions))
+                var isSuccess = _entityService.Delete(entity, model.Key, model.PropertiesDeleteOptions);
+                if (isSuccess)
                 {
                     _notificator.Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
 
                     return RedirectToAction("Index", "Entities", new { entityName = model.EntityName });
                 }
-
-                _notificator.Error(IlaroAdminResources.UncaughtError);
             }
             catch (Exception ex)
             {
-                var message = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    message += "<br />" + ex.InnerException.Message;
-                }
-                _notificator.Error(message);
+                _notificator.Error(ex.Message);
             }
 
-            model = new EntityDeleteModel
+            model = new EntityDeleteModel(entity)
             {
-                Entity = entity,
-                PropertiesDeleteOptions =
-                    entity.Properties
-                    .Where(x =>
-                        x.IsForeignKey &&
-                        x.DeleteOption == DeleteOption.AskUser)
-                    .Select(x =>
-                        new PropertyDeleteOption
-                        {
-                            PropertyName = x.ForeignEntity.Name
-                        })
-                    .ToList(),
                 RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
             };
 
             return View(model);
+        }
+
+        public virtual ActionResult NotFound(string entityName)
+        {
+            return Content("not found");
         }
     }
 }

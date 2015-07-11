@@ -207,6 +207,7 @@
     <Compile Include="Core\Notificator.cs" />
     <Compile Include="Infrastructure\ClearEntitiesPropertiesAttribute.cs" />
     <Compile Include="Infrastructure\CopyIsAjaxRequestFromRequestToViewBagAttribute.cs" />
+    <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
     <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
@@ -237,7 +238,6 @@
     <Compile Include="Templates.cs" />
     <Compile Include="Models\CellValue.cs" />
     <Compile Include="Models\Column.cs" />
-    <Compile Include="Models\EntityCreateModel.cs" />
     <Compile Include="Models\DataRow.cs" />
     <Compile Include="Core\DataType.cs" />
     <Compile Include="Core\DeleteOption.cs" />
@@ -246,7 +246,7 @@
     <Compile Include="Models\EntityDeleteModel.cs" />
     <Compile Include="Models\EntitiesChangesModel.cs" />
     <Compile Include="Models\EntitiesIndexModel.cs" />
-    <Compile Include="Models\EntityEditModel.cs" />
+    <Compile Include="Models\EntityCreateOrEditModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Models\GroupProperties.cs" />

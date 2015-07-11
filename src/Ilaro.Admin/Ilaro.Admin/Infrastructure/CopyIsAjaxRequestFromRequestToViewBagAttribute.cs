@@ -2,10 +2,13 @@
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class CopyIsAjaxRequestFromRequestToViewBagAttribute : ActionFilterAttribute
+    public class CopyIsAjaxRequestFromRequestToViewBagAttribute : IlaroAdminFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            if (IsIlaroAdminController(filterContext.Controller) == false)
+                return;
+
             var view = filterContext.Result as ViewResult;
             if (view != null)
             {

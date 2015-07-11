@@ -22,14 +22,8 @@ namespace Ilaro.Admin.Core.Data
             _notificator = notificator;
         }
 
-        public Entity GetEntityWithData(string entityName, string key)
+        public Entity GetEntityWithData(Entity entity, string key)
         {
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
-
-            if (entity == null)
-                return null;
-
             var item = GetRecord(entity, entity.Key.Value.ToObject(key));
             if (item == null)
             {

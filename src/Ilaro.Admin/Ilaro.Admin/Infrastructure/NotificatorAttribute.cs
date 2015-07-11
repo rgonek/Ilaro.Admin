@@ -3,10 +3,13 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class NotificatorAttribute : ActionFilterAttribute
+    public class NotificatorAttribute : IlaroAdminFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            if (IsIlaroAdminController(filterContext.Controller) == false)
+                return;
+
             var view = filterContext.Result as ViewResult;
             if (view == null)
             {
@@ -32,6 +35,9 @@ namespace Ilaro.Admin.Infrastructure
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
+            if (IsIlaroAdminController(filterContext.Controller) == false)
+                return;
+
             var view = filterContext.Result as ViewResult;
             if (view == null)
             {

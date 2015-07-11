@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
+using Ilaro.Admin.Validation;
 using Resources;
 
 namespace Ilaro.Admin.Services
@@ -15,13 +18,15 @@ namespace Ilaro.Admin.Services
         private readonly ICreatingRecords _creator;
         private readonly IUpdatingRecords _updater;
         private readonly IDeletingRecords _deleter;
+        private readonly IValidateEntity _validator;
 
         public EntityService(
             Notificator notificator,
             IFetchingRecords source,
             ICreatingRecords creator,
             IUpdatingRecords updater,
-            IDeletingRecords deleter)
+            IDeletingRecords deleter,
+            IValidateEntity validator)
         {
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
@@ -33,16 +38,28 @@ namespace Ilaro.Admin.Services
                 throw new ArgumentNullException("updater");
             if (deleter == null)
                 throw new ArgumentNullException("deleter");
+            if (validator == null)
+                throw new ArgumentNullException("validator");
 
             _notificator = notificator;
             _source = source;
             _creator = creator;
             _updater = updater;
             _deleter = deleter;
+            _validator = validator;
         }
 
-        public string Create(Entity entity)
+        public string Create(
+            Entity entity,
+            FormCollection collection,
+            HttpFileCollectionBase files)
         {
+            entity.Fill(collection, files);
+            if (_validator.Validate(entity) == false)
+            {
+                _notificator.Error("Not valid");
+                return null;
+            }
             var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
             if (existingItem != null)
             {
@@ -55,18 +72,21 @@ namespace Ilaro.Admin.Services
             return id;
         }
 
-        public bool Edit(Entity entity)
+        public bool Edit(
+            Entity entity,
+            string key,
+            FormCollection collection,
+            HttpFileCollectionBase files)
         {
-            if (entity.Key.Value.Raw == null)
+            if (IsRecordExists(entity, key) == false)
             {
-                _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
                 return false;
             }
 
-            var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
-            if (existingItem == null)
+            entity.Fill(collection, files);
+            if (_validator.Validate(entity) == false)
             {
-                _notificator.Error(IlaroAdminResources.EntityNotExist);
+                _notificator.Error("Not valid");
                 return false;
             }
 
@@ -77,20 +97,12 @@ namespace Ilaro.Admin.Services
 
         public bool Delete(Entity entity, string key, IEnumerable<PropertyDeleteOption> options)
         {
-            entity.Key.Value.ToObject(key);
-            if (entity.Key.Value.Raw == null)
+            if (IsRecordExists(entity, key) == false)
             {
-                _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
                 return false;
             }
 
-            var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
-            if (existingItem == null)
-            {
-                _notificator.Error(IlaroAdminResources.EntityNotExist);
-                return false;
-            }
-
+            options = options ?? new List<PropertyDeleteOption>();
             var deleteOptions = options.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
             foreach (var property in entity.GetForeignsForUpdate())
             {
@@ -149,6 +161,24 @@ namespace Ilaro.Admin.Services
             }
 
             return entity.Groups;
+        }
+
+        public bool IsRecordExists(Entity entity, string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
+                return false;
+            }
+            entity.Key.Value.ToObject(key);
+            var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
+            if (existingItem == null)
+            {
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
+                return false;
+            }
+
+            return true;
         }
     }
 }

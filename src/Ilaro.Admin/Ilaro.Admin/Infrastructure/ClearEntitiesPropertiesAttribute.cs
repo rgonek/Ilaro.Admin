@@ -1,20 +1,17 @@
 ﻿using System.Web.Mvc;
-using Ilaro.Admin.Areas.IlaroAdmin.Controllers;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class ClearEntitiesPropertiesAttribute : ActionFilterAttribute
+    public class ClearEntitiesPropertiesAttribute : IlaroAdminFilterAttribute
     {
         public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
-            if (filterContext.IsChildAction == false &&
-                (filterContext.Controller.GetType() == typeof(EntitiesController) ||
-                filterContext.Controller.GetType() == typeof(EntityController)))
+            if (IsIlaroAdminController(filterContext.Controller) == false)
+                return;
+
+            foreach (var entity in Admin.EntitiesTypes)
             {
-                foreach (var entity in Admin.EntitiesTypes)
-                {
-                    entity.ClearPropertiesValues();
-                }
+                entity.ClearPropertiesValues();
             }
         }
     }
