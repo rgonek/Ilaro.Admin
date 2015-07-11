@@ -1,16 +1,21 @@
-﻿using System.Web;
+﻿using System;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
+using log4net.Config;
 
 namespace Ilaro.Admin.Sample
 {
 	public class MvcApplication : HttpApplication
 	{
 		protected void Application_Start()
-        {
+		{
+		    BootstrapLogging();
+
 			Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
 			//.AddPropertiesGroup("Main section", c => c.CompanyName)
 			//.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
@@ -64,5 +69,18 @@ namespace Ilaro.Admin.Sample
                 namespaces: new[] { "Ilaro.Admin.Sample.Controllers" }
 			);
 		}
+
+        private void BootstrapLogging()
+        {
+            var path = Server.MapPath(@"~\logging.xml");
+
+            if (File.Exists(path) == false)
+            {
+                throw new InvalidOperationException(String.Format(
+                    "Logging configuration '{0}' not found.",
+                    path));
+            }
+            XmlConfigurator.Configure(new FileInfo(path));
+        }
 	}
 }
