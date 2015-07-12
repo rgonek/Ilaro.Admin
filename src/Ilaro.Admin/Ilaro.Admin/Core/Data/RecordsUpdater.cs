@@ -100,7 +100,7 @@ WHERE {3} In ({4});";
             {
                 var actualRecords = _source.GetRecords(
                     property.ForeignEntity,
-                    new List<IEntityFilter>
+                    new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
                             entity.Key, 

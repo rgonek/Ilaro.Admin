@@ -5,13 +5,12 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 {
 	public class OrderDetail
 	{
-		[Key]
-		public int OrderDetailsID { get; set; }
-
-		[ForeignKey("Order")]
+        [Key]
+        [ForeignKey("Order")]
 		public int OrderID { get; set; }
 
-		public int ProductID { get; set; }
+        [Key]
+        public int ProductID { get; set; }
 
 		[Required]
 		public decimal UnitPrice { get; set; }

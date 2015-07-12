@@ -59,7 +59,7 @@ namespace Ilaro.Admin.Core.Data
 
         public PagedRecords GetRecords(
             Entity entity,
-            IList<IEntityFilter> filters = null,
+            IList<BaseFilter> filters = null,
             string searchQuery = null,
             string order = null,
             string orderDirection = null,
@@ -143,16 +143,13 @@ namespace Ilaro.Admin.Core.Data
         }
 
         private static string ConvertFiltersToSql(
-            IList<IEntityFilter> filters,
+            IList<BaseFilter> filters,
             EntitySearch search,
             out List<object> args,
             string alias = "")
         {
             args = new List<object>();
-            if (filters == null)
-            {
-                filters = new List<IEntityFilter>();
-            }
+            filters = filters ?? new List<BaseFilter>();
 
             var activeFilters = filters
                 .Where(x => !x.Value.IsNullOrEmpty())
@@ -191,7 +188,7 @@ namespace Ilaro.Admin.Core.Data
                             .Fill(alias, property.ColumnName, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
-                        // TODO: Temporary solution
+                    // TODO: Temporary solution
                     else if (decimal.TryParse(query.Replace(".", ","), out temp))
                     {
                         var sign = "=";

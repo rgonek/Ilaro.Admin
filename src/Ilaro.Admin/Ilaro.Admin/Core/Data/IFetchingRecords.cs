@@ -12,7 +12,7 @@ namespace Ilaro.Admin.Core.Data
 
         PagedRecords GetRecords(
             Entity entity,
-            IList<IEntityFilter> filters = null,
+            IList<BaseFilter> filters = null,
             string searchQuery = null,
             string order = null,
             string orderDirection = null,

@@ -53,11 +53,11 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(_entity);
             Assert.Equal(3, result.Records.Count);
 
-            var filters = new List<IEntityFilter>();
+            var filters = new List<BaseFilter>();
             result = _source.GetRecords(_entity, filters);
             Assert.Equal(3, result.Records.Count);
 
-            filters = new List<IEntityFilter>
+            filters = new List<BaseFilter>
             {
                 new EnumEntityFilter(_property)
             };
@@ -71,7 +71,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             foreach (Enum item in Enum.GetValues(typeof(EntityChangeType)))
             {
                 var enumValue = Convert.ToInt32(item).ToString();
-                var filters = new List<IEntityFilter>
+                var filters = new List<BaseFilter>
                 {
                     new BoolEntityFilter(_property, enumValue)
                 };
