@@ -182,7 +182,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public IList<BaseFilter> PrepareFilters(Entity entity)
         {
-            var filters = new List<IEntityFilter>();
+            var filters = new List<BaseFilter>();
 
             foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Bool))
             {

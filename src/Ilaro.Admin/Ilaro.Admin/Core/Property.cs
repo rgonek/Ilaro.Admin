@@ -218,7 +218,7 @@ namespace Ilaro.Admin.Core
 
                 return TypeInfo.IsCollection ?
                     new MultiSelectList(options, "Key", "Value", Value.Values) :
-                    new SelectList(options, "Key", "Value", Value);
+                    new SelectList(options, "Key", "Value", Value.AsString);
             }
             else
             {
@@ -235,7 +235,7 @@ namespace Ilaro.Admin.Core
                         Convert.ToInt32(Value));
                 }
 
-                return new SelectList(options, "Key", "Value", Value);
+                return new SelectList(options, "Key", "Value", Value.AsString);
             }
         }
     }

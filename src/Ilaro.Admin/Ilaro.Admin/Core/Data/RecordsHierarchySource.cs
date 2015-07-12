@@ -13,14 +13,14 @@ namespace Ilaro.Admin.Core.Data
 
         public RecordHierarchy GetRecordHierarchy(Entity entity)
         {
-            _log.InfoFormat("Getting record hierarchy for entity record ({0}#{1})", entity.Name, entity.Key.Value.AsString);
+            _log.InfoFormat("Getting record hierarchy for entity record ({0}#{1})", entity.Name, entity.JoinedKeyWithValue);
 
             var index = 0;
             var hierarchy = GetEntityHierarchy(null, entity, ref index);
             var sql = GenerateHierarchySql(hierarchy);
             _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
             var model = new DynamicModel(Admin.ConnectionStringName);
-            var records = model.Query(sql, entity.Key.Value.Raw).ToList();
+            var records = model.Query(sql, entity.Key.Select(x => x.Value.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 
@@ -32,7 +32,7 @@ namespace Ilaro.Admin.Core.Data
             EntityHierarchy hierarchy)
         {
             var baseRecord = records.FirstOrDefault();
-            var prefix = hierarchy.Alias.UnDecorate() + "_";
+            var prefix = hierarchy.Alias.Undecorate() + "_";
             var rowData = new DataRow(baseRecord, hierarchy.Entity, prefix);
 
             var recordHierarchy = new RecordHierarchy
@@ -52,12 +52,12 @@ namespace Ilaro.Admin.Core.Data
             RecordHierarchy parentHierarchy,
             IList<dynamic> records,
             IEnumerable<EntityHierarchy> subHierarchies,
-            string foreignKey = null,
-            string foreignKeyValue = null)
+            IList<string> foreignKey = null,
+            IList<string> foreignKeyValue = null)
         {
             foreach (var hierarchy in subHierarchies)
             {
-                var prefix = hierarchy.Alias.Trim("[]".ToCharArray()) + "_";
+                var prefix = hierarchy.Alias.Undecorate() + "_";
 
                 foreach (var record in records)
                 {
@@ -75,7 +75,7 @@ namespace Ilaro.Admin.Core.Data
                         };
 
                         if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
-                            (foreignKey.IsNullOrEmpty() || recordDict[foreignKey].ToStringSafe() == foreignKeyValue))
+                            Matching(recordDict, foreignKey, foreignKeyValue))
                         {
                             parentHierarchy.SubRecordsHierarchies.Add(subRecord);
 
@@ -83,12 +83,31 @@ namespace Ilaro.Admin.Core.Data
                                 subRecord,
                                 records,
                                 hierarchy.SubHierarchies,
-                                prefix + hierarchy.Entity.Key.ColumnName,
+                                hierarchy.Entity.Key.Select(x => prefix + x.ColumnName).ToList(),
                                 rowData.KeyValue);
                         }
                     }
                 }
             }
+        }
+
+        private bool Matching(IDictionary<string, object> recordDict, IList<string> foreignKey, IList<string> foreignKeyValue)
+        {
+            if (foreignKey == null || foreignKey.Count == 0 || foreignKey.All(x => x.IsNullOrWhiteSpace()))
+            {
+                return true;
+            }
+
+            if (foreignKey.Count != foreignKeyValue.Count)
+                return false;
+
+            for (int i = 0; i < foreignKey.Count; i++)
+            {
+                if (recordDict[foreignKey[i]].ToStringSafe() != foreignKeyValue[i])
+                    return false;
+            }
+
+            return true;
         }
 
         private string GenerateHierarchySql(EntityHierarchy hierarchy)
@@ -115,7 +134,7 @@ ORDER BY {5};";
             const string joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
             var columns = flatHierarchy.SelectMany(x => x.Entity.GetColumns()
-                .Select(y => x.Alias + "." + y + " AS " + x.Alias.UnDecorate() + "_" + y.UnDecorate())).ToList();
+                .Select(y => x.Alias + "." + y + " AS " + x.Alias.Undecorate() + "_" + y.Undecorate())).ToList();
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {
@@ -126,28 +145,33 @@ ORDER BY {5};";
                 var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
-                    foreignKey = item.Entity.Key.ColumnName;
+                    foreignKey = item.Entity.Key.FirstOrDefault().ColumnName;
                     baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties
                         .FirstOrDefault(x => x.ForeignEntity == item.Entity).ColumnName;
                 }
                 else
                 {
                     foreignKey = foreignProperty.ColumnName;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.ColumnName;
+                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.FirstOrDefault().ColumnName;
                 }
-                joins.Add(
-                    string.Format(joinFormat,
-                        foreignTable,
-                        foreignAlias,
-                        foreignKey,
-                        baseTableAlias,
-                        baseTablePrimaryKey));
+                joins.Add(joinFormat.Fill(
+                    foreignTable,
+                    foreignAlias,
+                    foreignKey,
+                    baseTableAlias,
+                    baseTablePrimaryKey));
             }
-            var orders = flatHierarchy.Select(x => x.Alias + "." + x.Entity.Key.ColumnName).ToList();
+            var orders = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.ColumnName)).ToList();
 
-            var where = hierarchy.Alias + "." + hierarchy.Entity.Key.ColumnName + " = @0";
+            var whereParts = new List<string>();
+            var counter = 0;
+            foreach (var key in hierarchy.Entity.Key)
+            {
+                whereParts.Add("{0}.{1} = @{2}".Fill(hierarchy.Alias, key.ColumnName, counter++));
+            }
+            var where = string.Join(" AND ", whereParts);
 
-            var sql = string.Format(selectFormat,
+            var sql = selectFormat.Fill(
                 string.Join(", ", columns),
                 hierarchy.Entity.TableName,
                 hierarchy.Alias,

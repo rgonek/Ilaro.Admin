@@ -36,11 +36,11 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(_entity);
             Assert.Equal(2, result.Records.Count);
 
-            var filters = new List<IEntityFilter>();
+            var filters = new List<BaseFilter>();
             result = _source.GetRecords(_entity, filters);
             Assert.Equal(2, result.Records.Count);
 
-            filters = new List<IEntityFilter>
+            filters = new List<BaseFilter>
             {
                 new ForeignEntityFilter(_property)
             };
@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void foreign_filter_with_value_should_return_one_records()
         {
-            var filters = new List<IEntityFilter>
+            var filters = new List<BaseFilter>
             {
                 new ForeignEntityFilter(_property, _supplierId.ToString())
             };

@@ -6,13 +6,12 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 	[Table("EmployeeTerritories")]
 	public class EmployeeTerritory
 	{
-		[Key]
-		public int EmployeeTerritoryID { get; set; }
-
-		[ForeignKey("Employee")]
+        [Key]
+        [ForeignKey("Employee")]
 		public int EmployeeID { get; set; }
 
-		[Required, ForeignKey("TerritoryID")]
+        [Key]
+        [Required, ForeignKey("TerritoryID")]
 		public Territory Territory { get; set; }
 	}
 }

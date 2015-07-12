@@ -15,8 +15,8 @@ namespace Ilaro.Admin.Core.Data
         private readonly IFetchingRecordsHierarchy _hierarchySource;
 
         private const string SqlFormat =
-@"DELETE FROM {0} WHERE {1} = @0;
-SELECT @0;";
+@"DELETE FROM {0} WHERE {1};
+SELECT @{2};";
 
         public RecordsDeleter(
             IExecutingDbCommand executor,
@@ -60,8 +60,16 @@ SELECT @0;";
         private DbCommand CreateBaseCommand(Entity entity)
         {
             var cmd = DB.CreateCommand();
-            cmd.CommandText = SqlFormat.Fill(entity.TableName, entity.Key.ColumnName);
-            cmd.AddParam(entity.Key.Value.Raw);
+            var whereParts = new List<string>();
+            var counter = 0;
+            foreach (var key in entity.Key)
+            {
+                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
+                cmd.AddParam(key.Value.Raw);
+            }
+            var wherePart = string.Join(" AND ", whereParts);
+            cmd.AddParam(entity.JoinedKeyValue);
+            cmd.CommandText = SqlFormat.Fill(entity.TableName, wherePart, counter);
 
             return cmd;
         }
@@ -102,15 +110,20 @@ SELECT @0;";
             // {0} - Foreign table
             // {1} - Primary key
             // {2} - Key value
-            const string deleteFormat = "DELETE FROM {0} WHERE {1} = @{2};";
+            const string deleteFormat = "DELETE FROM {0} WHERE {1};";
 
             var paramIndex = cmd.Parameters.Count;
-            cmd.AddParam(record.KeyValue);
+            cmd.AddParams(record.KeyValue.ToArray());
+            var whereParts = new List<string>();
+            foreach (var key in record.Entity.Key)
+            {
+                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, paramIndex++));
+            }
+            var wherePart = string.Join(" AND ", whereParts);
 
             var sql = deleteFormat.Fill(
                 record.Entity.TableName,
-                record.Entity.Key.ColumnName,
-                paramIndex);
+                wherePart);
 
             var sqls = new List<string>() { sql };
             foreach (var subRecord in record.SubRecordsHierarchies)
@@ -127,22 +140,28 @@ SELECT @0;";
             // {1} - Foreign key
             // {2} - Primary key
             // {3} - Key value
-            const string updateFormat = "UPDATE {0} SET {1} = @{2} WHERE {3} = @{4};";
+            const string updateFormat = "UPDATE {0} SET {1} = @{2} WHERE {3};";
             //UPDATE Products SET CategoryID = null WHERE ProductID = 7
 
             var foreignTable = subRecord.Entity.TableName;
             var foreignKey = subRecord.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == entity).ColumnName;
-            var primaryKey = subRecord.Entity.Key.ColumnName;
-            var paramIndex = cmd.Parameters.Count;
+            var nullIndex = cmd.Parameters.Count;
+            var paramIndex = nullIndex + 1;
             cmd.AddParam(null);
-            cmd.AddParam(subRecord.KeyValue);
+            cmd.AddParams(subRecord.KeyValue.ToArray());
+
+            var whereParts = new List<string>();
+            foreach (var key in subRecord.Entity.Key)
+            {
+                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, paramIndex++));
+            }
+            var wherePart = string.Join(" AND ", whereParts);
 
             var updateSql = updateFormat.Fill(
                 foreignTable,
                 foreignKey,
-                paramIndex++,
-                primaryKey,
-                paramIndex);
+                nullIndex,
+                wherePart);
 
             return updateSql;
         }

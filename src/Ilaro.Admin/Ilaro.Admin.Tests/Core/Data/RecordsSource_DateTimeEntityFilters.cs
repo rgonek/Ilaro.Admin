@@ -42,11 +42,11 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(_entity);
             Assert.Equal(4, result.Records.Count);
 
-            var filters = new List<IEntityFilter>();
+            var filters = new List<BaseFilter>();
             result = _source.GetRecords(_entity, filters);
             Assert.Equal(4, result.Records.Count);
 
-            filters = new List<IEntityFilter>
+            filters = new List<BaseFilter>
             {
                 new DateTimeEntityFilter(_fakeClock, _property)
             };
@@ -68,7 +68,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [InlineData("2015.07.20-", 1)]
         public void date_time_filter_with_provided_value__returned_count_results_should_match_with_provided_count(string value, int resultsCount)
         {
-            var filters = new List<IEntityFilter>
+            var filters = new List<BaseFilter>
             {
                 new DateTimeEntityFilter(_fakeClock,_property, value)
             };

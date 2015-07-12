@@ -7,17 +7,20 @@ namespace Ilaro.Admin.Models
 {
     public class DataRow
     {
-        public string KeyValue { get; set; }
+        public IList<string> KeyValue { get; set; }
+        public string JoinedKeyValue { get { return string.Join(Const.KeyColSeparator.ToString(), KeyValue); } }
 
-        public string LinkKeyValue { get; set; }
+        public IList<string> LinkKeyValue { get; set; }
+        public string JoinedLinkKeyValue { get { return string.Join(Const.KeyColSeparator.ToString(), LinkKeyValue); } }
 
         public string DisplayName { get; set; }
-
         public IList<CellValue> Values { get; set; }
 
         private DataRow()
         {
             Values = new List<CellValue>();
+            KeyValue = new List<string>();
+            LinkKeyValue = new List<string>();
         }
 
         public DataRow(
@@ -34,14 +37,20 @@ namespace Ilaro.Admin.Models
             string prefix = null)
             : this()
         {
-            KeyValue = recordDict[prefix + entity.Key.ColumnName.UnDecorate()].ToStringSafe();
-            LinkKeyValue = recordDict[prefix + entity.LinkKey.ColumnName.UnDecorate()].ToStringSafe();
+            foreach (var key in entity.Key)
+            {
+                KeyValue.Add(recordDict[prefix + key.ColumnName.Undecorate()].ToStringSafe());
+            }
+            foreach (var linkKey in entity.LinkKey)
+            {
+                LinkKeyValue.Add(recordDict[prefix + linkKey.ColumnName.Undecorate()].ToStringSafe());
+            }
 
             foreach (var property in entity.DisplayProperties)
             {
                 Values.Add(new CellValue
                 {
-                    Raw = recordDict[prefix + property.ColumnName.UnDecorate()],
+                    Raw = recordDict[prefix + property.ColumnName.Undecorate()],
                     Property = property
                 });
             }

@@ -33,19 +33,34 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public Property Key
+        public IList<Property> Key
         {
             get
             {
-                return Properties.FirstOrDefault(x => x.IsKey);
+                return Properties.Where(x => x.IsKey).ToList();
             }
         }
 
-        public Property LinkKey
+        public string JoinedKey
+        {
+            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.ColumnName)); }
+        }
+
+        public string JoinedKeyWithValue
+        {
+            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => string.Format("{0}={1}", x.Name, x.Value.AsString))); }
+        }
+
+        public string JoinedKeyValue
+        {
+            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.Value.AsString)); }
+        }
+
+        public IList<Property> LinkKey
         {
             get
             {
-                return Properties.FirstOrDefault(x => x.IsLinkKey);
+                return Properties.Where(x => x.IsLinkKey).ToList();
             }
         }
 
@@ -151,7 +166,10 @@ namespace Ilaro.Admin.Core
         {
             if (LinkKey == null && Key != null)
             {
-                Key.IsLinkKey = true;
+                foreach (var key in Key)
+                {
+                    key.IsLinkKey = true;
+                }
             }
         }
 
@@ -426,9 +444,10 @@ namespace Ilaro.Admin.Core
 
         public IList<string> GetColumns()
         {
-            var properties = DisplayProperties.ToList();
-            properties.Insert(0, LinkKey);
-            properties.Insert(0, Key);
+            var properties = new List<Property>();
+            properties.AddRange(Key);
+            properties.AddRange(LinkKey);
+            properties.AddRange(DisplayProperties);
 
             return properties
                 .Select(x => x.ColumnName)
@@ -492,7 +511,7 @@ namespace Ilaro.Admin.Core
 
             if (value.IsNullOrEmpty())
             {
-                return "#" + row.KeyValue;
+                return "#" + row.JoinedKeyValue;
             }
 
             return value;

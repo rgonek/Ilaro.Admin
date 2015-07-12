@@ -135,7 +135,6 @@ CREATE TABLE [dbo].[EntityChanges](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Order Details](
-	[OrderDetailsID] [int] IDENTITY(1,1) NOT NULL,
 	[OrderID] [int] NOT NULL,
 	[ProductID] [int] NOT NULL,
 	[UnitPrice] [money] NOT NULL CONSTRAINT [DF_Order_Details_UnitPrice]  DEFAULT ((0)),
@@ -143,7 +142,8 @@ CREATE TABLE [dbo].[Order Details](
 	[Discount] [real] NOT NULL CONSTRAINT [DF_Order_Details_Discount]  DEFAULT ((0)),
  CONSTRAINT [PK_Order_Details] PRIMARY KEY CLUSTERED 
 (
-	[OrderDetailsID] ASC
+	[OrderID] ASC,
+	[ProductID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

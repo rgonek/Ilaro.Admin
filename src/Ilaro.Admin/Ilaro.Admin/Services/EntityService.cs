@@ -60,7 +60,7 @@ namespace Ilaro.Admin.Services
                 _notificator.Error("Not valid");
                 return null;
             }
-            var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
+            var existingItem = _source.GetRecord(entity, entity.Key.Select(x => x.Value.AsObject));
             if (existingItem != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
@@ -153,10 +153,10 @@ namespace Ilaro.Admin.Services
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
                 var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true).Records;
-                foreign.Value.PossibleValues = records.ToDictionary(x => x.KeyValue, x => x.DisplayName);
+                foreign.Value.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
                 if (foreign.TypeInfo.IsCollection)
                 {
-                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.KeyValue).OfType<object>().ToList();
+                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.JoinedKeyValue).OfType<object>().ToList();
                 }
             }
 
@@ -165,13 +165,25 @@ namespace Ilaro.Admin.Services
 
         public bool IsRecordExists(Entity entity, string key)
         {
-            if (string.IsNullOrWhiteSpace(key))
+            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+
+            return IsRecordExists(entity, keys);
+        }
+
+        public bool IsRecordExists(Entity entity, params string[] key)
+        {
+            if (key == null || key.Length == 0 || key.All(x => string.IsNullOrWhiteSpace(x)))
             {
                 _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
                 return false;
             }
-            entity.Key.Value.ToObject(key);
-            var existingItem = _source.GetRecord(entity, entity.Key.Value.AsObject);
+
+            var keys = new object[key.Length];
+            for (int i = 0; i < key.Length; i++)
+            {
+                keys[i] = entity.Key[i].Value.ToObject(key[i]);
+            }
+            var existingItem = _source.GetRecord(entity, keys);
             if (existingItem == null)
             {
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
