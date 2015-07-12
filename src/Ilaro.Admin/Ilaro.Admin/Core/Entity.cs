@@ -319,11 +319,10 @@ namespace Ilaro.Admin.Core
                 {
                     yield return property;
                 }
-                // If property is key,  
-                // and I want get a key (getKey == true) && data type is string
+                // If property is key
                 else if (
                     property.IsKey &&
-                    property.TypeInfo.DataType == DataType.Text &&
+                    property.IsAutoKey == false &&
                     getKey)
                 {
                     yield return property;

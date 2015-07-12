@@ -48,6 +48,11 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public bool IsKey { get; set; }
 
+        public bool IsAutoKey
+        {
+            get { return TypeInfo.DataType != DataType.Text; }
+        }
+
         /// <summary>
         /// If property is a link key.
         /// If you provide custom links to view a entity in your app, 

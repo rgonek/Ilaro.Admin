@@ -58,6 +58,12 @@ h2 {
         background-color: #efefef;
     }
 
+.control-value {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 7px;
+}
+
 a.text-danger {
     color: #953b39;
 }

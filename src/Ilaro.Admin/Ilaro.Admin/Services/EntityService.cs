@@ -156,7 +156,11 @@ namespace Ilaro.Admin.Services
                 foreign.Value.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
                 if (foreign.TypeInfo.IsCollection)
                 {
-                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.JoinedKeyValue).OfType<object>().ToList();
+                    foreign.Value.Values = records
+                        .Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key))
+                        .Select(x => x.JoinedKeyValue)
+                        .OfType<object>()
+                        .ToList();
                 }
             }
 
@@ -170,7 +174,7 @@ namespace Ilaro.Admin.Services
             return IsRecordExists(entity, keys);
         }
 
-        public bool IsRecordExists(Entity entity, params string[] key)
+        private bool IsRecordExists(Entity entity, params string[] key)
         {
             if (key == null || key.Length == 0 || key.All(x => string.IsNullOrWhiteSpace(x)))
             {

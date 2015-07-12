@@ -148,6 +148,51 @@ Write(Html.ValidationSummary(true));
             #line 23 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                  
 
+
+    foreach (var key in Model.Entity.Key)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <div");
+
+WriteLiteral(" class=\"form-group\"");
+
+WriteLiteral(">\r\n            <label");
+
+WriteLiteral(" class=\"control-label col-md-2\"");
+
+WriteLiteral(">");
+
+            
+            #line 29 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+                                             Write(key.DisplayName);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</label>\r\n            <div");
+
+WriteLiteral(" class=\"col-md-6 control-value\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                ");
+
+            
+            #line 31 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+           Write(key.Value.AsString);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n            </div>\r\n        </div>\r\n");
+
+            
+            #line 34 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+    }
+
     if (Model.PropertiesGroups.Count > 1)
     {
         foreach (var group in Model.PropertiesGroups)
@@ -159,7 +204,7 @@ Write(Html.ValidationSummary(true));
 WriteLiteral("            <fieldset>\r\n                <legend>");
 
             
-            #line 30 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 41 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                    Write(group.GroupName);
 
             
@@ -173,40 +218,40 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1259), Tuple.Create("\"", 1370)
+WriteAttribute("class", Tuple.Create(" class=\"", 1553), Tuple.Create("\"", 1664)
             
-            #line 30 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                , Tuple.Create(Tuple.Create("", 1267), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
+            #line 41 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+                , Tuple.Create(Tuple.Create("", 1561), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
             
             #line default
             #line hidden
-, 1267), false)
+, 1561), false)
 );
 
 WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1416), Tuple.Create("\"", 1479)
-, Tuple.Create(Tuple.Create("", 1424), Tuple.Create("fields", 1424), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1710), Tuple.Create("\"", 1773)
+, Tuple.Create(Tuple.Create("", 1718), Tuple.Create("fields", 1718), true)
             
-            #line 31 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1430), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+            #line 42 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+, Tuple.Create(Tuple.Create(" ", 1724), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1431), false)
+, 1725), false)
 );
 
 WriteLiteral(">\r\n");
 
             
-            #line 32 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 43 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 32 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                     foreach (var property in group.Properties)
+            #line 43 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+                     foreach (var property in group.Properties.Where(x => x.IsKey == false))
                     {
 
             
@@ -221,7 +266,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                            ");
 
             
-            #line 35 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 46 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                        Write(Html.EditorFor(m => property, property.Template.Editor));
 
             
@@ -230,13 +275,13 @@ WriteLiteral("                            ");
 WriteLiteral("\r\n");
 
             
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                             
             
             #line default
             #line hidden
             
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                              if (property.IsForeignKey)
                             {
 
@@ -245,14 +290,14 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("                                <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1829), Tuple.Create("\"", 1907)
+WriteAttribute("href", Tuple.Create(" href=\"", 2152), Tuple.Create("\"", 2230)
             
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 1836), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+            #line 49 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 2159), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 1836), false)
+, 2159), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -266,7 +311,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span></a>\r\n");
 
             
-            #line 39 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 50 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                             }
 
             
@@ -275,7 +320,7 @@ WriteLiteral("></span></a>\r\n");
 WriteLiteral("                        </div>\r\n");
 
             
-            #line 41 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 52 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                     }
 
             
@@ -284,12 +329,12 @@ WriteLiteral("                        </div>\r\n");
 WriteLiteral("                </div>\r\n            </fieldset>\r\n");
 
             
-            #line 44 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 55 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
         }
     }
     else if (Model.PropertiesGroups.Count == 1)
     {
-        foreach (var property in Model.PropertiesGroups[0].Properties)
+        foreach (var property in Model.PropertiesGroups[0].Properties.Where(x => x.IsKey == false))
         {
 
             
@@ -304,7 +349,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 51 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 62 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
            Write(Html.EditorFor(m => property, property.Template.Editor));
 
             
@@ -313,13 +358,13 @@ WriteLiteral("                ");
 WriteLiteral("\r\n");
 
             
-            #line 52 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 63 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 52 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 63 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                  if (property.IsForeignKey)
                 {
 
@@ -328,14 +373,14 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("                    <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2506), Tuple.Create("\"", 2584)
+WriteAttribute("href", Tuple.Create(" href=\"", 2858), Tuple.Create("\"", 2936)
             
-            #line 54 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2513), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
+            #line 65 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 2865), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 2513), false)
+, 2865), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -349,7 +394,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span></a>\r\n");
 
             
-            #line 55 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 66 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                 }
 
             
@@ -358,7 +403,7 @@ WriteLiteral("></span></a>\r\n");
 WriteLiteral("            </div>\r\n");
 
             
-            #line 57 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
         }
     }
 
@@ -367,14 +412,14 @@ WriteLiteral("            </div>\r\n");
             #line default
             #line hidden
             
-            #line 60 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 71 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
 Write(Html.Hidden("EntityName", Model.Entity.Name));
 
             
             #line default
             #line hidden
             
-            #line 60 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 71 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                  
 
 
@@ -398,7 +443,7 @@ WriteLiteral(" class=\"btn btn-primary\"");
 WriteLiteral(">");
 
             
-            #line 64 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 75 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                      Write(IlaroAdminResources.Save);
 
             
@@ -419,7 +464,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-edit\"");
 WriteLiteral("></i> ");
 
             
-            #line 65 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 76 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                                                                                   Write(IlaroAdminResources.SaveAndContinueEdit);
 
             
@@ -440,7 +485,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></i> ");
 
             
-            #line 66 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 77 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                                                                              Write(IlaroAdminResources.SaveAndAddNext);
 
             
@@ -448,14 +493,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3313), Tuple.Create("\"", 3413)
+WriteAttribute("href", Tuple.Create(" href=\"", 3665), Tuple.Create("\"", 3765)
             
-            #line 67 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 3320), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
+            #line 78 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 3672), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 3320), false)
+, 3672), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
@@ -463,7 +508,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(">");
 
             
-            #line 67 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 78 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                                                                                                     Write(IlaroAdminResources.Cancel);
 
             
@@ -471,14 +516,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3483), Tuple.Create("\"", 3586)
+WriteAttribute("href", Tuple.Create(" href=\"", 3835), Tuple.Create("\"", 3938)
             
-            #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 3490), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.JoinedKeyValue })
+            #line 79 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+, Tuple.Create(Tuple.Create("", 3842), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.JoinedKeyValue })
             
             #line default
             #line hidden
-, 3490), false)
+, 3842), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pull-right\"");
@@ -486,7 +531,7 @@ WriteLiteral(" class=\"btn btn-danger pull-right\"");
 WriteLiteral(">");
 
             
-            #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 79 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                                                                                                                                     Write(IlaroAdminResources.Delete);
 
             
@@ -495,7 +540,7 @@ WriteLiteral(">");
 WriteLiteral("</a>\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 71 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
+            #line 82 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
 }
 
             
