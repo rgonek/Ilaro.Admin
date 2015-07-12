@@ -226,13 +226,13 @@ namespace Ilaro.Admin.Core
                     TypeInfo.EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose) :
                     TypeInfo.EnumType.GetOptions();
 
-                if (Value != null && Value.GetType().IsEnum)
+                if (TypeInfo.IsEnum)
                 {
                     return new SelectList(
                         options,
                         "Key",
                         "Value",
-                        Convert.ToInt32(Value));
+                        Value.AsObject);
                 }
 
                 return new SelectList(options, "Key", "Value", Value.AsString);
