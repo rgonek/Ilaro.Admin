@@ -81,9 +81,7 @@ And after that when you go to ~/IlaroAdmin url (if you don't define a other pref
 Here I will try write all libraries, and part of code I use in project.
 - [**Massive**](https://github.com/robconery/massive) - for db access. I Removed lots methods I left only read methods, thanks that I have much better control on created commands, and in future I want to completely removed massive.
 - [**ImageResizer**](http://imageresizing.net/) - for resizing image. There's no much need to use this library, you can easy get rid off it, but I like it :)
-- [**Unity**](http://msdn.microsoft.com/en-us/library/ff647202.aspx) - for resolving stuff :), for now I don't resolve too much things
 - [**RazorGenerator**](http://razorgenerator.codeplex.com/) and [extension](http://visualstudiogallery.msdn.microsoft.com/1f6ec6ff-e89b-4c47-8e79-d2d68df894ec) - for generating source code from views, thanks that you don't have add views into your project, just simply add dll. Of cource if you want you can add views files which overrides compiled views
-- Pager - I start using https://github.com/troygoode/PagedList (I used earlier version, not including dll but copy a code), but I use it only for generating pager, so later I move generating pager to view and use some other pager algorithm (I found it in stackoverflow, unfortunately I cannot find it now)
 - [**Twitter bootstrap**](http://getbootstrap.com/)
 - [**Chosen**](http://harvesthq.github.io/chosen/) and bootstrap style for it https://gist.github.com/koenpunt/6424137
 - [**Bootstrap-DateTimePicker**](https://github.com/Eonasdan/bootstrap-datetimepicker) - for DateTime picker, Date picker and Time picker
@@ -104,4 +102,3 @@ Here I will try write all libraries, and part of code I use in project.
 public string ProductName { get; set; }
    ```
    In this example Required and StringLength works well but there is problem with Compare (in client side works well).
-- Table with multiple primary keys not work
