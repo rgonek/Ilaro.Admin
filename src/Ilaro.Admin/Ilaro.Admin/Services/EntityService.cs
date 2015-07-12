@@ -153,10 +153,10 @@ namespace Ilaro.Admin.Services
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
                 var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true).Records;
-                foreign.Value.PossibleValues = records.ToDictionary(x => string.Join(Const.KeyColSeparator.ToString(), x.KeyValue), x => x.DisplayName);
+                foreign.Value.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
                 if (foreign.TypeInfo.IsCollection)
                 {
-                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.KeyValue).OfType<object>().ToList();
+                    foreign.Value.Values = records.Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key)).Select(x => x.JoinedKeyValue).OfType<object>().ToList();
                 }
             }
 
