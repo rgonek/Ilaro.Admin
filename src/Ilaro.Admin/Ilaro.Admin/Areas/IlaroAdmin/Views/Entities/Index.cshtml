@@ -91,7 +91,7 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Edit, row.LinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
+                            <a href="@string.Format(Model.Entity.Links.Edit, row.JoinedLinkKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                         else
                         {
@@ -104,7 +104,7 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Delete.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Delete, row.LinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphglyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
+                            <a href="@string.Format(Model.Entity.Links.Delete, row.JoinedLinkKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                         else
                         {
