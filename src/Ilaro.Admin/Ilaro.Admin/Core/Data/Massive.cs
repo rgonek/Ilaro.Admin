@@ -79,7 +79,7 @@ namespace Massive
         string ConnectionString;
 
         public DynamicModel(string connectionStringName, string tableName = "",
-            string primaryKeyField = "", string descriptorField = "")
+            string primaryKeyField = "", string descriptorField = "", char keyColSeparator = ',')
         {
             TableName = tableName == "" ? this.GetType().Name : tableName;
             PrimaryKeyField = string.IsNullOrEmpty(primaryKeyField) ? "ID" : primaryKeyField;
@@ -91,6 +91,7 @@ namespace Massive
 
             _factory = DbProviderFactories.GetFactory(_providerName);
             ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            KeyColSeparator = keyColSeparator;
         }
 
         public string DescriptorField { get; protected set; }
@@ -145,6 +146,7 @@ namespace Massive
         }
 
         public virtual string PrimaryKeyField { get; set; }
+        public virtual char KeyColSeparator { get; set; }
         public virtual string TableName { get; set; }
         /// <summary>
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
@@ -215,10 +217,22 @@ namespace Massive
         /// <summary>
         /// Returns a single row from the database
         /// </summary>
-        public virtual dynamic Single(object key, string columns = "*")
+        public virtual dynamic Single(string columns, params object[] key)
         {
-            var sql = string.Format("SELECT {0} FROM {1} WHERE {2} = @0", columns, TableName, PrimaryKeyField);
-            return Query(sql, key).FirstOrDefault();
+            var sql = string.Format("SELECT {0} FROM {1}", columns, TableName);
+            var primaryKeyElem = (PrimaryKeyField.Split(KeyColSeparator)).Select(x => x.Trim()).ToArray();
+            for (var i = 0; i < primaryKeyElem.Length; i++)
+            {
+                if (i == 0) sql = sql + " WHERE " + primaryKeyElem[i] + " = @" + i;
+                else sql = sql + " AND " + primaryKeyElem[i] + " = @" + i;
+            }
+            var items = Query(sql, key).ToList();
+            return items.FirstOrDefault();
+        }
+
+        public virtual dynamic Single(params object[] key)
+        {
+            return Single("*", key);
         }
     }
 }
