@@ -471,10 +471,10 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3483), Tuple.Create("\"", 3590)
+WriteAttribute("href", Tuple.Create(" href=\"", 3483), Tuple.Create("\"", 3586)
             
             #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 3490), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value.AsString })
+, Tuple.Create(Tuple.Create("", 3490), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.JoinedKeyValue })
             
             #line default
             #line hidden
@@ -487,7 +487,7 @@ WriteLiteral(">");
 
             
             #line 68 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                                                                                                                                                        Write(IlaroAdminResources.Delete);
+                                                                                                                                                    Write(IlaroAdminResources.Delete);
 
             
             #line default

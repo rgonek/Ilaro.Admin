@@ -7,8 +7,9 @@ namespace Ilaro.Admin.Core.Data
     public interface IFetchingRecords
     {
         Entity GetEntityWithData(Entity entity, string key);
+        Entity GetEntityWithData(Entity entity, params string[] key);
 
-        object GetRecord(Entity entity, object key);
+        object GetRecord(Entity entity, params object[] key);
 
         PagedRecords GetRecords(
             Entity entity,

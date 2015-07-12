@@ -2,14 +2,14 @@
 
 namespace Ilaro.Admin.Core
 {
-	public class RecordHierarchy
-	{
-		public string KeyValue { get; set; }
+    public class RecordHierarchy
+    {
+        public IList<string> KeyValue { get; set; }
 
-		public string DisplayName { get; set; }
+        public string DisplayName { get; set; }
 
-		public Entity Entity { get; set; }
+        public Entity Entity { get; set; }
 
-		public IList<RecordHierarchy> SubRecordsHierarchies { get; set; }
-	}
+        public IList<RecordHierarchy> SubRecordsHierarchies { get; set; }
+    }
 }

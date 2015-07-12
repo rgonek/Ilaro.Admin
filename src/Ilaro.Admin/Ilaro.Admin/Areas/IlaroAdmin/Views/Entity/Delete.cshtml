@@ -21,7 +21,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
     @Html.Hidden("EntityName", Model.Entity.Name)
-    @Html.Hidden("Key", Model.Entity.Key.Value)
+    @Html.Hidden("Key", Model.Entity.JoinedKeyValue)
 
     <div class="form-group">
         <div class="controls col-md-3">

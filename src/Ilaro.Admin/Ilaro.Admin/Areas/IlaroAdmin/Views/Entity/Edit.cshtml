@@ -65,7 +65,7 @@
             <button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> @IlaroAdminResources.SaveAndContinueEdit</button>
             <button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> @IlaroAdminResources.SaveAndAddNext</button>
             <a href="@Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })" class="btn btn-link">@IlaroAdminResources.Cancel</a>
-            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.Key.Value.AsString })" class="btn btn-danger pull-right">@IlaroAdminResources.Delete</a>
+            <a href="@Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Entity.JoinedKeyValue })" class="btn btn-danger pull-right">@IlaroAdminResources.Delete</a>
         </div>
     </div>
 }

@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Core.Data
 @"-- update record
 UPDATE {0} SET 
     {1} 
-    WHERE {2} = @{3};
+    WHERE {2};
 -- return record id
 SELECT @{3};
 -- update foreign entities records";
@@ -67,7 +67,8 @@ WHERE {3} In ({4});";
         private DbCommand CreateCommand(Entity entity)
         {
             var cmd = CreateBaseCommand(entity);
-            AddForeignsUpdate(cmd, entity);
+            if (entity.Key.Count == 1)
+                AddForeignsUpdate(cmd, entity);
 
             return cmd;
         }
@@ -82,12 +83,18 @@ WHERE {3} In ({4});";
                 entity.CreateProperties(getForeignCollection: false).Where(x => x.IsKey == false))
             {
                 AddParam(cmd, property);
-                sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter);
-                counter++;
+                sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter++);
             }
-            cmd.AddParam(entity.Key.Value.Raw);
+            cmd.AddParams(entity.Key.Select(x => x.Value.Raw).ToArray());
+            cmd.AddParam(entity.JoinedKeyValue);
             var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
-            cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, entity.Key.ColumnName, counter);
+            var whereParts = new List<string>();
+            foreach (var key in entity.Key)
+            {
+                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
+            }
+            var wherePart = string.Join(" AND ", whereParts);
+            cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, wherePart, counter);
 
             return cmd;
         }
@@ -103,11 +110,11 @@ WHERE {3} In ({4});";
                     new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
-                            entity.Key, 
-                            entity.Key.Value.Raw.ToStringSafe())
+                            entity.Key.FirstOrDefault(), 
+                            entity.Key.FirstOrDefault().Value.Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
-                    .Select(x => x.KeyValue)
+                    .Select(x => x.KeyValue.FirstOrDefault())
                     .Except(property.Value.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())
@@ -117,9 +124,9 @@ WHERE {3} In ({4});";
                     sbUpdates.AppendFormat(
                         RelatedRecordsUpdateSqlFormat,
                         property.ForeignEntity.TableName,
-                        entity.Key.ColumnName,
+                        entity.Key.FirstOrDefault().ColumnName,
                         paramIndex++,
-                        property.ForeignEntity.Key.ColumnName,
+                        property.ForeignEntity.Key.FirstOrDefault().ColumnName,
                         removeValues);
                     cmd.AddParams(idsToRemoveRelation.OfType<object>().ToArray());
                     cmd.AddParam(null);
@@ -130,12 +137,12 @@ WHERE {3} In ({4});";
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
-                    entity.Key.ColumnName,
+                    entity.Key.FirstOrDefault().ColumnName,
                     paramIndex++,
-                    property.ForeignEntity.Key.ColumnName,
+                    property.ForeignEntity.Key.FirstOrDefault().ColumnName,
                     values);
                 cmd.AddParams(property.Value.Values.ToArray());
-                cmd.AddParam(entity.Key.Value.Raw);
+                cmd.AddParam(entity.Key.FirstOrDefault().Value.Raw);
             }
 
             cmd.CommandText += sbUpdates.ToString();

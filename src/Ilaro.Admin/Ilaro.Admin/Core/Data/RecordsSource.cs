@@ -25,7 +25,19 @@ namespace Ilaro.Admin.Core.Data
 
         public Entity GetEntityWithData(Entity entity, string key)
         {
-            var item = GetRecord(entity, entity.Key.Value.ToObject(key));
+            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+
+            return GetEntityWithData(entity, keys);
+        }
+
+        public Entity GetEntityWithData(Entity entity, params string[] key)
+        {
+            var keys = new object[key.Length];
+            for (int i = 0; i < key.Length; i++)
+            {
+                keys[i] = entity.Key[i].Value.ToObject(key[i]);
+            }
+            var item = GetRecord(entity, keys);
             if (item == null)
             {
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
@@ -37,20 +49,20 @@ namespace Ilaro.Admin.Core.Data
             foreach (var property in entity.CreateProperties(false))
             {
                 property.Value.Raw =
-                    propertiesDict.ContainsKey(property.ColumnName.UnDecorate()) ?
-                    propertiesDict[property.ColumnName.UnDecorate()] :
+                    propertiesDict.ContainsKey(property.ColumnName.Undecorate()) ?
+                    propertiesDict[property.ColumnName.Undecorate()] :
                     null;
             }
 
             return entity;
         }
 
-        public object GetRecord(Entity entity, object key)
+        public object GetRecord(Entity entity, params object[] key)
         {
             var table = new DynamicModel(
                 Admin.ConnectionStringName,
                 tableName: entity.TableName,
-                primaryKeyField: entity.Key.ColumnName);
+                primaryKeyField: entity.JoinedKey);
 
             var result = table.Single(key);
 
@@ -72,7 +84,7 @@ namespace Ilaro.Admin.Core.Data
                 Query = searchQuery,
                 Properties = entity.SearchProperties
             };
-            order = order.IsNullOrEmpty() ? entity.Key.ColumnName : order;
+            order = order.IsNullOrEmpty() ? entity.Key.FirstOrDefault().ColumnName : order;
             orderDirection = orderDirection.IsNullOrEmpty() ?
                 "ASC" :
                 orderDirection.ToUpper();
@@ -90,7 +102,7 @@ namespace Ilaro.Admin.Core.Data
             var table = new DynamicModel(
                 Admin.ConnectionStringName,
                 entity.TableName,
-                entity.Key.ColumnName);
+                entity.JoinedKey);
 
             if (page.HasValue && take.HasValue)
             {

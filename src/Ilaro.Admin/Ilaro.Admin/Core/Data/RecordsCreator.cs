@@ -58,7 +58,8 @@ WHERE {2} In ({3});";
         private DbCommand CreateCommand(Entity entity)
         {
             var cmd = CreateBaseCommand(entity);
-            AddForeignsUpdate(cmd, entity);
+            if (entity.Key.Count == 1)
+                AddForeignsUpdate(cmd, entity);
 
             return cmd;
         }
@@ -81,11 +82,11 @@ WHERE {2} In ({3});";
             var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
             var idType = "int";
             var insertedId = "SCOPE_IDENTITY()";
-            if (entity.Key.TypeInfo.IsString)
+            if (entity.Key.Count > 1 || entity.Key.FirstOrDefault().TypeInfo.IsString)
             {
                 idType = "nvarchar(max)";
                 insertedId = "@" + counter;
-                cmd.AddParam(entity.Key.Value.Raw);
+                cmd.AddParam(entity.JoinedKeyValue);
             }
             var sql = SqlFormat.Fill(entity.TableName, keys, vals, idType, insertedId);
             cmd.CommandText = sql;
@@ -105,8 +106,8 @@ WHERE {2} In ({3});";
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
-                    entity.Key.ColumnName,
-                    property.ForeignEntity.Key.ColumnName,
+                    entity.Key.FirstOrDefault().ColumnName,
+                    property.ForeignEntity.Key.FirstOrDefault().ColumnName,
                     values);
                 cmd.AddParams(property.Value.Values.ToArray());
             }

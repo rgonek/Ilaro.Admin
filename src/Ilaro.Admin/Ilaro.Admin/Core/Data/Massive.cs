@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ilaro.Admin;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -79,7 +80,7 @@ namespace Massive
         string ConnectionString;
 
         public DynamicModel(string connectionStringName, string tableName = "",
-            string primaryKeyField = "", string descriptorField = "", char keyColSeparator = ',')
+            string primaryKeyField = "", string descriptorField = "")
         {
             TableName = tableName == "" ? this.GetType().Name : tableName;
             PrimaryKeyField = string.IsNullOrEmpty(primaryKeyField) ? "ID" : primaryKeyField;
@@ -91,7 +92,7 @@ namespace Massive
 
             _factory = DbProviderFactories.GetFactory(_providerName);
             ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            KeyColSeparator = keyColSeparator;
+            KeyColSeparator = Const.KeyColSeparator;
         }
 
         public string DescriptorField { get; protected set; }
@@ -180,9 +181,9 @@ namespace Massive
             dynamic result = new ExpandoObject();
             var countSQL = "";
             if (!string.IsNullOrEmpty(sql))
-                countSQL = string.Format("SELECT COUNT({0}) FROM ({1}) AS PagedTable", primaryKeyField, sql);
+                countSQL = string.Format("SELECT COUNT({0}) FROM ({1}) AS PagedTable", primaryKeyField.Split(KeyColSeparator).FirstOrDefault(), sql);
             else
-                countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField, TableName);
+                countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField.Split(KeyColSeparator).FirstOrDefault(), TableName);
 
             if (String.IsNullOrEmpty(orderBy))
             {
@@ -220,7 +221,7 @@ namespace Massive
         public virtual dynamic Single(string columns, params object[] key)
         {
             var sql = string.Format("SELECT {0} FROM {1}", columns, TableName);
-            var primaryKeyElem = (PrimaryKeyField.Split(KeyColSeparator)).Select(x => x.Trim()).ToArray();
+            var primaryKeyElem = PrimaryKeyField.Split(KeyColSeparator).Select(x => x.Trim()).ToArray();
             for (var i = 0; i < primaryKeyElem.Length; i++)
             {
                 if (i == 0) sql = sql + " WHERE " + primaryKeyElem[i] + " = @" + i;
