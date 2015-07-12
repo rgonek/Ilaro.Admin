@@ -105,7 +105,7 @@ namespace Massive
                 var rdr = CreateCommand(sql, conn, args).ExecuteReader();
                 while (rdr.Read())
                 {
-                    yield return rdr.RecordToExpando(); ;
+                    yield return rdr.RecordToExpando();
                 }
             }
         }
