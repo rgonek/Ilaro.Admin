@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Ilaro.Admin.Core;
-using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Validation;
 using Resources;
 
-namespace Ilaro.Admin.Services
+namespace Ilaro.Admin.Core.Data
 {
     public class EntityService : IEntityService
     {

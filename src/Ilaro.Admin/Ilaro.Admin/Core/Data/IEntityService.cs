@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using Ilaro.Admin.Core;
 using Ilaro.Admin.Models;
 
-namespace Ilaro.Admin.Services
+namespace Ilaro.Admin.Core.Data
 {
     public interface IEntityService
     {
