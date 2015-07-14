@@ -140,17 +140,10 @@ namespace Ilaro.Admin.Extensions
 
             if (value.Property.TypeInfo.IsString)
             {
-                // I have a path to image so easy to display
-                var minSettings = value.Property.ImageOptions.Settings
-                    .FirstOrDefault(x => x.IsMiniature) ??
-                    value.Property.ImageOptions.Settings.FirstOrDefault();
-                var bigSettings = value.Property.ImageOptions.Settings
-                    .FirstOrDefault(x => x.IsBig) ??
-                    value.Property.ImageOptions.Settings.FirstOrDefault();
-                var minPath = Path.Combine(minSettings.SubPath, value.AsString)
-                    .TrimStart('/');
-                var bigPath = Path.Combine(bigSettings.SubPath, value.AsString)
-                    .TrimStart('/');
+                var minSettings = value.Property.FileOptions.Settings.LastOrDefault();
+                var bigSettings = value.Property.FileOptions.Settings.FirstOrDefault();
+                var minPath = Path.Combine(minSettings.SubPath, value.AsString).TrimStart('/');
+                var bigPath = Path.Combine(bigSettings.SubPath, value.AsString).TrimStart('/');
 
                 return MvcHtmlString.Create(
                     "<a href=\"/{1}\" class=\"open-modal\"><img src=\"/{0}\" class=\"img-polaroid\" /></a>"

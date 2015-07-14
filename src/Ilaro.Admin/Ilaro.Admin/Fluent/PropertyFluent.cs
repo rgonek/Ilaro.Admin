@@ -125,11 +125,10 @@ namespace Ilaro.Admin.Fluent
         {
             _property.TypeInfo.DataType = DataType.File;
 
-            _property.ImageOptions = new ImageOptions
+            _property.FileOptions = new FileOptions
             {
                 NameCreation = nameCreation,
                 MaxFileSize = maxFileSize,
-                IsMultiple = isMultiple,
                 AllowedFileExtensions = allowedFileExtensions,
                 Settings = new List<ImageSettings>()
             };
@@ -148,21 +147,19 @@ namespace Ilaro.Admin.Fluent
         {
             _property.TypeInfo.DataType = DataType.File;
 
-            if (_property.ImageOptions == null)
+            if (_property.FileOptions == null)
             {
-                _property.ImageOptions = new ImageOptions
+                _property.FileOptions = new FileOptions
                 {
                     NameCreation = NameCreation.OriginalFileName,
                     Settings = new List<ImageSettings>()
                 };
             }
-            _property.ImageOptions.Settings.Add(new ImageSettings
+            _property.FileOptions.Settings.Add(new ImageSettings
             {
                 SubPath = path,
                 Width = width,
-                Height = height,
-                IsMiniature = isMiniature,
-                IsBig = isBig
+                Height = height
             });
 
             return this;

@@ -60,7 +60,7 @@ namespace Ilaro.Admin.Core
 
         public bool IsFileStoredInDb
         {
-            get { return DataType == DataType.File && IsString == false; }
+            get { return IsFile && IsString == false; }
         }
 
         public bool IsImage
@@ -142,12 +142,12 @@ namespace Ilaro.Admin.Core
                 DataType = DataType.Text;
             }
 
-            var imageAttribute =
-                attributes.OfType<ImageAttribute>().FirstOrDefault();
+            var fileAttribute =
+                attributes.OfType<FileAttribute>().FirstOrDefault();
             var imageSettingsAttributes =
                 attributes.OfType<ImageSettingsAttribute>().ToList();
 
-            if (imageAttribute != null || imageSettingsAttributes.Any())
+            if (fileAttribute != null && fileAttribute.IsImage || imageSettingsAttributes.Any())
             {
                 DataType = DataType.Image;
             }

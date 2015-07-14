@@ -8,10 +8,6 @@ namespace Ilaro.Admin.DataAnnotations
     {
         public ImageSettings Settings { get; set; }
 
-        public bool IsMiniature { get; set; }
-
-        public bool IsBig { get; set; }
-
         public ImageSettingsAttribute(string subPath)
         {
             Settings = new ImageSettings(subPath, null, null);

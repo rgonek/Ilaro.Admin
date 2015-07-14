@@ -144,7 +144,7 @@ namespace Ilaro.Admin.Core.Data
             {
                 var propertiesWithFilesToDelete = entity
                     .CreateProperties(getForeignCollection: false)
-                    .Where(x => x.TypeInfo.DataType == DataType.File && x.TypeInfo.IsString);
+                    .Where(x => x.TypeInfo.IsFile && x.TypeInfo.IsFileStoredInDb == false);
                 _filesHandler.Delete(propertiesWithFilesToDelete);
             }
 

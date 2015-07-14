@@ -184,7 +184,7 @@
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
-    <Compile Include="DataAnnotations\ImageAttribute.cs" />
+    <Compile Include="DataAnnotations\FileAttribute.cs" />
     <Compile Include="Core\DataTypeConverter.cs" />
     <Compile Include="Core\Links.cs" />
     <Compile Include="Core\PropertyTemplate.cs" />
@@ -197,7 +197,7 @@
     <Compile Include="Extensions\HtmlHelperPasswordExtensions.cs" />
     <Compile Include="Extensions\HtmlHelpersTextAreaExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperTextBoxExtensions.cs" />
-    <Compile Include="DataAnnotations\ImageOptions.cs" />
+    <Compile Include="DataAnnotations\FileOptions.cs" />
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
     <Compile Include="DataAnnotations\LinkKeyAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />

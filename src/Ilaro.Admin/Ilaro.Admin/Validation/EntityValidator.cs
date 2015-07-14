@@ -29,7 +29,7 @@ namespace Ilaro.Admin.Validation
             foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.File))
             {
                 var file = (HttpPostedFile)property.Value.Raw;
-                var allowedFileExtensions = property.ImageOptions.AllowedFileExtensions;
+                var allowedFileExtensions = property.FileOptions.AllowedFileExtensions;
                 if (allowedFileExtensions == null || allowedFileExtensions.Length == 0)
                 {
                     allowedFileExtensions = _configuration.AllowedFileExtensions;

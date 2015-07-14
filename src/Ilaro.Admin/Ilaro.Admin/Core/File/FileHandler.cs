@@ -57,7 +57,7 @@ namespace Ilaro.Admin.Core.File
 
                 if (property.TypeInfo.IsFileStoredInDb)
                 {
-                    var setting = property.ImageOptions.Settings.FirstOrDefault();
+                    var setting = property.FileOptions.Settings.FirstOrDefault();
                     var fileInputStream = property.TypeInfo.IsImage ?
                         _resizer.Resize(file.InputStream, setting.Width, setting.Height) :
                         file.InputStream;
@@ -72,7 +72,7 @@ namespace Ilaro.Admin.Core.File
 
                     if (property.TypeInfo.IsImage)
                     {
-                        foreach (var setting in property.ImageOptions.Settings)
+                        foreach (var setting in property.FileOptions.Settings)
                         {
                             var resizedStream = _resizer.Resize(
                                 file.InputStream,
@@ -82,16 +82,19 @@ namespace Ilaro.Admin.Core.File
                             var subPath =
                                 setting.SubPath.TrimEnd('/', '\\') +
                                 _configuration.UploadFilesTempFolderSufix;
-                            var path = Path.Combine(BasePath, subPath, fileName);
+                            var path = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
 
                             _saver.SaveFile(resizedStream, path);
                         }
                     }
                     else
                     {
-                        _saver.SaveFile(
-                            file.InputStream,
-                            fileName);
+                        var subPath =
+                            property.FileOptions.Path.TrimEnd('/', '\\') +
+                            _configuration.UploadFilesTempFolderSufix;
+                        var path = Path.Combine(BasePath, subPath, fileName);
+
+                        _saver.SaveFile(file.InputStream, path);
                     }
 
                     yield return property;
@@ -112,7 +115,7 @@ namespace Ilaro.Admin.Core.File
 
             foreach (var property in properties)
             {
-                var settings = property.ImageOptions.Settings.ToList();
+                var settings = property.FileOptions.Settings.ToList();
                 if (property.TypeInfo.IsFile)
                 {
                     settings = settings.Take(1).ToList();
@@ -155,7 +158,7 @@ namespace Ilaro.Admin.Core.File
         {
             foreach (var property in properties)
             {
-                var settings = property.ImageOptions.Settings.ToList();
+                var settings = property.FileOptions.Settings.ToList();
                 if (property.TypeInfo.IsFile)
                 {
                     settings = settings.Take(1).ToList();
@@ -181,7 +184,7 @@ namespace Ilaro.Admin.Core.File
         {
             foreach (var property in properties)
             {
-                var settings = property.ImageOptions.Settings.ToList();
+                var settings = property.FileOptions.Settings.ToList();
                 if (property.TypeInfo.IsFile)
                 {
                     settings = settings.Take(1).ToList();

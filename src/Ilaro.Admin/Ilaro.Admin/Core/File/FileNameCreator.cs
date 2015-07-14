@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Core.File
     {
         public string GetFileName(Property property, HttpPostedFile file)
         {
-            switch (property.ImageOptions.NameCreation)
+            switch (property.FileOptions.NameCreation)
             {
                 default:
                 case NameCreation.OriginalFileName:
