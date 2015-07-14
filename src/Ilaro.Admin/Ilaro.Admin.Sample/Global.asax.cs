@@ -30,12 +30,12 @@ namespace Ilaro.Admin.Sample
             Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
                 x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.PhotoPath, x => x.Photo)
                 .ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo)
-                    .SetImageOptions(NameCreation.Timestamp, 2000, false, "", "")
-                    .SetImageSettings("", 100, 100, true, true))
+                    .SetFileOptions(NameCreation.Timestamp, 2000, false, "", "")
+                    .SetImageSettings("", 100, 100))
                 .ConfigureProperty(PropertyOf<Employee>.Configure(x => x.PhotoPath)
-                    .SetImageOptions(NameCreation.Timestamp, 2000, false, "", "")
-                    .SetImageSettings("content/employee/min", 100, 100, true, false)
-                    .SetImageSettings("content/employee/big", 500, 500, false, true));
+                    .SetFileOptions(NameCreation.Timestamp, 2000, false, "content/employee", "")
+                    .SetImageSettings("big", 500, 500)
+                    .SetImageSettings("min", 100, 100));
             Entity<Order>.Add();
             Entity<OrderDetail>.Add().SetTableName("Order Details");
             Entity<Product>.Add();

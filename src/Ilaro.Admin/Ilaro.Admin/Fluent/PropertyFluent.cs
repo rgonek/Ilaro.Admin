@@ -117,10 +117,11 @@ namespace Ilaro.Admin.Fluent
         /// <summary>
         /// Set image options
         /// </summary>
-        public PropertyOf<TEntity> SetImageOptions(
+        public PropertyOf<TEntity> SetFileOptions(
             NameCreation nameCreation,
             long maxFileSize,
-            bool isMultiple,
+            bool isImage,
+            string path,
             params string[] allowedFileExtensions)
         {
             _property.TypeInfo.DataType = DataType.File;
@@ -130,6 +131,8 @@ namespace Ilaro.Admin.Fluent
                 NameCreation = nameCreation,
                 MaxFileSize = maxFileSize,
                 AllowedFileExtensions = allowedFileExtensions,
+                IsImage = isImage,
+                Path = path,
                 Settings = new List<ImageSettings>()
             };
             return this;
@@ -141,9 +144,7 @@ namespace Ilaro.Admin.Fluent
         public PropertyOf<TEntity> SetImageSettings(
             string path,
             int? width,
-            int? height,
-            bool isMiniature,
-            bool isBig)
+            int? height)
         {
             _property.TypeInfo.DataType = DataType.File;
 
