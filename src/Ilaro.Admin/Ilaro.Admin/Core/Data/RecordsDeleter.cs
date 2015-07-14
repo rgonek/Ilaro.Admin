@@ -45,7 +45,7 @@ SELECT @{2};";
             catch (Exception ex)
             {
                 _log.Error(ex);
-                throw ex;
+                throw;
             }
         }
 

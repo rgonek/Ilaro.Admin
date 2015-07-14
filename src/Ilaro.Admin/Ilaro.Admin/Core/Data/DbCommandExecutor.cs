@@ -46,7 +46,7 @@ namespace Ilaro.Admin.Core.Data
                 {
                     _log.Error(ex);
                     tx.Rollback();
-                    throw ex;
+                    throw;
                 }
             }
 

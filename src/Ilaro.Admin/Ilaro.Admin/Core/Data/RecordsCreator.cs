@@ -51,7 +51,7 @@ WHERE {2} In ({3});";
             catch (Exception ex)
             {
                 _log.Error(ex);
-                throw ex;
+                throw;
             }
         }
 

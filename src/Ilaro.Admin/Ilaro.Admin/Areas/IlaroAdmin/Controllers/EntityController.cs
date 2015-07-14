@@ -74,6 +74,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             }
             catch (Exception ex)
             {
+                _log.Error(ex);
                 _notificator.Error(ex.Message);
             }
 
@@ -130,6 +131,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             }
             catch (Exception ex)
             {
+                _log.Error(ex);
                 _notificator.Error(ex.Message);
             }
 
@@ -193,6 +195,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             }
             catch (Exception ex)
             {
+                _log.Error(ex);
                 _notificator.Error(ex.Message);
             }
 

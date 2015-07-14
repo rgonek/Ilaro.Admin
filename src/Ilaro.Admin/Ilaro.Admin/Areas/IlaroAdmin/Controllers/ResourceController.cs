@@ -7,6 +7,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
     public class ResourceController : Controller
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(ResourceController));
         private readonly Notificator _notificator;
 
         public ResourceController(Notificator notificator)
@@ -79,7 +80,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
                 return Content(null, contentType);
             }
-            catch { /* log */ }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+            }
 
             return HttpNotFound();
         }

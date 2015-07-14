@@ -9,6 +9,7 @@ namespace Ilaro.Admin.Validation
 {
     public class EntityValidator : IValidateEntity
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityValidator));
         private readonly Notificator _notificator;
         private readonly IConfiguration _configuration;
 
@@ -60,6 +61,10 @@ namespace Ilaro.Admin.Validation
                     {
                         isValid = false;
                         _notificator.AddModelError(property.Name, ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error(ex);
                     }
                 }
             }

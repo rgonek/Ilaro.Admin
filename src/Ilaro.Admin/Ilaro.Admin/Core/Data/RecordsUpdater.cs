@@ -60,7 +60,7 @@ WHERE {3} In ({4});";
             catch (Exception ex)
             {
                 _log.Error(ex);
-                throw ex;
+                throw;
             }
         }
 
