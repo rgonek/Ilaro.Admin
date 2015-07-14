@@ -38,7 +38,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Create(string entityName)
         {
-            _log.Error("test internal");
             var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
