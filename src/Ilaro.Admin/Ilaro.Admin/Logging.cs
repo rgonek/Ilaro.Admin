@@ -36,7 +36,7 @@ namespace Ilaro.Admin
     public interface ILoggerFactory
     {
         IInternalLogger LoggerFor(string keyName);
-        IInternalLogger LoggerFor(System.Type type);
+        IInternalLogger LoggerFor(Type type);
     }
 
     public class LoggerProvider
@@ -55,7 +55,7 @@ namespace Ilaro.Admin
         private static ILoggerFactory GetLoggerFactory(string ilaroAdminLoggerClass)
         {
             ILoggerFactory loggerFactory;
-            var loggerFactoryType = System.Type.GetType(ilaroAdminLoggerClass);
+            var loggerFactoryType = Type.GetType(ilaroAdminLoggerClass);
             try
             {
                 loggerFactory = (ILoggerFactory)Activator.CreateInstance(loggerFactoryType);
@@ -114,7 +114,7 @@ namespace Ilaro.Admin
             return instance.loggerFactory.LoggerFor(keyName);
         }
 
-        public static IInternalLogger LoggerFor(System.Type type)
+        public static IInternalLogger LoggerFor(Type type)
         {
             return instance.loggerFactory.LoggerFor(type);
         }
@@ -128,7 +128,7 @@ namespace Ilaro.Admin
             return Nologging;
         }
 
-        public IInternalLogger LoggerFor(System.Type type)
+        public IInternalLogger LoggerFor(Type type)
         {
             return Nologging;
         }
@@ -220,20 +220,20 @@ namespace Ilaro.Admin
 
     public class Log4NetLoggerFactory : ILoggerFactory
     {
-        private static readonly System.Type LogManagerType = System.Type.GetType("log4net.LogManager, log4net");
+        private static readonly Type LogManagerType = Type.GetType("log4net.LogManager, log4net");
         private static readonly Func<string, object> GetLoggerByNameDelegate;
-        private static readonly Func<System.Type, object> GetLoggerByTypeDelegate;
+        private static readonly Func<Type, object> GetLoggerByTypeDelegate;
         static Log4NetLoggerFactory()
         {
             GetLoggerByNameDelegate = GetGetLoggerMethodCall<string>();
-            GetLoggerByTypeDelegate = GetGetLoggerMethodCall<System.Type>();
+            GetLoggerByTypeDelegate = GetGetLoggerMethodCall<Type>();
         }
         public IInternalLogger LoggerFor(string keyName)
         {
             return new Log4NetLogger(GetLoggerByNameDelegate(keyName));
         }
 
-        public IInternalLogger LoggerFor(System.Type type)
+        public IInternalLogger LoggerFor(Type type)
         {
             return new Log4NetLogger(GetLoggerByTypeDelegate(type));
         }
@@ -250,7 +250,7 @@ namespace Ilaro.Admin
 
     public class Log4NetLogger : IInternalLogger
     {
-        private static readonly System.Type ILogType = System.Type.GetType("log4net.ILog, log4net");
+        private static readonly Type ILogType = Type.GetType("log4net.ILog, log4net");
         private static readonly Func<object, bool> IsErrorEnabledDelegate;
         private static readonly Func<object, bool> IsFatalEnabledDelegate;
         private static readonly Func<object, bool> IsDebugEnabledDelegate;

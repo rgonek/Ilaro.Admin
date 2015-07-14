@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace Ilaro.Admin.Core.File
 {
     public interface IHandlingFiles

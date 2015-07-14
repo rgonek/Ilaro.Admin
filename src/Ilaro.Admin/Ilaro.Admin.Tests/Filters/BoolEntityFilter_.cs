@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Filters;
 using Xunit;
-using System;
 
 namespace Ilaro.Admin.Tests.Filters
 {

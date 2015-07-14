@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Filters;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
 
