@@ -63,6 +63,16 @@ namespace Ilaro.Admin.Core
             get { return DataType == DataType.File && IsString == false; }
         }
 
+        public bool IsImage
+        {
+            get { return DataType == DataType.Image; }
+        }
+
+        public bool IsFile
+        {
+            get { return DataType == DataType.Image || DataType == DataType.File; }
+        }
+
         public PropertyTypeInfo(Type type, object[] attributes)
         {
             Type = type;
@@ -137,12 +147,10 @@ namespace Ilaro.Admin.Core
             var imageSettingsAttributes =
                 attributes.OfType<ImageSettingsAttribute>().ToList();
 
-            if (imageAttribute == null &&
-                !imageSettingsAttributes.Any() &&
-                DataType != DataType.File)
-                return;
-
-            DataType = DataType.File;
+            if (imageAttribute != null || imageSettingsAttributes.Any())
+            {
+                DataType = DataType.Image;
+            }
         }
     }
 }

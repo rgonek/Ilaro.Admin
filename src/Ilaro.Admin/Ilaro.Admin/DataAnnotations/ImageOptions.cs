@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core.File;
 
-namespace Ilaro.Admin.Core.FileUpload
+namespace Ilaro.Admin.DataAnnotations
 {
     public class ImageOptions
     {
         public NameCreation NameCreation { get; internal set; }
-        public long MaxFileSize { get; internal set; }
+        public long? MaxFileSize { get; internal set; }
         public string[] AllowedFileExtensions { get; internal set; }
         public IList<ImageSettings> Settings { get; internal set; }
         public bool IsMultiple { get; internal set; }
@@ -33,8 +33,6 @@ namespace Ilaro.Admin.Core.FileUpload
             }
             else
             {
-                AllowedFileExtensions = FileUploadDefault.ImageExtensions;
-                MaxFileSize = FileUploadDefault.MaxFileSize;
                 NameCreation = NameCreation.OriginalFileName;
                 Settings = new List<ImageSettings>();
             }

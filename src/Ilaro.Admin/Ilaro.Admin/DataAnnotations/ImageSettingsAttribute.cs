@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using Ilaro.Admin.Core.FileUpload;
 
 namespace Ilaro.Admin.DataAnnotations
 {

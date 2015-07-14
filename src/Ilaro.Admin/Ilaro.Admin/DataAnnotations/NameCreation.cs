@@ -1,4 +1,4 @@
-﻿namespace Ilaro.Admin.Core.FileUpload
+﻿namespace Ilaro.Admin.DataAnnotations
 {
     public enum NameCreation
     {

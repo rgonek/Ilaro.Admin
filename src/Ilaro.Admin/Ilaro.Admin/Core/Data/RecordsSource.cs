@@ -56,6 +56,16 @@ namespace Ilaro.Admin.Core.Data
 
             return entity;
         }
+        
+        public object GetRecord(Entity entity, string key)
+        {
+            var keys = key
+                .Split(Const.KeyColSeparator)
+                .Select(x => x.Trim())
+                .ToArray();
+
+            return GetRecord(entity, keys);
+        }
 
         public object GetRecord(Entity entity, params object[] key)
         {

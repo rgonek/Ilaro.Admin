@@ -8,9 +8,10 @@ namespace Ilaro.Admin.Core.Data
     {
         Entity GetEntityWithData(Entity entity, string key);
         Entity GetEntityWithData(Entity entity, params string[] key);
-
+        
+        object GetRecord(Entity entity, string key);
         object GetRecord(Entity entity, params object[] key);
-
+        
         PagedRecords GetRecords(
             Entity entity,
             IList<BaseFilter> filters = null,

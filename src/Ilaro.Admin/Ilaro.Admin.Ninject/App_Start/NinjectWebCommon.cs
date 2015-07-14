@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.File;
 using Ilaro.Admin.Ninject.App_Start;
 using Ilaro.Admin.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -81,6 +82,11 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<IUpdatingRecords>().To<RecordsUpdater>();
             kernel.Bind<IDeletingRecords>().To<RecordsDeleter>();
             kernel.Bind<IProvidingUser>().To<HttpContextUserProvider>();
+            kernel.Bind<ICreatingNameFiles>().To<FileNameCreator>();
+            kernel.Bind<IDeletingFiles>().To<FileDeleter>();
+            kernel.Bind<IHandlingFiles>().To<FileHandler>();
+            kernel.Bind<IResizingImages>().To<ImageResizer>();
+            kernel.Bind<ISavingFiles>().To<FileSaver>();
         }
     }
 }

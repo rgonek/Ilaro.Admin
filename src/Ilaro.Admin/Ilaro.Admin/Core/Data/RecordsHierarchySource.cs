@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Core.Data
         }
 
         private RecordHierarchy GetHierarchyRecords(
-            IList<dynamic> records,
+            IList<IDictionary<string, object>> records,
             EntityHierarchy hierarchy)
         {
             var baseRecord = records.FirstOrDefault();
@@ -50,7 +50,7 @@ namespace Ilaro.Admin.Core.Data
 
         private void GetHierarchyRecords(
             RecordHierarchy parentHierarchy,
-            IList<dynamic> records,
+            IList<IDictionary<string, object>> records,
             IEnumerable<EntityHierarchy> subHierarchies,
             IList<string> foreignKey = null,
             IList<string> foreignKeyValue = null)
@@ -61,8 +61,7 @@ namespace Ilaro.Admin.Core.Data
 
                 foreach (var record in records)
                 {
-                    var recordDict = (IDictionary<string, object>)record;
-                    var rowData = new DataRow(recordDict, hierarchy.Entity, prefix);
+                    var rowData = new DataRow(record, hierarchy.Entity, prefix);
 
                     if (!rowData.KeyValue.IsNullOrEmpty())
                     {
@@ -75,7 +74,7 @@ namespace Ilaro.Admin.Core.Data
                         };
 
                         if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
-                            Matching(recordDict, foreignKey, foreignKeyValue))
+                            Matching(record, foreignKey, foreignKeyValue))
                         {
                             parentHierarchy.SubRecordsHierarchies.Add(subRecord);
 

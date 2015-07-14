@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Ilaro.Admin.Core.FileUpload
+namespace Ilaro.Admin.DataAnnotations
 {
     public class ImageSettings
     {
         public string SubPath { get; set; }
-
         public int? Width { get; set; }
-
         public int? Height { get; set; }
-
         public bool IsMiniature { get; set; }
-
         public bool IsBig { get; set; }
 
         public ImageSettings(

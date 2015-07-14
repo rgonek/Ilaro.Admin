@@ -1,5 +1,4 @@
 ﻿using System;
-using Ilaro.Admin.Core.FileUpload;
 
 namespace Ilaro.Admin.DataAnnotations
 {
@@ -25,8 +24,6 @@ namespace Ilaro.Admin.DataAnnotations
 
 		public ImageAttribute()
 		{
-			MaxFileSize = FileUploadDefault.MaxFileSize;
-			AllowedFileExtensions = FileUploadDefault.ImageExtensions;
 			NameCreation = NameCreation.OriginalFileName;
 		}
 

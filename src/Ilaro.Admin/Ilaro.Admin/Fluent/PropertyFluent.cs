@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Core.FileUpload;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Fluent
 {
@@ -152,8 +152,6 @@ namespace Ilaro.Admin.Fluent
             {
                 _property.ImageOptions = new ImageOptions
                 {
-                    AllowedFileExtensions = FileUploadDefault.ImageExtensions,
-                    MaxFileSize = FileUploadDefault.MaxFileSize,
                     NameCreation = NameCreation.OriginalFileName,
                     Settings = new List<ImageSettings>()
                 };
