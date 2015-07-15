@@ -148,10 +148,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.generated.cs">
+      <DependentUpon>DbImagePartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\FilePartial.generated.cs">
+      <DependentUpon>FilePartial.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Const.cs" />
     <Compile Include="Core\ChangeInfo.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
+    <Compile Include="Core\Data\DataBehaviorExtensions.cs" />
+    <Compile Include="Core\Data\DataBehavior.cs" />
     <Compile Include="Core\Data\DB.cs" />
     <Compile Include="Core\Data\DbCommandExecutor.cs" />
     <Compile Include="Core\Data\ICreatingRecords.cs" />
@@ -210,6 +222,7 @@
     <Compile Include="DataAnnotations\ImageSettings.cs" />
     <Compile Include="DataAnnotations\NameCreation.cs" />
     <Compile Include="Core\IKnowTheTime.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\ChangeEntityFilter.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
@@ -668,6 +681,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\IlaroAdmin\Views\Web.config" />
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>DbImagePartial.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\FilePartial.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>FilePartial.generated.cs</LastGenOutput>
+    </Content>
     <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
   <ItemGroup />

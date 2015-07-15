@@ -129,33 +129,6 @@ namespace Ilaro.Admin.Extensions
                 null);
         }
 
-        public static MvcHtmlString Image(
-            this HtmlHelper htmlHelper,
-            CellValue value)
-        {
-            if (value.AsString.IsNullOrEmpty())
-            {
-                return null;
-            }
-
-            if (value.Property.TypeInfo.IsString)
-            {
-                var minSettings = value.Property.FileOptions.Settings.LastOrDefault();
-                var bigSettings = value.Property.FileOptions.Settings.FirstOrDefault();
-                var minPath = Path.Combine(minSettings.SubPath, value.AsString).TrimStart('/');
-                var bigPath = Path.Combine(bigSettings.SubPath, value.AsString).TrimStart('/');
-
-                return MvcHtmlString.Create(
-                    "<a href=\"/{1}\" class=\"open-modal\"><img src=\"/{0}\" class=\"img-polaroid\" /></a>"
-                    .Fill(minPath, bigPath));
-            }
-            // I have a byte array so I must convert it to base64
-            var base64 = Convert.ToBase64String((byte[])value.Raw);
-
-            return MvcHtmlString.Create("<img src=\"data:image/jpg;base64,{0}\" class=\"img-polaroid\" />"
-                .Fill(base64));
-        }
-
         /// <summary>
         /// It should by used only for small strings without html, 
         /// there is some html it should be used normal if condition

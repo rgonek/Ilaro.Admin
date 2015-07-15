@@ -35,20 +35,20 @@ namespace ASP
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/DisplayTemplates/ImagePartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_ImagePartial_cshtml_ : System.Web.Mvc.WebViewPage<CellValue>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/DisplayTemplates/FilePartial.cshtml")]
+    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_FilePartial_cshtml_ : System.Web.Mvc.WebViewPage<CellValue>
     {
-        public _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_ImagePartial_cshtml_()
+        public _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_FilePartial_cshtml_()
         {
         }
         public override void Execute()
         {
 WriteLiteral("<a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 22), Tuple.Create("\"", 56)
+WriteAttribute("href", Tuple.Create(" href=\"", 22), Tuple.Create("\"", 52)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 29), Tuple.Create<System.Object, System.Int32>(Url.GetImageBigPath(Model)
+            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 29), Tuple.Create<System.Object, System.Int32>(Url.GetFilePath(Model)
             
             #line default
             #line hidden
@@ -57,31 +57,16 @@ WriteAttribute("href", Tuple.Create(" href=\"", 22), Tuple.Create("\"", 56)
 
 WriteLiteral(" class=\"open-modal\"");
 
-WriteLiteral("><img");
+WriteLiteral(">");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 81), Tuple.Create("\"", 114)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Url.GetImageMinPath(Model)
-            
-            #line default
-            #line hidden
-, 87), false)
-);
+            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\FilePartial.cshtml"
+                                                Write(Model.AsString);
 
-WriteLiteral(" class=\"img-polaroid\"");
-
-WriteAttribute("alt", Tuple.Create(" alt=\"", 136), Tuple.Create("\"", 157)
-            
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-                                           , Tuple.Create(Tuple.Create("", 142), Tuple.Create<System.Object, System.Int32>(Model.AsString
             
             #line default
             #line hidden
-, 142), false)
-);
-
-WriteLiteral(" /></a>\r\n");
+WriteLiteral("</a>\r\n");
 
         }
     }

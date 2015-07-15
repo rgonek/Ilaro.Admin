@@ -8,6 +8,7 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Validation;
 using Resources;
+using System.Threading;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -99,7 +100,7 @@ namespace Ilaro.Admin.Core.Data
                 return false;
             }
 
-            entity.Fill(collection, files);
+            entity.Fill(key, collection, files);
             if (_validator.Validate(entity) == false)
             {
                 _notificator.Error("Not valid");
@@ -108,7 +109,7 @@ namespace Ilaro.Admin.Core.Data
 
             var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
 
-            var result = _updater.Update(entity);
+            var result =  _updater.Update(entity);
 
             if (result)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);

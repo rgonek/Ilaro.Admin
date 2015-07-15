@@ -7,7 +7,7 @@ namespace Ilaro.Admin.Core.File
 {
     public class FileNameCreator : ICreatingNameFiles
     {
-        public string GetFileName(Property property, HttpPostedFile file)
+        public string GetFileName(Property property, HttpPostedFileWrapper file)
         {
             switch (property.FileOptions.NameCreation)
             {

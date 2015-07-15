@@ -80,7 +80,9 @@ WHERE {3} In ({4});";
             var cmd = DB.CreateCommand();
             var counter = 0;
             foreach (var property in
-                entity.CreateProperties(getForeignCollection: false).Where(x => x.IsKey == false))
+                entity.CreateProperties(getForeignCollection: false)
+                .Where(x => x.IsKey == false)
+                .WhereIsNotSkipped())
             {
                 AddParam(cmd, property);
                 sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter++);

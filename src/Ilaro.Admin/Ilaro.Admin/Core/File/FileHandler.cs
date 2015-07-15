@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Core.File
 {
@@ -46,14 +47,19 @@ namespace Ilaro.Admin.Core.File
         /// <summary>
         /// Upload files to temp location, or save file byte array to property value
         /// </summary>
-        public IEnumerable<Property> Upload(Entity entity)
+        public IList<Property> Upload(Entity entity)
         {
+            var proccessedProperties = new List<Property>();
             foreach (var property in entity
                 .CreateProperties(getForeignCollection: false)
-                .Where(x => x.TypeInfo.DataType == DataType.File))
+                .Where(x => x.TypeInfo.IsFile))
             {
-                var file = (HttpPostedFile)property.Value.Raw;
-                if (file == null) continue;
+                var file = (HttpPostedFileWrapper)property.Value.Raw;
+                if (file == null || file.ContentLength == 0)
+                {
+                    property.Value.Raw = DataBehavior.Skip;
+                    continue;
+                }
 
                 if (property.TypeInfo.IsFileStoredInDb)
                 {
@@ -85,6 +91,7 @@ namespace Ilaro.Admin.Core.File
                             var path = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
 
                             _saver.SaveFile(resizedStream, path);
+                            resizedStream.Dispose();
                         }
                     }
                     else
@@ -97,11 +104,13 @@ namespace Ilaro.Admin.Core.File
                         _saver.SaveFile(file.InputStream, path);
                     }
 
-                    yield return property;
+                    proccessedProperties.Add(property);
                 }
 
                 file.InputStream.Dispose();
             }
+
+            return proccessedProperties;
         }
 
         /// <summary>
@@ -116,7 +125,7 @@ namespace Ilaro.Admin.Core.File
             foreach (var property in properties)
             {
                 var settings = property.FileOptions.Settings.ToList();
-                if (property.TypeInfo.IsFile)
+                if (property.TypeInfo.IsImage == false)
                 {
                     settings = settings.Take(1).ToList();
                 }
@@ -129,8 +138,8 @@ namespace Ilaro.Admin.Core.File
                     var subPath =
                         setting.SubPath.TrimEnd('/', '\\') +
                         _configuration.UploadFilesTempFolderSufix;
-                    var sourcePath = Path.Combine(BasePath, subPath, fileName);
-                    var targetPath = Path.Combine(BasePath, subPath, fileName);
+                    var sourcePath = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
+                    var targetPath = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
 
                     System.IO.File.Move(sourcePath, targetPath);
                 }
@@ -145,7 +154,7 @@ namespace Ilaro.Admin.Core.File
             if (recordDict.ContainsKey(property.ColumnName.Undecorate()))
             {
                 var fileName = recordDict[property.ColumnName.Undecorate()].ToStringSafe();
-                var path = Path.Combine(BasePath, setting.SubPath, fileName);
+                var path = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
 
                 _deleter.Delete(path);
             }
@@ -170,7 +179,7 @@ namespace Ilaro.Admin.Core.File
                     var subPath =
                         setting.SubPath.TrimEnd('/', '\\') +
                         _configuration.UploadFilesTempFolderSufix;
-                    var path = Path.Combine(BasePath, subPath, fileName);
+                    var path = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
 
                     _deleter.Delete(path);
                 }
@@ -193,7 +202,7 @@ namespace Ilaro.Admin.Core.File
                 foreach (var setting in settings)
                 {
                     var fileName = property.Value.AsString;
-                    var path = Path.Combine(BasePath, setting.SubPath, fileName);
+                    var path = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
 
                     _deleter.Delete(path);
                 }

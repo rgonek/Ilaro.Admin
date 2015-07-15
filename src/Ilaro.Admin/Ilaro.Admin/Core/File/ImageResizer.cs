@@ -11,20 +11,24 @@ namespace Ilaro.Admin.Core.File
             int? width = null,
             int? height = null)
         {
-            using (var memory = new MemoryStream())
+            using (var cloned = new MemoryStream())
             {
-                var imgJob = new ImageJob(sourceStream, memory, new Instructions());
+                sourceStream.Seek(0, SeekOrigin.Begin);
+                sourceStream.CopyTo(cloned);
+                cloned.Seek(0, SeekOrigin.Begin);
+                var memory = new MemoryStream();
+                var imgJob = new ImageJob(cloned, memory, new Instructions());
 
                 if (width.HasValue && height.HasValue)
                 {
                     imgJob.Instructions = new Instructions(
                         new NameValueCollection
-                    {
-                        {"width", width.Value.ToString()},
-                        {"height", height.Value.ToString()},
-                        {"format", "jpg"},
-                        {"mode", "crop"}
-                    });
+                        {
+                            {"width", width.Value.ToString()},
+                            {"height", height.Value.ToString()},
+                            {"format", "jpg"},
+                            {"mode", "crop"}
+                        });
 
                     imgJob.Build();
                     return memory;
@@ -34,11 +38,11 @@ namespace Ilaro.Admin.Core.File
                 {
                     imgJob.Instructions = new Instructions(
                         new NameValueCollection
-                    {
-                        {"width", width.Value.ToString()},
-                        {"format", "jpg"},
-                        {"mode", "crop"}
-                    });
+                        {
+                            {"width", width.Value.ToString()},
+                            {"format", "jpg"},
+                            {"mode", "crop"}
+                        });
 
                     imgJob.Build();
                     return memory;
@@ -48,11 +52,11 @@ namespace Ilaro.Admin.Core.File
                 {
                     imgJob.Instructions = new Instructions(
                         new NameValueCollection
-                    {
-                        {"height", height.Value.ToString()},
-                        {"format", "jpg"},
-                        {"mode", "crop"}
-                    });
+                        {
+                            {"height", height.Value.ToString()},
+                            {"format", "jpg"},
+                            {"mode", "crop"}
+                        });
 
                     imgJob.Build();
                     return memory;
@@ -60,10 +64,10 @@ namespace Ilaro.Admin.Core.File
 
                 imgJob.Instructions = new Instructions(
                     new NameValueCollection
-                {
-                    {"format", "jpg"},
-                    {"mode", "crop"}
-                });
+                    {
+                        {"format", "jpg"},
+                        {"mode", "crop"}
+                    });
 
                 imgJob.Build();
                 return memory;

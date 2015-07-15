@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Common;
 using Ilaro.Admin.Extensions;
 using Massive;
@@ -31,26 +32,46 @@ namespace Ilaro.Admin.Core.Data
                     cmd.Transaction = tx;
                     result = cmd.ExecuteScalar();
 
-                    if (Admin.IsChangesEnabled)
+                    if (result != null)
                     {
-                        var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
-                        _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
-                        changeCmd.Connection = conn;
-                        changeCmd.Transaction = tx;
-                        changeCmd.ExecuteNonQuery();
-                    }
+                        if (Admin.IsChangesEnabled)
+                        {
+                            var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
+                            _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
+                            changeCmd.Connection = conn;
+                            changeCmd.Transaction = tx;
+                            changeCmd.ExecuteNonQuery();
+                        }
 
-                    tx.Commit();
+                        _log.Debug("Commit transaction");
+                        tx.Commit();
+                    }
+                    else
+                    {
+                        Rollback(tx);
+                    }
                 }
                 catch (Exception ex)
                 {
                     _log.Error(ex);
-                    tx.Rollback();
+                    Rollback(tx);
                     throw;
                 }
             }
 
             return result;
+        }
+
+        private void Rollback(DbTransaction tx)
+        {
+            try
+            {
+                tx.Rollback();
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+            }
         }
 
         private DbCommand CreateChangeCommand(ChangeInfo changeInfo, string keyValue)

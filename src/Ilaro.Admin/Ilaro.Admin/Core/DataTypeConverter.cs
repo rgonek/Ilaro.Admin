@@ -12,9 +12,10 @@
                 case System.ComponentModel.DataAnnotations.DataType.Duration:
                     return DataType.DateTime;
                 case System.ComponentModel.DataAnnotations.DataType.Url:
-                case System.ComponentModel.DataAnnotations.DataType.ImageUrl:
                 case System.ComponentModel.DataAnnotations.DataType.Upload:
                     return DataType.File;
+                case System.ComponentModel.DataAnnotations.DataType.ImageUrl:
+                    return DataType.Image;
                 case System.ComponentModel.DataAnnotations.DataType.Currency:
                     return DataType.Numeric;
                 case System.ComponentModel.DataAnnotations.DataType.Password:

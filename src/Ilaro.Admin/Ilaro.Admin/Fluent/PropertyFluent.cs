@@ -156,6 +156,9 @@ namespace Ilaro.Admin.Fluent
                     Settings = new List<ImageSettings>()
                 };
             }
+            _property.FileOptions.IsImage = true;
+            _property.TypeInfo.DataType = DataType.Image;
+
             _property.FileOptions.Settings.Add(new ImageSettings
             {
                 SubPath = path,

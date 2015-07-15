@@ -71,7 +71,9 @@ WHERE {2} In ({3});";
 
             var cmd = DB.CreateCommand();
             var counter = 0;
-            foreach (var property in entity.CreateProperties(getForeignCollection: false))
+            foreach (var property in entity
+                .CreateProperties(getForeignCollection: false)
+                .WhereIsNotSkipped())
             {
                 sbKeys.AppendFormat("{0},", property.ColumnName);
                 sbVals.AppendFormat("@{0},", counter);

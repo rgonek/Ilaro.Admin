@@ -40,6 +40,7 @@ namespace Ilaro.Admin.DataAnnotations
 
             if (imageSettingsAttributes.Any())
             {
+                IsImage = true;
                 Settings = imageSettingsAttributes.Select(x => x.Settings).ToList();
             }
             else

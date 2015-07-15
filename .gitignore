@@ -150,5 +150,9 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
-src/Ilaro.Admin/Ilaro.Admin.Sample/logs/ilaro_admin.log20150712
-src/Ilaro.Admin/Ilaro.Admin.Sample/logs/ilaro_admin.debug.log20150712
+
+src/Ilaro.Admin/Ilaro.Admin.Sample/logs/
+src/Ilaro.Admin/Ilaro.Admin.Sample/logs/
+src/Ilaro.Admin/Ilaro.Admin.Sample/Content/employee/
+src/Ilaro.Admin/Ilaro.Admin.Sample/Content/employee_temp/
+employee

@@ -415,7 +415,7 @@ namespace Ilaro.Admin.Core
         {
             foreach (var property in Properties)
             {
-                if (property.TypeInfo.DataType == DataType.File)
+                if (property.TypeInfo.IsFile)
                 {
                     var file = files[property.Name];
                     property.Value.Raw = file;
@@ -439,6 +439,16 @@ namespace Ilaro.Admin.Core
                     }
                 }
             }
+        }
+
+        public void Fill(string key, FormCollection collection, HttpFileCollectionBase files)
+        {
+            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                Key[i].Value.ToObject(keys[i]);
+            }
+            Fill(collection, files);
         }
 
         public IList<string> GetColumns()

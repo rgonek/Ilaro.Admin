@@ -27,14 +27,14 @@ namespace Ilaro.Admin.Validation
         public bool Validate(Entity entity)
         {
             var isValid = true;
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.File))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.IsFile))
             {
-                var file = (HttpPostedFile)property.Value.Raw;
-                var allowedFileExtensions = property.FileOptions.AllowedFileExtensions;
-                if (allowedFileExtensions == null || allowedFileExtensions.Length == 0)
-                {
-                    allowedFileExtensions = _configuration.AllowedFileExtensions;
-                }
+                //var file = (HttpPostedFile)property.Value.Raw;
+                //var allowedFileExtensions = property.FileOptions.AllowedFileExtensions;
+                //if (allowedFileExtensions == null || allowedFileExtensions.Length == 0)
+                //{
+                //    allowedFileExtensions = _configuration.AllowedFileExtensions;
+                //}
                 //var result = FileUpload.Validate(
                 //    file,
                 //    property.ImageOptions.MaxFileSize.GetValueOrDefault(_configuration.MaxFileSize),
@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Validation
                 //}
             }
 
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType != DataType.File))
+            foreach (var property in entity.Properties.Where(x => x.TypeInfo.IsFile == false))
             {
                 foreach (var validator in property.ValidationAttributes)
                 {
