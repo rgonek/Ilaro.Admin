@@ -18,7 +18,9 @@
 	$('textarea.html').summernote({ height: 100 });
 
 	$('.dual-list').bootstrapDualListbox({
-		moveOnSelect: false
+	    moveOnSelect: false,
+	    nonSelectedListLabel: 'Non-selected',
+        selectedListLabel: 'Selected'
 	});
 
 	$('input[type=file]').bootstrapFileInput();
