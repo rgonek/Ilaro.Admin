@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ilaro.Admin.Core.File;
+using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Validation;
 using Resources;
+using System.Threading;
 
 namespace Ilaro.Admin.Core.Data
 {
     public class EntityService : IEntityService
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityService));
+
         private readonly Notificator _notificator;
         private readonly IFetchingRecords _source;
         private readonly ICreatingRecords _creator;
         private readonly IUpdatingRecords _updater;
         private readonly IDeletingRecords _deleter;
         private readonly IValidateEntity _validator;
+        private readonly IHandlingFiles _filesHandler;
 
         public EntityService(
             Notificator notificator,
@@ -24,6 +30,7 @@ namespace Ilaro.Admin.Core.Data
             ICreatingRecords creator,
             IUpdatingRecords updater,
             IDeletingRecords deleter,
+            IHandlingFiles filesHandler,
             IValidateEntity validator)
         {
             if (notificator == null)
@@ -36,6 +43,8 @@ namespace Ilaro.Admin.Core.Data
                 throw new ArgumentNullException("updater");
             if (deleter == null)
                 throw new ArgumentNullException("deleter");
+            if (filesHandler == null)
+                throw new ArgumentNullException("filesHandler");
             if (validator == null)
                 throw new ArgumentNullException("validator");
 
@@ -44,6 +53,7 @@ namespace Ilaro.Admin.Core.Data
             _creator = creator;
             _updater = updater;
             _deleter = deleter;
+            _filesHandler = filesHandler;
             _validator = validator;
         }
 
@@ -58,14 +68,21 @@ namespace Ilaro.Admin.Core.Data
                 _notificator.Error("Not valid");
                 return null;
             }
-            var existingItem = _source.GetRecord(entity, entity.Key.Select(x => x.Value.AsObject));
-            if (existingItem != null)
+            var existingRecord = _source.GetRecord(entity, entity.Key.Select(x => x.Value.AsObject));
+            if (existingRecord != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
                 return null;
             }
 
+            var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
+
             var id = _creator.Create(entity);
+
+            if (id.IsNullOrWhiteSpace() == false)
+                _filesHandler.ProcessUploaded(propertiesWithUploadedFiles);
+            else
+                _filesHandler.DeleteUploaded(propertiesWithUploadedFiles);
 
             return id;
         }
@@ -76,27 +93,38 @@ namespace Ilaro.Admin.Core.Data
             FormCollection collection,
             HttpFileCollectionBase files)
         {
-            if (IsRecordExists(entity, key) == false)
+            var existingRecord = _source.GetRecord(entity, key);
+            if (existingRecord == null)
             {
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
 
-            entity.Fill(collection, files);
+            entity.Fill(key, collection, files);
             if (_validator.Validate(entity) == false)
             {
                 _notificator.Error("Not valid");
                 return false;
             }
 
-            var result = _updater.Update(entity);
+            var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
+
+            var result =  _updater.Update(entity);
+
+            if (result)
+                _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);
+            else
+                _filesHandler.DeleteUploaded(propertiesWithUploadedFiles);
 
             return result;
         }
 
         public bool Delete(Entity entity, string key, IEnumerable<PropertyDeleteOption> options)
         {
-            if (IsRecordExists(entity, key) == false)
+            var existingRecord = _source.GetRecord(entity, key);
+            if (existingRecord == null)
             {
+                _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
 
@@ -112,38 +140,16 @@ namespace Ilaro.Admin.Core.Data
 
             var result = _deleter.Delete(entity, deleteOptions);
 
+            if (result)
+            {
+                var propertiesWithFilesToDelete = entity
+                    .CreateProperties(getForeignCollection: false)
+                    .Where(x => x.TypeInfo.IsFile && x.TypeInfo.IsFileStoredInDb == false);
+                _filesHandler.Delete(propertiesWithFilesToDelete);
+            }
+
             return result;
         }
-
-        //private void FileHandle(Entity entity)
-        //{
-        //    foreach (var property in entity
-        //        .CreateProperties(getForeignCollection: false)
-        //        .Where(x => x.TypeInfo.DataType == DataType.File))
-        //    {
-        //        if (property.TypeInfo.Type == typeof(string))
-        //        {
-        //            // we must save file to disk and save file path in db
-        //            var file = (HttpPostedFile)property.Value.Raw;
-        //            var fileName = String.Empty;
-        //            if (property.ImageOptions.NameCreation == NameCreation.UserInput)
-        //            {
-        //                fileName = "test.jpg";
-        //            }
-        //            fileName = FileUpload.SaveImage(file, fileName, property.ImageOptions.NameCreation, property.ImageOptions.Settings.ToArray());
-
-        //            property.Value.Raw = fileName;
-        //        }
-        //        else
-        //        {
-        //            // we must save file in db as byte array
-
-        //            var file = (HttpPostedFile)property.Value.Raw;
-        //            var bytes = FileUpload.GetImageByte(file, property.ImageOptions.Settings.ToArray());
-        //            property.Value.Raw = bytes;
-        //        }
-        //    }
-        //}
 
         public IList<GroupProperties> PrepareGroups(Entity entity, bool getKey = true, string key = null)
         {
@@ -185,8 +191,8 @@ namespace Ilaro.Admin.Core.Data
             {
                 keys[i] = entity.Key[i].Value.ToObject(key[i]);
             }
-            var existingItem = _source.GetRecord(entity, keys);
-            if (existingItem == null)
+            var existingRecord = _source.GetRecord(entity, keys);
+            if (existingRecord == null)
             {
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;

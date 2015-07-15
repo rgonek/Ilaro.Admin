@@ -9,5 +9,9 @@
         string PerPageRequestName { get; }
         string OrderRequestName { get; }
         string OrderDirectionRequestName { get; }
+
+        long MaxFileSize { get; }
+        string[] AllowedFileExtensions { get; }
+        string UploadFilesTempFolderSufix { get; }
     }
 }

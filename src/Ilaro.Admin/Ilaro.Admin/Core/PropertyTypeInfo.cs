@@ -60,7 +60,17 @@ namespace Ilaro.Admin.Core
 
         public bool IsFileStoredInDb
         {
-            get { return DataType == DataType.File && IsString == false; }
+            get { return IsFile && IsString == false; }
+        }
+
+        public bool IsImage
+        {
+            get { return DataType == DataType.Image; }
+        }
+
+        public bool IsFile
+        {
+            get { return DataType == DataType.Image || DataType == DataType.File; }
         }
 
         public PropertyTypeInfo(Type type, object[] attributes)
@@ -132,17 +142,15 @@ namespace Ilaro.Admin.Core
                 DataType = DataType.Text;
             }
 
-            var imageAttribute =
-                attributes.OfType<ImageAttribute>().FirstOrDefault();
+            var fileAttribute =
+                attributes.OfType<FileAttribute>().FirstOrDefault();
             var imageSettingsAttributes =
                 attributes.OfType<ImageSettingsAttribute>().ToList();
 
-            if (imageAttribute == null &&
-                !imageSettingsAttributes.Any() &&
-                DataType != DataType.File)
-                return;
-
-            DataType = DataType.File;
+            if (fileAttribute != null && fileAttribute.IsImage || imageSettingsAttributes.Any())
+            {
+                DataType = DataType.Image;
+            }
         }
     }
 }

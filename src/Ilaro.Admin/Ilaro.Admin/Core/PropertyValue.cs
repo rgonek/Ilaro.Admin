@@ -7,7 +7,10 @@ namespace Ilaro.Admin.Core
 {
     public class PropertyValue
     {
+        private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(PropertyValue));
+
         public object Raw { get; set; }
+        public object Additional { get; set; }
         public List<object> Values { get; set; }
         public bool? AsBool
         {
@@ -39,8 +42,7 @@ namespace Ilaro.Admin.Core
                     return String.Empty;
                 }
 
-                if (_typeInfo.DataType == DataType.Numeric &&
-                    _typeInfo.IsFloatingPoint)
+                if (_typeInfo.IsNumber)
                 {
                     try
                     {
@@ -48,9 +50,9 @@ namespace Ilaro.Admin.Core
                             .ToDecimal(Raw)
                             .ToString(CultureInfo.InvariantCulture);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // ignored
+                        _log.Error(ex);
                     }
                 }
 
@@ -61,7 +63,7 @@ namespace Ilaro.Admin.Core
         {
             get
             {
-                if (_typeInfo.DataType == DataType.Enum)
+                if (_typeInfo.IsEnum)
                 {
                     return Convert.ChangeType(Raw, _typeInfo.EnumType);
                 }

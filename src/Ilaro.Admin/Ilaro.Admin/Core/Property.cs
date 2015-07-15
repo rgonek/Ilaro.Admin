@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
-using Ilaro.Admin.Core.FileUpload;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Resources;
@@ -79,7 +78,7 @@ namespace Ilaro.Admin.Core
         public string RequiredErrorMessage { get; set; }
 
         public DeleteOption DeleteOption { get; internal set; }
-        public ImageOptions ImageOptions { get; internal set; }
+        public FileOptions FileOptions { get; internal set; }
         public PropertyTemplate Template { get; internal set; }
         public PropertyTypeInfo TypeInfo { get; private set; }
         public PropertyValue Value { get; private set; }
@@ -112,7 +111,7 @@ namespace Ilaro.Admin.Core
             // TODO: determine ColumnName
 
             TypeInfo = new PropertyTypeInfo(property.PropertyType, Attributes);
-            ImageOptions = new ImageOptions(Attributes, Entity.Name);
+            FileOptions = new FileOptions(Attributes);
             Value = new PropertyValue(TypeInfo);
             Template = new PropertyTemplate(Attributes, TypeInfo, IsForeignKey);
 

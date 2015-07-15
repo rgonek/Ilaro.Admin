@@ -17,7 +17,7 @@
 
 <h2>@Model.Entity.Verbose.Singular</h2>
 
-@using (Html.BeginForm("Edit", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

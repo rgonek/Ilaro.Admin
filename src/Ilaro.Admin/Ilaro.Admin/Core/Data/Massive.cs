@@ -1,11 +1,11 @@
-﻿using Ilaro.Admin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
+using Ilaro.Admin;
 
 namespace Massive
 {
@@ -56,10 +56,9 @@ namespace Massive
             }
             cmd.Parameters.Add(p);
         }
-        public static dynamic RecordToExpando(this IDataReader rdr)
+        public static IDictionary<string, object> RecordToDictionary(this IDataReader rdr)
         {
-            dynamic e = new ExpandoObject();
-            var d = e as IDictionary<string, object>;
+            var d = new Dictionary<string, object>();
             object[] values = new object[rdr.FieldCount];
             rdr.GetValues(values);
             for (int i = 0; i < values.Length; i++)
@@ -67,7 +66,7 @@ namespace Massive
                 var v = values[i];
                 d.Add(rdr.GetName(i), DBNull.Value.Equals(v) ? null : v);
             }
-            return e;
+            return d;
         }
     }
 
@@ -100,14 +99,14 @@ namespace Massive
         /// <summary>
         /// Enumerates the reader yielding the result - thanks to Jeroen Haegebaert
         /// </summary>
-        public virtual IEnumerable<dynamic> Query(string sql, params object[] args)
+        public virtual IEnumerable<IDictionary<string, object>> Query(string sql, params object[] args)
         {
             using (var conn = OpenConnection())
             {
                 var rdr = CreateCommand(sql, conn, args).ExecuteReader();
                 while (rdr.Read())
                 {
-                    yield return rdr.RecordToExpando();
+                    yield return rdr.RecordToDictionary();
                 }
             }
         }
@@ -153,7 +152,7 @@ namespace Massive
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
         /// ordered as specified, limited (TOP) by limit.
         /// </summary>
-        public virtual IEnumerable<dynamic> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
+        public virtual IEnumerable<IDictionary<string, object>> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
         {
             string sql = BuildSelect(where, orderBy, limit);
             return Query(string.Format(sql, columns, TableName), args);

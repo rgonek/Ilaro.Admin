@@ -3,7 +3,6 @@ using System.Linq;
 using FakeItEasy;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
 

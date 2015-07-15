@@ -2,6 +2,7 @@ using System.Web.Mvc;
 using Ilaro.Admin.Commons;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.File;
 using Ilaro.Admin.Validation;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
@@ -45,6 +46,11 @@ namespace Ilaro.Admin.Unity
             container.RegisterType<IUpdatingRecords, RecordsUpdater>();
             container.RegisterType<IDeletingRecords, RecordsDeleter>();
             container.RegisterType<IProvidingUser, HttpContextUserProvider>();
+            container.RegisterType<ICreatingNameFiles, FileNameCreator>();
+            container.RegisterType<IDeletingFiles, FileDeleter>();
+            container.RegisterType<IHandlingFiles, FileHandler>();
+            container.RegisterType<IResizingImages, ImageResizer>();
+            container.RegisterType<ISavingFiles, FileSaver>();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 
 namespace Ilaro.Admin.Models

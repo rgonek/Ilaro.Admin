@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Core.FileUpload;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Fluent
 {
@@ -117,20 +117,22 @@ namespace Ilaro.Admin.Fluent
         /// <summary>
         /// Set image options
         /// </summary>
-        public PropertyOf<TEntity> SetImageOptions(
+        public PropertyOf<TEntity> SetFileOptions(
             NameCreation nameCreation,
             long maxFileSize,
-            bool isMultiple,
+            bool isImage,
+            string path,
             params string[] allowedFileExtensions)
         {
             _property.TypeInfo.DataType = DataType.File;
 
-            _property.ImageOptions = new ImageOptions
+            _property.FileOptions = new FileOptions
             {
                 NameCreation = nameCreation,
                 MaxFileSize = maxFileSize,
-                IsMultiple = isMultiple,
                 AllowedFileExtensions = allowedFileExtensions,
+                IsImage = isImage,
+                Path = path,
                 Settings = new List<ImageSettings>()
             };
             return this;
@@ -142,29 +144,26 @@ namespace Ilaro.Admin.Fluent
         public PropertyOf<TEntity> SetImageSettings(
             string path,
             int? width,
-            int? height,
-            bool isMiniature,
-            bool isBig)
+            int? height)
         {
             _property.TypeInfo.DataType = DataType.File;
 
-            if (_property.ImageOptions == null)
+            if (_property.FileOptions == null)
             {
-                _property.ImageOptions = new ImageOptions
+                _property.FileOptions = new FileOptions
                 {
-                    AllowedFileExtensions = FileUploadDefault.ImageExtensions,
-                    MaxFileSize = FileUploadDefault.MaxFileSize,
                     NameCreation = NameCreation.OriginalFileName,
                     Settings = new List<ImageSettings>()
                 };
             }
-            _property.ImageOptions.Settings.Add(new ImageSettings
+            _property.FileOptions.IsImage = true;
+            _property.TypeInfo.DataType = DataType.Image;
+
+            _property.FileOptions.Settings.Add(new ImageSettings
             {
                 SubPath = path,
                 Width = width,
-                Height = height,
-                IsMiniature = isMiniature,
-                IsBig = isBig
+                Height = height
             });
 
             return this;

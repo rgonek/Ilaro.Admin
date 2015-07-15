@@ -43,5 +43,25 @@ namespace Ilaro.Admin.Core
         {
             get { return _configurationProvider.Get("Ilaro.Admin.OrderDirectionRequestName", "od"); }
         }
+
+        public long MaxFileSize
+        {
+            get { return _configurationProvider.Get("Ilaro.Admin.MaxFileSize", 2048000); }
+        }
+
+        public string[] AllowedFileExtensions
+        {
+            get
+            {
+                return _configurationProvider
+                    .Get("Ilaro.Admin.AllowedFileExtensions", ".jpg,.jpeg,.png,.gif,.bmp")
+                    .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+        }
+
+        public string UploadFilesTempFolderSufix
+        {
+            get { return _configurationProvider.Get("Ilaro.Admin.UploadFilesTempFolderSufix", "_temp"); }
+        }
     }
 }

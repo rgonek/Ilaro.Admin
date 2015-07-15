@@ -123,7 +123,13 @@ namespace Ilaro.Admin.Core
                         break;
                     case DataType.File:
                         Editor = Templates.Editor.File;
-                        Display = Templates.Display.Image;
+                        Display = Templates.Display.File;
+                        break;
+                    case DataType.Image:
+                        Editor = Templates.Editor.File;
+                        Display = typeInfo.IsFileStoredInDb ?
+                            Templates.Display.DbImage :
+                            Templates.Display.Image;
                         break;
                     case DataType.Numeric:
                         Editor = Templates.Editor.Numeric;

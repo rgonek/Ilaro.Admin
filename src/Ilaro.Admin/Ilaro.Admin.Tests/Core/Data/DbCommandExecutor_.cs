@@ -1,10 +1,9 @@
 ﻿using System.Data.SqlClient;
+using FakeItEasy;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
-using FakeItEasy;
-using System.Collections.Generic;
 
 namespace Ilaro.Admin.Tests.Core.Data
 {

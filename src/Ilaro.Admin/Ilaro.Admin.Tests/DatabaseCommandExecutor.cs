@@ -16,9 +16,9 @@ namespace Ilaro.Admin.Tests
             {
                 ExecuteSql(sql, connection);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                throw new InvalidOperationException("Error when executing script {0}".Fill(file), exc);
+                throw new InvalidOperationException("Error when executing script {0}".Fill(file), ex);
             }
         }
 

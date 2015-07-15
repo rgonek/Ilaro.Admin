@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using Ilaro.Admin.Core.FileUpload;
 
 namespace Ilaro.Admin.DataAnnotations
 {
@@ -8,10 +7,6 @@ namespace Ilaro.Admin.DataAnnotations
     public class ImageSettingsAttribute : Attribute
     {
         public ImageSettings Settings { get; set; }
-
-        public bool IsMiniature { get; set; }
-
-        public bool IsBig { get; set; }
 
         public ImageSettingsAttribute(string subPath)
         {

@@ -8,6 +8,7 @@
         Bool = 3,
         Enum = 4,
         DateTime = 5,
-        File = 6
+        File = 6,
+        Image = 7
     }
 }
