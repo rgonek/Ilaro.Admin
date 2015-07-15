@@ -30,7 +30,7 @@ SELECT @{3};
         /// </summary>
         private const string RelatedRecordsUpdateSqlFormat =
 @"UPDATE {0} SET {1} = @{2} 
-WHERE {3} In ({4});";
+WHERE {3};";
 
         public RecordsUpdater(
             IExecutingDbCommand executor,
@@ -116,34 +116,53 @@ WHERE {3} In ({4});";
                             entity.Key.FirstOrDefault().Value.Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
-                    .Select(x => x.KeyValue.FirstOrDefault())
+                    .Select(x => x.JoinedKeyValue)
                     .Except(property.Value.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())
                 {
-                    var removeValues = string.Join(",", idsToRemoveRelation.Select(x => "@" + paramIndex++));
+                    var values2 =
+                        idsToRemoveRelation.Select(
+                            x => x.Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                    var whereParts2 = new List<string>();
+                    for (int i = 0; i < property.ForeignEntity.Key.Count; i++)
+                    {
+                        var key = property.ForeignEntity.Key[i];
+                        var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
+                        whereParts2.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                        cmd.AddParams(values2.Select(x => x[i]).OfType<object>().ToArray());
+                    }
+                    var wherePart2 = string.Join(" AND ", whereParts2);
                     sbUpdates.AppendLine();
+                    sbUpdates.AppendLine("-- set to null update");
                     sbUpdates.AppendFormat(
                         RelatedRecordsUpdateSqlFormat,
                         property.ForeignEntity.TableName,
                         entity.Key.FirstOrDefault().ColumnName,
                         paramIndex++,
-                        property.ForeignEntity.Key.FirstOrDefault().ColumnName,
-                        removeValues);
-                    cmd.AddParams(idsToRemoveRelation.OfType<object>().ToArray());
+                        wherePart2);
                     cmd.AddParam(null);
                 }
 
-                var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
+                var values =
+                    property.Value.Values.Select(
+                        x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                var whereParts = new List<string>();
+                for (int i = 0; i < property.ForeignEntity.Key.Count; i++)
+                {
+                    var key = property.ForeignEntity.Key[i];
+                    var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
+                    whereParts.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                    cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
+                }
+                var wherePart = string.Join(" AND ", whereParts);
                 sbUpdates.AppendLine();
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
                     entity.Key.FirstOrDefault().ColumnName,
                     paramIndex++,
-                    property.ForeignEntity.Key.FirstOrDefault().ColumnName,
-                    values);
-                cmd.AddParams(property.Value.Values.ToArray());
+                    wherePart);
                 cmd.AddParam(entity.Key.FirstOrDefault().Value.Raw);
             }
 

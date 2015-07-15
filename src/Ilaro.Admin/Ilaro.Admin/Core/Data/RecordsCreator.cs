@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -27,7 +28,7 @@ SELECT @newID;
         /// </summary>
         private const string RelatedRecordsUpdateSqlFormat =
 @"UPDATE {0} SET {1} = @newID 
-WHERE {2} In ({3});";
+WHERE {2};";
 
         public RecordsCreator(IExecutingDbCommand executor)
         {
@@ -103,15 +104,24 @@ WHERE {2} In ({3});";
             foreach (var property in
                 entity.GetForeignsForUpdate().Where(x => x.Value.Values.IsNullOrEmpty<object>() == false))
             {
-                var values = string.Join(",", property.Value.Values.Select(x => "@" + paramIndex++));
+                var values =
+                    property.Value.Values.Select(
+                        x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                var whereParts = new List<string>();
+                for (int i = 0; i < property.ForeignEntity.Key.Count; i++)
+                {
+                    var key = property.ForeignEntity.Key[i];
+                    var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
+                    whereParts.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                    cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
+                }
+                var wherePart = string.Join(" AND ", whereParts);
                 sbUpdates.AppendLine();
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
                     entity.Key.FirstOrDefault().ColumnName,
-                    property.ForeignEntity.Key.FirstOrDefault().ColumnName,
-                    values);
-                cmd.AddParams(property.Value.Values.ToArray());
+                    wherePart);
             }
 
             cmd.CommandText += sbUpdates.ToString();
