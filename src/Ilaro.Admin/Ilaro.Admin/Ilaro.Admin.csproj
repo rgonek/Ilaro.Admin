@@ -166,11 +166,13 @@
     <Compile Include="Core\Data\DataBehavior.cs" />
     <Compile Include="Core\Data\DB.cs" />
     <Compile Include="Core\Data\DbCommandExecutor.cs" />
+    <Compile Include="Core\Data\IComparingRecords.cs" />
     <Compile Include="Core\Data\ICreatingRecords.cs" />
     <Compile Include="Core\Data\IDeletingRecords.cs" />
     <Compile Include="Core\Data\IFetchingRecordsHierarchy.cs" />
     <Compile Include="Core\Data\IUpdatingRecords.cs" />
     <Compile Include="Core\Data\Massive.cs" />
+    <Compile Include="Core\Data\RecordsComparer.cs" />
     <Compile Include="Core\Data\RecordsCreator.cs" />
     <Compile Include="Core\Data\RecordsDeleter.cs" />
     <Compile Include="Core\Data\RecordsHierarchySource.cs" />

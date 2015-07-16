@@ -45,6 +45,7 @@ namespace Ilaro.Admin.Unity
             container.RegisterType<ICreatingRecords, RecordsCreator>();
             container.RegisterType<IUpdatingRecords, RecordsUpdater>();
             container.RegisterType<IDeletingRecords, RecordsDeleter>();
+            container.RegisterType<IComparingRecords, RecordsComparer>();
             container.RegisterType<IProvidingUser, HttpContextUserProvider>();
             container.RegisterType<ICreatingNameFiles, FileNameCreator>();
             container.RegisterType<IDeletingFiles, FileDeleter>();

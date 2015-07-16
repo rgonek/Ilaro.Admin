@@ -21,8 +21,11 @@ namespace Ilaro.Admin.Core.Data
 UPDATE {0} SET 
     {1} 
     WHERE {2};
--- return record id
-SELECT @{3};
+";
+
+        private const string SqlReturnRecordIdPart =
+@"-- return record id
+SELECT @{0};
 -- update foreign entities records";
 
         /// <summary>
@@ -79,24 +82,28 @@ WHERE {3};";
 
             var cmd = DB.CreateCommand();
             var counter = 0;
-            foreach (var property in
-                entity.CreateProperties(getForeignCollection: false)
+            var updateProperties = entity.CreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)
-                .WhereIsNotSkipped())
+                .WhereIsNotSkipped();
+            if (updateProperties.Any())
             {
-                AddParam(cmd, property);
-                sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter++);
+                foreach (var property in updateProperties)
+                {
+                    AddParam(cmd, property);
+                    sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter++);
+                }
+                cmd.AddParams(entity.Key.Select(x => x.Value.Raw).ToArray());
+                var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
+                var whereParts = new List<string>();
+                foreach (var key in entity.Key)
+                {
+                    whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
+                }
+                var wherePart = string.Join(" AND ", whereParts);
+                cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, wherePart);
             }
-            cmd.AddParams(entity.Key.Select(x => x.Value.Raw).ToArray());
             cmd.AddParam(entity.JoinedKeyValue);
-            var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
-            var whereParts = new List<string>();
-            foreach (var key in entity.Key)
-            {
-                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
-            }
-            var wherePart = string.Join(" AND ", whereParts);
-            cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, wherePart, counter);
+            cmd.CommandText += SqlReturnRecordIdPart.Fill(counter);
 
             return cmd;
         }
