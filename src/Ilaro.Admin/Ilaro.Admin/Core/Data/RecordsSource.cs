@@ -56,8 +56,8 @@ namespace Ilaro.Admin.Core.Data
 
             return entity;
         }
-        
-        public object GetRecord(Entity entity, string key)
+
+        public IDictionary<string, object> GetRecord(Entity entity, string key)
         {
             var keys = key
                 .Split(Const.KeyColSeparator)
@@ -67,7 +67,7 @@ namespace Ilaro.Admin.Core.Data
             return GetRecord(entity, keys);
         }
 
-        public object GetRecord(Entity entity, params object[] key)
+        public IDictionary<string, object> GetRecord(Entity entity, params object[] key)
         {
             var table = new DynamicModel(
                 Admin.ConnectionStringName,

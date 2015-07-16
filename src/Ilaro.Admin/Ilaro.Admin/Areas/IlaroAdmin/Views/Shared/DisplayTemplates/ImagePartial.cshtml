@@ -1,3 +1,9 @@
 ﻿@model CellValue
+@{
+    if (Model.Raw == null)
+    {
+        return;
+    }
+}
 
 <a href="@Url.GetImageBigPath(Model)" class="open-modal"><img src="@Url.GetImageMinPath(Model)" class="img-polaroid" alt="@Model.AsString" /></a>

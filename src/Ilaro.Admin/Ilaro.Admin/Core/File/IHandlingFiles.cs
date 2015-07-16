@@ -22,6 +22,6 @@ namespace Ilaro.Admin.Core.File
         /// <summary>
         /// Delete files uploaded in current request.
         /// </summary>
-        void ProcessUploaded(IEnumerable<Property> properties, object existingRecord = null);
+        void ProcessUploaded(IEnumerable<Property> properties, IDictionary<string, object> existingRecord = null);
     }
 }

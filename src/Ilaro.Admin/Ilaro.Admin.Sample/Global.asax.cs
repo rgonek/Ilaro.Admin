@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Sample
                     .SetFileOptions(NameCreation.Timestamp, 2000, false, "", "")
                     .SetImageSettings("", 100, 100))
                 .ConfigureProperty(PropertyOf<Employee>.Configure(x => x.PhotoPath)
-                    .SetFileOptions(NameCreation.Timestamp, 2000, false, "content/employee", "")
+                    .SetFileOptions(NameCreation.UserInput, 2000, false, "content/employee", "")
                     .SetImageSettings("big", 500, 500)
                     .SetImageSettings("min", 100, 100));
             Entity<Order>.Add();

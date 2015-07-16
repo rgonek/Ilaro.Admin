@@ -43,17 +43,28 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<img");
-
-WriteAttribute("src", Tuple.Create(" src=\"", 24), Tuple.Create("\"", 94)
-, Tuple.Create(Tuple.Create("", 30), Tuple.Create("data:image/jpg;base64,", 30), true)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 52), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
+            #line 2 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
+  
+    if (Model.Raw == null)
+    {
+        return;
+    }
+
             
             #line default
             #line hidden
-, 52), false)
+WriteLiteral("\r\n\r\n<img");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 90), Tuple.Create("\"", 160)
+, Tuple.Create(Tuple.Create("", 96), Tuple.Create("data:image/jpg;base64,", 96), true)
+            
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 118), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
+            
+            #line default
+            #line hidden
+, 118), false)
 );
 
 WriteLiteral(" class=\"img-polaroid\"");

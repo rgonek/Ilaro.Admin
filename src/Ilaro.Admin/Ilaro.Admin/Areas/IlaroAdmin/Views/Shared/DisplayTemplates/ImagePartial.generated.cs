@@ -43,42 +43,53 @@ namespace ASP
         }
         public override void Execute()
         {
-WriteLiteral("<a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 22), Tuple.Create("\"", 56)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 29), Tuple.Create<System.Object, System.Int32>(Url.GetImageBigPath(Model)
+            #line 2 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
+  
+    if (Model.Raw == null)
+    {
+        return;
+    }
+
             
             #line default
             #line hidden
-, 29), false)
+WriteLiteral("\r\n\r\n<a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 88), Tuple.Create("\"", 122)
+            
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 95), Tuple.Create<System.Object, System.Int32>(Url.GetImageBigPath(Model)
+            
+            #line default
+            #line hidden
+, 95), false)
 );
 
 WriteLiteral(" class=\"open-modal\"");
 
 WriteLiteral("><img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 81), Tuple.Create("\"", 114)
+WriteAttribute("src", Tuple.Create(" src=\"", 147), Tuple.Create("\"", 180)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 87), Tuple.Create<System.Object, System.Int32>(Url.GetImageMinPath(Model)
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 153), Tuple.Create<System.Object, System.Int32>(Url.GetImageMinPath(Model)
             
             #line default
             #line hidden
-, 87), false)
+, 153), false)
 );
 
 WriteLiteral(" class=\"img-polaroid\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 136), Tuple.Create("\"", 157)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 202), Tuple.Create("\"", 223)
             
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-                                           , Tuple.Create(Tuple.Create("", 142), Tuple.Create<System.Object, System.Int32>(Model.AsString
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
+                                           , Tuple.Create(Tuple.Create("", 208), Tuple.Create<System.Object, System.Int32>(Model.AsString
             
             #line default
             #line hidden
-, 142), false)
+, 208), false)
 );
 
 WriteLiteral(" /></a>\r\n");

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
@@ -419,6 +420,26 @@ namespace Ilaro.Admin.Core
                 {
                     var file = files[property.Name];
                     property.Value.Raw = file;
+                    if (property.TypeInfo.IsFileStoredInDb == false &&
+                        property.FileOptions.NameCreation == NameCreation.UserInput)
+                    {
+                        var providedName = collection.GetValue(property.Name)
+                            .ConvertTo(typeof(string), CultureInfo.InvariantCulture);
+                        property.Value.Additional = providedName;
+                    }
+                    var isDeleted =
+                        ((bool?)
+                            collection.GetValue(property.Name + "_delete")
+                                .ConvertTo(typeof (bool), CultureInfo.InvariantCulture)).GetValueOrDefault();
+
+                    if (file.ContentLength > 0)
+                        isDeleted = false;
+
+                    if (isDeleted)
+                    {
+                        property.Value.Raw = DataBehavior.Clear;
+                        property.Value.Additional = null;
+                    }
                 }
                 else
                 {

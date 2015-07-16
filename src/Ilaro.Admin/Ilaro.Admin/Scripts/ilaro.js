@@ -51,13 +51,23 @@
 	});
 
 	$('.create-foreign').click(function (e) {
-		//e.preventDefault();
+	    //e.preventDefault();
 
-		//var url = $(this).attr('href');
+	    //var url = $(this).attr('href');
 
-		//$.get(url, function (data) {
-		//	$('#foreign-modal .modal-body').html(data);
-		//	$('#foreign-modal').modal('show');
-		//});
+	    //$.get(url, function (data) {
+	    //	$('#foreign-modal .modal-body').html(data);
+	    //	$('#foreign-modal').modal('show');
+	    //});
+	});
+
+	$('[data-role=delete-image]').click(function (e) {
+	    var $this = $(this);
+	    $this.siblings('input[type=hidden]').val(true);
+	    var $file = $this.parent().find('input[type=file]');
+	    $file.wrap('<form>').closest('form').get(0).reset();
+	    $file.unwrap();
+	    $this.siblings('.file-input-name').remove();
+	    $this.parents('.form-group').find('[data-role=image]').remove();
 	});
 });

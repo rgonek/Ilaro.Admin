@@ -54,6 +54,12 @@ namespace Ilaro.Admin.Core.File
                 .CreateProperties(getForeignCollection: false)
                 .Where(x => x.TypeInfo.IsFile))
             {
+                if (property.Value.Raw.IsBehavior(DataBehavior.Clear))
+                {
+                    property.Value.Raw = null;
+                    proccessedProperties.Add(property);
+                    continue;
+                }
                 var file = (HttpPostedFileWrapper)property.Value.Raw;
                 if (file == null || file.ContentLength == 0)
                 {
@@ -116,12 +122,8 @@ namespace Ilaro.Admin.Core.File
         /// <summary>
         /// Move uploaded files from temp location, and delete old files.
         /// </summary>
-        public void ProcessUploaded(IEnumerable<Property> properties, object existingRecord = null)
+        public void ProcessUploaded(IEnumerable<Property> properties, IDictionary<string, object> existingRecord = null)
         {
-            IDictionary<string, object> recordDict = null;
-            if (existingRecord != null)
-                recordDict = (IDictionary<string, object>)existingRecord;
-
             foreach (var property in properties)
             {
                 var settings = property.FileOptions.Settings.ToList();
@@ -132,16 +134,19 @@ namespace Ilaro.Admin.Core.File
 
                 foreach (var setting in settings)
                 {
-                    DeleteOldFile(property, setting, recordDict);
+                    DeleteOldFile(property, setting, existingRecord);
 
                     var fileName = property.Value.AsString;
-                    var subPath =
-                        setting.SubPath.TrimEnd('/', '\\') +
-                        _configuration.UploadFilesTempFolderSufix;
-                    var sourcePath = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
-                    var targetPath = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
+                    if (fileName.IsNullOrEmpty() == false)
+                    {
+                        var subPath =
+                            setting.SubPath.TrimEnd('/', '\\') +
+                            _configuration.UploadFilesTempFolderSufix;
+                        var sourcePath = Path.Combine(BasePath, property.FileOptions.Path, subPath, fileName);
+                        var targetPath = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
 
-                    System.IO.File.Move(sourcePath, targetPath);
+                        System.IO.File.Move(sourcePath, targetPath);
+                    }
                 }
             }
         }

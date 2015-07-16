@@ -51,5 +51,15 @@ namespace Ilaro.Admin.Models
                 return Convert.ChangeType(AsString, Property.TypeInfo.Type);
             }
         }
+
+        public CellValue()
+        {
+        }
+
+        public CellValue(Property property)
+        {
+            Property = property;
+            Raw = property.Value.Raw;
+        }
     }
 }
