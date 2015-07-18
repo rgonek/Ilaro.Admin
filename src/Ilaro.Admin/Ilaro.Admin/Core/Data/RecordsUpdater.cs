@@ -84,7 +84,7 @@ WHERE {3};";
             var counter = 0;
             var updateProperties = entity.CreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)
-                .WhereIsNotSkipped();
+                .WhereIsNotSkipped().ToList();
             if (updateProperties.Any())
             {
                 foreach (var property in updateProperties)
@@ -181,7 +181,22 @@ WHERE {3};";
             if (property.TypeInfo.IsFileStoredInDb)
                 cmd.AddParam(property.Value.Raw, DbType.Binary);
             else
-                cmd.AddParam(property.Value.Raw);
+            {
+                if (property.Value.Raw.IsBehavior(DefaultValueBehavior.Now) ||
+                    property.Value.Raw.IsBehavior(DefaultValueBehavior.NowOnUpdate))
+                {
+                    cmd.AddParam(DateTime.Now);
+                }
+                else if (property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
+                    property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnUpdate))
+                {
+                    cmd.AddParam(DateTime.UtcNow);
+                }
+                else
+                {
+                    cmd.AddParam(property.Value.Raw);
+                }
+            }
         }
     }
 }

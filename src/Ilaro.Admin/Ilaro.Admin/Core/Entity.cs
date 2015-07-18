@@ -430,7 +430,7 @@ namespace Ilaro.Admin.Core
                     var isDeleted =
                         ((bool?)
                             collection.GetValue(property.Name + "_delete")
-                                .ConvertTo(typeof (bool), CultureInfo.InvariantCulture)).GetValueOrDefault();
+                                .ConvertTo(typeof(bool), CultureInfo.InvariantCulture)).GetValueOrDefault();
 
                     if (file.ContentLength > 0)
                         isDeleted = false;
@@ -444,19 +444,24 @@ namespace Ilaro.Admin.Core
                 else
                 {
                     var value = collection.GetValue(property.Name);
-                    if (value == null)
-                        continue;
-
-                    if (property.IsForeignKey && property.TypeInfo.IsCollection)
+                    if (value != null)
                     {
-                        property.Value.Values = value.AttemptedValue
-                            .Split(",".ToCharArray()).OfType<object>().ToList();
+                        if (property.IsForeignKey && property.TypeInfo.IsCollection)
+                        {
+                            property.Value.Values = value.AttemptedValue
+                                .Split(",".ToCharArray()).OfType<object>().ToList();
+                        }
+                        else
+                        {
+                            property.Value.Raw = value.ConvertTo(
+                                property.TypeInfo.Type,
+                                CultureInfo.InvariantCulture);
+                        }
                     }
-                    else
+
+                    if (property.Value.Raw == null && property.Value.DefaultValue != null)
                     {
-                        property.Value.Raw = value.ConvertTo(
-                            property.TypeInfo.Type,
-                            CultureInfo.InvariantCulture);
+                        property.Value.Raw = property.Value.DefaultValue;
                     }
                 }
             }

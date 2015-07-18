@@ -26,7 +26,9 @@ namespace Ilaro.Admin.Core.Data
 
         private new bool Equals(object newValue, object oldValue)
         {
-            return newValue.Equals(oldValue);
+            return
+                (newValue == null && oldValue == null) ||
+                (newValue != null && oldValue != null && newValue.Equals(oldValue));
         }
     }
 }

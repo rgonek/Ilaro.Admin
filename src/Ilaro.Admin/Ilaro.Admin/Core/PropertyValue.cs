@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
+using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Core
@@ -77,12 +80,20 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public IDictionary<string, string> PossibleValues { get; set; }
 
+        public object DefaultValue { get; private set; }
+
         private readonly PropertyTypeInfo _typeInfo;
 
-        public PropertyValue(PropertyTypeInfo typeInfo)
+        public PropertyValue(object[] attributes, PropertyTypeInfo typeInfo)
         {
             _typeInfo = typeInfo;
             Values = new List<object>();
+
+            var defaultValueAttribute = attributes
+                .FirstOrDefault(x =>
+                    x.GetType() == typeof(DefaultValueAttribute)) as DefaultValueAttribute;
+            if (defaultValueAttribute != null)
+                DefaultValue = defaultValueAttribute.Value;
         }
 
         public object ToObject(string value)

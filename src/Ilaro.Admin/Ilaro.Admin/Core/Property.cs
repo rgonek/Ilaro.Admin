@@ -112,7 +112,7 @@ namespace Ilaro.Admin.Core
 
             TypeInfo = new PropertyTypeInfo(property.PropertyType, Attributes);
             FileOptions = new FileOptions(Attributes);
-            Value = new PropertyValue(TypeInfo);
+            Value = new PropertyValue(Attributes, TypeInfo);
             Template = new PropertyTemplate(Attributes, TypeInfo, IsForeignKey);
 
             if (TypeInfo.DataType == DataType.Numeric)

@@ -56,7 +56,7 @@ namespace Ilaro.Admin.Core.File
             {
                 if (property.Value.Raw.IsBehavior(DataBehavior.Clear))
                 {
-                    property.Value.Raw = null;
+                    property.Value.Raw = property.Value.DefaultValue;
                     proccessedProperties.Add(property);
                     continue;
                 }
