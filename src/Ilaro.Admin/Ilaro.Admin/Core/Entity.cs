@@ -449,7 +449,7 @@ namespace Ilaro.Admin.Core
                         if (property.IsForeignKey && property.TypeInfo.IsCollection)
                         {
                             property.Value.Values = value.AttemptedValue
-                                .Split(",".ToCharArray()).OfType<object>().ToList();
+                                .Split(',').OfType<object>().ToList();
                         }
                         else
                         {
@@ -551,6 +551,11 @@ namespace Ilaro.Admin.Core
             }
 
             return value;
+        }
+
+        public override string ToString()
+        {
+            return ToString(new DataRow(this));
         }
 
         public IEnumerable<Property> GetForeignsForUpdate()

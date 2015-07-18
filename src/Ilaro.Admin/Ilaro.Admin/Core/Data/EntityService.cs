@@ -21,6 +21,7 @@ namespace Ilaro.Admin.Core.Data
         private readonly IUpdatingRecords _updater;
         private readonly IDeletingRecords _deleter;
         private readonly IComparingRecords _comparer;
+        private readonly IDescribingChanges _changeDescriber;
         private readonly IValidateEntity _validator;
         private readonly IHandlingFiles _filesHandler;
 
@@ -31,6 +32,7 @@ namespace Ilaro.Admin.Core.Data
             IUpdatingRecords updater,
             IDeletingRecords deleter,
             IComparingRecords comparer,
+            IDescribingChanges changeDescriber,
             IHandlingFiles filesHandler,
             IValidateEntity validator)
         {
@@ -46,6 +48,8 @@ namespace Ilaro.Admin.Core.Data
                 throw new ArgumentNullException("deleter");
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
+            if (changeDescriber == null)
+                throw new ArgumentNullException("changeDescriber");
             if (filesHandler == null)
                 throw new ArgumentNullException("filesHandler");
             if (validator == null)
@@ -57,6 +61,7 @@ namespace Ilaro.Admin.Core.Data
             _updater = updater;
             _deleter = deleter;
             _comparer = comparer;
+            _changeDescriber = changeDescriber;
             _filesHandler = filesHandler;
             _validator = validator;
         }
@@ -81,7 +86,7 @@ namespace Ilaro.Admin.Core.Data
 
             var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
 
-            var id = _creator.Create(entity);
+            var id = _creator.Create(entity, () => _changeDescriber.CreateChanges(entity));
 
             if (id.IsNullOrWhiteSpace() == false)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles);
@@ -115,7 +120,7 @@ namespace Ilaro.Admin.Core.Data
 
             _comparer.SkipNotChangedProperties(entity, existingRecord);
 
-            var result = _updater.Update(entity);
+            var result = _updater.Update(entity, () => _changeDescriber.UpdateChanges(entity, existingRecord));
 
             if (result)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);
@@ -144,7 +149,7 @@ namespace Ilaro.Admin.Core.Data
                 }
             }
 
-            var result = _deleter.Delete(entity, deleteOptions);
+            var result = _deleter.Delete(entity, deleteOptions, () => _changeDescriber.DeleteChanges(entity, existingRecord));
 
             if (result)
             {

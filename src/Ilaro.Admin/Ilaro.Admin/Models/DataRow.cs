@@ -24,6 +24,29 @@ namespace Ilaro.Admin.Models
         }
 
         public DataRow(
+            Entity entity)
+            : this()
+        {
+            foreach (var key in entity.Key)
+            {
+                KeyValue.Add(key.Value.AsString);
+            }
+            foreach (var linkKey in entity.LinkKey)
+            {
+                LinkKeyValue.Add(linkKey.Value.AsString);
+            }
+
+            foreach (var property in entity.DisplayProperties)
+            {
+                Values.Add(new CellValue
+                {
+                    Raw = property.Value.Raw,
+                    Property = property
+                });
+            }
+        }
+
+        public DataRow(
             dynamic record,
             Entity entity,
             string prefix = null)

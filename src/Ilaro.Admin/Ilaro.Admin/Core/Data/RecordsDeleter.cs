@@ -31,14 +31,14 @@ SELECT @{2};";
             _hierarchySource = hierarchySource;
         }
 
-        public bool Delete(Entity entity, IDictionary<string, DeleteOption> options)
+        public bool Delete(Entity entity, IDictionary<string, DeleteOption> options, Func<string> changeDescriber = null)
         {
             try
             {
                 var cmd = CreateCommand(entity, options);
 
                 var result = (int)_executor
-                    .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Delete));
+                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Delete, changeDescriber);
 
                 return result > 0;
             }

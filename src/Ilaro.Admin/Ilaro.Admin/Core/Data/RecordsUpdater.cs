@@ -48,7 +48,7 @@ WHERE {3};";
             _source = source;
         }
 
-        public bool Update(Entity entity)
+        public bool Update(Entity entity, Func<string> changeDescriber = null)
         {
             try
             {
@@ -56,7 +56,7 @@ WHERE {3};";
 
                 // TODO: get info about changed properties
                 var result = _executor
-                    .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Update));
+                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Update, changeDescriber);
 
                 return result != null;
             }

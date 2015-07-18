@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin.Core.Data
 {
     public interface IDeletingRecords
     {
-        bool Delete(Entity entity, IDictionary<string, DeleteOption> options);
+        bool Delete(Entity entity, IDictionary<string, DeleteOption> options, Func<string> changeDescriber = null);
     }
 }

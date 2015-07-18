@@ -38,14 +38,14 @@ WHERE {2};";
             _executor = executor;
         }
 
-        public string Create(Entity entity)
+        public string Create(Entity entity, Func<string> changeDescriber = null)
         {
             try
             {
                 var cmd = CreateCommand(entity);
 
                 var result = _executor
-                    .ExecuteWithChanges(cmd, new ChangeInfo(entity.Name, EntityChangeType.Insert));
+                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Insert, changeDescriber);
 
                 return result.ToStringSafe();
             }

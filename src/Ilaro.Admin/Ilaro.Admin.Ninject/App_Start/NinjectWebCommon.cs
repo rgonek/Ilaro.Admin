@@ -82,6 +82,7 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<IUpdatingRecords>().To<RecordsUpdater>();
             kernel.Bind<IDeletingRecords>().To<RecordsDeleter>();
             kernel.Bind<IComparingRecords>().To<RecordsComparer>();
+            kernel.Bind<IDescribingChanges>().To<ChangesDescriber>();
             kernel.Bind<IProvidingUser>().To<HttpContextUserProvider>();
             kernel.Bind<ICreatingNameFiles>().To<FileNameCreator>();
             kernel.Bind<IDeletingFiles>().To<FileDeleter>();

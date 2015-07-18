@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             var cmd = new SqlCommand { CommandText = "SELECT 1;" };
 
-            _executor.ExecuteWithChanges(cmd, new ChangeInfo("Product", EntityChangeType.Insert));
+            _executor.ExecuteWithChanges(cmd, "Product", EntityChangeType.Insert);
 
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(0, changes.Count);
@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.AddEntity<EntityChange>();
             var cmd = new SqlCommand { CommandText = "SELECT 1;" };
 
-            _executor.ExecuteWithChanges(cmd, new ChangeInfo("Product", EntityChangeType.Insert));
+            _executor.ExecuteWithChanges(cmd, "Product", EntityChangeType.Insert);
 
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(1, changes.Count);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Data.Common;
 using Ilaro.Admin.Extensions;
 using Massive;
@@ -19,7 +18,11 @@ namespace Ilaro.Admin.Core.Data
             _user = user;
         }
 
-        public object ExecuteWithChanges(DbCommand cmd, ChangeInfo changeInfo)
+        public object ExecuteWithChanges(
+            DbCommand cmd,
+            string entityName,
+            EntityChangeType changeType,
+            Func<string> changeDescriber = null)
         {
             _log.DebugFormat("Executing command: \r\n {0}", cmd.CommandText);
             object result;
@@ -36,7 +39,7 @@ namespace Ilaro.Admin.Core.Data
                     {
                         if (Admin.IsChangesEnabled)
                         {
-                            var changeCmd = CreateChangeCommand(changeInfo, result.ToString());
+                            var changeCmd = CreateChangeCommand(entityName, changeType, result.ToString(), changeDescriber);
                             _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
                             changeCmd.Connection = conn;
                             changeCmd.Transaction = tx;
@@ -74,7 +77,11 @@ namespace Ilaro.Admin.Core.Data
             }
         }
 
-        private DbCommand CreateChangeCommand(ChangeInfo changeInfo, string keyValue)
+        private DbCommand CreateChangeCommand(
+            string entityName,
+            EntityChangeType changeType,
+            string keyValue,
+            Func<string> changeDescriber = null)
         {
             var cmd = DB.CreateCommand();
 
@@ -82,10 +89,10 @@ namespace Ilaro.Admin.Core.Data
 @"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
 VALUES (@0,@1,@2,@3,@4,@5);".Fill(Admin.ChangeEntity.TableName);
 
-            cmd.AddParam(changeInfo.EntityName);
+            cmd.AddParam(entityName);
             cmd.AddParam(keyValue);
-            cmd.AddParam(changeInfo.Type);
-            cmd.AddParam(changeInfo.Description);
+            cmd.AddParam(changeType);
+            cmd.AddParam(changeDescriber == null ? null : changeDescriber());
             cmd.AddParam(DateTime.UtcNow);
             cmd.AddParam(_user.Current());
 
