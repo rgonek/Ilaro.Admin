@@ -226,6 +226,7 @@
     <Compile Include="DataAnnotations\ImageSettings.cs" />
     <Compile Include="DataAnnotations\NameCreation.cs" />
     <Compile Include="Core\IKnowTheTime.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\ChangeEntityFilter.cs" />

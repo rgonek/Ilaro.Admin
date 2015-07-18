@@ -46,7 +46,7 @@ namespace ASP
             
             #line 2 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
   
-    if (Model.Raw == null)
+    if (Model.Raw == null || Model.Raw is byte[] == false)
     {
         return;
     }
@@ -56,18 +56,18 @@ namespace ASP
             #line hidden
 WriteLiteral("\r\n\r\n<img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 90), Tuple.Create("\"", 160)
-, Tuple.Create(Tuple.Create("", 96), Tuple.Create("data:image/jpg;base64,", 96), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 122), Tuple.Create("\"", 192)
+, Tuple.Create(Tuple.Create("", 128), Tuple.Create("data:image/jpg;base64,", 128), true)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 118), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
+, Tuple.Create(Tuple.Create("", 150), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
             
             #line default
             #line hidden
-, 118), false)
+, 150), false)
 );
 
-WriteLiteral(" class=\"img-polaroid\"");
+WriteLiteral(" class=\"img-thumbnail\"");
 
 WriteLiteral(" />\r\n");
 

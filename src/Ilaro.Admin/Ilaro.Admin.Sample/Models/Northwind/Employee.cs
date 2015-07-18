@@ -13,7 +13,8 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 		[Key]
 		public int EmployeeID { get; set; }
 
-		[Required, MaxLength(20)]
+        [Required, MaxLength(20)]
+        [Compare("FirstName")]
 		public string LastName { get; set; }
 
 		[Required, MaxLength(10)]

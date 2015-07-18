@@ -17,6 +17,7 @@ namespace Ilaro.Admin.Infrastructure
             {
                 modelState.AddModelError(error.Key, error.Value);
             }
+            notificator.ClearModelErrors();
         }
     }
 }

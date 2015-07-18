@@ -423,7 +423,7 @@ namespace Ilaro.Admin.Core
                     if (property.TypeInfo.IsFileStoredInDb == false &&
                         property.FileOptions.NameCreation == NameCreation.UserInput)
                     {
-                        var providedName = collection.GetValue(property.Name)
+                        var providedName = (string)collection.GetValue(property.Name)
                             .ConvertTo(typeof(string), CultureInfo.InvariantCulture);
                         property.Value.Additional = providedName;
                     }
@@ -459,7 +459,7 @@ namespace Ilaro.Admin.Core
                         }
                     }
 
-                    if (property.Value.DefaultValue is DefaultValueBehavior || 
+                    if (property.Value.DefaultValue is DefaultValueBehavior ||
                         (property.Value.Raw == null && property.Value.DefaultValue != null))
                     {
                         property.Value.Raw = property.Value.DefaultValue;
@@ -570,6 +570,22 @@ namespace Ilaro.Admin.Core
                     x.IsForeignKey &&
                     x.TypeInfo.IsCollection &&
                     x.ForeignEntity != null);
+        }
+
+        public object CreateIntance()
+        {
+            var instance = Activator.CreateInstance(Type, null);
+
+            foreach (var property in Properties
+                .Where(x =>
+                    !x.IsForeignKey ||
+                    (x.IsForeignKey && x.TypeInfo.IsSystemType)))
+            {
+                var propertyInfo = Type.GetProperty(property.Name);
+                propertyInfo.SetValue(instance, property.Value.AsObject);
+            }
+
+            return instance;
         }
     }
 }

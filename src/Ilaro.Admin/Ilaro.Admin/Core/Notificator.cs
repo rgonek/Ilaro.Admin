@@ -21,12 +21,17 @@ namespace Ilaro.Admin.Core
 
         public void AddModelError(string key, string errorMessage)
         {
-            _modelErrors.Add(key, errorMessage);
+            _modelErrors[key] = errorMessage;
         }
 
         public IDictionary<string, string> GetModelErrors()
         {
             return _modelErrors;
+        }
+
+        internal void ClearModelErrors()
+        {
+            _modelErrors.Clear();
         }
 
         public void Success(string message)

@@ -67,9 +67,11 @@ namespace Ilaro.Admin.Core
             get
             {
                 if (_typeInfo.IsEnum)
-                {
                     return Convert.ChangeType(Raw, _typeInfo.EnumType);
-                }
+                if (_typeInfo.IsNullable)
+                    return Convert.ChangeType(Raw, _typeInfo.UnderlyingType);
+                if (_typeInfo.IsFile)
+                    return null;
 
                 return Convert.ChangeType(Raw, _typeInfo.Type);
             }

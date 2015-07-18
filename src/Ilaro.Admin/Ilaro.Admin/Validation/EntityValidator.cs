@@ -26,6 +26,9 @@ namespace Ilaro.Admin.Validation
 
         public bool Validate(Entity entity)
         {
+            var instance = entity.CreateIntance();
+            var context = new ValidationContext(instance);
+
             var isValid = true;
             foreach (var property in entity.Properties.Where(x => x.TypeInfo.IsFile))
             {
@@ -55,7 +58,7 @@ namespace Ilaro.Admin.Validation
                 {
                     try
                     {
-                        validator.Validate(property.Value.Raw, property.Name);
+                        validator.Validate(property.Value.Raw, context);
                     }
                     catch (ValidationException ex)
                     {

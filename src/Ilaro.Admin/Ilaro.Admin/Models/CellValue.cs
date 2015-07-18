@@ -32,23 +32,21 @@ namespace Ilaro.Admin.Models
         {
             get
             {
-                if (Property.TypeInfo.DataType == DataType.Enum)
+                if (Property.TypeInfo.IsEnum)
                 {
                     var enumValue =
                         (Enum)Enum.Parse(Property.TypeInfo.EnumType, AsString);
                     if (enumValue == null)
-                    {
                         return AsString;
-                    }
 
-                    // TODO: localization
-                    //return 
-                    //    enumValue.GetDescription() ?? 
-                    //    enumValue.ToString().SplitCamelCase();
                     return enumValue.ToString().SplitCamelCase();
                 }
+                if (Property.TypeInfo.IsNullable)
+                    return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType);
+                if (Property.TypeInfo.IsFile)
+                    return null;
 
-                return Convert.ChangeType(AsString, Property.TypeInfo.Type);
+                return Convert.ChangeType(Raw, Property.TypeInfo.Type);
             }
         }
 

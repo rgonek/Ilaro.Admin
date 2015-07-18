@@ -80,16 +80,16 @@ WriteAttribute("src", Tuple.Create(" src=\"", 147), Tuple.Create("\"", 180)
 , 153), false)
 );
 
-WriteLiteral(" class=\"img-polaroid\"");
+WriteLiteral(" class=\"img-thumbnail\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 202), Tuple.Create("\"", 223)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 203), Tuple.Create("\"", 224)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-                                           , Tuple.Create(Tuple.Create("", 208), Tuple.Create<System.Object, System.Int32>(Model.AsString
+                                            , Tuple.Create(Tuple.Create("", 209), Tuple.Create<System.Object, System.Int32>(Model.AsString
             
             #line default
             #line hidden
-, 208), false)
+, 209), false)
 );
 
 WriteLiteral(" /></a>\r\n");

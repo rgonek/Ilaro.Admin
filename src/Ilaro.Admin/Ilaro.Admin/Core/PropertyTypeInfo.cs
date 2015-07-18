@@ -53,6 +53,11 @@ namespace Ilaro.Admin.Core
             get { return Nullable.GetUnderlyingType(Type) != null; }
         }
 
+        public Type UnderlyingType
+        {
+            get { return Nullable.GetUnderlyingType(Type); }
+        }
+
         public bool IsString
         {
             get { return Type == typeof(string); }
