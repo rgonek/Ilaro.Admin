@@ -73,6 +73,7 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
             kernel.Bind<IEntityService>().To<EntityService>();
             kernel.Bind<IValidateEntity>().To<EntityValidator>();
+            kernel.Bind<IValidatingFiles>().To<FileValidator>();
             kernel.Bind<IConfigurationProvider>().To<ConfigurationProvider>();
             kernel.Bind<IConfiguration>().To<Configuration>();
             kernel.Bind<IFetchingRecords>().To<RecordsSource>();

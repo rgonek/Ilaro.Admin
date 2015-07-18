@@ -37,6 +37,7 @@ namespace Ilaro.Admin.Unity
                 new InjectionConstructor());
             container.RegisterType<IEntityService, EntityService>();
             container.RegisterType<IValidateEntity, EntityValidator>();
+            container.RegisterType<IValidatingFiles, FileValidator>();
             container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
             container.RegisterType<IConfiguration, Configuration>();
             container.RegisterType<IFetchingRecords, RecordsSource>();

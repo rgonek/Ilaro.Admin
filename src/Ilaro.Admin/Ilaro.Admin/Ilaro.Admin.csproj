@@ -459,7 +459,9 @@
       <DependentUpon>_Paging.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Validation\EntityValidator.cs" />
+    <Compile Include="Validation\FileValidator.cs" />
     <Compile Include="Validation\IValidateEntity.cs" />
+    <Compile Include="Validation\IValidatingFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\IlaroAdminResources.resx">
