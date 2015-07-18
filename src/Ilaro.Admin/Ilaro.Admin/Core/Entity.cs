@@ -459,7 +459,8 @@ namespace Ilaro.Admin.Core
                         }
                     }
 
-                    if (property.Value.Raw == null && property.Value.DefaultValue != null)
+                    if (property.Value.DefaultValue is DefaultValueBehavior || 
+                        (property.Value.Raw == null && property.Value.DefaultValue != null))
                     {
                         property.Value.Raw = property.Value.DefaultValue;
                     }

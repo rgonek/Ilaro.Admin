@@ -8,7 +8,6 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Validation;
 using Resources;
-using System.Threading;
 
 namespace Ilaro.Admin.Core.Data
 {

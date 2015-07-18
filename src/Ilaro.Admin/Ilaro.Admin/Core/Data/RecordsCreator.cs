@@ -132,7 +132,22 @@ WHERE {2};";
             if (property.TypeInfo.IsFileStoredInDb)
                 cmd.AddParam(property.Value.Raw, DbType.Binary);
             else
-                cmd.AddParam(property.Value.Raw);
+            {
+                if (property.Value.Raw.IsBehavior(DefaultValueBehavior.Now) ||
+                    property.Value.Raw.IsBehavior(DefaultValueBehavior.NowOnCreate))
+                {
+                    cmd.AddParam(DateTime.Now);
+                }
+                else if (property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
+                    property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnCreate))
+                {
+                    cmd.AddParam(DateTime.UtcNow);
+                }
+                else
+                {
+                    cmd.AddParam(property.Value.Raw);
+                }
+            }
         }
     }
 }
