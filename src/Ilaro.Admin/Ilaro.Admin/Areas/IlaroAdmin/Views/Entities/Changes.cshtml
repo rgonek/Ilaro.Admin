@@ -10,8 +10,16 @@
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
         <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "Index", new { entityName = Model.EntityChangesFor.Name })</li>
-        <li class="active">@IlaroAdminResources.Changes</li>
+        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "Index", new { entityName = Model.Entity.Name })</li>
+        @if (Model.Key.IsNullOrWhiteSpace())
+        {
+            <li class="active">@IlaroAdminResources.Changes</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" })</li>
+            <li class="active">@Model.Key</li>
+        }
     </ul>
 }
 
@@ -66,7 +74,32 @@
             <tr>
                 @foreach (var item in row.Values)
                 {
-                    <td>@Html.DisplayFor(m => item, item.Property.Template.Display)</td>
+                    <td>
+                        @if (item.Property.Name == "EntityName")
+                        {
+                            @Html.ActionLink(item.AsString, "Changes", new { entityName = item.AsString, key = "" })
+                        }
+                        else if (item.Property.Name == "EntityKey")
+                        {
+                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })
+                        }
+                        else if (item.Property.Name == "ChangedOn")
+                        {
+                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedOn = ((DateTime)item.AsObject).Date.ToString("yyyy.MM.dd") })
+                        }
+                        else if (item.Property.Name == "ChangedBy")
+                        {
+                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedBy = item.AsString })
+                        }
+                        else if (item.Property.Name == "ChangeType")
+                        {
+                            @Html.ActionLink(item.AsObject.ToString(), "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangeType = item.AsString })
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => item, item.Property.Template.Display)
+                        }
+                    </td>
                 }
             </tr>
         }

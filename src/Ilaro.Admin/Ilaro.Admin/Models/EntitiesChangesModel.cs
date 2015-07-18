@@ -5,5 +5,7 @@ namespace Ilaro.Admin.Models
     public class EntitiesChangesModel : EntitiesIndexModel
     {
         public Entity EntityChangesFor { get; set; }
+
+        public string Key { get; set; }
     }
 }

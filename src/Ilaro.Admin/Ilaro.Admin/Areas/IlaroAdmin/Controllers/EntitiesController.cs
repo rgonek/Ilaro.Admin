@@ -91,7 +91,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             return View(model);
         }
 
-        public virtual ActionResult Changes(string entityName, TableInfo tableInfo)
+        public virtual ActionResult Changes(string entityName, string key, TableInfo tableInfo)
         {
             var entityChangesFor = Admin.EntitiesTypes
                 .FirstOrDefault(x => x.Name == entityName);
@@ -100,8 +100,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
             var changeEntity = Admin.ChangeEntity;
-            var filters = PrepareFilters(changeEntity);
+            var filters = PrepareFilters(Admin.ChangeEntity);
             var filters2 = filters.ToList();
+            if (key.IsNullOrWhiteSpace() == false)
+            {
+                filters2.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));
+            }
             filters2.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));
             var pagedRecords = _entitiesSource.GetRecords(
                 changeEntity,
@@ -142,7 +146,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
                 Filters = filters,
                 TableInfo = tableInfo,
-                Configuration = _configuration
+                Configuration = _configuration,
+                Key = key
             };
 
             return View(model);

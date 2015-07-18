@@ -470,12 +470,17 @@ namespace Ilaro.Admin.Core
 
         public void Fill(string key, FormCollection collection, HttpFileCollectionBase files)
         {
+            SetKeyValue(key);
+            Fill(collection, files);
+        }
+
+        public void SetKeyValue(string key)
+        {
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
             for (int i = 0; i < keys.Length; i++)
             {
                 Key[i].Value.ToObject(keys[i]);
             }
-            Fill(collection, files);
         }
 
         public IList<string> GetColumns()
