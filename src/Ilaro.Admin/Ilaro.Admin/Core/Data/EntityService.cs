@@ -22,7 +22,7 @@ namespace Ilaro.Admin.Core.Data
         private readonly IDeletingRecords _deleter;
         private readonly IComparingRecords _comparer;
         private readonly IDescribingChanges _changeDescriber;
-        private readonly IValidateEntity _validator;
+        private readonly IValidatingEntities _validator;
         private readonly IHandlingFiles _filesHandler;
 
         public EntityService(
@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Core.Data
             IComparingRecords comparer,
             IDescribingChanges changeDescriber,
             IHandlingFiles filesHandler,
-            IValidateEntity validator)
+            IValidatingEntities validator)
         {
             if (notificator == null)
                 throw new ArgumentNullException("notificator");

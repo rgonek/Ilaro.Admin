@@ -4,7 +4,7 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Validation
 {
-    public class EntityValidator : IValidateEntity
+    public class EntityValidator : IValidatingEntities
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityValidator));
         private readonly Notificator _notificator;

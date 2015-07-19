@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Unity
                 new PerUserCacheLifetimeManager(),
                 new InjectionConstructor());
             container.RegisterType<IEntityService, EntityService>();
-            container.RegisterType<IValidateEntity, EntityValidator>();
+            container.RegisterType<IValidatingEntities, EntityValidator>();
             container.RegisterType<IValidatingFiles, FileValidator>();
             container.RegisterType<IConfigurationProvider, ConfigurationProvider>();
             container.RegisterType<IConfiguration, Configuration>();

@@ -2,7 +2,7 @@
 
 namespace Ilaro.Admin.Validation
 {
-    public interface IValidateEntity
+    public interface IValidatingEntities
     {
         bool Validate(Entity entity);
     }
