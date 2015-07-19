@@ -18,57 +18,39 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             _notificator = notificator;
         }
 
-        public virtual ActionResult Css(string id)
+        public virtual ActionResult Index(string file)
         {
-            return GetResource("css", id);
+            return GetResource(file);
         }
 
-        public virtual ActionResult Script(string id)
+        protected virtual ActionResult GetResource(string file)
         {
-            return GetResource("script", id);
-        }
-
-        public virtual ActionResult Image(string id)
-        {
-            return GetResource("image", id);
-        }
-
-        public virtual ActionResult Fonts(string id)
-        {
-            return GetResource("fonts", id);
-        }
-
-        protected virtual ActionResult GetResource(string type, string file)
-        {
-            if (string.IsNullOrEmpty(type) || string.IsNullOrEmpty(file))
-            {
+            if (string.IsNullOrEmpty(file))
                 return HttpNotFound();
-            }
 
             file = file.Replace("_", ".");
-
+            var extension = Path.GetExtension(file);
             string contentType, folder;
-
-            switch (type.ToUpperInvariant())
+            switch (extension.ToLower())
             {
-                case "SCRIPT":
+                case ".js":
                     contentType = "text/javascript";
                     folder = "Scripts";
                     break;
-                case "CSS":
+                case ".css":
                     contentType = "text/css";
                     folder = "Content.css";
                     break;
-                case "IMAGE":
-                    contentType = "image/" + Path.GetExtension(file).TrimStart('.');
+                case ".gif":
+                case ".jpg":
+                case ".png":
+                    contentType = "image/" + extension.TrimStart('.');
                     folder = "Content.img";
                     break;
-                case "FONTS":
+                default:
                     contentType = "";
                     folder = "Content.fonts";
                     break;
-                default:
-                    return HttpNotFound();
             }
 
             try

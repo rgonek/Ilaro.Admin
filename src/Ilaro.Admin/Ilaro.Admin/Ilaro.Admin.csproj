@@ -135,6 +135,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IlaroAdminResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\AccountController.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\EntitiesController.cs" />
@@ -235,6 +236,8 @@
     <Compile Include="Core\Notificator.cs" />
     <Compile Include="Infrastructure\ClearEntitiesPropertiesAttribute.cs" />
     <Compile Include="Infrastructure\CopyIsAjaxRequestFromRequestToViewBagAttribute.cs" />
+    <Compile Include="Infrastructure\EmbeddedVirtualFile.cs" />
+    <Compile Include="Infrastructure\EmbeddedVirtualPathProvider.cs" />
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
     <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
@@ -460,7 +463,7 @@
     </Compile>
     <Compile Include="Validation\EntityValidator.cs" />
     <Compile Include="Validation\FileValidator.cs" />
-    <Compile Include="Validation\IValidateEntity.cs" />
+    <Compile Include="Validation\IValidatingEntities.cs" />
     <Compile Include="Validation\IValidatingFiles.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,8 +21,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin
 
             context.MapRoute(
                 name: "IlaroAdminResources",
-                url: "ira/{action}/{id}",
-                defaults: new { controller = "Resource" },
+                url: "ira/{file}",
+                defaults: new { controller = "Resource", action = "Index" },
                 namespaces: new[] { "Ilaro.Admin.Areas.IlaroAdmin.Controllers" }
             );
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Infrastructure;
@@ -75,6 +76,7 @@ namespace Ilaro.Admin
             GlobalFilters.Filters.Add(new CopyIsAjaxRequestFromRequestToViewBagAttribute());
             GlobalFilters.Filters.Add(new ModelStateErrorsBulderAttribute());
             GlobalFilters.Filters.Add(new NotificatorAttribute());
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             SetForeignKeysReferences();
         }
