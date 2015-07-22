@@ -12,7 +12,7 @@ namespace Ilaro.Admin.Filters
         public override Property Property { get; protected set; }
         public override sealed SelectList Options { get; protected set; }
         public override sealed string Value { get; protected set; }
-        public override bool DisplayInUi { get { return true; } }
+        public override bool DisplayInUI { get { return true; } }
 
         public EnumEntityFilter(Property property, string value = "")
             : base(property, value)

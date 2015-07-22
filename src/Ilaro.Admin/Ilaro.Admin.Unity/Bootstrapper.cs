@@ -3,6 +3,7 @@ using Ilaro.Admin.Commons;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.File;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.Validation;
 using Microsoft.Practices.Unity;
 using Unity.Mvc4;
@@ -54,6 +55,7 @@ namespace Ilaro.Admin.Unity
             container.RegisterType<IHandlingFiles, FileHandler>();
             container.RegisterType<IResizingImages, ImageResizer>();
             container.RegisterType<ISavingFiles, FileSaver>();
+            container.RegisterType<IFilterFactory, FilterFactory>();
         }
     }
 }

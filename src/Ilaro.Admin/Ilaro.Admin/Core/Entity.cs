@@ -474,6 +474,14 @@ namespace Ilaro.Admin.Core
             Fill(collection, files);
         }
 
+        internal void Fill(HttpRequestBase Request)
+        {
+            foreach (var property in Properties)
+            {
+                property.Value.Raw = Request[property.Name];
+            }
+        }
+
         public void SetKeyValue(string key)
         {
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();

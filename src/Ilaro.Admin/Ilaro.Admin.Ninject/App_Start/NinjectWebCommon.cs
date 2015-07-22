@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.File;
+using Ilaro.Admin.Filters;
 using Ilaro.Admin.Ninject.App_Start;
 using Ilaro.Admin.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -90,6 +91,7 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<IHandlingFiles>().To<FileHandler>();
             kernel.Bind<IResizingImages>().To<ImageResizer>();
             kernel.Bind<ISavingFiles>().To<FileSaver>();
+            kernel.Bind<IFilterFactory>().To<FilterFactory>();
         }
     }
 }

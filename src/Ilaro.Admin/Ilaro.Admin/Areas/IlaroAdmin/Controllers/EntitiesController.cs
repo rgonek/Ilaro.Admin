@@ -19,11 +19,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         private readonly Notificator _notificator;
         private readonly IFetchingRecords _entitiesSource;
         private readonly IConfiguration _configuration;
+        private readonly IFilterFactory _filterFactory;
 
         public EntitiesController(
             Notificator notificator,
             IFetchingRecords entitiesSource,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IFilterFactory filterFactory)
         {
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
@@ -31,10 +33,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new ArgumentException("entitiesSource");
             if (configuration == null)
                 throw new ArgumentException("configuration");
+            if (filterFactory == null)
+                throw new ArgumentException("filterFactory");
 
             _notificator = notificator;
             _entitiesSource = entitiesSource;
             _configuration = configuration;
+            _filterFactory = filterFactory;
         }
 
         public virtual ActionResult Index(string entityName, TableInfo tableInfo)
@@ -45,7 +50,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            var filters = PrepareFilters(entity);
+            entity.Fill(Request);
+            var filters = _filterFactory.BuildFilters(entity).ToList();
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
                 filters,
@@ -100,16 +106,16 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
             var changeEntity = Admin.ChangeEntity;
-            var filters = PrepareFilters(Admin.ChangeEntity);
-            var filters2 = filters.ToList();
+            changeEntity.Fill(Request);
+            var filters = _filterFactory.BuildFilters(Admin.ChangeEntity).ToList();
             if (key.IsNullOrWhiteSpace() == false)
             {
-                filters2.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));
+                filters.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));
             }
-            filters2.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));
+            filters.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));
             var pagedRecords = _entitiesSource.GetRecords(
                 changeEntity,
-                filters2,
+                filters,
                 tableInfo.SearchQuery,
                 tableInfo.Order,
                 tableInfo.OrderDirection,
@@ -156,7 +162,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         protected virtual RouteValueDictionary PrepareRouteValues(
             string entityName,
             string page,
-            IEnumerable<IEntityFilter> filters,
+            IEnumerable<BaseFilter> filters,
             TableInfo tableInfo)
         {
             var routeValues = new Dictionary<string, object>
@@ -177,40 +183,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 routeValues.Add(_configuration.OrderDirectionRequestName, tableInfo.OrderDirection);
             }
 
-            foreach (var filter in filters.Where(x => !x.Value.IsNullOrEmpty()))
+            foreach (var filter in filters.Where(x => x.DisplayInUI && !x.Value.IsNullOrEmpty()))
             {
                 routeValues.Add(filter.Property.Name, filter.Value);
             }
 
             return new RouteValueDictionary(routeValues);
-        }
-
-        public IList<BaseFilter> PrepareFilters(Entity entity)
-        {
-            var filters = new List<BaseFilter>();
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Bool))
-            {
-                var value = Request[property.Name];
-
-                filters.Add(new BoolEntityFilter(property, value));
-            }
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.Enum))
-            {
-                var value = Request[property.Name];
-
-                filters.Add(new EnumEntityFilter(property, value));
-            }
-
-            foreach (var property in entity.Properties.Where(x => x.TypeInfo.DataType == DataType.DateTime))
-            {
-                var value = Request[property.Name];
-
-                filters.Add(new DateTimeEntityFilter(SystemClock.Instance, property, value));
-            }
-
-            return filters;
         }
     }
 }

@@ -9,6 +9,16 @@ namespace Ilaro.Admin.Core
     public class PropertyTypeInfo
     {
         public Type Type { get; internal set; }
+        public Type NotNullableType
+        {
+            get
+            {
+                var notNullableType = UnderlyingType;
+                if (notNullableType != null)
+                    return notNullableType;
+                return Type;
+            }
+        }
         public DataType DataType { get; internal set; }
         public System.ComponentModel.DataAnnotations.DataType? SourceDataType { get; private set; }
         public Type EnumType { get; private set; }

@@ -231,6 +231,8 @@
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\ChangeEntityFilter.cs" />
+    <Compile Include="Filters\FilterFactory.cs" />
+    <Compile Include="Filters\IFilterFactory.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />

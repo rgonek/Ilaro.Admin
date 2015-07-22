@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Filters
         public override Property Property { get; protected set; }
         public override sealed SelectList Options { get; protected set; }
         public override sealed string Value { get; protected set; }
-        public override bool DisplayInUi { get { return false; } }
+        public override bool DisplayInUI { get { return false; } }
 
         public ChangeEntityFilter(Property property, string value = "")
             : base(property, value)
