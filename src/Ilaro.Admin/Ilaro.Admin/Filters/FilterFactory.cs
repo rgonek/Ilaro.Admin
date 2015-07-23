@@ -15,7 +15,8 @@ namespace Ilaro.Admin.Filters
 
             foreach (var property in entity.Properties)
             {
-                var filterType = filters.FirstOrDefault(x => x.BaseType.GetGenericArguments()[0] == property.TypeInfo.NotNullableType);
+                var filterType = filters.FirstOrDefault(x => x.BaseType.GetGenericArguments()[0] == property.TypeInfo.NotNullableType
+                    || x.BaseType.GetGenericArguments()[0].IsAssignableFrom(property.TypeInfo.NotNullableType));
                 if (filterType == null)
                     continue;
 

@@ -30,7 +30,7 @@ namespace Ilaro.Admin.Extensions
 
             return htmlHelper.ActionLink(
                 text,
-                "Index",
+                htmlHelper.ViewContext.RouteData.Values["action"].ToStringSafe() ?? "Index",
                 "Entities",
                 Merge(currentRouteValues, new RouteValueDictionary(newRouteValues)),
                 HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
@@ -93,7 +93,7 @@ namespace Ilaro.Admin.Extensions
 
             return htmlHelper.ActionLink(
                 column.DisplayName,
-                "Index",
+                htmlHelper.ViewContext.RouteData.Values["action"].ToStringSafe() ?? "Index",
                 "Entities",
                 new RouteValueDictionary(routeValues),
                 null);

@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Filters
         {
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));
             foreach (var option in property.TypeInfo.EnumType.GetOptions())
-                Options.Add(new TemplatedSelectListItem(option.Key, option.Value, Value));
+                Options.Add(new TemplatedSelectListItem(option.Value, option.Key, Value));
         }
 
         public override string GetSqlCondition(string alias, ref List<object> args)
