@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Filters
 {
-    public abstract class BaseFilter : IEntityFilter
+    public abstract class BaseFilter
     {
         public abstract Property Property { get; protected set; }
-        public abstract SelectList Options { get; protected set; }
+        public abstract IList<TemplatedSelectListItem> Options { get; protected set; }
         public abstract string Value { get; protected set; }
         public abstract bool DisplayInUI { get; }
         public bool IsActive { get { return string.IsNullOrWhiteSpace(Value) == false; } }
@@ -17,6 +16,7 @@ namespace Ilaro.Admin.Filters
         {
             Value = value ?? String.Empty;
             Property = property;
+            Options = new List<TemplatedSelectListItem>();
         }
 
         public abstract string GetSqlCondition(string alias, ref List<object> args);

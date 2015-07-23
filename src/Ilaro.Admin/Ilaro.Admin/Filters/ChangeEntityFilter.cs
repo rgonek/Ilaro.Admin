@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 
@@ -8,7 +7,7 @@ namespace Ilaro.Admin.Filters
     public class ChangeEntityFilter : BaseFilter
     {
         public override Property Property { get; protected set; }
-        public override sealed SelectList Options { get; protected set; }
+        public override sealed IList<TemplatedSelectListItem> Options { get; protected set; }
         public override sealed string Value { get; protected set; }
         public override bool DisplayInUI { get { return false; } }
 

@@ -1,0 +1,18 @@
+﻿@model Ilaro.Admin.Filters.BaseFilter
+
+<li class="nav-header">
+    @Model.Property.DisplayName
+</li>
+@foreach (var option in Model.Options)
+{
+    <li @Html.Condition(option.Selected, () => "class=\"active\"")>
+        @if (option.Template.IsNullOrWhiteSpace())
+        {
+            <text>@Html.FilterOptionLink(option.Text, option.Value, Model)</text>
+        }
+        else
+        {
+            Html.RenderPartial(option.Template, new WrappedFilterOption(Model, option));
+        }
+    </li>
+}

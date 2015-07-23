@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -62,6 +64,16 @@ namespace Ilaro.Admin.Extensions
 
             return dictionary1.Union(dictionary2)
                 .ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        public static RouteValueDictionary ToRouteValueDictionary(this NameValueCollection collection)
+        {
+            var routeValueDictionary = new RouteValueDictionary();
+            foreach (var key in collection.AllKeys)
+            {
+                routeValueDictionary.Add(key, collection[key]);
+            }
+            return routeValueDictionary;
         }
     }
 }

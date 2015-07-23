@@ -156,14 +156,7 @@
             <li><a href="@Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name, page = Model.Pager.Current })">@IlaroAdminResources.RemoveFilters</a></li>
             @foreach (var filter in Model.Filters)
             {
-                <li class="nav-header">
-                    @*@Html.GetFilterIcon(filter)*@
-                    @filter.Property.DisplayName
-                </li>
-                foreach (var option in filter.Options)
-                {
-                    <li @Html.Condition(option.Selected, () => "class=\"active\"")>@Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.Order, Model.TableInfo.OrderDirection, Model.TableInfo.PerPage)</li>
-                }
+                Html.RenderPartial("_Filter", filter);
             }
         </ul>
     }

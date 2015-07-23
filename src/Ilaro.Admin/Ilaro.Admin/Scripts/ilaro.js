@@ -70,4 +70,15 @@
 	    $this.siblings('.file-input-name').remove();
 	    $this.parents('.form-group').find('[data-role=image]').remove();
 	});
+
+	$('.date-filter-custom-range').click(function (e) {
+	    e.preventDefault();
+	    var $this = $(this);
+	    var $container = $this.parent();
+	    var from = $container.siblings('.date-from').val().replace(/-/gi, '.');
+	    var to = $container.siblings('.date-to').val().replace(/-/gi, '.');
+	    var range = from + '-' + to;
+	    var href = $this.attr('href').replace('date-range', range);
+	    window.location.href = href;
+	});
 });

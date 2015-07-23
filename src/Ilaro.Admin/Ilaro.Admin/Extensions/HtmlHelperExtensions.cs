@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
@@ -16,9 +15,9 @@ namespace Ilaro.Admin.Extensions
         public static MvcHtmlString FilterOptionLink(
             this HtmlHelper htmlHelper,
             Entity entity,
-            IEntityFilter currentFilter,
+            BaseFilter currentFilter,
             SelectListItem option,
-            IEnumerable<IEntityFilter> filters,
+            IEnumerable<BaseFilter> filters,
             string searchQuery,
             string order,
             string orderDirection,
@@ -59,31 +58,49 @@ namespace Ilaro.Admin.Extensions
                 null);
         }
 
-        public static MvcHtmlString GetFilterIcon(
+        public static MvcHtmlString FilterOptionLink(
             this HtmlHelper htmlHelper,
-            IEntityFilter filter)
+            string text,
+            string value,
+            BaseFilter filter,
+            object htmlAttributes = null)
         {
-            if (filter is BoolEntityFilter)
+            var currentRouteValues =
+                htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString.ToRouteValueDictionary();
+            var newRouteValues = new Dictionary<string, object>
             {
-                return MvcHtmlString.Create("<i class=\"icon-check\"></i>");
-            }
-            if (filter is EnumEntityFilter)
+                { "area", "IlaroAdmin" }, 
+                { "page", "1" }, 
+                { filter.Property.Name, value }, 
+            };
+
+            return htmlHelper.ActionLink(
+                text,
+                "Index",
+                "Entities",
+                Merge(currentRouteValues, new RouteValueDictionary(newRouteValues)),
+                HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
+        private static RouteValueDictionary Merge(
+            this RouteValueDictionary original, 
+            RouteValueDictionary extendedValues)
+        {
+            var merged = new RouteValueDictionary(original);
+
+            foreach (var pairValue in extendedValues)
             {
-                return MvcHtmlString.Create("<i class=\"icon-list\"></i>");
-            }
-            if (filter is DateTimeEntityFilter)
-            {
-                return MvcHtmlString.Create("<i class=\"icon-calendar\"></i>");
+                merged[pairValue.Key] = pairValue.Value;
             }
 
-            return null;
+            return merged;
         }
 
         public static MvcHtmlString SortColumnLink(
             this HtmlHelper htmlHelper,
             Entity entity,
             Column column,
-            IEnumerable<IEntityFilter> filters,
+            IEnumerable<BaseFilter> filters,
             string searchQuery,
             int perPage)
         {
@@ -105,7 +122,6 @@ namespace Ilaro.Admin.Extensions
             }
             else if (column.SortDirection == "down")
             {
-                //routeValues.Add("od", "desc");
                 routeValues.Remove("o");
             }
             else

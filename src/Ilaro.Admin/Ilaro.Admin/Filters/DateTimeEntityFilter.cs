@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using Resources;
@@ -11,7 +10,7 @@ namespace Ilaro.Admin.Filters
     public class DateTimeEntityFilter : BaseFilter<DateTime>
     {
         public override Property Property { get; protected set; }
-        public override sealed SelectList Options { get; protected set; }
+        public override sealed IList<TemplatedSelectListItem> Options { get; protected set; }
         public override sealed string Value { get; protected set; }
         public override bool DisplayInUI { get { return true; } }
 
@@ -22,19 +21,20 @@ namespace Ilaro.Admin.Filters
                 throw new ArgumentNullException("clock");
 
             var now = clock.Now;
-            var options = new Dictionary<string, string>
-            {
-                { IlaroAdminResources.All, String.Empty },
-                { IlaroAdminResources.Today, now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.Yesterday, now.AddDays(-1).ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastWeek, now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastMonth, now.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastQuarter, now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastHalfAYear, now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") },
-                { IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd") }
-            };
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Today, now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Yesterday, now.AddDays(-1).ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastWeek, now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastMonth, now.AddMonths(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastQuarter, now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastHalfAYear, now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
 
-            Options = new SelectList(options, "Value", "Key", Value);
+            if (Options.Any(x => x.Selected))
+                Options.Add(new TemplatedSelectListItem(String.Empty, Value, String.Empty, Templates.Filter.DateTime));
+            else
+                Options.Add(new TemplatedSelectListItem(String.Empty, Value, Value, Templates.Filter.DateTime));
         }
 
         public override string GetSqlCondition(string alias, ref List<object> args)

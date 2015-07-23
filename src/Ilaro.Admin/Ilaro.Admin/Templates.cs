@@ -44,5 +44,13 @@
             public const string Html = "HtmlPartial";
             public const string Bool = "BoolPartial";
         }
+
+        /// <summary>
+        /// Display partials views
+        /// </summary>
+        public static class Filter
+        {
+            public const string DateTime = "FilterTemplates/_CustomDateTimeRange";
+        }
     }
 }
