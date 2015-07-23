@@ -81,7 +81,7 @@
                         }
                         else if (item.Property.Name == "EntityKey")
                         {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })
+                            <a href="@Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })">@item.AsString</a>
                         }
                         else if (item.Property.Name == "ChangedOn")
                         {
@@ -142,17 +142,10 @@
     {
         <h2>@IlaroAdminResources.Filters</h2>
         <ul class="nav nav-list">
-            <li><a href="@Url.Action("Changes", new { entityName = Model.Entity.Name, page = Model.Pager.Current })">@IlaroAdminResources.RemoveFilters</a></li>
+            <li><a href="@Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})">@IlaroAdminResources.RemoveFilters</a></li>
             @foreach (var filter in Model.Filters)
             {
-                <li class="nav-header">
-                    @*@Html.GetFilterIcon(filter)*@
-                    @filter.Property.DisplayName
-                </li>
-                foreach (var option in filter.Options)
-                {
-                    <li @Html.Condition(option.Selected, () => "class=\"active\"")>@Html.FilterOptionLink(Model.Entity, filter, option, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.Order, Model.TableInfo.OrderDirection, Model.TableInfo.PerPage)</li>
-                }
+                Html.RenderPartial("_Filter", filter);
             }
         </ul>
     }

@@ -29,7 +29,6 @@ namespace Ilaro.Admin.Filters
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastQuarter, now.AddMonths(-3).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastHalfAYear, now.AddMonths(-6).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastYear, now.AddYears(-1).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));
 
             if (Options.Any(x => x.Selected))
                 Options.Add(new TemplatedSelectListItem(String.Empty, Value, String.Empty, Templates.Filter.DateTime));

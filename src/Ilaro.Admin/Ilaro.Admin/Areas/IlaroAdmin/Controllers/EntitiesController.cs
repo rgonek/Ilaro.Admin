@@ -89,7 +89,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 Entity = entity,
                 Pager =
                     new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
-                Filters = filters,
+                Filters = filters.Where(x => x.DisplayInUI).ToList(),
                 TableInfo = tableInfo,
                 Configuration = _configuration
             };
@@ -150,7 +150,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 EntityChangesFor = entityChangesFor,
                 Pager =
                     new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
-                Filters = filters,
+                Filters = filters.Where(x => x.DisplayInUI).ToList(),
                 TableInfo = tableInfo,
                 Configuration = _configuration,
                 Key = key

@@ -14,52 +14,6 @@ namespace Ilaro.Admin.Extensions
     {
         public static MvcHtmlString FilterOptionLink(
             this HtmlHelper htmlHelper,
-            Entity entity,
-            BaseFilter currentFilter,
-            SelectListItem option,
-            IEnumerable<BaseFilter> filters,
-            string searchQuery,
-            string order,
-            string orderDirection,
-            int perPage)
-        {
-            var routeValues = new Dictionary<string, object>
-            {
-                { "area", "IlaroAdmin" }, 
-                { "entityName", entity.Name }, 
-                { "pp", perPage }
-            };
-            if (!searchQuery.IsNullOrEmpty())
-            {
-                routeValues.Add("sq", searchQuery);
-            }
-            if (!order.IsNullOrEmpty() && !orderDirection.IsNullOrEmpty())
-            {
-                routeValues.Add("o", order);
-                routeValues.Add("od", orderDirection);
-            }
-            var activeFilters = filters.Where(x => !x.Value.IsNullOrEmpty()).ToList();
-            activeFilters.Remove(currentFilter);
-            foreach (var filter in activeFilters)
-            {
-                routeValues.Add(filter.Property.Name, filter.Value);
-            }
-
-            if (!option.Value.IsNullOrEmpty())
-            {
-                routeValues.Add(currentFilter.Property.Name, option.Value);
-            }
-
-            return htmlHelper.ActionLink(
-                option.Text,
-                "Index",
-                "Entities",
-                new RouteValueDictionary(routeValues),
-                null);
-        }
-
-        public static MvcHtmlString FilterOptionLink(
-            this HtmlHelper htmlHelper,
             string text,
             string value,
             BaseFilter filter,
@@ -71,7 +25,7 @@ namespace Ilaro.Admin.Extensions
             {
                 { "area", "IlaroAdmin" }, 
                 { "page", "1" }, 
-                { filter.Property.Name, value }, 
+                { filter.Property.Name, value } 
             };
 
             return htmlHelper.ActionLink(
@@ -83,7 +37,7 @@ namespace Ilaro.Admin.Extensions
         }
 
         private static RouteValueDictionary Merge(
-            this RouteValueDictionary original, 
+            this RouteValueDictionary original,
             RouteValueDictionary extendedValues)
         {
             var merged = new RouteValueDictionary(original);
@@ -107,7 +61,7 @@ namespace Ilaro.Admin.Extensions
             var routeValues = new Dictionary<string, object>
             {
                 { "area", "IlaroAdmin" }, 
-                { "entityName", entity.Name }, 
+                { "EntityName", entity.Name }, 
                 { "pp", perPage }
             };
             if (!searchQuery.IsNullOrEmpty())
@@ -118,7 +72,7 @@ namespace Ilaro.Admin.Extensions
             routeValues.Add("o", column.Name);
             if (column.SortDirection == "up")
             {
-                routeValues.Add("od", "desc");
+                routeValues["od"] = "desc";
             }
             else if (column.SortDirection == "down")
             {
@@ -126,15 +80,15 @@ namespace Ilaro.Admin.Extensions
             }
             else
             {
-                routeValues.Add("od", "asc");
+                routeValues["od"] = "asc";
             }
 
             var activeFilters = filters
-                .Where(x => !x.Value.IsNullOrEmpty())
+                .Where(x => x.DisplayInUI && !x.Value.IsNullOrEmpty())
                 .ToList();
             foreach (var filter in activeFilters)
             {
-                routeValues.Add(filter.Property.Name, filter.Value);
+                routeValues[filter.Property.Name] = filter.Value;
             }
 
             return htmlHelper.ActionLink(
