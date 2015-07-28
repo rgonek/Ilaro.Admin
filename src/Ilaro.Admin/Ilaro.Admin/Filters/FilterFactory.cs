@@ -33,6 +33,10 @@ namespace Ilaro.Admin.Filters
             if (filterType != null)
                 return filterType;
 
+            var groupers = filters.Where(x => typeof(ITypeGrouper).IsAssignableFrom(x.BaseType.GetGenericArguments()[0])).ToList();
+            if (groupers.IsNullOrEmpty<Type>() == false)
+                return groupers.FirstOrDefault(x => CreateTypeGrouperInstance(x.BaseType.GetGenericArguments()[0]).Match(property.TypeInfo.NotNullableType));
+
             return null;
         }
 
@@ -42,6 +46,11 @@ namespace Ilaro.Admin.Filters
             return typeof(Admin).Assembly.GetTypes()
                 .Where(x => baseFilterType.IsAssignableFrom(x) && x.BaseType != null && x.BaseType.IsGenericType)
                 .ToList();
+        }
+
+        private ITypeGrouper CreateTypeGrouperInstance(Type type)
+        {
+            return (ITypeGrouper)Activator.CreateInstance(type, null);
         }
 
         private BaseFilter CreateInstance(Type filterType, Property property)

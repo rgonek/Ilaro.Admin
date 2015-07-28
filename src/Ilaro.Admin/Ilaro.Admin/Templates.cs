@@ -52,6 +52,7 @@
         {
             public const string DateTime = "FilterTemplates/_CustomDateTimeRange";
             public const string String = "FilterTemplates/_CustomString";
+            public const string Number = "FilterTemplates/_CustomNumber";
         }
     }
 }

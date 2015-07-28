@@ -159,6 +159,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.generated.cs">
+      <DependentUpon>_CustomNumber.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.generated.cs">
       <DependentUpon>_CustomString.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -248,6 +253,9 @@
     <Compile Include="Filters\ChangeEntityFilter.cs" />
     <Compile Include="Filters\FilterFactory.cs" />
     <Compile Include="Filters\IFilterFactory.cs" />
+    <Compile Include="Filters\ITypeGrouper.cs" />
+    <Compile Include="Filters\Number.cs" />
+    <Compile Include="Filters\NumberEntityFilter.cs" />
     <Compile Include="Filters\StringEntityFilter.cs" />
     <Compile Include="Filters\TemplatedSelectListItem.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
@@ -729,6 +737,10 @@
     <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_CustomString.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_CustomNumber.generated.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
