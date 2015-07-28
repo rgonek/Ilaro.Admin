@@ -51,6 +51,7 @@
         public static class Filter
         {
             public const string DateTime = "FilterTemplates/_CustomDateTimeRange";
+            public const string String = "FilterTemplates/_CustomString";
         }
     }
 }

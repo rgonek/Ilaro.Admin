@@ -1,0 +1,10 @@
+﻿@model WrappedFilterOption
+
+<div class="controls clearfix">
+    <div class="input-group">
+        <input type="text" value="@Model.Option.Value" class="form-control" />
+        <div class="input-group-btn">
+            @Html.FilterOptionLink("OK", "custom-string", Model.Filter, new { @class = "btn btn-default string-filter-custom" })
+        </div>
+    </div>
+</div>

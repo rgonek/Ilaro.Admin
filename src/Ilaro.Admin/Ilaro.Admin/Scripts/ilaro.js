@@ -81,4 +81,13 @@
 	    var href = $this.attr('href').replace('date-range', range);
 	    window.location.href = href;
 	});
+
+	$('.string-filter-custom').click(function (e) {
+	    e.preventDefault();
+	    var $this = $(this);
+	    var $container = $this.parent();
+	    var search = $container.siblings('input[type=text]').val();
+	    var href = $this.attr('href').replace('custom-string', search);
+	    window.location.href = href;
+	});
 });

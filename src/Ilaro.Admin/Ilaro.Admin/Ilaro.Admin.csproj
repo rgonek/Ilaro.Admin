@@ -159,6 +159,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.generated.cs">
+      <DependentUpon>_CustomString.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -243,6 +248,7 @@
     <Compile Include="Filters\ChangeEntityFilter.cs" />
     <Compile Include="Filters\FilterFactory.cs" />
     <Compile Include="Filters\IFilterFactory.cs" />
+    <Compile Include="Filters\StringEntityFilter.cs" />
     <Compile Include="Filters\TemplatedSelectListItem.cs" />
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
@@ -719,6 +725,10 @@
     <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_CustomDateTimeRange.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_CustomString.generated.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
