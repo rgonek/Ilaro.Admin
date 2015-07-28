@@ -15,13 +15,25 @@ namespace Ilaro.Admin.Filters
 
             foreach (var property in entity.Properties)
             {
-                var filterType = filters.FirstOrDefault(x => x.BaseType.GetGenericArguments()[0] == property.TypeInfo.NotNullableType
-                    || x.BaseType.GetGenericArguments()[0].IsAssignableFrom(property.TypeInfo.NotNullableType));
+                var filterType = GetMatchingFilter(property, filters);
                 if (filterType == null)
                     continue;
 
                 yield return CreateInstance(filterType, property);
             }
+        }
+
+        private Type GetMatchingFilter(Property property, IList<Type> filters)
+        {
+            var filterType = filters.FirstOrDefault(x => x.BaseType.GetGenericArguments()[0] == property.TypeInfo.NotNullableType);
+            if (filterType != null)
+                return filterType;
+
+            filterType = filters.FirstOrDefault(x => x.BaseType.GetGenericArguments()[0].IsAssignableFrom(property.TypeInfo.NotNullableType));
+            if (filterType != null)
+                return filterType;
+
+            return null;
         }
 
         private IList<Type> GetAllFilters()
