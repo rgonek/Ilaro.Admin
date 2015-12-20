@@ -42,6 +42,8 @@ namespace Ilaro.Admin.Core
 
         public string Prompt { get; set; }
 
+        public string Format { get; set; }
+
         /// <summary>
         /// If property is a entity key.
         /// </summary>
@@ -162,6 +164,18 @@ namespace Ilaro.Admin.Core
             {
                 DisplayName = Name.SplitCamelCase();
                 GroupName = IlaroAdminResources.Others;
+            }
+
+            SetFormat(Attributes);
+        }
+
+        private void SetFormat(object[] attributes)
+        {
+            var displayFormatAttribute =
+                attributes.OfType<DisplayFormatAttribute>().FirstOrDefault();
+            if (displayFormatAttribute != null)
+            {
+                Format = displayFormatAttribute.DataFormatString;
             }
         }
 

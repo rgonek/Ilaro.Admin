@@ -153,10 +153,7 @@ namespace Ilaro.Admin.Extensions
             {
                 return String.Empty;
             }
-            else
-            {
-                return value.ToString();
-            }
+            return value.ToString();
         }
 
         public static string ToStringSafe(this object value, Property property)
@@ -170,9 +167,14 @@ namespace Ilaro.Admin.Extensions
             {
                 try
                 {
-                    return Convert.ToDecimal(value).ToString(CultureInfo.InvariantCulture);
+                    return Convert.ToDecimal(value).ToString(property.Format, Admin.Culture);
                 }
                 catch { }
+            }
+
+            if (property.TypeInfo.DataType == DataType.DateTime)
+            {
+                return ((DateTime)value).ToString(property.Format, Admin.Culture);
             }
 
             return value.ToString();

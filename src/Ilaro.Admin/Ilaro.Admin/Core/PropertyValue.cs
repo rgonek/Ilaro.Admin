@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Core
                     {
                         return Convert
                             .ToDecimal(Raw)
-                            .ToString(CultureInfo.InvariantCulture);
+                            .ToString(Admin.Culture);
                     }
                     catch (Exception ex)
                     {

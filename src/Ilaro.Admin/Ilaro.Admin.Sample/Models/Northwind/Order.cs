@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         public int OrderID { get; set; }
 
         [DefaultValue(DefaultValueBehavior.Now)]
+        [DisplayFormat(DataFormatString = "dd-MM-yyyy hh:mm")]
         public DateTime? OrderDate { get; set; }
 
         public DateTime? RequiredDate { get; set; }

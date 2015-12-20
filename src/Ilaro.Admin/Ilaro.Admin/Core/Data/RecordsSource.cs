@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Ilaro.Admin.Extensions;
@@ -44,13 +45,11 @@ namespace Ilaro.Admin.Core.Data
                 return null;
             }
 
-            var propertiesDict = item as IDictionary<string, object>;
-
             foreach (var property in entity.CreateProperties(false))
             {
                 property.Value.Raw =
-                    propertiesDict.ContainsKey(property.ColumnName.Undecorate()) ?
-                    propertiesDict[property.ColumnName.Undecorate()] :
+                    item.ContainsKey(property.ColumnName.Undecorate()) ?
+                    item[property.ColumnName.Undecorate()] :
                     null;
             }
 
@@ -210,8 +209,7 @@ namespace Ilaro.Admin.Core.Data
                             .Fill(alias, property.ColumnName, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
-                    // TODO: Temporary solution
-                    else if (decimal.TryParse(query.Replace(".", ","), out temp))
+                    else if (decimal.TryParse(query.Replace(",", "."), NumberStyles.Any, Admin.Culture, out temp))
                     {
                         var sign = "=";
                         if (search.Query.StartsWith(">"))

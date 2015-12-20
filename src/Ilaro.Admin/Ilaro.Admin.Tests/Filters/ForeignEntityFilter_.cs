@@ -19,10 +19,9 @@ namespace Ilaro.Admin.Tests.Filters
         }
 
         [Fact]
-        public void generated_options_should_match()
+        public void generated_options_should_be_empty()
         {
-            var options = _filter.Options;
-            Assert.Null(_filter.Options);
+            Assert.Equal(0, _filter.Options.Count);
         }
 
         [Fact]

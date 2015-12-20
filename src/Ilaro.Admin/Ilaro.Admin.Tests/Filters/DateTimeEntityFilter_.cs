@@ -60,7 +60,7 @@ namespace Ilaro.Admin.Tests.Filters
         public void generated_options_should_match()
         {
             var options = _filter.Options.ToList();
-            Assert.Equal(8, options.Count);
+            Assert.Equal(9, options.Count);
             Assert.Equal(String.Empty, options[0].Value);
             Assert.Equal("2015.07.20", options[1].Value);
             Assert.Equal("2015.07.19", options[2].Value);

@@ -8,6 +8,7 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Infrastructure;
 using Ilaro.Admin.Models;
+using System.Globalization;
 
 namespace Ilaro.Admin
 {
@@ -33,6 +34,19 @@ namespace Ilaro.Admin
         public static string ConnectionStringName { get; set; }
 
         public static string RoutesPrefix { get; private set; }
+
+        private static CultureInfo _culture;
+        public static CultureInfo Culture
+        {
+            get
+            {
+                if (_culture == null)
+                    return CultureInfo.InvariantCulture;
+
+                return _culture;
+            }
+            set { _culture = value; }
+        }
 
         static Admin()
         {

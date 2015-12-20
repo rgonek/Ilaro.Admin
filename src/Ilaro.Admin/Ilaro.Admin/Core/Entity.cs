@@ -424,13 +424,13 @@ namespace Ilaro.Admin.Core
                         property.FileOptions.NameCreation == NameCreation.UserInput)
                     {
                         var providedName = (string)collection.GetValue(property.Name)
-                            .ConvertTo(typeof(string), CultureInfo.InvariantCulture);
+                            .ConvertTo(typeof(string), Admin.Culture);
                         property.Value.Additional = providedName;
                     }
                     var isDeleted =
                         ((bool?)
                             collection.GetValue(property.Name + "_delete")
-                                .ConvertTo(typeof(bool), CultureInfo.InvariantCulture)).GetValueOrDefault();
+                                .ConvertTo(typeof(bool), Admin.Culture)).GetValueOrDefault();
 
                     if (file.ContentLength > 0)
                         isDeleted = false;
@@ -455,7 +455,7 @@ namespace Ilaro.Admin.Core
                         {
                             property.Value.Raw = value.ConvertTo(
                                 property.TypeInfo.Type,
-                                CultureInfo.InvariantCulture);
+                                Admin.Culture);
                         }
                     }
 
