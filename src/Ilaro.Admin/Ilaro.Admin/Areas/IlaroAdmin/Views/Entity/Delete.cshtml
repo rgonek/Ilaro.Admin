@@ -24,7 +24,7 @@
     @Html.Hidden("Key", Model.Entity.JoinedKeyValue)
 
     <div class="form-group">
-        <div class="controls col-md-3">
+        <div class="col-md-3">
             @IlaroAdminResources.DeleteText
         </div>
     </div>
@@ -33,7 +33,7 @@
     {
         <div class="form-group">
             <label for="@Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)" class="control-label col-md-2">@Model.PropertiesDeleteOptions[i].PropertyName</label>
-            <div class="controls col-md-3">
+            <div class="col-md-3">
                 @Html.HiddenFor(m => Model.PropertiesDeleteOptions[i].PropertyName)
                 @Html.DropDownListFor(m => Model.PropertiesDeleteOptions[i].DeleteOption, Model.PropertiesDeleteOptions[i].DeleteOption.GetSelectList(), new { @class = "form-control" })
             </div>
