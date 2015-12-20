@@ -1,8 +1,7 @@
 ﻿@model Property
 
 @{Html.ClearPrefix();}
-<label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
-<div class="controls col-md-5">
+<div class="col-md-5">
     @Html.TextArea(Model.Name, Model.Value.AsString, Model, new { @class = "form-control html" })
     @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
 </div>

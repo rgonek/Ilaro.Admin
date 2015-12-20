@@ -2,7 +2,6 @@
 @model Property
 
 @{Html.ClearPrefix();}
-<label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
 <div class="col-md-10">
     <div class="row">
         @if (Model.Value.AsString.IsNullOrWhiteSpace() == false)

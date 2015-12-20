@@ -6,7 +6,6 @@
         <div class="checkbox">
             <label for="@Html.Id(Model.Name)">
                 @Model.DisplayName
-                @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")
                 @Html.CheckBox(Model.Name, Model.Value.AsBool.GetValueOrDefault(), Model)
             </label>
         </div>

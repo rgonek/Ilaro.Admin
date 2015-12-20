@@ -149,6 +149,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\_PropertyEditor.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_PropertyEditor.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.generated.cs">
       <DependentUpon>DbImagePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -741,6 +746,10 @@
     <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_CustomNumber.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_PropertyEditor.generated.cs</LastGenOutput>
     </Content>
     <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>

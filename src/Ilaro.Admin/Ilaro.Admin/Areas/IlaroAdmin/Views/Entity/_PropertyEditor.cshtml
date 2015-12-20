@@ -1,0 +1,10 @@
+﻿@model Property
+
+<div class="form-group">
+    <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+    @Html.EditorFor(m => m, Model.Template.Editor)
+    @if (Model.IsForeignKey)
+    {
+        <a href="@Url.Action("Create", new { entityName = Model.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
+    }
+</div>

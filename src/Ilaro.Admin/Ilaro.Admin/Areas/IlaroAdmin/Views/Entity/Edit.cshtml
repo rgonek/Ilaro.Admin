@@ -22,7 +22,6 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-
     foreach (var key in Model.Entity.Key)
     {
         <div class="form-group">
@@ -42,13 +41,7 @@
                 <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
                     @foreach (var property in group.Properties.Where(x => x.IsKey == false))
                     {
-                        <div class="form-group">
-                            @Html.EditorFor(m => property, property.Template.Editor)
-                            @if (property.IsForeignKey)
-                            {
-                                <a href="@Url.Action("Create", new { entityName = property.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
-                            }
-                        </div>
+                        Html.RenderPartial("_PropertyEditor", property);
                     }
                 </div>
             </fieldset>
@@ -58,13 +51,7 @@
     {
         foreach (var property in Model.PropertiesGroups[0].Properties.Where(x => x.IsKey == false))
         {
-            <div class="form-group">
-                @Html.EditorFor(m => property, property.Template.Editor)
-                @if (property.IsForeignKey)
-                {
-                    <a href="@Url.Action("Create", new { entityName = property.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
-                }
-            </div>
+            Html.RenderPartial("_PropertyEditor", property);
         }
     }
 
