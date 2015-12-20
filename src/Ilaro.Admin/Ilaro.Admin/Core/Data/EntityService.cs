@@ -138,6 +138,7 @@ namespace Ilaro.Admin.Core.Data
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
+            entity.SetKeyValue(key);
 
             options = options ?? new List<PropertyDeleteOption>();
             var deleteOptions = options.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
