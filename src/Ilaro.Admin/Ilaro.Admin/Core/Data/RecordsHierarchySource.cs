@@ -82,7 +82,7 @@ namespace Ilaro.Admin.Core.Data
                                 subRecord,
                                 records,
                                 hierarchy.SubHierarchies,
-                                hierarchy.Entity.Key.Select(x => prefix + x.ColumnName).ToList(),
+                                hierarchy.Entity.Key.Select(x => prefix + x.ColumnName.Undecorate()).ToList(),
                                 rowData.KeyValue);
                         }
                     }

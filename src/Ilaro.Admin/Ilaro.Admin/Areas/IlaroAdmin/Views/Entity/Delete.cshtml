@@ -41,9 +41,11 @@
     }
 
     <h4>If all foreign entities are to be cascade delete, all of the following items will be deleted:</h4>
-    <ul class="list-delete">
-        @DisplayRecordHierarchy(Model.RecordHierarchy)
-    </ul>
+    <div class="list-delete-wrapper">
+        <ul class="list-delete">
+            @DisplayRecordHierarchy(Model.RecordHierarchy)
+        </ul>
+    </div>
 
     <div class="form-action">
         <div class="col-md-offset-2">
