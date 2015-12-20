@@ -32,6 +32,9 @@ namespace Ilaro.Admin.Models
         {
             get
             {
+                if (Raw == null)
+                    return null;
+
                 if (Property.TypeInfo.IsEnum)
                 {
                     var enumValue =

@@ -156,7 +156,7 @@ namespace Ilaro.Admin.Extensions
             return value.ToString();
         }
 
-        public static string ToStringSafe(this object value, Property property)
+        public static string ToStringSafe(this object value, Property property, string defaultFormat = "")
         {
             if (value == null)
             {
@@ -174,7 +174,7 @@ namespace Ilaro.Admin.Extensions
 
             if (property.TypeInfo.DataType == DataType.DateTime)
             {
-                return ((DateTime)value).ToString(property.Format, Admin.Culture);
+                return ((DateTime)value).ToString(property.Format ?? defaultFormat, Admin.Culture);
             }
 
             return value.ToString();
