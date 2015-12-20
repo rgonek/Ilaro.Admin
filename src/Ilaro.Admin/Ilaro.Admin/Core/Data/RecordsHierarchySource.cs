@@ -73,7 +73,7 @@ namespace Ilaro.Admin.Core.Data
                             SubRecordsHierarchies = new List<RecordHierarchy>()
                         };
 
-                        if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.KeyValue == subRecord.KeyValue) == null &&
+                        if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.JoinedKeyValue == subRecord.JoinedKeyValue) == null &&
                             Matching(record, foreignKey, foreignKeyValue))
                         {
                             parentHierarchy.SubRecordsHierarchies.Add(subRecord);
