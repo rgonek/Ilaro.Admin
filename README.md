@@ -7,7 +7,7 @@ Ilaro.Admin creates for you admin panel using only POCO classes.
 
 Project was inspired by [Django admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).
 
-Please keep in mind this is still a alpha version.
+Please keep in mind this is still an alpha version.
 
 Get it from nuget:
 
@@ -27,9 +27,9 @@ And register by yourself all needed stuff.
 
 ##TODO
 I don't plan milestones, so I will do things in random order. 
-Maybe some of them I skip, and I probably I will back to them after release v1.
+Maybe some of them I'll skip, and I'll probably back to them after release v1.
 
-I moved [TODO](https://github.com/rgonek/Ilaro.Admin/wiki/TODO) to wiki pages, because here, it did a mess in commits, and I rather would simple list than a issues pages.
+I moved [TODO](https://github.com/rgonek/Ilaro.Admin/wiki/TODO) to wiki pages, because here, it is doing a mess in commits, and I rather would simple list than an issues pages.
 
 ##Requirements:
 - POCO classes (or pseudo POCO)
@@ -46,7 +46,7 @@ In global.asax you must do three things:
    AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
    AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
    ```
-   It should be before register default routes because you lose a friendly urls
+   It should be put before register default routes because you lose a friendly urls
 2. Add entities
 
    ```C#
@@ -54,22 +54,22 @@ In global.asax you must do three things:
    AdminInitialise.AddEntity<Product>();
    ```
    AddEntity method create a EntityViewModel object with all info from attributes.
-   In future I want add here a fluent configuration of entity so, there is no need to configure entity with attributes.
+   In future I want add fluent configuration of entity so, there will be no need to configure entity with attributes.
 3. Specify access to Ilaro.Admin
 
    ```C#
    AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute { Roles = "Admin" };
    ```
-   If you don't do that everyone with proper link have access to Ilaro.Admin.
+   If you don't do that everyone with proper link will have access to Ilaro.Admin.
 4. Initialise Ilaro.Admin
 
    ```C#
    AdminInitialise.Initialise("NorthwindEntities");
    ```
-   This line initialise UnityContainer, and bind foreign entity and try set primary key for each entity who has not defeined it. If you have only one ConnectionString there is no need to specify it.
+   This line initialise UnityContainer, and bind foreign entity and tries set primary key for each entity who has not defeined it. If you have only one ConnectionString there is no need to specify it.
 5. Go to wiki pages for more info. [Entity configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Entity-configuration) [Property configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Property-configuration)
    
-And after that when you go to ~/IlaroAdmin url (if you don't define a other prefix) and you should view something like that:
+And after that when you go to ~/IlaroAdmin url (if you don't define other prefix) you should see something like that:
 ####Dashboard
 ![Ilaro.Admin dashboard](https://dl.dropboxusercontent.com/u/3659823/IlaroAdmin/dashboard.png)
 ####Records list
