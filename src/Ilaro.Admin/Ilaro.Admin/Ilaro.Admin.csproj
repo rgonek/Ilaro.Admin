@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -751,7 +752,6 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_PropertyEditor.generated.cs</LastGenOutput>
     </Content>
-    <None Include="Properties\PublishProfiles\IlaroAdminPublish.pubxml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
