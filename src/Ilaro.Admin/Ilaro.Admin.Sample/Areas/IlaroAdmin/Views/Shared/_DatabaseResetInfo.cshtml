@@ -1,0 +1,8 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@{var intervalReset = int.Parse(System.Configuration.ConfigurationManager.AppSettings["DatabaseResetInterval"]);}
+@{var lastReset = DateTime.Parse(System.Configuration.ConfigurationManager.AppSettings["LastDatabaseReset"]);}
+@{var nextResetIn = lastReset.AddHours(intervalReset) - DateTime.UtcNow; }
+
+<div id="db-reset-info" style="line-height:50px;position:absolute; left:50%; margin-left:-200px;width:300px;color:#aaa;">
+    Next database reset in @nextResetIn.ToString(@"hh\:mm")h!
+</div>

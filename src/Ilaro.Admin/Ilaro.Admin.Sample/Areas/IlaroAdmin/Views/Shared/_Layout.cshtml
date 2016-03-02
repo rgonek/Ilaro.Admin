@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/ira/css" rel="stylesheet" />
+    <script src="~/ira/jquery" type="text/javascript"></script>
+    @RenderSection("Header", false)
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container-fluid">
+            <h1>@Html.ActionLink("Admin", "Index", "Group", new { area = "IlaroAdmin" }, new { @class = "navbar-brand" })</h1>
+
+            @{Html.RenderPartial("_DatabaseResetInfo");}
+            @{Html.RenderPartial("_UserInfo");}
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="breadcrumb-container">
+            @RenderSection("Breadcrumb", false)
+        </div>
+        @{Html.RenderAction("Messages", "Shared", new { area = "IlaroAdmin" });}
+        <div class="row">
+            <div class="col-md-10">
+                @RenderBody()
+            </div>
+            <div class="col-md-2">
+                @RenderSection("Sidebar", false)
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>© <a href="https://github.com/rgonek/Ilaro.Admin">Ilaro.Admin</a> @DateTime.Now.ToString("yyyy")</p>
+        </footer>
+    </div>
+
+    <div id="modal" class="modal hide fade">
+        <div class="modal-body">
+            <img id="modal-image" />
+        </div>
+    </div>
+
+    <script src="~/ira/scripts" type="text/javascript"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>
