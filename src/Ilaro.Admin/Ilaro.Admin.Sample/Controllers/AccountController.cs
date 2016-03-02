@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using log4net;
 
 namespace Ilaro.Admin.Sample.Controllers
 {
     public class AccountController : Controller
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(AccountController));
         public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
