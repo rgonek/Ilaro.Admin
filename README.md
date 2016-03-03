@@ -99,13 +99,3 @@ Here I will try write all libraries, and part of code I use in project.
 - [**Bootstrap Dual Listbox**](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) - for one to many editor
 - [**Bootstrap-file-input**](https://github.com/grevory/bootstrap-file-input) - file input
 
-##Knowing issue
--  Validation - for validate entity I using data annotations attributes (it probably works with custom ValidationAttribute), and client side validation look nice, but problem starts with server side validation.
-  
-   ```C#
-[Required]
-[StringLength(20)]
-[Compare("Other property")]
-public string ProductName { get; set; }
-   ```
-   In this example Required and StringLength works well but there is problem with Compare (in client side works well).
