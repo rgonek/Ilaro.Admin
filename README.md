@@ -47,26 +47,33 @@ In global.asax you must do three things:
    AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
    ```
    It should be put before register default routes because you lose a friendly urls
-2. Add entities
+1. Add entities
 
    ```C#
-   AdminInitialise.AddEntity<Customer>();
-   AdminInitialise.AddEntity<Product>();
+   Entity<Customer>.Add();
+   Entity<Product>.Add();
    ```
-   AddEntity method create a EntityViewModel object with all info from attributes.
+   Add method create a Entity object with all info from attributes.
    In future I want add fluent configuration of entity so, there will be no need to configure entity with attributes.
-3. Specify access to Ilaro.Admin
+2. Specify access to Ilaro.Admin
 
    ```C#
-   AdminInitialise.Authorize = new System.Web.Mvc.AuthorizeAttribute { Roles = "Admin" };
+   Admin.Authorize = new AuthorizeAttribute(){ Roles = "Admin" };
    ```
    If you don't do that everyone with proper link will have access to Ilaro.Admin.
-4. Initialise Ilaro.Admin
+3. Initialise Ilaro.Admin
 
    ```C#
-   AdminInitialise.Initialise("NorthwindEntities");
+   Admin.Initialise("NorthwindEntities");
    ```
    This line initialise UnityContainer, and bind foreign entity and tries set primary key for each entity who has not defeined it. If you have only one ConnectionString there is no need to specify it.
+4. Register areas
+
+   ```C#
+   AreaRegistration.RegisterAllAreas();
+   ```
+   This step should be added by default during creating asp mvc project.
+   Ilaro.Admin is created as area, so it needs registration.
 5. Go to wiki pages for more info. [Entity configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Entity-configuration) [Property configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Property-configuration)
    
 And after that when you go to ~/IlaroAdmin url (if you don't define other prefix) you should see something like that:
