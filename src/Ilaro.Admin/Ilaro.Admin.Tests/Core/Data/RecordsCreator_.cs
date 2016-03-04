@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
             _creator = new RecordsCreator(executor);
-            Admin.AddEntity<Product>();
+            Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
             _entity =
@@ -45,7 +45,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void creates_record_and_does_create_entity_change_when_is_added()
         {
-            Admin.AddEntity<EntityChange>();
+            Admin.RegisterEntity<EntityChange>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _creator.Create(_entity);
@@ -62,7 +62,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_one_to_many_foreign_property()
         {
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            Admin.AddEntity<Category>();
+            Admin.RegisterEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -77,7 +77,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_many_to_one_foreign_property()
         {
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            Admin.AddEntity<Category>();
+            Admin.RegisterEntity<Category>();
             Admin.SetForeignKeysReferences();
             _entity =
                 Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");

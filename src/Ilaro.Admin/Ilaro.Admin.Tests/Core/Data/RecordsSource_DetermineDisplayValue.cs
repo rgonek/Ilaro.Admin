@@ -13,9 +13,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_DetermineDisplayValue()
         {
             _source = new RecordsSource(new Notificator());
-            Admin.AddEntity<Product>();
-            Admin.AddEntity<Customer>();
-            Admin.AddEntity<EmployeeTerritory>();
+            Admin.RegisterEntity<Product>();
+            Admin.RegisterEntity<Customer>();
+            Admin.RegisterEntity<EmployeeTerritory>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
         }

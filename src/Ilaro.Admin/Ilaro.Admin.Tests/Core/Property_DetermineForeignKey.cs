@@ -95,7 +95,7 @@ namespace Ilaro.Admin.Tests.Core
         [InlineData("ChildId")]
         public void simple_types_mentioned_in_foreign_attribute_of_other_property__are_foreign_key(string propertyName)
         {
-            Admin.AddEntity<TestEntity>();
+            Admin.RegisterEntity<TestEntity>();
             Admin.SetForeignKeysReferences();
 
             var entity = Admin.EntitiesTypes.FirstOrDefault();

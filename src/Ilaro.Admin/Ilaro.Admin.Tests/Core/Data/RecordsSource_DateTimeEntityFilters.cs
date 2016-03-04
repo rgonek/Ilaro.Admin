@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Orders.Insert(ShipCity: "City4", OrderDate: "2014.08.20 11:33");
 
             _source = new RecordsSource(new Notificator());
-            Admin.AddEntity<Order>();
+            Admin.RegisterEntity<Order>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
             _entity = Admin.EntitiesTypes

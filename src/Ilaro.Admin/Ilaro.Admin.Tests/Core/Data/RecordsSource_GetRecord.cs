@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_GetRecord()
         {
             _source = new RecordsSource(new Notificator());
-            Admin.AddEntity<Product>();
+            Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
             _entity = Admin.EntitiesTypes

@@ -58,7 +58,7 @@ namespace Ilaro.Admin
             return EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
         }
 
-        public static Entity AddEntity<TEntity>()
+        public static Entity RegisterEntity<TEntity>()
         {
             var entity = new Entity(typeof(TEntity));
             EntitiesTypes.Add(entity);

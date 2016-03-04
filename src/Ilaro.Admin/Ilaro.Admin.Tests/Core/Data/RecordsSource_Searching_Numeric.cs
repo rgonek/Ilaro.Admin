@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Products.Insert(ProductName: "Product", UnitPrice: 4.23);
 
             _source = new RecordsSource(new Notificator());
-            Entity<Product>.Add().SetSearchProperties(x => x.UnitPrice);
+            Entity<Product>.Register().SetSearchProperties(x => x.UnitPrice);
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
             _entity = Admin.EntitiesTypes
