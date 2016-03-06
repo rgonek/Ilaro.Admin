@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void create_entity_change_record_when_entity_change_is_added()
         {
-            Admin.AddEntity<EntityChange>();
+            Admin.RegisterEntity<EntityChange>();
             var cmd = new SqlCommand { CommandText = "SELECT 1;" };
 
             _executor.ExecuteWithChanges(cmd, "Product", EntityChangeType.Insert);

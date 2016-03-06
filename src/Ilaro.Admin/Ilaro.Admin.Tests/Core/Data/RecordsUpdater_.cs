@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
             _updater = new RecordsUpdater(executor, _source);
-            Admin.AddEntity<Product>();
+            Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
 
@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void updates_record_and_does_create_entity_change_when_is_added()
         {
-            Admin.AddEntity<EntityChange>();
+            Admin.RegisterEntity<EntityChange>();
             _entity["ProductName"].Value.Raw = "Product2";
             _updater.Update(_entity);
 
@@ -66,7 +66,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void updates_record_with_one_to_many_foreign_property()
         {
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            Admin.AddEntity<Category>();
+            Admin.RegisterEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -83,11 +83,11 @@ namespace Ilaro.Admin.Tests.Core.Data
             var category = DB.Categories.Insert(CategoryName: "Category");
             var product2 = DB.Products.Insert(ProductName: "Product2", CategoryId: category.CategoryID);
 
-            Admin.AddEntity<Category>();
+            Admin.RegisterEntity<Category>();
             Admin.SetForeignKeysReferences();
-            _entity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
-            _entity = _source.GetEntityWithData(Admin.GetEntity("Category"), category.CategoryID.ToString());
+            _entity = _source.GetEntityWithData(
+                Admin.GetEntity("Category"), 
+                category.CategoryID.ToString());
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values = new List<object> { _productId };
             _updater.Update(_entity);

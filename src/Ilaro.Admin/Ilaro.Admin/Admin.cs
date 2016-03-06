@@ -9,12 +9,14 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Infrastructure;
 using Ilaro.Admin.Models;
 using System.Globalization;
+using System.Reflection;
+using Ilaro.Admin.Registration;
 
 namespace Ilaro.Admin
 {
     public static class Admin
     {
-        public static IList<Entity> EntitiesTypes { get; set; }
+        internal static IList<Entity> EntitiesTypes { get; set; }
 
         public static Entity ChangeEntity
         {
@@ -58,9 +60,22 @@ namespace Ilaro.Admin
             return EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
         }
 
-        public static Entity AddEntity<TEntity>()
+        public static Entity GetEntity<TEntity>()
+        {
+            return EntitiesTypes.FirstOrDefault(x => x.Type == typeof(TEntity));
+        }
+
+        public static Entity RegisterEntity<TEntity>()
         {
             var entity = new Entity(typeof(TEntity));
+            EntitiesTypes.Add(entity);
+
+            return entity;
+        }
+
+        public static Entity RegisterEntity(Type entityType)
+        {
+            var entity = new Entity(entityType);
             EntitiesTypes.Add(entity);
 
             return entity;
@@ -165,6 +180,16 @@ namespace Ilaro.Admin
                 entity.SetLinkKey();
                 entity.PrepareGroups();
             }
+        }
+
+        public static RegistrationBuilder AssemblyEntities(params Assembly[] assemblies)
+        {
+            return ScanningRegistrationExtensions.RegisterAssemblyTypes(assemblies);
+        }
+
+        public static RegistrationBuilder Entities(params Type[] types)
+        {
+            return ScanningRegistrationExtensions.RegisterTypes(types);
         }
     }
 }

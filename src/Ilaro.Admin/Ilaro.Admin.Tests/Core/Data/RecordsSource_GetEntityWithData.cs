@@ -12,7 +12,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_GetEntityWithData()
         {
             _source = new RecordsSource(new Notificator());
-            Admin.AddEntity<Product>();
+            Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
         }

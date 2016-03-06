@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Sample
     {
         protected void Application_Start()
         {
-            Entity<Customer>.Add(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
+            Entity<Customer>.Register(); //.ConfigureProperty(PropertyOf<Customer>.Configure(c => c.CompanyName).SetDisplayTemplate(Templates.Display.Html).SetEditorTemplate(Templates.Editor.Html))
             //.AddPropertiesGroup("Main section", c => c.CompanyName)
             //.AddPropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle)
             //.SetKey(x => x.CustomerID)
@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Sample
             //.SetDisplayFormat("")
             //.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
 
-            Entity<Employee>.Add().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
+            Entity<Employee>.Register().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
                 x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.PhotoPath, x => x.Photo)
                 .ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo)
                     .SetFileOptions(NameCreation.Timestamp, 2000, false, "", "")
@@ -33,16 +33,16 @@ namespace Ilaro.Admin.Sample
                     .SetFileOptions(NameCreation.UserInput, 2000, false, "content/employee", "")
                     .SetImageSettings("big", 500, 500)
                     .SetImageSettings("min", 100, 100));
-            Entity<Order>.Add();
-            Entity<OrderDetail>.Add().SetTableName("Order Details");
-            Entity<Product>.Add();
-            Entity<Category>.Add();
-            Entity<EmployeeTerritory>.Add();
-            Entity<Region>.Add();
-            Entity<Shipper>.Add();
-            Entity<Supplier>.Add();
-            Entity<Territory>.Add();
-            Entity<EntityChange>.Add();
+            Entity<Order>.Register();
+            Entity<OrderDetail>.Register().SetTableName("Order Details");
+            Entity<Product>.Register();
+            Entity<Category>.Register();
+            Entity<EmployeeTerritory>.Register();
+            Entity<Region>.Register();
+            Entity<Shipper>.Register();
+            Entity<Supplier>.Register();
+            Entity<Territory>.Register();
+            Entity<EntityChange>.Register();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute

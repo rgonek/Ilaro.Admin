@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
@@ -13,9 +12,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_DetermineDisplayValue()
         {
             _source = new RecordsSource(new Notificator());
-            Admin.AddEntity<Product>();
-            Admin.AddEntity<Customer>();
-            Admin.AddEntity<EmployeeTerritory>();
+            Admin.RegisterEntity<Product>();
+            Admin.RegisterEntity<Customer>();
+            Admin.RegisterEntity<EmployeeTerritory>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
         }
@@ -25,8 +24,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             DB.Products.Insert(ProductName: "Product");
 
-            var productEntity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
+            var productEntity = Admin.GetEntity("Product");
 
             var result = _source.GetRecords(productEntity, determineDisplayValue: true);
 
@@ -39,8 +37,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             DB.Customers.Insert(CustomerID: "MICRO", CompanyName: "Microsoft");
 
-            var customerEntity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Customer");
+            var customerEntity = Admin.GetEntity("Customer");
 
             var result = _source.GetRecords(customerEntity, determineDisplayValue: true);
 
@@ -56,8 +53,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Territories.Insert(TerritoryID: 0123, TerritoryDescription: "Test", RegionID: 1);
             var employeeTorritory = DB.EmployeeTerritories.Insert(TerritoryID: 0123, EmployeeID: employee.EmployeeID);
 
-            var employeeTerritoryEntity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "EmployeeTerritory");
+            var employeeTerritoryEntity = Admin.GetEntity("EmployeeTerritory");
 
             var result = _source.GetRecords(employeeTerritoryEntity, determineDisplayValue: true);
 

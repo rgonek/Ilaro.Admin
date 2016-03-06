@@ -16,11 +16,11 @@ namespace Ilaro.Admin.Fluent
         /// <summary>
         /// Add entity to Ilaro.Admin
         /// </summary>
-        public static Entity<TEntity> Add()
+        public static Entity<TEntity> Register()
         {
             return new Entity<TEntity>
             {
-                _entity = Admin.AddEntity<TEntity>()
+                _entity = Admin.RegisterEntity<TEntity>()
             };
         }
 
