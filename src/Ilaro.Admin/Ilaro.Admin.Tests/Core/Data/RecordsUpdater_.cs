@@ -85,9 +85,9 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             Admin.RegisterEntity<Category>();
             Admin.SetForeignKeysReferences();
-            _entity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
-            _entity = _source.GetEntityWithData(Admin.GetEntity("Category"), category.CategoryID.ToString());
+            _entity = _source.GetEntityWithData(
+                Admin.GetEntity("Category"), 
+                category.CategoryID.ToString());
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values = new List<object> { _productId };
             _updater.Update(_entity);

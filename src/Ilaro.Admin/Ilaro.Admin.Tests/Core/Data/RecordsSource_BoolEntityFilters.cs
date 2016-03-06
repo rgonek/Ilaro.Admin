@@ -23,8 +23,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
-            _entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == "Product");
+            _entity = Admin.GetEntity("Product");
             _property = _entity["Discontinued"];
         }
 

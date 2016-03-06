@@ -23,8 +23,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.RegisterEntity<Product>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
-            _entity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Product");
+            _entity = Admin.GetEntity("Product");
         }
 
         [Fact]
@@ -79,8 +78,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
             Admin.RegisterEntity<Category>();
             Admin.SetForeignKeysReferences();
-            _entity =
-                Admin.EntitiesTypes.FirstOrDefault(x => x.Name == "Category");
+            _entity = Admin.GetEntity("Category");
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values.Add(productId);
             _creator.Create(_entity);

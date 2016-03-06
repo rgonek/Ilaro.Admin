@@ -31,8 +31,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Admin.RegisterEntity<Order>();
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
-            _entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == "Order");
+            _entity = Admin.GetEntity("Order");
             _property = _entity["OrderDate"];
         }
 

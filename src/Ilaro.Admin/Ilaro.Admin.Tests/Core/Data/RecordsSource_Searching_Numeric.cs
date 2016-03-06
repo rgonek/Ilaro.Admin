@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Tests.TestModels.Northwind;
@@ -21,8 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Entity<Product>.Register().SetSearchProperties(x => x.UnitPrice);
             Admin.SetForeignKeysReferences();
             Admin.ConnectionStringName = ConnectionStringName;
-            _entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == "Product");
+            _entity = Admin.GetEntity("Product");
         }
 
         [Fact]

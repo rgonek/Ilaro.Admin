@@ -25,8 +25,7 @@ namespace Ilaro.Admin.Fluent
 
             return new PropertyOf<TEntity>
             {
-                _property = Admin.EntitiesTypes
-                    .FirstOrDefault(x => x.Name == entityName)[propertyName]
+                _property = Admin.GetEntity(entityName)[propertyName]
             };
         }
 

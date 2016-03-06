@@ -16,7 +16,7 @@ namespace Ilaro.Admin
 {
     public static class Admin
     {
-        public static IList<Entity> EntitiesTypes { get; set; }
+        internal static IList<Entity> EntitiesTypes { get; set; }
 
         public static Entity ChangeEntity
         {
@@ -58,6 +58,11 @@ namespace Ilaro.Admin
         public static Entity GetEntity(string entityName)
         {
             return EntitiesTypes.FirstOrDefault(x => x.Name == entityName);
+        }
+
+        public static Entity GetEntity<TEntity>()
+        {
+            return EntitiesTypes.FirstOrDefault(x => x.Type == typeof(TEntity));
         }
 
         public static Entity RegisterEntity<TEntity>()

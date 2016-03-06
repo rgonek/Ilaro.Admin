@@ -98,7 +98,7 @@ namespace Ilaro.Admin.Tests.Core
             Admin.RegisterEntity<TestEntity>();
             Admin.SetForeignKeysReferences();
 
-            var entity = Admin.EntitiesTypes.FirstOrDefault();
+            var entity = Admin.GetEntity("TestEntity");
             Assert.NotNull(entity);
 
             var property = entity[propertyName];

@@ -44,8 +44,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Index(string entityName, TableInfo tableInfo)
         {
-            var entity = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entity = Admin.GetEntity(entityName);
             if (entity == null)
             {
                 throw new NoNullAllowedException("entity is null");
@@ -99,8 +98,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Changes(string entityName, string key, TableInfo tableInfo)
         {
-            var entityChangesFor = Admin.EntitiesTypes
-                .FirstOrDefault(x => x.Name == entityName);
+            var entityChangesFor = Admin.GetEntity(entityName);
             if (entityChangesFor == null)
             {
                 throw new NoNullAllowedException("entity is null");
