@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Unity", "Ilaro.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Ninject", "Ilaro.Admin.Ninject\Ilaro.Admin.Ninject.csproj", "{EACA1818-AA0C-4B92-8F64-DA4FE4AEC46B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests.Scenarios.ScannedAssembly", "Ilaro.Admin.Tests.Scenarios.ScannedAssembly\Ilaro.Admin.Tests.Scenarios.ScannedAssembly.csproj", "{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EACA1818-AA0C-4B92-8F64-DA4FE4AEC46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EACA1818-AA0C-4B92-8F64-DA4FE4AEC46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EACA1818-AA0C-4B92-8F64-DA4FE4AEC46B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
