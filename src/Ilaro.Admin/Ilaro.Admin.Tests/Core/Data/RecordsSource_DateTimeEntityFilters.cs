@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Filters;
@@ -18,6 +17,8 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_DateTimeEntityFilters()
         {
+            SetFakeResolver();
+
             _fakeClock = new FakeClock(
                 () => new DateTime(2015, 7, 20),
                 () => new DateTime(2015, 7, 20));
@@ -29,8 +30,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Order>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Order");
             _property = _entity["OrderDate"];
         }

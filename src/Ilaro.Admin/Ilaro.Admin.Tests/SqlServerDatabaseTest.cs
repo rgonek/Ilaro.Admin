@@ -4,6 +4,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using Ilaro.Admin.Tests.Utils;
 using Simple.Data;
+using System.Web.Mvc;
+using FakeItEasy;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Tests
 {
@@ -51,6 +54,14 @@ namespace Ilaro.Admin.Tests
                   TestUtils.GetDatabaseScript(@"DropAllObjects.sql"),
                   connection
             );
+        }
+
+        protected virtual void SetFakeResolver()
+        {
+            var resolver = A.Fake<IDependencyResolver>();
+            DependencyResolver.SetResolver(resolver);
+            A.CallTo(() => resolver.GetService(typeof(IConfiguration)))
+                .Returns(A.Fake<IConfiguration>());
         }
     }
 }

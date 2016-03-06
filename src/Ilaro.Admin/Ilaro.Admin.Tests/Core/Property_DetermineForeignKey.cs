@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Xunit;
+using System.Web.Mvc;
+using FakeItEasy;
 
 namespace Ilaro.Admin.Tests.Core
 {
@@ -95,8 +96,13 @@ namespace Ilaro.Admin.Tests.Core
         [InlineData("ChildId")]
         public void simple_types_mentioned_in_foreign_attribute_of_other_property__are_foreign_key(string propertyName)
         {
+            var resolver = A.Fake<IDependencyResolver>();
+            DependencyResolver.SetResolver(resolver);
+            A.CallTo(() => resolver.GetService(typeof(IConfiguration)))
+                .Returns(A.Fake<IConfiguration>());
+
             Admin.RegisterEntity<TestEntity>();
-            Admin.SetForeignKeysReferences();
+            Admin.Initialise();
 
             var entity = Admin.GetEntity("TestEntity");
             Assert.NotNull(entity);

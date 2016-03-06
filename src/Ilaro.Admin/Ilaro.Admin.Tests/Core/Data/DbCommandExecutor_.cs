@@ -13,10 +13,12 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public DbCommandExecutor_()
         {
+            SetFakeResolver();
+
             var user = A.Fake<IProvidingUser>();
             A.CallTo(() => user.Current()).Returns("Test");
             _executor = new DbCommandExecutor(user);
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
         }
 
         [Fact]

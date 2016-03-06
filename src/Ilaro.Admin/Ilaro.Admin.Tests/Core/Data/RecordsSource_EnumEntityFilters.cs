@@ -16,6 +16,8 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_EnumEntityFilters()
         {
+            SetFakeResolver();
+
             DB.EntityChanges.Insert(new
             {
                 EntityName = "Entity",
@@ -40,8 +42,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<EntityChange>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.ChangeEntity;
             _property = _entity["ChangeType"];
         }

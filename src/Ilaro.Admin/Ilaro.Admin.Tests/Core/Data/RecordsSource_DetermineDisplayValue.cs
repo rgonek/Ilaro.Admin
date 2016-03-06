@@ -11,12 +11,13 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_DetermineDisplayValue()
         {
+            SetFakeResolver();
+
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Product>();
             Admin.RegisterEntity<Customer>();
             Admin.RegisterEntity<EmployeeTerritory>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
         }
 
         [Fact]

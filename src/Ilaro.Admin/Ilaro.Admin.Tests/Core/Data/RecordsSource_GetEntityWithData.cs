@@ -11,10 +11,11 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_GetEntityWithData()
         {
+            SetFakeResolver();
+
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
         }
 
         [Fact]

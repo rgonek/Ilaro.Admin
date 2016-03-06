@@ -12,13 +12,14 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_Ordering()
         {
+            SetFakeResolver();
+
             DB.Products.Insert(ProductName: "Product");
             DB.Products.Insert(ProductName: "Product2");
 
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Product");
         }
 

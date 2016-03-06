@@ -12,14 +12,15 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_Paging()
         {
+            SetFakeResolver();
+
             DB.Products.Insert(ProductName: "Product");
             DB.Products.Insert(ProductName: "Product2");
             DB.Products.Insert(ProductName: "Product3");
 
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Product");
         }
 

@@ -16,13 +16,15 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsCreator_()
         {
+            SetFakeResolver();
+
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
             _creator = new RecordsCreator(executor);
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.RegisterEntity<Category>();
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Product");
         }
 
@@ -76,8 +78,6 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_many_to_one_foreign_property()
         {
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            Admin.RegisterEntity<Category>();
-            Admin.SetForeignKeysReferences();
             _entity = Admin.GetEntity("Category");
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values.Add(productId);

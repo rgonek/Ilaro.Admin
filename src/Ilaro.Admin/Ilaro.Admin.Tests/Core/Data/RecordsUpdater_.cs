@@ -18,14 +18,16 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsUpdater_()
         {
+            SetFakeResolver();
+
             _source = new RecordsSource(new Notificator());
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_user);
             _updater = new RecordsUpdater(executor, _source);
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.RegisterEntity<Category>();
+            Admin.Initialise(ConnectionStringName);
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;
             _entity = _source.GetEntityWithData(Admin.GetEntity("Product"), _productId.ToString());
@@ -83,8 +85,6 @@ namespace Ilaro.Admin.Tests.Core.Data
             var category = DB.Categories.Insert(CategoryName: "Category");
             var product2 = DB.Products.Insert(ProductName: "Product2", CategoryId: category.CategoryID);
 
-            Admin.RegisterEntity<Category>();
-            Admin.SetForeignKeysReferences();
             _entity = _source.GetEntityWithData(
                 Admin.GetEntity("Category"), 
                 category.CategoryID.ToString());

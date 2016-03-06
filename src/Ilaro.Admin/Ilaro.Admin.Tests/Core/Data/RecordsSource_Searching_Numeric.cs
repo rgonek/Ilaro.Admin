@@ -13,13 +13,14 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_Searching_Numeric()
         {
+            SetFakeResolver();
+
             DB.Products.Insert(ProductName: "Test", UnitPrice: 3);
             DB.Products.Insert(ProductName: "Product", UnitPrice: 4.23);
 
             _source = new RecordsSource(new Notificator());
             Entity<Product>.Register().SetSearchProperties(x => x.UnitPrice);
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Product");
         }
 

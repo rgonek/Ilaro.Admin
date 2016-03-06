@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Filters;
@@ -16,13 +15,14 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_BoolEntityFilters()
         {
+            SetFakeResolver();
+
             DB.Products.Insert(ProductName: "Product", Discontinued: true);
             DB.Products.Insert(ProductName: "Product2", Discontinued: false);
 
             _source = new RecordsSource(new Notificator());
             Admin.RegisterEntity<Product>();
-            Admin.SetForeignKeysReferences();
-            Admin.ConnectionStringName = ConnectionStringName;
+            Admin.Initialise(ConnectionStringName);
             _entity = Admin.GetEntity("Product");
             _property = _entity["Discontinued"];
         }

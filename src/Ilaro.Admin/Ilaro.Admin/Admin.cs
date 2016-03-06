@@ -33,7 +33,7 @@ namespace Ilaro.Admin
 
         public static IAuthorizationFilter Authorize { get; set; }
 
-        public static string ConnectionStringName { get; set; }
+        internal static string ConnectionStringName { get; set; }
 
         public static string RoutesPrefix { get; private set; }
 
@@ -110,7 +110,7 @@ namespace Ilaro.Admin
             SetForeignKeysReferences();
         }
 
-        public static void SetForeignKeysReferences()
+        private static void SetForeignKeysReferences()
         {
             foreach (var entity in EntitiesTypes)
             {
