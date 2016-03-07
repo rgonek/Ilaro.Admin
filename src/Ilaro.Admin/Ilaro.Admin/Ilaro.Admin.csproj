@@ -301,7 +301,6 @@
     <Compile Include="Core\Data\EntityService.cs" />
     <Compile Include="Core\Data\IEntityService.cs" />
     <Compile Include="Registration\RegistrationBuilder.cs" />
-    <Compile Include="Registration\RegistrationExtensions.cs" />
     <Compile Include="Registration\ScanningRegistrationExtensions.cs" />
     <Compile Include="TableInfoModelBinder.cs" />
     <Compile Include="Templates.cs" />
