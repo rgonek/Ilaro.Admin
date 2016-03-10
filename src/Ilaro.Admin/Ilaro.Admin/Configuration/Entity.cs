@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Ilaro.Admin.Core;
 
-namespace Ilaro.Admin.Fluent
+namespace Ilaro.Admin.Configuration
 {
     /// <summary>
     /// Fluent entity configurator
