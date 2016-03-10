@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Configuration
     /// <summary>
     /// Fluent property configurator
     /// </summary>
-    public class PropertyOf<TEntity>
+    public class PropertyOf<TEntity> where TEntity : class
     {
         private Property _property;
 

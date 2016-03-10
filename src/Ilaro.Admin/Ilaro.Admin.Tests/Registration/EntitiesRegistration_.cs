@@ -61,7 +61,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
 
-            Assert.Null(_admin.GetEntity<TestEnum>());
+            Assert.Null(_admin.GetEntity(typeof(TestEnum)));
         }
 
         [Fact]

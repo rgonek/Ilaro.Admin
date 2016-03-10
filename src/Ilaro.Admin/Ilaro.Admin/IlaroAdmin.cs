@@ -44,7 +44,7 @@ namespace Ilaro.Admin
             return entity;
         }
 
-        public Entity RegisterEntity<TEntity>()
+        public Entity RegisterEntity<TEntity>() where TEntity : class
         {
             return RegisterEntity(typeof(TEntity));
         }
@@ -54,9 +54,14 @@ namespace Ilaro.Admin
             return _entitiesTypes.FirstOrDefault(x => x.Name == entityName);
         }
 
-        public Entity GetEntity<TEntity>()
+        public Entity GetEntity(Type type)
         {
-            return _entitiesTypes.FirstOrDefault(x => x.Type == typeof(TEntity));
+            return GetEntity(type.Name);
+        }
+
+        public Entity GetEntity<TEntity>() where TEntity : class
+        {
+            return GetEntity(typeof(TEntity));
         }
 
         public void Initialise(

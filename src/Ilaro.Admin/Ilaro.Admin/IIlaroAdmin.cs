@@ -16,10 +16,11 @@ namespace Ilaro.Admin
         string RoutesPrefix { get; }
 
         Entity RegisterEntity(Type entityType);
-        Entity RegisterEntity<TEntity>();
+        Entity RegisterEntity<TEntity>() where TEntity : class;
 
         Entity GetEntity(string entityName);
-        Entity GetEntity<TEntity>();
+        Entity GetEntity(Type type);
+        Entity GetEntity<TEntity>() where TEntity : class;
 
         void Initialise(
             string connectionStringName = "",
