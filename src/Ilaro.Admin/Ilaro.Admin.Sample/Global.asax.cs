@@ -1,9 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
 using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Sample
 {
