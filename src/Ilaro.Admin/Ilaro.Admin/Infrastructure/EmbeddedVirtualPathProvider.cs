@@ -62,9 +62,9 @@ namespace Ilaro.Admin.Infrastructure
 
         private static bool IsEmbeddedPath(string path)
         {
-            var prefix = string.IsNullOrWhiteSpace(Admin.RoutesPrefix) ?
-                "IlaroAdmin" :
-                Admin.RoutesPrefix;
+            //var prefix = string.IsNullOrWhiteSpace(Admin.RoutesPrefix) ?
+                //"IlaroAdmin" :
+                //Admin.RoutesPrefix;
             return path.Contains("~/ira/");
         }
     }

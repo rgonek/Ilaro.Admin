@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.DataAnnotations;
@@ -25,7 +24,7 @@ namespace Ilaro.Admin.Fluent
 
             return new PropertyOf<TEntity>
             {
-                _property = Admin.GetEntity(entityName)[propertyName]
+                _property = Admin.Current.GetEntity(entityName)[propertyName]
             };
         }
 

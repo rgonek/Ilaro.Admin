@@ -8,13 +8,17 @@ namespace Ilaro.Admin.Core.Data
     public class DbCommandExecutor : IExecutingDbCommand
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(DbCommandExecutor));
+        private readonly IIlaroAdmin _admin;
         private readonly IProvidingUser _user;
 
-        public DbCommandExecutor(IProvidingUser user)
+        public DbCommandExecutor(IIlaroAdmin admin, IProvidingUser user)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (user == null)
                 throw new ArgumentNullException("user");
 
+            _admin = admin;
             _user = user;
         }
 
@@ -26,7 +30,7 @@ namespace Ilaro.Admin.Core.Data
         {
             _log.DebugFormat("Executing command: \r\n {0}", cmd.CommandText);
             object result;
-            using (var conn = DB.OpenConnection())
+            using (var conn = DB.OpenConnection(_admin.ConnectionStringName))
             using (var tx = conn.BeginTransaction())
             {
                 try
@@ -37,7 +41,7 @@ namespace Ilaro.Admin.Core.Data
 
                     if (result != null)
                     {
-                        if (Admin.IsChangesEnabled)
+                        if (_admin.IsChangesEnabled)
                         {
                             var changeCmd = CreateChangeCommand(entityName, changeType, result.ToString(), changeDescriber);
                             _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
@@ -83,11 +87,11 @@ namespace Ilaro.Admin.Core.Data
             string keyValue,
             Func<string> changeDescriber = null)
         {
-            var cmd = DB.CreateCommand();
+            var cmd = DB.CreateCommand(_admin.ConnectionStringName);
 
             var sql =
 @"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
-VALUES (@0,@1,@2,@3,@4,@5);".Fill(Admin.ChangeEntity.TableName);
+VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.TableName);
 
             cmd.AddParam(entityName);
             cmd.AddParam(keyValue);

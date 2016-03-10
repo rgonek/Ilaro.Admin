@@ -3,18 +3,24 @@ using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Models;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
+    [AuthorizeWrapper]
     public class GroupController : Controller
     {
         private readonly Notificator _notificator;
+        private readonly IIlaroAdmin _admin;
 
-        public GroupController(Notificator notificator)
+        public GroupController(IIlaroAdmin admin ,Notificator notificator)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
 
+            _admin = admin;
             _notificator = notificator;
         }
 
@@ -22,7 +28,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var model = new GroupIndexModel
             {
-                Groups = Admin.EntitiesTypes
+                Groups = _admin.Entities
                     .GroupBy(x => x.Verbose.Group)
                     .Select(x => new GroupModel
                     {
@@ -36,7 +42,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Details(string groupName)
         {
-            var model = Admin.EntitiesTypes
+            var model = _admin.Entities
                 .GroupBy(x => x.Verbose.Group)
                 .Where(x => x.Key == groupName)
                 .Select(x => new GroupModel

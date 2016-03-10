@@ -11,6 +11,7 @@ namespace Ilaro.Admin.Core.Data
     public class RecordsDeleter : IDeletingRecords
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsDeleter));
+        private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
 
@@ -19,14 +20,18 @@ namespace Ilaro.Admin.Core.Data
 SELECT @{2};";
 
         public RecordsDeleter(
+            IIlaroAdmin admin,
             IExecutingDbCommand executor,
             IFetchingRecordsHierarchy hierarchySource)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (executor == null)
                 throw new ArgumentNullException("executor");
             if (hierarchySource == null)
                 throw new ArgumentNullException("hierarchySource");
 
+            _admin = admin;
             _executor = executor;
             _hierarchySource = hierarchySource;
         }
@@ -59,7 +64,7 @@ SELECT @{2};";
 
         private DbCommand CreateBaseCommand(Entity entity)
         {
-            var cmd = DB.CreateCommand();
+            var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var whereParts = new List<string>();
             var counter = 0;
             foreach (var key in entity.Key)

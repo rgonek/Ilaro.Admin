@@ -10,6 +10,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsUpdater_ : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private readonly IUpdatingRecords _updater;
         private readonly IProvidingUser _user;
@@ -18,19 +19,19 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsUpdater_()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
-            _source = new RecordsSource(new Notificator());
+            _source = new RecordsSource(_admin, new Notificator());
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
-            var executor = new DbCommandExecutor(_user);
-            _updater = new RecordsUpdater(executor, _source);
-            Admin.RegisterEntity<Product>();
-            Admin.RegisterEntity<Category>();
-            Admin.Initialise(ConnectionStringName);
+            var executor = new DbCommandExecutor(_admin, _user);
+            _updater = new RecordsUpdater(_admin, executor, _source);
+            _admin.RegisterEntity<Product>();
+            _admin.RegisterEntity<Category>();
+            _admin.Initialise(ConnectionStringName);
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _entity = _source.GetEntityWithData(Admin.GetEntity("Product"), _productId.ToString());
+            _entity = _source.GetEntityWithData(_admin.GetEntity("Product"), _productId.ToString());
         }
 
         [Fact]
@@ -51,7 +52,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void updates_record_and_does_create_entity_change_when_is_added()
         {
-            Admin.RegisterEntity<EntityChange>();
+            _admin.RegisterEntity<EntityChange>();
             _entity["ProductName"].Value.Raw = "Product2";
             _updater.Update(_entity);
 
@@ -68,7 +69,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void updates_record_with_one_to_many_foreign_property()
         {
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            Admin.RegisterEntity<Category>();
+            _admin.RegisterEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -86,7 +87,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var product2 = DB.Products.Insert(ProductName: "Product2", CategoryId: category.CategoryID);
 
             _entity = _source.GetEntityWithData(
-                Admin.GetEntity("Category"), 
+                _admin.GetEntity("Category"),
                 category.CategoryID.ToString());
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values = new List<object> { _productId };

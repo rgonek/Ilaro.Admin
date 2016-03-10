@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 namespace Ilaro.Admin.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace Ilaro.Admin.Infrastructure
             if (IsIlaroAdminController(filterContext.Controller) == false)
                 return;
 
-            foreach (var entity in Admin.EntitiesTypes)
+            foreach (var entity in Admin.Current.Entities)
             {
                 entity.ClearPropertiesValues();
             }

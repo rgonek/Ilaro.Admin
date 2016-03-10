@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <h1>@Html.ActionLink("Admin", "Index", "Group", new { area = "IlaroAdmin" }, new { @class = "navbar-brand" })</h1>
 
-            @{Html.RenderPartial("_UserInfo");}
+            @{Html.RenderAction("UserInfo", "Shared", new { area = "IlaroAdmin" });}
         </div>
     </div>
 

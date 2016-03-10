@@ -10,22 +10,23 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsCreator_ : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly ICreatingRecords _creator;
         private readonly IProvidingUser _user;
         private Entity _entity;
 
         public RecordsCreator_()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
-            var executor = new DbCommandExecutor(_user);
-            _creator = new RecordsCreator(executor);
-            Admin.RegisterEntity<Product>();
-            Admin.RegisterEntity<Category>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.GetEntity("Product");
+            var executor = new DbCommandExecutor(_admin, _user);
+            _creator = new RecordsCreator(_admin, executor);
+            _admin.RegisterEntity<Product>();
+            _admin.RegisterEntity<Category>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.GetEntity("Product");
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void creates_record_and_does_create_entity_change_when_is_added()
         {
-            Admin.RegisterEntity<EntityChange>();
+            _admin.RegisterEntity<EntityChange>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _creator.Create(_entity);
@@ -63,7 +64,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_one_to_many_foreign_property()
         {
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            Admin.RegisterEntity<Category>();
+            _admin.RegisterEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -78,7 +79,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void creates_record_with_many_to_one_foreign_property()
         {
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _entity = Admin.GetEntity("Category");
+            _entity = _admin.GetEntity("Category");
             _entity["CategoryName"].Value.Raw = "Category";
             _entity["Products"].Value.Values.Add(productId);
             _creator.Create(_entity);

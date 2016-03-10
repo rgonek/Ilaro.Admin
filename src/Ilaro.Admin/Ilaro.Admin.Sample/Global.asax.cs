@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Fluent;
 using Ilaro.Admin.Sample.Models.Northwind;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Sample
 {
@@ -24,8 +22,9 @@ namespace Ilaro.Admin.Sample
             //.SetDisplayFormat("")
             //.ConfigureProperty(PropertyOf<Customer>.Configure(x => x.CompanyName));
 
-            Entity<Employee>.Register().SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
-                x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.PhotoPath, x => x.Photo)
+            Entity<Employee>.Register()
+                .SetColumns(x => x.EmployeeID, x => x.LastName, x => x.FirstName, x => x.Title, x => x.BirthDate,
+                    x => x.HireDate, x => x.Address, x => x.City, x => x.Region, x => x.PostalCode, x => x.PhotoPath, x => x.Photo)
                 .ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo)
                     .SetFileOptions(NameCreation.Timestamp, 2000, false, "", "")
                     .SetImageSettings("", 100, 100))
@@ -46,10 +45,8 @@ namespace Ilaro.Admin.Sample
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute
-            Admin.Authorize = new AuthorizeAttribute();
-
             // If you have only one connection string there is no need to specify it
-            Admin.Initialise("NorthwindEntities", "Admin");
+            Admin.Initialise("NorthwindEntities", "Admin", new AuthorizeAttribute());
 
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);

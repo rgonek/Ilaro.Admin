@@ -156,25 +156,31 @@ namespace Ilaro.Admin.Extensions
             return value.ToString();
         }
 
-        public static string ToStringSafe(this object value, Property property, string defaultFormat = "")
+        public static string ToStringSafe(
+            this object value, 
+            Property property, 
+            string defaultFormat = "", 
+            CultureInfo culture = null)
         {
             if (value == null)
             {
                 return String.Empty;
             }
 
+            culture = culture ?? CultureInfo.InvariantCulture;
+
             if (property.TypeInfo.DataType == DataType.Numeric)
             {
                 try
                 {
-                    return Convert.ToDecimal(value).ToString(property.Format, Admin.Culture);
+                    return Convert.ToDecimal(value).ToString(property.Format, culture);
                 }
                 catch { }
             }
 
             if (property.TypeInfo.DataType == DataType.DateTime)
             {
-                return ((DateTime)value).ToString(property.Format ?? defaultFormat, Admin.Culture);
+                return ((DateTime)value).ToString(property.Format ?? defaultFormat, culture);
             }
 
             return value.ToString();

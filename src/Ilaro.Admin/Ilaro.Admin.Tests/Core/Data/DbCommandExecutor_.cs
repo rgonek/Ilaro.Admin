@@ -9,16 +9,17 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class DbCommandExecutor_ : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
 
         public DbCommandExecutor_()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             var user = A.Fake<IProvidingUser>();
             A.CallTo(() => user.Current()).Returns("Test");
-            _executor = new DbCommandExecutor(user);
-            Admin.Initialise(ConnectionStringName);
+            _executor = new DbCommandExecutor(_admin, user);
+            _admin.Initialise(ConnectionStringName);
         }
 
         [Fact]
@@ -35,7 +36,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void create_entity_change_record_when_entity_change_is_added()
         {
-            Admin.RegisterEntity<EntityChange>();
+            _admin.RegisterEntity<EntityChange>();
             var cmd = new SqlCommand { CommandText = "SELECT 1;" };
 
             _executor.ExecuteWithChanges(cmd, "Product", EntityChangeType.Insert);

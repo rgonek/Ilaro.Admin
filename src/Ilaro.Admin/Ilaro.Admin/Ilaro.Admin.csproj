@@ -136,7 +136,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IlaroAdminResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleInitialise.cs" />
+    <Compile Include="App_Start\GlobalFiltersInitialise.cs" />
+    <Compile Include="App_Start\ModelBindersInitialise.cs" />
     <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\AccountController.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\EntitiesController.cs" />
@@ -276,6 +278,7 @@
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
     <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
+    <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
@@ -302,6 +305,7 @@
     <Compile Include="Core\Data\IEntityService.cs" />
     <Compile Include="Registration\RegistrationBuilder.cs" />
     <Compile Include="Registration\ScanningRegistrationExtensions.cs" />
+    <Compile Include="IlaroAdmin.cs" />
     <Compile Include="TableInfoModelBinder.cs" />
     <Compile Include="Templates.cs" />
     <Compile Include="Models\CellValue.cs" />

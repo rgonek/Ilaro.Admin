@@ -10,6 +10,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_DateTimeEntityFilters : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
         private Property _property;
@@ -17,7 +18,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_DateTimeEntityFilters()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             _fakeClock = new FakeClock(
                 () => new DateTime(2015, 7, 20),
@@ -28,10 +29,10 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Orders.Insert(ShipCity: "City3", OrderDate: "2015.06.20 11:33");
             DB.Orders.Insert(ShipCity: "City4", OrderDate: "2014.08.20 11:33");
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<Order>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.GetEntity("Order");
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<Order>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.GetEntity("Order");
             _property = _entity["OrderDate"];
         }
 

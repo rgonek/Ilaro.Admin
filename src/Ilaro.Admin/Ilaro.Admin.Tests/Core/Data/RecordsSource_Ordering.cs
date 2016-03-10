@@ -7,20 +7,21 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_Ordering : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
 
         public RecordsSource_Ordering()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             DB.Products.Insert(ProductName: "Product");
             DB.Products.Insert(ProductName: "Product2");
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<Product>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.GetEntity("Product");
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<Product>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.GetEntity("Product");
         }
 
         [Fact]

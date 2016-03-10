@@ -16,17 +16,21 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     [AuthorizeWrapper]
     public class EntitiesController : Controller
     {
+        private readonly IIlaroAdmin _admin;
         private readonly Notificator _notificator;
         private readonly IFetchingRecords _entitiesSource;
         private readonly IConfiguration _configuration;
         private readonly IFilterFactory _filterFactory;
 
         public EntitiesController(
+            IIlaroAdmin admin,
             Notificator notificator,
             IFetchingRecords entitiesSource,
             IConfiguration configuration,
             IFilterFactory filterFactory)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
             if (entitiesSource == null)
@@ -36,6 +40,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             if (filterFactory == null)
                 throw new ArgumentException("filterFactory");
 
+            _admin = admin;
             _notificator = notificator;
             _entitiesSource = entitiesSource;
             _configuration = configuration;
@@ -44,7 +49,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Index(string entityName, TableInfo tableInfo)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 throw new NoNullAllowedException("entity is null");
@@ -98,14 +103,14 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Changes(string entityName, string key, TableInfo tableInfo)
         {
-            var entityChangesFor = Admin.GetEntity(entityName);
+            var entityChangesFor = _admin.GetEntity(entityName);
             if (entityChangesFor == null)
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            var changeEntity = Admin.ChangeEntity;
+            var changeEntity = _admin.ChangeEntity;
             changeEntity.Fill(Request);
-            var filters = _filterFactory.BuildFilters(Admin.ChangeEntity).ToList();
+            var filters = _filterFactory.BuildFilters(_admin.ChangeEntity).ToList();
             if (key.IsNullOrWhiteSpace() == false)
             {
                 filters.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));

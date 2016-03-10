@@ -412,8 +412,9 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public void Fill(FormCollection collection, HttpFileCollectionBase files)
+        public void Fill(FormCollection collection, HttpFileCollectionBase files, CultureInfo culture = null)
         {
+            culture = culture ?? CultureInfo.InvariantCulture;
             foreach (var property in Properties)
             {
                 if (property.TypeInfo.IsFile)
@@ -424,13 +425,13 @@ namespace Ilaro.Admin.Core
                         property.FileOptions.NameCreation == NameCreation.UserInput)
                     {
                         var providedName = (string)collection.GetValue(property.Name)
-                            .ConvertTo(typeof(string), Admin.Culture);
+                            .ConvertTo(typeof(string), culture);
                         property.Value.Additional = providedName;
                     }
                     var isDeleted =
                         ((bool?)
                             collection.GetValue(property.Name + "_delete")
-                                .ConvertTo(typeof(bool), Admin.Culture)).GetValueOrDefault();
+                                .ConvertTo(typeof(bool), culture)).GetValueOrDefault();
 
                     if (file.ContentLength > 0)
                         isDeleted = false;
@@ -455,7 +456,7 @@ namespace Ilaro.Admin.Core
                         {
                             property.Value.Raw = value.ConvertTo(
                                 property.TypeInfo.Type,
-                                Admin.Culture);
+                                culture);
                         }
                     }
 

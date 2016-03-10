@@ -1,7 +1,9 @@
-﻿@if (User.Identity.IsAuthenticated)
+﻿@model bool
+
+@if (User.Identity.IsAuthenticated)
 {
     <div class="pull-right">
-        @if (AdminInitialise.Authorize != null)
+        @if (Model)
         {
             <div class="nav-item">
                 @User.Identity.Name

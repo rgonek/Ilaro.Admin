@@ -1,17 +1,19 @@
-﻿using System.Web.Optimization;
+﻿using Ilaro.Admin.App_Start;
 using Ilaro.Admin.Infrastructure;
+using System.Web.Optimization;
+using WebActivatorEx;
 
-namespace Ilaro.Admin
+[assembly: PostApplicationStartMethod(typeof(BundleInitialise), "Start")]
+namespace Ilaro.Admin.App_Start
 {
-    public class BundleConfig
+    public class BundleInitialise
     {
-        // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
-        public static void RegisterBundles(BundleCollection bundles)
+        public static void Start()
         {
             BundleTable.VirtualPathProvider = new EmbeddedVirtualPathProvider();
-            bundles.Add(new ScriptBundle("~/ira/jquery").Include(
+            BundleTable.Bundles.Add(new ScriptBundle("~/ira/jquery").Include(
                         "~/ira/jquery-2.1.0.min.js"));
-            bundles.Add(new ScriptBundle("~/ira/scripts").Include(
+            BundleTable.Bundles.Add(new ScriptBundle("~/ira/scripts").Include(
                         "~/ira/jquery.validate.min.js",
                         "~/ira/jquery.validate.unobtrusive.min.js",
                         "~/ira/chosen.jquery.min.js",
@@ -26,7 +28,7 @@ namespace Ilaro.Admin
                         "~/ira/bootstrap.file-input.js",
                         "~/ira/ilaro.js"));
 
-            bundles.Add(new StyleBundle("~/ira/css").Include(
+            BundleTable.Bundles.Add(new StyleBundle("~/ira/css").Include(
                       "~/ira/bootstrap.min.css",
                       "~/ira/font-awesome.min.css",
                       "~/ira/bootstrap-datetimepicker.min.css",

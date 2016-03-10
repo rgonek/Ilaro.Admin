@@ -15,12 +15,16 @@ namespace Ilaro.Admin.Core.Data
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsSource));
         private readonly Notificator _notificator;
+        private readonly IIlaroAdmin _admin;
 
-        public RecordsSource(Notificator notificator)
+        public RecordsSource(IIlaroAdmin admin, Notificator notificator)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
 
+            _admin = admin;
             _notificator = notificator;
         }
 
@@ -69,7 +73,7 @@ namespace Ilaro.Admin.Core.Data
         public IDictionary<string, object> GetRecord(Entity entity, params object[] key)
         {
             var table = new DynamicModel(
-                Admin.ConnectionStringName,
+                _admin.ConnectionStringName,
                 tableName: entity.TableName,
                 primaryKeyField: entity.JoinedKey);
 
@@ -109,7 +113,7 @@ namespace Ilaro.Admin.Core.Data
             var where = ConvertFiltersToSql(filters, search, out args);
 
             var table = new DynamicModel(
-                Admin.ConnectionStringName,
+                _admin.ConnectionStringName,
                 entity.TableName,
                 entity.JoinedKey);
 
@@ -163,7 +167,7 @@ namespace Ilaro.Admin.Core.Data
             }
         }
 
-        private static string ConvertFiltersToSql(
+        private string ConvertFiltersToSql(
             IList<BaseFilter> filters,
             EntitySearch search,
             out List<object> args,
@@ -209,7 +213,7 @@ namespace Ilaro.Admin.Core.Data
                             .Fill(alias, property.ColumnName, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
-                    else if (decimal.TryParse(query.Replace(",", "."), NumberStyles.Any, Admin.Culture, out temp))
+                    else if (decimal.TryParse(query.Replace(",", "."), NumberStyles.Any, CultureInfo.CurrentCulture, out temp))
                     {
                         var sign = "=";
                         if (search.Query.StartsWith(">"))

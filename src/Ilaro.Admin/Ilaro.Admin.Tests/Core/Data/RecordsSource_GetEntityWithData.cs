@@ -7,15 +7,16 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_GetEntityWithData : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
 
         public RecordsSource_GetEntityWithData()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<Product>();
-            Admin.Initialise(ConnectionStringName);
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<Product>();
+            _admin.Initialise(ConnectionStringName);
         }
 
         [Fact]
@@ -24,7 +25,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Products.Insert(ProductName: "Product");
             var productId = DB.Products.Insert(ProductName: "Product2").ProductID;
 
-            var enetity = Admin.GetEntity("Product");
+            var enetity = _admin.GetEntity("Product");
             enetity = _source.GetEntityWithData(enetity, productId.ToString()) as Entity;
             Assert.NotNull(enetity);
             Assert.Equal("Product2", enetity["ProductName"].Value.AsString);
@@ -33,7 +34,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void get_entity_with_data_with_incorrect_key_value_return_null_object()
         {
-            var enetity = Admin.GetEntity("Product");
+            var enetity = _admin.GetEntity("Product");
             enetity = _source.GetEntityWithData(enetity, "0");
             Assert.Null(enetity);
         }

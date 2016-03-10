@@ -10,6 +10,15 @@ namespace Ilaro.Admin.Core.Data
     public class RecordsHierarchySource : IFetchingRecordsHierarchy
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsHierarchySource));
+        private readonly IIlaroAdmin _admin;
+
+        public RecordsHierarchySource(IIlaroAdmin admin)
+        {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
+
+            _admin = admin;
+        }
 
         public RecordHierarchy GetRecordHierarchy(Entity entity)
         {
@@ -19,7 +28,7 @@ namespace Ilaro.Admin.Core.Data
             var hierarchy = GetEntityHierarchy(null, entity, ref index);
             var sql = GenerateHierarchySql(hierarchy);
             _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
-            var model = new DynamicModel(Admin.ConnectionStringName);
+            var model = new DynamicModel(_admin.ConnectionStringName);
             var records = model.Query(sql, entity.Key.Select(x => x.Value.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);

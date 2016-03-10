@@ -2,16 +2,25 @@
 using Ilaro.Admin.Tests.Scenarios.ScannedAssembly.Models;
 using System.Reflection;
 using Xunit;
-using Ilaro.Admin.Extensions;
+using System.Web.Mvc;
+using FakeItEasy;
 
 namespace Ilaro.Admin.Tests.Registration
 {
     public class EntitiesRegistration_
     {
+        private readonly IIlaroAdmin _admin;
         private readonly Assembly _testAssembly;
 
         public EntitiesRegistration_()
         {
+            _admin = new IlaroAdmin();
+
+            var resolver = A.Fake<IDependencyResolver>();
+            DependencyResolver.SetResolver(resolver);
+            A.CallTo(() => resolver.GetService(typeof(IIlaroAdmin)))
+                .Returns(_admin);
+
             _testAssembly = typeof(Scenarios.ScannedAssembly.Entity).Assembly;
         }
 
@@ -21,13 +30,13 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
 
-            Assert.NotNull(Admin.GetEntity<Car>());
-            Assert.NotNull(Admin.GetEntity<Product>());
-            Assert.NotNull(Admin.GetEntity<Category>());
-            Assert.NotNull(Admin.GetEntity<Entity>());
-            Assert.NotNull(Admin.GetEntity<Order>());
-            Assert.NotNull(Admin.GetEntity<Role>());
-            Assert.NotNull(Admin.GetEntity<User>());
+            Assert.NotNull(_admin.GetEntity<Car>());
+            Assert.NotNull(_admin.GetEntity<Product>());
+            Assert.NotNull(_admin.GetEntity<Category>());
+            Assert.NotNull(_admin.GetEntity<Entity>());
+            Assert.NotNull(_admin.GetEntity<Order>());
+            Assert.NotNull(_admin.GetEntity<Role>());
+            Assert.NotNull(_admin.GetEntity<User>());
         }
 
         [Fact]
@@ -37,13 +46,13 @@ namespace Ilaro.Admin.Tests.Registration
                 .Except<Entity>()
                 .Register();
 
-            Assert.Null(Admin.GetEntity<Entity>());
-            Assert.NotNull(Admin.GetEntity<Car>());
-            Assert.NotNull(Admin.GetEntity<Product>());
-            Assert.NotNull(Admin.GetEntity<Category>());
-            Assert.NotNull(Admin.GetEntity<Order>());
-            Assert.NotNull(Admin.GetEntity<Role>());
-            Assert.NotNull(Admin.GetEntity<User>());
+            Assert.Null(_admin.GetEntity<Entity>());
+            Assert.NotNull(_admin.GetEntity<Car>());
+            Assert.NotNull(_admin.GetEntity<Product>());
+            Assert.NotNull(_admin.GetEntity<Category>());
+            Assert.NotNull(_admin.GetEntity<Order>());
+            Assert.NotNull(_admin.GetEntity<Role>());
+            Assert.NotNull(_admin.GetEntity<User>());
         }
 
         [Fact]
@@ -52,7 +61,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
 
-            Assert.Null(Admin.GetEntity<TestEnum>());
+            Assert.Null(_admin.GetEntity<TestEnum>());
         }
 
         [Fact]
@@ -61,7 +70,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
 
-            Assert.Null(Admin.GetEntity<TestInterface>());
+            Assert.Null(_admin.GetEntity<TestInterface>());
         }
 
         [Fact]
@@ -71,13 +80,13 @@ namespace Ilaro.Admin.Tests.Registration
                 .Where(type => type.Namespace.EndsWith("Models"))
                 .Register();
 
-            Assert.NotNull(Admin.GetEntity<Car>());
-            Assert.NotNull(Admin.GetEntity<Product>());
-            Assert.Null(Admin.GetEntity<Category>());
-            Assert.Null(Admin.GetEntity<Entity>());
-            Assert.Null(Admin.GetEntity<Order>());
-            Assert.Null(Admin.GetEntity<Role>());
-            Assert.Null(Admin.GetEntity<User>());
+            Assert.NotNull(_admin.GetEntity<Car>());
+            Assert.NotNull(_admin.GetEntity<Product>());
+            Assert.Null(_admin.GetEntity<Category>());
+            Assert.Null(_admin.GetEntity<Entity>());
+            Assert.Null(_admin.GetEntity<Order>());
+            Assert.Null(_admin.GetEntity<Role>());
+            Assert.Null(_admin.GetEntity<User>());
         }
 
         [Fact]
@@ -87,13 +96,13 @@ namespace Ilaro.Admin.Tests.Registration
                 .InNamespaceOf<Car>()
                 .Register();
 
-            Assert.NotNull(Admin.GetEntity<Car>());
-            Assert.NotNull(Admin.GetEntity<Product>());
-            Assert.Null(Admin.GetEntity<Category>());
-            Assert.Null(Admin.GetEntity<Entity>());
-            Assert.Null(Admin.GetEntity<Order>());
-            Assert.Null(Admin.GetEntity<Role>());
-            Assert.Null(Admin.GetEntity<User>());
+            Assert.NotNull(_admin.GetEntity<Car>());
+            Assert.NotNull(_admin.GetEntity<Product>());
+            Assert.Null(_admin.GetEntity<Category>());
+            Assert.Null(_admin.GetEntity<Entity>());
+            Assert.Null(_admin.GetEntity<Order>());
+            Assert.Null(_admin.GetEntity<Role>());
+            Assert.Null(_admin.GetEntity<User>());
         }
 
         [Fact]
@@ -103,13 +112,13 @@ namespace Ilaro.Admin.Tests.Registration
                 .Where(type => type.IsSubclassOf(typeof(Entity)))
                 .Register();
 
-            Assert.NotNull(Admin.GetEntity<Category>());
-            Assert.NotNull(Admin.GetEntity<Role>());
-            Assert.Null(Admin.GetEntity<Car>());
-            Assert.Null(Admin.GetEntity<Product>());
-            Assert.Null(Admin.GetEntity<Entity>());
-            Assert.Null(Admin.GetEntity<Order>());
-            Assert.Null(Admin.GetEntity<User>());
+            Assert.NotNull(_admin.GetEntity<Category>());
+            Assert.NotNull(_admin.GetEntity<Role>());
+            Assert.Null(_admin.GetEntity<Car>());
+            Assert.Null(_admin.GetEntity<Product>());
+            Assert.Null(_admin.GetEntity<Entity>());
+            Assert.Null(_admin.GetEntity<Order>());
+            Assert.Null(_admin.GetEntity<User>());
         }
     }
 }

@@ -5,26 +5,27 @@ namespace Ilaro.Admin.Core.Data
 {
     internal static class DB
     {
-        internal static DbCommand CreateCommand(DbConnection conn = null)
+        internal static DbCommand CreateCommand(
+            string connectionStringName, 
+            DbConnection conn = null)
         {
-            var factory = GetFactory();
+            var factory = GetFactory(connectionStringName);
             var result = factory.CreateCommand();
             result.Connection = conn;
             return result;
         }
 
-        internal static DbConnection OpenConnection()
+        internal static DbConnection OpenConnection(string connectionStringName)
         {
-            var factory = GetFactory();
+            var factory = GetFactory(connectionStringName);
             var result = factory.CreateConnection();
-            result.ConnectionString = GetConnectionString();
+            result.ConnectionString = GetConnectionString(connectionStringName);
             result.Open();
             return result;
         }
 
-        private static DbProviderFactory GetFactory()
+        private static DbProviderFactory GetFactory(string connectionStringName)
         {
-            var connectionStringName = Admin.ConnectionStringName;
             var providerName = "System.Data.SqlClient";
 
             if (!string.IsNullOrWhiteSpace(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
@@ -35,9 +36,8 @@ namespace Ilaro.Admin.Core.Data
             return factory;
         }
 
-        private static string GetConnectionString()
+        private static string GetConnectionString(string connectionStringName)
         {
-            var connectionStringName = Admin.ConnectionStringName;
             var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
             return connectionString;

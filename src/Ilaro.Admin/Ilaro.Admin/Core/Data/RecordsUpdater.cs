@@ -13,6 +13,7 @@ namespace Ilaro.Admin.Core.Data
     public class RecordsUpdater : IUpdatingRecords
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsUpdater));
+        private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecords _source;
 
@@ -36,14 +37,18 @@ SELECT @{0};
 WHERE {3};";
 
         public RecordsUpdater(
+            IIlaroAdmin admin,
             IExecutingDbCommand executor,
             IFetchingRecords source)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (executor == null)
                 throw new ArgumentNullException("executor");
             if (source == null)
                 throw new ArgumentNullException("source");
 
+            _admin = admin;
             _executor = executor;
             _source = source;
         }
@@ -80,7 +85,7 @@ WHERE {3};";
         {
             var sbKeys = new StringBuilder();
 
-            var cmd = DB.CreateCommand();
+            var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
             var updateProperties = entity.CreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)

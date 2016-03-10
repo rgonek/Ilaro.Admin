@@ -15,9 +15,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            var prefix = Admin.RoutesPrefix.IsNullOrWhiteSpace() ?
+            var admin = Admin.Current;
+            var prefix = admin.RoutesPrefix.IsNullOrWhiteSpace() ?
                 "IlaroAdmin" :
-                Admin.RoutesPrefix;
+                admin.RoutesPrefix;
 
             context.MapRoute(
                 name: "IlaroAdminResources",

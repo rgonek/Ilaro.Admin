@@ -7,12 +7,16 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     public class SharedController : Controller
     {
         private readonly Notificator _notificator;
+        private readonly IIlaroAdmin _admin;
 
-        public SharedController(Notificator notificator)
+        public SharedController(IIlaroAdmin admin, Notificator notificator)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
 
+            _admin = admin;
             _notificator = notificator;
         }
 
@@ -20,6 +24,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public virtual ActionResult Messages()
         {
             return PartialView("_Messages", _notificator);
+        }
+
+        [ChildActionOnly]
+        public virtual ActionResult UserInfo()
+        {
+            var autorizationIsEnabled = _admin.Authorize != null;
+            return PartialView("_UserInfo", autorizationIsEnabled);
         }
     }
 }

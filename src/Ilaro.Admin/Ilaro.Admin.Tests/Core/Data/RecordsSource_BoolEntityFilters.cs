@@ -9,21 +9,22 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_BoolEntityFilters : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
         private Property _property;
 
         public RecordsSource_BoolEntityFilters()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             DB.Products.Insert(ProductName: "Product", Discontinued: true);
             DB.Products.Insert(ProductName: "Product2", Discontinued: false);
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<Product>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.GetEntity("Product");
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<Product>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.GetEntity("Product");
             _property = _entity["Discontinued"];
         }
 

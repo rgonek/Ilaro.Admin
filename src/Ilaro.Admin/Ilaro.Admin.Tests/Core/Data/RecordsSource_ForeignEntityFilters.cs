@@ -9,6 +9,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_ForeignEntityFilters : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
         private Property _property;
@@ -16,16 +17,16 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsSource_ForeignEntityFilters()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             _supplierId = DB.Suppliers.Insert(CompanyName: "Supplier").SupplierID;
             DB.Products.Insert(ProductName: "Product", SupplierID: _supplierId);
             DB.Products.Insert(ProductName: "Product2");
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<Product>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.GetEntity("Product");
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<Product>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.GetEntity("Product");
             _property = _entity["SupplierID"];
         }
 

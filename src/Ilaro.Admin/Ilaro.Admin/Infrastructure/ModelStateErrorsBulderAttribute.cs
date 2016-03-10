@@ -10,8 +10,7 @@ namespace Ilaro.Admin.Infrastructure
             if (IsIlaroAdminController(filterContext.Controller) == false)
                 return;
 
-            var notificator = 
-                (Notificator)DependencyResolver.Current.GetService(typeof(Notificator));
+            var notificator = DependencyResolver.Current.GetService<Notificator>();
             var modelState = filterContext.Controller.ViewData.ModelState;
             foreach (var error in notificator.GetModelErrors())
             {

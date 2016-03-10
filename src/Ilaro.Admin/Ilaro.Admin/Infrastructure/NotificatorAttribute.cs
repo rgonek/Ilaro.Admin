@@ -17,7 +17,7 @@ namespace Ilaro.Admin.Infrastructure
             }
 
             var notificator =
-                (Notificator)DependencyResolver.Current.GetService(typeof(Notificator));
+                (Notificator)DependencyResolver.Current.GetService<Notificator>();
 
             var notificator2 = (Notificator)view.TempData["Notificator"];
 
@@ -45,7 +45,7 @@ namespace Ilaro.Admin.Infrastructure
             }
 
             var notificator =
-                (Notificator)DependencyResolver.Current.GetService(typeof(Notificator));
+                (Notificator)DependencyResolver.Current.GetService<Notificator>();
 
             view.TempData["Notificator"] = notificator;
         }

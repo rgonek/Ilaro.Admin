@@ -10,13 +10,14 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_ChangesEntityFilters : SqlServerDatabaseTest
     {
+        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
         private Property _property;
 
         public RecordsSource_ChangesEntityFilters()
         {
-            SetFakeResolver();
+            _admin = new IlaroAdmin();
 
             DB.EntityChanges.Insert(new
             {
@@ -33,10 +34,10 @@ namespace Ilaro.Admin.Tests.Core.Data
                 ChangeType = EntityChangeType.Insert
             });
 
-            _source = new RecordsSource(new Notificator());
-            Admin.RegisterEntity<EntityChange>();
-            Admin.Initialise(ConnectionStringName);
-            _entity = Admin.ChangeEntity;
+            _source = new RecordsSource(_admin, new Notificator());
+            _admin.RegisterEntity<EntityChange>();
+            _admin.Initialise(ConnectionStringName);
+            _entity = _admin.ChangeEntity;
             _property = _entity["EntityName"];
         }
 

@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Core.Data
     public class RecordsCreator : ICreatingRecords
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsCreator));
+        private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
 
         private const string SqlFormat =
@@ -30,11 +31,14 @@ SELECT @newID;
 @"UPDATE {0} SET {1} = @newID 
 WHERE {2};";
 
-        public RecordsCreator(IExecutingDbCommand executor)
+        public RecordsCreator(IIlaroAdmin admin, IExecutingDbCommand executor)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (executor == null)
                 throw new ArgumentNullException("executor");
 
+            _admin = admin;
             _executor = executor;
         }
 
@@ -44,8 +48,11 @@ WHERE {2};";
             {
                 var cmd = CreateCommand(entity);
 
-                var result = _executor
-                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Insert, changeDescriber);
+                var result = _executor.ExecuteWithChanges(
+                    cmd, 
+                    entity.Name, 
+                    EntityChangeType.Insert, 
+                    changeDescriber);
 
                 return result.ToStringSafe();
             }
@@ -70,7 +77,7 @@ WHERE {2};";
             var sbKeys = new StringBuilder();
             var sbVals = new StringBuilder();
 
-            var cmd = DB.CreateCommand();
+            var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
             foreach (var property in entity
                 .CreateProperties(getForeignCollection: false)

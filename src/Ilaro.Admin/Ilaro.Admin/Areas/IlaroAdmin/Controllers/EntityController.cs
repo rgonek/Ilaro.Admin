@@ -4,9 +4,11 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Resources;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
+    [AuthorizeWrapper]
     public class EntityController : Controller
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityController));
@@ -14,13 +16,17 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         private readonly IEntityService _entityService;
         private readonly IFetchingRecords _source;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
+        private readonly IIlaroAdmin _admin;
 
         public EntityController(
+            IIlaroAdmin admin,
             Notificator notificator,
             IEntityService entityService,
             IFetchingRecords source,
             IFetchingRecordsHierarchy hierarchySource)
         {
+            if (admin == null)
+                throw new ArgumentNullException("admin");
             if (notificator == null)
                 throw new ArgumentNullException("notificator");
             if (entityService == null)
@@ -30,6 +36,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             if (hierarchySource == null)
                 throw new ArgumentNullException("hierarchySource");
 
+            _admin = admin;
             _notificator = notificator;
             _entityService = entityService;
             _source = source;
@@ -38,7 +45,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Create(string entityName)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName });
@@ -56,7 +63,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
         public ActionResult Create(string entityName, FormCollection collection)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName });
@@ -89,7 +96,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Edit(string entityName, string key)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName });
@@ -113,7 +120,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
         public ActionResult Edit(string entityName, string key, FormCollection collection)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName });
@@ -155,7 +162,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
         public virtual ActionResult Delete(string entityName, string key)
         {
-            var entity = Admin.GetEntity(entityName);
+            var entity = _admin.GetEntity(entityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName });
@@ -177,7 +184,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public virtual ActionResult Delete(EntityDeleteModel model)
         {
-            var entity = Admin.GetEntity(model.EntityName);
+            var entity = _admin.GetEntity(model.EntityName);
             if (entity == null)
             {
                 return RedirectToAction("NotFound", new { entityName = model.EntityName });
