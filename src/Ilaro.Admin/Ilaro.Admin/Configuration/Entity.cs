@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Configuration
     /// <summary>
     /// Fluent entity configurator
     /// </summary>
-    public class Entity<TEntity>
+    public class Entity<TEntity> where TEntity : class
     {
         private Entity _entity;
 

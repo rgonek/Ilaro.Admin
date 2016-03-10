@@ -17,7 +17,7 @@ namespace Ilaro.Admin
             }
         }
 
-        public static Entity RegisterEntity<TEntity>()
+        public static Entity RegisterEntity<TEntity>() where TEntity : class
         {
             return RegisterEntity(typeof(TEntity));
         }
