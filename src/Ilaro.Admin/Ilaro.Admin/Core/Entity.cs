@@ -57,14 +57,6 @@ namespace Ilaro.Admin.Core
             get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.Value.AsString)); }
         }
 
-        public IList<Property> LinkKey
-        {
-            get
-            {
-                return Properties.Where(x => x.IsLinkKey).ToList();
-            }
-        }
-
         public bool IsChangeEntity
         {
             get { return TypeInfo.IsChangeEntity(Type); }
@@ -114,7 +106,6 @@ namespace Ilaro.Admin.Core
 
             Links = new Links(Attributes);
             SetTableName(Attributes);
-            SetLinkKey();
 
             SetSearchProperties(Attributes);
 
@@ -160,17 +151,6 @@ namespace Ilaro.Admin.Core
             else
             {
                 TableName = "[" + table + "]";
-            }
-        }
-
-        public void SetLinkKey()
-        {
-            if (LinkKey == null && Key != null)
-            {
-                foreach (var key in Key)
-                {
-                    key.IsLinkKey = true;
-                }
             }
         }
 
@@ -394,16 +374,6 @@ namespace Ilaro.Admin.Core
             property.IsKey = true;
         }
 
-        internal void SetLinkKey(string propertyName)
-        {
-            var property = this[propertyName];
-            if (property == null)
-                throw new NullReferenceException(
-                    "Not found property with gived name {0}.".Fill(propertyName));
-
-            property.IsLinkKey = true;
-        }
-
         public void ClearPropertiesValues()
         {
             foreach (var property in Properties)
@@ -496,7 +466,6 @@ namespace Ilaro.Admin.Core
         {
             var properties = new List<Property>();
             properties.AddRange(Key);
-            properties.AddRange(LinkKey);
             properties.AddRange(DisplayProperties);
 
             return properties

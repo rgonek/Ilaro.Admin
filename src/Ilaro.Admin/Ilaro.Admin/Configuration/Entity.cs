@@ -116,19 +116,6 @@ namespace Ilaro.Admin.Configuration
         }
 
         /// <summary>
-        /// Set link key for entity, is used to display provided display, 
-        /// edit and delete link. If not setted primary key is used.
-        /// </summary>
-        public Entity<TEntity> SetLinkKey<TProperty>(
-            Expression<Func<TEntity, TProperty>> expression)
-        {
-            var property = (expression.Body as MemberExpression).Member.Name;
-            _entity.SetLinkKey(property);
-
-            return this;
-        }
-
-        /// <summary>
         /// Set singular and plural display name
         /// </summary>
         public Entity<TEntity> SetDisplayName(string singular, string plural)
