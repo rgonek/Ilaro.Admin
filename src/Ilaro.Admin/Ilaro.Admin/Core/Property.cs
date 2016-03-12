@@ -54,6 +54,8 @@ namespace Ilaro.Admin.Core
             get { return TypeInfo.DataType != DataType.Text; }
         }
 
+        public bool IsVisible { get; set; }
+
         /// <summary>
         /// Is property is a foreign key.
         /// </summary>
