@@ -215,7 +215,7 @@ ORDER BY {5};";
                 ParentHierarchy = parent
             };
 
-            foreach (var property in entity.CreateProperties()
+            foreach (var property in entity.GetDefaultCreateProperties()
                 .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
                 .Where(property =>
                     parent == null ||
