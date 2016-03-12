@@ -80,7 +80,7 @@ WHERE {2};";
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
             foreach (var property in entity
-                .CreateProperties(getForeignCollection: false)
+                .GetDefaultCreateProperties(getForeignCollection: false)
                 .WhereIsNotSkipped())
             {
                 sbKeys.AppendFormat("{0},", property.ColumnName);

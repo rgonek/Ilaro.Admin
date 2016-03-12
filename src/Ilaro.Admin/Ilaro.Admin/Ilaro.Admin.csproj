@@ -213,6 +213,7 @@
     <Compile Include="Core\Data\IExecutingDbCommand.cs" />
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
+    <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\File\FileDeleter.cs" />
     <Compile Include="Core\File\FileHandler.cs" />
     <Compile Include="Core\File\FileNameCreator.cs" />

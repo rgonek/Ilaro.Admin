@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Core.Data
     {
         public string UpdateChanges(Entity entity, IDictionary<string, object> existingRecord)
         {
-            var updateProperties = entity.CreateProperties(getForeignCollection: false)
+            var updateProperties = entity.GetDefaultCreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)
                 .WhereIsNotSkipped().ToList();
 

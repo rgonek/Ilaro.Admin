@@ -176,7 +176,7 @@ namespace Ilaro.Admin.Core
             }
             else
             {
-                DisplayProperties = GetDisplayProperties().ToList();
+                DisplayProperties = this.GetDefaultDisplayProperties().ToList();
             }
         }
 
@@ -201,11 +201,7 @@ namespace Ilaro.Admin.Core
             }
             else
             {
-                // TODO: Move types to other class
-                SearchProperties = Properties
-                    .Where(x =>
-                        !x.IsForeignKey &&
-                        x.TypeInfo.IsAvailableForSearch);
+                SearchProperties = this.GetDefaultSearchProperties();
             }
         }
 
@@ -228,47 +224,10 @@ namespace Ilaro.Admin.Core
         {
             var groupsAttribute =
                 attributes.OfType<GroupsAttribute>().FirstOrDefault();
-            PrepareGroups(
+            Groups = this.PrepareGroups(
                 groupsAttribute != null ?
                     groupsAttribute.Groups :
                     new List<string>());
-        }
-
-        private void PrepareGroups(IList<string> groupsNames)
-        {
-            var groupsDict = CreateProperties()
-                .GroupBy(x => x.GroupName)
-                .ToDictionary(x => x.Key);
-
-            Groups = new List<GroupProperties>();
-            if (groupsNames.IsNullOrEmpty())
-            {
-                foreach (var group in groupsDict)
-                {
-                    Groups.Add(new GroupProperties
-                    {
-                        GroupName = group.Key,
-                        Properties = group.Value.ToList()
-                    });
-                }
-            }
-            else
-            {
-                foreach (var groupName in groupsNames)
-                {
-                    var trimedGroupName = groupName.TrimEnd('*');
-                    if (!groupsDict.ContainsKey(trimedGroupName)) continue;
-
-                    var group = groupsDict[trimedGroupName];
-
-                    Groups.Add(new GroupProperties
-                    {
-                        GroupName = @group.Key,
-                        Properties = @group.ToList(),
-                        IsCollapsed = groupName.EndsWith("*")
-                    });
-                }
-            }
         }
 
         internal void AddGroup(
@@ -289,81 +248,6 @@ namespace Ilaro.Admin.Core
             });
         }
 
-        public IEnumerable<Property> CreateProperties(
-            bool getKey = true,
-            bool getForeignCollection = true)
-        {
-            foreach (var property in Properties)
-            {
-                // Get all properties which is not a key and foreign key
-                if (!property.IsKey && !property.IsForeignKey)
-                {
-                    yield return property;
-                }
-                // If property is key
-                else if (
-                    property.IsKey &&
-                    property.IsAutoKey == false &&
-                    getKey)
-                {
-                    yield return property;
-                }
-                else if (property.IsForeignKey)
-                {
-                    // If is foreign key and not have reference property
-                    if (
-                        property.ReferenceProperty == null &&
-                        (getForeignCollection || !property.TypeInfo.IsCollection))
-                    {
-                        yield return property;
-                    }
-                    // If is foreign key and have foreign key, that means, 
-                    // we have two properties for one database column, 
-                    // so I want only that one who is a system type
-                    else if (
-                        property.ReferenceProperty != null &&
-                        property.TypeInfo.IsSystemType &&
-                        (getForeignCollection || !property.TypeInfo.IsCollection))
-                    {
-                        yield return property;
-                    }
-                }
-            }
-        }
-
-        private IEnumerable<Property> GetDisplayProperties()
-        {
-            foreach (var property in Properties)
-            {
-                // Get all properties which is not a key and foreign key
-                if (!property.IsForeignKey)
-                {
-                    yield return property;
-                }
-
-                else if (property.IsForeignKey)
-                {
-                    // If is foreign key and not have reference property
-                    if (
-                        property.ReferenceProperty == null &&
-                        !property.TypeInfo.IsCollection)
-                    {
-                        yield return property;
-                    }
-                    // If is foreign key and have foreign key, that means, 
-                    // we have two properties for one database column, 
-                    // so I want only that one who is a system type
-                    else if (
-                        property.ReferenceProperty != null &&
-                        property.TypeInfo.IsSystemType &&
-                        !property.TypeInfo.IsCollection)
-                    {
-                        yield return property;
-                    }
-                }
-            }
-        }
-
         internal void SetKey(string propertyName)
         {
             var property = this[propertyName];
@@ -372,14 +256,6 @@ namespace Ilaro.Admin.Core
                     "Not found property with gived name {0}.".Fill(propertyName));
 
             property.IsKey = true;
-        }
-
-        public void ClearPropertiesValues()
-        {
-            foreach (var property in Properties)
-            {
-                property.Value.Clear();
-            }
         }
 
         public void Fill(FormCollection collection, HttpFileCollectionBase files, CultureInfo culture = null)
