@@ -112,10 +112,6 @@ namespace Ilaro.Admin
                     }
 
                     entityKey.IsKey = true;
-                    if (entity.LinkKey == null)
-                    {
-                        entityKey.IsLinkKey = true;
-                    }
                 }
             }
 
@@ -161,7 +157,6 @@ namespace Ilaro.Admin
                 }
 
                 entity.SetColumns();
-                entity.SetLinkKey();
                 entity.PrepareGroups();
             }
         }

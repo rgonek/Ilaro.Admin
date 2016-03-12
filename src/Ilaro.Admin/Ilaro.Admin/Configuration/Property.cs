@@ -58,17 +58,6 @@ namespace Ilaro.Admin.Configuration
             return this;
         }
 
-
-        /// <summary>
-        /// Mark property as primary link key
-        /// </summary>
-        public PropertyOf<TEntity> IsLinkKey()
-        {
-            _property.IsLinkKey = true;
-
-            return this;
-        }
-
         /// <summary>
         /// Set property displa name and description
         /// </summary>

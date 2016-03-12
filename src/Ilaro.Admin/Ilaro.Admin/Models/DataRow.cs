@@ -10,9 +10,6 @@ namespace Ilaro.Admin.Models
         public IList<string> KeyValue { get; set; }
         public string JoinedKeyValue { get { return string.Join(Const.KeyColSeparator.ToString(), KeyValue); } }
 
-        public IList<string> LinkKeyValue { get; set; }
-        public string JoinedLinkKeyValue { get { return string.Join(Const.KeyColSeparator.ToString(), LinkKeyValue); } }
-
         public string DisplayName { get; set; }
         public IList<CellValue> Values { get; set; }
 
@@ -20,7 +17,6 @@ namespace Ilaro.Admin.Models
         {
             Values = new List<CellValue>();
             KeyValue = new List<string>();
-            LinkKeyValue = new List<string>();
         }
 
         public DataRow(
@@ -30,10 +26,6 @@ namespace Ilaro.Admin.Models
             foreach (var key in entity.Key)
             {
                 KeyValue.Add(key.Value.AsString);
-            }
-            foreach (var linkKey in entity.LinkKey)
-            {
-                LinkKeyValue.Add(linkKey.Value.AsString);
             }
 
             foreach (var property in entity.DisplayProperties)
@@ -63,10 +55,6 @@ namespace Ilaro.Admin.Models
             foreach (var key in entity.Key)
             {
                 KeyValue.Add(recordDict[prefix + key.ColumnName.Undecorate()].ToStringSafe());
-            }
-            foreach (var linkKey in entity.LinkKey)
-            {
-                LinkKeyValue.Add(recordDict[prefix + linkKey.ColumnName.Undecorate()].ToStringSafe());
             }
 
             foreach (var property in entity.DisplayProperties)

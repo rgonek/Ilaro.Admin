@@ -55,15 +55,6 @@ namespace Ilaro.Admin.Core
         }
 
         /// <summary>
-        /// If property is a link key.
-        /// If you provide custom links to view a entity in your app, 
-        /// that property is used to identify a entity.
-        /// For example you have Product with slug, 
-        /// so slug is used to display product not id.
-        /// </summary>
-        public bool IsLinkKey { get; set; }
-
-        /// <summary>
         /// Is property is a foreign key.
         /// </summary>
         public bool IsForeignKey { get; set; }
@@ -134,7 +125,6 @@ namespace Ilaro.Admin.Core
             SetDeleteOption(Attributes);
 
             IsKey = Attributes.OfType<KeyAttribute>().Any();
-            IsLinkKey = Attributes.OfType<LinkKeyAttribute>().Any();
 
             var columnAttribute =
                 Attributes.OfType<ColumnAttribute>().FirstOrDefault();

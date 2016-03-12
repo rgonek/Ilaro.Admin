@@ -247,7 +247,6 @@
     <Compile Include="Extensions\HtmlHelperTextBoxExtensions.cs" />
     <Compile Include="DataAnnotations\FileOptions.cs" />
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
-    <Compile Include="DataAnnotations\LinkKeyAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />
     <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
     <Compile Include="DataAnnotations\RecordDisplayAttribute.cs" />
