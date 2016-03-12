@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Ilaro.Admin.Core;
 using System.Web.Mvc;
 
 namespace Ilaro.Admin.Infrastructure
