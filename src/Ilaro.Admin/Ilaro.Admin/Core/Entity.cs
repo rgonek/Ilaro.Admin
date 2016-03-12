@@ -64,7 +64,13 @@ namespace Ilaro.Admin.Core
 
         public IList<GroupProperties> Groups { get; private set; }
 
-        public IList<Property> DisplayProperties { get; private set; }
+        public IEnumerable<Property> DisplayProperties
+        {
+            get
+            {
+                return Properties.Where(x => x.IsVisible);
+            }
+        }
 
         public IEnumerable<Property> SearchProperties { get; private set; }
 
@@ -165,28 +171,28 @@ namespace Ilaro.Admin.Core
             // if there any display properties that mean 
             // it was setted by fluent configuration 
             // and we don't want replace them
-            if (!DisplayProperties.IsNullOrEmpty()) return;
+            if (DisplayProperties.IsNullOrEmpty() == false) return;
 
             var columnsAttribute = attributes
                 .OfType<ColumnsAttribute>()
                 .FirstOrDefault();
-            if (columnsAttribute != null)
+
+
+            var displayProperties = columnsAttribute != null ?
+                GetDisplayProperties(columnsAttribute.Columns) :
+                this.GetDefaultDisplayProperties();
+
+            foreach (var property in displayProperties)
             {
-                SetColumns(columnsAttribute.Columns);
-            }
-            else
-            {
-                DisplayProperties = this.GetDefaultDisplayProperties().ToList();
+                property.IsVisible = true;
             }
         }
 
-        internal void SetColumns(IEnumerable<string> properties)
+        internal IEnumerable<Property> GetDisplayProperties(IEnumerable<string> properties)
         {
-            DisplayProperties = new List<Property>();
             foreach (var column in properties)
             {
-                DisplayProperties
-                    .Add(Properties.FirstOrDefault(x => x.Name == column));
+                yield return Properties.FirstOrDefault(x => x.Name == column);
             }
         }
 

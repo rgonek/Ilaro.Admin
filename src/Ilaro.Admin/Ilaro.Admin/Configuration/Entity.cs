@@ -44,7 +44,7 @@ namespace Ilaro.Admin.Configuration
         {
             var members = GetMemberExpressions(expressions);
             var properties = members.Select(x => x.Member.Name);
-            _entity.SetColumns(properties);
+            _entity.GetDisplayProperties(properties);
 
             return this;
         }
