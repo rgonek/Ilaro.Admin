@@ -12,6 +12,11 @@ namespace Ilaro.Admin.Extensions
             return type.GetTypeInfo().IsSubclassOf(typeof(Delegate));
         }
 
+        public static bool TypeIsPublicClass(this Type type)
+        {
+            return (type != null && type.IsPublic && type.IsClass && !type.IsAbstract);
+        }
+
         /// <summary>
         /// Returns true if this type is in the <paramref name="namespace"/> namespace
         /// or one of its sub-namespaces.
