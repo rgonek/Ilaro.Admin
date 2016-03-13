@@ -48,5 +48,15 @@ namespace Ilaro.Admin
         {
             return ScanningRegistrationExtensions.RegisterTypes(types);
         }
+
+        public static RegistrationBuilder AssemblyCustomizators(params Assembly[] assemblies)
+        {
+            return ScanningRegistrationExtensions.RegisterAssemblyCustomizators(assemblies);
+        }
+
+        public static RegistrationBuilder Customizators(params Type[] types)
+        {
+            return ScanningRegistrationExtensions.RegisterCustomizators(types);
+        }
     }
 }
