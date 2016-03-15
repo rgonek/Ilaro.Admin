@@ -4,15 +4,39 @@ namespace Ilaro.Admin.Configuration.Customizers
 {
     public interface IPropertyCustomizer
     {
-        void Column(string columnName);
-        void Display(string singular, string plural);
-        void Id();
-        void OnDelete(DeleteOption deleteOption);
-        void Template(string display = null, string editor = null);
-        void Type(DataType dataType);
-        void Searchable();
-        void Visible();
-        void Image();
-        void File();
+        /// <summary>
+        /// Set SQL column name
+        /// </summary>
+        IPropertyCustomizer Column(string columnName);
+        /// <summary>
+        /// Set property display name and description
+        /// </summary>
+        IPropertyCustomizer Display(string singular, string plural);
+        /// <summary>
+        /// Mark property as primary key
+        /// </summary>
+        IPropertyCustomizer Id();
+        /// <summary>
+        /// Set delete behavior of foreign property on deleting
+        /// </summary>
+        IPropertyCustomizer OnDelete(DeleteOption deleteOption);
+        /// <summary>
+        /// Set display and edit template
+        /// </summary>
+        IPropertyCustomizer Template(string display = null, string editor = null);
+        /// <summary>
+        /// Set data type
+        /// </summary>
+        IPropertyCustomizer Type(DataType dataType);
+        IPropertyCustomizer Searchable();
+        IPropertyCustomizer Visible();
+        /// <summary>
+        /// Set image options
+        /// </summary>
+        IPropertyCustomizer Image();
+        /// <summary>
+        /// Set image options
+        /// </summary>
+        IPropertyCustomizer File();
     }
 }
