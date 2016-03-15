@@ -74,6 +74,12 @@ namespace Ilaro.Admin
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 
+            foreach(var customizer in Admin.Customizers)
+            {
+                var entity = RegisterEntity(customizer.Key);
+                customizer.Value.CustomizeEntity(entity);
+            }
+
             SetForeignKeysReferences();
         }
 

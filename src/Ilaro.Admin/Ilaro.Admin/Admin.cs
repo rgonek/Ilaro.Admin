@@ -4,6 +4,8 @@ using Ilaro.Admin.Core;
 using System.Globalization;
 using System.Reflection;
 using Ilaro.Admin.Registration;
+using Ilaro.Admin.Configuration.Customizers;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin
 {
@@ -26,6 +28,9 @@ namespace Ilaro.Admin
         {
             return Current.RegisterEntity(entityType);
         }
+
+        internal static IDictionary<Type, ICustomizersHolder> Customizers { get; }
+            = new Dictionary<Type, ICustomizersHolder>();
 
         public static IIlaroAdmin Initialise(
             string connectionStringName = "",
@@ -57,6 +62,11 @@ namespace Ilaro.Admin
         public static RegistrationBuilder Customizators(params Type[] types)
         {
             return ScanningRegistrationExtensions.RegisterCustomizators(types);
+        }
+
+        internal static void AddCustomizer(ICustomizersHolder customizersHolder)
+        {
+            Customizers[customizersHolder.Type] = customizersHolder;
         }
     }
 }

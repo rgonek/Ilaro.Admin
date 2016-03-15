@@ -15,55 +15,74 @@ namespace Ilaro.Admin.Configuration.Customizers
             this.propertyCustomizerHolder = propertyCustomizerHolder;
         }
 
-        public void Column(string columnName)
+        public IPropertyCustomizer Column(string columnName)
         {
             propertyCustomizerHolder.Column = columnName;
+
+            return this;
         }
 
-        public void Display(string singular, string plural)
+        public IPropertyCustomizer Display(string singular, string plural)
         {
             propertyCustomizerHolder.NameSingular = singular;
             propertyCustomizerHolder.NamePlural = plural;
+
+            return this;
         }
 
-        public void File()
+        public IPropertyCustomizer File()
         {
 
+            return this;
         }
 
-        public void Id()
+        public IPropertyCustomizer Id()
         {
             propertyCustomizerHolder.IsKey = true;
+
+            return this;
         }
 
-        public void Image()
+        public IPropertyCustomizer Image()
         {
+
+            return this;
         }
 
-        public void OnDelete(DeleteOption deleteOption)
+        public IPropertyCustomizer OnDelete(DeleteOption deleteOption)
         {
             propertyCustomizerHolder.OnDelete = deleteOption;
+
+            return this;
         }
 
-        public void Searchable()
+        public IPropertyCustomizer Searchable()
         {
             propertyCustomizerHolder.IsSearchable = true;
+
+            return this;
         }
 
-        public void Template(string display = null, string editor = null)
+        public IPropertyCustomizer Template(string display = null, string editor = null)
         {
             propertyCustomizerHolder.DisplayTemplate = display;
             propertyCustomizerHolder.EditorTemplate = editor;
+
+            return this;
         }
 
-        public void Type(DataType dataType)
+        public IPropertyCustomizer Type(DataType dataType)
         {
             propertyCustomizerHolder.DataType = dataType;
+
+            return this;
         }
 
-        public void Visible()
+        public IPropertyCustomizer Visible()
         {
             propertyCustomizerHolder.IsVisible = true;
+
+            return this;
         }
     }
 }
