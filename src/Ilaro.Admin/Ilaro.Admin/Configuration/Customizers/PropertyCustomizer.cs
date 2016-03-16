@@ -1,5 +1,7 @@
 ﻿using System;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -30,8 +32,26 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer File()
+        public IPropertyCustomizer File(
+            NameCreation nameCreation,
+            long maxFileSize,
+            bool isImage,
+            string path,
+            params string[] allowedFileExtensions)
         {
+            if (propertyCustomizerHolder.FileOptions == null)
+            {
+                propertyCustomizerHolder.FileOptions = new FileOptions
+                {
+                    Settings=new List<ImageSettings>()
+                };
+            }
+
+            propertyCustomizerHolder.FileOptions.NameCreation = nameCreation;
+            propertyCustomizerHolder.FileOptions.MaxFileSize = maxFileSize;
+            propertyCustomizerHolder.FileOptions.IsImage = isImage;
+            propertyCustomizerHolder.FileOptions.Path = path;
+            propertyCustomizerHolder.FileOptions.AllowedFileExtensions = allowedFileExtensions;
 
             return this;
         }
@@ -43,9 +63,18 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Image()
+        public IPropertyCustomizer Image(string path, int? width, int? height)
         {
+            if (propertyCustomizerHolder.FileOptions == null)
+            {
+                propertyCustomizerHolder.FileOptions = new FileOptions
+                {
+                    NameCreation = NameCreation.OriginalFileName,
+                    Settings = new List<ImageSettings>()
+                };
+            }
 
+            propertyCustomizerHolder.FileOptions.Settings.Add(new ImageSettings(path, width, height));
             return this;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Core;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -33,10 +34,15 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set image options
         /// </summary>
-        IPropertyCustomizer Image();
+        IPropertyCustomizer Image(string path, int? width, int? height);
         /// <summary>
         /// Set image options
         /// </summary>
-        IPropertyCustomizer File();
+        IPropertyCustomizer File(
+            NameCreation nameCreation,
+            long maxFileSize,
+            bool isImage,
+            string path,
+            params string[] allowedFileExtensions);
     }
 }
