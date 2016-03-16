@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Core;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -14,5 +15,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public DataType DataType { get; internal set; }
         public bool IsVisible { get; internal set; }
         public string NamePlural { get; internal set; }
+        public FileOptions FileOptions { get; internal set; }
     }
 }
