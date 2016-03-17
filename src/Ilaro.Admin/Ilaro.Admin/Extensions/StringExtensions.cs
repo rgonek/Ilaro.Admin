@@ -195,5 +195,12 @@ namespace Ilaro.Admin.Extensions
         {
             return text.TrimStart('[').TrimEnd(']');
         }
+
+        public static string GetValueOrDefault(this string text, string defaultValue)
+        {
+            return text.IsNullOrWhiteSpace() ?
+                defaultValue :
+                text;
+        }
     }
 }

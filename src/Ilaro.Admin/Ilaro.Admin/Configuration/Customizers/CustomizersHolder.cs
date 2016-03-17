@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
+using Resources;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -58,9 +60,10 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
         }
 
-        public void Table(string tableName)
+        public void Table(string tableName, string schema = null)
         {
             ClassCustomizer.Table = tableName;
+            ClassCustomizer.Schema = schema;
         }
 
         public void Id(IEnumerable<MemberInfo> idProperties)
@@ -77,9 +80,16 @@ namespace Ilaro.Admin.Configuration.Customizers
             ClassCustomizer.NamePlural = plural;
         }
 
-        public void PropertyGroup(string groupName, bool isCollapsed, IEnumerable<MemberInfo> memberInfos)
+        public void PropertyGroup(
+            string groupName, 
+            bool isCollapsed, 
+            IEnumerable<MemberInfo> properties)
         {
             ClassCustomizer.Groups[groupName] = isCollapsed;
+            foreach (var property in properties)
+            {
+                GetPropertyCustomizer(property).Group = groupName;
+            }
         }
 
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
@@ -89,18 +99,59 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         private PropertyCustomizerHolder GetPropertyCustomizer(MemberInfo memberInfo)
         {
-            if (PropertyCustomizers.ContainsKey(memberInfo) == false)
+            var propertyInfo = (PropertyInfo)memberInfo;
+            if (PropertyCustomizers.ContainsKey(propertyInfo) == false)
             {
-                PropertyCustomizers[memberInfo] = new PropertyCustomizerHolder();
+                PropertyCustomizers[propertyInfo] = new PropertyCustomizerHolder();
             }
-            return PropertyCustomizers[memberInfo];
+            return PropertyCustomizers[propertyInfo];
         }
 
         public void CustomizeEntity(Entity entity)
         {
-            entity.SetTableName(ClassCustomizer.Table);
-            entity.Verbose.Singular = ClassCustomizer.NameSingular;
-            entity.Verbose.Plural = ClassCustomizer.NamePlural;
+            entity.SetTableName(
+                ClassCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
+                ClassCustomizer.Schema);
+
+            entity.Verbose.Singular = ClassCustomizer.NameSingular
+                .GetValueOrDefault(Type.Name.SplitCamelCase());
+            entity.Verbose.Plural = ClassCustomizer.NamePlural
+                .GetValueOrDefault(entity.Verbose.Singular.Pluralize().SplitCamelCase());
+            entity.Verbose.Group = ClassCustomizer.Group
+                .GetValueOrDefault(IlaroAdminResources.Others);
+
+            entity.RecordDisplayFormat = ClassCustomizer.DisplayFormat;
+
+            entity.Links.Display = ClassCustomizer.DisplayLink;
+            entity.Links.Edit = ClassCustomizer.EditLink;
+            entity.Links.Delete = ClassCustomizer.DeleteLink;
+
+            foreach (var customizerPair in PropertyCustomizers)
+            {
+                var propertyCustomizer = customizerPair.Value;
+                var property = entity[customizerPair.Key.Name];
+
+                property.IsVisible = propertyCustomizer.IsVisible
+                    .GetValueOrDefault(true);
+                property.IsSearchable = propertyCustomizer.IsSearchable
+                    .GetValueOrDefault(true);
+                property.IsKey = propertyCustomizer.IsKey.GetValueOrDefault(false);
+                property.ColumnName = propertyCustomizer.Column
+                    .GetValueOrDefault(property.Name);
+                property.DisplayName = propertyCustomizer.DisplayName
+                    .GetValueOrDefault(property.Name.SplitCamelCase());
+                property.Description = propertyCustomizer.Description;
+                property.DeleteOption = propertyCustomizer.DeleteOption
+                    .GetValueOrDefault(DeleteOption.AskUser);
+                property.Template.Display = propertyCustomizer.DisplayTemplate
+                    .GetValueOrDefault(property.Template.Display);
+                property.Template.Editor = propertyCustomizer.EditorTemplate
+                    .GetValueOrDefault(property.Template.Editor);
+                property.TypeInfo.DataType = propertyCustomizer.DataType
+                    .GetValueOrDefault(property.TypeInfo.DataType);
+                property.FileOptions = propertyCustomizer.FileOptions;
+                property.GroupName = propertyCustomizer.Group;
+            }
         }
     }
 }

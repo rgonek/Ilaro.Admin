@@ -11,7 +11,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         ClassCustomizerHolder ClassCustomizer { get; }
         IDictionary<MemberInfo, PropertyCustomizerHolder> PropertyCustomizers { get; }
 
-        void Table(string tableName);
+        void Table(string tableName, string schema = null);
         void Id(IEnumerable<MemberInfo> idProperties);
         void DisplayProperties(IEnumerable<MemberInfo> displayProperties);
         void SearchProperties(IEnumerable<MemberInfo> searchProperties);

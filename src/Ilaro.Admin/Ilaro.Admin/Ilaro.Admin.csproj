@@ -196,7 +196,6 @@
     <Compile Include="Configuration\EntityConfiguration.cs" />
     <Compile Include="Configuration\Customizers\EntityCustomizer.cs" />
     <Compile Include="Configuration\Customizers\ICustomizersHolder.cs" />
-    <Compile Include="Configuration\Property.cs" />
     <Compile Include="Configuration\Customizers\PropertyCustomizerHolder.cs" />
     <Compile Include="Configuration\TypeExtensions.cs" />
     <Compile Include="Const.cs" />
