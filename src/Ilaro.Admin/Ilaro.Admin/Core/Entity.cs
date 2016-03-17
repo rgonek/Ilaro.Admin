@@ -72,7 +72,13 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public IEnumerable<Property> SearchProperties { get; private set; }
+        public IEnumerable<Property> SearchProperties
+        {
+            get
+            {
+                return Properties.Where(x => x.IsSearchable);
+            }
+        }
 
         public bool IsSearchActive
         {
@@ -203,17 +209,20 @@ namespace Ilaro.Admin.Core
                 .FirstOrDefault();
             if (searchAttribute != null)
             {
-                SetSearchProperties(searchAttribute.Columns);
+                SetSearchProperties(Properties.Where(x => searchAttribute.Columns.Contains(x.Name)));
             }
             else
             {
-                SearchProperties = this.GetDefaultSearchProperties();
+                SetSearchProperties(this.GetDefaultSearchProperties());
             }
         }
 
-        internal void SetSearchProperties(IEnumerable<string> properties)
+        internal void SetSearchProperties(IEnumerable<Property> properties)
         {
-            SearchProperties = Properties.Where(x => properties.Contains(x.Name));
+            foreach (var property in properties)
+            {
+                property.IsSearchable = true;
+            }
         }
 
         public void PrepareGroups()

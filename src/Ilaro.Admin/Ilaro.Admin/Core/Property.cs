@@ -56,6 +56,8 @@ namespace Ilaro.Admin.Core
 
         public bool IsVisible { get; set; }
 
+        public bool IsSearchable { get; set; }
+
         /// <summary>
         /// Is property is a foreign key.
         /// </summary>
