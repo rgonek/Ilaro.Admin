@@ -66,7 +66,8 @@ namespace Ilaro.Admin.Registration
         {
             foreach (var type in GetTypes(types, rb))
             {
-                Admin.RegisterEntity(type);
+                var customizerHolder = new CustomizersHolder(type);
+                Admin.AddCustomizer(customizerHolder);
             }
         }
 
@@ -81,8 +82,7 @@ namespace Ilaro.Admin.Registration
             {
                 var customizer = GetCustomizerInstance(type);
 
-                var entity = Admin.RegisterEntity(customizer.CustomizersHolder.Type);
-                customizer.CustomizersHolder.CustomizeEntity(entity);
+                Admin.AddCustomizer(customizer.CustomizersHolder);
             }
         }
 

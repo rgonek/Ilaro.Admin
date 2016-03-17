@@ -1,5 +1,4 @@
-﻿using Ilaro.Admin.Core;
-using Ilaro.Admin.Configuration.Customizers;
+﻿using Ilaro.Admin.Configuration.Customizers;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -16,11 +15,6 @@ namespace Ilaro.Admin.Configuration
             var customizerHolder = new CustomizersHolder(typeof(TEntity));
             Admin.AddCustomizer(customizerHolder);
             return new EntityCustomizer<TEntity>(customizerHolder);
-        }
-
-        public Entity<TEntity> ConfigureProperty(PropertyOf<TEntity> property)
-        {
-            return this;
         }
     }
 }

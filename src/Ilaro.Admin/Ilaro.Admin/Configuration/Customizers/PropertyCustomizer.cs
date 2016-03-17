@@ -24,10 +24,10 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Display(string singular, string plural)
+        public IPropertyCustomizer Display(string name, string description)
         {
-            propertyCustomizerHolder.NameSingular = singular;
-            propertyCustomizerHolder.NamePlural = plural;
+            propertyCustomizerHolder.DisplayName = name;
+            propertyCustomizerHolder.Description = description;
 
             return this;
         }
@@ -43,7 +43,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             {
                 propertyCustomizerHolder.FileOptions = new FileOptions
                 {
-                    Settings=new List<ImageSettings>()
+                    Settings = new List<ImageSettings>()
                 };
             }
 
@@ -80,7 +80,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public IPropertyCustomizer OnDelete(DeleteOption deleteOption)
         {
-            propertyCustomizerHolder.OnDelete = deleteOption;
+            propertyCustomizerHolder.DeleteOption = deleteOption;
 
             return this;
         }

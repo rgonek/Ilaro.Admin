@@ -18,9 +18,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set SQL table name and schema
         /// </summary>
-        public EntityCustomizer<TEntity> Table(string tableName)
+        public EntityCustomizer<TEntity> Table(string tableName, string schema = null)
         {
-            CustomizersHolder.Table(tableName);
+            CustomizersHolder.Table(tableName, schema);
 
             return this;
         }
@@ -80,7 +80,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
-        
+
         /// <summary>
         /// Set delete link
         /// </summary>
@@ -129,7 +129,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Add property group, it used to display create or edit form
         /// </summary>
         public EntityCustomizer<TEntity> PropertiesGroup(
-            string groupName, 
+            string groupName,
             params Expression<Func<TEntity, object>>[] properties)
         {
             PropertiesGroup(groupName, false, properties);
@@ -141,8 +141,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Add property group, it used to display create or edit form
         /// </summary>
         public EntityCustomizer<TEntity> PropertiesGroup(
-            string groupName, 
-            bool isCollapsed, 
+            string groupName,
+            bool isCollapsed,
             params Expression<Func<TEntity, object>>[] properties)
         {
             var membersOf = TypeExtensions.DecodeMemberAccessExpressionOf(properties);
@@ -155,7 +155,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Configure entity property
         /// </summary>
         public EntityCustomizer<TEntity> Property<TProperty>(
-            Expression<Func<TEntity, TProperty>> property, 
+            Expression<Func<TEntity, TProperty>> property,
             Action<IPropertyCustomizer> customizer)
         {
             RegisterPropertyCustomizer(property, customizer);
@@ -164,7 +164,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         protected virtual void RegisterPropertyCustomizer<TProperty>(
-            Expression<Func<TEntity, TProperty>> property, 
+            Expression<Func<TEntity, TProperty>> property,
             Action<IPropertyCustomizer> customizer)
         {
             var memberOf = TypeExtensions.DecodeMemberAccessExpressionOf(property);

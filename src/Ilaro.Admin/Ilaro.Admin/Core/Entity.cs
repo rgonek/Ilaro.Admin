@@ -10,6 +10,7 @@ using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
+using System.Reflection;
 
 namespace Ilaro.Admin.Core
 {
@@ -22,7 +23,7 @@ namespace Ilaro.Admin.Core
 
         public string TableName { get; private set; }
 
-        public Verbose Verbose { get; private set; }
+        public Verbose Verbose { get; } = new Verbose();
 
         public IList<Property> Properties { get; private set; }
 
@@ -85,7 +86,7 @@ namespace Ilaro.Admin.Core
             get { return SearchProperties.Any(); }
         }
 
-        public Links Links { get; private set; }
+        public Links Links { get; } = new Links();
 
         public bool CanAdd { get; private set; }
 
@@ -110,13 +111,11 @@ namespace Ilaro.Admin.Core
 
             Type = type;
             Name = Type.Name;
-            Verbose = new Verbose(type);
 
             Properties = type.GetProperties()
                 .Select(x => new Property(this, x))
                 .ToList();
 
-            Links = new Links(Attributes);
             SetTableName(Attributes);
 
             SetSearchProperties(Attributes);
