@@ -107,6 +107,14 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer Required(string errorMessage)
+        {
+            propertyCustomizerHolder.IsRequired = true;
+            propertyCustomizerHolder.RequiredErrorMessage = errorMessage;
+
+            return this;
+        }
+
         public IPropertyCustomizer Searchable()
         {
             propertyCustomizerHolder.IsSearchable = true;

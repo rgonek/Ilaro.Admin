@@ -63,5 +63,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set data format string
         /// </summary>
         IPropertyCustomizer Format(string dataFormatString);
+        /// <summary>
+        /// Property is required
+        /// </summary>
+        IPropertyCustomizer Required(string errorMessage);
     }
 }
