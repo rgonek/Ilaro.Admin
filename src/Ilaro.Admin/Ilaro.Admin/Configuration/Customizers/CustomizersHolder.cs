@@ -153,6 +153,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.GroupName = propertyCustomizer.Group;
                 property.Value.DefaultValue = propertyCustomizer.DefaultValue;
                 property.Format = propertyCustomizer.Format;
+                property.IsRequired = propertyCustomizer.IsRequired;
+                property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
             }
         }
     }
