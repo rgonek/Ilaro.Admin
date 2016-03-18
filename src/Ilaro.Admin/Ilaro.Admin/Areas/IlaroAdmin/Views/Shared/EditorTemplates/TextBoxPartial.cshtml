@@ -1,6 +1,5 @@
 ﻿@model Property
 
-@{Html.ClearPrefix();}
 <div class="col-md-3">
     @Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" })
     @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")

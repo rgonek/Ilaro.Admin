@@ -1,6 +1,5 @@
 ﻿@model Property
 
-@{Html.ClearPrefix();}
 <div class="col-md-6">
     @Html.DropDownList(Model.Name, Model.GetPossibleValues(false), Model, new { @class = "form-control dual-list", multiple = "true" })
     @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")

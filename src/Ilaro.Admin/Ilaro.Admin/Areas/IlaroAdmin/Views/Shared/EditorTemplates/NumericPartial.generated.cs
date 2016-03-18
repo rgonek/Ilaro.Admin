@@ -43,13 +43,7 @@ namespace ASP
         }
         public override void Execute()
         {
-            
-            #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
-  Html.ClearPrefix();
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n<div");
+WriteLiteral("<div");
 
 WriteLiteral(" class=\"col-md-3\"");
 
@@ -62,7 +56,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 6 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
+            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
    Write(Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
 
             
@@ -73,7 +67,7 @@ WriteLiteral("\r\n    </div>\r\n");
 WriteLiteral("    ");
 
             
-            #line 8 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
+            #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
 
             
@@ -82,7 +76,7 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
 WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 10 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             

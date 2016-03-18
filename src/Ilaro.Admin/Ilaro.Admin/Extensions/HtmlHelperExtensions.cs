@@ -136,14 +136,5 @@ namespace Ilaro.Admin.Extensions
         {
             return MvcHtmlString.Create(condition ? trueResult() : String.Empty);
         }
-
-        /// <summary>
-        /// Clear html field prefix
-        /// </summary>
-        /// <param name="htmlHelper"></param>
-        public static void ClearPrefix(this HtmlHelper htmlHelper)
-        {
-            htmlHelper.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "";
-        }
     }
 }

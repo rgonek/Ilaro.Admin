@@ -49,13 +49,7 @@ namespace ASP
         }
         public override void Execute()
         {
-            
-            #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-  Html.ClearPrefix();
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n<div");
+WriteLiteral("<div");
 
 WriteLiteral(" class=\"col-md-10\"");
 
@@ -66,13 +60,13 @@ WriteLiteral(" class=\"row\"");
 WriteLiteral(">\r\n");
 
             
-            #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 6 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 6 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
          if (Model.Value.AsString.IsNullOrWhiteSpace() == false)
         {
 
@@ -94,13 +88,13 @@ WriteLiteral(" style=\"max-width: 100px\"");
 WriteLiteral(">\r\n");
 
             
-            #line 11 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 10 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
                     
             
             #line default
             #line hidden
             
-            #line 11 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 10 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
                        var cellValue = new CellValue(Model); 
             
             #line default
@@ -110,7 +104,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    ");
 
             
-            #line 12 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 11 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
                Write(Html.DisplayFor(m => cellValue, Model.Template.Display));
 
             
@@ -119,7 +113,7 @@ WriteLiteral("                    ");
 WriteLiteral("\r\n                </div>\r\n            </div>\r\n");
 
             
-            #line 15 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 14 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
         }
 
             
@@ -131,24 +125,24 @@ WriteLiteral(" class=\"col-md-6\"");
 
 WriteLiteral(">\r\n            <div>\r\n                <input");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 602), Tuple.Create("\"", 627)
+WriteAttribute("id", Tuple.Create(" id=\"", 578), Tuple.Create("\"", 603)
             
-            #line 18 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 607), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+            #line 17 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 583), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
             
             #line default
             #line hidden
-, 607), false)
+, 583), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 628), Tuple.Create("\"", 657)
+WriteAttribute("name", Tuple.Create(" name=\"", 604), Tuple.Create("\"", 633)
             
-            #line 18 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 635), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
+            #line 17 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+, Tuple.Create(Tuple.Create("", 611), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Name)
             
             #line default
             #line hidden
-, 635), false)
+, 611), false)
 );
 
 WriteLiteral(" type=\"file\"");
@@ -166,7 +160,7 @@ WriteLiteral(">Delete</button>\r\n");
 WriteLiteral("                ");
 
             
-            #line 21 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 20 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
            Write(Html.Hidden(Model.Name + "_delete"));
 
             
@@ -175,13 +169,13 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 23 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 22 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 23 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 22 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
              if (Model.TypeInfo.IsFileStoredInDb == false && Model.FileOptions.NameCreation == NameCreation.UserInput)
             {
 
@@ -205,7 +199,7 @@ WriteLiteral(" class=\"col-md-4\"");
 WriteLiteral(">");
 
             
-            #line 27 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 26 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
                                      Write(Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" }));
 
             
@@ -214,7 +208,7 @@ WriteLiteral(">");
 WriteLiteral("</div>\r\n                </div>\r\n");
 
             
-            #line 29 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 28 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
             }
 
             
@@ -225,7 +219,7 @@ WriteLiteral("        </div>\r\n    </div>\r\n");
 WriteLiteral("    ");
 
             
-            #line 32 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 31 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
 Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
 
             
@@ -234,7 +228,7 @@ Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span clas
 WriteLiteral("\r\n</div>\r\n");
 
             
-            #line 34 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
+            #line 33 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
 Write(Html.ValidationMessage(Model.Name));
 
             

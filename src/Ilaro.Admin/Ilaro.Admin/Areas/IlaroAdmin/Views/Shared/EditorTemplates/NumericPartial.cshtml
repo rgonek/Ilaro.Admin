@@ -1,6 +1,5 @@
 ﻿@model Property
 
-@{Html.ClearPrefix();}
 <div class="col-md-3">
     <div class="input-group">
         @Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" }))
