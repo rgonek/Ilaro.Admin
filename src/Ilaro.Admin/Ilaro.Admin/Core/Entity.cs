@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -10,7 +9,6 @@ using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
-using System.Reflection;
 
 namespace Ilaro.Admin.Core
 {
@@ -94,11 +92,6 @@ namespace Ilaro.Admin.Core
 
         public string RecordDisplayFormat { get; internal set; }
 
-        private object[] Attributes
-        {
-            get { return Type.GetCustomAttributes(false); }
-        }
-
         public Property this[string propertyName]
         {
             get { return Properties.FirstOrDefault(x => x.Name == propertyName); }
@@ -116,10 +109,6 @@ namespace Ilaro.Admin.Core
                 .Select(x => new Property(this, x))
                 .ToList();
 
-            SetTableName(Attributes);
-
-            SetSearchProperties(Attributes);
-
             CanAdd = true;
             if (IsChangeEntity)
             {
@@ -130,27 +119,6 @@ namespace Ilaro.Admin.Core
             HasToStringMethod =
                 Type.GetMethod("ToString")
                 .DeclaringType.Name != "Object";
-
-            var recordDisplay = Attributes.OfType<RecordDisplayAttribute>().FirstOrDefault();
-            if (recordDisplay != null)
-            {
-                RecordDisplayFormat = recordDisplay.DisplayFormat;
-            }
-        }
-
-        private void SetTableName(object[] attributes)
-        {
-            var tableAttribute = attributes
-                .OfType<TableAttribute>()
-                .FirstOrDefault();
-            if (tableAttribute != null)
-            {
-                SetTableName(tableAttribute.Name, tableAttribute.Schema);
-            }
-            else
-            {
-                TableName = "[" + Name.Pluralize() + "]";
-            }
         }
 
         internal void SetTableName(string table, string schema = null)
@@ -163,113 +131,6 @@ namespace Ilaro.Admin.Core
             {
                 TableName = "[" + table + "]";
             }
-        }
-
-        public void SetColumns()
-        {
-            var attributes = Type.GetCustomAttributes(false);
-            SetColumns(attributes);
-        }
-
-        private void SetColumns(object[] attributes)
-        {
-            // if there any display properties that mean 
-            // it was setted by fluent configuration 
-            // and we don't want replace them
-            if (DisplayProperties.IsNullOrEmpty() == false) return;
-
-            var columnsAttribute = attributes
-                .OfType<ColumnsAttribute>()
-                .FirstOrDefault();
-
-
-            var displayProperties = columnsAttribute != null ?
-                GetDisplayProperties(columnsAttribute.Columns) :
-                this.GetDefaultDisplayProperties();
-
-            foreach (var property in displayProperties)
-            {
-                property.IsVisible = true;
-            }
-        }
-
-        internal IEnumerable<Property> GetDisplayProperties(IEnumerable<string> properties)
-        {
-            foreach (var column in properties)
-            {
-                yield return Properties.FirstOrDefault(x => x.Name == column);
-            }
-        }
-
-        private void SetSearchProperties(IEnumerable<object> attributes)
-        {
-            var searchAttribute = attributes
-                .OfType<SearchAttribute>()
-                .FirstOrDefault();
-            if (searchAttribute != null)
-            {
-                SetSearchProperties(Properties.Where(x => searchAttribute.Columns.Contains(x.Name)));
-            }
-            else
-            {
-                SetSearchProperties(this.GetDefaultSearchProperties());
-            }
-        }
-
-        internal void SetSearchProperties(IEnumerable<Property> properties)
-        {
-            foreach (var property in properties)
-            {
-                property.IsSearchable = true;
-            }
-        }
-
-        public void PrepareGroups()
-        {
-            if (!Groups.IsNullOrEmpty())
-            {
-                return;
-            }
-
-            SetGroups(Attributes);
-        }
-
-        private void SetGroups(IEnumerable<object> attributes)
-        {
-            var groupsAttribute =
-                attributes.OfType<GroupsAttribute>().FirstOrDefault();
-            Groups = this.PrepareGroups(
-                groupsAttribute != null ?
-                    groupsAttribute.Groups :
-                    new List<string>());
-        }
-
-        internal void AddGroup(
-            string group,
-            bool isCollapsed,
-            IEnumerable<string> propertiesNames)
-        {
-            if (Groups == null)
-            {
-                Groups = new List<GroupProperties>();
-            }
-
-            Groups.Add(new GroupProperties
-            {
-                GroupName = group,
-                Properties = Properties.Where(x => propertiesNames.Contains(x.Name)),
-                IsCollapsed = isCollapsed
-            });
-        }
-
-        internal void SetKey(string propertyName)
-        {
-            var property = this[propertyName];
-            if (property == null)
-                throw new NullReferenceException(
-                    "Not found property with gived name {0}.".Fill(propertyName));
-
-            property.IsKey = true;
         }
 
         public void Fill(FormCollection collection, HttpFileCollectionBase files, CultureInfo culture = null)

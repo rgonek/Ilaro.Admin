@@ -16,5 +16,17 @@ namespace Ilaro.Admin.Configuration
             Admin.AddCustomizer(customizerHolder);
             return new EntityCustomizer<TEntity>(customizerHolder);
         }
+
+        /// <summary>
+        /// Add entity to Ilaro.Admin
+        /// </summary>
+        public static EntityCustomizer<TEntity> RegisterWithAttributes()
+        {
+            var customizerHolder = new CustomizersHolder(typeof(TEntity));
+            Admin.AddCustomizer(customizerHolder);
+            AttributesConfigurator.Initialise(customizerHolder);
+            var customizer = new EntityCustomizer<TEntity>(customizerHolder);
+            return customizer;
+        }
     }
 }

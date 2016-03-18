@@ -21,5 +21,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string Format { get; internal set; }
         public string RequiredErrorMessage { get; internal set; }
         public bool IsRequired { get; internal set; }
+        public string ForeignKey { get; internal set; }
     }
 }

@@ -157,13 +157,9 @@ namespace Ilaro.Admin
                 foreach (var property in entity.Properties)
                 {
                     property.Template = new PropertyTemplate(
-                        property.Attributes,
                         property.TypeInfo,
                         property.IsForeignKey);
                 }
-
-                entity.SetColumns();
-                entity.PrepareGroups();
             }
         }
     }

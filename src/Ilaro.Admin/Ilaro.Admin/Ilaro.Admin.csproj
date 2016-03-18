@@ -187,6 +187,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Filter.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\AttributesConfigurator.cs" />
     <Compile Include="Configuration\Customizers\ClassCustomizerHolder.cs" />
     <Compile Include="Configuration\Customizers\CustomizersHolder.cs" />
     <Compile Include="Configuration\Customizers\IEntityCustomizer.cs" />
