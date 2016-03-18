@@ -29,7 +29,13 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set data type
         /// </summary>
         IPropertyCustomizer Type(DataType dataType);
+        /// <summary>
+        /// Make property searchable
+        /// </summary>
         IPropertyCustomizer Searchable();
+        /// <summary>
+        /// Make property visible
+        /// </summary>
         IPropertyCustomizer Visible();
         /// <summary>
         /// Set image options
