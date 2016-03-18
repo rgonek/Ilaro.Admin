@@ -152,6 +152,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.FileOptions = propertyCustomizer.FileOptions;
                 property.GroupName = propertyCustomizer.Group;
                 property.Value.DefaultValue = propertyCustomizer.DefaultValue;
+                property.Format = propertyCustomizer.Format;
             }
         }
     }

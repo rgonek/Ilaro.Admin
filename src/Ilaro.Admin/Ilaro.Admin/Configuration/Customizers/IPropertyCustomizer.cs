@@ -59,5 +59,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             bool isImage,
             string path,
             params string[] allowedFileExtensions);
+        /// <summary>
+        /// Set data format string
+        /// </summary>
+        IPropertyCustomizer Format(string dataFormatString);
     }
 }
