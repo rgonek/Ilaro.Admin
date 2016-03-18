@@ -67,5 +67,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Property is required
         /// </summary>
         IPropertyCustomizer Required(string errorMessage);
+        /// <summary>
+        /// Set property as a foreign key
+        /// </summary>
+        IPropertyCustomizer ForeignKey(string name);
     }
 }

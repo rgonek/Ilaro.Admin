@@ -71,6 +71,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer ForeignKey(string name)
+        {
+            propertyCustomizerHolder.ForeignKey = name;
+
+            return this;
+        }
+
         public IPropertyCustomizer Format(string dataFormatString)
         {
             propertyCustomizerHolder.Format = dataFormatString;

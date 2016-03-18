@@ -155,6 +155,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
+                property.ForeignKeyName = propertyCustomizer.ForeignKey;
             }
         }
     }
