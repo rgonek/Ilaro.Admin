@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -37,6 +38,14 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Make property visible
         /// </summary>
         IPropertyCustomizer Visible();
+        /// <summary>
+        /// Static default value for property
+        /// </summary>
+        IPropertyCustomizer DefaultValue(object value);
+        /// <summary>
+        /// Default value behavior
+        /// </summary>
+        IPropertyCustomizer DefaultValue(DefaultValueBehavior behavior);
         /// <summary>
         /// Set image options
         /// </summary>

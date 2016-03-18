@@ -81,7 +81,7 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public IDictionary<string, string> PossibleValues { get; set; }
 
-        public object DefaultValue { get; private set; }
+        public object DefaultValue { get; internal set; }
 
         private readonly PropertyTypeInfo _typeInfo;
 

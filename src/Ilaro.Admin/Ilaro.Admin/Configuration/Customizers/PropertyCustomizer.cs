@@ -2,6 +2,7 @@
 using Ilaro.Admin.Core;
 using Ilaro.Admin.DataAnnotations;
 using System.Collections.Generic;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -20,6 +21,20 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Column(string columnName)
         {
             propertyCustomizerHolder.Column = columnName;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultValue(DefaultValueBehavior behavior)
+        {
+            propertyCustomizerHolder.DefaultValue = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultValue(object value)
+        {
+            propertyCustomizerHolder.DefaultValue = value;
 
             return this;
         }
