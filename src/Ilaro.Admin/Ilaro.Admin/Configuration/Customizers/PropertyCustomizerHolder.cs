@@ -17,5 +17,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string Description { get; internal set; }
         public FileOptions FileOptions { get; internal set; }
         public string Group { get; internal set; }
+        public object DefaultValue { get; internal set; }
     }
 }

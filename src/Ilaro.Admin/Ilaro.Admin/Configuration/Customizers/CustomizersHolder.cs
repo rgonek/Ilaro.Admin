@@ -97,7 +97,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
         }
 
-        private PropertyCustomizerHolder GetPropertyCustomizer(MemberInfo memberInfo)
+        internal PropertyCustomizerHolder GetPropertyCustomizer(MemberInfo memberInfo)
         {
             var propertyInfo = (PropertyInfo)memberInfo;
             if (PropertyCustomizers.ContainsKey(propertyInfo) == false)
@@ -151,6 +151,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     .GetValueOrDefault(property.TypeInfo.DataType);
                 property.FileOptions = propertyCustomizer.FileOptions;
                 property.GroupName = propertyCustomizer.Group;
+                property.Value.DefaultValue = propertyCustomizer.DefaultValue;
             }
         }
     }
