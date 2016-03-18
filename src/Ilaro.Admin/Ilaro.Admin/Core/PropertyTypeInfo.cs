@@ -88,11 +88,11 @@ namespace Ilaro.Admin.Core
             get { return DataType == DataType.Image || DataType == DataType.File; }
         }
 
-        public PropertyTypeInfo(Type type, object[] attributes)
+        public PropertyTypeInfo(Type type)
         {
             Type = type;
             DeterminePropertyInfo();
-            SetDataType(attributes);
+            SetDataType();
         }
 
         private void DeterminePropertyInfo()
@@ -111,27 +111,9 @@ namespace Ilaro.Admin.Core
             IsSystemType = Type.Namespace.StartsWith("System");
         }
 
-        private void SetDataType(object[] attributes)
+        private void SetDataType()
         {
-            var dataTypeAttribute =
-                attributes.OfType<DataTypeAttribute>().FirstOrDefault();
-            if (dataTypeAttribute != null)
-            {
-                SourceDataType = dataTypeAttribute.DataType;
-                DataType = DataTypeConverter.Convert(dataTypeAttribute.DataType);
-
-                return;
-            }
-
-            var enumDataTypeAttribute =
-                attributes.OfType<EnumDataTypeAttribute>().FirstOrDefault();
-
-            if (enumDataTypeAttribute != null)
-            {
-                DataType = DataType.Enum;
-                EnumType = enumDataTypeAttribute.EnumType;
-            }
-            else if (Type.IsEnum)
+            if (Type.IsEnum)
             {
                 DataType = DataType.Enum;
                 EnumType = Type;
@@ -155,16 +137,6 @@ namespace Ilaro.Admin.Core
             else
             {
                 DataType = DataType.Text;
-            }
-
-            var fileAttribute =
-                attributes.OfType<FileAttribute>().FirstOrDefault();
-            var imageSettingsAttributes =
-                attributes.OfType<ImageSettingsAttribute>().ToList();
-
-            if (fileAttribute != null && fileAttribute.IsImage || imageSettingsAttributes.Any())
-            {
-                DataType = DataType.Image;
             }
         }
     }

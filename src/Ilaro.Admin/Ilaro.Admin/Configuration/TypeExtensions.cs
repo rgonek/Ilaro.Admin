@@ -72,5 +72,18 @@ namespace Ilaro.Admin.Configuration
             }
             throw new NotSupportedException();
         }
+
+        public static T GetAttribute<T>(this object[] attributes)
+        {
+            return attributes
+                .OfType<T>()
+                .FirstOrDefault();
+        }
+
+        public static IEnumerable<T> GetAttributes<T>(this object[] attributes)
+        {
+            return attributes
+                .OfType<T>();
+        }
     }
 }

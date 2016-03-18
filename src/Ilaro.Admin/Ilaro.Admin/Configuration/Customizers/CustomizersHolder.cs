@@ -81,8 +81,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         public void PropertyGroup(
-            string groupName, 
-            bool isCollapsed, 
+            string groupName,
+            bool isCollapsed,
             IEnumerable<MemberInfo> properties)
         {
             ClassCustomizer.Groups[groupName] = isCollapsed;
@@ -155,7 +155,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
-                property.ForeignKeyName = propertyCustomizer.ForeignKey;
+                property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
         }
     }

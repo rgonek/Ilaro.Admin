@@ -75,22 +75,22 @@ namespace Ilaro.Admin.Core
         public string RequiredErrorMessage { get; set; }
 
         public DeleteOption DeleteOption { get; internal set; }
-        public FileOptions FileOptions { get; internal set; }
+        public FileOptions FileOptions { get; internal set; } = new FileOptions();
         public PropertyTemplate Template { get; internal set; }
         public PropertyTypeInfo TypeInfo { get; private set; }
         public PropertyValue Value { get; private set; }
 
-        internal object[] Attributes
-        {
-            get { return PropertyInfo.GetCustomAttributes(false); }
-        }
-
         public IList<ValidationAttribute> ValidationAttributes
         {
-            get { return Attributes.OfType<ValidationAttribute>().ToList(); }
+            get
+            {
+                return PropertyInfo.GetCustomAttributes(false)
+                  .OfType<ValidationAttribute>().ToList();
+            }
         }
 
         public IDictionary<string, object> ControlsAttributes { get; set; }
+        public string ForeignKeyName { get; private set; }
 
         public Property(Entity entity, PropertyInfo property)
         {
@@ -105,12 +105,10 @@ namespace Ilaro.Admin.Core
             Name = property.Name;
             ColumnName = property.Name;
             ControlsAttributes = new Dictionary<string, object>();
-            // TODO: determine ColumnName
 
-            TypeInfo = new PropertyTypeInfo(property.PropertyType, Attributes);
-            FileOptions = new FileOptions(Attributes);
-            Value = new PropertyValue(Attributes, TypeInfo);
-            Template = new PropertyTemplate(Attributes, TypeInfo, IsForeignKey);
+            TypeInfo = new PropertyTypeInfo(property.PropertyType);
+            Value = new PropertyValue(TypeInfo);
+            Template = new PropertyTemplate(TypeInfo, IsForeignKey);
 
             if (TypeInfo.DataType == DataType.Numeric)
             {
@@ -124,95 +122,41 @@ namespace Ilaro.Admin.Core
                 }
             }
 
-            SetForeignKey(Attributes);
+            SetForeignKey();
 
-            SetDeleteOption(Attributes);
-
-            IsKey = Attributes.OfType<KeyAttribute>().Any();
-
-            var columnAttribute =
-                Attributes.OfType<ColumnAttribute>().FirstOrDefault();
-            if (columnAttribute != null)
-            {
-                ColumnName = columnAttribute.Name;
-            }
-
-            var requiredAttribute =
-                Attributes.OfType<RequiredAttribute>().FirstOrDefault();
-            if (requiredAttribute != null)
-            {
-                IsRequired = true;
-                RequiredErrorMessage = requiredAttribute.ErrorMessage;
-            }
-
-            var displayAttribute =
-                Attributes.OfType<DisplayAttribute>().FirstOrDefault();
-            if (displayAttribute != null)
-            {
-                DisplayName = displayAttribute.Name ?? Name.SplitCamelCase();
-                Description = displayAttribute.Description;
-                GroupName =
-                    displayAttribute.GroupName ?? IlaroAdminResources.Others;
-            }
-            else
-            {
-                DisplayName = Name.SplitCamelCase();
-                GroupName = IlaroAdminResources.Others;
-            }
-
-            SetFormat(Attributes);
+            DisplayName = Name.SplitCamelCase();
+            GroupName = IlaroAdminResources.Others;
         }
 
-        private void SetFormat(object[] attributes)
+        internal void SetForeignKey(string foreignKeyName)
         {
-            var displayFormatAttribute =
-                attributes.OfType<DisplayFormatAttribute>().FirstOrDefault();
-            if (displayFormatAttribute != null)
-            {
-                Format = displayFormatAttribute.DataFormatString;
-            }
-        }
-
-        private void SetDeleteOption(IEnumerable<object> attributes)
-        {
-            var onDeleteAttribute =
-                attributes.OfType<OnDeleteAttribute>().FirstOrDefault();
-            DeleteOption = onDeleteAttribute != null ?
-                onDeleteAttribute.DeleteOption :
-                DeleteOption.Nothing;
-        }
-
-        private void SetForeignKey(object[] attributes)
-        {
-            // move to other class, thanks that I can make a nice tests for this
-
-            var foreignKeyAttribute =
-                attributes.OfType<ForeignKeyAttribute>().FirstOrDefault();
-            if (foreignKeyAttribute != null)
+            ForeignKeyName = foreignKeyName;
+            if (ForeignKeyName.IsNullOrEmpty() == false)
             {
                 IsForeignKey = true;
 
                 if (TypeInfo.IsSystemType)
                 {
-                    ForeignEntityName = foreignKeyAttribute.Name;
+                    ForeignEntityName = ForeignKeyName;
                 }
                 else
                 {
-                    ReferencePropertyName = ColumnName = foreignKeyAttribute.Name;
+                    ReferencePropertyName = ColumnName = ForeignKeyName;
                     ForeignEntityName = TypeInfo.Type.Name;
                 }
             }
+        }
+
+        private void SetForeignKey()
+        {
+            if (TypeInfo.IsSystemType || TypeInfo.IsEnum)
+            {
+                IsForeignKey = false;
+            }
             else
             {
-                if (TypeInfo.IsSystemType || TypeInfo.IsEnum)
-                {
-                    IsForeignKey = false;
-                }
-                else
-                {
-                    IsForeignKey = true;
-                    ForeignEntityName = TypeInfo.Type.Name;
-                }
+                IsForeignKey = true;
+                ForeignEntityName = TypeInfo.Type.Name;
             }
         }
 
