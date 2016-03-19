@@ -167,20 +167,20 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.generated.cs">
-      <DependentUpon>_CustomNumber.cshtml</DependentUpon>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\NumberPartial.generated.cs">
+      <DependentUpon>NumberPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.generated.cs">
-      <DependentUpon>_CustomString.cshtml</DependentUpon>
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\StringPartial.generated.cs">
+      <DependentUpon>StringPartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>_CustomDateTimeRange.cshtml</DependentUpon>
+      <DependentUpon>DateTimePartial.cshtml</DependentUpon>
     </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\_Filter.generated.cs">
       <AutoGen>True</AutoGen>
@@ -744,17 +744,17 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Filter.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_CustomDateTimeRange.generated.cs</LastGenOutput>
+      <LastGenOutput>DateTimePartial.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomString.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\StringPartial.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_CustomString.generated.cs</LastGenOutput>
+      <LastGenOutput>StringPartial.generated.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Shared\FilterTemplates\NumberPartial.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_CustomNumber.generated.cs</LastGenOutput>
+      <LastGenOutput>NumberPartial.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml">
       <Generator>RazorGenerator</Generator>

@@ -35,10 +35,10 @@ namespace ASP
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/FilterTemplates/_CustomNumber.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_FilterTemplates__CustomNumber_cshtml : System.Web.Mvc.WebViewPage<WrappedFilterOption>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/FilterTemplates/NumberPartial.cshtml")]
+    public partial class _Areas_IlaroAdmin_Views_Shared_FilterTemplates_NumberPartial_cshtml : System.Web.Mvc.WebViewPage<WrappedFilterOption>
     {
-        public _Areas_IlaroAdmin_Views_Shared_FilterTemplates__CustomNumber_cshtml()
+        public _Areas_IlaroAdmin_Views_Shared_FilterTemplates_NumberPartial_cshtml()
         {
         }
         public override void Execute()
@@ -57,7 +57,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute("value", Tuple.Create(" value=\"", 111), Tuple.Create("\"", 138)
             
-            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.cshtml"
+            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\NumberPartial.cshtml"
 , Tuple.Create(Tuple.Create("", 119), Tuple.Create<System.Object, System.Int32>(Model.Option.Value
             
             #line default
@@ -76,7 +76,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomNumber.cshtml"
+            #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\NumberPartial.cshtml"
        Write(Html.FilterOptionLink("OK", "custom-number", Model.Filter, new { @class = "btn btn-default number-filter-custom" }));
 
             

@@ -50,9 +50,9 @@
         /// </summary>
         public static class Filter
         {
-            public const string DateTime = "FilterTemplates/_CustomDateTimeRange";
-            public const string String = "FilterTemplates/_CustomString";
-            public const string Number = "FilterTemplates/_CustomNumber";
+            public const string DateTime = "DateTimePartial";
+            public const string String = "StringPartial";
+            public const string Number = "NumberPartial";
         }
     }
 }

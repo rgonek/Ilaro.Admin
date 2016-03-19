@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Filters
 {
     public class TemplatedSelectListItem : SelectListItem
     {
-        public string Template { get; set; }
+        public string Template { get; private set; }
 
         public TemplatedSelectListItem()
         {
@@ -19,7 +20,10 @@ namespace Ilaro.Admin.Filters
             Text = text;
             Value = value;
             Selected = Value == currentValue;
-            Template = template;
+            if (template.IsNullOrWhiteSpace())
+            {
+                Template = "FilterTemplates\\" + template;   
+            }
         }
     }
 }

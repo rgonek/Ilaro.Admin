@@ -35,10 +35,10 @@ namespace ASP
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
-    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/FilterTemplates/_CustomDateTimeRange.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_FilterTemplates__CustomDateTimeRange_cshtml : System.Web.Mvc.WebViewPage<WrappedFilterOption>
+    [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/FilterTemplates/DateTimePartial.cshtml")]
+    public partial class _Areas_IlaroAdmin_Views_Shared_FilterTemplates_DateTimePartial_cshtml : System.Web.Mvc.WebViewPage<WrappedFilterOption>
     {
-        public _Areas_IlaroAdmin_Views_Shared_FilterTemplates__CustomDateTimeRange_cshtml()
+        public _Areas_IlaroAdmin_Views_Shared_FilterTemplates_DateTimePartial_cshtml()
         {
         }
         public override void Execute()
@@ -54,13 +54,13 @@ WriteLiteral(" class=\"input-group\"");
 WriteLiteral(">\r\n");
 
             
-            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml"
+            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml"
+            #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml"
           
             var from = "";
             var to = "";
@@ -83,7 +83,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute("value", Tuple.Create(" value=\"", 569), Tuple.Create("\"", 582)
             
-            #line 18 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml"
+            #line 18 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml"
 , Tuple.Create(Tuple.Create("", 577), Tuple.Create<System.Object, System.Int32>(from
             
             #line default
@@ -105,7 +105,7 @@ WriteLiteral(" type=\"text\"");
 
 WriteAttribute("value", Tuple.Create(" value=\"", 736), Tuple.Create("\"", 747)
             
-            #line 20 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml"
+            #line 20 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml"
 , Tuple.Create(Tuple.Create("", 744), Tuple.Create<System.Object, System.Int32>(to
             
             #line default
@@ -126,7 +126,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("            ");
 
             
-            #line 22 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\_CustomDateTimeRange.cshtml"
+            #line 22 "..\..\Areas\IlaroAdmin\Views\Shared\FilterTemplates\DateTimePartial.cshtml"
        Write(Html.FilterOptionLink("OK", "date-range", Model.Filter, new { @class = "btn btn-default date-filter-custom-range" }));
 
             
