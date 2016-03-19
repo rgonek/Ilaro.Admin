@@ -64,7 +64,7 @@ namespace Ilaro.Admin.Core
                             break;
                         case System.ComponentModel.DataAnnotations.DataType.Time:
                             Editor = Templates.Editor.Time;
-                            Display = Templates.Display.Time;
+                            Display = Templates.Display.DateTime;
                             break;
                         // TODO: for consideration
                         //case DataAnnotations.DataType.Duration:
@@ -72,7 +72,7 @@ namespace Ilaro.Admin.Core
                         case System.ComponentModel.DataAnnotations.DataType.Url:
                         case System.ComponentModel.DataAnnotations.DataType.Upload:
                             Editor = Templates.Editor.File;
-                            Display = Templates.Display.Link;
+                            Display = Templates.Display.Url;
                             break;
                         case System.ComponentModel.DataAnnotations.DataType.ImageUrl:
                             Editor = Templates.Editor.File;
@@ -84,7 +84,7 @@ namespace Ilaro.Admin.Core
                             break;
                         case System.ComponentModel.DataAnnotations.DataType.Password:
                             Editor = Templates.Editor.Password;
-                            Display = Templates.Display.Hash;
+                            Display = Templates.Display.Password;
                             break;
                         case System.ComponentModel.DataAnnotations.DataType.Html:
                             Editor = Templates.Editor.Html;
@@ -118,7 +118,7 @@ namespace Ilaro.Admin.Core
                         Display = Templates.Display.DateTime;
                         break;
                     case DataType.Bool:
-                        Editor = Templates.Editor.CheckBox;
+                        Editor = Templates.Editor.Checkbox;
                         Display = Templates.Display.Bool;
                         break;
                     case DataType.File:

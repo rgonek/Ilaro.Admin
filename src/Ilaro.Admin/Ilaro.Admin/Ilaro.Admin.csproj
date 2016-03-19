@@ -307,7 +307,11 @@
     <Compile Include="Registration\ScanningRegistrationExtensions.cs" />
     <Compile Include="IlaroAdmin.cs" />
     <Compile Include="TableInfoModelBinder.cs" />
-    <Compile Include="Templates.cs" />
+    <Compile Include="Templates.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Templates.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CellValue.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\DataRow.cs" />
@@ -545,6 +549,10 @@
     <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
     <EmbeddedResource Include="Scripts\ilaro.js" />
     <EmbeddedResource Include="Scripts\bootstrap.file-input.js" />
+    <Content Include="Templates.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Templates.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -761,7 +769,9 @@
       <LastGenOutput>_PropertyEditor.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
