@@ -74,13 +74,14 @@ namespace Ilaro.Admin
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 
-            foreach(var customizer in Admin.Customizers)
+            foreach (var customizer in Admin.Customizers)
             {
                 var entity = RegisterEntity(customizer.Key);
                 customizer.Value.CustomizeEntity(entity);
             }
 
             SetForeignKeysReferences();
+            SetDisplayProperties();
         }
 
         private static string GetConnectionStringName(string connectionStringName)
@@ -100,6 +101,24 @@ namespace Ilaro.Admin
             return connectionStringName;
         }
 
+        private void SetDisplayProperties()
+        {
+            foreach (var entity in _entitiesTypes.Where(x => x.DisplayProperties.Any() == false))
+            {
+                foreach (var property in entity.GetDefaultDisplayProperties())
+                {
+                    property.IsVisible = true;
+                }
+            }
+            foreach (var entity in _entitiesTypes.Where(x => x.SearchProperties.Any() == false))
+            {
+                foreach (var property in entity.GetDefaultSearchProperties())
+                {
+                    property.IsSearchable = true;
+                }
+            }
+        }
+
         private void SetForeignKeysReferences()
         {
             foreach (var entity in _entitiesTypes)
@@ -111,13 +130,12 @@ namespace Ilaro.Admin
                     if (entityKey == null)
                     {
                         entityKey = entity.Properties.FirstOrDefault(x => x.Name.ToLower() == entity.Name.ToLower() + "id");
-                        if (entityKey == null)
-                        {
-                            throw new Exception("Entity does not have a defined key");
-                        }
                     }
 
-                    entityKey.IsKey = true;
+                    if (entityKey != null)
+                    {
+                        entityKey.IsKey = true;
+                    }
                 }
             }
 
