@@ -7,9 +7,9 @@ using Ilaro.Admin.Configuration.Customizers;
 
 namespace Ilaro.Admin.Registration
 {
-    static class ScanningRegistrationExtensions
+    internal static class ScanningRegistrationExtensions
     {
-        public static RegistrationBuilder RegisterAssemblyTypes(params Assembly[] assemblies)
+        internal static RegistrationBuilder RegisterAssemblyTypes(params Assembly[] assemblies)
         {
             if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
 
@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Registration
             return rb;
         }
 
-        public static RegistrationBuilder RegisterTypes(params Type[] types)
+        internal static RegistrationBuilder RegisterTypes(params Type[] types)
         {
             if (types == null) throw new ArgumentNullException(nameof(types));
 
@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Registration
             return rb;
         }
 
-        public static RegistrationBuilder RegisterAssemblyCustomizators(params Assembly[] assemblies)
+        internal static RegistrationBuilder RegisterAssemblyCustomizators(params Assembly[] assemblies)
         {
             if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
 
@@ -45,7 +45,7 @@ namespace Ilaro.Admin.Registration
             return rb;
         }
 
-        public static RegistrationBuilder RegisterCustomizators(params Type[] types)
+        internal static RegistrationBuilder RegisterCustomizators(params Type[] types)
         {
             if (types == null) throw new ArgumentNullException(nameof(types));
 

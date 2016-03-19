@@ -7,11 +7,11 @@ using Resources;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
-    public class CustomizersHolder : ICustomizersHolder
+    internal class CustomizersHolder : ICustomizersHolder
     {
         public Type Type { get; private set; }
-        public ClassCustomizerHolder ClassCustomizer { get; } = new ClassCustomizerHolder();
-        public IDictionary<MemberInfo, PropertyCustomizerHolder> PropertyCustomizers { get; } =
+        private ClassCustomizerHolder _classCustomizer { get; } = new ClassCustomizerHolder();
+        private IDictionary<MemberInfo, PropertyCustomizerHolder> _propertyCustomizers { get; } =
             new Dictionary<MemberInfo, PropertyCustomizerHolder>();
 
         public CustomizersHolder(Type type)
@@ -29,27 +29,27 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public void DisplayFormat(string displayFormat)
         {
-            ClassCustomizer.DisplayFormat = displayFormat;
+            _classCustomizer.DisplayFormat = displayFormat;
         }
 
         public void DisplayLink(string displayLink)
         {
-            ClassCustomizer.DisplayLink = displayLink;
+            _classCustomizer.DisplayLink = displayLink;
         }
 
         public void EditLink(string editLink)
         {
-            ClassCustomizer.EditLink = editLink;
+            _classCustomizer.EditLink = editLink;
         }
 
         public void DeleteLink(string deleteLink)
         {
-            ClassCustomizer.DeleteLink = deleteLink;
+            _classCustomizer.DeleteLink = deleteLink;
         }
 
         public void Group(string group)
         {
-            ClassCustomizer.Group = group;
+            _classCustomizer.Group = group;
         }
 
         public void SearchProperties(IEnumerable<MemberInfo> searchProperties)
@@ -62,8 +62,8 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public void Table(string tableName, string schema = null)
         {
-            ClassCustomizer.Table = tableName;
-            ClassCustomizer.Schema = schema;
+            _classCustomizer.Table = tableName;
+            _classCustomizer.Schema = schema;
         }
 
         public void Id(IEnumerable<MemberInfo> idProperties)
@@ -76,8 +76,8 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public void Display(string singular, string plural)
         {
-            ClassCustomizer.NameSingular = singular;
-            ClassCustomizer.NamePlural = plural;
+            _classCustomizer.NameSingular = singular;
+            _classCustomizer.NamePlural = plural;
         }
 
         public void PropertyGroup(
@@ -85,7 +85,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             bool isCollapsed,
             IEnumerable<MemberInfo> properties)
         {
-            ClassCustomizer.Groups[groupName] = isCollapsed;
+            _classCustomizer.Groups[groupName] = isCollapsed;
             foreach (var property in properties)
             {
                 GetPropertyCustomizer(property).Group = groupName;
@@ -100,33 +100,33 @@ namespace Ilaro.Admin.Configuration.Customizers
         internal PropertyCustomizerHolder GetPropertyCustomizer(MemberInfo memberInfo)
         {
             var propertyInfo = (PropertyInfo)memberInfo;
-            if (PropertyCustomizers.ContainsKey(propertyInfo) == false)
+            if (_propertyCustomizers.ContainsKey(propertyInfo) == false)
             {
-                PropertyCustomizers[propertyInfo] = new PropertyCustomizerHolder();
+                _propertyCustomizers[propertyInfo] = new PropertyCustomizerHolder();
             }
-            return PropertyCustomizers[propertyInfo];
+            return _propertyCustomizers[propertyInfo];
         }
 
         public void CustomizeEntity(Entity entity)
         {
             entity.SetTableName(
-                ClassCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
-                ClassCustomizer.Schema);
+                _classCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
+                _classCustomizer.Schema);
 
-            entity.Verbose.Singular = ClassCustomizer.NameSingular
+            entity.Verbose.Singular = _classCustomizer.NameSingular
                 .GetValueOrDefault(Type.Name.SplitCamelCase());
-            entity.Verbose.Plural = ClassCustomizer.NamePlural
+            entity.Verbose.Plural = _classCustomizer.NamePlural
                 .GetValueOrDefault(entity.Verbose.Singular.Pluralize().SplitCamelCase());
-            entity.Verbose.Group = ClassCustomizer.Group
+            entity.Verbose.Group = _classCustomizer.Group
                 .GetValueOrDefault(IlaroAdminResources.Others);
 
-            entity.RecordDisplayFormat = ClassCustomizer.DisplayFormat;
+            entity.RecordDisplayFormat = _classCustomizer.DisplayFormat;
 
-            entity.Links.Display = ClassCustomizer.DisplayLink;
-            entity.Links.Edit = ClassCustomizer.EditLink;
-            entity.Links.Delete = ClassCustomizer.DeleteLink;
+            entity.Links.Display = _classCustomizer.DisplayLink;
+            entity.Links.Edit = _classCustomizer.EditLink;
+            entity.Links.Delete = _classCustomizer.DeleteLink;
 
-            foreach (var customizerPair in PropertyCustomizers)
+            foreach (var customizerPair in _propertyCustomizers)
             {
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];

@@ -6,21 +6,21 @@ using System.Reflection;
 
 namespace Ilaro.Admin.Configuration
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         private const BindingFlags PropertiesOfClassHierarchy = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
 
-        public static IEnumerable<MemberInfo> DecodeMemberAccessExpression<TEntity>(params Expression<Func<TEntity, object>>[] expressions)
+        internal static IEnumerable<MemberInfo> DecodeMemberAccessExpression<TEntity>(params Expression<Func<TEntity, object>>[] expressions)
         {
             return expressions.Select(x => DecodeMemberAccessExpression<TEntity, object>(x));
         }
 
-        public static MemberInfo DecodeMemberAccessExpression<TEntity>(Expression<Func<TEntity, object>> expression)
+        internal static MemberInfo DecodeMemberAccessExpression<TEntity>(Expression<Func<TEntity, object>> expression)
         {
             return DecodeMemberAccessExpression<TEntity, object>(expression);
         }
 
-        public static MemberInfo DecodeMemberAccessExpression<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression)
+        internal static MemberInfo DecodeMemberAccessExpression<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression)
         {
             if (expression.Body.NodeType != ExpressionType.MemberAccess)
             {
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Configuration
         /// <typeparam name="TEntity">Type to reflect</typeparam>
         /// <param name="expression">The expression of the property getter</param>
         /// <returns>The <see cref="MemberInfo"/> os the ReflectedType. </returns>
-        public static IEnumerable<MemberInfo> DecodeMemberAccessExpressionOf<TEntity>(params Expression<Func<TEntity, object>>[] expressions)
+        internal static IEnumerable<MemberInfo> DecodeMemberAccessExpressionOf<TEntity>(params Expression<Func<TEntity, object>>[] expressions)
         {
             return expressions.Select(x => DecodeMemberAccessExpressionOf(x));
         }
@@ -52,7 +52,7 @@ namespace Ilaro.Admin.Configuration
         /// <typeparam name="TProperty">Type of property</typeparam>
         /// <param name="expression">The expression of the property getter</param>
         /// <returns>The <see cref="MemberInfo"/> os the ReflectedType. </returns>
-        public static MemberInfo DecodeMemberAccessExpressionOf<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression)
+        internal static MemberInfo DecodeMemberAccessExpressionOf<TEntity, TProperty>(Expression<Func<TEntity, TProperty>> expression)
         {
             var memberOfDeclaringType = DecodeMemberAccessExpression(expression);
             if (typeof(TEntity).IsInterface)
@@ -73,14 +73,14 @@ namespace Ilaro.Admin.Configuration
             throw new NotSupportedException();
         }
 
-        public static T GetAttribute<T>(this object[] attributes)
+        internal static T GetAttribute<T>(this object[] attributes)
         {
             return attributes
                 .OfType<T>()
                 .FirstOrDefault();
         }
 
-        public static IEnumerable<T> GetAttributes<T>(this object[] attributes)
+        internal static IEnumerable<T> GetAttributes<T>(this object[] attributes)
         {
             return attributes
                 .OfType<T>();

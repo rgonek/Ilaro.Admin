@@ -8,8 +8,6 @@ namespace Ilaro.Admin.Configuration.Customizers
     public interface ICustomizersHolder
     {
         Type Type { get; }
-        ClassCustomizerHolder ClassCustomizer { get; }
-        IDictionary<MemberInfo, PropertyCustomizerHolder> PropertyCustomizers { get; }
 
         void Table(string tableName, string schema = null);
         void Id(IEnumerable<MemberInfo> idProperties);
