@@ -62,7 +62,7 @@ void ReadAllTemplates(string templateFolder)
     foreach (var viewGroup in Views)
     {
         var path = templateFolder + "\\" + viewGroup.Key + "Templates";
-        var files = Directory.GetFiles(path, "*.cshtml");
+        var files = Directory.GetFiles(path, "*Partial.cshtml");
         foreach (var file in files)
         {
             var fileName = Path.GetFileNameWithoutExtension(file);
