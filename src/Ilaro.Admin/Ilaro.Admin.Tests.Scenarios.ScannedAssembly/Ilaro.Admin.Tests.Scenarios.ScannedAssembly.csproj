@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Configurators\CategoryConfigurator.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Product.cs" />
@@ -51,6 +52,12 @@
     <Compile Include="TestEnum.cs" />
     <Compile Include="TestInterface.cs" />
     <Compile Include="User.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin\Ilaro.Admin.csproj">
+      <Project>{87db09c0-33de-4198-95db-7c157d1a705c}</Project>
+      <Name>Ilaro.Admin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
