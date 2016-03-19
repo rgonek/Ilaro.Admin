@@ -104,6 +104,7 @@ namespace Ilaro.Admin.Core
 
             Type = type;
             Name = Type.Name;
+            SetTableName(Name.Pluralize());
 
             Properties = type.GetProperties()
                 .Select(x => new Property(this, x))

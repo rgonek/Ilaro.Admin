@@ -7,7 +7,7 @@ using Simple.Data;
 
 namespace Ilaro.Admin.Tests
 {
-    public class SqlServerDatabaseTest
+    public class SqlServerDatabaseTest : TestBase
     {
         protected dynamic DB { get; private set; }
 
@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Tests
             get { return "IlaroTestDb"; }
         }
 
-        public SqlServerDatabaseTest()
+        public SqlServerDatabaseTest() : base()
         {
             RecreateDatabase();
 
