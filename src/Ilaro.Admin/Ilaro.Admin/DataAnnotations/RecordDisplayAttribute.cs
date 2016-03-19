@@ -9,14 +9,14 @@ namespace Ilaro.Admin.DataAnnotations
     /// and it be replaced by it's value
     /// It's used for displaying editors for foreign entity
     /// </summary>
-	[AttributeUsage(AttributeTargets.Class)]
-	public class RecordDisplayAttribute : Attribute
-	{
-		public string DisplayFormat { get; set; }
+    [AttributeUsage(AttributeTargets.Class)]
+    public class RecordDisplayAttribute : Attribute
+    {
+        public string DisplayFormat { get; set; }
 
-		public RecordDisplayAttribute(string displayFormat)
-		{
-			DisplayFormat = displayFormat;
-		}
-	}
+        public RecordDisplayAttribute(string displayFormat)
+        {
+            DisplayFormat = displayFormat;
+        }
+    }
 }
