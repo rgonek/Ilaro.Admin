@@ -5,12 +5,12 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
+using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsUpdater_ : SqlServerDatabaseTest
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private readonly IUpdatingRecords _updater;
         private readonly IProvidingUser _user;
@@ -19,15 +19,13 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         public RecordsUpdater_()
         {
-            _admin = new IlaroAdmin();
-
             _source = new RecordsSource(_admin, new Notificator());
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
             _updater = new RecordsUpdater(_admin, executor, _source);
-            _admin.RegisterEntity<Product>();
-            _admin.RegisterEntity<Category>();
+            Entity<Product>.RegisterWithAttributes();
+            Entity<Category>.RegisterWithAttributes();
             _admin.Initialise(ConnectionStringName);
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;

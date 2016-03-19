@@ -131,10 +131,11 @@ namespace Ilaro.Admin.Configuration.Customizers
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];
 
-                property.IsVisible = propertyCustomizer.IsVisible
-                    .GetValueOrDefault(true);
-                property.IsSearchable = propertyCustomizer.IsSearchable
-                    .GetValueOrDefault(true);
+                if (propertyCustomizer.IsVisible.HasValue)
+                    property.IsVisible = propertyCustomizer.IsVisible.Value;
+                if (propertyCustomizer.IsSearchable.HasValue)
+                    property.IsSearchable = propertyCustomizer.IsSearchable.Value;
+
                 property.IsKey = propertyCustomizer.IsKey.GetValueOrDefault(false);
                 property.ColumnName = propertyCustomizer.Column
                     .GetValueOrDefault(property.Name);

@@ -2,26 +2,16 @@
 using Ilaro.Admin.Tests.Scenarios.ScannedAssembly.Models;
 using System.Reflection;
 using Xunit;
-using System.Web.Mvc;
-using FakeItEasy;
 using Ilaro.Admin.Sample.Configurators;
 
 namespace Ilaro.Admin.Tests.Registration
 {
-    public class EntitiesRegistration_
+    public class EntitiesRegistration_ : TestBase
     {
-        private readonly IIlaroAdmin _admin;
         private readonly Assembly _testAssembly;
 
         public EntitiesRegistration_()
         {
-            _admin = new IlaroAdmin();
-
-            var resolver = A.Fake<IDependencyResolver>();
-            DependencyResolver.SetResolver(resolver);
-            A.CallTo(() => resolver.GetService(typeof(IIlaroAdmin)))
-                .Returns(_admin);
-
             _testAssembly = typeof(Scenarios.ScannedAssembly.Entity).Assembly;
         }
 
@@ -30,6 +20,7 @@ namespace Ilaro.Admin.Tests.Registration
         {
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
+            _admin.Initialise();
 
             Assert.NotNull(_admin.GetEntity<Car>());
             Assert.NotNull(_admin.GetEntity<Product>());
@@ -46,6 +37,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Except<Entity>()
                 .Register();
+            _admin.Initialise();
 
             Assert.Null(_admin.GetEntity<Entity>());
             Assert.NotNull(_admin.GetEntity<Car>());
@@ -61,6 +53,7 @@ namespace Ilaro.Admin.Tests.Registration
         {
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
+            _admin.Initialise();
 
             Assert.Null(_admin.GetEntity(typeof(TestEnum)));
         }
@@ -70,6 +63,7 @@ namespace Ilaro.Admin.Tests.Registration
         {
             Admin.AssemblyEntities(_testAssembly)
                 .Register();
+            _admin.Initialise();
 
             Assert.Null(_admin.GetEntity<TestInterface>());
         }
@@ -80,6 +74,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Where(type => type.Namespace.EndsWith("Models"))
                 .Register();
+            _admin.Initialise();
 
             Assert.NotNull(_admin.GetEntity<Car>());
             Assert.NotNull(_admin.GetEntity<Product>());
@@ -96,6 +91,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .InNamespaceOf<Car>()
                 .Register();
+            _admin.Initialise();
 
             Assert.NotNull(_admin.GetEntity<Car>());
             Assert.NotNull(_admin.GetEntity<Product>());
@@ -112,6 +108,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .Where(type => type.IsSubclassOf(typeof(Entity)))
                 .Register();
+            _admin.Initialise();
 
             Assert.NotNull(_admin.GetEntity<Category>());
             Assert.NotNull(_admin.GetEntity<Role>());
@@ -128,6 +125,7 @@ namespace Ilaro.Admin.Tests.Registration
             Admin.AssemblyEntities(_testAssembly)
                 .InNamespace("Ilaro.Admin.Sample.Configurators")
                 .Register();
+            _admin.Initialise();
 
             Assert.Null(_admin.GetEntity<CategoryConfigurator>());
         }

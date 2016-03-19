@@ -1,4 +1,5 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
@@ -7,17 +8,14 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_DetermineDisplayValue : SqlServerDatabaseTest
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
 
         public RecordsSource_DetermineDisplayValue()
         {
-            _admin = new IlaroAdmin();
-
             _source = new RecordsSource(_admin, new Notificator());
-            _admin.RegisterEntity<Product>();
-            _admin.RegisterEntity<Customer>();
-            _admin.RegisterEntity<EmployeeTerritory>();
+            Entity<Product>.RegisterWithAttributes();
+            Entity<Customer>.RegisterWithAttributes();
+            Entity<EmployeeTerritory>.RegisterWithAttributes();
             _admin.Initialise(ConnectionStringName);
         }
 

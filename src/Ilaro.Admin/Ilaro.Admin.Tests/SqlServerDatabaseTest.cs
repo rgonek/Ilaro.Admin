@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Tests
             get { return "IlaroTestDb"; }
         }
 
-        public SqlServerDatabaseTest() : base()
+        public SqlServerDatabaseTest()
         {
             RecreateDatabase();
 

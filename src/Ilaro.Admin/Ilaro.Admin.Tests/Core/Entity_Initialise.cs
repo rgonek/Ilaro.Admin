@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Tests.Core
         }
 
         [Fact]
-        public void Test()
+        public void default_table_name_should_be_created()
         {
             var entity = _admin.RegisterEntity<EntityChange>();
             _admin.Initialise();
