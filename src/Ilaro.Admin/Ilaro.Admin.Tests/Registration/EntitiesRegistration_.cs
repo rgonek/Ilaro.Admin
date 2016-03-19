@@ -4,6 +4,7 @@ using System.Reflection;
 using Xunit;
 using System.Web.Mvc;
 using FakeItEasy;
+using Ilaro.Admin.Sample.Configurators;
 
 namespace Ilaro.Admin.Tests.Registration
 {
@@ -119,6 +120,16 @@ namespace Ilaro.Admin.Tests.Registration
             Assert.Null(_admin.GetEntity<Entity>());
             Assert.Null(_admin.GetEntity<Order>());
             Assert.Null(_admin.GetEntity<User>());
+        }
+
+        [Fact]
+        public void when_registering_entities__exclude_entity_configurators()
+        {
+            Admin.AssemblyEntities(_testAssembly)
+                .InNamespace("Ilaro.Admin.Sample.Configurators")
+                .Register();
+
+            Assert.Null(_admin.GetEntity<CategoryConfigurator>());
         }
     }
 }
