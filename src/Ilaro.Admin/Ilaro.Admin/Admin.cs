@@ -19,14 +19,24 @@ namespace Ilaro.Admin
             }
         }
 
-        public static Entity RegisterEntity<TEntity>() where TEntity : class
+        public static EntityCustomizer<TEntity> RegisterEntity<TEntity>() where TEntity : class
         {
-            return RegisterEntity(typeof(TEntity));
+            return Current.RegisterEntity<TEntity>();
         }
 
-        public static Entity RegisterEntity(Type entityType)
+        public static void RegisterEntity(Type entityType)
         {
-            return Current.RegisterEntity(entityType);
+            Current.RegisterEntity(entityType);
+        }
+
+        public static EntityCustomizer<TEntity> RegisterEntityWithAttributes<TEntity>() where TEntity : class
+        {
+            return Current.RegisterEntityWithAttributes<TEntity>();
+        }
+
+        public static void RegisterEntityWithAttributes(Type entityType)
+        {
+            Current.RegisterEntityWithAttributes(entityType);
         }
 
         internal static IDictionary<Type, ICustomizersHolder> Customizers { get; }
