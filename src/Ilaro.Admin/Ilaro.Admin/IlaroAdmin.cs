@@ -1,4 +1,6 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Configuration.Customizers;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System;
 using System.Collections.Generic;
@@ -36,17 +38,33 @@ namespace Ilaro.Admin
         public string ConnectionStringName { get; private set; }
         public string RoutesPrefix { get; private set; }
 
-        public Entity RegisterEntity(Type entityType)
+        public void RegisterEntity(Type entityType)
         {
-            var entity = new Entity(entityType);
-            _entitiesTypes.Add(entity);
-
-            return entity;
+            var customizerHolder = new CustomizersHolder(entityType);
+            Admin.AddCustomizer(customizerHolder);
         }
 
-        public Entity RegisterEntity<TEntity>() where TEntity : class
+        public EntityCustomizer<TEntity> RegisterEntity<TEntity>() where TEntity : class
         {
-            return RegisterEntity(typeof(TEntity));
+            var customizerHolder = new CustomizersHolder(typeof(TEntity));
+            Admin.AddCustomizer(customizerHolder);
+            return new EntityCustomizer<TEntity>(customizerHolder);
+        }
+
+        public void RegisterEntityWithAttributes(Type entityType)
+        {
+            var customizerHolder = new CustomizersHolder(entityType);
+            Admin.AddCustomizer(customizerHolder);
+            AttributesConfigurator.Initialise(customizerHolder);
+        }
+
+        public EntityCustomizer<TEntity> RegisterEntityWithAttributes<TEntity>() where TEntity : class
+        {
+            var customizerHolder = new CustomizersHolder(typeof(TEntity));
+            Admin.AddCustomizer(customizerHolder);
+            AttributesConfigurator.Initialise(customizerHolder);
+            var customizer = new EntityCustomizer<TEntity>(customizerHolder);
+            return customizer;
         }
 
         public Entity GetEntity(string entityName)
@@ -76,12 +94,19 @@ namespace Ilaro.Admin
 
             foreach (var customizer in Admin.Customizers)
             {
-                var entity = RegisterEntity(customizer.Key);
+                var entity = CreateInstance(customizer.Key);
                 customizer.Value.CustomizeEntity(entity);
             }
 
             SetForeignKeysReferences();
             SetDisplayProperties();
+        }
+
+        private Entity CreateInstance(Type entityType)
+        {
+            var entity = new Entity(entityType);
+            _entitiesTypes.Add(entity);
+            return entity;
         }
 
         private static string GetConnectionStringName(string connectionStringName)
