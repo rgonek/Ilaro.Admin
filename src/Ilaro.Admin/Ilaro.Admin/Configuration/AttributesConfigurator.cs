@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Configuration
 {
     internal static class AttributesConfigurator
     {
-        internal static void Initialise(CustomizersHolder customizerHolder)
+        internal static void Initialise(ICustomizersHolder customizerHolder)
         {
             var attributes = customizerHolder.Type.GetCustomAttributes(false);
 
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void Table(
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<TableAttribute>();
@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void SearchProperties(
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<SearchAttribute>();
@@ -64,7 +64,7 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void DisplayFormat(
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<RecordDisplayAttribute>();
@@ -75,7 +75,7 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void SetColumns(
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<ColumnsAttribute>();
@@ -88,7 +88,7 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void SetGroups(
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<GroupsAttribute>();
@@ -106,7 +106,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void DataType(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var dataTypeAttribute = attributes.GetAttribute<DataTypeAttribute>();
@@ -156,7 +156,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void FileOptions(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var fileAttribute = attributes.GetAttribute<FileAttribute>();
@@ -176,7 +176,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void ImageSettings(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var imageSettingsAttributes = attributes
@@ -198,7 +198,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void DefaultValue(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<DefaultValueAttribute>();
@@ -213,7 +213,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void Template(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var uiHintAttribute = attributes.GetAttribute<UIHintAttribute>();
@@ -246,7 +246,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void Id(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<KeyAttribute>();
@@ -261,7 +261,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void OnDelete(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<OnDeleteAttribute>();
@@ -276,7 +276,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void Column(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<ColumnAttribute>();
@@ -291,7 +291,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void Display(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<DisplayAttribute>();
@@ -306,7 +306,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void PropertyDisplayFormat(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<DisplayFormatAttribute>();
@@ -321,7 +321,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void Required(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<RequiredAttribute>();
@@ -336,7 +336,7 @@ namespace Ilaro.Admin.Configuration
 
         private static void ForeignKey(
             MemberInfo member,
-            CustomizersHolder customizerHolder,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<ForeignKeyAttribute>();

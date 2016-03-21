@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Configuration.Customizers;
+using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Registration
 {
@@ -11,9 +13,9 @@ namespace Ilaro.Admin.Registration
         /// </summary>
         public ICollection<Func<Type, bool>> Filters { get; } = new List<Func<Type, bool>>();
 
-        private ICollection<Action> _configurationCallbacks = new List<Action>();
+        private ICollection<Action<Action<ICustomizersHolder>>> _configurationCallbacks = new List<Action<Action<ICustomizersHolder>>>();
 
-        internal void RegisterCallback(Action configurationCallback)
+        internal void RegisterCallback(Action<Action<ICustomizersHolder>> configurationCallback)
         {
             _configurationCallbacks.Add(configurationCallback);
         }
@@ -43,9 +45,17 @@ namespace Ilaro.Admin.Registration
 
         public void Register()
         {
-            foreach(var callback in _configurationCallbacks)
+            foreach (var callback in _configurationCallbacks)
             {
-                callback();
+                callback(customizer => { });
+            }
+        }
+
+        public void RegisterWithAttributes()
+        {
+            foreach (var callback in _configurationCallbacks)
+            {
+                callback(customizer => { AttributesConfigurator.Initialise(customizer); });
             }
         }
     }

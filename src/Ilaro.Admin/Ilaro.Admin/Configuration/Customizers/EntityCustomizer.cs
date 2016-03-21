@@ -163,6 +163,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public EntityCustomizer<TEntity> WithAttributes()
+        {
+            AttributesConfigurator.Initialise(CustomizersHolder);
+
+            return this;
+        }
+
         protected virtual void RegisterPropertyCustomizer<TProperty>(
             Expression<Func<TEntity, TProperty>> property,
             Action<IPropertyCustomizer> customizer)

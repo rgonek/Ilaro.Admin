@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Registration
             var rb = new RegistrationBuilder();
             rb.Where(type => !typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(() => ScanAssemblies(assemblies, rb));
+            rb.RegisterCallback(customizerMutator => ScanAssemblies(assemblies, rb, customizerMutator));
 
             return rb;
         }
@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Registration
             var rb = new RegistrationBuilder();
             rb.Where(type => !typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(() => ScanTypes(types, rb));
+            rb.RegisterCallback(customizerMutator => ScanTypes(types, rb, customizerMutator));
 
             return rb;
         }
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Registration
             var rb = new RegistrationBuilder();
             rb.Where(type => typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(() => ScanAssembliesCustomizators(assemblies, rb));
+            rb.RegisterCallback(customizerMutator => ScanAssembliesCustomizators(assemblies, rb, customizerMutator));
 
             return rb;
         }
@@ -52,35 +52,54 @@ namespace Ilaro.Admin.Registration
             var rb = new RegistrationBuilder();
             rb.Where(type => typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(() => ScanTypesCustomizators(types, rb));
+            rb.RegisterCallback(customizerMutator => ScanTypesCustomizators(types, rb, customizerMutator));
 
             return rb;
         }
 
-        private static void ScanAssemblies(IEnumerable<Assembly> assemblies, RegistrationBuilder rb)
+        private static void ScanAssemblies(
+            IEnumerable<Assembly> assemblies,
+            RegistrationBuilder rb,
+            Action<ICustomizersHolder> customizerMutator)
         {
-            ScanTypes(assemblies.SelectMany(a => a.GetLoadableTypes()), rb);
+            ScanTypes(assemblies.SelectMany(a => a.GetLoadableTypes()), rb, customizerMutator);
         }
 
-        private static void ScanTypes(IEnumerable<Type> types, RegistrationBuilder rb)
+        private static void ScanTypes(
+            IEnumerable<Type> types,
+            RegistrationBuilder rb,
+            Action<ICustomizersHolder> customizerMutator)
         {
             foreach (var type in GetTypes(types, rb))
             {
                 var customizerHolder = new CustomizersHolder(type);
+                if (customizerMutator != null)
+                    customizerMutator(customizerHolder);
+
                 Admin.AddCustomizer(customizerHolder);
             }
         }
 
-        private static void ScanAssembliesCustomizators(IEnumerable<Assembly> assemblies, RegistrationBuilder rb)
+        private static void ScanAssembliesCustomizators(
+            IEnumerable<Assembly> assemblies,
+            RegistrationBuilder rb,
+            Action<ICustomizersHolder> customizerMutator)
         {
-            ScanTypesCustomizators(assemblies.SelectMany(a => a.GetLoadableTypes()), rb);
+            ScanTypesCustomizators(assemblies.SelectMany(a => a.GetLoadableTypes()), rb, customizerMutator);
         }
 
-        private static void ScanTypesCustomizators(IEnumerable<Type> types, RegistrationBuilder rb)
+        private static void ScanTypesCustomizators(
+            IEnumerable<Type> types,
+            RegistrationBuilder rb,
+            Action<ICustomizersHolder> customizerMutator)
         {
             foreach (var type in GetTypes(types, rb))
             {
                 var customizer = GetCustomizerInstance(type);
+                if (customizerMutator != null)
+                {
+                    // it shouldn't be there
+                }
 
                 Admin.AddCustomizer(customizer.CustomizersHolder);
             }
