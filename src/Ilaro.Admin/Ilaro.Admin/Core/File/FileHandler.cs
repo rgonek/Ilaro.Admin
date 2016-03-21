@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Core.File
         {
             var proccessedProperties = new List<Property>();
             foreach (var property in entity
-                .CreateProperties(getForeignCollection: false)
+                .GetDefaultCreateProperties(getForeignCollection: false)
                 .Where(x => x.TypeInfo.IsFile))
             {
                 if (property.Value.Raw.IsBehavior(DataBehavior.Clear))

@@ -38,23 +38,23 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public Links(object[] attributes)
+        public Links()
         {
-            var linksAttribute =
-                attributes.OfType<LinksAttribute>().FirstOrDefault();
-            if (linksAttribute != null)
-            {
-                Display = linksAttribute.DisplayLink;
-                Edit = linksAttribute.EditLink;
-                Delete = linksAttribute.DeleteLink;
-                HasEdit = linksAttribute.HasEditLink;
-                HasDelete = linksAttribute.HasDeleteLink;
-            }
-            else
-            {
-                HasEdit = true;
-                HasDelete = true;
-            }
+            //var linksAttribute =
+            //    attributes.OfType<LinksAttribute>().FirstOrDefault();
+            //if (linksAttribute != null)
+            //{
+            //    Display = linksAttribute.DisplayLink;
+            //    Edit = linksAttribute.EditLink;
+            //    Delete = linksAttribute.DeleteLink;
+            //    HasEdit = linksAttribute.HasEditLink;
+            //    HasDelete = linksAttribute.HasDeleteLink;
+            //}
+            //else
+            //{
+            //    HasEdit = true;
+            //    HasDelete = true;
+            //}
         }
     }
 }

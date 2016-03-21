@@ -215,7 +215,7 @@ ORDER BY {5};";
                 ParentHierarchy = parent
             };
 
-            foreach (var property in entity.CreateProperties()
+            foreach (var property in entity.GetDefaultCreateProperties()
                 .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
                 .Where(property =>
                     parent == null ||
@@ -231,7 +231,7 @@ ORDER BY {5};";
         }
 
         // TODO: test it
-        //			SELECT [t0].*, [t1].*, [t2].*
+        //SELECT [t0].*, [t1].*, [t2].*
         //FROM [Categories] AS [t0]
         //LEFT OUTER JOIN [Products] AS [t1] ON [t1].[CategoryID] = [t0].[CategoryID]
         //LEFT OUTER JOIN [Suppliers] AS [t2] ON [t2].[SupplierID] = [t1].[SupplierID]

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Ilaro.Admin.DataAnnotations;
-using Ilaro.Admin.Extensions;
+﻿using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Core
 {
@@ -10,39 +7,13 @@ namespace Ilaro.Admin.Core
         public string Editor { get; internal set; }
         public string Display { get; internal set; }
 
-        public PropertyTemplate(object[] attributes, PropertyTypeInfo typeInfo, bool isForeignKey)
+        public PropertyTemplate(PropertyTypeInfo typeInfo, bool isForeignKey)
         {
-            SetTemplatesName(attributes, typeInfo, isForeignKey);
+            SetTemplatesName(typeInfo, isForeignKey);
         }
 
-        private void SetTemplatesName(object[] attributes, PropertyTypeInfo typeInfo, bool isForeignKey)
+        private void SetTemplatesName(PropertyTypeInfo typeInfo, bool isForeignKey)
         {
-            var uiHintAttribute = attributes
-                .FirstOrDefault(x =>
-                    x.GetType() == typeof(UIHintAttribute)) as UIHintAttribute;
-            var templateAttribute = attributes
-                .FirstOrDefault(x =>
-                    x.GetType() == typeof(TemplateAttribute)) as TemplateAttribute;
-            if (uiHintAttribute != null || templateAttribute != null)
-            {
-                if (uiHintAttribute != null)
-                {
-                    Editor = Display = uiHintAttribute.UIHint;
-                }
-                if (templateAttribute != null)
-                {
-                    if (!templateAttribute.DisplayTemplate.IsNullOrEmpty())
-                    {
-                        Display = templateAttribute.DisplayTemplate;
-                    }
-                    if (!templateAttribute.EditorTemplate.IsNullOrEmpty())
-                    {
-                        Editor = templateAttribute.EditorTemplate;
-                    }
-                }
-            }
-            else
-            {
                 if (isForeignKey)
                 {
                     Editor = typeInfo.IsCollection ?
@@ -142,5 +113,4 @@ namespace Ilaro.Admin.Core
                 }
             }
         }
-    }
 }

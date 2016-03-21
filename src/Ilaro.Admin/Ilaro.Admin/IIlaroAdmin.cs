@@ -1,4 +1,5 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration.Customizers;
+using Ilaro.Admin.Core;
 using System;
 using System.Collections.ObjectModel;
 using System.Web.Mvc;
@@ -15,11 +16,15 @@ namespace Ilaro.Admin
         string ConnectionStringName { get; }
         string RoutesPrefix { get; }
 
-        Entity RegisterEntity(Type entityType);
-        Entity RegisterEntity<TEntity>();
+        void RegisterEntity(Type entityType);
+        EntityCustomizer<TEntity> RegisterEntity<TEntity>() where TEntity : class;
+
+        void RegisterEntityWithAttributes(Type entityType);
+        EntityCustomizer<TEntity> RegisterEntityWithAttributes<TEntity>() where TEntity : class;
 
         Entity GetEntity(string entityName);
-        Entity GetEntity<TEntity>();
+        Entity GetEntity(Type type);
+        Entity GetEntity<TEntity>() where TEntity : class;
 
         void Initialise(
             string connectionStringName = "",

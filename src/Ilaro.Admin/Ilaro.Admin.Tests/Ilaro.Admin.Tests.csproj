@@ -93,6 +93,7 @@
     <Compile Include="Core\Data\RecordsSource_EnumEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsUpdater_.cs" />
+    <Compile Include="Core\Entity_Initialise.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
     <Compile Include="DatabaseCommandExecutor.cs" />
     <Compile Include="FakeClock.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration\EntitiesRegistration_.cs" />
     <Compile Include="SqlServerDatabaseTest.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TestEntity.cs" />
     <Compile Include="TestModels\Northwind\Category.cs" />
     <Compile Include="TestModels\Northwind\Customer.cs" />

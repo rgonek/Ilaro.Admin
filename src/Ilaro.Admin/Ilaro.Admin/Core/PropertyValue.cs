@@ -81,20 +81,14 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public IDictionary<string, string> PossibleValues { get; set; }
 
-        public object DefaultValue { get; private set; }
+        public object DefaultValue { get; internal set; }
 
         private readonly PropertyTypeInfo _typeInfo;
 
-        public PropertyValue(object[] attributes, PropertyTypeInfo typeInfo)
+        public PropertyValue(PropertyTypeInfo typeInfo)
         {
             _typeInfo = typeInfo;
             Values = new List<object>();
-
-            var defaultValueAttribute = attributes
-                .FirstOrDefault(x =>
-                    x.GetType() == typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-            if (defaultValueAttribute != null)
-                DefaultValue = defaultValueAttribute.Value;
         }
 
         public object ToObject(string value)

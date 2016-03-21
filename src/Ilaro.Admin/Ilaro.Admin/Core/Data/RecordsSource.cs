@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Core.Data
                 return null;
             }
 
-            foreach (var property in entity.CreateProperties(false))
+            foreach (var property in entity.GetDefaultCreateProperties(false))
             {
                 property.Value.Raw =
                     item.ContainsKey(property.ColumnName.Undecorate()) ?

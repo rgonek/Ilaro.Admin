@@ -187,6 +187,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Filter.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\AttributesConfigurator.cs" />
+    <Compile Include="Configuration\Customizers\ClassCustomizerHolder.cs" />
+    <Compile Include="Configuration\Customizers\CustomizersHolder.cs" />
+    <Compile Include="Configuration\Customizers\IEntityCustomizer.cs" />
+    <Compile Include="Configuration\Customizers\IPropertyCustomizer.cs" />
+    <Compile Include="Configuration\Customizers\PropertyCustomizer.cs" />
+    <Compile Include="Configuration\Entity.cs" />
+    <Compile Include="Configuration\EntityConfiguration.cs" />
+    <Compile Include="Configuration\Customizers\EntityCustomizer.cs" />
+    <Compile Include="Configuration\Customizers\ICustomizersHolder.cs" />
+    <Compile Include="Configuration\Customizers\PropertyCustomizerHolder.cs" />
+    <Compile Include="Configuration\TypeExtensions.cs" />
     <Compile Include="Const.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
@@ -211,6 +223,7 @@
     <Compile Include="Core\Data\IExecutingDbCommand.cs" />
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
+    <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\File\FileDeleter.cs" />
     <Compile Include="Core\File\FileHandler.cs" />
     <Compile Include="Core\File\FileNameCreator.cs" />
@@ -245,7 +258,6 @@
     <Compile Include="Extensions\HtmlHelperTextBoxExtensions.cs" />
     <Compile Include="DataAnnotations\FileOptions.cs" />
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
-    <Compile Include="DataAnnotations\LinkKeyAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />
     <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
     <Compile Include="DataAnnotations\RecordDisplayAttribute.cs" />
@@ -289,13 +301,11 @@
     <Compile Include="Core\EntitySearch.cs" />
     <Compile Include="Filters\EnumEntityFilter.cs" />
     <Compile Include="Filters\ForeignEntityFilter.cs" />
-    <Compile Include="Fluent\EntityFluent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\ComparableExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Fluent\PropertyFluent.cs" />
     <Compile Include="Core\EntityChangeType.cs" />
     <Compile Include="Core\IEntityChange.cs" />
     <Compile Include="Models\TableInfo.cs" />
@@ -786,7 +796,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>23025</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

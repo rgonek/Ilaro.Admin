@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Core.Data
         public void SkipNotChangedProperties(Entity entity, IDictionary<string, object> existingRecord)
         {
             foreach (var property in entity
-                .CreateProperties(getForeignCollection: false)
+                .GetDefaultCreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)
                 .WhereIsNotSkipped())
             {

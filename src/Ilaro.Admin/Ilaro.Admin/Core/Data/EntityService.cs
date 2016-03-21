@@ -155,7 +155,7 @@ namespace Ilaro.Admin.Core.Data
             if (result)
             {
                 var propertiesWithFilesToDelete = entity
-                    .CreateProperties(getForeignCollection: false)
+                    .GetDefaultCreateProperties(getForeignCollection: false)
                     .Where(x => x.TypeInfo.IsFile && x.TypeInfo.IsFileStoredInDb == false);
                 _filesHandler.Delete(propertiesWithFilesToDelete);
             }
@@ -165,7 +165,7 @@ namespace Ilaro.Admin.Core.Data
 
         public IList<GroupProperties> PrepareGroups(Entity entity, bool getKey = true, string key = null)
         {
-            var properties = entity.CreateProperties(getKey);
+            var properties = entity.GetDefaultCreateProperties(getKey);
             foreach (var foreign in properties.Where(x => x.IsForeignKey))
             {
                 var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true).Records;

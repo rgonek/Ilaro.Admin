@@ -1,4 +1,6 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Configuration.Customizers;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System;
 using System.Collections.Generic;
@@ -36,17 +38,33 @@ namespace Ilaro.Admin
         public string ConnectionStringName { get; private set; }
         public string RoutesPrefix { get; private set; }
 
-        public Entity RegisterEntity(Type entityType)
+        public void RegisterEntity(Type entityType)
         {
-            var entity = new Entity(entityType);
-            _entitiesTypes.Add(entity);
-
-            return entity;
+            var customizerHolder = new CustomizersHolder(entityType);
+            Admin.AddCustomizer(customizerHolder);
         }
 
-        public Entity RegisterEntity<TEntity>()
+        public EntityCustomizer<TEntity> RegisterEntity<TEntity>() where TEntity : class
         {
-            return RegisterEntity(typeof(TEntity));
+            var customizerHolder = new CustomizersHolder(typeof(TEntity));
+            Admin.AddCustomizer(customizerHolder);
+            return new EntityCustomizer<TEntity>(customizerHolder);
+        }
+
+        public void RegisterEntityWithAttributes(Type entityType)
+        {
+            var customizerHolder = new CustomizersHolder(entityType);
+            Admin.AddCustomizer(customizerHolder);
+            AttributesConfigurator.Initialise(customizerHolder);
+        }
+
+        public EntityCustomizer<TEntity> RegisterEntityWithAttributes<TEntity>() where TEntity : class
+        {
+            var customizerHolder = new CustomizersHolder(typeof(TEntity));
+            Admin.AddCustomizer(customizerHolder);
+            AttributesConfigurator.Initialise(customizerHolder);
+            var customizer = new EntityCustomizer<TEntity>(customizerHolder);
+            return customizer;
         }
 
         public Entity GetEntity(string entityName)
@@ -54,9 +72,14 @@ namespace Ilaro.Admin
             return _entitiesTypes.FirstOrDefault(x => x.Name == entityName);
         }
 
-        public Entity GetEntity<TEntity>()
+        public Entity GetEntity(Type type)
         {
-            return _entitiesTypes.FirstOrDefault(x => x.Type == typeof(TEntity));
+            return GetEntity(type.Name);
+        }
+
+        public Entity GetEntity<TEntity>() where TEntity : class
+        {
+            return GetEntity(typeof(TEntity));
         }
 
         public void Initialise(
@@ -69,7 +92,21 @@ namespace Ilaro.Admin
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 
+            foreach (var customizer in Admin.Customizers)
+            {
+                var entity = CreateInstance(customizer.Key);
+                customizer.Value.CustomizeEntity(entity);
+            }
+
             SetForeignKeysReferences();
+            SetDisplayProperties();
+        }
+
+        private Entity CreateInstance(Type entityType)
+        {
+            var entity = new Entity(entityType);
+            _entitiesTypes.Add(entity);
+            return entity;
         }
 
         private static string GetConnectionStringName(string connectionStringName)
@@ -89,6 +126,24 @@ namespace Ilaro.Admin
             return connectionStringName;
         }
 
+        private void SetDisplayProperties()
+        {
+            foreach (var entity in _entitiesTypes.Where(x => x.DisplayProperties.Any() == false))
+            {
+                foreach (var property in entity.GetDefaultDisplayProperties())
+                {
+                    property.IsVisible = true;
+                }
+            }
+            foreach (var entity in _entitiesTypes.Where(x => x.SearchProperties.Any() == false))
+            {
+                foreach (var property in entity.GetDefaultSearchProperties())
+                {
+                    property.IsSearchable = true;
+                }
+            }
+        }
+
         private void SetForeignKeysReferences()
         {
             foreach (var entity in _entitiesTypes)
@@ -100,16 +155,11 @@ namespace Ilaro.Admin
                     if (entityKey == null)
                     {
                         entityKey = entity.Properties.FirstOrDefault(x => x.Name.ToLower() == entity.Name.ToLower() + "id");
-                        if (entityKey == null)
-                        {
-                            throw new Exception("Entity does not have a defined key");
-                        }
                     }
 
-                    entityKey.IsKey = true;
-                    if (entity.LinkKey == null)
+                    if (entityKey != null)
                     {
-                        entityKey.IsLinkKey = true;
+                        entityKey.IsKey = true;
                     }
                 }
             }
@@ -150,14 +200,9 @@ namespace Ilaro.Admin
                 foreach (var property in entity.Properties)
                 {
                     property.Template = new PropertyTemplate(
-                        property.Attributes,
                         property.TypeInfo,
                         property.IsForeignKey);
                 }
-
-                entity.SetColumns();
-                entity.SetLinkKey();
-                entity.PrepareGroups();
             }
         }
     }

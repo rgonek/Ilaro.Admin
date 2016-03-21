@@ -4,6 +4,8 @@ using Ilaro.Admin.Core;
 using System.Globalization;
 using System.Reflection;
 using Ilaro.Admin.Registration;
+using Ilaro.Admin.Configuration.Customizers;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin
 {
@@ -17,15 +19,28 @@ namespace Ilaro.Admin
             }
         }
 
-        public static Entity RegisterEntity<TEntity>()
+        public static EntityCustomizer<TEntity> RegisterEntity<TEntity>() where TEntity : class
         {
-            return RegisterEntity(typeof(TEntity));
+            return Current.RegisterEntity<TEntity>();
         }
 
-        public static Entity RegisterEntity(Type entityType)
+        public static void RegisterEntity(Type entityType)
         {
-            return Current.RegisterEntity(entityType);
+            Current.RegisterEntity(entityType);
         }
+
+        public static EntityCustomizer<TEntity> RegisterEntityWithAttributes<TEntity>() where TEntity : class
+        {
+            return Current.RegisterEntityWithAttributes<TEntity>();
+        }
+
+        public static void RegisterEntityWithAttributes(Type entityType)
+        {
+            Current.RegisterEntityWithAttributes(entityType);
+        }
+
+        internal static IDictionary<Type, ICustomizersHolder> Customizers { get; }
+            = new Dictionary<Type, ICustomizersHolder>();
 
         public static IIlaroAdmin Initialise(
             string connectionStringName = "",
@@ -47,6 +62,21 @@ namespace Ilaro.Admin
         public static RegistrationBuilder Entities(params Type[] types)
         {
             return ScanningRegistrationExtensions.RegisterTypes(types);
+        }
+
+        public static RegistrationBuilder AssemblyCustomizators(params Assembly[] assemblies)
+        {
+            return ScanningRegistrationExtensions.RegisterAssemblyCustomizators(assemblies);
+        }
+
+        public static RegistrationBuilder Customizators(params Type[] types)
+        {
+            return ScanningRegistrationExtensions.RegisterCustomizators(types);
+        }
+
+        internal static void AddCustomizer(ICustomizersHolder customizersHolder)
+        {
+            Customizers[customizersHolder.Type] = customizersHolder;
         }
     }
 }

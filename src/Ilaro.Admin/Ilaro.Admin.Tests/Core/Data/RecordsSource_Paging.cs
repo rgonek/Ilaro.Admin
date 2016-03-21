@@ -1,4 +1,5 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
@@ -7,20 +8,17 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_Paging : SqlServerDatabaseTest
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
 
         public RecordsSource_Paging()
         {
-            _admin = new IlaroAdmin();
-
             DB.Products.Insert(ProductName: "Product");
             DB.Products.Insert(ProductName: "Product2");
             DB.Products.Insert(ProductName: "Product3");
 
             _source = new RecordsSource(_admin, new Notificator());
-            _admin.RegisterEntity<Product>();
+            Entity<Product>.RegisterWithAttributes();
             _admin.Initialise(ConnectionStringName);
             _entity = _admin.GetEntity("Product");
         }

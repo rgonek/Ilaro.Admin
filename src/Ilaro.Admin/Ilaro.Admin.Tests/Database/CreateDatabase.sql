@@ -1,7 +1,7 @@
 ﻿USE [master]
 IF (exists (select * from sysdatabases where name='IlaroTestDb'))
 BEGIN
-	return
+    return
 END
 CREATE DATABASE IlaroTestDb;
 GO
@@ -17,13 +17,13 @@ END
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Categories](
-	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
-	[CategoryName] [nvarchar](15) NOT NULL,
-	[Description] [ntext] NULL,
-	[Picture] [image] NULL,
+    [CategoryID] [int] IDENTITY(1,1) NOT NULL,
+    [CategoryName] [nvarchar](15) NOT NULL,
+    [Description] [ntext] NULL,
+    [Picture] [image] NULL,
  CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
 (
-	[CategoryID] ASC
+    [CategoryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -31,12 +31,12 @@ CREATE TABLE [dbo].[Categories](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[CustomerCustomerDemo](
-	[CustomerCustomerDemoID] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerID] [nchar](5) NOT NULL,
-	[CustomerTypeID] [nchar](10) NOT NULL,
+    [CustomerCustomerDemoID] [int] IDENTITY(1,1) NOT NULL,
+    [CustomerID] [nchar](5) NOT NULL,
+    [CustomerTypeID] [nchar](10) NOT NULL,
  CONSTRAINT [PK_CustomerCustomerDemo] PRIMARY KEY NONCLUSTERED 
 (
-	[CustomerCustomerDemoID] ASC
+    [CustomerCustomerDemoID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -44,11 +44,11 @@ CREATE TABLE [dbo].[CustomerCustomerDemo](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[CustomerDemographics](
-	[CustomerTypeID] [nchar](10) NOT NULL,
-	[CustomerDesc] [ntext] NULL,
+    [CustomerTypeID] [nchar](10) NOT NULL,
+    [CustomerDesc] [ntext] NULL,
  CONSTRAINT [PK_CustomerDemographics] PRIMARY KEY NONCLUSTERED 
 (
-	[CustomerTypeID] ASC
+    [CustomerTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -56,20 +56,20 @@ CREATE TABLE [dbo].[CustomerDemographics](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Customers](
-	[CustomerID] [nchar](5) NOT NULL,
-	[CompanyName] [nvarchar](40) NOT NULL,
-	[ContactName] [nvarchar](30) NULL,
-	[ContactTitle] [nvarchar](30) NULL,
-	[Address] [nvarchar](60) NULL,
-	[City] [nvarchar](15) NULL,
-	[Region] [nvarchar](15) NULL,
-	[PostalCode] [nvarchar](10) NULL,
-	[Country] [nvarchar](15) NULL,
-	[Phone] [nvarchar](24) NULL,
-	[Fax] [nvarchar](24) NULL,
+    [CustomerID] [nchar](5) NOT NULL,
+    [CompanyName] [nvarchar](40) NOT NULL,
+    [ContactName] [nvarchar](30) NULL,
+    [ContactTitle] [nvarchar](30) NULL,
+    [Address] [nvarchar](60) NULL,
+    [City] [nvarchar](15) NULL,
+    [Region] [nvarchar](15) NULL,
+    [PostalCode] [nvarchar](10) NULL,
+    [Country] [nvarchar](15) NULL,
+    [Phone] [nvarchar](24) NULL,
+    [Fax] [nvarchar](24) NULL,
  CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED 
 (
-	[CustomerID] ASC
+    [CustomerID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -77,27 +77,27 @@ CREATE TABLE [dbo].[Customers](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Employees](
-	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
-	[LastName] [nvarchar](20) NOT NULL,
-	[FirstName] [nvarchar](10) NOT NULL,
-	[Title] [nvarchar](30) NULL,
-	[TitleOfCourtesy] [nvarchar](25) NULL,
-	[BirthDate] [datetime] NULL,
-	[HireDate] [datetime] NULL,
-	[Address] [nvarchar](60) NULL,
-	[City] [nvarchar](15) NULL,
-	[Region] [nvarchar](15) NULL,
-	[PostalCode] [nvarchar](10) NULL,
-	[Country] [nvarchar](15) NULL,
-	[HomePhone] [nvarchar](24) NULL,
-	[Extension] [nvarchar](4) NULL,
-	[Photo] [image] NULL,
-	[Notes] [ntext] NULL,
-	[ReportsTo] [int] NULL,
-	[PhotoPath] [nvarchar](255) NULL,
+    [EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+    [LastName] [nvarchar](20) NOT NULL,
+    [FirstName] [nvarchar](10) NOT NULL,
+    [Title] [nvarchar](30) NULL,
+    [TitleOfCourtesy] [nvarchar](25) NULL,
+    [BirthDate] [datetime] NULL,
+    [HireDate] [datetime] NULL,
+    [Address] [nvarchar](60) NULL,
+    [City] [nvarchar](15) NULL,
+    [Region] [nvarchar](15) NULL,
+    [PostalCode] [nvarchar](10) NULL,
+    [Country] [nvarchar](15) NULL,
+    [HomePhone] [nvarchar](24) NULL,
+    [Extension] [nvarchar](4) NULL,
+    [Photo] [image] NULL,
+    [Notes] [ntext] NULL,
+    [ReportsTo] [int] NULL,
+    [PhotoPath] [nvarchar](255) NULL,
  CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
 (
-	[EmployeeID] ASC
+    [EmployeeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -105,12 +105,12 @@ CREATE TABLE [dbo].[Employees](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[EmployeeTerritories](
-	[EmployeeTerritoryID] [int] IDENTITY(1,1) NOT NULL,
-	[EmployeeID] [int] NOT NULL,
-	[TerritoryID] [nvarchar](20) NOT NULL,
+    [EmployeeTerritoryID] [int] IDENTITY(1,1) NOT NULL,
+    [EmployeeID] [int] NOT NULL,
+    [TerritoryID] [nvarchar](20) NOT NULL,
  CONSTRAINT [PK_EmployeeTerritories] PRIMARY KEY NONCLUSTERED 
 (
-	[EmployeeTerritoryID] ASC
+    [EmployeeTerritoryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -118,16 +118,16 @@ CREATE TABLE [dbo].[EmployeeTerritories](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[EntityChanges](
-	[EntityChangeId] [int] IDENTITY(1,1) NOT NULL,
-	[EntityName] [nvarchar](100) NOT NULL,
-	[EntityKey] [nvarchar](100) NOT NULL,
-	[ChangeType] [tinyint] NOT NULL,
-	[ChangedOn] [datetime] NOT NULL,
-	[ChangedBy] [nvarchar](100) NULL,
-	[Description] [ntext] NULL,
+    [EntityChangeId] [int] IDENTITY(1,1) NOT NULL,
+    [EntityName] [nvarchar](100) NOT NULL,
+    [EntityKey] [nvarchar](100) NOT NULL,
+    [ChangeType] [tinyint] NOT NULL,
+    [ChangedOn] [datetime] NOT NULL,
+    [ChangedBy] [nvarchar](100) NULL,
+    [Description] [ntext] NULL,
  CONSTRAINT [PK_EntityChanges] PRIMARY KEY CLUSTERED 
 (
-	[EntityChangeId] ASC
+    [EntityChangeId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -135,15 +135,15 @@ CREATE TABLE [dbo].[EntityChanges](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Order Details](
-	[OrderID] [int] NOT NULL,
-	[ProductID] [int] NOT NULL,
-	[UnitPrice] [money] NOT NULL CONSTRAINT [DF_Order_Details_UnitPrice]  DEFAULT ((0)),
-	[Quantity] [smallint] NOT NULL CONSTRAINT [DF_Order_Details_Quantity]  DEFAULT ((1)),
-	[Discount] [real] NOT NULL CONSTRAINT [DF_Order_Details_Discount]  DEFAULT ((0)),
+    [OrderID] [int] NOT NULL,
+    [ProductID] [int] NOT NULL,
+    [UnitPrice] [money] NOT NULL CONSTRAINT [DF_Order_Details_UnitPrice]  DEFAULT ((0)),
+    [Quantity] [smallint] NOT NULL CONSTRAINT [DF_Order_Details_Quantity]  DEFAULT ((1)),
+    [Discount] [real] NOT NULL CONSTRAINT [DF_Order_Details_Discount]  DEFAULT ((0)),
  CONSTRAINT [PK_Order_Details] PRIMARY KEY CLUSTERED 
 (
-	[OrderID] ASC,
-	[ProductID] ASC
+    [OrderID] ASC,
+    [ProductID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -151,23 +151,23 @@ CREATE TABLE [dbo].[Order Details](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Orders](
-	[OrderID] [int] IDENTITY(1,1) NOT NULL,
-	[CustomerID] [nchar](5) NULL,
-	[EmployeeID] [int] NULL,
-	[OrderDate] [datetime] NULL,
-	[RequiredDate] [datetime] NULL,
-	[ShippedDate] [datetime] NULL,
-	[ShipVia] [int] NULL,
-	[Freight] [money] NULL CONSTRAINT [DF_Orders_Freight]  DEFAULT (0),
-	[ShipName] [nvarchar](40) NULL,
-	[ShipAddress] [nvarchar](60) NULL,
-	[ShipCity] [nvarchar](15) NULL,
-	[ShipRegion] [nvarchar](15) NULL,
-	[ShipPostalCode] [nvarchar](10) NULL,
-	[ShipCountry] [nvarchar](15) NULL,
+    [OrderID] [int] IDENTITY(1,1) NOT NULL,
+    [CustomerID] [nchar](5) NULL,
+    [EmployeeID] [int] NULL,
+    [OrderDate] [datetime] NULL,
+    [RequiredDate] [datetime] NULL,
+    [ShippedDate] [datetime] NULL,
+    [ShipVia] [int] NULL,
+    [Freight] [money] NULL CONSTRAINT [DF_Orders_Freight]  DEFAULT (0),
+    [ShipName] [nvarchar](40) NULL,
+    [ShipAddress] [nvarchar](60) NULL,
+    [ShipCity] [nvarchar](15) NULL,
+    [ShipRegion] [nvarchar](15) NULL,
+    [ShipPostalCode] [nvarchar](10) NULL,
+    [ShipCountry] [nvarchar](15) NULL,
  CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED 
 (
-	[OrderID] ASC
+    [OrderID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -175,19 +175,19 @@ CREATE TABLE [dbo].[Orders](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Products](
-	[ProductID] [int] IDENTITY(1,1) NOT NULL,
-	[ProductName] [nvarchar](40) NOT NULL,
-	[SupplierID] [int] NULL,
-	[CategoryID] [int] NULL,
-	[QuantityPerUnit] [nvarchar](20) NULL,
-	[UnitPrice] [money] NULL CONSTRAINT [DF_Products_UnitPrice]  DEFAULT (0),
-	[UnitsInStock] [smallint] NULL CONSTRAINT [DF_Products_UnitsInStock]  DEFAULT (0),
-	[UnitsOnOrder] [smallint] NULL CONSTRAINT [DF_Products_UnitsOnOrder]  DEFAULT (0),
-	[ReorderLevel] [smallint] NULL CONSTRAINT [DF_Products_ReorderLevel]  DEFAULT (0),
-	[Discontinued] [bit] NOT NULL CONSTRAINT [DF_Products_Discontinued]  DEFAULT (0),
+    [ProductID] [int] IDENTITY(1,1) NOT NULL,
+    [ProductName] [nvarchar](40) NOT NULL,
+    [SupplierID] [int] NULL,
+    [CategoryID] [int] NULL,
+    [QuantityPerUnit] [nvarchar](20) NULL,
+    [UnitPrice] [money] NULL CONSTRAINT [DF_Products_UnitPrice]  DEFAULT (0),
+    [UnitsInStock] [smallint] NULL CONSTRAINT [DF_Products_UnitsInStock]  DEFAULT (0),
+    [UnitsOnOrder] [smallint] NULL CONSTRAINT [DF_Products_UnitsOnOrder]  DEFAULT (0),
+    [ReorderLevel] [smallint] NULL CONSTRAINT [DF_Products_ReorderLevel]  DEFAULT (0),
+    [Discontinued] [bit] NOT NULL CONSTRAINT [DF_Products_Discontinued]  DEFAULT (0),
  CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
 (
-	[ProductID] ASC
+    [ProductID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -195,11 +195,11 @@ CREATE TABLE [dbo].[Products](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Region](
-	[RegionID] [int] NOT NULL,
-	[RegionDescription] [nchar](50) NOT NULL,
+    [RegionID] [int] NOT NULL,
+    [RegionDescription] [nchar](50) NOT NULL,
  CONSTRAINT [PK_Region] PRIMARY KEY NONCLUSTERED 
 (
-	[RegionID] ASC
+    [RegionID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -207,12 +207,12 @@ CREATE TABLE [dbo].[Region](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Shippers](
-	[ShipperID] [int] IDENTITY(1,1) NOT NULL,
-	[CompanyName] [nvarchar](40) NOT NULL,
-	[Phone] [nvarchar](24) NULL,
+    [ShipperID] [int] IDENTITY(1,1) NOT NULL,
+    [CompanyName] [nvarchar](40) NOT NULL,
+    [Phone] [nvarchar](24) NULL,
  CONSTRAINT [PK_Shippers] PRIMARY KEY CLUSTERED 
 (
-	[ShipperID] ASC
+    [ShipperID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -220,21 +220,21 @@ CREATE TABLE [dbo].[Shippers](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Suppliers](
-	[SupplierID] [int] IDENTITY(1,1) NOT NULL,
-	[CompanyName] [nvarchar](40) NOT NULL,
-	[ContactName] [nvarchar](30) NULL,
-	[ContactTitle] [nvarchar](30) NULL,
-	[Address] [nvarchar](60) NULL,
-	[City] [nvarchar](15) NULL,
-	[Region] [nvarchar](15) NULL,
-	[PostalCode] [nvarchar](10) NULL,
-	[Country] [nvarchar](15) NULL,
-	[Phone] [nvarchar](24) NULL,
-	[Fax] [nvarchar](24) NULL,
-	[HomePage] [ntext] NULL,
+    [SupplierID] [int] IDENTITY(1,1) NOT NULL,
+    [CompanyName] [nvarchar](40) NOT NULL,
+    [ContactName] [nvarchar](30) NULL,
+    [ContactTitle] [nvarchar](30) NULL,
+    [Address] [nvarchar](60) NULL,
+    [City] [nvarchar](15) NULL,
+    [Region] [nvarchar](15) NULL,
+    [PostalCode] [nvarchar](10) NULL,
+    [Country] [nvarchar](15) NULL,
+    [Phone] [nvarchar](24) NULL,
+    [Fax] [nvarchar](24) NULL,
+    [HomePage] [ntext] NULL,
  CONSTRAINT [PK_Suppliers] PRIMARY KEY CLUSTERED 
 (
-	[SupplierID] ASC
+    [SupplierID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
@@ -245,12 +245,12 @@ SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 
 CREATE TABLE [dbo].[Territories](
-	[TerritoryID] [nvarchar](20) NOT NULL,
-	[TerritoryDescription] [nchar](50) NOT NULL,
-	[RegionID] [int] NOT NULL,
+    [TerritoryID] [nvarchar](20) NOT NULL,
+    [TerritoryDescription] [nchar](50) NOT NULL,
+    [RegionID] [int] NOT NULL,
  CONSTRAINT [PK_Territories] PRIMARY KEY NONCLUSTERED 
 (
-	[TerritoryID] ASC
+    [TerritoryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 

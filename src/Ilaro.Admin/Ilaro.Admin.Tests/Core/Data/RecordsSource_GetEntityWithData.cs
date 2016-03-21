@@ -1,4 +1,5 @@
-﻿using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
@@ -7,15 +8,12 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_GetEntityWithData : SqlServerDatabaseTest
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
 
         public RecordsSource_GetEntityWithData()
         {
-            _admin = new IlaroAdmin();
-
             _source = new RecordsSource(_admin, new Notificator());
-            _admin.RegisterEntity<Product>();
+            Entity<Product>.RegisterWithAttributes();
             _admin.Initialise(ConnectionStringName);
         }
 

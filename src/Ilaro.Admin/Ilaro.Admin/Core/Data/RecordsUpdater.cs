@@ -87,7 +87,7 @@ WHERE {3};";
 
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
-            var updateProperties = entity.CreateProperties(getForeignCollection: false)
+            var updateProperties = entity.GetDefaultCreateProperties(getForeignCollection: false)
                 .Where(x => x.IsKey == false)
                 .WhereIsNotSkipped().ToList();
             if (updateProperties.Any())
