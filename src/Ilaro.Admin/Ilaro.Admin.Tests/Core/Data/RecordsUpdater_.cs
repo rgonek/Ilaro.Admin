@@ -24,17 +24,12 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
             _updater = new RecordsUpdater(_admin, executor, _source);
-            Entity<Product>.Register().ReadAttributes();
-            Entity<Category>.Register().ReadAttributes();
-            _admin.Initialise(ConnectionStringName);
-
-            _productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _entity = _source.GetEntityWithData(_admin.GetEntity("Product"), _productId.ToString());
         }
 
         [Fact]
         public void updates_record_and_does_not_create_entity_change_when_is_not_added()
         {
+            set_up_test();
             _entity["ProductName"].Value.Raw = "Product2";
             _updater.Update(_entity);
 
@@ -51,6 +46,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void updates_record_and_does_create_entity_change_when_is_added()
         {
             _admin.RegisterEntity<EntityChange>();
+            set_up_test();
             _entity["ProductName"].Value.Raw = "Product2";
             _updater.Update(_entity);
 
@@ -66,8 +62,8 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void updates_record_with_one_to_many_foreign_property()
         {
+            set_up_test();
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            _admin.RegisterEntity<Category>();
             _entity["ProductName"].Value.Raw = "Product";
             _entity["Discontinued"].Value.Raw = false;
             _entity["Category"].Value.Raw = categoryId;
@@ -81,6 +77,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         [Fact]
         public void updates_record_with_many_to_one_foreign_property()
         {
+            set_up_test();
             var category = DB.Categories.Insert(CategoryName: "Category");
             var product2 = DB.Products.Insert(ProductName: "Product2", CategoryId: category.CategoryID);
 
@@ -99,6 +96,16 @@ namespace Ilaro.Admin.Tests.Core.Data
             product2 = products.First(x => x.ProductID == product2.ProductID);
             Assert.Null(product2.CategoryID);
             Assert.Equal(category.CategoryID, product.CategoryID);
+        }
+
+        private void set_up_test()
+        {
+            Entity<Product>.Register().ReadAttributes();
+            Entity<Category>.Register().ReadAttributes();
+            _admin.Initialise(ConnectionStringName);
+
+            _productId = DB.Products.Insert(ProductName: "Product").ProductID;
+            _entity = _source.GetEntityWithData(_admin.GetEntity("Product"), _productId.ToString());
         }
     }
 }

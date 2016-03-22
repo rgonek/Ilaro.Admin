@@ -7,14 +7,11 @@ namespace Ilaro.Admin.Tests.Core.Data
 {
     public class RecordsSource_GetRecord : SqlServerDatabaseTest
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IFetchingRecords _source;
         private Entity _entity;
 
         public RecordsSource_GetRecord()
         {
-            _admin = new IlaroAdmin();
-
             _source = new RecordsSource(_admin, new Notificator());
             _admin.RegisterEntity<Product>();
             _admin.Initialise(ConnectionStringName);
