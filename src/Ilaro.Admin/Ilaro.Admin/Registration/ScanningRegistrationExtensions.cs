@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Registration
 {
     internal static class ScanningRegistrationExtensions
     {
-        internal static RegistrationBuilder RegisterAssemblyTypes(params Assembly[] assemblies)
+        internal static IRegisterTypes RegisterAssemblyTypes(params Assembly[] assemblies)
         {
             if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
 
@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Registration
             return rb;
         }
 
-        internal static RegistrationBuilder RegisterTypes(params Type[] types)
+        internal static IRegisterTypes RegisterTypes(params Type[] types)
         {
             if (types == null) throw new ArgumentNullException(nameof(types));
 
@@ -33,26 +33,26 @@ namespace Ilaro.Admin.Registration
             return rb;
         }
 
-        internal static RegistrationBuilder RegisterAssemblyCustomizators(params Assembly[] assemblies)
+        internal static IRegisterCustomizers RegisterAssemblyCustomizators(params Assembly[] assemblies)
         {
             if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
 
             var rb = new RegistrationBuilder();
             rb.Where(type => typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(customizerMutator => ScanAssembliesCustomizators(assemblies, rb, customizerMutator));
+            rb.RegisterCallback(customizerMutator => ScanAssembliesCustomizators(assemblies, rb));
 
             return rb;
         }
 
-        internal static RegistrationBuilder RegisterCustomizators(params Type[] types)
+        internal static IRegisterCustomizers RegisterCustomizators(params Type[] types)
         {
             if (types == null) throw new ArgumentNullException(nameof(types));
 
             var rb = new RegistrationBuilder();
             rb.Where(type => typeof(IEntityCustomizer).IsAssignableFrom(type));
 
-            rb.RegisterCallback(customizerMutator => ScanTypesCustomizators(types, rb, customizerMutator));
+            rb.RegisterCallback(customizerMutator => ScanTypesCustomizators(types, rb));
 
             return rb;
         }
@@ -82,24 +82,18 @@ namespace Ilaro.Admin.Registration
 
         private static void ScanAssembliesCustomizators(
             IEnumerable<Assembly> assemblies,
-            RegistrationBuilder rb,
-            Action<ICustomizersHolder> customizerMutator)
+            RegistrationBuilder rb)
         {
-            ScanTypesCustomizators(assemblies.SelectMany(a => a.GetLoadableTypes()), rb, customizerMutator);
+            ScanTypesCustomizators(assemblies.SelectMany(a => a.GetLoadableTypes()), rb);
         }
 
         private static void ScanTypesCustomizators(
             IEnumerable<Type> types,
-            RegistrationBuilder rb,
-            Action<ICustomizersHolder> customizerMutator)
+            RegistrationBuilder rb)
         {
             foreach (var type in GetTypes(types, rb))
             {
                 var customizer = GetCustomizerInstance(type);
-                if (customizerMutator != null)
-                {
-                    // it shouldn't be there
-                }
 
                 Admin.AddCustomizer(customizer.CustomizersHolder);
             }

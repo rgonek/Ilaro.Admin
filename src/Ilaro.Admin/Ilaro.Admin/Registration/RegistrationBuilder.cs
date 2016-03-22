@@ -6,7 +6,7 @@ using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Registration
 {
-    public class RegistrationBuilder
+    public class RegistrationBuilder : IRegisterTypes, IRegisterCustomizers
     {
         /// <summary>
         /// The filters applied to the types from the scanned assembly.
@@ -20,23 +20,23 @@ namespace Ilaro.Admin.Registration
             _configurationCallbacks.Add(configurationCallback);
         }
 
-        public RegistrationBuilder Where(Func<Type, bool> predicate)
+        public IRegistrationBuilder Where(Func<Type, bool> predicate)
         {
             Filters.Add(predicate);
             return this;
         }
 
-        public RegistrationBuilder Except<T>()
+        public IRegistrationBuilder Except<T>()
         {
             return Where(t => t != typeof(T));
         }
 
-        public RegistrationBuilder InNamespaceOf<T>()
+        public IRegistrationBuilder InNamespaceOf<T>()
         {
             return InNamespace(typeof(T).Namespace);
         }
 
-        public RegistrationBuilder InNamespace(string ns)
+        public IRegistrationBuilder InNamespace(string ns)
         {
             if (ns == null) throw new ArgumentNullException(nameof(ns));
 

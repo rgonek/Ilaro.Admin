@@ -313,6 +313,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Data\EntityService.cs" />
     <Compile Include="Core\Data\IEntityService.cs" />
+    <Compile Include="Registration\IRegistrationBuilder.cs" />
     <Compile Include="Registration\RegistrationBuilder.cs" />
     <Compile Include="Registration\ScanningRegistrationExtensions.cs" />
     <Compile Include="IlaroAdmin.cs" />

@@ -39,7 +39,7 @@ namespace Ilaro.Admin
             Current.RegisterEntityWithAttributes(entityType);
         }
 
-        internal static IDictionary<Type, ICustomizersHolder> Customizers { get; }
+        internal static IDictionary<Type, ICustomizersHolder> CustomizerHolders { get; }
             = new Dictionary<Type, ICustomizersHolder>();
 
         public static IIlaroAdmin Initialise(
@@ -54,29 +54,29 @@ namespace Ilaro.Admin
             return admin;
         }
 
-        public static RegistrationBuilder AssemblyEntities(params Assembly[] assemblies)
+        public static IRegisterTypes AssemblyEntities(params Assembly[] assemblies)
         {
             return ScanningRegistrationExtensions.RegisterAssemblyTypes(assemblies);
         }
 
-        public static RegistrationBuilder Entities(params Type[] types)
+        public static IRegisterTypes Entities(params Type[] types)
         {
             return ScanningRegistrationExtensions.RegisterTypes(types);
         }
 
-        public static RegistrationBuilder AssemblyCustomizators(params Assembly[] assemblies)
+        public static IRegisterCustomizers AssemblyCustomizers(params Assembly[] assemblies)
         {
             return ScanningRegistrationExtensions.RegisterAssemblyCustomizators(assemblies);
         }
 
-        public static RegistrationBuilder Customizators(params Type[] types)
+        public static IRegisterCustomizers Customizers(params Type[] types)
         {
             return ScanningRegistrationExtensions.RegisterCustomizators(types);
         }
 
         internal static void AddCustomizer(ICustomizersHolder customizersHolder)
         {
-            Customizers[customizersHolder.Type] = customizersHolder;
+            CustomizerHolders[customizersHolder.Type] = customizersHolder;
         }
     }
 }

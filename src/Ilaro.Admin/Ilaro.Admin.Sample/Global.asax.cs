@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Sample
             Entity<Territory>.Register();
             Entity<EntityChange>.Register();
 
-            Admin.AssemblyCustomizators(typeof(Customer).Assembly).Register();
+            Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute

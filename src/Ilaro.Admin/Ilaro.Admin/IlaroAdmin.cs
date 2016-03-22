@@ -92,7 +92,7 @@ namespace Ilaro.Admin
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 
-            foreach (var customizer in Admin.Customizers)
+            foreach (var customizer in Admin.CustomizerHolders)
             {
                 var entity = CreateInstance(customizer.Key);
                 customizer.Value.CustomizeEntity(entity);
