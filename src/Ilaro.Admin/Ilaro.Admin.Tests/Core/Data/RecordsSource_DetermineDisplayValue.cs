@@ -13,9 +13,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsSource_DetermineDisplayValue()
         {
             _source = new RecordsSource(_admin, new Notificator());
-            Entity<Product>.RegisterWithAttributes();
-            Entity<Customer>.RegisterWithAttributes();
-            Entity<EmployeeTerritory>.RegisterWithAttributes();
+            Entity<Product>.Register().ReadAttributes();
+            Entity<Customer>.Register().ReadAttributes();
+            Entity<EmployeeTerritory>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
         }
 

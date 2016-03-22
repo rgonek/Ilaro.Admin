@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Orders.Insert(ShipCity: "City4", OrderDate: "2014.08.20 11:33");
 
             _source = new RecordsSource(_admin, new Notificator());
-            Entity<Order>.RegisterWithAttributes();
+            Entity<Order>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
             _entity = _admin.GetEntity("Order");
             _property = _entity["OrderDate"];

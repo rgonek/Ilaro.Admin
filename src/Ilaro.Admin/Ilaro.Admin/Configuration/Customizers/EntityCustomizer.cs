@@ -163,7 +163,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public EntityCustomizer<TEntity> WithAttributes()
+        public EntityCustomizer<TEntity> ReadAttributes()
         {
             AttributesConfigurator.Initialise(CustomizersHolder);
 

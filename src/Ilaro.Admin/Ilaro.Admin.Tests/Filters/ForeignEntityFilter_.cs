@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Tests.Filters
 
         public ForeignEntityFilter_()
         {
-            Entity<TestEntity>.RegisterWithAttributes();
+            Entity<TestEntity>.Register().ReadAttributes();
             _admin.Initialise();
             var entity = _admin.GetEntity<TestEntity>();
             _property = entity["Child"];

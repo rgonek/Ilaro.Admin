@@ -24,8 +24,8 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.Current()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
             _updater = new RecordsUpdater(_admin, executor, _source);
-            Entity<Product>.RegisterWithAttributes();
-            Entity<Category>.RegisterWithAttributes();
+            Entity<Product>.Register().ReadAttributes();
+            Entity<Category>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;

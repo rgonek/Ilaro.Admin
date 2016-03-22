@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             _source = new RecordsSource(_admin, new Notificator());
 
-            Entity<Product>.RegisterWithAttributes()
+            Entity<Product>.Register().ReadAttributes()
                 .SearchProperties(x => x.UnitPrice);
             _admin.Initialise(ConnectionStringName);
             _entity = _admin.GetEntity("Product");

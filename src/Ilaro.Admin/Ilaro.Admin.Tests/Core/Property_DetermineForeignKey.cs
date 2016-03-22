@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Tests.Core
 
         public Property_DetermineForeignKey()
         {
-            Entity<TestEntity>.RegisterWithAttributes();
+            Entity<TestEntity>.Register().ReadAttributes();
             _admin.Initialise();
             _entity = _admin.GetEntity<TestEntity>();
         }

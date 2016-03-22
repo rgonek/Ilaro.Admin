@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             DB.Products.Insert(ProductName: "Product2", Discontinued: false);
 
             _source = new RecordsSource(_admin, new Notificator());
-            Entity<Product>.RegisterWithAttributes();
+            Entity<Product>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
             _entity = _admin.GetEntity("Product");
             _property = _entity["Discontinued"];

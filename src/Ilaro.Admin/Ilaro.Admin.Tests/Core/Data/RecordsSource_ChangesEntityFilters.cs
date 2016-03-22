@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             });
 
             _source = new RecordsSource(_admin, new Notificator());
-            Entity<EntityChange>.RegisterWithAttributes();
+            Entity<EntityChange>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
             _entity = _admin.ChangeEntity;
             _property = _entity["EntityName"];

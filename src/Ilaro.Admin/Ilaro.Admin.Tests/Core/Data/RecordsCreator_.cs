@@ -96,8 +96,8 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         private void register_default_entities()
         {
-            Entity<Product>.RegisterWithAttributes();
-            Entity<Category>.RegisterWithAttributes();
+            Entity<Product>.Register().ReadAttributes();
+            Entity<Category>.Register().ReadAttributes();
             _admin.Initialise(ConnectionStringName);
             _productEntity = _admin.GetEntity<Product>();
         }
