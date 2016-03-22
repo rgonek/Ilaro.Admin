@@ -38,6 +38,9 @@ namespace Ilaro.Admin
         public string ConnectionStringName { get; private set; }
         public string RoutesPrefix { get; private set; }
 
+        internal IDictionary<Type, ICustomizersHolder> CustomizerHolders { get; }
+            = new Dictionary<Type, ICustomizersHolder>();
+
         public void RegisterEntity(Type entityType)
         {
             var customizerHolder = new CustomizersHolder(entityType);
@@ -92,7 +95,7 @@ namespace Ilaro.Admin
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 
-            foreach (var customizer in Admin.CustomizerHolders)
+            foreach (var customizer in CustomizerHolders)
             {
                 var entity = CreateInstance(customizer.Key);
                 customizer.Value.CustomizeEntity(entity);

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
-using Ilaro.Admin.Core;
 using System.Globalization;
 using System.Reflection;
 using Ilaro.Admin.Registration;
 using Ilaro.Admin.Configuration.Customizers;
-using System.Collections.Generic;
 
 namespace Ilaro.Admin
 {
@@ -38,9 +36,6 @@ namespace Ilaro.Admin
         {
             Current.RegisterEntityWithAttributes(entityType);
         }
-
-        internal static IDictionary<Type, ICustomizersHolder> CustomizerHolders { get; }
-            = new Dictionary<Type, ICustomizersHolder>();
 
         public static IIlaroAdmin Initialise(
             string connectionStringName = "",
@@ -76,7 +71,7 @@ namespace Ilaro.Admin
 
         internal static void AddCustomizer(ICustomizersHolder customizersHolder)
         {
-            CustomizerHolders[customizersHolder.Type] = customizersHolder;
+            ((IlaroAdmin)Current).CustomizerHolders[customizersHolder.Type] = customizersHolder;
         }
     }
 }
