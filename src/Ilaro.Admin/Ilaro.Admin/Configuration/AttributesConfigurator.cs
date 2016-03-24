@@ -19,6 +19,7 @@ namespace Ilaro.Admin.Configuration
             Table(customizerHolder, attributes);
             SearchProperties(customizerHolder, attributes);
             DisplayFormat(customizerHolder, attributes);
+            Display(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -59,6 +60,18 @@ namespace Ilaro.Admin.Configuration
                 var members = customizerHolder.Type.GetProperties()
                     .Where(x => attribute.Columns.Contains(x.Name));
                 customizerHolder.SearchProperties(members);
+            }
+        }
+
+        private static void Display(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<VerboseAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Display(attribute.Singular, attribute.Plural);
+                customizerHolder.Group(attribute.GroupName);
             }
         }
 

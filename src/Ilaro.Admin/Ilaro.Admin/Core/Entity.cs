@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Core
 
         public string TableName { get; private set; }
 
-        public Verbose Verbose { get; } = new Verbose();
+        public Verbose Verbose { get; }
 
         public IList<Property> Properties { get; private set; }
 
@@ -105,6 +105,7 @@ namespace Ilaro.Admin.Core
             Type = type;
             Name = Type.Name;
             SetTableName(Name.Pluralize());
+            Verbose = new Verbose(Type);
 
             Properties = type.GetProperties()
                 .Select(x => new Property(this, x))
