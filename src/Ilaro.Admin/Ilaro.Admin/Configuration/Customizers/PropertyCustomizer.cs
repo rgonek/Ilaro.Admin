@@ -68,7 +68,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             propertyCustomizerHolder.FileOptions.Path = path;
             propertyCustomizerHolder.FileOptions.AllowedFileExtensions = allowedFileExtensions;
 
-            return this;
+            return Type(isImage ? DataType.Image : DataType.File);
         }
 
         public IPropertyCustomizer ForeignKey(string name)
@@ -104,7 +104,8 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
 
             propertyCustomizerHolder.FileOptions.Settings.Add(new ImageSettings(path, width, height));
-            return this;
+
+            return Type(DataType.Image);
         }
 
         public IPropertyCustomizer OnDelete(DeleteOption deleteOption)
