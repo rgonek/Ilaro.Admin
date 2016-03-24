@@ -113,8 +113,7 @@ namespace Ilaro.Admin.Configuration
             {
                 customizerHolder.Property(member, x =>
                 {
-                    //SourceDataType = dataTypeAttribute.DataType;
-                    x.Type(DataTypeConverter.Convert(dataTypeAttribute.DataType));
+                    x.Type(dataTypeAttribute.DataType);
                 });
                 return;
             }

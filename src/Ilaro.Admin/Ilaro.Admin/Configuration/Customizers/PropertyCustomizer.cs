@@ -144,6 +144,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer Type(System.ComponentModel.DataAnnotations.DataType dataType)
+        {
+            propertyCustomizerHolder.SourceDataType = dataType;
+
+            return Type(DataTypeConverter.Convert(dataType));
+        }
+
         public IPropertyCustomizer Enum(Type enumType)
         {
             propertyCustomizerHolder.EnumType = enumType;

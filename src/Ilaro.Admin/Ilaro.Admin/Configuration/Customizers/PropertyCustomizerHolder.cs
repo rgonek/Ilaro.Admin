@@ -24,5 +24,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsRequired { get; internal set; }
         public string ForeignKey { get; internal set; }
         public Type EnumType { get; internal set; }
+        public System.ComponentModel.DataAnnotations.DataType SourceDataType { get; internal set; }
     }
 }
