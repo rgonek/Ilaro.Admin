@@ -26,15 +26,15 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             IFetchingRecordsHierarchy hierarchySource)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
             if (entityService == null)
-                throw new ArgumentNullException("entityService");
+                throw new ArgumentNullException(nameof(entityService));
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             if (hierarchySource == null)
-                throw new ArgumentNullException("hierarchySource");
+                throw new ArgumentNullException(nameof(hierarchySource));
 
             _admin = admin;
             _notificator = notificator;

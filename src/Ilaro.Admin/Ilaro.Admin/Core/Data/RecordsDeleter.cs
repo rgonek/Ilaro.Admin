@@ -25,11 +25,11 @@ SELECT @{2};";
             IFetchingRecordsHierarchy hierarchySource)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (executor == null)
-                throw new ArgumentNullException("executor");
+                throw new ArgumentNullException(nameof(executor));
             if (hierarchySource == null)
-                throw new ArgumentNullException("hierarchySource");
+                throw new ArgumentNullException(nameof(hierarchySource));
 
             _admin = admin;
             _executor = executor;

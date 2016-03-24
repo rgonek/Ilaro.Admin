@@ -37,23 +37,23 @@ namespace Ilaro.Admin.Core.Data
             IValidatingEntities validator)
         {
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             if (creator == null)
-                throw new ArgumentNullException("creator");
+                throw new ArgumentNullException(nameof(creator));
             if (updater == null)
-                throw new ArgumentNullException("updater");
+                throw new ArgumentNullException(nameof(updater));
             if (deleter == null)
-                throw new ArgumentNullException("deleter");
+                throw new ArgumentNullException(nameof(deleter));
             if (comparer == null)
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
             if (changeDescriber == null)
-                throw new ArgumentNullException("changeDescriber");
+                throw new ArgumentNullException(nameof(changeDescriber));
             if (filesHandler == null)
-                throw new ArgumentNullException("filesHandler");
+                throw new ArgumentNullException(nameof(filesHandler));
             if (validator == null)
-                throw new ArgumentNullException("validator");
+                throw new ArgumentNullException(nameof(validator));
 
             _notificator = notificator;
             _source = source;

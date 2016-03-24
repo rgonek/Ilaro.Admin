@@ -13,9 +13,9 @@ namespace Ilaro.Admin.Validation
         public EntityValidator(Notificator notificator, IValidatingFiles fileValidator)
         {
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
             if (fileValidator == null)
-                throw new ArgumentNullException("fileValidator");
+                throw new ArgumentNullException(nameof(fileValidator));
 
             _notificator = notificator;
             _fileValidator = fileValidator;

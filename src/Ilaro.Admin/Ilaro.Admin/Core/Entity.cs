@@ -100,7 +100,7 @@ namespace Ilaro.Admin.Core
         public Entity(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             Type = type;
             Name = Type.Name;

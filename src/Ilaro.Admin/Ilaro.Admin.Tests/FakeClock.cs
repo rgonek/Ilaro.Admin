@@ -19,8 +19,8 @@ namespace Ilaro.Admin.Tests
 
         public FakeClock(Func<DateTime> utcNow, Func<DateTime> now)
         {
-            if (utcNow == null) throw new ArgumentNullException("utcNow");
-            if (now == null) throw new ArgumentNullException("now");
+            if (utcNow == null) throw new ArgumentNullException(nameof(utcNow));
+            if (now == null) throw new ArgumentNullException(nameof(now));
 
             _utcNow = utcNow;
             _now = now;

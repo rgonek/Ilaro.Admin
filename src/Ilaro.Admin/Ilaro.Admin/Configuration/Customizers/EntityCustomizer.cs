@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public EntityCustomizer(ICustomizersHolder customizersHolder)
         {
             if (customizersHolder == null)
-                throw new ArgumentNullException("customizersHolder");
+                throw new ArgumentNullException(nameof(customizersHolder));
 
             CustomizersHolder = customizersHolder;
         }

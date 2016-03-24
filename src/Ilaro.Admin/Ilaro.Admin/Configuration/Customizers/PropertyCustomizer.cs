@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public PropertyCustomizer(PropertyCustomizerHolder propertyCustomizerHolder)
         {
             if (propertyCustomizerHolder == null)
-                throw new ArgumentNullException("propertyCustomizerHolder");
+                throw new ArgumentNullException(nameof(propertyCustomizerHolder));
 
             this.propertyCustomizerHolder = propertyCustomizerHolder;
         }

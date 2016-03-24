@@ -30,15 +30,15 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             IFilterFactory filterFactory)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
             if (entitiesSource == null)
-                throw new ArgumentException("entitiesSource");
+                throw new ArgumentException(nameof(entitiesSource));
             if (configuration == null)
-                throw new ArgumentException("configuration");
+                throw new ArgumentException(nameof(configuration));
             if (filterFactory == null)
-                throw new ArgumentException("filterFactory");
+                throw new ArgumentException(nameof(filterFactory));
 
             _admin = admin;
             _notificator = notificator;

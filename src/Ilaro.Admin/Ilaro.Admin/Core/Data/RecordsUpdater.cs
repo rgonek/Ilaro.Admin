@@ -42,11 +42,11 @@ WHERE {3};";
             IFetchingRecords source)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (executor == null)
-                throw new ArgumentNullException("executor");
+                throw new ArgumentNullException(nameof(executor));
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
 
             _admin = admin;
             _executor = executor;

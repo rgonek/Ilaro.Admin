@@ -16,9 +16,9 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public GroupController(IIlaroAdmin admin ,Notificator notificator)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
 
             _admin = admin;
             _notificator = notificator;

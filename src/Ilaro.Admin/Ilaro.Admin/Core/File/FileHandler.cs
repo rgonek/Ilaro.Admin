@@ -27,15 +27,15 @@ namespace Ilaro.Admin.Core.File
             IConfiguration configuration)
         {
             if (saver == null)
-                throw new ArgumentNullException("saver");
+                throw new ArgumentNullException(nameof(saver));
             if (deleter == null)
-                throw new ArgumentNullException("deleter");
+                throw new ArgumentNullException(nameof(deleter));
             if (resizer == null)
-                throw new ArgumentNullException("resizer");
+                throw new ArgumentNullException(nameof(resizer));
             if (fileNameCreator == null)
-                throw new ArgumentNullException("fileNameCreator");
+                throw new ArgumentNullException(nameof(fileNameCreator));
             if (configuration == null)
-                throw new ArgumentNullException("configuration");
+                throw new ArgumentNullException(nameof(configuration));
 
             _saver = saver;
             _deleter = deleter;

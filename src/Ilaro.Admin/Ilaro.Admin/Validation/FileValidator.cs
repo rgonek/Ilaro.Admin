@@ -16,9 +16,9 @@ namespace Ilaro.Admin.Validation
         public FileValidator(Notificator notificator, IConfiguration configuration)
         {
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
             if (configuration == null)
-                throw new ArgumentNullException("configuration");
+                throw new ArgumentNullException(nameof(configuration));
 
             _notificator = notificator;
             _configuration = configuration;

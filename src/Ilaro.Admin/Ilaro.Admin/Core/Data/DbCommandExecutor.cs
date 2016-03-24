@@ -14,9 +14,9 @@ namespace Ilaro.Admin.Core.Data
         public DbCommandExecutor(IIlaroAdmin admin, IProvidingUser user)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _user = user;

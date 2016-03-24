@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Core
         public Configuration(IConfigurationProvider configurationProvider)
         {
             if (configurationProvider == null)
-                throw new ArgumentNullException("configurationProvider");
+                throw new ArgumentNullException(nameof(configurationProvider));
 
             _configurationProvider = configurationProvider;
         }

@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Filters
             : base(property, value)
         {
             if (clock == null)
-                throw new ArgumentNullException("clock");
+                throw new ArgumentNullException(nameof(clock));
 
             var now = clock.Now;
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));

@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public ResourceController(Notificator notificator)
         {
             if (notificator == null)
-                throw new ArgumentNullException("notificator");
+                throw new ArgumentNullException(nameof(notificator));
 
             _notificator = notificator;
         }

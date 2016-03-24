@@ -34,9 +34,9 @@ WHERE {2};";
         public RecordsCreator(IIlaroAdmin admin, IExecutingDbCommand executor)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
             if (executor == null)
-                throw new ArgumentNullException("executor");
+                throw new ArgumentNullException(nameof(executor));
 
             _admin = admin;
             _executor = executor;

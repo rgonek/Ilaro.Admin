@@ -15,7 +15,7 @@ namespace Ilaro.Admin.Core.Data
         public RecordsHierarchySource(IIlaroAdmin admin)
         {
             if (admin == null)
-                throw new ArgumentNullException("admin");
+                throw new ArgumentNullException(nameof(admin));
 
             _admin = admin;
         }
