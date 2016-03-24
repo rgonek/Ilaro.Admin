@@ -10,15 +10,5 @@ namespace Ilaro.Admin.DataAnnotations
         public string EditLink { get; set; }
 
         public string DeleteLink { get; set; }
-
-        public bool HasEditLink { get; set; }
-
-        public bool HasDeleteLink { get; set; }
-
-        public LinksAttribute()
-        {
-            HasEditLink = true;
-            HasDeleteLink = true;
-        }
     }
 }

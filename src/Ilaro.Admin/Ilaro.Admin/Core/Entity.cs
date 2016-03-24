@@ -114,7 +114,9 @@ namespace Ilaro.Admin.Core
             CanAdd = true;
             if (IsChangeEntity)
             {
-                CanAdd = Links.HasDelete = Links.HasEdit = false;
+                Links.Delete = null;
+                Links.Edit = null;
+                CanAdd = false;
             }
 
             // check if has ToString() method

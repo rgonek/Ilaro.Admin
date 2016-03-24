@@ -4,7 +4,6 @@ using System.Linq;
 using Ilaro.Admin.DataAnnotations;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
-using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.ComponentModel;
 
@@ -20,6 +19,7 @@ namespace Ilaro.Admin.Configuration
             SearchProperties(customizerHolder, attributes);
             DisplayFormat(customizerHolder, attributes);
             Display(customizerHolder, attributes);
+            Links(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -72,6 +72,19 @@ namespace Ilaro.Admin.Configuration
             {
                 customizerHolder.Display(attribute.Singular, attribute.Plural);
                 customizerHolder.Group(attribute.GroupName);
+            }
+        }
+
+        private static void Links(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<LinksAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.DisplayLink(attribute.DisplayLink);
+                customizerHolder.EditLink(attribute.EditLink);
+                customizerHolder.DeleteLink(attribute.DeleteLink);
             }
         }
 

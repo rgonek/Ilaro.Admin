@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Ilaro.Admin.DataAnnotations;
-using Ilaro.Admin.Extensions;
+﻿using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Core
 {
@@ -10,8 +8,20 @@ namespace Ilaro.Admin.Core
         public string Edit { get; internal set; }
         public string Delete { get; internal set; }
 
-        public bool HasEdit { get; internal set; }
-        public bool HasDelete { get; internal set; }
+        public bool HasEdit
+        {
+            get
+            {
+                return Edit.IsNullOrEmpty() == false;
+            }
+        }
+        public bool HasDelete
+        {
+            get
+            {
+                return Delete.IsNullOrEmpty() == false;
+            }
+        }
 
         public int Count
         {
@@ -36,25 +46,6 @@ namespace Ilaro.Admin.Core
 
                 return count;
             }
-        }
-
-        public Links()
-        {
-            //var linksAttribute =
-            //    attributes.OfType<LinksAttribute>().FirstOrDefault();
-            //if (linksAttribute != null)
-            //{
-            //    Display = linksAttribute.DisplayLink;
-            //    Edit = linksAttribute.EditLink;
-            //    Delete = linksAttribute.DeleteLink;
-            //    HasEdit = linksAttribute.HasEditLink;
-            //    HasDelete = linksAttribute.HasDeleteLink;
-            //}
-            //else
-            //{
-            //    HasEdit = true;
-            //    HasDelete = true;
-            //}
         }
     }
 }
