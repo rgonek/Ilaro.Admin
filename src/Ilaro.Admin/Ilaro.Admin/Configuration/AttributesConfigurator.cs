@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.ComponentModel;
-using System;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -21,7 +20,7 @@ namespace Ilaro.Admin.Configuration
             SearchProperties(customizerHolder, attributes);
             DisplayFormat(customizerHolder, attributes);
 
-            foreach (var member in customizerHolder.Type.GetMembers())
+            foreach (var member in customizerHolder.Type.GetProperties())
             {
                 attributes = member.GetCustomAttributes(false);
 
@@ -57,7 +56,7 @@ namespace Ilaro.Admin.Configuration
             var attribute = attributes.GetAttribute<SearchAttribute>();
             if (attribute != null)
             {
-                var members = customizerHolder.Type.GetMembers()
+                var members = customizerHolder.Type.GetProperties()
                     .Where(x => attribute.Columns.Contains(x.Name));
                 customizerHolder.SearchProperties(members);
             }
@@ -81,7 +80,7 @@ namespace Ilaro.Admin.Configuration
             var attribute = attributes.GetAttribute<ColumnsAttribute>();
             if (attribute != null)
             {
-                var members = customizerHolder.Type.GetMembers()
+                var members = customizerHolder.Type.GetProperties()
                     .Where(x => attribute.Columns.Contains(x.Name));
                 customizerHolder.DisplayProperties(members);
             }
@@ -94,7 +93,7 @@ namespace Ilaro.Admin.Configuration
             var attribute = attributes.GetAttribute<GroupsAttribute>();
             if (attribute != null)
             {
-                var membersByGroup = customizerHolder.Type.GetMembers()
+                var membersByGroup = customizerHolder.Type.GetProperties()
                     .GroupBy(x => x.GetCustomAttribute<DisplayAttribute>()?.GroupName)
                     .ToDictionary(x => x.Key, x => x.ToList());
                 foreach (var group in attribute.Groups)
