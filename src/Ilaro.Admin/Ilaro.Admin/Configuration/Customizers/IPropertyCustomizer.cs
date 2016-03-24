@@ -1,6 +1,7 @@
 ﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
+using System;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -30,6 +31,10 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set data type
         /// </summary>
         IPropertyCustomizer Type(DataType dataType);
+        /// <summary>
+        /// Set enum type
+        /// </summary>
+        IPropertyCustomizer Enum(Type enumType);
         /// <summary>
         /// Make property searchable
         /// </summary>

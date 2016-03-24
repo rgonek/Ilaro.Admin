@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Core
         }
         public DataType DataType { get; internal set; }
         public System.ComponentModel.DataAnnotations.DataType? SourceDataType { get; private set; }
-        public Type EnumType { get; private set; }
+        public Type EnumType { get; internal set; }
         /// <summary>
         /// If a property type (or sub type if property is a collection) 
         /// is a system type (namespace starts with "System") or not.

@@ -124,8 +124,7 @@ namespace Ilaro.Admin.Configuration
             {
                 customizerHolder.Property(member, x =>
                 {
-                    //EnumType = enumDataTypeAttribute.EnumType;
-                    x.Type(Core.DataType.Enum);
+                    x.Enum(enumDataTypeAttribute.EnumType);
                 });
                 return;
             }

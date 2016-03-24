@@ -1,4 +1,5 @@
-﻿using Ilaro.Admin.Core;
+﻿using System;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -22,5 +23,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string RequiredErrorMessage { get; internal set; }
         public bool IsRequired { get; internal set; }
         public string ForeignKey { get; internal set; }
+        public Type EnumType { get; internal set; }
     }
 }

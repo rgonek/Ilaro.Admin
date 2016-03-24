@@ -148,8 +148,11 @@ namespace Ilaro.Admin.Configuration.Customizers
                     .GetValueOrDefault(property.Template.Display);
                 property.Template.Editor = propertyCustomizer.EditorTemplate
                     .GetValueOrDefault(property.Template.Editor);
-                property.TypeInfo.DataType = propertyCustomizer.DataType
-                    .GetValueOrDefault(property.TypeInfo.DataType);
+                if (propertyCustomizer.DataType.HasValue)
+                {
+                    property.TypeInfo.DataType = propertyCustomizer.DataType.Value;
+                    property.TypeInfo.EnumType = propertyCustomizer.EnumType;
+                }
                 property.FileOptions = propertyCustomizer.FileOptions;
                 property.GroupName = propertyCustomizer.Group;
                 property.Value.DefaultValue = propertyCustomizer.DefaultValue;

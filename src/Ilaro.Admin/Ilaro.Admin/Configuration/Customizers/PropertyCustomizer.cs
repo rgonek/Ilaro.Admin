@@ -144,6 +144,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer Enum(Type enumType)
+        {
+            propertyCustomizerHolder.EnumType = enumType;
+
+            return Type(DataType.Enum);
+        }
+
         public IPropertyCustomizer Visible()
         {
             propertyCustomizerHolder.IsVisible = true;
