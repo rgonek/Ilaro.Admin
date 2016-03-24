@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Core
