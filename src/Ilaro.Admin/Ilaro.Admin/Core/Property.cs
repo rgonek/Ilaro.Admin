@@ -15,17 +15,17 @@ namespace Ilaro.Admin.Core
     [DebuggerDisplay("Property {Name}")]
     public class Property
     {
-        public Entity Entity { get; set; }
+        public Entity Entity { get; private set; }
 
-        public PropertyInfo PropertyInfo { get; set; }
+        public PropertyInfo PropertyInfo { get; internal set; }
 
-        public string Name { get; set; }
+        public string Name { get; internal set; }
 
         private string _columnName;
         public string ColumnName
         {
             get { return _columnName; }
-            set
+            internal set
             {
                 if (value.StartsWith("[") && value.EndsWith("]"))
                     _columnName = value;
@@ -34,45 +34,45 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public string DisplayName { get; set; }
+        public string DisplayName { get; internal set; }
 
-        public string GroupName { get; set; }
+        public string GroupName { get; internal set; }
 
-        public string Description { get; set; }
+        public string Description { get; internal set; }
 
-        public string Prompt { get; set; }
+        public string Prompt { get; internal set; }
 
-        public string Format { get; set; }
+        public string Format { get; internal set; }
 
         /// <summary>
         /// If property is a entity key.
         /// </summary>
-        public bool IsKey { get; set; }
+        public bool IsKey { get; internal set; }
 
         public bool IsAutoKey
         {
             get { return TypeInfo.DataType != DataType.Text; }
         }
 
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; internal set; }
 
-        public bool IsSearchable { get; set; }
+        public bool IsSearchable { get; internal set; }
 
         /// <summary>
         /// Is property is a foreign key.
         /// </summary>
-        public bool IsForeignKey { get; set; }
+        public bool IsForeignKey { get; internal set; }
 
-        public Entity ForeignEntity { get; set; }
+        public Entity ForeignEntity { get; internal set; }
 
-        public string ForeignEntityName { get; set; }
+        public string ForeignEntityName { get; internal set; }
 
-        public Property ReferenceProperty { get; set; }
+        public Property ReferenceProperty { get; internal set; }
 
-        public string ReferencePropertyName { get; set; }
+        public string ReferencePropertyName { get; internal set; }
 
-        public bool IsRequired { get; set; }
-        public string RequiredErrorMessage { get; set; }
+        public bool IsRequired { get; internal set; }
+        public string RequiredErrorMessage { get; internal set; }
 
         public DeleteOption DeleteOption { get; internal set; }
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
