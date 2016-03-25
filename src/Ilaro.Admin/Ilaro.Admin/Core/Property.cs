@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Core
 
         public bool IsAutoKey
         {
-            get { return TypeInfo.DataType != DataType.Text; }
+            get { return IsKey && TypeInfo.DataType != DataType.Text; }
         }
 
         public bool IsVisible { get; internal set; }
