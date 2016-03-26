@@ -144,12 +144,9 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.Description = propertyCustomizer.Description;
                 property.DeleteOption = propertyCustomizer.DeleteOption
                     .GetValueOrDefault(DeleteOption.AskUser);
-                property.Template.Display = propertyCustomizer.DisplayTemplate
-                    .GetValueOrDefault(property.Template.Display);
-                property.Template.Editor = propertyCustomizer.EditorTemplate
-                    .GetValueOrDefault(property.Template.Editor);
                 if (propertyCustomizer.DataType.HasValue)
                 {
+                    property.TypeInfo.SourceDataType = propertyCustomizer.SourceDataType;
                     property.TypeInfo.DataType = propertyCustomizer.DataType.Value;
                     property.TypeInfo.EnumType = propertyCustomizer.EnumType;
                 }
@@ -160,6 +157,25 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
                 property.SetForeignKey(propertyCustomizer.ForeignKey);
+
+                if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
+                {
+                    property.Template.Display = propertyCustomizer.DisplayTemplate;
+                }
+                else
+                {
+                    property.Template.Display =
+                        TemplateUtil.GetDisplayTemplate(property.TypeInfo, property.IsForeignKey);
+                }
+                if (propertyCustomizer.EditorTemplate.IsNullOrEmpty() == false)
+                {
+                    property.Template.Editor = propertyCustomizer.EditorTemplate;
+                }
+                else
+                {
+                    property.Template.Editor =
+                        TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
+                }
             }
         }
     }

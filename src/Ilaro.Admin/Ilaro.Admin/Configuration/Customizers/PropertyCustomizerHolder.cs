@@ -1,6 +1,7 @@
 ﻿using System;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.DataAnnotations;
+using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -24,6 +25,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsRequired { get; internal set; }
         public string ForeignKey { get; internal set; }
         public Type EnumType { get; internal set; }
-        public System.ComponentModel.DataAnnotations.DataType SourceDataType { get; internal set; }
+        public SystemDataType? SourceDataType { get; internal set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Ilaro.Admin.Extensions;
+using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Core
 {
@@ -18,7 +19,7 @@ namespace Ilaro.Admin.Core
             }
         }
         public DataType DataType { get; internal set; }
-        public System.ComponentModel.DataAnnotations.DataType? SourceDataType { get; private set; }
+        public SystemDataType? SourceDataType { get; internal set; }
         public Type EnumType { get; internal set; }
         /// <summary>
         /// If a property type (or sub type if property is a collection) 

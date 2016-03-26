@@ -193,6 +193,7 @@
     <Compile Include="Configuration\Customizers\IEntityCustomizer.cs" />
     <Compile Include="Configuration\Customizers\IPropertyCustomizer.cs" />
     <Compile Include="Configuration\Customizers\PropertyCustomizer.cs" />
+    <Compile Include="Configuration\Customizers\TemplateUtil.cs" />
     <Compile Include="Configuration\Entity.cs" />
     <Compile Include="Configuration\EntityConfiguration.cs" />
     <Compile Include="Configuration\Customizers\EntityCustomizer.cs" />

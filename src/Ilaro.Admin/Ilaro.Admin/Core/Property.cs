@@ -76,7 +76,7 @@ namespace Ilaro.Admin.Core
 
         public DeleteOption DeleteOption { get; internal set; }
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
-        public PropertyTemplate Template { get; internal set; }
+        public PropertyTemplate Template { get; internal set; } = new PropertyTemplate();
         public PropertyTypeInfo TypeInfo { get; private set; }
         public PropertyValue Value { get; private set; }
 
@@ -108,7 +108,6 @@ namespace Ilaro.Admin.Core
 
             TypeInfo = new PropertyTypeInfo(property.PropertyType);
             Value = new PropertyValue(TypeInfo);
-            Template = new PropertyTemplate(TypeInfo, IsForeignKey);
 
             if (TypeInfo.DataType == DataType.Numeric)
             {
