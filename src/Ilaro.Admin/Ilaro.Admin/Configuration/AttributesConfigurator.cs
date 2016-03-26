@@ -82,9 +82,10 @@ namespace Ilaro.Admin.Configuration
             var attribute = attributes.GetAttribute<LinksAttribute>();
             if (attribute != null)
             {
-                customizerHolder.DisplayLink(attribute.DisplayLink);
-                customizerHolder.EditLink(attribute.EditLink);
-                customizerHolder.DeleteLink(attribute.DeleteLink);
+                customizerHolder.Link(
+                    attribute.DisplayLink, 
+                    attribute.EditLink, 
+                    attribute.DeleteLink);
             }
         }
 

@@ -13,9 +13,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Id(IEnumerable<MemberInfo> idProperties);
         void DisplayProperties(IEnumerable<MemberInfo> displayProperties);
         void SearchProperties(IEnumerable<MemberInfo> searchProperties);
-        void DisplayLink(string displayLink);
-        void EditLink(string editLink);
-        void DeleteLink(string deleteLink);
+        void Link(string display = null, string edit = null, string delete = null);
         void Group(string group);
         void DisplayFormat(string displayFormat);
         void Display(string singular, string plural);

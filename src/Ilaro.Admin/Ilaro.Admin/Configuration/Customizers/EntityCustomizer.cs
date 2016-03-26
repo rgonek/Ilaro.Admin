@@ -62,31 +62,14 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         /// <summary>
-        /// Set display link
+        /// Set links
         /// </summary>
-        public EntityCustomizer<TEntity> DisplayLink(string displayLink)
+        public EntityCustomizer<TEntity> Link(
+            string display = null, 
+            string edit = null, 
+            string delete = null)
         {
-            CustomizersHolder.DisplayLink(displayLink);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Set edit link
-        /// </summary>
-        public EntityCustomizer<TEntity> EditLink(string editLink)
-        {
-            CustomizersHolder.EditLink(editLink);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Set delete link
-        /// </summary>
-        public EntityCustomizer<TEntity> DeleteLink(string deleteLink)
-        {
-            CustomizersHolder.DeleteLink(deleteLink);
+            CustomizersHolder.Link(display, edit, delete);
 
             return this;
         }

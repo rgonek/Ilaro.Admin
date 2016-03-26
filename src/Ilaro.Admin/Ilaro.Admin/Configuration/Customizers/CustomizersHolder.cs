@@ -32,19 +32,14 @@ namespace Ilaro.Admin.Configuration.Customizers
             _classCustomizer.DisplayFormat = displayFormat;
         }
 
-        public void DisplayLink(string displayLink)
+        public void Link(
+            string display = null, 
+            string edit = null, 
+            string delete = null)
         {
-            _classCustomizer.DisplayLink = displayLink;
-        }
-
-        public void EditLink(string editLink)
-        {
-            _classCustomizer.EditLink = editLink;
-        }
-
-        public void DeleteLink(string deleteLink)
-        {
-            _classCustomizer.DeleteLink = deleteLink;
+            _classCustomizer.DisplayLink = display;
+            _classCustomizer.EditLink = edit;
+            _classCustomizer.DeleteLink = delete;
         }
 
         public void Group(string group)
