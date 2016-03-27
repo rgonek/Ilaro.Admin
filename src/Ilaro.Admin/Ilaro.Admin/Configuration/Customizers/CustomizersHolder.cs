@@ -4,6 +4,7 @@ using System.Reflection;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.Linq;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -80,7 +81,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             bool isCollapsed,
             IEnumerable<MemberInfo> properties)
         {
-            _classCustomizer.Groups[groupName] = isCollapsed;
+            _classCustomizer.PropertiesGroups[groupName] = isCollapsed;
             foreach (var property in properties)
             {
                 GetPropertyCustomizer(property).Group = groupName;
@@ -134,6 +135,27 @@ namespace Ilaro.Admin.Configuration.Customizers
                 entity.AllowEdit = _classCustomizer.AllowEdit.Value;
             if (_classCustomizer.AllowDelete.HasValue)
                 entity.AllowDelete = _classCustomizer.AllowDelete.Value;
+
+            if (_classCustomizer.PropertiesGroups.IsNullOrEmpty())
+            {
+                entity.Groups.Add(new GroupProperties
+                {
+                    IsCollapsed = false,
+                    Properties = entity.Properties
+                });
+            }
+            else
+            {
+                foreach (var group in _classCustomizer.PropertiesGroups)
+                {
+                    entity.Groups.Add(new GroupProperties
+                    {
+                        GroupName = group.Key,
+                        IsCollapsed = group.Value,
+                        Properties = entity.Properties.Where(x => x.Group == group.Key)
+                    });
+                }
+            }
 
             SetDefaultId(entity);
             SetDefaultDisplayProperties(entity);

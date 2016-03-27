@@ -62,6 +62,7 @@ namespace Ilaro.Admin.Core
         }
 
         public IList<GroupProperties> Groups { get; private set; }
+            = new List<GroupProperties>();
 
         public IEnumerable<Property> DisplayProperties
         {

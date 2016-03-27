@@ -2,6 +2,8 @@
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using System;
+using System.Linq.Expressions;
+using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -34,7 +36,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set data annotation data type
         /// </summary>
-        IPropertyCustomizer Type(System.ComponentModel.DataAnnotations.DataType dataType);
+        IPropertyCustomizer Type(SystemDataType dataType);
         /// <summary>
         /// Set enum type
         /// </summary>
