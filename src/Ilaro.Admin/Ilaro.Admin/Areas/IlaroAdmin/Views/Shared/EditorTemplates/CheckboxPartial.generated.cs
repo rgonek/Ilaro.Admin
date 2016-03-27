@@ -73,7 +73,7 @@ WriteLiteral("                ");
 
             
             #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-           Write(Model.DisplayName);
+           Write(Model.Display);
 
             
             #line default

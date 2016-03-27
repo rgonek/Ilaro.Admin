@@ -166,7 +166,7 @@ WriteLiteral(">");
 
             
             #line 28 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                                             Write(key.DisplayName);
+                                             Write(key.Display);
 
             
             #line default

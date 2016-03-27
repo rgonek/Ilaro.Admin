@@ -155,7 +155,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.Column = propertyCustomizer.Column;
 
                 if (propertyCustomizer.DisplayName.HasValue())
-                    property.DisplayName = propertyCustomizer.DisplayName;
+                    property.Display = propertyCustomizer.DisplayName;
 
                 if (propertyCustomizer.Description.HasValue())
                     property.Description = propertyCustomizer.Description;

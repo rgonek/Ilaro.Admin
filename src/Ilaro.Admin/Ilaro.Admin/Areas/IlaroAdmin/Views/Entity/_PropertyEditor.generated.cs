@@ -65,7 +65,7 @@ WriteLiteral(">");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                Write(Model.DisplayName);
+                                                                Write(Model.Display);
 
             
             #line default

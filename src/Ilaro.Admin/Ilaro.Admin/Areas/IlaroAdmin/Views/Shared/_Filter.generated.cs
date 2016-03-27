@@ -53,7 +53,7 @@ WriteLiteral("    ");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\_Filter.cshtml"
-Write(Model.Property.DisplayName);
+Write(Model.Property.Display);
 
             
             #line default

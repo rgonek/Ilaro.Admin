@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public string DisplayName { get; internal set; }
+        public string Display { get; internal set; }
 
         public string GroupName { get; internal set; }
 
@@ -122,7 +122,7 @@ namespace Ilaro.Admin.Core
 
             SetForeignKey();
 
-            DisplayName = Name.SplitCamelCase();
+            Display = Name.SplitCamelCase();
             GroupName = IlaroAdminResources.Others;
         }
 

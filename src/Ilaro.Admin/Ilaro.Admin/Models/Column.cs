@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Models
             order = order.ToLower();
 
             Name = property.Name;
-            DisplayName = property.DisplayName;
+            DisplayName = property.Display;
             Description = property.Description;
             SortDirection = 
                 property.Name.ToLower() == order ?
