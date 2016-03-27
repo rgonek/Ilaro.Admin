@@ -102,7 +102,7 @@ namespace Ilaro.Admin.Core
         internal static IList<GroupProperties> PrepareGroups(this Entity entity, IList<string> groupsNames)
         {
             var groupsDict = entity.GetDefaultCreateProperties()
-                .GroupBy(x => x.GroupName)
+                .GroupBy(x => x.Group)
                 .ToDictionary(x => x.Key);
 
             var groups = new List<GroupProperties>();

@@ -169,7 +169,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.TypeInfo.EnumType = propertyCustomizer.EnumType;
                 }
                 property.FileOptions = propertyCustomizer.FileOptions;
-                property.GroupName = propertyCustomizer.Group;
+                property.Group = propertyCustomizer.Group;
                 property.Value.DefaultValue = propertyCustomizer.DefaultValue;
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
