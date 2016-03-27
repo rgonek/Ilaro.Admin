@@ -69,7 +69,7 @@ SELECT @{2};";
             var counter = 0;
             foreach (var key in entity.Key)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
+                whereParts.Add("{0} = @{1}".Fill(key.Column, counter++));
                 cmd.AddParam(key.Value.Raw);
             }
             var wherePart = string.Join(" AND ", whereParts);
@@ -122,7 +122,7 @@ SELECT @{2};";
             var whereParts = new List<string>();
             foreach (var key in record.Entity.Key)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, paramIndex++));
+                whereParts.Add("{0} = @{1}".Fill(key.Column, paramIndex++));
             }
             var wherePart = string.Join(" AND ", whereParts);
 
@@ -149,7 +149,7 @@ SELECT @{2};";
             //UPDATE Products SET CategoryID = null WHERE ProductID = 7
 
             var foreignTable = subRecord.Entity.TableName;
-            var foreignKey = subRecord.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == entity).ColumnName;
+            var foreignKey = subRecord.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == entity).Column;
             var nullIndex = cmd.Parameters.Count;
             var paramIndex = nullIndex + 1;
             cmd.AddParam(null);
@@ -158,7 +158,7 @@ SELECT @{2};";
             var whereParts = new List<string>();
             foreach (var key in subRecord.Entity.Key)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.ColumnName, paramIndex++));
+                whereParts.Add("{0} = @{1}".Fill(key.Column, paramIndex++));
             }
             var wherePart = string.Join(" AND ", whereParts);
 

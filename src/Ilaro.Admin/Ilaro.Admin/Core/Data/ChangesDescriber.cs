@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Core.Data
             var changeBuilder = new StringBuilder();
             foreach (var property in updateProperties)
             {
-                var columnName = property.ColumnName.Undecorate();
+                var columnName = property.Column.Undecorate();
                 if (existingRecord.ContainsKey(columnName))
                 {
                     var oldValue = existingRecord[columnName];

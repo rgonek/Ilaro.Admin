@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Filters
         {
             if (Value.Contains('-') == false)
             {
-                var sql = "({0}{1} >= @{2} AND {0}{1} <= @{3})".Fill(alias, Property.ColumnName, args.Count, args.Count + 1);
+                var sql = "({0}{1} >= @{2} AND {0}{1} <= @{3})".Fill(alias, Property.Column, args.Count, args.Count + 1);
                 args.Add(Value + " 00:00");
                 args.Add(Value + " 23:59");
                 return sql;
@@ -53,20 +53,20 @@ namespace Ilaro.Admin.Filters
 
             if (dates[0].IsNullOrEmpty() == false && dates[1].IsNullOrEmpty() == false)
             {
-                var sql = "({0}{1} >= @{2} AND {0}{1} <= @{3})".Fill(alias, Property.ColumnName, args.Count, args.Count + 1);
+                var sql = "({0}{1} >= @{2} AND {0}{1} <= @{3})".Fill(alias, Property.Column, args.Count, args.Count + 1);
                 args.Add(dates[0] + " 00:00");
                 args.Add(dates[1] + " 23:59");
                 return sql;
             }
             if (dates[0].IsNullOrEmpty() && dates[1].IsNullOrEmpty() == false)
             {
-                var sql = "{0}{1} <= @{2}".Fill(alias, Property.ColumnName, args.Count);
+                var sql = "{0}{1} <= @{2}".Fill(alias, Property.Column, args.Count);
                 args.Add(dates[1] + " 23:59");
                 return sql;
             }
             if (dates[0].IsNullOrEmpty() == false && dates[1].IsNullOrEmpty())
             {
-                var sql = "{0}{1} >= @{2}".Fill(alias, Property.ColumnName, args.Count);
+                var sql = "{0}{1} >= @{2}".Fill(alias, Property.Column, args.Count);
                 args.Add(dates[0] + " 00:00");
                 return sql;
             }

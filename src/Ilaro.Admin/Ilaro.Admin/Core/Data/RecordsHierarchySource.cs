@@ -91,7 +91,7 @@ namespace Ilaro.Admin.Core.Data
                                 subRecord,
                                 records,
                                 hierarchy.SubHierarchies,
-                                hierarchy.Entity.Key.Select(x => prefix + x.ColumnName.Undecorate()).ToList(),
+                                hierarchy.Entity.Key.Select(x => prefix + x.Column.Undecorate()).ToList(),
                                 rowData.KeyValue);
                         }
                     }
@@ -153,14 +153,14 @@ ORDER BY {5};";
                 var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
-                    foreignKey = item.Entity.Key.FirstOrDefault().ColumnName;
+                    foreignKey = item.Entity.Key.FirstOrDefault().Column;
                     baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties
-                        .FirstOrDefault(x => x.ForeignEntity == item.Entity).ColumnName;
+                        .FirstOrDefault(x => x.ForeignEntity == item.Entity).Column;
                 }
                 else
                 {
-                    foreignKey = foreignProperty.ColumnName;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.FirstOrDefault().ColumnName;
+                    foreignKey = foreignProperty.Column;
+                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
                 }
                 joins.Add(joinFormat.Fill(
                     foreignTable,
@@ -169,13 +169,13 @@ ORDER BY {5};";
                     baseTableAlias,
                     baseTablePrimaryKey));
             }
-            var orders = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.ColumnName)).ToList();
+            var orders = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
 
             var whereParts = new List<string>();
             var counter = 0;
             foreach (var key in hierarchy.Entity.Key)
             {
-                whereParts.Add("{0}.{1} = @{2}".Fill(hierarchy.Alias, key.ColumnName, counter++));
+                whereParts.Add("{0}.{1} = @{2}".Fill(hierarchy.Alias, key.Column, counter++));
             }
             var where = string.Join(" AND ", whereParts);
 

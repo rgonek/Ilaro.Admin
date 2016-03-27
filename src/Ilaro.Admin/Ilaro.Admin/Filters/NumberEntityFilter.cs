@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Filters
 
         public override string GetSqlCondition(string alias, ref List<object> args)
         {
-            var sql = "{0}{1} = @{2}".Fill(alias, Property.ColumnName, args.Count);
+            var sql = "{0}{1} = @{2}".Fill(alias, Property.Column, args.Count);
             args.Add(Value);
 
             return sql;

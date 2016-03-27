@@ -152,7 +152,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
 
                 if (propertyCustomizer.Column.HasValue())
-                    property.ColumnName = propertyCustomizer.Column;
+                    property.Column = propertyCustomizer.Column;
 
                 if (propertyCustomizer.DisplayName.HasValue())
                     property.DisplayName = propertyCustomizer.DisplayName;

@@ -156,9 +156,9 @@ namespace Ilaro.Admin.Core.File
             ImageSettings setting,
             IDictionary<string, object> recordDict)
         {
-            if (recordDict.ContainsKey(property.ColumnName.Undecorate()))
+            if (recordDict.ContainsKey(property.Column.Undecorate()))
             {
-                var fileName = recordDict[property.ColumnName.Undecorate()].ToStringSafe();
+                var fileName = recordDict[property.Column.Undecorate()].ToStringSafe();
                 var path = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
 
                 _deleter.Delete(path);

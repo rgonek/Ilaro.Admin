@@ -54,14 +54,14 @@ namespace Ilaro.Admin.Models
         {
             foreach (var key in entity.Key)
             {
-                KeyValue.Add(recordDict[prefix + key.ColumnName.Undecorate()].ToStringSafe());
+                KeyValue.Add(recordDict[prefix + key.Column.Undecorate()].ToStringSafe());
             }
 
             foreach (var property in entity.DisplayProperties)
             {
                 Values.Add(new CellValue
                 {
-                    Raw = recordDict[prefix + property.ColumnName.Undecorate()],
+                    Raw = recordDict[prefix + property.Column.Undecorate()],
                     Property = property
                 });
             }

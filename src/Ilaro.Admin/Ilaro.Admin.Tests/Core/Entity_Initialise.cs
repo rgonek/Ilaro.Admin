@@ -123,7 +123,7 @@ namespace Ilaro.Admin.Tests.Core
             var entity = _admin.GetEntity<Product>();
 
             var property = entity["Category"];
-            Assert.Equal("[CategoryID]", property.ColumnName);
+            Assert.Equal("[CategoryID]", property.Column);
         }
     }
 }

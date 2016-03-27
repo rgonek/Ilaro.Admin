@@ -83,7 +83,7 @@ WHERE {2};";
                 .GetDefaultCreateProperties(getForeignCollection: false)
                 .WhereIsNotSkipped())
             {
-                sbKeys.AppendFormat("{0},", property.ColumnName);
+                sbKeys.AppendFormat("{0},", property.Column);
                 sbVals.AppendFormat("@{0},", counter);
                 AddParam(cmd, property);
                 counter++;
@@ -119,7 +119,7 @@ WHERE {2};";
                 {
                     var key = property.ForeignEntity.Key[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
-                    whereParts.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                    whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
                 var wherePart = string.Join(" AND ", whereParts);
@@ -127,7 +127,7 @@ WHERE {2};";
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
-                    entity.Key.FirstOrDefault().ColumnName,
+                    entity.Key.FirstOrDefault().Column,
                     wherePart);
             }
 

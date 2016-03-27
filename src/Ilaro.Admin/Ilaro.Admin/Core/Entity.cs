@@ -43,7 +43,7 @@ namespace Ilaro.Admin.Core
 
         public string JoinedKey
         {
-            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.ColumnName)); }
+            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.Column)); }
         }
 
         public string JoinedKeyWithValue
@@ -224,7 +224,7 @@ namespace Ilaro.Admin.Core
             properties.AddRange(DisplayProperties);
 
             return properties
-                .Select(x => x.ColumnName)
+                .Select(x => x.Column)
                 .Distinct()
                 .ToList();
         }

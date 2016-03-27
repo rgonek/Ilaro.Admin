@@ -52,8 +52,8 @@ namespace Ilaro.Admin.Core.Data
             foreach (var property in entity.GetDefaultCreateProperties(false))
             {
                 property.Value.Raw =
-                    item.ContainsKey(property.ColumnName.Undecorate()) ?
-                    item[property.ColumnName.Undecorate()] :
+                    item.ContainsKey(property.Column.Undecorate()) ?
+                    item[property.Column.Undecorate()] :
                     null;
             }
 
@@ -97,7 +97,7 @@ namespace Ilaro.Admin.Core.Data
                 Query = searchQuery,
                 Properties = entity.SearchProperties
             };
-            order = order.IsNullOrEmpty() ? entity.Key.FirstOrDefault().ColumnName : order;
+            order = order.IsNullOrEmpty() ? entity.Key.FirstOrDefault().Column : order;
             orderDirection = orderDirection.IsNullOrEmpty() ?
                 "ASC" :
                 orderDirection.ToUpper();
@@ -107,7 +107,7 @@ namespace Ilaro.Admin.Core.Data
                     .Where(x =>
                         !x.IsForeignKey ||
                         (!x.TypeInfo.IsCollection && x.IsForeignKey))
-                    .Select(x => x.ColumnName)
+                    .Select(x => x.Column)
                     .Distinct());
             List<object> args;
             var where = ConvertFiltersToSql(filters, search, out args);
@@ -210,7 +210,7 @@ namespace Ilaro.Admin.Core.Data
                     if (property.TypeInfo.IsString)
                     {
                         searchCondition += " {0}{1} LIKE @{2} OR"
-                            .Fill(alias, property.ColumnName, args.Count);
+                            .Fill(alias, property.Column, args.Count);
                         args.Add("%" + search.Query + "%");
                     }
                     else if (decimal.TryParse(query.Replace(",", "."), NumberStyles.Any, CultureInfo.CurrentCulture, out temp))
@@ -226,7 +226,7 @@ namespace Ilaro.Admin.Core.Data
                         }
 
                         searchCondition += " {0}{1} {2} @{3} OR"
-                            .Fill(alias, property.ColumnName, sign, args.Count);
+                            .Fill(alias, property.Column, sign, args.Count);
                         args.Add(temp);
                     }
                 }

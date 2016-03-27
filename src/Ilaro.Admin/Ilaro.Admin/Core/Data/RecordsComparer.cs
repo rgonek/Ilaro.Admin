@@ -13,9 +13,9 @@ namespace Ilaro.Admin.Core.Data
                 .Where(x => x.IsKey == false)
                 .WhereIsNotSkipped())
             {
-                if (existingRecord.ContainsKey(property.ColumnName.Undecorate()))
+                if (existingRecord.ContainsKey(property.Column.Undecorate()))
                 {
-                    var oldValue = existingRecord[property.ColumnName.Undecorate()];
+                    var oldValue = existingRecord[property.Column.Undecorate()];
                     var equals = Equals(property.Value.Raw, oldValue);
 
                     if (equals)

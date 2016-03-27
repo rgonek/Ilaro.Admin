@@ -95,14 +95,14 @@ WHERE {3};";
                 foreach (var property in updateProperties)
                 {
                     AddParam(cmd, property);
-                    sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.ColumnName, counter++);
+                    sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.Column, counter++);
                 }
                 cmd.AddParams(entity.Key.Select(x => x.Value.Raw).ToArray());
                 var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
                 var whereParts = new List<string>();
                 foreach (var key in entity.Key)
                 {
-                    whereParts.Add("{0} = @{1}".Fill(key.ColumnName, counter++));
+                    whereParts.Add("{0} = @{1}".Fill(key.Column, counter++));
                 }
                 var wherePart = string.Join(" AND ", whereParts);
                 cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, wherePart);
@@ -141,7 +141,7 @@ WHERE {3};";
                     {
                         var key = property.ForeignEntity.Key[i];
                         var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
-                        whereParts2.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                        whereParts2.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                         cmd.AddParams(values2.Select(x => x[i]).OfType<object>().ToArray());
                     }
                     var wherePart2 = string.Join(" AND ", whereParts2);
@@ -150,7 +150,7 @@ WHERE {3};";
                     sbUpdates.AppendFormat(
                         RelatedRecordsUpdateSqlFormat,
                         property.ForeignEntity.TableName,
-                        entity.Key.FirstOrDefault().ColumnName,
+                        entity.Key.FirstOrDefault().Column,
                         paramIndex++,
                         wherePart2);
                     cmd.AddParam(null);
@@ -164,7 +164,7 @@ WHERE {3};";
                 {
                     var key = property.ForeignEntity.Key[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
-                    whereParts.Add("{0} In ({1})".Fill(key.ColumnName, joinedValues));
+                    whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
                 var wherePart = string.Join(" AND ", whereParts);
@@ -172,7 +172,7 @@ WHERE {3};";
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
                     property.ForeignEntity.TableName,
-                    entity.Key.FirstOrDefault().ColumnName,
+                    entity.Key.FirstOrDefault().Column,
                     paramIndex++,
                     wherePart);
                 cmd.AddParam(entity.Key.FirstOrDefault().Value.Raw);

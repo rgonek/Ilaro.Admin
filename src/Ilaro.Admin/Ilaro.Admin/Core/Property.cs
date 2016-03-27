@@ -20,16 +20,16 @@ namespace Ilaro.Admin.Core
 
         public string Name { get; internal set; }
 
-        private string _columnName;
-        public string ColumnName
+        private string _column;
+        public string Column
         {
-            get { return _columnName; }
+            get { return _column; }
             internal set
             {
                 if (value.StartsWith("[") && value.EndsWith("]"))
-                    _columnName = value;
+                    _column = value;
                 else
-                    _columnName = "[" + value + "]";
+                    _column = "[" + value + "]";
             }
         }
 
@@ -102,7 +102,7 @@ namespace Ilaro.Admin.Core
             PropertyInfo = property;
 
             Name = property.Name;
-            ColumnName = property.Name;
+            Column = property.Name;
             ControlsAttributes = new Dictionary<string, object>();
 
             TypeInfo = new PropertyTypeInfo(property.PropertyType);
@@ -139,7 +139,7 @@ namespace Ilaro.Admin.Core
                 }
                 else
                 {
-                    ReferencePropertyName = ColumnName = ForeignKeyName;
+                    ReferencePropertyName = Column = ForeignKeyName;
                     ForeignEntityName = TypeInfo.Type.Name;
                 }
             }
