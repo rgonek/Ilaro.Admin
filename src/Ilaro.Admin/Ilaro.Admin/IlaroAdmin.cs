@@ -102,7 +102,6 @@ namespace Ilaro.Admin
             }
 
             SetForeignKeysReferences();
-            SetDisplayProperties();
         }
 
         private Entity CreateInstance(Type entityType)
@@ -127,24 +126,6 @@ namespace Ilaro.Admin
             }
 
             return connectionStringName;
-        }
-
-        private void SetDisplayProperties()
-        {
-            foreach (var entity in _entitiesTypes.Where(x => x.DisplayProperties.Any() == false))
-            {
-                foreach (var property in entity.GetDefaultDisplayProperties())
-                {
-                    property.IsVisible = true;
-                }
-            }
-            foreach (var entity in _entitiesTypes.Where(x => x.SearchProperties.Any() == false))
-            {
-                foreach (var property in entity.GetDefaultSearchProperties())
-                {
-                    property.IsSearchable = true;
-                }
-            }
         }
 
         private void SetForeignKeysReferences()

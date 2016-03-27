@@ -122,21 +122,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             entity.Links.Edit = _classCustomizer.EditLink;
             entity.Links.Delete = _classCustomizer.DeleteLink;
 
-            if (_propertyCustomizers.Any(x => x.Value.IsKey == true) == false)
-            {
-                var key = entity.Properties.FirstOrDefault(x =>
-                    x.Name.Equals("id", StringComparison.CurrentCultureIgnoreCase));
-                if (key == null)
-                {
-                    key = entity.Properties.FirstOrDefault(x =>
-                        x.Name.Equals(entity.Name + "id", StringComparison.CurrentCultureIgnoreCase));
-                }
-
-                if (key != null)
-                {
-                    Id(new[] { key.PropertyInfo });
-                }
-            }
+            SetDefaultId(entity);
+            SetDefaultDisplayProperties(entity);
+            SetDefaultSearchProperties(entity);
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -188,6 +176,41 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.Template.Editor =
                         TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
                 }
+            }
+        }
+
+        private void SetDefaultId(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.IsKey == true) == false)
+            {
+                var key = entity.Properties.FirstOrDefault(x =>
+                    x.Name.Equals("id", StringComparison.CurrentCultureIgnoreCase));
+                if (key == null)
+                {
+                    key = entity.Properties.FirstOrDefault(x =>
+                        x.Name.Equals(entity.Name + "id", StringComparison.CurrentCultureIgnoreCase));
+                }
+
+                if (key != null)
+                {
+                    Id(new[] { key.PropertyInfo });
+                }
+            }
+        }
+
+        private void SetDefaultDisplayProperties(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.IsVisible.HasValue) == false)
+            {
+                DisplayProperties(entity.GetDefaultDisplayProperties().Select(x => x.PropertyInfo));
+            }
+        }
+
+        private void SetDefaultSearchProperties(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.IsSearchable.HasValue) == false)
+            {
+                SearchProperties(entity.GetDefaultSearchProperties().Select(x => x.PropertyInfo));
             }
         }
     }
