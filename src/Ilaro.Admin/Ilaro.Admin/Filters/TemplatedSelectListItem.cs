@@ -20,9 +20,9 @@ namespace Ilaro.Admin.Filters
             Text = text;
             Value = value;
             Selected = Value == currentValue;
-            if (template.IsNullOrWhiteSpace())
+            if (template.HasValue())
             {
-                Template = "FilterTemplates\\" + template;   
+                Template = "FilterTemplates/" + template;   
             }
         }
     }
