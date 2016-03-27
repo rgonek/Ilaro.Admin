@@ -109,12 +109,12 @@ namespace Ilaro.Admin.Configuration.Customizers
                 _classCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
                 _classCustomizer.Schema);
 
-            entity.Verbose.Singular = _classCustomizer.NameSingular
-                .GetValueOrDefault(Type.Name.SplitCamelCase());
-            entity.Verbose.Plural = _classCustomizer.NamePlural
-                .GetValueOrDefault(entity.Verbose.Singular.Pluralize().SplitCamelCase());
-            entity.Verbose.Group = _classCustomizer.Group
-                .GetValueOrDefault(IlaroAdminResources.Others);
+            if (_classCustomizer.NameSingular.HasValue())
+                entity.Verbose.Singular = _classCustomizer.NameSingular;
+            if (_classCustomizer.NamePlural.HasValue())
+                entity.Verbose.Plural = _classCustomizer.NamePlural;
+            if (_classCustomizer.Group.HasValue())
+                entity.Verbose.Group = _classCustomizer.Group;
 
             entity.RecordDisplayFormat = _classCustomizer.DisplayFormat;
 
@@ -148,14 +148,19 @@ namespace Ilaro.Admin.Configuration.Customizers
 
                 if (propertyCustomizer.IsVisible.HasValue)
                     property.IsVisible = propertyCustomizer.IsVisible.Value;
+
                 if (propertyCustomizer.IsSearchable.HasValue)
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
-                if (propertyCustomizer.Column.IsNullOrEmpty() == false)
+
+                if (propertyCustomizer.Column.HasValue())
                     property.ColumnName = propertyCustomizer.Column;
 
-                property.DisplayName = propertyCustomizer.DisplayName
-                    .GetValueOrDefault(property.Name.SplitCamelCase());
-                property.Description = propertyCustomizer.Description;
+                if (propertyCustomizer.DisplayName.HasValue())
+                    property.DisplayName = propertyCustomizer.DisplayName;
+
+                if (propertyCustomizer.Description.HasValue())
+                    property.Description = propertyCustomizer.Description;
+
                 property.DeleteOption = propertyCustomizer.DeleteOption
                     .GetValueOrDefault(DeleteOption.AskUser);
                 if (propertyCustomizer.DataType.HasValue)

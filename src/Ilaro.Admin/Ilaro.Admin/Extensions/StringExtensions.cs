@@ -20,6 +20,11 @@ namespace Ilaro.Admin.Extensions
             return string.IsNullOrWhiteSpace(phrase);
         }
 
+        public static bool HasValue(this string phrase)
+        {
+            return phrase.IsNullOrEmpty() == false;
+        }
+
         public static string Slug(this string phrase)
         {
             if (phrase.IsNullOrEmpty())
