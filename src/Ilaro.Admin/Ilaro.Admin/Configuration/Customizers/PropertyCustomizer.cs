@@ -73,6 +73,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public IPropertyCustomizer ForeignKey(string name)
         {
+            propertyCustomizerHolder.IsForeignKey = true;
             propertyCustomizerHolder.ForeignKey = name;
 
             return this;

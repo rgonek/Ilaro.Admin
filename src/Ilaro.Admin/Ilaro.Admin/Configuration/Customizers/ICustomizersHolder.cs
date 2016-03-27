@@ -19,6 +19,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Display(string singular, string plural);
         void PropertyGroup(string groupName, bool isCollapsed, IEnumerable<MemberInfo> memberInfos);
         void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer);
-        void CustomizeEntity(Entity entity);
+        void CustomizeEntity(Entity entity, IIlaroAdmin admin);
+        void CustomizeProperties(Entity entity, IIlaroAdmin admin);
     }
 }

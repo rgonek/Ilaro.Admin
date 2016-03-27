@@ -82,5 +82,48 @@ namespace Ilaro.Admin.Tests.Core
 
             Assert.Equal(Templates.Editor.Markdown, entity["CategoryName"].Template.Editor);
         }
+
+        [Fact]
+        public void when_property_is_not_directly_set_as_foreign_key__it_should_be_determined_as_foreign_key()
+        {
+            _admin.RegisterEntity<Employee>()
+                .Property(x => x.Manager, x =>
+                {
+                    x.ForeignKey("ReportsTo");
+                });
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Employee>();
+
+            Assert.True(entity["ReportsTo"].IsForeignKey);
+        }
+
+        [Fact]
+        public void when_property_is_not_directly_set_as_foreign_key__editor_template_should_be_set_to_drop_down_list()
+        {
+            _admin.RegisterEntity<Employee>()
+                .Property(x => x.Manager, x =>
+                {
+                    x.ForeignKey("ReportsTo");
+                });
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Employee>();
+
+            Assert.Equal(Templates.Editor.DropDownList, entity["ReportsTo"].Template.Editor);
+        }
+
+        [Fact]
+        public void when_property_is_foreign_key_it_should_has_proper_column_name()
+        {
+            _admin.RegisterEntity<Product>()
+                .Property(x => x.Category, x =>
+                {
+                    x.ForeignKey("CategoryID");
+                });
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Product>();
+
+            var property = entity["Category"];
+            Assert.Equal("[CategoryID]", property.ColumnName);
+        }
     }
 }

@@ -103,7 +103,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return _propertyCustomizers[propertyInfo];
         }
 
-        public void CustomizeEntity(Entity entity)
+        public void CustomizeEntity(Entity entity, IIlaroAdmin admin)
         {
             entity.SetTableName(
                 _classCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
@@ -131,14 +131,28 @@ namespace Ilaro.Admin.Configuration.Customizers
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];
 
+                property.IsKey = propertyCustomizer.IsKey.GetValueOrDefault(false);
+                if (propertyCustomizer.IsForeignKey)
+                    property.SetForeignKey(propertyCustomizer.ForeignKey);
+            }
+        }
+
+        public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
+        {
+            SetForeignKeysReferences(entity, admin);
+
+            foreach (var customizerPair in _propertyCustomizers)
+            {
+                var propertyCustomizer = customizerPair.Value;
+                var property = entity[customizerPair.Key.Name];
+
                 if (propertyCustomizer.IsVisible.HasValue)
                     property.IsVisible = propertyCustomizer.IsVisible.Value;
                 if (propertyCustomizer.IsSearchable.HasValue)
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
+                if (propertyCustomizer.Column.IsNullOrEmpty() == false)
+                    property.ColumnName = propertyCustomizer.Column;
 
-                property.IsKey = propertyCustomizer.IsKey.GetValueOrDefault(false);
-                property.ColumnName = propertyCustomizer.Column
-                    .GetValueOrDefault(property.Name);
                 property.DisplayName = propertyCustomizer.DisplayName
                     .GetValueOrDefault(property.Name.SplitCamelCase());
                 property.Description = propertyCustomizer.Description;
@@ -156,7 +170,6 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
-                property.SetForeignKey(propertyCustomizer.ForeignKey);
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
@@ -175,6 +188,32 @@ namespace Ilaro.Admin.Configuration.Customizers
                 {
                     property.Template.Editor =
                         TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
+                }
+            }
+        }
+
+        private void SetForeignKeysReferences(Entity entity, IIlaroAdmin admin)
+        {
+            foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
+            {
+                property.ForeignEntity = admin.GetEntity(property.ForeignEntityName);
+
+                if (property.ReferencePropertyName.IsNullOrEmpty() == false)
+                {
+                    property.ReferenceProperty = entity[property.ReferencePropertyName];
+                    if (property.ReferenceProperty != null)
+                    {
+                        property.ReferenceProperty.IsForeignKey = true;
+                        property.ReferenceProperty.ForeignEntity = property.ForeignEntity;
+                        property.ReferenceProperty.ReferenceProperty = property;
+                    }
+                    else if (property.TypeInfo.IsSystemType == false)
+                    {
+                        property.TypeInfo.Type = property.ForeignEntity == null ?
+                            // by default foreign property is int
+                            property.TypeInfo.Type = typeof(int) :
+                            property.ForeignEntity.Key.FirstOrDefault().TypeInfo.Type;
+                    }
                 }
             }
         }

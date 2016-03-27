@@ -98,10 +98,12 @@ namespace Ilaro.Admin
             foreach (var customizer in CustomizerHolders)
             {
                 var entity = CreateInstance(customizer.Key);
-                customizer.Value.CustomizeEntity(entity);
+                customizer.Value.CustomizeEntity(entity, this);
             }
-
-            SetForeignKeysReferences();
+            foreach (var customizer in CustomizerHolders)
+            {
+                customizer.Value.CustomizeProperties(GetEntity(customizer.Key), this);
+            }
         }
 
         private Entity CreateInstance(Type entityType)
@@ -126,43 +128,6 @@ namespace Ilaro.Admin
             }
 
             return connectionStringName;
-        }
-
-        private void SetForeignKeysReferences()
-        {
-            foreach (var entity in _entitiesTypes)
-            {
-                foreach (var property in entity.Properties)
-                {
-                    if (property.IsForeignKey)
-                    {
-                        property.ForeignEntity = _entitiesTypes.FirstOrDefault(x => x.Name == property.ForeignEntityName);
-
-                        if (!property.ReferencePropertyName.IsNullOrEmpty())
-                        {
-                            property.ReferenceProperty = entity.Properties.FirstOrDefault(x => x.Name == property.ReferencePropertyName);
-                            if (property.ReferenceProperty != null)
-                            {
-                                property.ReferenceProperty.IsForeignKey = true;
-                                property.ReferenceProperty.ForeignEntity = property.ForeignEntity;
-                                property.ReferenceProperty.ReferenceProperty = property;
-                            }
-                            else if (!property.TypeInfo.IsSystemType)
-                            {
-                                if (property.ForeignEntity != null)
-                                {
-                                    property.TypeInfo.Type = property.ForeignEntity.Key.FirstOrDefault().TypeInfo.Type;
-                                }
-                                else
-                                {
-                                    // by default foreign property is int
-                                    property.TypeInfo.Type = typeof(int);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
