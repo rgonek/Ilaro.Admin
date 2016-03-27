@@ -243,6 +243,7 @@
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
+    <Compile Include="DataAnnotations\DeletableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />
     <Compile Include="Core\DataTypeConverter.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Core\PropertyValue.cs" />
     <Compile Include="Core\Verbose.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperDropDownListExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperPasswordExtensions.cs" />

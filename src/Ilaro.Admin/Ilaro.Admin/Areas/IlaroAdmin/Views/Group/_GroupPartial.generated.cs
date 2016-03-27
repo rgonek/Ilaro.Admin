@@ -98,7 +98,7 @@ WriteLiteral("</td>\r\n                <td>\r\n");
             #line hidden
             
             #line 14 "..\..\Areas\IlaroAdmin\Views\Group\_GroupPartial.cshtml"
-                     if (entity.CanAdd)
+                     if (entity.AllowAdd)
                     {
 
             

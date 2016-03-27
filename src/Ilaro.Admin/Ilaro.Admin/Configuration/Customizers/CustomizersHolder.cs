@@ -87,6 +87,16 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
         }
 
+        public void Editable(bool allowEdit = true)
+        {
+            _classCustomizer.AllowEdit = allowEdit;
+        }
+
+        public void Deletable(bool allowDelete = true)
+        {
+            _classCustomizer.AllowDelete = allowDelete;
+        }
+
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
         {
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
@@ -120,6 +130,10 @@ namespace Ilaro.Admin.Configuration.Customizers
             entity.Links.Display = _classCustomizer.DisplayLink;
             entity.Links.Edit = _classCustomizer.EditLink;
             entity.Links.Delete = _classCustomizer.DeleteLink;
+            if (_classCustomizer.AllowEdit.HasValue)
+                entity.AllowEdit = _classCustomizer.AllowEdit.Value;
+            if (_classCustomizer.AllowDelete.HasValue)
+                entity.AllowDelete = _classCustomizer.AllowDelete.Value;
 
             SetDefaultId(entity);
             SetDefaultDisplayProperties(entity);

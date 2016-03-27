@@ -14,5 +14,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string Table { get; internal set; }
         public string Schema { get; internal set; }
         public IDictionary<string, bool> Groups { get; } = new Dictionary<string, bool>();
+        public bool? AllowDelete { get; internal set; }
+        public bool? AllowEdit { get; internal set; }
     }
 }

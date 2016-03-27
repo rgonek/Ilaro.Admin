@@ -65,9 +65,9 @@
                     </span>
                 </th>
             }
-            @if (Model.Entity.Links.Count > 0)
+            @if (Model.Entity.LinksCount() > 0)
             {
-                <th colspan="@Model.Entity.Links.Count"></th>
+                <th colspan="@Model.Entity.LinksCount()"></th>
             }
         </tr>
     </thead>
@@ -86,7 +86,7 @@
                         <a href="@string.Format(Model.Entity.Links.Display, row.JoinedKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
                     </td>
                 }
-                @if (Model.Entity.Links.HasEdit)
+                @if (Model.Entity.Editable)
                 {
                     <td class="min-width">
                         @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
@@ -99,7 +99,7 @@
                         }
                     </td>
                 }
-                @if (Model.Entity.Links.HasDelete)
+                @if (Model.Entity.Deletable)
                 {
                     <td class="min-width">
                         @if (!Model.Entity.Links.Delete.IsNullOrEmpty())

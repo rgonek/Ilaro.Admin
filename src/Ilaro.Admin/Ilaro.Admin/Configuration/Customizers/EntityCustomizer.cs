@@ -65,8 +65,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set links
         /// </summary>
         public EntityCustomizer<TEntity> Link(
-            string display = null, 
-            string edit = null, 
+            string display = null,
+            string edit = null,
             string delete = null)
         {
             CustomizersHolder.Link(display, edit, delete);
@@ -130,6 +130,26 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             var membersOf = TypeExtensions.DecodeMemberAccessExpressionOf(properties);
             CustomizersHolder.PropertyGroup(groupName, isCollapsed, membersOf);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determine if records for that entity can be edited
+        /// </summary>
+        public EntityCustomizer<TEntity> Editable(bool allowEdit = true)
+        {
+            CustomizersHolder.Editable(allowEdit);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Determine if records for that entity can be deleted
+        /// </summary>
+        public EntityCustomizer<TEntity> Deletable(bool allowDelete = true)
+        {
+            CustomizersHolder.Deletable(allowDelete);
 
             return this;
         }

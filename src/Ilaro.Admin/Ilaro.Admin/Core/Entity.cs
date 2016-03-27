@@ -84,9 +84,11 @@ namespace Ilaro.Admin.Core
             get { return SearchProperties.Any(); }
         }
 
+        public bool AllowAdd { get; private set; } = true;
+        public bool AllowEdit { get; internal set; } = true;
+        public bool AllowDelete { get; internal set; } = true;
         public Links Links { get; } = new Links();
 
-        public bool CanAdd { get; private set; }
 
         public bool HasToStringMethod { get; private set; }
 
@@ -111,12 +113,9 @@ namespace Ilaro.Admin.Core
                 .Select(x => new Property(this, x))
                 .ToList();
 
-            CanAdd = true;
             if (IsChangeEntity)
             {
-                Links.Delete = null;
-                Links.Edit = null;
-                CanAdd = false;
+                AllowAdd = AllowEdit = AllowDelete = false;
             }
 
             // check if has ToString() method

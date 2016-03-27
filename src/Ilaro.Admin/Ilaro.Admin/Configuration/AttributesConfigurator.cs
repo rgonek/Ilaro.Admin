@@ -20,6 +20,8 @@ namespace Ilaro.Admin.Configuration
             DisplayFormat(customizerHolder, attributes);
             Display(customizerHolder, attributes);
             Links(customizerHolder, attributes);
+            Editable(customizerHolder, attributes);
+            Deletable(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -83,9 +85,31 @@ namespace Ilaro.Admin.Configuration
             if (attribute != null)
             {
                 customizerHolder.Link(
-                    attribute.DisplayLink, 
-                    attribute.EditLink, 
+                    attribute.DisplayLink,
+                    attribute.EditLink,
                     attribute.DeleteLink);
+            }
+        }
+
+        private static void Editable(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<EditableAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Editable(attribute.AllowEdit);
+            }
+        }
+
+        private static void Deletable(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<DeletableAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Deletable(attribute.AllowDelete);
             }
         }
 

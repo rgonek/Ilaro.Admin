@@ -18,5 +18,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Display(string singular, string plural);
         void PropertyGroup(string groupName, bool isCollapsed, IEnumerable<MemberInfo> memberInfos);
         void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer);
+        void Editable(bool allowEdit = true);
+        void Deletable(bool allowDelete = true);
     }
 }
