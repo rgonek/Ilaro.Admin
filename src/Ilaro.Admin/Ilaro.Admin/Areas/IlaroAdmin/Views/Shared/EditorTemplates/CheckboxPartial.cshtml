@@ -4,7 +4,7 @@
     <div class="col-md-3">
         <div class="checkbox">
             <label for="@Html.Id(Model.Name)">
-                @Model.DisplayName
+                @Model.Display
                 @Html.CheckBox(Model.Name, Model.Value.AsBool.GetValueOrDefault(), Model)
             </label>
         </div>

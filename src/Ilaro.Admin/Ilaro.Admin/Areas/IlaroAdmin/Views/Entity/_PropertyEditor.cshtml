@@ -1,7 +1,7 @@
 ﻿@model Property
 
 <div class="form-group">
-    <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.DisplayName @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+    <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.Display @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
     @Html.EditorFor(m => m, Model.Template.Editor)
     @if (Model.IsForeignKey)
     {

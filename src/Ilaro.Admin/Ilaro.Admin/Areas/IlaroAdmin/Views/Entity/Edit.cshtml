@@ -25,7 +25,7 @@
     foreach (var key in Model.Entity.Key)
     {
         <div class="form-group">
-            <label class="control-label col-md-2">@key.DisplayName</label>
+            <label class="control-label col-md-2">@key.Display</label>
             <div class="col-md-6 control-value">
                 @key.Value.AsString
             </div>

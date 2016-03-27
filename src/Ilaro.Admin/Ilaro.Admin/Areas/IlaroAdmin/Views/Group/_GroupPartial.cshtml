@@ -11,7 +11,7 @@
             <tr>
                 <td class="max-width">@Html.ActionLink(entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = entity.Name }, null)</td>
                 <td>
-                    @if (entity.CanAdd)
+                    @if (entity.AllowAdd)
                     {
                         <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = entity.Name })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
                     }

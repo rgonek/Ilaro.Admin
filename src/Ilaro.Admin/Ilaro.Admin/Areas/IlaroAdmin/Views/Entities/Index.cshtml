@@ -39,7 +39,7 @@
 
     @Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" })
 
-    @if (Model.Entity.CanAdd)
+    @if (Model.Entity.AllowAdd)
     {
         <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
     }
@@ -86,7 +86,7 @@
                         <a href="@string.Format(Model.Entity.Links.Display, row.JoinedKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
                     </td>
                 }
-                @if (Model.Entity.Editable)
+                @if (Model.Entity.AllowEdit)
                 {
                     <td class="min-width">
                         @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
@@ -99,7 +99,7 @@
                         }
                     </td>
                 }
-                @if (Model.Entity.Deletable)
+                @if (Model.Entity.AllowDelete)
                 {
                     <td class="min-width">
                         @if (!Model.Entity.Links.Delete.IsNullOrEmpty())

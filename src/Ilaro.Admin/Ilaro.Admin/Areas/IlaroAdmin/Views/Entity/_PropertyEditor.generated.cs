@@ -29,6 +29,7 @@ namespace ASP
     using System.Web.WebPages;
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
+    using Ilaro.Admin.Core.Extensions;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
     using Ilaro.Admin.Models.Paging;
@@ -74,7 +75,7 @@ WriteLiteral(" ");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                                   Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
+                                                                               Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
@@ -108,14 +109,14 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 321), Tuple.Create("\"", 396)
+WriteAttribute("href", Tuple.Create(" href=\"", 317), Tuple.Create("\"", 392)
             
             #line 8 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 328), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.ForeignEntity.Name })
+, Tuple.Create(Tuple.Create("", 324), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 328), false)
+, 324), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
