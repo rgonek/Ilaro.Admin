@@ -4,6 +4,7 @@ using System.Reflection;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using Resources;
+using System.Linq;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -33,8 +34,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         public void Link(
-            string display = null, 
-            string edit = null, 
+            string display = null,
+            string edit = null,
             string delete = null)
         {
             _classCustomizer.DisplayLink = display;
@@ -120,6 +121,22 @@ namespace Ilaro.Admin.Configuration.Customizers
             entity.Links.Display = _classCustomizer.DisplayLink;
             entity.Links.Edit = _classCustomizer.EditLink;
             entity.Links.Delete = _classCustomizer.DeleteLink;
+
+            if (_propertyCustomizers.Any(x => x.Value.IsKey == true) == false)
+            {
+                var key = entity.Properties.FirstOrDefault(x =>
+                    x.Name.Equals("id", StringComparison.CurrentCultureIgnoreCase));
+                if (key == null)
+                {
+                    key = entity.Properties.FirstOrDefault(x =>
+                        x.Name.Equals(entity.Name + "id", StringComparison.CurrentCultureIgnoreCase));
+                }
+
+                if (key != null)
+                {
+                    Id(new[] { key.PropertyInfo });
+                }
+            }
 
             foreach (var customizerPair in _propertyCustomizers)
             {

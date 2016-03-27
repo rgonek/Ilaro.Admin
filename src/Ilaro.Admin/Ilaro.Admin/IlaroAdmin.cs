@@ -151,24 +151,6 @@ namespace Ilaro.Admin
         {
             foreach (var entity in _entitiesTypes)
             {
-                // Try determine which property is a entity key if is not set
-                if (entity.Key.IsNullOrEmpty())
-                {
-                    var entityKey = entity.Properties.FirstOrDefault(x => x.Name.ToLower() == "id");
-                    if (entityKey == null)
-                    {
-                        entityKey = entity.Properties.FirstOrDefault(x => x.Name.ToLower() == entity.Name.ToLower() + "id");
-                    }
-
-                    if (entityKey != null)
-                    {
-                        entityKey.IsKey = true;
-                    }
-                }
-            }
-
-            foreach (var entity in _entitiesTypes)
-            {
                 foreach (var property in entity.Properties)
                 {
                     if (property.IsForeignKey)
