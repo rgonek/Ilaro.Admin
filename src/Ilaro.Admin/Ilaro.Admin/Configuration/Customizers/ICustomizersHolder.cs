@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -19,7 +18,5 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Display(string singular, string plural);
         void PropertyGroup(string groupName, bool isCollapsed, IEnumerable<MemberInfo> memberInfos);
         void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer);
-        void CustomizeEntity(Entity entity, IIlaroAdmin admin);
-        void CustomizeProperties(Entity entity, IIlaroAdmin admin);
     }
 }

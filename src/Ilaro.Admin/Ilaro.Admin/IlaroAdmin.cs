@@ -98,11 +98,12 @@ namespace Ilaro.Admin
             foreach (var customizer in CustomizerHolders)
             {
                 var entity = CreateInstance(customizer.Key);
-                customizer.Value.CustomizeEntity(entity, this);
+                ((CustomizersHolder)customizer.Value).CustomizeEntity(entity, this);
             }
             foreach (var customizer in CustomizerHolders)
             {
-                customizer.Value.CustomizeProperties(GetEntity(customizer.Key), this);
+                var entity = GetEntity(customizer.Key);
+                ((CustomizersHolder)customizer.Value).CustomizeProperties(entity, this);
             }
         }
 

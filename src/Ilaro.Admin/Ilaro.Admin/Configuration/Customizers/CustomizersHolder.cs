@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
-using Resources;
 using System.Linq;
 
 namespace Ilaro.Admin.Configuration.Customizers
