@@ -157,40 +157,5 @@ namespace Ilaro.Admin.Core
                 ForeignEntityName = TypeInfo.Type.Name;
             }
         }
-
-        public MultiSelectList GetPossibleValues(bool addChooseItem = true)
-        {
-            if (IsForeignKey)
-            {
-                var options = new Dictionary<string, string>();
-
-                if (addChooseItem)
-                {
-                    options.Add(String.Empty, IlaroAdminResources.Choose);
-                }
-                options = options.Union(Value.PossibleValues).ToDictionary(x => x.Key, x => x.Value);
-
-                return TypeInfo.IsCollection ?
-                    new MultiSelectList(options, "Key", "Value", Value.Values) :
-                    new SelectList(options, "Key", "Value", Value.AsString);
-            }
-            else
-            {
-                var options = addChooseItem ?
-                    TypeInfo.EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose) :
-                    TypeInfo.EnumType.GetOptions();
-
-                if (TypeInfo.IsEnum)
-                {
-                    return new SelectList(
-                        options,
-                        "Key",
-                        "Value",
-                        Value.AsObject);
-                }
-
-                return new SelectList(options, "Key", "Value", Value.AsString);
-            }
-        }
     }
 }
