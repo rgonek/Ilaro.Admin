@@ -53,7 +53,9 @@ namespace Ilaro.Admin.Configuration.Customizers
                 case DataType.Bool:
                     return Templates.Display.Bool;
                 case DataType.File:
-                    return Templates.Display.File;
+                    return typeInfo.IsFileStoredInDb ?
+                        Templates.Display.DbImage :
+                        Templates.Display.File;
                 case DataType.Image:
                     return typeInfo.IsFileStoredInDb ?
                         Templates.Display.DbImage :

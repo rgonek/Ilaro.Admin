@@ -168,7 +168,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.TypeInfo.DataType = propertyCustomizer.DataType.Value;
                     property.TypeInfo.EnumType = propertyCustomizer.EnumType;
                 }
-                property.FileOptions = propertyCustomizer.FileOptions;
+                if (propertyCustomizer.FileOptions != null)
+                    property.FileOptions = propertyCustomizer.FileOptions;
                 property.Group = propertyCustomizer.Group;
                 property.Value.DefaultValue = propertyCustomizer.DefaultValue;
                 property.Format = propertyCustomizer.Format;

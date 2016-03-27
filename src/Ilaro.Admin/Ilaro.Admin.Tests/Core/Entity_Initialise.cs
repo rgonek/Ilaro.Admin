@@ -84,6 +84,16 @@ namespace Ilaro.Admin.Tests.Core
         }
 
         [Fact]
+        public void when_property_is_byte_array_type__display_template_should_set_to_db_image()
+        {
+            _admin.RegisterEntity<Employee>();
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Employee>();
+
+            Assert.Equal(Templates.Display.DbImage, entity["Photo"].Template.Display);
+        }
+
+        [Fact]
         public void when_property_is_not_directly_set_as_foreign_key__it_should_be_determined_as_foreign_key()
         {
             _admin.RegisterEntity<Employee>()
