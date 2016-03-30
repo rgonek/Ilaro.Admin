@@ -44,9 +44,6 @@ namespace Ilaro.Admin.Core.File
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Upload files to temp location, or save file byte array to property value
-        /// </summary>
         public IEnumerable<PropertyValue> Upload(EntityRecord entityRecord)
         {
             var proccessedProperties = new List<PropertyValue>();
@@ -122,9 +119,6 @@ namespace Ilaro.Admin.Core.File
             return proccessedProperties;
         }
 
-        /// <summary>
-        /// Move uploaded files from temp location, and delete old files.
-        /// </summary>
         public void ProcessUploaded(
             IEnumerable<PropertyValue> propertiesValues,
             IDictionary<string, object> existingRecord = null)
@@ -170,9 +164,6 @@ namespace Ilaro.Admin.Core.File
             }
         }
 
-        /// <summary>
-        /// Delete files uploaded in current request.
-        /// </summary>
         public void DeleteUploaded(IEnumerable<PropertyValue> propertiesValues)
         {
             foreach (var propertyValue in propertiesValues)
@@ -196,9 +187,6 @@ namespace Ilaro.Admin.Core.File
             }
         }
 
-        /// <summary>
-        /// Delete files uploaded in current request.
-        /// </summary>
         public void Delete(IEnumerable<PropertyValue> propertiesValues)
         {
             foreach (var propertyValue in propertiesValues)

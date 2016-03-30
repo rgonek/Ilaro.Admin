@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Core.File
         IEnumerable<PropertyValue> Upload(EntityRecord entityRecord);
 
         /// <summary>
-        /// Move uploaded files from temp location, and delete old files.
+        /// Delete files for existing record.
         /// </summary>
         void Delete(IEnumerable<PropertyValue> propertiesValues);
 
@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Core.File
         void DeleteUploaded(IEnumerable<PropertyValue> propertiesValues);
 
         /// <summary>
-        /// Delete files uploaded in current request.
+        /// Move uploaded files from temp location, and delete old files.
         /// </summary>
         void ProcessUploaded(
             IEnumerable<PropertyValue> propertiesValues, 
