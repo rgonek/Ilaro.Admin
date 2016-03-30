@@ -29,6 +29,7 @@ namespace ASP
     using System.Web.WebPages;
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
+    using Ilaro.Admin.Core.Extensions;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
     using Ilaro.Admin.Models.Paging;
@@ -36,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/EditorTemplates/DateTimePartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DateTimePartial_cshtml_ : System.Web.Mvc.WebViewPage<Property>
+    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DateTimePartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DateTimePartial_cshtml_()
         {
@@ -59,7 +60,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.cshtml"
-   Write(Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" }));
+   Write(Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control" }));
 
             
             #line default
@@ -78,7 +79,7 @@ WriteLiteral("    ");
 
             
             #line 10 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.cshtml"
-Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
+Write(Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>"));
 
             
             #line default
@@ -87,7 +88,7 @@ WriteLiteral("\r\n</div>\r\n");
 
             
             #line 12 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.cshtml"
-Write(Html.ValidationMessage(Model.Name));
+Write(Html.ValidationMessage(Model.Property.Name));
 
             
             #line default

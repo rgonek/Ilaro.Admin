@@ -4,6 +4,8 @@ namespace Ilaro.Admin.Core.Data
 {
     public interface IComparingRecords
     {
-        void SkipNotChangedProperties(Entity entity, IDictionary<string, object> existingRecord);
+        void SkipNotChangedProperties(
+            EntityRecord entityRecord, 
+            IDictionary<string, object> existingRecord);
     }
 }

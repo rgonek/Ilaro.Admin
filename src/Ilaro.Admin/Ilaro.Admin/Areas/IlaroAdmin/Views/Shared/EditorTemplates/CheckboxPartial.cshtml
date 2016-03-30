@@ -1,14 +1,14 @@
-﻿@model Property
+﻿@model PropertyValue
 
 <div class="col-md-offset-2">
     <div class="col-md-3">
         <div class="checkbox">
-            <label for="@Html.Id(Model.Name)">
-                @Model.Display
-                @Html.CheckBox(Model.Name, Model.Value.AsBool.GetValueOrDefault(), Model)
+            <label for="@Html.Id(Model.Property.Name)">
+                @Model.Property.Display
+                @Html.CheckBox(Model.Property.Name, Model.AsBool.GetValueOrDefault(), Model.Property)
             </label>
         </div>
-        @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"description\">" + Model.Description + "</span>")
+        @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"description\">" + Model.Property.Description + "</span>")
     </div>
-    @Html.ValidationMessage(Model.Name)
+    @Html.ValidationMessage(Model.Property.Name)
 </div>

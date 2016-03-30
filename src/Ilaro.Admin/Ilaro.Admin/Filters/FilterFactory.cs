@@ -9,17 +9,17 @@ namespace Ilaro.Admin.Filters
 {
     public class FilterFactory : IFilterFactory
     {
-        public IEnumerable<BaseFilter> BuildFilters(Entity entity)
+        public IEnumerable<BaseFilter> BuildFilters(EntityRecord entityRecord)
         {
             var filters = GetAllFilters();
 
-            foreach (var property in entity.Properties)
+            foreach (var propertyValue in entityRecord.Values)
             {
-                var filterType = GetMatchingFilter(property, filters);
+                var filterType = GetMatchingFilter(propertyValue.Property, filters);
                 if (filterType == null)
                     continue;
 
-                yield return CreateInstance(filterType, property);
+                yield return CreateInstance(filterType, propertyValue);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Filters
                 return filterType;
 
             var groupers = filters.Where(x => typeof(ITypeGrouper).IsAssignableFrom(x.BaseType.GetGenericArguments()[0])).ToList();
-            if (groupers.IsNullOrEmpty<Type>() == false)
+            if (groupers.IsNullOrEmpty() == false)
                 return groupers.FirstOrDefault(x => CreateTypeGrouperInstance(x.BaseType.GetGenericArguments()[0]).Match(property.TypeInfo.NotNullableType));
 
             return null;
@@ -44,7 +44,10 @@ namespace Ilaro.Admin.Filters
         {
             var baseFilterType = typeof(BaseFilter);
             return typeof(Admin).Assembly.GetTypes()
-                .Where(x => baseFilterType.IsAssignableFrom(x) && x.BaseType != null && x.BaseType.IsGenericType)
+                .Where(x =>
+                    baseFilterType.IsAssignableFrom(x) &&
+                    x.BaseType != null &&
+                    x.BaseType.IsGenericType)
                 .ToList();
         }
 
@@ -53,35 +56,41 @@ namespace Ilaro.Admin.Filters
             return (ITypeGrouper)Activator.CreateInstance(type, null);
         }
 
-        private BaseFilter CreateInstance(Type filterType, Property property)
+        private BaseFilter CreateInstance(
+            Type filterType,
+            PropertyValue propertyValue)
         {
             var constructor = filterType.GetConstructors().Single();
 
-            var args = GetArgs(constructor, property);
+            var args = GetArgs(constructor, propertyValue);
 
             return (BaseFilter)constructor.Invoke(args.ToArray());
         }
 
-        private IEnumerable<object> GetArgs(ConstructorInfo constructor, Property property)
+        private IEnumerable<object> GetArgs(
+            ConstructorInfo constructor,
+            PropertyValue propertyValue)
         {
             foreach (var parameter in constructor.GetParameters())
             {
-                yield return GetArg(parameter.ParameterType, property);
+                yield return GetArg(parameter.ParameterType, propertyValue);
             }
         }
 
-        private object GetArg(Type type, Property property)
+        private object GetArg(
+            Type type,
+            PropertyValue propertyValue)
         {
             if (type == typeof(Property))
-                return property;
+                return propertyValue.Property;
             if (type == typeof(Entity))
-                return property.Entity;
+                return propertyValue.Property.Entity;
             if (type == typeof(IKnowTheTime))
                 return new SystemClock();
             if (type == typeof(string))
-                return property.Value.Raw.ToStringSafe();
+                return propertyValue.Raw.ToStringSafe();
 
-            return property.Value.Raw;
+            return propertyValue.Raw;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
+using System.Linq;
 
 namespace Ilaro.Admin.Models
 {
@@ -20,20 +21,15 @@ namespace Ilaro.Admin.Models
         }
 
         public DataRow(
-            Entity entity)
+            EntityRecord entityRecord)
             : this()
         {
-            foreach (var key in entity.Key)
-            {
-                KeyValue.Add(key.Value.AsString);
-            }
-
-            foreach (var property in entity.DisplayProperties)
+            foreach (var propertyValue in entityRecord.Values)
             {
                 Values.Add(new CellValue
                 {
-                    Raw = property.Value.Raw,
-                    Property = property
+                    Raw = propertyValue.Raw,
+                    Property = propertyValue.Property
                 });
             }
         }
@@ -65,6 +61,63 @@ namespace Ilaro.Admin.Models
                     Property = property
                 });
             }
+        }
+
+        public string ToString(Entity entity)
+        {
+            // check if has to string attribute
+            if (entity.RecordDisplayFormat.HasValue())
+            {
+                var result = entity.RecordDisplayFormat;
+                foreach (var cellValue in Values)
+                {
+                    result = result.Replace("{" + cellValue.Property.Name + "}", cellValue.AsString);
+                }
+
+                return result;
+            }
+            // if not check if has ToString() method
+            if (entity.HasToStringMethod)
+            {
+                var methodInfo = entity.Type.GetMethod("ToString");
+                var instance = Activator.CreateInstance(entity.Type, null);
+
+                foreach (var cellValue in Values
+                    .Where(x =>
+                        !x.Property.IsForeignKey ||
+                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
+                {
+                    var propertyInfo = entity.Type.GetProperty(cellValue.Property.Name);
+                    propertyInfo.SetValue(instance, cellValue.Raw);
+                }
+
+                var result = methodInfo.Invoke(instance, null);
+
+                return result.ToStringSafe();
+            }
+            // if not get first matching property
+            // %Name%, %Title%, %Description%, %Value%
+            // if not found any property use KeyValue
+            var possibleNames = new List<string> { "name", "title", "description", "value" };
+            var value = string.Empty;
+            foreach (var possibleName in possibleNames)
+            {
+                var cell = Values
+                    .FirstOrDefault(x =>
+                        x.Property.Name.ToLower().Contains(possibleName));
+                if (cell != null)
+                {
+                    value = cell.AsString;
+                    break;
+                }
+            }
+
+            if (value.IsNullOrEmpty())
+            {
+                return "#" + JoinedKeyValue;
+            }
+
+            return value;
         }
     }
 }

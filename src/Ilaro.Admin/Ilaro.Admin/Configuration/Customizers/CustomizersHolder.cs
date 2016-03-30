@@ -18,6 +18,10 @@ namespace Ilaro.Admin.Configuration.Customizers
         public CustomizersHolder(Type type)
         {
             Type = type;
+            foreach (var member in Type.GetProperties())
+            {
+                _propertyCustomizers[member] = new PropertyCustomizerHolder();
+            }
         }
 
         public void DisplayProperties(IEnumerable<MemberInfo> displayProperties)
@@ -141,7 +145,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 entity.Groups.Add(new GroupProperties
                 {
                     IsCollapsed = false,
-                    Properties = entity.Properties
+                    //Properties = entity.Properties
                 });
             }
             else
@@ -152,7 +156,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     {
                         GroupName = group.Key,
                         IsCollapsed = group.Value,
-                        Properties = entity.Properties.Where(x => x.Group == group.Key)
+                        //Properties = entity.Properties.Where(x => x.Group == group.Key)
                     });
                 }
             }
@@ -206,8 +210,9 @@ namespace Ilaro.Admin.Configuration.Customizers
                 }
                 if (propertyCustomizer.FileOptions != null)
                     property.FileOptions = propertyCustomizer.FileOptions;
-                property.Group = propertyCustomizer.Group;
-                property.Value.DefaultValue = propertyCustomizer.DefaultValue;
+                if (propertyCustomizer.Group != null)
+                    property.Group = propertyCustomizer.Group;
+                property.DefaultValue = propertyCustomizer.DefaultValue;
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;

@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Core
                     return String.Empty;
                 }
 
-                if (_typeInfo.IsNumber)
+                if (Property.TypeInfo.IsNumber)
                 {
                     try
                     {
@@ -63,14 +63,14 @@ namespace Ilaro.Admin.Core
         {
             get
             {
-                if (_typeInfo.IsEnum)
-                    return Convert.ChangeType(Raw, _typeInfo.EnumType, CultureInfo.CurrentCulture);
-                if (_typeInfo.IsNullable)
-                    return Convert.ChangeType(Raw, _typeInfo.UnderlyingType, CultureInfo.CurrentCulture);
-                if (_typeInfo.IsFile)
+                if (Property.TypeInfo.IsEnum)
+                    return Convert.ChangeType(Raw, Property.TypeInfo.EnumType, CultureInfo.CurrentCulture);
+                if (Property.TypeInfo.IsNullable)
+                    return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType, CultureInfo.CurrentCulture);
+                if (Property.TypeInfo.IsFile)
                     return null;
 
-                return Convert.ChangeType(Raw, _typeInfo.Type, CultureInfo.CurrentCulture);
+                return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);
             }
         }
 
@@ -79,13 +79,11 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public IDictionary<string, string> PossibleValues { get; set; }
 
-        public object DefaultValue { get; internal set; }
+        public Property Property { get; }
 
-        private readonly PropertyTypeInfo _typeInfo;
-
-        public PropertyValue(PropertyTypeInfo typeInfo)
+        public PropertyValue(Property property)
         {
-            _typeInfo = typeInfo;
+            Property = property;
             Values = new List<object>();
         }
 

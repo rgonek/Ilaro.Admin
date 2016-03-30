@@ -1,27 +1,27 @@
 ﻿@model EntityDeleteModel
 @{
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name);
+    ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name);
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
-        <li>@Html.ActionLink(Model.Entity.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
-        <li>@Html.ActionLink(Model.Entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)</li>
-        <li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.Entity.Name)</li>
+        <li>@Html.ActionLink(Model.EntityRecord.Entity.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.EntityRecord.Entity.Verbose.Group }, null)</li>
+        <li>@Html.ActionLink(Model.EntityRecord.Entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = Model.EntityRecord.Entity.Name }, null)</li>
+        <li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name)</li>
     </ul>
 }
 
-<h2>@Model.Entity.Verbose.Singular</h2>
+<h2>@Model.EntityRecord.Entity.Verbose.Singular</h2>
 
 @using (Html.BeginForm("Delete", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    @Html.Hidden("EntityName", Model.Entity.Name)
-    @Html.Hidden("Key", Model.Entity.JoinedKeyValue)
+    @Html.Hidden("EntityName", Model.EntityRecord.Entity.Name)
+    @Html.Hidden("Key", Model.EntityRecord.JoinedKeyValue)
 
     <div class="form-group">
         <div class="col-md-3">

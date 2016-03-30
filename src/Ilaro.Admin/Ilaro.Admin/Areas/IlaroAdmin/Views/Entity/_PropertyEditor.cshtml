@@ -1,10 +1,10 @@
-﻿@model Property
+﻿@model PropertyValue
 
 <div class="form-group">
-    <label for="@Html.Id(Model.Name)" class="control-label col-md-2">@Model.Display @Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
-    @Html.EditorFor(m => m, Model.Template.Editor)
-    @if (Model.IsForeignKey)
+    <label for="@Html.Id(Model.Property.Name)" class="control-label col-md-2">@Model.Property.Display @Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+    @Html.EditorFor(m => m, Model.Property.Template.Editor)
+    @if (Model.Property.IsForeignKey)
     {
-        <a href="@Url.Action("Create", new { entityName = Model.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
+        <a href="@Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })" target="_blank" class="btn btn-primary create-foreign"><span class="glyphicon glyphicon-plus"></span></a>
     }
 </div>

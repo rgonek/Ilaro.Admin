@@ -1,5 +1,6 @@
 ﻿using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -89,53 +90,6 @@ namespace Ilaro.Admin.Core
                     }
                 }
             }
-        }
-
-        internal static void ClearPropertiesValues(this Entity entity)
-        {
-            foreach (var property in entity.Properties)
-            {
-                property.Value.Clear();
-            }
-        }
-
-        internal static IList<GroupProperties> PrepareGroups(this Entity entity, IList<string> groupsNames)
-        {
-            var groupsDict = entity.GetDefaultCreateProperties()
-                .GroupBy(x => x.Group)
-                .ToDictionary(x => x.Key);
-
-            var groups = new List<GroupProperties>();
-            if (groupsNames.IsNullOrEmpty())
-            {
-                foreach (var group in groupsDict)
-                {
-                    groups.Add(new GroupProperties
-                    {
-                        GroupName = group.Key,
-                        Properties = group.Value.ToList()
-                    });
-                }
-            }
-            else
-            {
-                foreach (var groupName in groupsNames)
-                {
-                    var trimedGroupName = groupName.TrimEnd('*');
-                    if (!groupsDict.ContainsKey(trimedGroupName)) continue;
-
-                    var group = groupsDict[trimedGroupName];
-
-                    groups.Add(new GroupProperties
-                    {
-                        GroupName = @group.Key,
-                        Properties = @group.ToList(),
-                        IsCollapsed = groupName.EndsWith("*")
-                    });
-                }
-            }
-
-            return groups;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿@model Property
+﻿@model PropertyValue
 
 <div class="col-md-3">
     <div class="input-group">
-        @Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" }))
+        @Html.TextBox(Model.Property.Name, Model.AsString, Model.Property, Model.Property.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" }))
     </div>
-    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>")
 </div>
-@Html.ValidationMessage(Model.Name)
+@Html.ValidationMessage(Model.Property.Name)

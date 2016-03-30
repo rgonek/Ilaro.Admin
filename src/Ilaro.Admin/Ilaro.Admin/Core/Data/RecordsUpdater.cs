@@ -7,6 +7,7 @@ using System.Text;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Massive;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -53,15 +54,18 @@ WHERE {3};";
             _source = source;
         }
 
-        public bool Update(Entity entity, Func<string> changeDescriber = null)
+        public bool Update(EntityRecord entityRecord, Func<string> changeDescriber = null)
         {
             try
             {
-                var cmd = CreateCommand(entity);
+                var cmd = CreateCommand(entityRecord);
 
                 // TODO: get info about changed properties
-                var result = _executor
-                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Update, changeDescriber);
+                var result = _executor.ExecuteWithChanges(
+                    cmd, 
+                    entityRecord.Entity.Name, 
+                    EntityChangeType.Update, 
+                    changeDescriber);
 
                 return result != null;
             }
@@ -72,64 +76,66 @@ WHERE {3};";
             }
         }
 
-        private DbCommand CreateCommand(Entity entity)
+        private DbCommand CreateCommand(EntityRecord entityRecord)
         {
-            var cmd = CreateBaseCommand(entity);
-            if (entity.Key.Count == 1)
-                AddForeignsUpdate(cmd, entity);
+            var cmd = CreateBaseCommand(entityRecord);
+            if (entityRecord.Key.Count == 1)
+                AddForeignsUpdate(cmd, entityRecord);
 
             return cmd;
         }
 
-        protected virtual DbCommand CreateBaseCommand(Entity entity)
+        protected virtual DbCommand CreateBaseCommand(EntityRecord entityRecord)
         {
             var sbKeys = new StringBuilder();
 
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
-            var updateProperties = entity.GetDefaultCreateProperties(getForeignCollection: false)
-                .Where(x => x.IsKey == false)
-                .WhereIsNotSkipped().ToList();
+            var updateProperties = entityRecord.Values
+                .WhereIsNotSkipped()
+                .WhereIsNotOneToMany()
+                .Where(value => value.Property.IsKey == false)
+                .ToList();
             if (updateProperties.Any())
             {
-                foreach (var property in updateProperties)
+                foreach (var propertyValue in updateProperties)
                 {
-                    AddParam(cmd, property);
-                    sbKeys.AppendFormat("\t{0} = @{1}, \r\n", property.Column, counter++);
+                    AddParam(cmd, propertyValue);
+                    sbKeys.AppendFormat("\t{0} = @{1}, \r\n", propertyValue.Property.Column, counter++);
                 }
-                cmd.AddParams(entity.Key.Select(x => x.Value.Raw).ToArray());
+                cmd.AddParams(entityRecord.Key.Select(value => value.Raw).ToArray());
                 var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 4);
                 var whereParts = new List<string>();
-                foreach (var key in entity.Key)
+                foreach (var key in entityRecord.Key)
                 {
-                    whereParts.Add("{0} = @{1}".Fill(key.Column, counter++));
+                    whereParts.Add("{0} = @{1}".Fill(key.Property.Column, counter++));
                 }
                 var wherePart = string.Join(" AND ", whereParts);
-                cmd.CommandText = SqlFormat.Fill(entity.TableName, keys, wherePart);
+                cmd.CommandText = SqlFormat.Fill(entityRecord.Entity.TableName, keys, wherePart);
             }
-            cmd.AddParam(entity.JoinedKeyValue);
+            cmd.AddParam(entityRecord.JoinedKeyValue);
             cmd.CommandText += SqlReturnRecordIdPart.Fill(counter);
 
             return cmd;
         }
 
-        private void AddForeignsUpdate(DbCommand cmd, Entity entity)
+        private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
-            foreach (var property in entity.GetForeignsForUpdate())
+            foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
             {
                 var actualRecords = _source.GetRecords(
-                    property.ForeignEntity,
+                    propertyValue.Property.ForeignEntity,
                     new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
-                            entity.Key.FirstOrDefault(), 
-                            entity.Key.FirstOrDefault().Value.Raw.ToStringSafe())
+                            entityRecord.Entity.Key.FirstOrDefault(), 
+                            entityRecord.Key.FirstOrDefault().Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.JoinedKeyValue)
-                    .Except(property.Value.Values.Select(x => x.ToStringSafe()))
+                    .Except(propertyValue.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())
                 {
@@ -137,9 +143,9 @@ WHERE {3};";
                         idsToRemoveRelation.Select(
                             x => x.Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                     var whereParts2 = new List<string>();
-                    for (int i = 0; i < property.ForeignEntity.Key.Count; i++)
+                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
                     {
-                        var key = property.ForeignEntity.Key[i];
+                        var key = propertyValue.Property.ForeignEntity.Key[i];
                         var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
                         whereParts2.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                         cmd.AddParams(values2.Select(x => x[i]).OfType<object>().ToArray());
@@ -149,20 +155,20 @@ WHERE {3};";
                     sbUpdates.AppendLine("-- set to null update");
                     sbUpdates.AppendFormat(
                         RelatedRecordsUpdateSqlFormat,
-                        property.ForeignEntity.TableName,
-                        entity.Key.FirstOrDefault().Column,
+                        propertyValue.Property.ForeignEntity.TableName,
+                        entityRecord.Entity.Key.FirstOrDefault().Column,
                         paramIndex++,
                         wherePart2);
                     cmd.AddParam(null);
                 }
 
                 var values =
-                    property.Value.Values.Select(
+                    propertyValue.Values.Select(
                         x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
-                for (int i = 0; i < property.ForeignEntity.Key.Count; i++)
+                for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
                 {
-                    var key = property.ForeignEntity.Key[i];
+                    var key = propertyValue.Property.ForeignEntity.Key[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
@@ -171,35 +177,35 @@ WHERE {3};";
                 sbUpdates.AppendLine();
                 sbUpdates.AppendFormat(
                     RelatedRecordsUpdateSqlFormat,
-                    property.ForeignEntity.TableName,
-                    entity.Key.FirstOrDefault().Column,
+                    propertyValue.Property.ForeignEntity.TableName,
+                    entityRecord.Entity.Key.FirstOrDefault().Column,
                     paramIndex++,
                     wherePart);
-                cmd.AddParam(entity.Key.FirstOrDefault().Value.Raw);
+                cmd.AddParam(entityRecord.Key.FirstOrDefault().Raw);
             }
 
             cmd.CommandText += sbUpdates.ToString();
         }
 
-        private static void AddParam(DbCommand cmd, Property property)
+        private static void AddParam(DbCommand cmd, PropertyValue propertyValue)
         {
-            if (property.TypeInfo.IsFileStoredInDb)
-                cmd.AddParam(property.Value.Raw, DbType.Binary);
+            if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
+                cmd.AddParam(propertyValue.Raw, DbType.Binary);
             else
             {
-                if (property.Value.Raw.IsBehavior(DefaultValueBehavior.Now) ||
-                    property.Value.Raw.IsBehavior(DefaultValueBehavior.NowOnUpdate))
+                if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.Now) ||
+                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.NowOnUpdate))
                 {
                     cmd.AddParam(DateTime.Now);
                 }
-                else if (property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
-                    property.Value.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnUpdate))
+                else if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
+                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnUpdate))
                 {
                     cmd.AddParam(DateTime.UtcNow);
                 }
                 else
                 {
-                    cmd.AddParam(property.Value.Raw);
+                    cmd.AddParam(propertyValue.Raw);
                 }
             }
         }

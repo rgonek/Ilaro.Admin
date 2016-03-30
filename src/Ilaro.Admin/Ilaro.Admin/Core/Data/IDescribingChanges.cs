@@ -4,10 +4,10 @@ namespace Ilaro.Admin.Core.Data
 {
     public interface IDescribingChanges
     {
-        string UpdateChanges(Entity entity, IDictionary<string, object> existingRecord);
+        string UpdateChanges(EntityRecord entityRecord, IDictionary<string, object> existingRecord);
 
-        string CreateChanges(Entity entity);
+        string CreateChanges(EntityRecord entityRecord);
 
-        string DeleteChanges(Entity entity, IDictionary<string, object> existingRecord);
+        string DeleteChanges(EntityRecord entityRecord, IDictionary<string, object> existingRecord);
     }
 }

@@ -4,6 +4,6 @@ namespace Ilaro.Admin.Validation
 {
     public interface IValidatingEntities
     {
-        bool Validate(Entity entity);
+        bool Validate(EntityRecord entityRecord);
     }
 }

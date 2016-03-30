@@ -20,16 +20,19 @@ namespace Ilaro.Admin.Core.Data
             _admin = admin;
         }
 
-        public RecordHierarchy GetRecordHierarchy(Entity entity)
+        public RecordHierarchy GetRecordHierarchy(EntityRecord entityRecord)
         {
-            _log.InfoFormat("Getting record hierarchy for entity record ({0}#{1})", entity.Name, entity.JoinedKeyWithValue);
+            _log.InfoFormat(
+                "Getting record hierarchy for entity record ({0}#{1})",
+                entityRecord.Entity.Name,
+                entityRecord.JoinedKeyWithValue);
 
             var index = 0;
-            var hierarchy = GetEntityHierarchy(null, entity, ref index);
+            var hierarchy = GetEntityHierarchy(null, entityRecord.Entity, ref index);
             var sql = GenerateHierarchySql(hierarchy);
             _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
             var model = new DynamicModel(_admin.ConnectionStringName);
-            var records = model.Query(sql, entity.Key.Select(x => x.Value.Raw).ToArray()).ToList();
+            var records = model.Query(sql, entityRecord.Key.Select(x => x.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 
@@ -48,7 +51,7 @@ namespace Ilaro.Admin.Core.Data
             {
                 Entity = hierarchy.Entity,
                 KeyValue = rowData.KeyValue,
-                DisplayName = hierarchy.Entity.ToString(rowData),
+                DisplayName = rowData.ToString(hierarchy.Entity),
                 SubRecordsHierarchies = new List<RecordHierarchy>()
             };
 
@@ -78,7 +81,7 @@ namespace Ilaro.Admin.Core.Data
                         {
                             Entity = hierarchy.Entity,
                             KeyValue = rowData.KeyValue,
-                            DisplayName = hierarchy.Entity.ToString(rowData),
+                            DisplayName = rowData.ToString(hierarchy.Entity),
                             SubRecordsHierarchies = new List<RecordHierarchy>()
                         };
 
@@ -141,7 +144,7 @@ ORDER BY {5};";
             // {4} - Base table primary key
             const string joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
 
-            var columns = flatHierarchy.SelectMany(x => x.Entity.GetColumns()
+            var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
                 .Select(y => x.Alias + "." + y + " AS " + x.Alias.Undecorate() + "_" + y.Undecorate())).ToList();
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))

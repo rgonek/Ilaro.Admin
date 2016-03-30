@@ -1,7 +1,7 @@
-﻿@model Property
+﻿@model PropertyValue
 
 <div class="col-md-5">
-    @Html.TextArea(Model.Name, Model.Value.AsString, Model, new { @class = "form-control html" })
-    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    @Html.TextArea(Model.Property.Name, Model.AsString, Model.Property, new { @class = "form-control html" })
+    @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>")
 </div>
-@Html.ValidationMessage(Model.Name)
+@Html.ValidationMessage(Model.Property.Name)

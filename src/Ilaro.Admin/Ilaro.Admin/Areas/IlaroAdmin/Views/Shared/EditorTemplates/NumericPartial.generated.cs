@@ -29,6 +29,7 @@ namespace ASP
     using System.Web.WebPages;
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
+    using Ilaro.Admin.Core.Extensions;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
     using Ilaro.Admin.Models.Paging;
@@ -36,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/EditorTemplates/NumericPartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_NumericPartial_cshtml_ : System.Web.Mvc.WebViewPage<Property>
+    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_NumericPartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_EditorTemplates_NumericPartial_cshtml_()
         {
@@ -57,7 +58,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
-   Write(Html.TextBox(Model.Name, Model.Value.AsString, Model, Model.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
+   Write(Html.TextBox(Model.Property.Name, Model.AsString, Model.Property, Model.Property.ControlsAttributes.Merge(new { @class = "form-control numeric", autocomplete = "off" })));
 
             
             #line default
@@ -68,7 +69,7 @@ WriteLiteral("    ");
 
             
             #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
-Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
+Write(Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>"));
 
             
             #line default
@@ -77,7 +78,7 @@ WriteLiteral("\r\n</div>\r\n");
 
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\NumericPartial.cshtml"
-Write(Html.ValidationMessage(Model.Name));
+Write(Html.ValidationMessage(Model.Property.Name));
 
             
             #line default

@@ -60,7 +60,7 @@ namespace Ilaro.Admin.Models
         public CellValue(Property property)
         {
             Property = property;
-            Raw = property.Value.Raw;
+            //Raw = property.Value.Raw;
         }
     }
 }

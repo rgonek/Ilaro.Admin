@@ -8,6 +8,7 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Validation;
 using Resources;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -71,22 +72,27 @@ namespace Ilaro.Admin.Core.Data
             FormCollection collection,
             HttpFileCollectionBase files)
         {
-            entity.Fill(collection, files);
-            if (_validator.Validate(entity) == false)
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(collection, files);
+            if (_validator.Validate(entityRecord) == false)
             {
                 _notificator.Error("Not valid");
                 return null;
             }
-            var existingRecord = _source.GetRecord(entity, entity.Key.Select(x => x.Value.AsObject));
+            var existingRecord = _source.GetRecord(
+                entity,
+                entityRecord.Key.Select(value => value.AsObject));
             if (existingRecord != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
                 return null;
             }
 
-            var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
+            var propertiesWithUploadedFiles = _filesHandler.Upload(entityRecord);
 
-            var id = _creator.Create(entity, () => _changeDescriber.CreateChanges(entity));
+            var id = _creator.Create(
+                entityRecord,
+                () => _changeDescriber.CreateChanges(entityRecord));
 
             if (id.IsNullOrWhiteSpace() == false)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles);
@@ -109,18 +115,21 @@ namespace Ilaro.Admin.Core.Data
                 return false;
             }
 
-            entity.Fill(key, collection, files);
-            if (_validator.Validate(entity) == false)
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(key, collection, files);
+            if (_validator.Validate(entityRecord) == false)
             {
                 _notificator.Error("Not valid");
                 return false;
             }
 
-            var propertiesWithUploadedFiles = _filesHandler.Upload(entity);
+            var propertiesWithUploadedFiles = _filesHandler.Upload(entityRecord);
 
-            _comparer.SkipNotChangedProperties(entity, existingRecord);
+            _comparer.SkipNotChangedProperties(entityRecord, existingRecord);
 
-            var result = _updater.Update(entity, () => _changeDescriber.UpdateChanges(entity, existingRecord));
+            var result = _updater.Update(
+                entityRecord,
+                () => _changeDescriber.UpdateChanges(entityRecord, existingRecord));
 
             if (result)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);
@@ -138,79 +147,64 @@ namespace Ilaro.Admin.Core.Data
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
-            entity.SetKeyValue(key);
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(existingRecord);
 
             options = options ?? new List<PropertyDeleteOption>();
             var deleteOptions = options.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
-            foreach (var property in entity.GetForeignsForUpdate())
+            foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
             {
-                if (!deleteOptions.ContainsKey(property.ForeignEntity.Name))
+                if (!deleteOptions.ContainsKey(propertyValue.Property.ForeignEntity.Name))
                 {
-                    deleteOptions[property.ForeignEntity.Name] = property.DeleteOption;
+                    deleteOptions[propertyValue.Property.ForeignEntity.Name] =
+                        propertyValue.Property.DeleteOption;
                 }
             }
 
-            var result = _deleter.Delete(entity, deleteOptions, () => _changeDescriber.DeleteChanges(entity, existingRecord));
+            var result = _deleter.Delete(
+                entityRecord,
+                deleteOptions,
+                () => _changeDescriber.DeleteChanges(entityRecord, existingRecord));
 
             if (result)
             {
-                var propertiesWithFilesToDelete = entity
-                    .GetDefaultCreateProperties(getForeignCollection: false)
-                    .Where(x => x.TypeInfo.IsFile && x.TypeInfo.IsFileStoredInDb == false);
+                var propertiesWithFilesToDelete = entityRecord.Values
+                    .Where(value => value.Property.TypeInfo.IsFile && value.Property.TypeInfo.IsFileStoredInDb == false);
                 _filesHandler.Delete(propertiesWithFilesToDelete);
             }
 
             return result;
         }
 
-        public IList<GroupProperties> PrepareGroups(Entity entity, bool getKey = true, string key = null)
+        public IList<GroupProperties> PrepareGroups(
+            EntityRecord entityRecord,
+            bool getKey = true,
+            string key = null)
         {
-            var properties = entity.GetDefaultCreateProperties(getKey);
-            foreach (var foreign in properties.Where(x => x.IsForeignKey))
+            foreach (var foreignValue in entityRecord.Values
+                .Where(value => value.Property.IsForeignKey))
             {
-                var records = _source.GetRecords(foreign.ForeignEntity, determineDisplayValue: true).Records;
-                foreign.Value.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
-                if (foreign.TypeInfo.IsCollection)
+                var records = _source.GetRecords(foreignValue.Property.ForeignEntity, determineDisplayValue: true).Records;
+                foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
+                if (foreignValue.Property.TypeInfo.IsCollection)
                 {
-                    foreign.Value.Values = records
-                        .Where(x => x.Values.Any(y => y.Property.ForeignEntity == entity && y.AsString == key))
+                    foreignValue.Values = records
+                        .Where(x => x.Values.Any(y => y.Property.ForeignEntity == entityRecord.Entity && y.AsString == key))
                         .Select(x => x.JoinedKeyValue)
                         .OfType<object>()
                         .ToList();
                 }
             }
 
-            return entity.Groups;
-        }
+            var groups = entityRecord.Values.GroupBy(x => x.Property.Group)
+                .Select(x => new GroupProperties
+                {
+                    GroupName = x.FirstOrDefault().Property.Group,
+                    IsCollapsed = false,
+                    PropertiesValues = x.ToList()
+                });
 
-        public bool IsRecordExists(Entity entity, string key)
-        {
-            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
-
-            return IsRecordExists(entity, keys);
-        }
-
-        private bool IsRecordExists(Entity entity, params string[] key)
-        {
-            if (key == null || key.Length == 0 || key.All(x => string.IsNullOrWhiteSpace(x)))
-            {
-                _notificator.Error(IlaroAdminResources.EntityKeyIsNull);
-                return false;
-            }
-
-            var keys = new object[key.Length];
-            for (int i = 0; i < key.Length; i++)
-            {
-                keys[i] = entity.Key[i].Value.ToObject(key[i]);
-            }
-            var existingRecord = _source.GetRecord(entity, keys);
-            if (existingRecord == null)
-            {
-                _notificator.Error(IlaroAdminResources.EntityNotExist);
-                return false;
-            }
-
-            return true;
+            return groups.ToList();
         }
     }
 }

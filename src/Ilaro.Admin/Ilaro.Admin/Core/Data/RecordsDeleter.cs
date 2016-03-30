@@ -36,14 +36,20 @@ SELECT @{2};";
             _hierarchySource = hierarchySource;
         }
 
-        public bool Delete(Entity entity, IDictionary<string, DeleteOption> options, Func<string> changeDescriber = null)
+        public bool Delete(
+            EntityRecord entityRecord, 
+            IDictionary<string, DeleteOption> options, 
+            Func<string> changeDescriber = null)
         {
             try
             {
-                var cmd = CreateCommand(entity, options);
+                var cmd = CreateCommand(entityRecord, options);
 
-                var result = (int)_executor
-                    .ExecuteWithChanges(cmd, entity.Name, EntityChangeType.Delete, changeDescriber);
+                var result = (int)_executor.ExecuteWithChanges(
+                    cmd, 
+                    entityRecord.Entity.Name, 
+                    EntityChangeType.Delete, 
+                    changeDescriber);
 
                 return result > 0;
             }
@@ -54,41 +60,41 @@ SELECT @{2};";
             }
         }
 
-        private DbCommand CreateCommand(Entity entity, IDictionary<string, DeleteOption> options)
+        private DbCommand CreateCommand(EntityRecord entityRecord, IDictionary<string, DeleteOption> options)
         {
-            var cmd = CreateBaseCommand(entity);
-            AddForeignsDelete(cmd, entity, options);
+            var cmd = CreateBaseCommand(entityRecord);
+            AddForeignsDelete(cmd, entityRecord, options);
 
             return cmd;
         }
 
-        private DbCommand CreateBaseCommand(Entity entity)
+        private DbCommand CreateBaseCommand(EntityRecord entityRecord)
         {
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var whereParts = new List<string>();
             var counter = 0;
-            foreach (var key in entity.Key)
+            foreach (var key in entityRecord.Key)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.Column, counter++));
-                cmd.AddParam(key.Value.Raw);
+                whereParts.Add("{0} = @{1}".Fill(key.Property.Column, counter++));
+                cmd.AddParam(key.Raw);
             }
             var wherePart = string.Join(" AND ", whereParts);
-            cmd.AddParam(entity.JoinedKeyValue);
-            cmd.CommandText = SqlFormat.Fill(entity.TableName, wherePart, counter);
+            cmd.AddParam(entityRecord.JoinedKeyValue);
+            cmd.CommandText = SqlFormat.Fill(entityRecord.Entity.TableName, wherePart, counter);
 
             return cmd;
         }
 
         private void AddForeignsDelete(
             DbCommand cmd,
-            Entity entity,
+            EntityRecord entityRecord,
             IDictionary<string, DeleteOption> options)
         {
             if (options.All(x => x.Value == DeleteOption.Nothing || x.Value == DeleteOption.AskUser))
                 return;
 
             var sbDeletes = new StringBuilder();
-            var recordHierarchy = _hierarchySource.GetRecordHierarchy(entity);
+            var recordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord);
             foreach (var subRecord in recordHierarchy.SubRecordsHierarchies)
             {
                 var deleteOption = DeleteOption.Nothing;
@@ -99,7 +105,7 @@ SELECT @{2};";
                 switch (deleteOption)
                 {
                     case DeleteOption.SetNull:
-                        sbDeletes.AppendLine(GetSetToNullUpdateSql(cmd, entity, subRecord));
+                        sbDeletes.AppendLine(GetSetToNullUpdateSql(cmd, entityRecord, subRecord));
                         break;
                     case DeleteOption.CascadeDelete:
                         var deletes = GetDeleteRelatedEntityDeleteSql(cmd, subRecord).Reverse();
@@ -139,7 +145,10 @@ SELECT @{2};";
             return sqls;
         }
 
-        private string GetSetToNullUpdateSql(DbCommand cmd, Entity entity, RecordHierarchy subRecord)
+        private string GetSetToNullUpdateSql(
+            DbCommand cmd, 
+            EntityRecord entityRecord, 
+            RecordHierarchy subRecord)
         {
             // {0} - Foreign table
             // {1} - Foreign key
@@ -149,7 +158,8 @@ SELECT @{2};";
             //UPDATE Products SET CategoryID = null WHERE ProductID = 7
 
             var foreignTable = subRecord.Entity.TableName;
-            var foreignKey = subRecord.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == entity).Column;
+            var foreignKey = subRecord.Entity.Properties
+                .FirstOrDefault(x => x.ForeignEntity == entityRecord.Entity).Column;
             var nullIndex = cmd.Parameters.Count;
             var paramIndex = nullIndex + 1;
             cmd.AddParam(null);

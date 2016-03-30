@@ -10,20 +10,20 @@ namespace Ilaro.Admin.Sample
     {
         protected void Application_Start()
         {
-            //Entity<Customer>.Register();
-            Entity<Employee>.Register();
-            Entity<Order>.Register();
-            Entity<OrderDetail>.Register();
-            Entity<Product>.Register();
-            Entity<Category>.Register();
-            Entity<EmployeeTerritory>.Register();
-            Entity<Region>.Register();
-            Entity<Shipper>.Register();
-            Entity<Supplier>.Register();
-            Entity<Territory>.Register();
-            Entity<EntityChange>.Register();
+            Entity<Customer>.Register().ReadAttributes();
+            Entity<Employee>.Register().ReadAttributes();
+            Entity<Order>.Register().ReadAttributes();
+            Entity<OrderDetail>.Register().ReadAttributes();
+            Entity<Product>.Register().ReadAttributes();
+            Entity<Category>.Register().ReadAttributes();
+            Entity<EmployeeTerritory>.Register().ReadAttributes();
+            Entity<Region>.Register().ReadAttributes();
+            Entity<Shipper>.Register().ReadAttributes();
+            Entity<Supplier>.Register().ReadAttributes();
+            Entity<Territory>.Register().ReadAttributes();
+            Entity<EntityChange>.Register().ReadAttributes();
 
-            Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
+            //Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute

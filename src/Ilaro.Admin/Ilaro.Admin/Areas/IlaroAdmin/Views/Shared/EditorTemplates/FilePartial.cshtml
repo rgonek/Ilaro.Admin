@@ -1,33 +1,33 @@
 ﻿@using Ilaro.Admin.DataAnnotations
-@model Property
+@model PropertyValue
 
 <div class="col-md-10">
     <div class="row">
-        @if (Model.Value.AsString.IsNullOrWhiteSpace() == false)
+        @if (Model.AsString.IsNullOrWhiteSpace() == false)
         {
             <div class="col-md-1" style="max-height: 100px" data-role="image">
                 <div style="max-width: 100px">
-                    @{ var cellValue = new CellValue(Model); }
-                    @Html.DisplayFor(m => cellValue, Model.Template.Display)
+                    @{ var cellValue = new CellValue(Model.Property); }
+                    @Html.DisplayFor(m => cellValue, Model.Property.Template.Display)
                 </div>
             </div>
         }
         <div class="col-md-6">
             <div>
-                <input id="@Html.Id(Model.Name)" name="@Html.Name(Model.Name)" type="file" />
+                <input id="@Html.Id(Model.Property.Name)" name="@Html.Name(Model.Property.Name)" type="file" />
 
                 <button type="button" class="btn btn-danger" data-role="delete-image">Delete</button>
-                @Html.Hidden(Model.Name + "_delete")
+                @Html.Hidden(Model.Property.Name + "_delete")
             </div>
-            @if (Model.TypeInfo.IsFileStoredInDb == false && Model.FileOptions.NameCreation == NameCreation.UserInput)
+            @if (Model.Property.TypeInfo.IsFileStoredInDb == false && Model.Property.FileOptions.NameCreation == NameCreation.UserInput)
             {
                 <div class="form-group" style="margin-top: 15px">
                     <label class="control-label col-md-1">Name</label>
-                    <div class="col-md-4">@Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" })</div>
+                    <div class="col-md-4">@Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control" })</div>
                 </div>
             }
         </div>
     </div>
-    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>")
 </div>
-@Html.ValidationMessage(Model.Name)
+@Html.ValidationMessage(Model.Property.Name)

@@ -15,6 +15,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         private readonly IUpdatingRecords _updater;
         private readonly IProvidingUser _user;
         private Entity _entity;
+        private EntityRecord _entityRecord;
         private int _productId;
 
         public RecordsUpdater_()
@@ -30,8 +31,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         public void updates_record_and_does_not_create_entity_change_when_is_not_added()
         {
             set_up_test();
-            _entity["ProductName"].Value.Raw = "Product2";
-            _updater.Update(_entity);
+
+            _entityRecord["ProductName"].Raw = "Product2";
+            _updater.Update(_entityRecord);
 
             var products = (List<Product>)DB.Products.All();
             Assert.Equal(1, products.Count);
@@ -47,8 +49,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             _admin.RegisterEntity<EntityChange>();
             set_up_test();
-            _entity["ProductName"].Value.Raw = "Product2";
-            _updater.Update(_entity);
+
+            _entityRecord["ProductName"].Raw = "Product2";
+            _updater.Update(_entityRecord);
 
             var products = (List<Product>)DB.Products.All();
             Assert.Equal(1, products.Count);
@@ -64,10 +67,11 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             set_up_test();
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
-            _entity["ProductName"].Value.Raw = "Product";
-            _entity["Discontinued"].Value.Raw = false;
-            _entity["Category"].Value.Raw = categoryId;
-            _updater.Update(_entity);
+
+            _entityRecord["ProductName"].Raw = "Product2";
+            _entityRecord["Discontinued"].Raw = false;
+            _entityRecord["Category"].Raw = categoryId;
+            _updater.Update(_entityRecord);
 
             var products = (List<dynamic>)DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -81,12 +85,13 @@ namespace Ilaro.Admin.Tests.Core.Data
             var category = DB.Categories.Insert(CategoryName: "Category");
             var product2 = DB.Products.Insert(ProductName: "Product2", CategoryId: category.CategoryID);
 
-            _entity = _source.GetEntityWithData(
-                _admin.GetEntity("Category"),
+            _entityRecord = _source.GetEntityRecord(
+                _admin.GetEntity<Category>(),
                 category.CategoryID.ToString());
-            _entity["CategoryName"].Value.Raw = "Category";
-            _entity["Products"].Value.Values = new List<object> { _productId };
-            _updater.Update(_entity);
+
+            _entityRecord["CategoryName"].Raw = "Category";
+            _entityRecord["Products"].Values = new List<object> { _productId };
+            _updater.Update(_entityRecord);
 
             var categories = (List<dynamic>)DB.Categories.All().ToList();
             Assert.Equal(1, categories.Count);
@@ -105,7 +110,9 @@ namespace Ilaro.Admin.Tests.Core.Data
             _admin.Initialise(ConnectionStringName);
 
             _productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _entity = _source.GetEntityWithData(_admin.GetEntity("Product"), _productId.ToString());
+            _entityRecord = _source.GetEntityRecord(
+                _admin.GetEntity<Product>(), 
+                _productId.ToString());
         }
     }
 }

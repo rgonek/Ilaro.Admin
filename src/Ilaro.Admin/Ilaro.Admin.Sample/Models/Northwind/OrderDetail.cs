@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Table("Order Details")]
     public class OrderDetail
     {
         [Key]

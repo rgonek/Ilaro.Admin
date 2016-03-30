@@ -7,23 +7,28 @@ namespace Ilaro.Admin.Core.Data
 {
     public class ChangesDescriber : IDescribingChanges
     {
-        public string UpdateChanges(Entity entity, IDictionary<string, object> existingRecord)
+        public string UpdateChanges(EntityRecord entityRecord, IDictionary<string, object> existingRecord)
         {
-            var updateProperties = entity.GetDefaultCreateProperties(getForeignCollection: false)
-                .Where(x => x.IsKey == false)
-                .WhereIsNotSkipped().ToList();
+            var updateProperties = entityRecord.Values
+                .WhereIsNotSkipped()
+                .Where(value => value.Property.IsKey == false)
+                .ToList();
 
             if (updateProperties.Any() == false)
                 return "No changes";
 
             var changeBuilder = new StringBuilder();
-            foreach (var property in updateProperties)
+            foreach (var propertyValue in updateProperties)
             {
-                var columnName = property.Column.Undecorate();
+                var columnName = propertyValue.Property.Column.Undecorate();
                 if (existingRecord.ContainsKey(columnName))
                 {
                     var oldValue = existingRecord[columnName];
-                    changeBuilder.AppendFormat("{0} ({1} => {2})", property.Name, oldValue.ToStringSafe(), property.Value.AsString);
+                    changeBuilder.AppendFormat(
+                        "{0} ({1} => {2})", 
+                        propertyValue.Property.Name, 
+                        oldValue.ToStringSafe(), 
+                        propertyValue.AsString);
                     changeBuilder.AppendLine();
                 }
             }
@@ -31,10 +36,10 @@ namespace Ilaro.Admin.Core.Data
             return changeBuilder.ToString();
         }
 
-        public string CreateChanges(Entity entity)
+        public string CreateChanges(EntityRecord entityRecord)
         {
-            var display = entity.ToString();
-            var joinedKeyValue = "#" + entity.JoinedKeyValue;
+            var display = entityRecord.ToString();
+            var joinedKeyValue = "#" + entityRecord.JoinedKeyValue;
             if (display != joinedKeyValue)
             {
                 display += " ({0})".Fill(joinedKeyValue);
@@ -42,10 +47,10 @@ namespace Ilaro.Admin.Core.Data
             return "Created " + display;
         }
 
-        public string DeleteChanges(Entity entity, IDictionary<string, object> existingRecord)
+        public string DeleteChanges(EntityRecord entityRecord, IDictionary<string, object> existingRecord)
         {
-            var display = entity.ToString();
-            var joinedKeyValue = "#" + entity.JoinedKeyValue;
+            var display = entityRecord.ToString();
+            var joinedKeyValue = "#" + entityRecord.JoinedKeyValue;
             if (display != joinedKeyValue)
             {
                 display += " ({0})".Fill(joinedKeyValue);

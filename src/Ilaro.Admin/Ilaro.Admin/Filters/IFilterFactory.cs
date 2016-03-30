@@ -5,6 +5,6 @@ namespace Ilaro.Admin.Filters
 {
     public interface IFilterFactory
     {
-        IEnumerable<BaseFilter> BuildFilters(Entity entity);
+        IEnumerable<BaseFilter> BuildFilters(EntityRecord entityRecord);
     }
 }

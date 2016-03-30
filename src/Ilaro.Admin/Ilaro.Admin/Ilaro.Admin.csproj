@@ -225,7 +225,9 @@
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
     <Compile Include="Core\EntityExtensions.cs" />
+    <Compile Include="Core\EntityRecord.cs" />
     <Compile Include="Core\Extensions\PropertyExtensions.cs" />
+    <Compile Include="Core\Extensions\PropertyValuesExtensions.cs" />
     <Compile Include="Core\File\FileDeleter.cs" />
     <Compile Include="Core\File\FileHandler.cs" />
     <Compile Include="Core\File\FileNameCreator.cs" />
@@ -287,7 +289,6 @@
     <Compile Include="IlaroPrecompiledMvcEngine.cs" />
     <Compile Include="Core\NotificateType.cs" />
     <Compile Include="Core\Notificator.cs" />
-    <Compile Include="Infrastructure\ClearEntitiesPropertiesAttribute.cs" />
     <Compile Include="Infrastructure\CopyIsAjaxRequestFromRequestToViewBagAttribute.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualFile.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualPathProvider.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="Models\EntityEditModel.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
     <Compile Include="Models\Paging\Pager.cs" />
@@ -337,7 +339,7 @@
     <Compile Include="Models\EntityDeleteModel.cs" />
     <Compile Include="Models\EntitiesChangesModel.cs" />
     <Compile Include="Models\EntitiesIndexModel.cs" />
-    <Compile Include="Models\EntityCreateOrEditModel.cs" />
+    <Compile Include="Models\EntityCreateModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Core\Entity.cs" />
     <Compile Include="Models\GroupProperties.cs" />

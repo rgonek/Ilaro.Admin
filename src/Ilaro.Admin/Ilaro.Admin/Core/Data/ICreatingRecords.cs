@@ -3,6 +3,6 @@ namespace Ilaro.Admin.Core.Data
 {
     public interface ICreatingRecords
     {
-        string Create(Entity entity, Func<string> changeDescriber = null);
+        string Create(EntityRecord entityRecord, Func<string> changeDescriber = null);
     }
 }

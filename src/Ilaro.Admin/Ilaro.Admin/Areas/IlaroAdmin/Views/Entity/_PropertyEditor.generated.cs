@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Entity/_PropertyEditor.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Entity__PropertyEditor_cshtml : System.Web.Mvc.WebViewPage<Property>
+    public partial class _Areas_IlaroAdmin_Views_Entity__PropertyEditor_cshtml : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Entity__PropertyEditor_cshtml()
         {
@@ -50,14 +50,14 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n    <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 55), Tuple.Create("\"", 81)
+WriteAttribute("for", Tuple.Create(" for=\"", 60), Tuple.Create("\"", 95)
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 61), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+, Tuple.Create(Tuple.Create("", 66), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
             
             #line default
             #line hidden
-, 61), false)
+, 66), false)
 );
 
 WriteLiteral(" class=\"control-label col-md-2\"");
@@ -66,7 +66,7 @@ WriteLiteral(">");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                Write(Model.Display);
+                                                                         Write(Model.Property.Display);
 
             
             #line default
@@ -75,7 +75,7 @@ WriteLiteral(" ");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                               Write(Html.Condition(Model.IsRequired, () => "<span class=\"text-danger\">*</span>"));
+                                                                                                 Write(Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
@@ -86,7 +86,7 @@ WriteLiteral("    ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-Write(Html.EditorFor(m => m, Model.Template.Editor));
+Write(Html.EditorFor(m => m, Model.Property.Template.Editor));
 
             
             #line default
@@ -101,7 +101,7 @@ WriteLiteral("\r\n");
             #line hidden
             
             #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-     if (Model.IsForeignKey)
+     if (Model.Property.IsForeignKey)
     {
 
             
@@ -109,14 +109,14 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 317), Tuple.Create("\"", 392)
+WriteAttribute("href", Tuple.Create(" href=\"", 367), Tuple.Create("\"", 451)
             
             #line 8 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 324), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.ForeignEntity.Name })
+, Tuple.Create(Tuple.Create("", 374), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 324), false)
+, 374), false)
 );
 
 WriteLiteral(" target=\"_blank\"");

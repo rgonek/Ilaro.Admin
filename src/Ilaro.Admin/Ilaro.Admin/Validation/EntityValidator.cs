@@ -21,29 +21,29 @@ namespace Ilaro.Admin.Validation
             _fileValidator = fileValidator;
         }
 
-        public bool Validate(Entity entity)
+        public bool Validate(EntityRecord entityRecord)
         {
-            var instance = entity.CreateIntance();
+            var instance = entityRecord.CreateInstance();
             var context = new ValidationContext(instance);
             var isValid = true;
-            foreach (var property in entity.Properties)
+            foreach (var propertyValue in entityRecord.Values)
             {
-                if (property.TypeInfo.IsFile)
+                if (propertyValue.Property.TypeInfo.IsFile)
                 {
-                    var result = _fileValidator.Validate(property);
+                    var result = _fileValidator.Validate(propertyValue);
                     if (result == false)
                         isValid = false;
                 }
-                foreach (var validator in property.ValidationAttributes)
+                foreach (var validator in propertyValue.Property.ValidationAttributes)
                 {
                     try
                     {
-                        validator.Validate(property.Value.Raw, context);
+                        validator.Validate(propertyValue.Raw, context);
                     }
                     catch (ValidationException ex)
                     {
                         isValid = false;
-                        _notificator.AddModelError(property.Name, ex.Message);
+                        _notificator.AddModelError(propertyValue.Property.Name, ex.Message);
                     }
                     catch (Exception ex)
                     {

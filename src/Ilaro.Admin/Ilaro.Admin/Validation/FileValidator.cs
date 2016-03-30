@@ -24,29 +24,29 @@ namespace Ilaro.Admin.Validation
             _configuration = configuration;
         }
 
-        public bool Validate(Property property)
+        public bool Validate(PropertyValue propertyValue)
         {
-            var file = (HttpPostedFile)property.Value.Raw;
+            var file = (HttpPostedFile)propertyValue.Raw;
             if (file == null)
             {
-                _notificator.AddModelError(property.Name, "Missing file.");
+                _notificator.AddModelError(propertyValue.Property.Name, "Missing file.");
                 return false;
             }
 
-            var maxFileSize = property.FileOptions.MaxFileSize.GetValueOrDefault(_configuration.MaxFileSize);
+            var maxFileSize = propertyValue.Property.FileOptions.MaxFileSize.GetValueOrDefault(_configuration.MaxFileSize);
             if (file.ContentLength > maxFileSize)
             {
-                _notificator.AddModelError(property.Name, "File is too big.");
+                _notificator.AddModelError(propertyValue.Property.Name, "File is too big.");
                 return false;
             }
 
-            if (property.TypeInfo.IsImage && IsImage(file) == false)
+            if (propertyValue.Property.TypeInfo.IsImage && IsImage(file) == false)
             {
-                _notificator.AddModelError(property.Name, "File is not a image.");
+                _notificator.AddModelError(propertyValue.Property.Name, "File is not a image.");
                 return false;
             }
 
-            var allowedFileExtensions = property.FileOptions.AllowedFileExtensions;
+            var allowedFileExtensions = propertyValue.Property.FileOptions.AllowedFileExtensions;
             if (allowedFileExtensions == null || allowedFileExtensions.Length == 0)
             {
                 allowedFileExtensions = _configuration.AllowedFileExtensions;
@@ -54,7 +54,7 @@ namespace Ilaro.Admin.Validation
             var ext = Path.GetExtension(file.FileName).ToLower();
             if (allowedFileExtensions.Contains(ext))
             {
-                _notificator.AddModelError(property.Name, "Wrong file extension.");
+                _notificator.AddModelError(propertyValue.Property.Name, "Wrong file extension.");
                 return false;
             }
 

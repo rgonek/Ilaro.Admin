@@ -2,6 +2,6 @@
 {
     public interface IFetchingRecordsHierarchy
     {
-        RecordHierarchy GetRecordHierarchy(Entity entity);
+        RecordHierarchy GetRecordHierarchy(EntityRecord entityRecord);
     }
 }

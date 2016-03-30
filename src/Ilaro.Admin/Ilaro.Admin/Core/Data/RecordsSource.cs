@@ -28,19 +28,19 @@ namespace Ilaro.Admin.Core.Data
             _notificator = notificator;
         }
 
-        public Entity GetEntityWithData(Entity entity, string key)
+        public EntityRecord GetEntityRecord(Entity entity, string key)
         {
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
 
-            return GetEntityWithData(entity, keys);
+            return GetEntityRecord(entity, keys);
         }
 
-        public Entity GetEntityWithData(Entity entity, params string[] key)
+        public EntityRecord GetEntityRecord(Entity entity, params string[] key)
         {
             var keys = new object[key.Length];
             for (int i = 0; i < key.Length; i++)
             {
-                keys[i] = entity.Key[i].Value.ToObject(key[i]);
+                keys[i] = new PropertyValue(entity.Key[i]).ToObject(key[i]);
             }
             var item = GetRecord(entity, keys);
             if (item == null)
@@ -49,15 +49,10 @@ namespace Ilaro.Admin.Core.Data
                 return null;
             }
 
-            foreach (var property in entity.GetDefaultCreateProperties(false))
-            {
-                property.Value.Raw =
-                    item.ContainsKey(property.Column.Undecorate()) ?
-                    item[property.Column.Undecorate()] :
-                    null;
-            }
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(item);
 
-            return entity;
+            return entityRecord;
         }
 
         public IDictionary<string, object> GetRecord(Entity entity, string key)
@@ -156,7 +151,7 @@ namespace Ilaro.Admin.Core.Data
                 {
                     foreach (var row in data)
                     {
-                        row.DisplayName = entity.ToString(row);
+                        row.DisplayName = row.ToString(entity);
                     }
                 }
 

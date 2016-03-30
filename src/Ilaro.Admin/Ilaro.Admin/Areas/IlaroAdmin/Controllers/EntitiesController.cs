@@ -54,8 +54,9 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            entity.Fill(Request);
-            var filters = _filterFactory.BuildFilters(entity).ToList();
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(Request);
+            var filters = _filterFactory.BuildFilters(entityRecord).ToList();
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
                 filters,
@@ -109,8 +110,9 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 throw new NoNullAllowedException("entity is null");
             }
             var changeEntity = _admin.ChangeEntity;
-            changeEntity.Fill(Request);
-            var filters = _filterFactory.BuildFilters(_admin.ChangeEntity).ToList();
+            var entityRecord = new EntityRecord(changeEntity);
+            entityRecord.Fill(Request);
+            var filters = _filterFactory.BuildFilters(entityRecord).ToList();
             if (key.IsNullOrWhiteSpace() == false)
             {
                 filters.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));

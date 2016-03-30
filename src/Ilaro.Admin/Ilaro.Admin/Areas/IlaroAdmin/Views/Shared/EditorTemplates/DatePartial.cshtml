@@ -1,12 +1,12 @@
-﻿@model Property
+﻿@model PropertyValue
 
 <div class="col-md-3">
     <div class="input-group date date-picker" data-date-format="YYYY-MM-DD">
-        @Html.TextBox(Model.Name, Model.Value.Raw, Model, new { @class = "form-control" })
+        @Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control" })
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
     </div>
-    @Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>")
+    @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>")
 </div>
-@Html.ValidationMessage(Model.Name)
+@Html.ValidationMessage(Model.Property.Name)

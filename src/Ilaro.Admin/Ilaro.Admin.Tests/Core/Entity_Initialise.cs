@@ -135,5 +135,25 @@ namespace Ilaro.Admin.Tests.Core
             var property = entity["Category"];
             Assert.Equal("[CategoryID]", property.Column);
         }
+
+        [Fact]
+        public void when_property_is_one_to_many__display_template_should_set_to_db_image()
+        {
+            _admin.RegisterEntity<Customer>();
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Customer>();
+
+            Assert.NotNull(entity["Orders"].Template.Display);
+        }
+
+        [Fact]
+        public void when_property_is_one_to_many__editor_template_should_set_to_db_image()
+        {
+            _admin.RegisterEntity<Customer>();
+            _admin.Initialise();
+            var entity = _admin.GetEntity<Customer>();
+
+            Assert.NotNull(entity["Orders"].Template.Editor);
+        }
     }
 }

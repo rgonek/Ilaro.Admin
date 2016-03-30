@@ -1,4 +1,4 @@
-﻿@model EntityCreateOrEditModel
+﻿@model EntityCreateModel
 
 @{
     if (ViewBag.IsAjaxRequest)
@@ -35,9 +35,9 @@
             <fieldset>
                 <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="@Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")"></i></button></legend>
                 <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
-                    @foreach (var property in group.Properties)
+                    @foreach (var propertyValue in group.PropertiesValues)
                     {
-                        Html.RenderPartial("_PropertyEditor", property);
+                        Html.RenderPartial("_PropertyEditor", propertyValue);
                     }
                 </div>
             </fieldset>
@@ -45,9 +45,9 @@
     }
     else if (Model.PropertiesGroups.Count == 1)
     {
-        foreach (var property in Model.PropertiesGroups[0].Properties)
+        foreach (var propertyValue in Model.PropertiesGroups[0].PropertiesValues)
         {
-            Html.RenderPartial("_PropertyEditor", property);
+            Html.RenderPartial("_PropertyEditor", propertyValue);
         }
     }
 

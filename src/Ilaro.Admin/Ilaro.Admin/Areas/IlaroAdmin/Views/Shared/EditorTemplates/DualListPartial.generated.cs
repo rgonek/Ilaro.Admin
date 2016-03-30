@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/EditorTemplates/DualListPartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DualListPartial_cshtml_ : System.Web.Mvc.WebViewPage<Property>
+    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DualListPartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_EditorTemplates_DualListPartial_cshtml_()
         {
@@ -54,7 +54,7 @@ WriteLiteral("    ");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DualListPartial.cshtml"
-Write(Html.DropDownList(Model.Name, Model.GetPossibleValues(false), Model, new { @class = "form-control dual-list", multiple = "true" }));
+Write(Html.DropDownList(Model.Property.Name, Model.GetPossibleValues(false), Model.Property, new { @class = "form-control dual-list", multiple = "true" }));
 
             
             #line default
@@ -65,7 +65,7 @@ WriteLiteral("    ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DualListPartial.cshtml"
-Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"help-block\">" + Model.Description + "</span>"));
+Write(Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>"));
 
             
             #line default
@@ -74,7 +74,7 @@ WriteLiteral("\r\n</div>\r\n");
 
             
             #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DualListPartial.cshtml"
-Write(Html.ValidationMessage(Model.Name));
+Write(Html.ValidationMessage(Model.Property.Name));
 
             
             #line default

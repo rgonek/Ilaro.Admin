@@ -28,9 +28,14 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             register_default_entities();
 
-            _productEntity["ProductName"].Value.Raw = "Product";
-            _productEntity["Discontinued"].Value.Raw = false;
-            _creator.Create(_productEntity);
+            var values = new Dictionary<string, object>
+            {
+                { "ProductName", "Product" },
+                { "Discontinued", false }
+            };
+            var entityRecord = new EntityRecord(_productEntity);
+            entityRecord.Fill(values);
+            _creator.Create(entityRecord);
 
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -46,9 +51,14 @@ namespace Ilaro.Admin.Tests.Core.Data
             Entity<EntityChange>.Register();
             register_default_entities();
 
-            _productEntity["ProductName"].Value.Raw = "Product";
-            _productEntity["Discontinued"].Value.Raw = false;
-            _creator.Create(_productEntity);
+            var values = new Dictionary<string, object>
+            {
+                { "ProductName", "Product" },
+                { "Discontinued", false }
+            };
+            var entityRecord = new EntityRecord(_productEntity);
+            entityRecord.Fill(values);
+            _creator.Create(entityRecord);
 
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -66,10 +76,15 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             var categoryId = DB.Categories.Insert(CategoryName: "Category").CategoryID;
 
-            _productEntity["ProductName"].Value.Raw = "Product";
-            _productEntity["Discontinued"].Value.Raw = false;
-            _productEntity["Category"].Value.Raw = categoryId;
-            _creator.Create(_productEntity);
+            var values = new Dictionary<string, object>
+            {
+                { "ProductName", "Product" },
+                { "Discontinued", false },
+                { "CategoryID", categoryId }
+            };
+            var entityRecord = new EntityRecord(_productEntity);
+            entityRecord.Fill(values);
+            _creator.Create(entityRecord);
 
             var products = (List<dynamic>)DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -82,10 +97,13 @@ namespace Ilaro.Admin.Tests.Core.Data
             register_default_entities();
 
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
-            _productEntity = _admin.GetEntity("Category");
-            _productEntity["CategoryName"].Value.Raw = "Category";
-            _productEntity["Products"].Value.Values.Add(productId);
-            _creator.Create(_productEntity);
+            var categoryEntity = _admin.GetEntity<Category>();
+
+            var entityRecord = new EntityRecord(categoryEntity);
+            entityRecord.Fill(new Dictionary<string, object>());
+            entityRecord["CategoryName"].Raw = "Category";
+            entityRecord["Products"].Values.Add(productId);
+            _creator.Create(entityRecord);
 
             var categories = (List<dynamic>)DB.Categories.All().ToList();
             Assert.Equal(1, categories.Count);

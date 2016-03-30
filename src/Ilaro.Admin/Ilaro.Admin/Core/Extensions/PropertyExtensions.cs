@@ -10,9 +10,11 @@ namespace Ilaro.Admin.Core.Extensions
     public static class PropertyExtensions
     {
 
-        public static MultiSelectList GetPossibleValues(this Property property, bool addChooseItem = true)
+        public static MultiSelectList GetPossibleValues(
+            this PropertyValue propertyValue, 
+            bool addChooseItem = true)
         {
-            if (property.IsForeignKey)
+            if (propertyValue.Property.IsForeignKey)
             {
                 var options = new Dictionary<string, string>();
 
@@ -20,28 +22,28 @@ namespace Ilaro.Admin.Core.Extensions
                 {
                     options.Add(String.Empty, IlaroAdminResources.Choose);
                 }
-                options = options.Union(property.Value.PossibleValues).ToDictionary(x => x.Key, x => x.Value);
+                options = options.Union(propertyValue.PossibleValues).ToDictionary(x => x.Key, x => x.Value);
 
-                return property.TypeInfo.IsCollection ?
-                    new MultiSelectList(options, "Key", "Value", property.Value.Values) :
-                    new SelectList(options, "Key", "Value", property.Value.AsString);
+                return propertyValue.Property.TypeInfo.IsCollection ?
+                    new MultiSelectList(options, "Key", "Value", propertyValue.Values) :
+                    new SelectList(options, "Key", "Value", propertyValue.AsString);
             }
             else
             {
                 var options = addChooseItem ?
-                    property.TypeInfo.EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose) :
-                    property.TypeInfo.EnumType.GetOptions();
+                    propertyValue.Property.TypeInfo.EnumType.GetOptions(String.Empty, IlaroAdminResources.Choose) :
+                    propertyValue.Property.TypeInfo.EnumType.GetOptions();
 
-                if (property.TypeInfo.IsEnum)
+                if (propertyValue.Property.TypeInfo.IsEnum)
                 {
                     return new SelectList(
                         options,
                         "Key",
                         "Value",
-                        property.Value.AsObject);
+                        propertyValue.AsObject);
                 }
 
-                return new SelectList(options, "Key", "Value", property.Value.AsString);
+                return new SelectList(options, "Key", "Value", propertyValue.AsString);
             }
         }
     }

@@ -51,10 +51,11 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName });
             }
 
-            var model = new EntityCreateOrEditModel
+            var entityRecord = EntityRecord.CreateEmpty(entity);
+            var model = new EntityCreateModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entity)
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord)
             };
 
             return View(model);
@@ -85,10 +86,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 _notificator.Error(ex.Message);
             }
 
-            var model = new EntityCreateOrEditModel
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(collection, Request.Files);
+
+            var model = new EntityCreateModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entity)
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord)
             };
 
             return View(model);
@@ -102,16 +106,17 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName });
             }
 
-            entity = _source.GetEntityWithData(entity, key);
-            if (entity == null)
+            var entityRecord = _source.GetEntityRecord(entity, key);
+            if (entityRecord == null)
             {
                 return RedirectToAction("Index", "Entities", new { area = "IlaroAdmin", entityName });
             }
 
-            var model = new EntityCreateOrEditModel
+            var model = new EntityEditModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entity, false, key)
+                Record = entityRecord,
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key)
             };
 
             return View(model);
@@ -142,10 +147,15 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 _notificator.Error(ex.Message);
             }
 
-            var model = new EntityCreateOrEditModel
+
+            var entityRecord = new EntityRecord(entity);
+            entityRecord.Fill(key, collection, Request.Files);
+
+            var model = new EntityEditModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entity, false, key)
+                Record = entityRecord,
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key)
             };
 
             return View(model);
@@ -168,14 +178,15 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName });
             }
 
-            if (_entityService.IsRecordExists(entity, key) == false)
+            var entityRecord = _source.GetEntityRecord(entity, key);
+            if (entityRecord == null)
             {
                 return RedirectToAction("Index", "Entities", new { area = "IlaroAdmin", entityName });
             }
 
-            var model = new EntityDeleteModel(entity)
+            var model = new EntityDeleteModel(entityRecord)
             {
-                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord)
             };
 
             return View(model);
@@ -206,9 +217,11 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 _notificator.Error(ex.Message);
             }
 
-            model = new EntityDeleteModel(entity)
+            var entityRecord = _source.GetEntityRecord(entity, model.Key);
+
+            model = new EntityDeleteModel(entityRecord)
             {
-                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entity)
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord)
             };
 
             return View(model);

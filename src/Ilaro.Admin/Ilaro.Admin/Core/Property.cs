@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Web.Mvc;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using Resources;
@@ -61,13 +60,9 @@ namespace Ilaro.Admin.Core
         /// Is property is a foreign key.
         /// </summary>
         public bool IsForeignKey { get; internal set; }
-
         public Entity ForeignEntity { get; internal set; }
-
         public string ForeignEntityName { get; internal set; }
-
         public Property ReferenceProperty { get; internal set; }
-
         public string ReferencePropertyName { get; internal set; }
 
         public bool IsRequired { get; internal set; }
@@ -77,7 +72,6 @@ namespace Ilaro.Admin.Core
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
         public PropertyTemplate Template { get; internal set; } = new PropertyTemplate();
         public PropertyTypeInfo TypeInfo { get; private set; }
-        public PropertyValue Value { get; private set; }
 
         public IList<ValidationAttribute> ValidationAttributes
         {
@@ -90,6 +84,7 @@ namespace Ilaro.Admin.Core
 
         public IDictionary<string, object> ControlsAttributes { get; set; }
         public string ForeignKeyName { get; private set; }
+        public object DefaultValue { get; internal set; }
 
         public Property(Entity entity, PropertyInfo property)
         {
@@ -106,7 +101,6 @@ namespace Ilaro.Admin.Core
             ControlsAttributes = new Dictionary<string, object>();
 
             TypeInfo = new PropertyTypeInfo(property.PropertyType);
-            Value = new PropertyValue(TypeInfo);
 
             if (TypeInfo.DataType == DataType.Numeric)
             {

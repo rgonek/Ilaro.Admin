@@ -6,7 +6,7 @@ namespace Ilaro.Admin.Models
 {
     public class EntityDeleteModel
     {
-        public Entity Entity { get; set; }
+        public EntityRecord EntityRecord { get; set; }
 
         public string EntityName { get; set; }
 
@@ -20,11 +20,11 @@ namespace Ilaro.Admin.Models
         {
         }
 
-        public EntityDeleteModel(Entity entity)
+        public EntityDeleteModel(EntityRecord entityRecord)
         {
-            Entity = entity;
+            EntityRecord = entityRecord;
             PropertiesDeleteOptions =
-                entity.Properties
+                entityRecord.Entity.Properties
                     .Where(x =>
                         x.IsForeignKey &&
                         x.DeleteOption == DeleteOption.AskUser)

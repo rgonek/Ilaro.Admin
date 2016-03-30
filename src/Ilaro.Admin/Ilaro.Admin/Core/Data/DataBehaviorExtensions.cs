@@ -5,9 +5,10 @@ namespace Ilaro.Admin.Core.Data
 {
     public static class DataBehaviorExtensions
     {
-        public static IEnumerable<Property> WhereIsNotSkipped(this IEnumerable<Property> properties)
+        public static IEnumerable<PropertyValue> WhereIsNotSkipped(
+            this IEnumerable<PropertyValue> propertiesValues)
         {
-            return properties.Where(x => x.Value.Raw.IsBehavior(DataBehavior.Skip) == false);
+            return propertiesValues.Where(value => value.Raw.IsBehavior(DataBehavior.Skip) == false);
         }
 
         public static bool IsBehavior(this object val, DataBehavior behavior)

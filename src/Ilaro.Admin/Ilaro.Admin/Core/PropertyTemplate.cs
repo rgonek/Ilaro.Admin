@@ -1,6 +1,4 @@
-﻿using Ilaro.Admin.Extensions;
-
-namespace Ilaro.Admin.Core
+﻿namespace Ilaro.Admin.Core
 {
     public class PropertyTemplate
     {

@@ -23,11 +23,8 @@ namespace Ilaro.Admin.Core.Data
             string key,
             IEnumerable<PropertyDeleteOption> options);
 
-
-        bool IsRecordExists(Entity entity, string key);
-
         IList<GroupProperties> PrepareGroups(
-            Entity entity,
+            EntityRecord entityRecord,
             bool getKey = true,
             string key = null);
     }

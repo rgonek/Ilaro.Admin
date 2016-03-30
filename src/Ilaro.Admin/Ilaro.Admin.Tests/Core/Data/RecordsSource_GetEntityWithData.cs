@@ -24,17 +24,17 @@ namespace Ilaro.Admin.Tests.Core.Data
             var productId = DB.Products.Insert(ProductName: "Product2").ProductID;
 
             var enetity = _admin.GetEntity("Product");
-            enetity = _source.GetEntityWithData(enetity, productId.ToString()) as Entity;
+            EntityRecord entityRecord = _source.GetEntityRecord(enetity, productId.ToString());
             Assert.NotNull(enetity);
-            Assert.Equal("Product2", enetity["ProductName"].Value.AsString);
+            Assert.Equal("Product2", entityRecord["ProductName"].AsString);
         }
 
         [Fact]
         public void get_entity_with_data_with_incorrect_key_value_return_null_object()
         {
             var enetity = _admin.GetEntity("Product");
-            enetity = _source.GetEntityWithData(enetity, "0");
-            Assert.Null(enetity);
+            var entityRecord = _source.GetEntityRecord(enetity, "0");
+            Assert.Null(entityRecord);
         }
     }
 }

@@ -29,6 +29,7 @@ namespace ASP
     using System.Web.WebPages;
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
+    using Ilaro.Admin.Core.Extensions;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
     using Ilaro.Admin.Models.Paging;
@@ -36,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Entity/Create.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Entity_Create_cshtml : System.Web.Mvc.WebViewPage<EntityCreateOrEditModel>
+    public partial class _Areas_IlaroAdmin_Views_Entity_Create_cshtml : System.Web.Mvc.WebViewPage<EntityCreateModel>
     {
         public _Areas_IlaroAdmin_Views_Entity_Create_cshtml()
         {
@@ -180,27 +181,27 @@ WriteLiteral(" class=\"btn pull-right\"");
 
 WriteLiteral("><i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1409), Tuple.Create("\"", 1520)
+WriteAttribute("class", Tuple.Create(" class=\"", 1403), Tuple.Create("\"", 1514)
             
             #line 36 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                , Tuple.Create(Tuple.Create("", 1417), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
+                , Tuple.Create(Tuple.Create("", 1411), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")
             
             #line default
             #line hidden
-, 1417), false)
+, 1411), false)
 );
 
 WriteLiteral("></i></button></legend>\r\n                <div");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 1566), Tuple.Create("\"", 1629)
-, Tuple.Create(Tuple.Create("", 1574), Tuple.Create("fields", 1574), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 1560), Tuple.Create("\"", 1623)
+, Tuple.Create(Tuple.Create("", 1568), Tuple.Create("fields", 1568), true)
             
             #line 37 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-, Tuple.Create(Tuple.Create(" ", 1580), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
+, Tuple.Create(Tuple.Create(" ", 1574), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "hide")
             
             #line default
             #line hidden
-, 1581), false)
+, 1575), false)
 );
 
 WriteLiteral(">\r\n");
@@ -213,9 +214,9 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 38 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                     foreach (var property in group.Properties)
+                     foreach (var propertyValue in group.PropertiesValues)
                     {
-                        Html.RenderPartial("_PropertyEditor", property);
+                        Html.RenderPartial("_PropertyEditor", propertyValue);
                     }
 
             
@@ -229,9 +230,9 @@ WriteLiteral("                </div>\r\n            </fieldset>\r\n");
     }
     else if (Model.PropertiesGroups.Count == 1)
     {
-        foreach (var property in Model.PropertiesGroups[0].Properties)
+        foreach (var propertyValue in Model.PropertiesGroups[0].PropertiesValues)
         {
-            Html.RenderPartial("_PropertyEditor", property);
+            Html.RenderPartial("_PropertyEditor", propertyValue);
         }
     }
 
@@ -321,14 +322,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2667), Tuple.Create("\"", 2773)
+WriteAttribute("href", Tuple.Create(" href=\"", 2693), Tuple.Create("\"", 2799)
             
             #line 61 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-, Tuple.Create(Tuple.Create("", 2674), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)
+, Tuple.Create(Tuple.Create("", 2700), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)
             
             #line default
             #line hidden
-, 2674), false)
+, 2700), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/EditorTemplates/CheckboxPartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_CheckboxPartial_cshtml_ : System.Web.Mvc.WebViewPage<Property>
+    public partial class _Areas_IlaroAdmin_Views_Shared_EditorTemplates_CheckboxPartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_EditorTemplates_CheckboxPartial_cshtml_()
         {
@@ -58,14 +58,14 @@ WriteLiteral(" class=\"checkbox\"");
 
 WriteLiteral(">\r\n            <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 128), Tuple.Create("\"", 154)
+WriteAttribute("for", Tuple.Create(" for=\"", 133), Tuple.Create("\"", 168)
             
             #line 6 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-, Tuple.Create(Tuple.Create("", 134), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Name)
+, Tuple.Create(Tuple.Create("", 139), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
             
             #line default
             #line hidden
-, 134), false)
+, 139), false)
 );
 
 WriteLiteral(">\r\n");
@@ -74,7 +74,7 @@ WriteLiteral("                ");
 
             
             #line 7 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-           Write(Model.Display);
+           Write(Model.Property.Display);
 
             
             #line default
@@ -85,7 +85,7 @@ WriteLiteral("                ");
 
             
             #line 8 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-           Write(Html.CheckBox(Model.Name, Model.Value.AsBool.GetValueOrDefault(), Model));
+           Write(Html.CheckBox(Model.Property.Name, Model.AsBool.GetValueOrDefault(), Model.Property));
 
             
             #line default
@@ -96,7 +96,7 @@ WriteLiteral("        ");
 
             
             #line 11 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-   Write(Html.Condition(!string.IsNullOrEmpty(Model.Description), () => "<span class=\"description\">" + Model.Description + "</span>"));
+   Write(Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"description\">" + Model.Property.Description + "</span>"));
 
             
             #line default
@@ -107,7 +107,7 @@ WriteLiteral("    ");
 
             
             #line 13 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\CheckboxPartial.cshtml"
-Write(Html.ValidationMessage(Model.Name));
+Write(Html.ValidationMessage(Model.Property.Name));
 
             
             #line default
