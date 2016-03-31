@@ -36,6 +36,14 @@ namespace Ilaro.Admin.Core
             }
         }
 
+        public IEnumerable<Property> ForeignKey
+        {
+            get
+            {
+                return Properties.Where(x => x.IsForeignKey);
+            }
+        }
+
         public string JoinedKey
         {
             get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.Column)); }

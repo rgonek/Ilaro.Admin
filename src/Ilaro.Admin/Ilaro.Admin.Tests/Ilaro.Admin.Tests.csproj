@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Core\Data\DbCommandExecutor_.cs" />
     <Compile Include="Core\Data\RecordsCreator_.cs" />
+    <Compile Include="Core\Data\RecordsDeleter_.cs" />
     <Compile Include="Core\Data\RecordsSource_DetermineDisplayValue.cs" />
     <Compile Include="Core\Data\RecordsSource_GetEntityWithData.cs" />
     <Compile Include="Core\Data\RecordsSource_GetRecord.cs" />

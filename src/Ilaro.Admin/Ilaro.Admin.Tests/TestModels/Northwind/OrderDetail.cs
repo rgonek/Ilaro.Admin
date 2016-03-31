@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Tests.TestModels.Northwind
 {
+    [Table("Order Details")]
     public class OrderDetail
     {
         [Key]
@@ -21,8 +22,8 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
         [Required]
         public float Discount { get; set; }
 
-        //[ForeignKey("OrderID")]
-        //public Order Orders { get; set; }
+        [ForeignKey("OrderID")]
+        public Order Order { get; set; }
 
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }

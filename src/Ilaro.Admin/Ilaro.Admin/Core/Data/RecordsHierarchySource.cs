@@ -27,8 +27,7 @@ namespace Ilaro.Admin.Core.Data
                 entityRecord.Entity.Name,
                 entityRecord.JoinedKeyWithValue);
 
-            var index = 0;
-            var hierarchy = GetEntityHierarchy(null, entityRecord.Entity, ref index);
+            var hierarchy = GetEntityHierarchy(entityRecord.Entity);
             var sql = GenerateHierarchySql(hierarchy);
             _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
             var model = new DynamicModel(_admin.ConnectionStringName);
@@ -37,6 +36,12 @@ namespace Ilaro.Admin.Core.Data
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 
             return recordHierarchy;
+        }
+
+        public EntityHierarchy GetEntityHierarchy(Entity entity)
+        {
+            var index = 0;
+            return GetEntityHierarchy(null, entity, ref index);
         }
 
         private RecordHierarchy GetHierarchyRecords(
