@@ -81,7 +81,7 @@ namespace Ilaro.Admin.Core.Data
             }
             var existingRecord = _source.GetRecord(
                 entity,
-                entityRecord.Key.Select(value => value.AsObject));
+                entityRecord.Key.Select(value => value.AsObject).ToArray());
             if (existingRecord != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
