@@ -150,7 +150,7 @@ namespace Ilaro.Admin.Core.Data
 
             var sql =
 $@"  SELECT {columns}
-    FROM {hierarchy.Entity.TableName} AS {hierarchy.Alias}
+    FROM {hierarchy.Entity.Table} AS {hierarchy.Alias}
     {joins}
    WHERE {constraints}
 ORDER BY {orders};";
@@ -163,7 +163,7 @@ ORDER BY {orders};";
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {
-                var foreignTable = item.Entity.TableName;
+                var foreignTable = item.Entity.Table;
                 var foreignAlias = item.Alias;
                 string foreignKey, key;
                 var alias = item.ParentHierarchy.Alias;

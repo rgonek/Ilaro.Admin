@@ -98,7 +98,7 @@ namespace Ilaro.Admin.Core.Data
                 }
                 var constraintSeparator = Environment.NewLine + "   AND ";
                 var constraints = string.Join(constraintSeparator, whereParts);
-                var table = entityRecord.Entity.TableName;
+                var table = entityRecord.Entity.Table;
                 cmd.CommandText = $@"-- update record
 UPDATE {table}
    SET {sets} 
@@ -149,7 +149,7 @@ SELECT @{joinedKeyValueParameterName};
                     sbUpdates.AppendLine();
                     sbUpdates.AppendLine("-- set to null update");
                     sbUpdates.AppendFormat(BuildForeignUpdateSql(
-                        propertyValue.Property.ForeignEntity.TableName,
+                        propertyValue.Property.ForeignEntity.Table,
                         entityRecord.Entity.Key.FirstOrDefault().Column,
                         (paramIndex++).ToString(),
                         wherePart2));
@@ -170,7 +170,7 @@ SELECT @{joinedKeyValueParameterName};
                 var wherePart = string.Join(" AND ", whereParts);
                 sbUpdates.AppendLine();
                 sbUpdates.Append(BuildForeignUpdateSql(
-                    propertyValue.Property.ForeignEntity.TableName,
+                    propertyValue.Property.ForeignEntity.Table,
                     entityRecord.Entity.Key.FirstOrDefault().Column,
                     (paramIndex++).ToString(),
                     wherePart));

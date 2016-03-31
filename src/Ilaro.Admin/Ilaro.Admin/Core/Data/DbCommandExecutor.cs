@@ -91,7 +91,7 @@ namespace Ilaro.Admin.Core.Data
 
             var sql =
 @"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
-VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.TableName);
+VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.Table);
 
             cmd.AddParam(entityName);
             cmd.AddParam(keyValue);

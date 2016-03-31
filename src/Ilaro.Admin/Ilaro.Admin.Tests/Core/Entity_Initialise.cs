@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Tests.Core
             _admin.Initialise();
             var entity = _admin.GetEntity<EntityChange>();
 
-            Assert.Equal("[EntityChanges]", entity.TableName);
+            Assert.Equal("[EntityChanges]", entity.Table);
         }
 
         [Fact]

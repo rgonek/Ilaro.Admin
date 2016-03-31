@@ -78,7 +78,7 @@ namespace Ilaro.Admin.Core.Data
             var constraints = string.Join(" AND ", whereParts);
             cmd.AddParam(entityRecord.JoinedKeyValue);
             var joinedKeySqlParamName = counter.ToString();
-            var table = entityRecord.Entity.TableName;
+            var table = entityRecord.Entity.Table;
             cmd.CommandText =
 $@"DELETE FROM {table} WHERE {constraints};
 
@@ -158,7 +158,7 @@ SELECT @{joinedKeySqlParamName};";
             }
 
             var join = GetJoin(hierarchy, hierarchy.ParentHierarchy);
-            var table = hierarchy.Entity.TableName;
+            var table = hierarchy.Entity.Table;
             var alias = hierarchy.Alias;
 
             delete +=
@@ -172,7 +172,7 @@ $@"DELETE {alias}
 
         private string GetJoin(EntityHierarchy hierarchy, EntityHierarchy parentHierarchy)
         {
-            var parentTable = parentHierarchy.Entity.TableName;
+            var parentTable = parentHierarchy.Entity.Table;
             var parentAlias = parentHierarchy.Alias;
             string parentKey, key;
             var alias = hierarchy.Alias;
@@ -204,7 +204,7 @@ $@"
             EntityHierarchy hierarchy,
             string sqlNullParameterName)
         {
-            var table = hierarchy.Entity.TableName;
+            var table = hierarchy.Entity.Table;
             var alias = hierarchy.Alias;
             var sets = new List<string>();
             var constraints = new List<string>();

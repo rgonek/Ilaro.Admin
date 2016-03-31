@@ -84,7 +84,7 @@ namespace Ilaro.Admin.Core.Data
                 insertedId = "@" + counter;
                 cmd.AddParam(entityRecord.JoinedKeyValue);
             }
-            var table = entityRecord.Entity.TableName;
+            var table = entityRecord.Entity.Table;
 
             cmd.CommandText =
 $@"-- insert record
@@ -121,7 +121,7 @@ SELECT @newID;
                 var constraints = string.Join(constraintSeparator, whereParts);
                 sbUpdates.AppendLine();
 
-                var table = propertyValue.Property.ForeignEntity.TableName;
+                var table = propertyValue.Property.ForeignEntity.Table;
                 var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
 
                 sbUpdates.Append($@"UPDATE {table}

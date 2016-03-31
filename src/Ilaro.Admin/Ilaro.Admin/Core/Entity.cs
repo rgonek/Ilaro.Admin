@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Core
 
         public string Name { get; private set; }
 
-        public string TableName { get; private set; }
+        public string Table { get; private set; }
 
         public Verbose Verbose { get; }
 
@@ -121,11 +121,11 @@ namespace Ilaro.Admin.Core
         {
             if (!schema.IsNullOrEmpty())
             {
-                TableName = "[" + schema + "].[" + table + "]";
+                Table = "[" + schema + "].[" + table + "]";
             }
             else
             {
-                TableName = "[" + table + "]";
+                Table = "[" + table + "]";
             }
         }
     }
