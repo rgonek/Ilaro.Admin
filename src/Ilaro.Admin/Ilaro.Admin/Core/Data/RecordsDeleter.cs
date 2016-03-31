@@ -15,11 +15,6 @@ namespace Ilaro.Admin.Core.Data
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
 
-        private const string SqlFormat =
-@"DELETE FROM {0} WHERE {1};
-
-SELECT @{2};";
-
         public RecordsDeleter(
             IIlaroAdmin admin,
             IExecutingDbCommand executor,
@@ -80,9 +75,14 @@ SELECT @{2};";
                 whereParts.Add("{0} = @{1}".Fill(key.Property.Column, key.SqlParameterName));
                 cmd.AddParam(key.Raw);
             }
-            var wherePart = string.Join(" AND ", whereParts);
+            var constraints = string.Join(" AND ", whereParts);
             cmd.AddParam(entityRecord.JoinedKeyValue);
-            cmd.CommandText = SqlFormat.Fill(entityRecord.Entity.TableName, wherePart, counter);
+            var joinedKeySqlParamName = counter.ToString();
+            var table = entityRecord.Entity.TableName;
+            cmd.CommandText =
+$@"DELETE FROM {table} WHERE {constraints};
+
+SELECT @{joinedKeySqlParamName};";
 
             return cmd;
         }

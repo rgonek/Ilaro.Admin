@@ -29,7 +29,7 @@ namespace Ilaro.Admin.Core.Data
 
             var hierarchy = GetEntityHierarchy(entityRecord.Entity);
             var sql = GenerateHierarchySql(hierarchy);
-            _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
+            _log.Debug($"Sql hierarchy: \r\n {sql}");
             var model = new DynamicModel(_admin.ConnectionStringName);
             var records = model.Query(sql, entityRecord.Key.Select(x => x.Raw).ToArray()).ToList();
 
@@ -130,72 +130,66 @@ namespace Ilaro.Admin.Core.Data
         {
             var flatHierarchy = FlatHierarchy(hierarchy);
 
-            // {0} - Columns
-            // {1} - Base table
-            // {2} - Base table alias
-            // {3} - Joins
-            // {4} - Where
-            // {5} - Order by
-            const string selectFormat =
-@"SELECT {0} 
-FROM {1} AS {2}
-{3}
-WHERE {4}
-ORDER BY {5};";
-            // {0} - Foreign table
-            // {1} - Foreign alias
-            // {2} - Foreign key
-            // {3} - Base table alias
-            // {4} - Base table primary key
-            const string joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
-
-            var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
+            var columnsList = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
                 .Select(y => x.Alias + "." + y + " AS " + x.Alias.Undecorate() + "_" + y.Undecorate())).ToList();
+            var commaSeparator = "," + Environment.NewLine + "         ";
+            var columns = string.Join(commaSeparator, columnsList);
+
+            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
+            var orders = string.Join(commaSeparator, ordersList);
+            var joins = GetJoins(flatHierarchy);
+
+            var constraintsList = new List<string>();
+            var counter = 0;
+            foreach (var key in hierarchy.Entity.Key)
+            {
+                constraintsList.Add($"{hierarchy.Alias}.{key.Column} = @{counter++}");
+            }
+            var constraintSeparator = Environment.NewLine + "     AND ";
+            var constraints = string.Join(constraintSeparator, constraintsList);
+
+            var sql =
+$@"  SELECT {columns}
+    FROM {hierarchy.Entity.TableName} AS {hierarchy.Alias}
+    {joins}
+   WHERE {constraints}
+ORDER BY {orders};";
+
+            return sql;
+        }
+
+        private string GetJoins(IList<EntityHierarchy> flatHierarchy)
+        {
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {
                 var foreignTable = item.Entity.TableName;
                 var foreignAlias = item.Alias;
-                string foreignKey, baseTablePrimaryKey;
-                var baseTableAlias = item.ParentHierarchy.Alias;
-                var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
+                string foreignKey, key;
+                var alias = item.ParentHierarchy.Alias;
+
+                var foreignProperty = item.Entity.Properties
+                    .FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
                     foreignKey = item.Entity.Key.FirstOrDefault().Column;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties
+                    key = item.ParentHierarchy.Entity.Properties
                         .FirstOrDefault(x => x.ForeignEntity == item.Entity).Column;
                 }
                 else
                 {
                     foreignKey = foreignProperty.Column;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
+                    key = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
                 }
-                joins.Add(joinFormat.Fill(
-                    foreignTable,
-                    foreignAlias,
-                    foreignKey,
-                    baseTableAlias,
-                    baseTablePrimaryKey));
+
+                var join = $@"LEFT OUTER JOIN {foreignTable} AS {foreignAlias} ON {foreignAlias}.{foreignKey} = {alias}.{key}";
+
+                joins.Add(join);
             }
-            var orders = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
 
-            var whereParts = new List<string>();
-            var counter = 0;
-            foreach (var key in hierarchy.Entity.Key)
-            {
-                whereParts.Add("{0}.{1} = @{2}".Fill(hierarchy.Alias, key.Column, counter++));
-            }
-            var where = string.Join(" AND ", whereParts);
+            var joinsSeparator = Environment.NewLine + "    ";
 
-            var sql = selectFormat.Fill(
-                string.Join(", ", columns),
-                hierarchy.Entity.TableName,
-                hierarchy.Alias,
-                string.Join(Environment.NewLine, joins),
-                where,
-                string.Join(", ", orders));
-
-            return sql;
+            return string.Join(joinsSeparator, joins);
         }
 
         private IList<EntityHierarchy> FlatHierarchy(EntityHierarchy hierarchy)
@@ -237,13 +231,5 @@ ORDER BY {5};";
 
             return hierarchy;
         }
-
-        // TODO: test it
-        //SELECT [t0].*, [t1].*, [t2].*
-        //FROM [Categories] AS [t0]
-        //LEFT OUTER JOIN [Products] AS [t1] ON [t1].[CategoryID] = [t0].[CategoryID]
-        //LEFT OUTER JOIN [Suppliers] AS [t2] ON [t2].[SupplierID] = [t1].[SupplierID]
-        //WHERE [t0].CategoryID = @0 -- @0 = 9
-        //ORDER BY [t0].[CategoryID], [t1].[ProductID], [t2].[SupplierID]
     }
 }

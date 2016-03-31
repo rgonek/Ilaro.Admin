@@ -16,22 +16,6 @@ namespace Ilaro.Admin.Core.Data
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
 
-        private const string SqlFormat =
-@"-- insert record
-INSERT INTO {0} ({1}) 
-VALUES ({2});
--- return record id
-DECLARE @newID {3} = {4};
-SELECT @newID;
--- update foreign entities records";
-
-        /// <summary>
-        /// UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
-        /// </summary>
-        private const string RelatedRecordsUpdateSqlFormat =
-@"UPDATE {0} SET {1} = @newID 
-WHERE {2};";
-
         public RecordsCreator(IIlaroAdmin admin, IExecutingDbCommand executor)
         {
             if (admin == null)
@@ -75,8 +59,8 @@ WHERE {2};";
 
         private DbCommand CreateBaseCommand(EntityRecord entityRecord)
         {
-            var sbKeys = new StringBuilder();
-            var sbVals = new StringBuilder();
+            var sbColumns = new StringBuilder();
+            var sbValues = new StringBuilder();
 
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
@@ -85,13 +69,13 @@ WHERE {2};";
                 .WhereIsNotOneToMany()
                 .Where(x => x.Property.IsAutoKey == false))
             {
-                sbKeys.AppendFormat("{0},", propertyValue.Property.Column);
-                sbVals.AppendFormat("@{0},", counter);
+                sbColumns.AppendFormat("{0},", propertyValue.Property.Column);
+                sbValues.AppendFormat("@{0},", counter);
                 AddParam(cmd, propertyValue);
                 counter++;
             }
-            var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
-            var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
+            var columns = sbColumns.ToString().Substring(0, sbColumns.Length - 1);
+            var values = sbValues.ToString().Substring(0, sbValues.Length - 1);
             var idType = "int";
             var insertedId = "SCOPE_IDENTITY()";
             if (entityRecord.Key.Count > 1 || entityRecord.Key.FirstOrDefault().Property.TypeInfo.IsString)
@@ -100,8 +84,16 @@ WHERE {2};";
                 insertedId = "@" + counter;
                 cmd.AddParam(entityRecord.JoinedKeyValue);
             }
-            var sql = SqlFormat.Fill(entityRecord.Entity.TableName, keys, vals, idType, insertedId);
-            cmd.CommandText = sql;
+            var table = entityRecord.Entity.TableName;
+
+            cmd.CommandText =
+$@"-- insert record
+INSERT INTO {table} ({columns}) 
+VALUES ({values});
+-- return record id
+DECLARE @newID {idType} = {insertedId};
+SELECT @newID;
+-- update foreign entities records";
 
             return cmd;
         }
@@ -125,13 +117,16 @@ WHERE {2};";
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
-                var wherePart = string.Join(" AND ", whereParts);
+                var constraintSeparator = Environment.NewLine + "   AND ";
+                var constraints = string.Join(constraintSeparator, whereParts);
                 sbUpdates.AppendLine();
-                sbUpdates.AppendFormat(
-                    RelatedRecordsUpdateSqlFormat,
-                    propertyValue.Property.ForeignEntity.TableName,
-                    entityRecord.Entity.Key.FirstOrDefault().Column,
-                    wherePart);
+
+                var table = propertyValue.Property.ForeignEntity.TableName;
+                var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
+
+                sbUpdates.Append($@"UPDATE {table}
+   SET {foreignKey} = @newID 
+ WHERE {constraints};");
             }
 
             cmd.CommandText += sbUpdates.ToString();
