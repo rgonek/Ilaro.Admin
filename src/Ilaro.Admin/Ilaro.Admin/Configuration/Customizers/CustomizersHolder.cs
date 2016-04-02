@@ -124,6 +124,12 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public void CustomizeEntity(Entity entity, IIlaroAdmin admin)
         {
+            if (entity.IsChangeEntity)
+            {
+                _classCustomizer.AllowEdit = false;
+                _classCustomizer.AllowDelete = false;
+            }
+
             entity.SetTableName(
                 _classCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
                 _classCustomizer.Schema);
