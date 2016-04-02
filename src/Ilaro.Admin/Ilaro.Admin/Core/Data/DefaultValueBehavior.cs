@@ -1,12 +1,8 @@
 ﻿namespace Ilaro.Admin.Core.Data
 {
-    public enum DefaultValueBehavior
+    public enum ValueBehavior
     {
         Now,
-        UtcNow,
-        NowOnCreate,
-        UtcNowOnCreate,
-        NowOnUpdate,
-        UtcNowOnUpdate
+        UtcNow
     }
 }

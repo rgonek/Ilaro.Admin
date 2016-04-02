@@ -84,7 +84,8 @@ namespace Ilaro.Admin.Core
 
         public IDictionary<string, object> ControlsAttributes { get; set; }
         public string ForeignKeyName { get; private set; }
-        public object DefaultValue { get; internal set; }
+        public object OnCreateDefaultValue { get; internal set; }
+        public object OnUpdateDefaultValue { get; internal set; }
 
         public Property(Entity entity, PropertyInfo property)
         {

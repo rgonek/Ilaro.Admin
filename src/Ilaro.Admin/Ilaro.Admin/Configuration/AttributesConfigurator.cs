@@ -22,6 +22,8 @@ namespace Ilaro.Admin.Configuration
             Links(customizerHolder, attributes);
             Editable(customizerHolder, attributes);
             Deletable(customizerHolder, attributes);
+            Columns(customizerHolder, attributes);
+            Groups(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -32,10 +34,12 @@ namespace Ilaro.Admin.Configuration
                 ImageSettings(member, customizerHolder, attributes);
                 Template(member, customizerHolder, attributes);
                 Id(member, customizerHolder, attributes);
+                OnCreate(member, customizerHolder, attributes);
+                OnUpdate(member, customizerHolder, attributes);
                 OnDelete(member, customizerHolder, attributes);
                 Column(member, customizerHolder, attributes);
                 Display(member, customizerHolder, attributes);
-                PropertyDisplayFormat(member, customizerHolder, attributes);
+                DisplayFormat(member, customizerHolder, attributes);
                 Required(member, customizerHolder, attributes);
                 ForeignKey(member, customizerHolder, attributes);
             }
@@ -124,7 +128,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void SetColumns(
+        private static void Columns(
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
@@ -137,7 +141,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void SetGroups(
+        private static void Groups(
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
@@ -244,17 +248,32 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void DefaultValue(
+        private static void OnCreate(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
-            var attribute = attributes.GetAttribute<DefaultValueAttribute>();
+            var attribute = attributes.GetAttribute<OnCreateAttribute>();
             if (attribute != null)
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.DefaultValue(attribute.Value);
+                    x.OnCreateDefaultValue(attribute.Value);
+                });
+            }
+        }
+
+        private static void OnUpdate(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<OnUpdateAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.OnUpdateDefaultValue(attribute.Value);
                 });
             }
         }
@@ -352,7 +371,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void PropertyDisplayFormat(
+        private static void DisplayFormat(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)

@@ -16,9 +16,9 @@ namespace Ilaro.Admin.Core.Data
             return val is DataBehavior && (DataBehavior)val == behavior;
         }
 
-        public static bool IsBehavior(this object val, DefaultValueBehavior behavior)
+        public static bool IsBehavior(this object val, ValueBehavior behavior)
         {
-            return val is DefaultValueBehavior && (DefaultValueBehavior)val == behavior;
+            return val is ValueBehavior && (ValueBehavior)val == behavior;
         }
     }
 }

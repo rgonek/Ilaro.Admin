@@ -195,22 +195,21 @@ SELECT @{joinedKeyValueParameterName};
         {
             if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
                 cmd.AddParam(propertyValue.Raw, DbType.Binary);
+            else if (propertyValue.Raw is ValueBehavior)
+            {
+                switch (propertyValue.Raw as ValueBehavior?)
+                {
+                    case ValueBehavior.Now:
+                        cmd.AddParam(DateTime.Now);
+                        break;
+                    case ValueBehavior.UtcNow:
+                        cmd.AddParam(DateTime.UtcNow);
+                        break;
+                }
+            }
             else
             {
-                if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.Now) ||
-                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.NowOnUpdate))
-                {
-                    cmd.AddParam(DateTime.Now);
-                }
-                else if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
-                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnUpdate))
-                {
-                    cmd.AddParam(DateTime.UtcNow);
-                }
-                else
-                {
-                    cmd.AddParam(propertyValue.Raw);
-                }
+                cmd.AddParam(propertyValue.Raw);
             }
         }
     }

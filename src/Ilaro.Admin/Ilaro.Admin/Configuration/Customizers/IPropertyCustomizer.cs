@@ -52,11 +52,19 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Static default value for property
         /// </summary>
-        IPropertyCustomizer DefaultValue(object value);
+        IPropertyCustomizer OnCreateDefaultValue(object value);
         /// <summary>
         /// Default value behavior
         /// </summary>
-        IPropertyCustomizer DefaultValue(DefaultValueBehavior behavior);
+        IPropertyCustomizer OnCreateDefaultValue(ValueBehavior behavior);
+        /// <summary>
+        /// Static default value for property
+        /// </summary>
+        IPropertyCustomizer OnUpdateDefaultValue(object value);
+        /// <summary>
+        /// Default value behavior
+        /// </summary>
+        IPropertyCustomizer OnUpdateDefaultValue(ValueBehavior behavior);
         /// <summary>
         /// Set image options
         /// </summary>

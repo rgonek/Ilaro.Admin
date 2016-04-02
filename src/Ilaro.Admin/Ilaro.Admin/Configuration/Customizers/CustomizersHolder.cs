@@ -212,7 +212,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.FileOptions = propertyCustomizer.FileOptions;
                 if (propertyCustomizer.Group != null)
                     property.Group = propertyCustomizer.Group;
-                property.DefaultValue = propertyCustomizer.DefaultValue;
+                property.OnCreateDefaultValue = propertyCustomizer.OnCreateDefaultValue;
+                property.OnUpdateDefaultValue = propertyCustomizer.OnUpdateDefaultValue;
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;

@@ -57,7 +57,10 @@ namespace Ilaro.Admin.Core
             return entityRecord;
         }
 
-        public void Fill(FormCollection collection, HttpFileCollectionBase files)
+        public void Fill(
+            FormCollection collection,
+            HttpFileCollectionBase files,
+            Func<Property, object> defaultValueResolver = null)
         {
             foreach (var property in Entity.Properties)
             {
@@ -106,10 +109,15 @@ namespace Ilaro.Admin.Core
                         }
                     }
 
-                    if (property.DefaultValue is DefaultValueBehavior ||
-                        (propertyValue.Raw == null && property.DefaultValue != null))
+                    if (defaultValueResolver != null)
                     {
-                        propertyValue.Raw = property.DefaultValue;
+                        var defaultValue = defaultValueResolver(property);
+
+                        if (defaultValue is ValueBehavior ||
+                            (propertyValue.Raw == null && defaultValue != null))
+                        {
+                            propertyValue.Raw = defaultValue;
+                        }
                     }
                 }
             }
@@ -128,9 +136,13 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public void Fill(string key, FormCollection collection, HttpFileCollectionBase files)
+        public void Fill(
+            string key,
+            FormCollection collection,
+            HttpFileCollectionBase files,
+            Func<Property, object> defaultValueResolver = null)
         {
-            Fill(collection, files);
+            Fill(collection, files, defaultValueResolver);
             SetKeyValue(key);
         }
 
