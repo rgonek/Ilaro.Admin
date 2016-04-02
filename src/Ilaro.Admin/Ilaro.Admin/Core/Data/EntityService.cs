@@ -161,7 +161,7 @@ namespace Ilaro.Admin.Core.Data
                 if (!deleteOptions.ContainsKey(propertyValue.Property.ForeignEntity.Name))
                 {
                     deleteOptions[propertyValue.Property.ForeignEntity.Name] =
-                        propertyValue.Property.DeleteOption;
+                        propertyValue.Property.ForeignDeleteOption;
                 }
             }
 

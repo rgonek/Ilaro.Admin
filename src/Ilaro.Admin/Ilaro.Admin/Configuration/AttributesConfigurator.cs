@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Configuration
                 Id(member, customizerHolder, attributes);
                 OnCreate(member, customizerHolder, attributes);
                 OnUpdate(member, customizerHolder, attributes);
-                OnDelete(member, customizerHolder, attributes);
+                ForeignDelete(member, customizerHolder, attributes);
                 Column(member, customizerHolder, attributes);
                 Display(member, customizerHolder, attributes);
                 DisplayFormat(member, customizerHolder, attributes);
@@ -326,17 +326,17 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void OnDelete(
+        private static void ForeignDelete(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
-            var attribute = attributes.GetAttribute<OnDeleteAttribute>();
+            var attribute = attributes.GetAttribute<ForeignDeleteAttribute>();
             if (attribute != null)
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.OnDelete(attribute.DeleteOption);
+                    x.ForeignDelete(attribute.DeleteOption);
                 });
             }
         }

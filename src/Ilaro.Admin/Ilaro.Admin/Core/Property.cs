@@ -68,7 +68,7 @@ namespace Ilaro.Admin.Core
         public bool IsRequired { get; internal set; }
         public string RequiredErrorMessage { get; internal set; }
 
-        public DeleteOption DeleteOption { get; internal set; }
+        public DeleteOption ForeignDeleteOption { get; internal set; }
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
         public PropertyTemplate Template { get; internal set; } = new PropertyTemplate();
         public PropertyTypeInfo TypeInfo { get; private set; }

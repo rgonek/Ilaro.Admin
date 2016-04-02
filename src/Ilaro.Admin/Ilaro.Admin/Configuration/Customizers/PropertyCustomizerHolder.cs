@@ -12,7 +12,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string DisplayName { get; internal set; }
         public string DisplayTemplate { get; internal set; }
         public bool? IsKey { get; internal set; }
-        public DeleteOption? DeleteOption { get; internal set; }
+        public DeleteOption? ForeignDeleteOption { get; internal set; }
         public bool? IsSearchable { get; internal set; }
         public DataType? DataType { get; internal set; }
         public bool? IsVisible { get; internal set; }

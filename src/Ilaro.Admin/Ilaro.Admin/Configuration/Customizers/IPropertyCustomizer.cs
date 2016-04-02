@@ -2,7 +2,6 @@
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using System;
-using System.Linq.Expressions;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -24,7 +23,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set delete behavior of foreign property on deleting
         /// </summary>
-        IPropertyCustomizer OnDelete(DeleteOption deleteOption);
+        IPropertyCustomizer ForeignDelete(DeleteOption deleteOption);
         /// <summary>
         /// Set display and edit template
         /// </summary>

@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
 
         //public byte[] Picture { get; set; }
 
-        [OnDelete(DeleteOption.AskUser)]
+        [ForeignDelete(DeleteOption.AskUser)]
         public ICollection<Product> Products { get; set; }
     }
 }

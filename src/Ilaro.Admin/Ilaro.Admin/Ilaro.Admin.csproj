@@ -267,7 +267,7 @@
     <Compile Include="DataAnnotations\FileOptions.cs" />
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />
-    <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
+    <Compile Include="DataAnnotations\ForeignDeleteAttribute.cs" />
     <Compile Include="DataAnnotations\RecordDisplayAttribute.cs" />
     <Compile Include="DataAnnotations\SearchAttribute.cs" />
     <Compile Include="DataAnnotations\TemplateAttribute.cs" />

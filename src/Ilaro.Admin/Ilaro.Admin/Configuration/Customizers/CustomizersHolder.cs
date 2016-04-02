@@ -200,7 +200,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.Description.HasValue())
                     property.Description = propertyCustomizer.Description;
 
-                property.DeleteOption = propertyCustomizer.DeleteOption
+                property.ForeignDeleteOption = propertyCustomizer.ForeignDeleteOption
                     .GetValueOrDefault(DeleteOption.AskUser);
                 if (propertyCustomizer.DataType.HasValue)
                 {

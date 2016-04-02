@@ -27,7 +27,7 @@ namespace Ilaro.Admin.Models
                 entityRecord.Entity.Properties
                     .Where(x =>
                         x.IsForeignKey &&
-                        x.DeleteOption == DeleteOption.AskUser)
+                        x.ForeignDeleteOption == DeleteOption.AskUser)
                     .Select(x =>
                         new PropertyDeleteOption
                         {
