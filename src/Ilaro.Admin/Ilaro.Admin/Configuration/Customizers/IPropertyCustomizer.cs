@@ -51,19 +51,27 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Static default value for property
         /// </summary>
-        IPropertyCustomizer OnCreateDefaultValue(object value);
+        IPropertyCustomizer OnCreate(object value);
         /// <summary>
         /// Default value behavior
         /// </summary>
-        IPropertyCustomizer OnCreateDefaultValue(ValueBehavior behavior);
+        IPropertyCustomizer OnCreate(ValueBehavior behavior);
         /// <summary>
         /// Static default value for property
         /// </summary>
-        IPropertyCustomizer OnUpdateDefaultValue(object value);
+        IPropertyCustomizer OnUpdate(object value);
         /// <summary>
         /// Default value behavior
         /// </summary>
-        IPropertyCustomizer OnUpdateDefaultValue(ValueBehavior behavior);
+        IPropertyCustomizer OnUpdate(ValueBehavior behavior);
+        /// <summary>
+        /// Static default value for property. Used only when soft delete for entity is enabled.
+        /// </summary>
+        IPropertyCustomizer OnDelete(object value);
+        /// <summary>
+        /// Default value behavior. Used only when soft delete for entity is enabled.
+        /// </summary>
+        IPropertyCustomizer OnDelete(ValueBehavior behavior);
         /// <summary>
         /// Set image options
         /// </summary>

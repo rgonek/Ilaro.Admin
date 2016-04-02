@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
             _hierarchySource = new RecordsHierarchySource(_admin);
-            _deleter = new RecordsDeleter(_admin, executor, _hierarchySource);
+            _deleter = new RecordsDeleter(_admin, executor, _hierarchySource, _user);
             _source = new RecordsSource(_admin, new Notificator());
         }
 
@@ -89,6 +89,39 @@ namespace Ilaro.Admin.Tests.Core.Data
             Assert.Equal(0, DB.Customers.All().ToList().Count);
             Assert.Equal(0, DB.Orders.All().ToList().Count);
             Assert.Equal(0, DB.OrderDetails.All().ToList().Count);
+        }
+
+        [Fact]
+        public void when_record_has_foreign_record_and_soft_delete_is_enabled__dont_delete_foreign_records_and_update_record_with_default_delete_values()
+        {
+            Entity<Customer>.Register()
+                .ReadAttributes()
+                .SoftDelete()
+                .Property(x => x.Fax, x => x.OnDelete(ValueBehavior.UtcNow));
+            Entity<Order>.Register().ReadAttributes();
+            Entity<OrderDetail>.Register().ReadAttributes();
+            _admin.Initialise(ConnectionStringName);
+
+            var customerId = "CTEST";
+            DB.Customers.Insert(CustomerID: customerId, CompanyName: "test");
+            var orderId = DB.Orders.Insert(CustomerID: customerId).OrderID;
+            var productId = DB.Products.Insert(ProductName: "test").ProductID;
+            DB.OrderDetails.Insert(OrderID: orderId, ProductID: productId);
+
+            var customerEntity = _admin.GetEntity<Customer>();
+            var entityRecord = _source.GetEntityRecord(
+                customerEntity,
+                customerId);
+
+            var result = _deleter.Delete(entityRecord, null);
+
+            Assert.True(result);
+
+            var customer = DB.Customers.All().ToList()[0];
+            Assert.NotNull(customer);
+            Assert.NotNull(customer.Fax);
+            Assert.Equal(1, DB.Orders.All().ToList().Count);
+            Assert.Equal(1, DB.OrderDetails.All().ToList().Count);
         }
     }
 }

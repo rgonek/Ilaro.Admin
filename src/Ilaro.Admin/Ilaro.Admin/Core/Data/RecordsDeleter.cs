@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Ilaro.Admin.Extensions;
 using Massive;
+using System.Data;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -14,11 +15,13 @@ namespace Ilaro.Admin.Core.Data
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
+        private readonly IProvidingUser _user;
 
         public RecordsDeleter(
             IIlaroAdmin admin,
             IExecutingDbCommand executor,
-            IFetchingRecordsHierarchy hierarchySource)
+            IFetchingRecordsHierarchy hierarchySource,
+            IProvidingUser user)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
@@ -26,10 +29,13 @@ namespace Ilaro.Admin.Core.Data
                 throw new ArgumentNullException(nameof(executor));
             if (hierarchySource == null)
                 throw new ArgumentNullException(nameof(hierarchySource));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _executor = executor;
             _hierarchySource = hierarchySource;
+            _user = user;
         }
 
         public bool Delete(
@@ -59,7 +65,8 @@ namespace Ilaro.Admin.Core.Data
         private DbCommand CreateCommand(EntityRecord entityRecord, IDictionary<string, DeleteOption> options)
         {
             var cmd = CreateBaseCommand(entityRecord);
-            AddForeignsSql(cmd, entityRecord, options);
+            if (entityRecord.Entity.SoftDeleteEnabled == false)
+                AddForeignsSql(cmd, entityRecord, options);
 
             return cmd;
         }
@@ -75,16 +82,72 @@ namespace Ilaro.Admin.Core.Data
                 whereParts.Add("{0} = @{1}".Fill(key.Property.Column, key.SqlParameterName));
                 cmd.AddParam(key.Raw);
             }
-            var constraints = string.Join(" AND ", whereParts);
+            var constraintsSeparator = Environment.NewLine + "   AND ";
+            var constraints = string.Join(constraintsSeparator, whereParts);
             cmd.AddParam(entityRecord.JoinedKeyValue);
-            var joinedKeySqlParamName = counter.ToString();
+            var joinedKeySqlParamName = (counter++).ToString();
             var table = entityRecord.Entity.Table;
-            cmd.CommandText =
-$@"DELETE FROM {table} WHERE {constraints};
+
+            if (entityRecord.Entity.SoftDeleteEnabled)
+            {
+                var setsList = new List<string>();
+                foreach (var property in entityRecord.Entity.Properties.
+                    Where(x => x.OnDeleteDefaultValue != null))
+                {
+                    AddParam(cmd, property);
+                    var column = property.Column;
+                    var parameterName = (counter++).ToString();
+                    setsList.Add($"{column} = @{parameterName}");
+                }
+                var setSeparator = "," + Environment.NewLine + "       ";
+                var sets = string.Join(setSeparator, setsList);
+                cmd.CommandText =
+$@"UPDATE {table}
+   SET {sets}
+ WHERE {constraints};
 
 SELECT @{joinedKeySqlParamName};";
+            }
+            else
+            {
+                cmd.CommandText =
+$@"DELETE 
+  FROM {table}
+ WHERE {constraints};
+
+SELECT @{joinedKeySqlParamName};";
+            }
 
             return cmd;
+        }
+
+        private void AddParam(DbCommand cmd, Property property)
+        {
+            if (property.OnDeleteDefaultValue is ValueBehavior)
+            {
+                switch (property.OnDeleteDefaultValue as ValueBehavior?)
+                {
+                    case ValueBehavior.Now:
+                        cmd.AddParam(DateTime.Now);
+                        break;
+                    case ValueBehavior.UtcNow:
+                        cmd.AddParam(DateTime.UtcNow);
+                        break;
+                    case ValueBehavior.CurrentUserId:
+                        cmd.AddParam((int)_user.CurrentId());
+                        break;
+                    case ValueBehavior.CurrentUserName:
+                        cmd.AddParam(_user.CurrentUserName());
+                        break;
+                }
+            }
+            else
+            {
+                if (property.TypeInfo.IsFileStoredInDb)
+                    cmd.AddParam(property.OnDeleteDefaultValue, DbType.Binary);
+                else
+                    cmd.AddParam(property.OnDeleteDefaultValue);
+            }
         }
 
         private string BuildKeyConstraint(EntityRecord entityRecord, string alias)

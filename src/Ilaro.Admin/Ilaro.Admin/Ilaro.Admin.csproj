@@ -256,7 +256,9 @@
     <Compile Include="Core\PropertyValue.cs" />
     <Compile Include="Core\Verbose.cs" />
     <Compile Include="DataAnnotations\OnCreateAttribute.cs" />
+    <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
     <Compile Include="DataAnnotations\OnUpdateAttribute.cs" />
+    <Compile Include="DataAnnotations\SoftDeleteAttribute.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />

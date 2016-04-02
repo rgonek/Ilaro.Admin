@@ -155,6 +155,16 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         /// <summary>
+        /// Determine if records for that entity can be deleted
+        /// </summary>
+        public EntityCustomizer<TEntity> SoftDelete()
+        {
+            CustomizersHolder.SoftDelete();
+
+            return this;
+        }
+
+        /// <summary>
         /// Configure entity property
         /// </summary>
         public EntityCustomizer<TEntity> Property<TProperty>(

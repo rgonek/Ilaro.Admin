@@ -17,5 +17,6 @@ namespace Ilaro.Admin.Configuration.Customizers
             = new Dictionary<string, bool>();
         public bool? AllowDelete { get; internal set; }
         public bool? AllowEdit { get; internal set; }
+        public bool SoftDeleteEnabled { get; internal set; }
     }
 }

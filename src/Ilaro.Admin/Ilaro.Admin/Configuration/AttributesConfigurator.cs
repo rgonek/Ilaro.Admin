@@ -24,6 +24,7 @@ namespace Ilaro.Admin.Configuration
             Deletable(customizerHolder, attributes);
             Columns(customizerHolder, attributes);
             Groups(customizerHolder, attributes);
+            SoftDelete(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -36,6 +37,7 @@ namespace Ilaro.Admin.Configuration
                 Id(member, customizerHolder, attributes);
                 OnCreate(member, customizerHolder, attributes);
                 OnUpdate(member, customizerHolder, attributes);
+                OnDelete(member, customizerHolder, attributes);
                 ForeignDelete(member, customizerHolder, attributes);
                 Column(member, customizerHolder, attributes);
                 Display(member, customizerHolder, attributes);
@@ -114,6 +116,17 @@ namespace Ilaro.Admin.Configuration
             if (attribute != null)
             {
                 customizerHolder.Deletable(attribute.AllowDelete);
+            }
+        }
+
+        private static void SoftDelete(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<SoftDeleteAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.SoftDelete();
             }
         }
 
@@ -258,7 +271,7 @@ namespace Ilaro.Admin.Configuration
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.OnCreateDefaultValue(attribute.Value);
+                    x.OnCreate(attribute.Value);
                 });
             }
         }
@@ -273,7 +286,22 @@ namespace Ilaro.Admin.Configuration
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.OnUpdateDefaultValue(attribute.Value);
+                    x.OnUpdate(attribute.Value);
+                });
+            }
+        }
+
+        private static void OnDelete(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<OnDeleteAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.OnDelete(attribute.Value);
                 });
             }
         }

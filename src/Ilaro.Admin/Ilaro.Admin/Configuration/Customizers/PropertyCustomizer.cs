@@ -25,30 +25,44 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer OnCreateDefaultValue(ValueBehavior behavior)
+        public IPropertyCustomizer OnCreate(ValueBehavior behavior)
         {
             propertyCustomizerHolder.OnCreateDefaultValue = behavior;
 
             return this;
         }
 
-        public IPropertyCustomizer OnCreateDefaultValue(object value)
+        public IPropertyCustomizer OnCreate(object value)
         {
             propertyCustomizerHolder.OnCreateDefaultValue = value;
 
             return this;
         }
 
-        public IPropertyCustomizer OnUpdateDefaultValue(ValueBehavior behavior)
+        public IPropertyCustomizer OnUpdate(ValueBehavior behavior)
         {
             propertyCustomizerHolder.OnUpdateDefaultValue = behavior;
 
             return this;
         }
 
-        public IPropertyCustomizer OnUpdateDefaultValue(object value)
+        public IPropertyCustomizer OnUpdate(object value)
         {
             propertyCustomizerHolder.OnUpdateDefaultValue = value;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnDelete(ValueBehavior behavior)
+        {
+            propertyCustomizerHolder.OnDeleteDefaultValue = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnDelete(object value)
+        {
+            propertyCustomizerHolder.OnDeleteDefaultValue = value;
 
             return this;
         }

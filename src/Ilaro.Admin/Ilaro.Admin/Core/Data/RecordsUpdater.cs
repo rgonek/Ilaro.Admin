@@ -198,9 +198,7 @@ SELECT @{joinedKeyValueParameterName};
 
         private void AddParam(DbCommand cmd, PropertyValue propertyValue)
         {
-            if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
-                cmd.AddParam(propertyValue.Raw, DbType.Binary);
-            else if (propertyValue.Raw is ValueBehavior)
+            if (propertyValue.Raw is ValueBehavior)
             {
                 switch (propertyValue.Raw as ValueBehavior?)
                 {
@@ -220,7 +218,10 @@ SELECT @{joinedKeyValueParameterName};
             }
             else
             {
-                cmd.AddParam(propertyValue.Raw);
+                if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
+                    cmd.AddParam(propertyValue.Raw, DbType.Binary);
+                else
+                    cmd.AddParam(propertyValue.Raw);
             }
         }
     }

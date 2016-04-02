@@ -86,6 +86,7 @@ namespace Ilaro.Admin.Core
         public bool HasToStringMethod { get; private set; }
 
         public string RecordDisplayFormat { get; internal set; }
+        public bool SoftDeleteEnabled { get; internal set; }
 
         public Property this[string propertyName]
         {

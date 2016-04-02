@@ -28,5 +28,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public SystemDataType? SourceDataType { get; internal set; }
         public string ForeignKey { get; internal set; }
         public bool IsForeignKey { get; internal set; }
+        public object OnDeleteDefaultValue { get; internal set; }
     }
 }

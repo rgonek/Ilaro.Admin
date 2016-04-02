@@ -86,6 +86,7 @@ namespace Ilaro.Admin.Core
         public string ForeignKeyName { get; private set; }
         public object OnCreateDefaultValue { get; internal set; }
         public object OnUpdateDefaultValue { get; internal set; }
+        public object OnDeleteDefaultValue { get; internal set; }
 
         public Property(Entity entity, PropertyInfo property)
         {
