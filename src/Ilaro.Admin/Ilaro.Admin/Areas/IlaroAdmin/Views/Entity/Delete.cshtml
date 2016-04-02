@@ -40,12 +40,15 @@
         </div>
     }
 
-    <h4>@IlaroAdminResources.CascadeDeleteWarning</h4>
-    <div class="list-delete-wrapper">
-        <ul class="list-delete">
-            @DisplayRecordHierarchy(Model.RecordHierarchy)
-        </ul>
-    </div>
+    if (Model.PropertiesDeleteOptions.Any())
+    {
+        <h4>@IlaroAdminResources.CascadeDeleteWarning</h4>
+        <div class="list-delete-wrapper">
+            <ul class="list-delete">
+                @DisplayRecordHierarchy(Model.RecordHierarchy)
+            </ul>
+        </div>
+    }
 
     <div class="form-action">
         <div class="col-md-offset-2">
