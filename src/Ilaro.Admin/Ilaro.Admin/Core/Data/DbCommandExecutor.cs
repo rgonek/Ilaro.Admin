@@ -98,7 +98,7 @@ VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.Table);
             cmd.AddParam(changeType);
             cmd.AddParam(changeDescriber == null ? null : changeDescriber());
             cmd.AddParam(DateTime.UtcNow);
-            cmd.AddParam(_user.Current());
+            cmd.AddParam(_user.CurrentUserName());
 
             cmd.CommandText = sql;
 

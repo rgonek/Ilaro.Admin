@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsDeleter_()
         {
             _user = A.Fake<IProvidingUser>();
-            A.CallTo(() => _user.Current()).Returns("Test");
+            A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
             _hierarchySource = new RecordsHierarchySource(_admin);
             _deleter = new RecordsDeleter(_admin, executor, _hierarchySource);
