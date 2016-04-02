@@ -147,7 +147,7 @@
     <Compile Include="Areas\IlaroAdmin\Controllers\ResourceController.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\SharedController.cs" />
     <Compile Include="Areas\IlaroAdmin\IlaroAdminAreaRegistration.cs" />
-    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
@@ -357,7 +357,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Delete.cshtml</DependentUpon>
@@ -502,7 +502,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Layout1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Layout.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Layout.cshtml</DependentUpon>
@@ -585,7 +585,7 @@
   <ItemGroup>
     <Content Include="Areas\IlaroAdmin\Views\Entities\Changes.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Changes1.generated.cs</LastGenOutput>
+      <LastGenOutput>Changes.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -604,7 +604,7 @@
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Entity\Delete.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Delete1.generated.cs</LastGenOutput>
+      <LastGenOutput>Delete.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Entities\Index.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -696,7 +696,7 @@
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
