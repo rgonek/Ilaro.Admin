@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Models
 {
@@ -25,9 +26,8 @@ namespace Ilaro.Admin.Models
             EntityRecord = entityRecord;
             PropertiesDeleteOptions =
                 entityRecord.Entity.Properties
-                    .Where(x =>
-                        x.IsForeignKey &&
-                        x.ForeignDeleteOption == DeleteOption.AskUser)
+                    .WhereOneToMany()
+                    .Where(x => x.ForeignDeleteOption == DeleteOption.AskUser)
                     .Select(x =>
                         new PropertyDeleteOption
                         {
