@@ -17,11 +17,13 @@ namespace Ilaro.Admin.Core.Data
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecords _source;
+        private readonly IProvidingUser _user;
 
         public RecordsUpdater(
             IIlaroAdmin admin,
             IExecutingDbCommand executor,
-            IFetchingRecords source)
+            IFetchingRecords source,
+            IProvidingUser user)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
@@ -29,10 +31,13 @@ namespace Ilaro.Admin.Core.Data
                 throw new ArgumentNullException(nameof(executor));
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _executor = executor;
             _source = source;
+            _user = user;
         }
 
         public bool Update(EntityRecord entityRecord, Func<string> changeDescriber = null)
@@ -191,7 +196,7 @@ SELECT @{joinedKeyValueParameterName};
  WHERE {constraints};";
         }
 
-        private static void AddParam(DbCommand cmd, PropertyValue propertyValue)
+        private void AddParam(DbCommand cmd, PropertyValue propertyValue)
         {
             if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
                 cmd.AddParam(propertyValue.Raw, DbType.Binary);
@@ -204,6 +209,12 @@ SELECT @{joinedKeyValueParameterName};
                         break;
                     case ValueBehavior.UtcNow:
                         cmd.AddParam(DateTime.UtcNow);
+                        break;
+                    case ValueBehavior.CurrentUserId:
+                        cmd.AddParam((int)_user.CurrentId());
+                        break;
+                    case ValueBehavior.CurrentUserName:
+                        cmd.AddParam(_user.CurrentUserName());
                         break;
                 }
             }

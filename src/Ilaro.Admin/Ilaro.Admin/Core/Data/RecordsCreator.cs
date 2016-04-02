@@ -15,16 +15,23 @@ namespace Ilaro.Admin.Core.Data
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsCreator));
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
+        private readonly IProvidingUser _user;
 
-        public RecordsCreator(IIlaroAdmin admin, IExecutingDbCommand executor)
+        public RecordsCreator(
+            IIlaroAdmin admin,
+            IExecutingDbCommand executor,
+            IProvidingUser user)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
             if (executor == null)
                 throw new ArgumentNullException(nameof(executor));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _executor = executor;
+            _user = user;
         }
 
         public string Create(EntityRecord entityRecord, Func<string> changeDescriber = null)
@@ -132,9 +139,7 @@ SELECT @newID;
             cmd.CommandText += sbUpdates.ToString();
         }
 
-        private static void AddParam(
-            DbCommand cmd,
-            PropertyValue propertyValue)
+        private void AddParam(DbCommand cmd, PropertyValue propertyValue)
         {
             if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
                 cmd.AddParam(propertyValue.Raw, DbType.Binary);
@@ -147,6 +152,12 @@ SELECT @newID;
                         break;
                     case ValueBehavior.UtcNow:
                         cmd.AddParam(DateTime.UtcNow);
+                        break;
+                    case ValueBehavior.CurrentUserId:
+                        cmd.AddParam((int)_user.CurrentId());
+                        break;
+                    case ValueBehavior.CurrentUserName:
+                        cmd.AddParam(_user.CurrentUserName());
                         break;
                 }
             }

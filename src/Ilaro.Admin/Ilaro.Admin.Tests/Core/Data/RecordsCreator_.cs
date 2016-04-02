@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
-            _creator = new RecordsCreator(_admin, executor);
+            _creator = new RecordsCreator(_admin, executor, _user);
         }
 
         [Fact]

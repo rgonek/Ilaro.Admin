@@ -3,6 +3,8 @@
     public enum ValueBehavior
     {
         Now,
-        UtcNow
+        UtcNow,
+        CurrentUserId,
+        CurrentUserName
     }
 }
