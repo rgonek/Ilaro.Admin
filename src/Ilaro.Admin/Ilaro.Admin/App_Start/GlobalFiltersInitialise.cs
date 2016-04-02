@@ -11,7 +11,7 @@ namespace Ilaro.Admin.App_Start
         public static void Start()
         {
             GlobalFilters.Filters.Add(new CopyIsAjaxRequestFromRequestToViewBagAttribute());
-            GlobalFilters.Filters.Add(new ModelStateErrorsBulderAttribute());
+            GlobalFilters.Filters.Add(new ModelStateErrorsBuilderAttribute());
             GlobalFilters.Filters.Add(new NotificatorAttribute());
         }
     }

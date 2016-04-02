@@ -297,7 +297,7 @@
     <Compile Include="Infrastructure\EmbeddedVirtualFile.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualPathProvider.cs" />
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
-    <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
+    <Compile Include="Infrastructure\ModelStateErrorsBuilderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />

@@ -3,7 +3,7 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class ModelStateErrorsBulderAttribute : IlaroAdminFilterAttribute
+    public class ModelStateErrorsBuilderAttribute : IlaroAdminFilterAttribute
     {
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
