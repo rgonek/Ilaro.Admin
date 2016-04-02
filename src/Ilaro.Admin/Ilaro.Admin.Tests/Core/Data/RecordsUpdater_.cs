@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             _user = A.Fake<IProvidingUser>();
             A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
-            _updater = new RecordsUpdater(_admin, executor, _source);
+            _updater = new RecordsUpdater(_admin, executor, _source, _user);
         }
 
         [Fact]
