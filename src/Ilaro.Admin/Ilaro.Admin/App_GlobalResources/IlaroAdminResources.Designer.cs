@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If for all foreign entities delete option is cascade delete, then all of the following records will be deleted:.
+        /// </summary>
+        internal static string AssumableCascadeDeleteWarning {
+            get {
+                return ResourceManager.GetString("AssumableCascadeDeleteWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -97,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If for all foreign entities delete option is cascade delete, then all of the following records will be deleted:.
+        ///   Looks up a localized string similar to All of the following records will be deleted:.
         /// </summary>
         internal static string CascadeDeleteWarning {
             get {

@@ -180,6 +180,66 @@ WriteLiteralTo(__razor_helper_writer, " ");
 #line default
 #line hidden
 
+#line 90 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+public System.Web.WebPages.HelperResult DeleteHierarchyWarning(bool assumable)
+{
+#line default
+#line hidden
+return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+#line 91 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+ 
+    if (assumable)
+    {
+
+
+#line default
+#line hidden
+WriteLiteralTo(__razor_helper_writer, "        ");
+
+
+#line 94 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+WriteTo(__razor_helper_writer, IlaroAdminResources.AssumableCascadeDeleteWarning);
+
+
+#line default
+#line hidden
+WriteLiteralTo(__razor_helper_writer, "\r\n");
+
+
+#line 95 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+    }
+    else
+    {
+
+
+#line default
+#line hidden
+WriteLiteralTo(__razor_helper_writer, "        ");
+
+
+#line 98 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+WriteTo(__razor_helper_writer, IlaroAdminResources.CascadeDeleteWarning);
+
+
+#line default
+#line hidden
+WriteLiteralTo(__razor_helper_writer, "\r\n");
+
+
+#line 99 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+    }
+
+
+#line default
+#line hidden
+});
+
+#line 100 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+}
+#line default
+#line hidden
+
         public _Areas_IlaroAdmin_Views_Entity_Delete_cshtml()
         {
         }
@@ -487,7 +547,7 @@ WriteLiteral("        <h4>");
 
             
             #line 54 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-       Write(IlaroAdminResources.CascadeDeleteWarning);
+       Write(DeleteHierarchyWarning(Model.AssumableDeleteHierarchyWarning));
 
             
             #line default
@@ -548,14 +608,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2967), Tuple.Create("\"", 2993)
+WriteAttribute("href", Tuple.Create(" href=\"", 2988), Tuple.Create("\"", 3014)
             
             #line 65 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 2974), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
+, Tuple.Create(Tuple.Create("", 2995), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
             
             #line default
             #line hidden
-, 2974), false)
+, 2995), false)
 );
 
 WriteLiteral(" class=\"btn btn-default\"");
@@ -575,14 +635,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3105), Tuple.Create("\"", 3179)
+WriteAttribute("href", Tuple.Create(" href=\"", 3126), Tuple.Create("\"", 3200)
             
             #line 66 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 3112), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
+, Tuple.Create(Tuple.Create("", 3133), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
             
             #line default
             #line hidden
-, 3112), false)
+, 3133), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

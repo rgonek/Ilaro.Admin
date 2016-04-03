@@ -127,11 +127,14 @@
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="AssumableCascadeDeleteWarning" xml:space="preserve">
+    <value>If for all foreign entities delete option is cascade delete, then all of the following records will be deleted:</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="CascadeDeleteWarning" xml:space="preserve">
-    <value>If for all foreign entities delete option is cascade delete, then all of the following records will be deleted:</value>
+    <value>All of the following records will be deleted:</value>
   </data>
   <data name="Change" xml:space="preserve">
     <value>Change</value>

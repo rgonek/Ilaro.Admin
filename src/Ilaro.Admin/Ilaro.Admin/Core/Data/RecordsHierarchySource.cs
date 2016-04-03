@@ -4,6 +4,7 @@ using System.Linq;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Massive;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -20,14 +21,16 @@ namespace Ilaro.Admin.Core.Data
             _admin = admin;
         }
 
-        public RecordHierarchy GetRecordHierarchy(EntityRecord entityRecord)
+        public RecordHierarchy GetRecordHierarchy(
+            EntityRecord entityRecord,
+            IList<PropertyDeleteOption> deleteOptions = null)
         {
             _log.InfoFormat(
                 "Getting record hierarchy for entity record ({0}#{1})",
                 entityRecord.Entity.Name,
                 entityRecord.JoinedKeyWithValue);
 
-            var hierarchy = GetEntityHierarchy(entityRecord.Entity);
+            var hierarchy = GetEntityHierarchy(entityRecord.Entity, deleteOptions);
             var sql = GenerateHierarchySql(hierarchy);
             _log.Debug($"Sql hierarchy: \r\n {sql}");
             var model = new DynamicModel(_admin.ConnectionStringName);
@@ -38,10 +41,14 @@ namespace Ilaro.Admin.Core.Data
             return recordHierarchy;
         }
 
-        public EntityHierarchy GetEntityHierarchy(Entity entity)
+        public EntityHierarchy GetEntityHierarchy(
+            Entity entity,
+            IList<PropertyDeleteOption> deleteOptions = null)
         {
-            var index = 0;
-            return GetEntityHierarchy(null, entity, ref index);
+            var deleteOptionsDict = deleteOptions == null ?
+                null :
+                deleteOptions.ToDictionary(x => x.HierarchyName);
+            return GetEntityHierarchy(null, entity, deleteOptionsDict);
         }
 
         private RecordHierarchy GetHierarchyRecords(
@@ -207,7 +214,9 @@ ORDER BY {orders};";
         private EntityHierarchy GetEntityHierarchy(
             EntityHierarchy parent,
             Entity entity,
-            ref int index)
+            IDictionary<string, PropertyDeleteOption> deleteOptions = null,
+            string hierarchyName = "",
+            int index = 0)
         {
             var hierarchy = new EntityHierarchy
             {
@@ -218,18 +227,39 @@ ORDER BY {orders};";
             };
 
             foreach (var property in entity.GetDefaultCreateProperties()
-                .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
+                .WhereOneToMany()
                 .Where(property =>
                     parent == null ||
                     parent.Entity != property.ForeignEntity))
             {
-                index++;
-                var subHierarchy =
-                    GetEntityHierarchy(hierarchy, property.ForeignEntity, ref index);
-                hierarchy.SubHierarchies.Add(subHierarchy);
+                if (hierarchyName.HasValue())
+                    hierarchyName += "-";
+                hierarchyName += property.ForeignEntity.Name;
+                var deleteOption = GetDeleteOption(hierarchyName, deleteOptions);
+                if (deleteOption == DeleteOption.CascadeDelete ||
+                    deleteOption == DeleteOption.AskUser)
+                {
+                    index++;
+                    var subHierarchy =
+                        GetEntityHierarchy(hierarchy, property.ForeignEntity, deleteOptions, hierarchyName, index);
+                    hierarchy.SubHierarchies.Add(subHierarchy);
+                }
             }
 
             return hierarchy;
+        }
+
+        private DeleteOption GetDeleteOption(
+            string hierarchyName,
+            IDictionary<string, PropertyDeleteOption> deleteOptions = null)
+        {
+            if (deleteOptions == null)
+                return DeleteOption.CascadeDelete;
+
+            if (deleteOptions.ContainsKey(hierarchyName))
+                return deleteOptions[hierarchyName].DeleteOption;
+
+            return DeleteOption.CascadeDelete;
         }
     }
 }

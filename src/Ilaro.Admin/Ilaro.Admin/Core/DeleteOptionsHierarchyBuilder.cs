@@ -18,11 +18,11 @@ namespace Ilaro.Admin.Core
                 hierarchyNamePrefix += "-";
             var properties = new List<PropertyDeleteOption>();
             foreach (var property in entity.Properties
-                       .WhereOneToMany()
-                       .Where(x => x.ForeignDeleteOption == DeleteOption.AskUser ||
-                            x.ForeignDeleteOption == DeleteOption.CascadeDelete))
+                       .WhereOneToMany())
             {
                 var hierarchyName = hierarchyNamePrefix + property.ForeignEntity.Name;
+                var visible = property.ForeignDeleteOption == DeleteOption.AskUser ||
+                    property.ForeignDeleteOption == DeleteOption.CascadeDelete;
                 properties.Add(new PropertyDeleteOption
                 {
                     EntityName = property.ForeignEntity.Name,
@@ -30,15 +30,20 @@ namespace Ilaro.Admin.Core
                     DeleteOption = property.ForeignDeleteOption,
                     ShowOptions = property.ForeignDeleteOption == DeleteOption.AskUser,
                     Collapsed = collapsed,
-                    Level = level
+                    Level = level,
+                    Visible = visible
                 });
-                properties.AddRange(GetHierarchy(
-                    property.ForeignEntity,
-                    collapsed ?
-                        true :
-                        property.ForeignDeleteOption != DeleteOption.CascadeDelete,
-                    hierarchyName,
-                    ++level));
+
+                if (visible)
+                {
+                    properties.AddRange(GetHierarchy(
+                        property.ForeignEntity,
+                        collapsed ?
+                            true :
+                            property.ForeignDeleteOption != DeleteOption.CascadeDelete,
+                        hierarchyName,
+                        ++level));
+                }
             }
 
             return properties;

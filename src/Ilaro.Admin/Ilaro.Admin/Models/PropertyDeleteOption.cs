@@ -10,5 +10,6 @@ namespace Ilaro.Admin.Models
         public bool ShowOptions { get; set; }
         public bool Collapsed { get; set; }
         public int Level { get; set; }
+        public bool Visible { get; internal set; }
     }
 }

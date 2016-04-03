@@ -51,7 +51,7 @@
 
     if (Model.DisplayRecordHierarchy)
     {
-        <h4>@IlaroAdminResources.CascadeDeleteWarning</h4>
+        <h4>@DeleteHierarchyWarning(Model.AssumableDeleteHierarchyWarning)</h4>
         <div class="list-delete-wrapper">
             <ul class="list-delete">
                 @DisplayRecordHierarchy(Model.RecordHierarchy)
@@ -86,4 +86,15 @@
 @helper HideDeleteOption(bool collapsed)
 {
     if (collapsed) { <text>data-delete-options-collapsed="true"</text> }
+}
+@helper DeleteHierarchyWarning(bool assumable)
+{
+    if (assumable)
+    {
+        <text>@IlaroAdminResources.AssumableCascadeDeleteWarning</text>
+    }
+    else
+    {
+        <text>@IlaroAdminResources.CascadeDeleteWarning</text>
+    }
 }
