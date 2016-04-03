@@ -14,7 +14,6 @@ namespace Ilaro.Admin.Tests.Core.Data
         private readonly IFetchingRecords _source;
         private readonly IUpdatingRecords _updater;
         private readonly IProvidingUser _user;
-        private Entity _entity;
         private EntityRecord _entityRecord;
         private int _productId;
 
