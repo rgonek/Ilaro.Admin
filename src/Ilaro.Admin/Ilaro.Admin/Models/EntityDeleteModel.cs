@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Models
 {
@@ -17,6 +16,8 @@ namespace Ilaro.Admin.Models
 
         public RecordHierarchy RecordHierarchy { get; set; }
 
+        public bool DisplayRecordHierarchy { get; }
+
         public EntityDeleteModel()
         {
         }
@@ -24,16 +25,15 @@ namespace Ilaro.Admin.Models
         public EntityDeleteModel(EntityRecord entityRecord)
         {
             EntityRecord = entityRecord;
-            PropertiesDeleteOptions =
-                entityRecord.Entity.Properties
-                    .WhereOneToMany()
-                    .Where(x => x.ForeignDeleteOption == DeleteOption.AskUser)
-                    .Select(x =>
-                        new PropertyDeleteOption
-                        {
-                            PropertyName = x.ForeignEntity.Name
-                        })
-                    .ToList();
+
+            var deleteOptions = DeleteOptionsHierarchyBuilder
+                .GetHierarchy(entityRecord.Entity, false);
+            DisplayRecordHierarchy = deleteOptions.Any();
+
+            if (deleteOptions.Any(x => x.DeleteOption == DeleteOption.AskUser))
+                PropertiesDeleteOptions = deleteOptions.ToList();
+            else
+                PropertiesDeleteOptions = new List<PropertyDeleteOption>();
         }
     }
 }

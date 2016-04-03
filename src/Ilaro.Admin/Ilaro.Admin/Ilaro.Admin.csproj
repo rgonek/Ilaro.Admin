@@ -224,6 +224,7 @@
     <Compile Include="Core\Data\IExecutingDbCommand.cs" />
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
+    <Compile Include="Core\DeleteOptionsHierarchyBuilder.cs" />
     <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\EntityRecord.cs" />
     <Compile Include="Core\Extensions\PropertyExtensions.cs" />

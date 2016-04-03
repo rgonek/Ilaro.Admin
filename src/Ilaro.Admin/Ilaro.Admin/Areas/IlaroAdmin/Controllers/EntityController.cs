@@ -201,9 +201,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName = model.EntityName });
             }
 
+            var deleteOptions = DeleteOptionsHierarchyBuilder.Merge(
+                entity,
+                model.PropertiesDeleteOptions);
+
             try
             {
-                var isSuccess = _entityService.Delete(entity, model.Key, model.PropertiesDeleteOptions);
+                var isSuccess = _entityService.Delete(entity, model.Key, deleteOptions);
                 if (isSuccess)
                 {
                     _notificator.Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
@@ -221,7 +225,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
             model = new EntityDeleteModel(entityRecord)
             {
-                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord)
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord),
+                PropertiesDeleteOptions = deleteOptions
             };
 
             return View(model);

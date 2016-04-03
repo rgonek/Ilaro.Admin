@@ -2,6 +2,7 @@
 using Ilaro.Admin.Configuration;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Models;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using System.Collections.Generic;
 using Xunit;
@@ -44,9 +45,9 @@ namespace Ilaro.Admin.Tests.Core.Data
                 customerEntity,
                 customerId);
 
-            var deleteOptions = new Dictionary<string, DeleteOption>
+            var deleteOptions = new Dictionary<string, PropertyDeleteOption>
             {
-                { "Order", DeleteOption.SetNull }
+                { "Order", new PropertyDeleteOption { DeleteOption = DeleteOption.SetNull } }
             };
 
             var result = _deleter.Delete(entityRecord, deleteOptions);
@@ -59,7 +60,7 @@ namespace Ilaro.Admin.Tests.Core.Data
         }
 
         [Fact]
-        public void when_record_has_foreign_record_and_delete_option_is_cascade_delete__delete_all_related_records()
+        public void when_record_has_foreign_record_and_delete_option_is_cascade_delete_for_all_properties__delete_all_related_records()
         {
             Entity<Customer>.Register().ReadAttributes();
             Entity<Order>.Register().ReadAttributes();
@@ -77,9 +78,10 @@ namespace Ilaro.Admin.Tests.Core.Data
                 customerEntity,
                 customerId);
 
-            var deleteOptions = new Dictionary<string, DeleteOption>
+            var deleteOptions = new Dictionary<string, PropertyDeleteOption>
             {
-                { "Order", DeleteOption.CascadeDelete }
+                { "Order", new PropertyDeleteOption { DeleteOption = DeleteOption.CascadeDelete } },
+                { "Order-OrderDetail", new PropertyDeleteOption { DeleteOption = DeleteOption.CascadeDelete, Level = 1 } }
             };
 
             var result = _deleter.Delete(entityRecord, deleteOptions);

@@ -155,15 +155,7 @@ namespace Ilaro.Admin.Core.Data
             entityRecord.Fill(existingRecord);
 
             options = options ?? new List<PropertyDeleteOption>();
-            var deleteOptions = options.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
-            foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
-            {
-                if (!deleteOptions.ContainsKey(propertyValue.Property.ForeignEntity.Name))
-                {
-                    deleteOptions[propertyValue.Property.ForeignEntity.Name] =
-                        propertyValue.Property.ForeignDeleteOption;
-                }
-            }
+            var deleteOptions = options.ToDictionary(x => x.HierarchyName);
 
             var result = _deleter.Delete(
                 entityRecord,

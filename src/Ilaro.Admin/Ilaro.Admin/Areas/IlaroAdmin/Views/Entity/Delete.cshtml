@@ -31,16 +31,25 @@
 
     for (int i = 0; i < Model.PropertiesDeleteOptions.Count; i++)
     {
-        <div class="form-group">
-            <label for="@Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)" class="control-label col-md-2">@Model.PropertiesDeleteOptions[i].PropertyName</label>
+        <div class="form-group" data-delete-options="@Model.PropertiesDeleteOptions[i].HierarchyName" @HideDeleteOption(Model.PropertiesDeleteOptions[i].Collapsed)>
+            <label for="@Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)" class="control-label col-md-2">@Model.PropertiesDeleteOptions[i].EntityName</label>
             <div class="col-md-3">
-                @Html.HiddenFor(m => Model.PropertiesDeleteOptions[i].PropertyName)
-                @Html.DropDownListFor(m => Model.PropertiesDeleteOptions[i].DeleteOption, Model.PropertiesDeleteOptions[i].DeleteOption.GetSelectList(), new { @class = "form-control" })
+                @Html.HiddenFor(m => Model.PropertiesDeleteOptions[i].HierarchyName)
+                @if (Model.PropertiesDeleteOptions[i].ShowOptions)
+                {
+                    @Html.DropDownListFor(m => Model.PropertiesDeleteOptions[i].DeleteOption, Model.PropertiesDeleteOptions[i].DeleteOption.GetSelectList(), new { @class = "form-control" })
+                }
+                else
+                {
+                    <div class="control-value">
+                        @Model.PropertiesDeleteOptions[i].DeleteOption.ToString().SplitCamelCase()
+                    </div>
+                }
             </div>
         </div>
     }
 
-    if (Model.PropertiesDeleteOptions.Any())
+    if (Model.DisplayRecordHierarchy)
     {
         <h4>@IlaroAdminResources.CascadeDeleteWarning</h4>
         <div class="list-delete-wrapper">
@@ -73,4 +82,8 @@
             </ul>
         }
     </li>
+}
+@helper HideDeleteOption(bool collapsed)
+{
+    if (collapsed) { <text>data-delete-options-collapsed="true"</text> }
 }
