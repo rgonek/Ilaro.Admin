@@ -1,11 +1,4 @@
-﻿USE [master]
-IF (exists (select * from sysdatabases where name='IlaroTestDb'))
-BEGIN
-    return
-END
-CREATE DATABASE IlaroTestDb;
-GO
-USE [IlaroTestDb]
+﻿
 IF (EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'dbo' 
