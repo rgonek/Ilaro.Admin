@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set delete behavior of foreign property on deleting
         /// </summary>
-        IPropertyCustomizer ForeignDelete(CascadeOption deleteOption);
+        IPropertyCustomizer Cascade(CascadeOption deleteOption);
         /// <summary>
         /// Set display and edit template
         /// </summary>

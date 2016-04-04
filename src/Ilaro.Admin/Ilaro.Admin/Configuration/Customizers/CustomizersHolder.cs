@@ -213,7 +213,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.Description.HasValue())
                     property.Description = propertyCustomizer.Description;
 
-                property.ForeignDeleteOption = propertyCustomizer.ForeignDeleteOption
+                property.CascadeOption = propertyCustomizer.CascadeOption
                     .GetValueOrDefault(CascadeOption.AskUser);
                 if (propertyCustomizer.DataType.HasValue)
                 {

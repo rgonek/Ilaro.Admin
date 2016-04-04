@@ -21,14 +21,14 @@ namespace Ilaro.Admin.Core
                        .WhereOneToMany())
             {
                 var hierarchyName = hierarchyNamePrefix + property.ForeignEntity.Name;
-                var visible = property.ForeignDeleteOption == CascadeOption.AskUser ||
-                    property.ForeignDeleteOption == CascadeOption.Delete;
+                var visible = property.CascadeOption == CascadeOption.AskUser ||
+                    property.CascadeOption == CascadeOption.Delete;
                 properties.Add(new PropertyDeleteOption
                 {
                     EntityName = property.ForeignEntity.Name,
                     HierarchyName = hierarchyName,
-                    DeleteOption = property.ForeignDeleteOption,
-                    ShowOptions = property.ForeignDeleteOption == CascadeOption.AskUser,
+                    DeleteOption = property.CascadeOption,
+                    ShowOptions = property.CascadeOption == CascadeOption.AskUser,
                     Collapsed = collapsed,
                     Level = level,
                     Visible = visible
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Core
                         property.ForeignEntity,
                         collapsed ?
                             true :
-                            property.ForeignDeleteOption != CascadeOption.Delete,
+                            property.CascadeOption != CascadeOption.Delete,
                         hierarchyName,
                         ++level));
                 }
