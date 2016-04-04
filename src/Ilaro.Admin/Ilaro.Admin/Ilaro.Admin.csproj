@@ -147,7 +147,7 @@
     <Compile Include="Areas\IlaroAdmin\Controllers\ResourceController.cs" />
     <Compile Include="Areas\IlaroAdmin\Controllers\SharedController.cs" />
     <Compile Include="Areas\IlaroAdmin\IlaroAdminAreaRegistration.cs" />
-    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\Changes.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
@@ -224,6 +224,7 @@
     <Compile Include="Core\Data\IExecutingDbCommand.cs" />
     <Compile Include="Core\Data\IFetchingRecords.cs" />
     <Compile Include="Core\Data\RecordsUpdater.cs" />
+    <Compile Include="Core\DeleteOptionsHierarchyBuilder.cs" />
     <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\EntityRecord.cs" />
     <Compile Include="Core\Extensions\PropertyExtensions.cs" />
@@ -255,6 +256,10 @@
     <Compile Include="Core\PropertyTypeInfo.cs" />
     <Compile Include="Core\PropertyValue.cs" />
     <Compile Include="Core\Verbose.cs" />
+    <Compile Include="DataAnnotations\OnCreateAttribute.cs" />
+    <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
+    <Compile Include="DataAnnotations\OnUpdateAttribute.cs" />
+    <Compile Include="DataAnnotations\SoftDeleteAttribute.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />
@@ -265,7 +270,7 @@
     <Compile Include="DataAnnotations\FileOptions.cs" />
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />
-    <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
+    <Compile Include="DataAnnotations\CascadeAttribute.cs" />
     <Compile Include="DataAnnotations\RecordDisplayAttribute.cs" />
     <Compile Include="DataAnnotations\SearchAttribute.cs" />
     <Compile Include="DataAnnotations\TemplateAttribute.cs" />
@@ -293,7 +298,7 @@
     <Compile Include="Infrastructure\EmbeddedVirtualFile.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualPathProvider.cs" />
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
-    <Compile Include="Infrastructure\ModelStateErrorsBulderAttribute.cs" />
+    <Compile Include="Infrastructure\ModelStateErrorsBuilderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />
@@ -353,7 +358,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Create.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\Delete.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Delete.cshtml</DependentUpon>
@@ -498,7 +503,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Layout1.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Layout.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Layout.cshtml</DependentUpon>
@@ -581,7 +586,7 @@
   <ItemGroup>
     <Content Include="Areas\IlaroAdmin\Views\Entities\Changes.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Changes1.generated.cs</LastGenOutput>
+      <LastGenOutput>Changes.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -600,7 +605,7 @@
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Entity\Delete.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Delete1.generated.cs</LastGenOutput>
+      <LastGenOutput>Delete.generated.cs</LastGenOutput>
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Entities\Index.cshtml">
       <Generator>RazorGenerator</Generator>
@@ -692,7 +697,7 @@
     </Content>
     <Content Include="Areas\IlaroAdmin\Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>_Layout1.generated.cs</LastGenOutput>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

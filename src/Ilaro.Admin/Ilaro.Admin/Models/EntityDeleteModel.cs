@@ -16,24 +16,22 @@ namespace Ilaro.Admin.Models
 
         public RecordHierarchy RecordHierarchy { get; set; }
 
+        public bool DisplayRecordHierarchy { get; }
+        public bool AssumableDeleteHierarchyWarning { get; }
+
         public EntityDeleteModel()
         {
         }
 
-        public EntityDeleteModel(EntityRecord entityRecord)
+        public EntityDeleteModel(IList<PropertyDeleteOption> deleteOptions)
         {
-            EntityRecord = entityRecord;
-            PropertiesDeleteOptions =
-                entityRecord.Entity.Properties
-                    .Where(x =>
-                        x.IsForeignKey &&
-                        x.DeleteOption == DeleteOption.AskUser)
-                    .Select(x =>
-                        new PropertyDeleteOption
-                        {
-                            PropertyName = x.ForeignEntity.Name
-                        })
-                    .ToList();
+            DisplayRecordHierarchy = deleteOptions.Any();
+            AssumableDeleteHierarchyWarning = deleteOptions.Any(x => x.ShowOptions);
+
+            if (deleteOptions.Any(x => x.DeleteOption == CascadeOption.AskUser))
+                PropertiesDeleteOptions = deleteOptions.Where(x => x.Visible).ToList();
+            else
+                PropertiesDeleteOptions = new List<PropertyDeleteOption>();
         }
     }
 }

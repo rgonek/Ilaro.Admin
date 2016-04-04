@@ -79,6 +79,8 @@ namespace Ilaro.Admin.Core
         /// </summary>
         public IDictionary<string, string> PossibleValues { get; set; }
 
+        public string SqlParameterName { get; set; }
+
         public Property Property { get; }
 
         public PropertyValue(Property property)

@@ -22,6 +22,9 @@ namespace Ilaro.Admin.Configuration
             Links(customizerHolder, attributes);
             Editable(customizerHolder, attributes);
             Deletable(customizerHolder, attributes);
+            Columns(customizerHolder, attributes);
+            Groups(customizerHolder, attributes);
+            SoftDelete(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -32,10 +35,13 @@ namespace Ilaro.Admin.Configuration
                 ImageSettings(member, customizerHolder, attributes);
                 Template(member, customizerHolder, attributes);
                 Id(member, customizerHolder, attributes);
+                OnCreate(member, customizerHolder, attributes);
+                OnUpdate(member, customizerHolder, attributes);
                 OnDelete(member, customizerHolder, attributes);
+                Cascade(member, customizerHolder, attributes);
                 Column(member, customizerHolder, attributes);
                 Display(member, customizerHolder, attributes);
-                PropertyDisplayFormat(member, customizerHolder, attributes);
+                DisplayFormat(member, customizerHolder, attributes);
                 Required(member, customizerHolder, attributes);
                 ForeignKey(member, customizerHolder, attributes);
             }
@@ -113,6 +119,17 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
+        private static void SoftDelete(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<SoftDeleteAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.SoftDelete();
+            }
+        }
+
         private static void DisplayFormat(
             ICustomizersHolder customizerHolder,
             object[] attributes)
@@ -124,7 +141,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void SetColumns(
+        private static void Columns(
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
@@ -137,7 +154,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void SetGroups(
+        private static void Groups(
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
@@ -244,17 +261,47 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void DefaultValue(
+        private static void OnCreate(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
-            var attribute = attributes.GetAttribute<DefaultValueAttribute>();
+            var attribute = attributes.GetAttribute<OnCreateAttribute>();
             if (attribute != null)
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.DefaultValue(attribute.Value);
+                    x.OnCreate(attribute.Value);
+                });
+            }
+        }
+
+        private static void OnUpdate(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<OnUpdateAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.OnUpdate(attribute.Value);
+                });
+            }
+        }
+
+        private static void OnDelete(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<OnDeleteAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.OnDelete(attribute.Value);
                 });
             }
         }
@@ -307,17 +354,17 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void OnDelete(
+        private static void Cascade(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
-            var attribute = attributes.GetAttribute<OnDeleteAttribute>();
+            var attribute = attributes.GetAttribute<CascadeAttribute>();
             if (attribute != null)
             {
                 customizerHolder.Property(member, x =>
                 {
-                    x.OnDelete(attribute.DeleteOption);
+                    x.Cascade(attribute.DeleteOption);
                 });
             }
         }
@@ -352,7 +399,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void PropertyDisplayFormat(
+        private static void DisplayFormat(
             MemberInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)

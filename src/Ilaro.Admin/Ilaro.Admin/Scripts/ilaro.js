@@ -90,4 +90,19 @@
         var href = $this.attr('href').replace('custom-string', search);
         window.location.href = href;
     });
+
+    $('[data-delete-options]').find('select').change(function () {
+        var $this = $(this);
+        var $formGroup = $this.parents('[data-delete-options]');
+        var hierarchyName = $formGroup.data('delete-options');
+        var val = $this.val();
+        var childGroups = $('[data-delete-options^=' + hierarchyName + '-]');
+        if (val == 2) {
+            childGroups.slideDown();
+        }
+        else {
+            childGroups.slideUp();
+        }
+    });
+    $('[data-delete-options-collapsed=true]').hide();
 });

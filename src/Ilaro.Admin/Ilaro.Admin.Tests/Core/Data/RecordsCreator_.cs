@@ -18,9 +18,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         public RecordsCreator_()
         {
             _user = A.Fake<IProvidingUser>();
-            A.CallTo(() => _user.Current()).Returns("Test");
+            A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
-            _creator = new RecordsCreator(_admin, executor);
+            _creator = new RecordsCreator(_admin, executor, _user);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
 
-            A.CallTo(() => _user.Current()).MustNotHaveHappened();
+            A.CallTo(() => _user.CurrentUserName()).MustNotHaveHappened();
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(0, changes.Count);
         }
@@ -63,7 +63,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
 
-            A.CallTo(() => _user.Current()).MustHaveHappened();
+            A.CallTo(() => _user.CurrentUserName()).MustHaveHappened();
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(1, changes.Count);
         }

@@ -73,7 +73,7 @@ namespace Ilaro.Admin.Core.Data
             HttpFileCollectionBase files)
         {
             var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(collection, files);
+            entityRecord.Fill(collection, files, x => x.OnCreateDefaultValue);
             if (_validator.Validate(entityRecord) == false)
             {
                 _notificator.Error("Not valid");
@@ -81,14 +81,16 @@ namespace Ilaro.Admin.Core.Data
             }
             var existingRecord = _source.GetRecord(
                 entity,
-                entityRecord.Key.Select(value => value.AsObject));
+                entityRecord.Key.Select(value => value.AsObject).ToArray());
             if (existingRecord != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
                 return null;
             }
 
-            var propertiesWithUploadedFiles = _filesHandler.Upload(entityRecord);
+            var propertiesWithUploadedFiles = _filesHandler.Upload(
+                entityRecord,
+                x => x.OnCreateDefaultValue);
 
             var id = _creator.Create(
                 entityRecord,
@@ -116,14 +118,16 @@ namespace Ilaro.Admin.Core.Data
             }
 
             var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(key, collection, files);
+            entityRecord.Fill(key, collection, files, x => x.OnUpdateDefaultValue);
             if (_validator.Validate(entityRecord) == false)
             {
                 _notificator.Error("Not valid");
                 return false;
             }
 
-            var propertiesWithUploadedFiles = _filesHandler.Upload(entityRecord);
+            var propertiesWithUploadedFiles = _filesHandler.Upload(
+                entityRecord,
+                x => x.OnUpdateDefaultValue);
 
             _comparer.SkipNotChangedProperties(entityRecord, existingRecord);
 
@@ -151,15 +155,7 @@ namespace Ilaro.Admin.Core.Data
             entityRecord.Fill(existingRecord);
 
             options = options ?? new List<PropertyDeleteOption>();
-            var deleteOptions = options.ToDictionary(x => x.PropertyName, x => x.DeleteOption);
-            foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
-            {
-                if (!deleteOptions.ContainsKey(propertyValue.Property.ForeignEntity.Name))
-                {
-                    deleteOptions[propertyValue.Property.ForeignEntity.Name] =
-                        propertyValue.Property.DeleteOption;
-                }
-            }
+            var deleteOptions = options.ToDictionary(x => x.HierarchyName);
 
             var result = _deleter.Delete(
                 entityRecord,

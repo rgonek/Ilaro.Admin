@@ -102,6 +102,11 @@ namespace Ilaro.Admin.Configuration.Customizers
             _classCustomizer.AllowDelete = allowDelete;
         }
 
+        public void SoftDelete()
+        {
+            _classCustomizer.SoftDeleteEnabled = true;
+        }
+
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
         {
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
@@ -119,6 +124,12 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         public void CustomizeEntity(Entity entity, IIlaroAdmin admin)
         {
+            if (entity.IsChangeEntity)
+            {
+                _classCustomizer.AllowEdit = false;
+                _classCustomizer.AllowDelete = false;
+            }
+
             entity.SetTableName(
                 _classCustomizer.Table.GetValueOrDefault(entity.Name.Pluralize()),
                 _classCustomizer.Schema);
@@ -131,6 +142,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 entity.Verbose.Group = _classCustomizer.Group;
 
             entity.RecordDisplayFormat = _classCustomizer.DisplayFormat;
+
+            entity.SoftDeleteEnabled = _classCustomizer.SoftDeleteEnabled;
 
             entity.Links.Display = _classCustomizer.DisplayLink;
             entity.Links.Edit = _classCustomizer.EditLink;
@@ -200,8 +213,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.Description.HasValue())
                     property.Description = propertyCustomizer.Description;
 
-                property.DeleteOption = propertyCustomizer.DeleteOption
-                    .GetValueOrDefault(DeleteOption.AskUser);
+                property.CascadeOption = propertyCustomizer.CascadeOption
+                    .GetValueOrDefault(CascadeOption.AskUser);
                 if (propertyCustomizer.DataType.HasValue)
                 {
                     property.TypeInfo.SourceDataType = propertyCustomizer.SourceDataType;
@@ -212,7 +225,9 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.FileOptions = propertyCustomizer.FileOptions;
                 if (propertyCustomizer.Group != null)
                     property.Group = propertyCustomizer.Group;
-                property.DefaultValue = propertyCustomizer.DefaultValue;
+                property.OnCreateDefaultValue = propertyCustomizer.OnCreateDefaultValue;
+                property.OnUpdateDefaultValue = propertyCustomizer.OnUpdateDefaultValue;
+                property.OnDeleteDefaultValue = propertyCustomizer.OnDeleteDefaultValue;
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
@@ -235,6 +250,11 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.Template.Editor =
                         TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
                 }
+            }
+
+            if (entity.SoftDeleteEnabled && entity.Properties.All(x => x.OnDeleteDefaultValue == null))
+            {
+                throw new InvalidOperationException("When soft delete for entity is enabled some of the property must have delete default value");
             }
         }
 

@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
         //public byte[] Picture { get; set; }
 
-        [OnDelete(DeleteOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public ICollection<Product> Products { get; set; }
     }
 }

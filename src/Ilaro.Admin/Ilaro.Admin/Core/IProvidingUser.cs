@@ -2,6 +2,7 @@
 {
     public interface IProvidingUser
     {
-        string Current();
+        string CurrentUserName();
+        object CurrentId();
     }
 }

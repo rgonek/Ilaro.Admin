@@ -2,7 +2,6 @@
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using System;
-using System.Linq.Expressions;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -24,7 +23,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set delete behavior of foreign property on deleting
         /// </summary>
-        IPropertyCustomizer OnDelete(DeleteOption deleteOption);
+        IPropertyCustomizer Cascade(CascadeOption deleteOption);
         /// <summary>
         /// Set display and edit template
         /// </summary>
@@ -52,11 +51,27 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Static default value for property
         /// </summary>
-        IPropertyCustomizer DefaultValue(object value);
+        IPropertyCustomizer OnCreate(object value);
         /// <summary>
         /// Default value behavior
         /// </summary>
-        IPropertyCustomizer DefaultValue(DefaultValueBehavior behavior);
+        IPropertyCustomizer OnCreate(ValueBehavior behavior);
+        /// <summary>
+        /// Static default value for property
+        /// </summary>
+        IPropertyCustomizer OnUpdate(object value);
+        /// <summary>
+        /// Default value behavior
+        /// </summary>
+        IPropertyCustomizer OnUpdate(ValueBehavior behavior);
+        /// <summary>
+        /// Static default value for property. Used only when soft delete for entity is enabled.
+        /// </summary>
+        IPropertyCustomizer OnDelete(object value);
+        /// <summary>
+        /// Default value behavior. Used only when soft delete for entity is enabled.
+        /// </summary>
+        IPropertyCustomizer OnDelete(ValueBehavior behavior);
         /// <summary>
         /// Set image options
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ilaro.Admin.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Ilaro.Admin.Core.Data
@@ -7,7 +8,7 @@ namespace Ilaro.Admin.Core.Data
     {
         bool Delete(
             EntityRecord entityRecord, 
-            IDictionary<string, DeleteOption> options, 
+            IDictionary<string, PropertyDeleteOption> options, 
             Func<string> changeDescriber = null);
     }
 }

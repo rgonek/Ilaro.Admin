@@ -26,7 +26,7 @@ namespace Ilaro.Admin.Tests
         private void RecreateDatabase()
         {
             var connectionString =
-                ConfigurationManager.ConnectionStrings["Init"].ConnectionString;
+                ConfigurationManager.ConnectionStrings[ConnectionStringName].ConnectionString;
             using (var connection = new SqlConnection(connectionString))
             {
                 connection.Open();

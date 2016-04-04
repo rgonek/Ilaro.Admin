@@ -69,7 +69,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var table = new DynamicModel(
                 _admin.ConnectionStringName,
-                tableName: entity.TableName,
+                tableName: entity.Table,
                 primaryKeyField: entity.JoinedKey);
 
             var result = table.Single(key);
@@ -109,7 +109,7 @@ namespace Ilaro.Admin.Core.Data
 
             var table = new DynamicModel(
                 _admin.ConnectionStringName,
-                entity.TableName,
+                entity.Table,
                 entity.JoinedKey);
 
             if (page.HasValue && take.HasValue)

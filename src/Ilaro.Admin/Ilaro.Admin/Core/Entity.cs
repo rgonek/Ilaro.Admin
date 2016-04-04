@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Core
 
         public string Name { get; private set; }
 
-        public string TableName { get; private set; }
+        public string Table { get; private set; }
 
         public Verbose Verbose { get; }
 
@@ -33,6 +33,14 @@ namespace Ilaro.Admin.Core
             get
             {
                 return Properties.Where(x => x.IsKey).ToList();
+            }
+        }
+
+        public IEnumerable<Property> ForeignKey
+        {
+            get
+            {
+                return Properties.Where(x => x.IsForeignKey);
             }
         }
 
@@ -78,6 +86,7 @@ namespace Ilaro.Admin.Core
         public bool HasToStringMethod { get; private set; }
 
         public string RecordDisplayFormat { get; internal set; }
+        public bool SoftDeleteEnabled { get; internal set; }
 
         public Property this[string propertyName]
         {
@@ -113,11 +122,11 @@ namespace Ilaro.Admin.Core
         {
             if (!schema.IsNullOrEmpty())
             {
-                TableName = "[" + schema + "].[" + table + "]";
+                Table = "[" + schema + "].[" + table + "]";
             }
             else
             {
-                TableName = "[" + table + "]";
+                Table = "[" + table + "]";
             }
         }
     }

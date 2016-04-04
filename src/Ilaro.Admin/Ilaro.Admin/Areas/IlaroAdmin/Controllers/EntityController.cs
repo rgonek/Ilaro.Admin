@@ -5,6 +5,7 @@ using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Resources;
 using Ilaro.Admin.DataAnnotations;
+using System.Linq;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
@@ -184,9 +185,11 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("Index", "Entities", new { area = "IlaroAdmin", entityName });
             }
 
-            var model = new EntityDeleteModel(entityRecord)
+            var deleteOptions = DeleteOptionsHierarchyBuilder.GetHierarchy(entity);
+            var model = new EntityDeleteModel(deleteOptions)
             {
-                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord)
+                EntityRecord = entityRecord,
+                RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord, deleteOptions)
             };
 
             return View(model);
@@ -201,9 +204,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName = model.EntityName });
             }
 
+            var deleteOptions = DeleteOptionsHierarchyBuilder.Merge(
+                entity,
+                model.PropertiesDeleteOptions);
+
             try
             {
-                var isSuccess = _entityService.Delete(entity, model.Key, model.PropertiesDeleteOptions);
+                var isSuccess = _entityService.Delete(entity, model.Key, deleteOptions);
                 if (isSuccess)
                 {
                     _notificator.Success(IlaroAdminResources.DeleteSuccess, entity.Verbose.Singular);
@@ -219,8 +226,9 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 
             var entityRecord = _source.GetEntityRecord(entity, model.Key);
 
-            model = new EntityDeleteModel(entityRecord)
+            model = new EntityDeleteModel(deleteOptions)
             {
+                EntityRecord = entityRecord,
                 RecordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord)
             };
 

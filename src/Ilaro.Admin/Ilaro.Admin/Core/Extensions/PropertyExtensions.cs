@@ -9,7 +9,6 @@ namespace Ilaro.Admin.Core.Extensions
 {
     public static class PropertyExtensions
     {
-
         public static MultiSelectList GetPossibleValues(
             this PropertyValue propertyValue, 
             bool addChooseItem = true)
@@ -45,6 +44,16 @@ namespace Ilaro.Admin.Core.Extensions
 
                 return new SelectList(options, "Key", "Value", propertyValue.AsString);
             }
+        }
+
+        public static IEnumerable<Property> WhereOneToMany(
+            this IEnumerable<Property> propertiesValues)
+        {
+            return propertiesValues
+                .Where(property =>
+                    property.IsForeignKey &&
+                    property.TypeInfo.IsCollection &&
+                    property.ForeignEntity != null);
         }
     }
 }

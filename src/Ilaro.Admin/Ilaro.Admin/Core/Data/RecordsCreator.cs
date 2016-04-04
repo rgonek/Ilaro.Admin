@@ -15,32 +15,23 @@ namespace Ilaro.Admin.Core.Data
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordsCreator));
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
+        private readonly IProvidingUser _user;
 
-        private const string SqlFormat =
-@"-- insert record
-INSERT INTO {0} ({1}) 
-VALUES ({2});
--- return record id
-DECLARE @newID {3} = {4};
-SELECT @newID;
--- update foreign entities records";
-
-        /// <summary>
-        /// UPDATE {TableName} SET {ForeignKey} = {FKValue} WHERE {PrimaryKey} In ({PKValues});
-        /// </summary>
-        private const string RelatedRecordsUpdateSqlFormat =
-@"UPDATE {0} SET {1} = @newID 
-WHERE {2};";
-
-        public RecordsCreator(IIlaroAdmin admin, IExecutingDbCommand executor)
+        public RecordsCreator(
+            IIlaroAdmin admin,
+            IExecutingDbCommand executor,
+            IProvidingUser user)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
             if (executor == null)
                 throw new ArgumentNullException(nameof(executor));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _executor = executor;
+            _user = user;
         }
 
         public string Create(EntityRecord entityRecord, Func<string> changeDescriber = null)
@@ -75,8 +66,8 @@ WHERE {2};";
 
         private DbCommand CreateBaseCommand(EntityRecord entityRecord)
         {
-            var sbKeys = new StringBuilder();
-            var sbVals = new StringBuilder();
+            var sbColumns = new StringBuilder();
+            var sbValues = new StringBuilder();
 
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var counter = 0;
@@ -85,13 +76,13 @@ WHERE {2};";
                 .WhereIsNotOneToMany()
                 .Where(x => x.Property.IsAutoKey == false))
             {
-                sbKeys.AppendFormat("{0},", propertyValue.Property.Column);
-                sbVals.AppendFormat("@{0},", counter);
+                sbColumns.AppendFormat("{0},", propertyValue.Property.Column);
+                sbValues.AppendFormat("@{0},", counter);
                 AddParam(cmd, propertyValue);
                 counter++;
             }
-            var keys = sbKeys.ToString().Substring(0, sbKeys.Length - 1);
-            var vals = sbVals.ToString().Substring(0, sbVals.Length - 1);
+            var columns = sbColumns.ToString().Substring(0, sbColumns.Length - 1);
+            var values = sbValues.ToString().Substring(0, sbValues.Length - 1);
             var idType = "int";
             var insertedId = "SCOPE_IDENTITY()";
             if (entityRecord.Key.Count > 1 || entityRecord.Key.FirstOrDefault().Property.TypeInfo.IsString)
@@ -100,8 +91,16 @@ WHERE {2};";
                 insertedId = "@" + counter;
                 cmd.AddParam(entityRecord.JoinedKeyValue);
             }
-            var sql = SqlFormat.Fill(entityRecord.Entity.TableName, keys, vals, idType, insertedId);
-            cmd.CommandText = sql;
+            var table = entityRecord.Entity.Table;
+
+            cmd.CommandText =
+$@"-- insert record
+INSERT INTO {table} ({columns}) 
+VALUES ({values});
+-- return record id
+DECLARE @newID {idType} = {insertedId};
+SELECT @newID;
+-- update foreign entities records";
 
             return cmd;
         }
@@ -125,40 +124,47 @@ WHERE {2};";
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
-                var wherePart = string.Join(" AND ", whereParts);
+                var constraintSeparator = Environment.NewLine + "   AND ";
+                var constraints = string.Join(constraintSeparator, whereParts);
                 sbUpdates.AppendLine();
-                sbUpdates.AppendFormat(
-                    RelatedRecordsUpdateSqlFormat,
-                    propertyValue.Property.ForeignEntity.TableName,
-                    entityRecord.Entity.Key.FirstOrDefault().Column,
-                    wherePart);
+
+                var table = propertyValue.Property.ForeignEntity.Table;
+                var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
+
+                sbUpdates.Append($@"UPDATE {table}
+   SET {foreignKey} = @newID 
+ WHERE {constraints};");
             }
 
             cmd.CommandText += sbUpdates.ToString();
         }
 
-        private static void AddParam(
-            DbCommand cmd,
-            PropertyValue propertyValue)
+        private void AddParam(DbCommand cmd, PropertyValue propertyValue)
         {
-            if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
-                cmd.AddParam(propertyValue.Raw, DbType.Binary);
+            if (propertyValue.Raw is ValueBehavior)
+            {
+                switch (propertyValue.Raw as ValueBehavior?)
+                {
+                    case ValueBehavior.Now:
+                        cmd.AddParam(DateTime.Now);
+                        break;
+                    case ValueBehavior.UtcNow:
+                        cmd.AddParam(DateTime.UtcNow);
+                        break;
+                    case ValueBehavior.CurrentUserId:
+                        cmd.AddParam((int)_user.CurrentId());
+                        break;
+                    case ValueBehavior.CurrentUserName:
+                        cmd.AddParam(_user.CurrentUserName());
+                        break;
+                }
+            }
             else
             {
-                if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.Now) ||
-                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.NowOnCreate))
-                {
-                    cmd.AddParam(DateTime.Now);
-                }
-                else if (propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNow) ||
-                    propertyValue.Raw.IsBehavior(DefaultValueBehavior.UtcNowOnCreate))
-                {
-                    cmd.AddParam(DateTime.UtcNow);
-                }
+                if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
+                    cmd.AddParam(propertyValue.Raw, DbType.Binary);
                 else
-                {
                     cmd.AddParam(propertyValue.Raw);
-                }
             }
         }
     }

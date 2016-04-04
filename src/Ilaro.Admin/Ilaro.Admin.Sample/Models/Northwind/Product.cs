@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [Required]
         public bool Discontinued { get; set; }
 
-        [OnDelete(DeleteOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
         public override string ToString()

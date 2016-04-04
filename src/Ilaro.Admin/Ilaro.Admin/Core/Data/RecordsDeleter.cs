@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using Ilaro.Admin.Extensions;
 using Massive;
+using System.Data;
+using Ilaro.Admin.Models;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -14,15 +16,13 @@ namespace Ilaro.Admin.Core.Data
         private readonly IIlaroAdmin _admin;
         private readonly IExecutingDbCommand _executor;
         private readonly IFetchingRecordsHierarchy _hierarchySource;
-
-        private const string SqlFormat =
-@"DELETE FROM {0} WHERE {1};
-SELECT @{2};";
+        private readonly IProvidingUser _user;
 
         public RecordsDeleter(
             IIlaroAdmin admin,
             IExecutingDbCommand executor,
-            IFetchingRecordsHierarchy hierarchySource)
+            IFetchingRecordsHierarchy hierarchySource,
+            IProvidingUser user)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
@@ -30,28 +30,31 @@ SELECT @{2};";
                 throw new ArgumentNullException(nameof(executor));
             if (hierarchySource == null)
                 throw new ArgumentNullException(nameof(hierarchySource));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
 
             _admin = admin;
             _executor = executor;
             _hierarchySource = hierarchySource;
+            _user = user;
         }
 
         public bool Delete(
-            EntityRecord entityRecord, 
-            IDictionary<string, DeleteOption> options, 
+            EntityRecord entityRecord,
+            IDictionary<string, PropertyDeleteOption> options,
             Func<string> changeDescriber = null)
         {
             try
             {
                 var cmd = CreateCommand(entityRecord, options);
 
-                var result = (int)_executor.ExecuteWithChanges(
-                    cmd, 
-                    entityRecord.Entity.Name, 
-                    EntityChangeType.Delete, 
+                var result = _executor.ExecuteWithChanges(
+                    cmd,
+                    entityRecord.Entity.Name,
+                    EntityChangeType.Delete,
                     changeDescriber);
 
-                return result > 0;
+                return result != null;
             }
             catch (Exception ex)
             {
@@ -60,10 +63,13 @@ SELECT @{2};";
             }
         }
 
-        private DbCommand CreateCommand(EntityRecord entityRecord, IDictionary<string, DeleteOption> options)
+        private DbCommand CreateCommand(
+            EntityRecord entityRecord,
+            IDictionary<string, PropertyDeleteOption> options)
         {
             var cmd = CreateBaseCommand(entityRecord);
-            AddForeignsDelete(cmd, entityRecord, options);
+            if (entityRecord.Entity.SoftDeleteEnabled == false)
+                AddForeignsSql(cmd, entityRecord, options);
 
             return cmd;
         }
@@ -75,108 +81,248 @@ SELECT @{2};";
             var counter = 0;
             foreach (var key in entityRecord.Key)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.Property.Column, counter++));
+                key.SqlParameterName = (counter++).ToString();
+                whereParts.Add("{0} = @{1}".Fill(key.Property.Column, key.SqlParameterName));
                 cmd.AddParam(key.Raw);
             }
-            var wherePart = string.Join(" AND ", whereParts);
+            var constraintsSeparator = Environment.NewLine + "   AND ";
+            var constraints = string.Join(constraintsSeparator, whereParts);
             cmd.AddParam(entityRecord.JoinedKeyValue);
-            cmd.CommandText = SqlFormat.Fill(entityRecord.Entity.TableName, wherePart, counter);
+            var joinedKeySqlParamName = (counter++).ToString();
+            var table = entityRecord.Entity.Table;
+
+            if (entityRecord.Entity.SoftDeleteEnabled)
+            {
+                var setsList = new List<string>();
+                foreach (var property in entityRecord.Entity.Properties.
+                    Where(x => x.OnDeleteDefaultValue != null))
+                {
+                    AddParam(cmd, property);
+                    var column = property.Column;
+                    var parameterName = (counter++).ToString();
+                    setsList.Add($"{column} = @{parameterName}");
+                }
+                var setSeparator = "," + Environment.NewLine + "       ";
+                var sets = string.Join(setSeparator, setsList);
+                cmd.CommandText =
+$@"UPDATE {table}
+   SET {sets}
+ WHERE {constraints};
+
+SELECT @{joinedKeySqlParamName};";
+            }
+            else
+            {
+                cmd.CommandText =
+$@"DELETE {table}
+ WHERE {constraints};
+
+SELECT @{joinedKeySqlParamName};";
+            }
 
             return cmd;
         }
 
-        private void AddForeignsDelete(
+        private void AddParam(DbCommand cmd, Property property)
+        {
+            if (property.OnDeleteDefaultValue is ValueBehavior)
+            {
+                switch (property.OnDeleteDefaultValue as ValueBehavior?)
+                {
+                    case ValueBehavior.Now:
+                        cmd.AddParam(DateTime.Now);
+                        break;
+                    case ValueBehavior.UtcNow:
+                        cmd.AddParam(DateTime.UtcNow);
+                        break;
+                    case ValueBehavior.CurrentUserId:
+                        cmd.AddParam((int)_user.CurrentId());
+                        break;
+                    case ValueBehavior.CurrentUserName:
+                        cmd.AddParam(_user.CurrentUserName());
+                        break;
+                }
+            }
+            else
+            {
+                if (property.TypeInfo.IsFileStoredInDb)
+                    cmd.AddParam(property.OnDeleteDefaultValue, DbType.Binary);
+                else
+                    cmd.AddParam(property.OnDeleteDefaultValue);
+            }
+        }
+
+        private string BuildKeyConstraint(EntityRecord entityRecord, string alias)
+        {
+            var constraints = new List<string>();
+            foreach (var key in entityRecord.Key)
+            {
+                var column = key.Property.Column;
+                var sqlParameter = key.SqlParameterName;
+                constraints.Add($"{alias}.{column} = @{sqlParameter}");
+            }
+            var constraint = string.Join(" AND ", constraints);
+
+            return constraint;
+        }
+
+        private void AddForeignsSql(
             DbCommand cmd,
             EntityRecord entityRecord,
-            IDictionary<string, DeleteOption> options)
+            IDictionary<string, PropertyDeleteOption> options)
         {
-            if (options.All(x => x.Value == DeleteOption.Nothing || x.Value == DeleteOption.AskUser))
+            if (options.Where(x => x.Value.Level == 0)
+                .All(x => x.Value.DeleteOption == CascadeOption.Nothing ||
+                    x.Value.DeleteOption == CascadeOption.AskUser))
                 return;
 
-            var sbDeletes = new StringBuilder();
-            var recordHierarchy = _hierarchySource.GetRecordHierarchy(entityRecord);
-            foreach (var subRecord in recordHierarchy.SubRecordsHierarchies)
+            var entityHierarchy = _hierarchySource.GetEntityHierarchy(entityRecord.Entity);
+            var keyConstraint = BuildKeyConstraint(entityRecord, entityHierarchy.Alias);
+            var sqlNullParameterName = "";
+            if (options.Any(x => x.Value.DeleteOption == CascadeOption.Detach))
             {
-                var deleteOption = DeleteOption.Nothing;
-                if (options.ContainsKey(subRecord.Entity.Name))
+                sqlNullParameterName = cmd.Parameters.Count.ToString();
+                cmd.AddParam(null);
+            }
+
+            var sqlsBuilder = new StringBuilder();
+            GetForeignSql(
+                entityHierarchy,
+                options,
+                sqlsBuilder,
+                keyConstraint,
+                sqlNullParameterName);
+
+            cmd.CommandText = sqlsBuilder + cmd.CommandText;
+        }
+
+        private void GetForeignSql(
+            EntityHierarchy entityHierarchy,
+            IDictionary<string, PropertyDeleteOption> options,
+            StringBuilder sqlsBuilder,
+            string keyConstraint,
+            string sqlNullParameterName,
+            string hierarchyPrefix = null,
+            int level = 0)
+        {
+            if (options.Where(x => x.Value.Level == level)
+                .All(x => x.Value.DeleteOption == CascadeOption.Nothing ||
+                    x.Value.DeleteOption == CascadeOption.AskUser))
+                return;
+
+            if (hierarchyPrefix.HasValue())
+                hierarchyPrefix += "-";
+
+            foreach (var subHierarchy in entityHierarchy.SubHierarchies)
+            {
+                var deleteOption = CascadeOption.Nothing;
+                if (options.ContainsKey(hierarchyPrefix + subHierarchy.Entity.Name))
                 {
-                    deleteOption = options[subRecord.Entity.Name];
+                    deleteOption = options[hierarchyPrefix + subHierarchy.Entity.Name].DeleteOption;
                 }
+
                 switch (deleteOption)
                 {
-                    case DeleteOption.SetNull:
-                        sbDeletes.AppendLine(GetSetToNullUpdateSql(cmd, entityRecord, subRecord));
+                    case CascadeOption.Detach:
+                        sqlsBuilder.AppendLine(GetSetNullUpdateSql(
+                            subHierarchy,
+                            sqlNullParameterName,
+                            keyConstraint));
                         break;
-                    case DeleteOption.CascadeDelete:
-                        var deletes = GetDeleteRelatedEntityDeleteSql(cmd, subRecord).Reverse();
-                        sbDeletes.AppendLine(string.Join(Environment.NewLine, deletes));
+                    case CascadeOption.Delete:
+                        GetForeignSql(
+                            subHierarchy,
+                            options,
+                            sqlsBuilder,
+                            keyConstraint,
+                            sqlNullParameterName,
+                            hierarchyPrefix + subHierarchy.Entity.Name,
+                            ++level);
+                        sqlsBuilder.AppendLine(GetRelatedEntityDeleteSql(
+                            subHierarchy,
+                            keyConstraint));
                         break;
                 }
             }
-            cmd.CommandText = sbDeletes + cmd.CommandText;
         }
 
-        private IList<string> GetDeleteRelatedEntityDeleteSql(DbCommand cmd, RecordHierarchy record)
+        private string GetRelatedEntityDeleteSql(
+            EntityHierarchy hierarchy,
+            string keyConstraint)
         {
-            // {0} - Foreign table
-            // {1} - Primary key
-            // {2} - Key value
-            const string deleteFormat = "DELETE FROM {0} WHERE {1};";
+            var join = GetJoin(hierarchy, hierarchy.ParentHierarchy);
+            var table = hierarchy.Entity.Table;
+            var alias = hierarchy.Alias;
 
-            var paramIndex = cmd.Parameters.Count;
-            cmd.AddParams(record.KeyValue.ToArray());
-            var whereParts = new List<string>();
-            foreach (var key in record.Entity.Key)
-            {
-                whereParts.Add("{0} = @{1}".Fill(key.Column, paramIndex++));
-            }
-            var wherePart = string.Join(" AND ", whereParts);
+            var delete =
+$@"DELETE {alias}
+  FROM {table} {alias}{join}
+ WHERE {keyConstraint};
+";
 
-            var sql = deleteFormat.Fill(
-                record.Entity.TableName,
-                wherePart);
-
-            var sqls = new List<string>() { sql };
-            foreach (var subRecord in record.SubRecordsHierarchies)
-            {
-                sqls.AddRange(GetDeleteRelatedEntityDeleteSql(cmd, subRecord));
-            }
-
-            return sqls;
+            return delete;
         }
 
-        private string GetSetToNullUpdateSql(
-            DbCommand cmd, 
-            EntityRecord entityRecord, 
-            RecordHierarchy subRecord)
+        private string GetJoin(EntityHierarchy hierarchy, EntityHierarchy parentHierarchy)
         {
-            // {0} - Foreign table
-            // {1} - Foreign key
-            // {2} - Primary key
-            // {3} - Key value
-            const string updateFormat = "UPDATE {0} SET {1} = @{2} WHERE {3};";
-            //UPDATE Products SET CategoryID = null WHERE ProductID = 7
+            var parentTable = parentHierarchy.Entity.Table;
+            var parentAlias = parentHierarchy.Alias;
+            string parentKey, key;
+            var alias = hierarchy.Alias;
 
-            var foreignTable = subRecord.Entity.TableName;
-            var foreignKey = subRecord.Entity.Properties
-                .FirstOrDefault(x => x.ForeignEntity == entityRecord.Entity).Column;
-            var nullIndex = cmd.Parameters.Count;
-            var paramIndex = nullIndex + 1;
-            cmd.AddParam(null);
-            cmd.AddParams(subRecord.KeyValue.ToArray());
-
-            var whereParts = new List<string>();
-            foreach (var key in subRecord.Entity.Key)
+            var foreignProperty = parentHierarchy.Entity.ForeignKey.FirstOrDefault(x => x.ForeignEntity == hierarchy.Entity);
+            if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
             {
-                whereParts.Add("{0} = @{1}".Fill(key.Column, paramIndex++));
+                parentKey = parentHierarchy.Entity.Key.FirstOrDefault().Column;
+                key = hierarchy.Entity.ForeignKey
+                    .FirstOrDefault(x => x.ForeignEntity == parentHierarchy.Entity).Column;
             }
-            var wherePart = string.Join(" AND ", whereParts);
+            else
+            {
+                parentKey = foreignProperty.Column;
+                key = hierarchy.Entity.Key.FirstOrDefault().Column;
+            }
 
-            var updateSql = updateFormat.Fill(
-                foreignTable,
-                foreignKey,
-                nullIndex,
-                wherePart);
+            var join =
+$@"
+  LEFT OUTER JOIN {parentTable} AS {parentAlias} ON {parentAlias}.{parentKey} = {alias}.{key}";
+
+            return parentHierarchy.ParentHierarchy != null ?
+                join + GetJoin(parentHierarchy, parentHierarchy.ParentHierarchy) :
+                join;
+        }
+
+        private string GetSetNullUpdateSql(
+            EntityHierarchy hierarchy,
+            string sqlNullParameterName,
+            string keyConstraint)
+        {
+            var table = hierarchy.Entity.Table;
+            var alias = hierarchy.Alias;
+            var sets = new List<string>();
+
+            foreach (var foreignKey in hierarchy.Entity.Properties
+                .Where(x => x.ForeignEntity == hierarchy.ParentHierarchy.Entity))
+            {
+                var key = hierarchy.ParentHierarchy.Entity.Key
+                    .FirstOrDefault(x => x.Name == foreignKey.ReferencePropertyName);
+                if (key != null)
+                {
+                    sets.Add($"{alias}.{foreignKey.Column} = @{sqlNullParameterName}");
+                }
+            }
+
+            var setSeparator = "," + Environment.NewLine + "       ";
+            var constraintSeparator = Environment.NewLine + "   AND ";
+            var set = string.Join(setSeparator, sets);
+            var join = GetJoin(hierarchy, hierarchy.ParentHierarchy);
+
+            var updateSql =
+$@"UPDATE {alias}
+   SET {set}
+  FROM {table} {alias}{join}
+ WHERE {keyConstraint};
+";
 
             return updateSql;
         }

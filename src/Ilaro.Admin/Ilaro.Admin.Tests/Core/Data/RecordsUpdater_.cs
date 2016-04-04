@@ -14,7 +14,6 @@ namespace Ilaro.Admin.Tests.Core.Data
         private readonly IFetchingRecords _source;
         private readonly IUpdatingRecords _updater;
         private readonly IProvidingUser _user;
-        private Entity _entity;
         private EntityRecord _entityRecord;
         private int _productId;
 
@@ -22,9 +21,9 @@ namespace Ilaro.Admin.Tests.Core.Data
         {
             _source = new RecordsSource(_admin, new Notificator());
             _user = A.Fake<IProvidingUser>();
-            A.CallTo(() => _user.Current()).Returns("Test");
+            A.CallTo(() => _user.CurrentUserName()).Returns("Test");
             var executor = new DbCommandExecutor(_admin, _user);
-            _updater = new RecordsUpdater(_admin, executor, _source);
+            _updater = new RecordsUpdater(_admin, executor, _source, _user);
         }
 
         [Fact]
@@ -39,7 +38,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Assert.Equal(1, products.Count);
             Assert.Equal("Product2", products.First().ProductName);
 
-            A.CallTo(() => _user.Current()).MustNotHaveHappened();
+            A.CallTo(() => _user.CurrentUserName()).MustNotHaveHappened();
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(0, changes.Count);
         }
@@ -57,7 +56,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             Assert.Equal(1, products.Count);
             Assert.Equal("Product2", products.First().ProductName);
 
-            A.CallTo(() => _user.Current()).MustHaveHappened();
+            A.CallTo(() => _user.CurrentUserName()).MustHaveHappened();
             var changes = DB.EntityChanges.All().ToList();
             Assert.Equal(1, changes.Count);
         }

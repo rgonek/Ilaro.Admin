@@ -25,16 +25,44 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer DefaultValue(DefaultValueBehavior behavior)
+        public IPropertyCustomizer OnCreate(ValueBehavior behavior)
         {
-            propertyCustomizerHolder.DefaultValue = behavior;
+            propertyCustomizerHolder.OnCreateDefaultValue = behavior;
 
             return this;
         }
 
-        public IPropertyCustomizer DefaultValue(object value)
+        public IPropertyCustomizer OnCreate(object value)
         {
-            propertyCustomizerHolder.DefaultValue = value;
+            propertyCustomizerHolder.OnCreateDefaultValue = value;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnUpdate(ValueBehavior behavior)
+        {
+            propertyCustomizerHolder.OnUpdateDefaultValue = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnUpdate(object value)
+        {
+            propertyCustomizerHolder.OnUpdateDefaultValue = value;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnDelete(ValueBehavior behavior)
+        {
+            propertyCustomizerHolder.OnDeleteDefaultValue = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnDelete(object value)
+        {
+            propertyCustomizerHolder.OnDeleteDefaultValue = value;
 
             return this;
         }
@@ -109,9 +137,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             return Type(DataType.Image);
         }
 
-        public IPropertyCustomizer OnDelete(DeleteOption deleteOption)
+        public IPropertyCustomizer Cascade(CascadeOption deleteOption)
         {
-            propertyCustomizerHolder.DeleteOption = deleteOption;
+            propertyCustomizerHolder.CascadeOption = deleteOption;
 
             return this;
         }

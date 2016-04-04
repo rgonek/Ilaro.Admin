@@ -1,16 +1,27 @@
-﻿using System;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core.Data;
+using System;
 
 namespace Ilaro.Admin.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class OnDeleteAttribute : Attribute
     {
-        public DeleteOption DeleteOption { get; set; }
+        public virtual object Value { get; }
 
-        public OnDeleteAttribute(DeleteOption deleteOption)
+        /// <summary>
+        /// Used only when soft delete for entity is enabled
+        /// </summary>
+        public OnDeleteAttribute(ValueBehavior valueBehavior)
         {
-            DeleteOption = deleteOption;
+            Value = valueBehavior;
+        }
+
+        /// <summary>
+        /// Used only when soft delete for entity is enabled
+        /// </summary>
+        public OnDeleteAttribute(object value)
+        {
+            Value = value;
         }
     }
 }

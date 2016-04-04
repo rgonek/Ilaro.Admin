@@ -20,5 +20,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer);
         void Editable(bool allowEdit = true);
         void Deletable(bool allowDelete = true);
+        void SoftDelete();
     }
 }

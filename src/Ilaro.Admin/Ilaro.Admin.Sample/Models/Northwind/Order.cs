@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
@@ -11,7 +11,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     {
         public int OrderID { get; set; }
 
-        [DefaultValue(DefaultValueBehavior.Now)]
+        [OnCreate(ValueBehavior.Now)]
         [DisplayFormat(DataFormatString = "dd-MM-yyyy hh:mm")]
         public DateTime? OrderDate { get; set; }
 

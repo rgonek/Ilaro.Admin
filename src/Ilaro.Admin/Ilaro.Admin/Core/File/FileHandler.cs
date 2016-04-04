@@ -44,7 +44,9 @@ namespace Ilaro.Admin.Core.File
             _configuration = configuration;
         }
 
-        public IEnumerable<PropertyValue> Upload(EntityRecord entityRecord)
+        public IEnumerable<PropertyValue> Upload(
+            EntityRecord entityRecord,
+            Func<Property, object> defaultValueResolver)
         {
             var proccessedProperties = new List<PropertyValue>();
             foreach (var propertyValue in entityRecord.Values
@@ -52,7 +54,7 @@ namespace Ilaro.Admin.Core.File
             {
                 if (propertyValue.Raw.IsBehavior(DataBehavior.Clear))
                 {
-                    propertyValue.Raw = propertyValue.Property.DefaultValue;
+                    propertyValue.Raw = defaultValueResolver(propertyValue.Property);
                     proccessedProperties.Add(propertyValue);
                     continue;
                 }

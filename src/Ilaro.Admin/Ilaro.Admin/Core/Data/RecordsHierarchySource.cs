@@ -4,6 +4,7 @@ using System.Linq;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using Massive;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -20,23 +21,34 @@ namespace Ilaro.Admin.Core.Data
             _admin = admin;
         }
 
-        public RecordHierarchy GetRecordHierarchy(EntityRecord entityRecord)
+        public RecordHierarchy GetRecordHierarchy(
+            EntityRecord entityRecord,
+            IList<PropertyDeleteOption> deleteOptions = null)
         {
             _log.InfoFormat(
                 "Getting record hierarchy for entity record ({0}#{1})",
                 entityRecord.Entity.Name,
                 entityRecord.JoinedKeyWithValue);
 
-            var index = 0;
-            var hierarchy = GetEntityHierarchy(null, entityRecord.Entity, ref index);
+            var hierarchy = GetEntityHierarchy(entityRecord.Entity, deleteOptions);
             var sql = GenerateHierarchySql(hierarchy);
-            _log.DebugFormat("Sql hierarchy: \r\n {0}", sql);
+            _log.Debug($"Sql hierarchy: \r\n {sql}");
             var model = new DynamicModel(_admin.ConnectionStringName);
             var records = model.Query(sql, entityRecord.Key.Select(x => x.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 
             return recordHierarchy;
+        }
+
+        public EntityHierarchy GetEntityHierarchy(
+            Entity entity,
+            IList<PropertyDeleteOption> deleteOptions = null)
+        {
+            var deleteOptionsDict = deleteOptions == null ?
+                null :
+                deleteOptions.ToDictionary(x => x.HierarchyName);
+            return GetEntityHierarchy(null, entity, deleteOptionsDict);
         }
 
         private RecordHierarchy GetHierarchyRecords(
@@ -125,72 +137,66 @@ namespace Ilaro.Admin.Core.Data
         {
             var flatHierarchy = FlatHierarchy(hierarchy);
 
-            // {0} - Columns
-            // {1} - Base table
-            // {2} - Base table alias
-            // {3} - Joins
-            // {4} - Where
-            // {5} - Order by
-            const string selectFormat =
-@"SELECT {0} 
-FROM {1} AS {2}
-{3}
-WHERE {4}
-ORDER BY {5};";
-            // {0} - Foreign table
-            // {1} - Foreign alias
-            // {2} - Foreign key
-            // {3} - Base table alias
-            // {4} - Base table primary key
-            const string joinFormat = @"LEFT OUTER JOIN {0} AS {1} ON {1}.{2} = {3}.{4}";
-
-            var columns = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
+            var columnsList = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
                 .Select(y => x.Alias + "." + y + " AS " + x.Alias.Undecorate() + "_" + y.Undecorate())).ToList();
+            var commaSeparator = "," + Environment.NewLine + "         ";
+            var columns = string.Join(commaSeparator, columnsList);
+
+            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
+            var orders = string.Join(commaSeparator, ordersList);
+            var joins = GetJoins(flatHierarchy);
+
+            var constraintsList = new List<string>();
+            var counter = 0;
+            foreach (var key in hierarchy.Entity.Key)
+            {
+                constraintsList.Add($"{hierarchy.Alias}.{key.Column} = @{counter++}");
+            }
+            var constraintSeparator = Environment.NewLine + "     AND ";
+            var constraints = string.Join(constraintSeparator, constraintsList);
+
+            var sql =
+$@"  SELECT {columns}
+    FROM {hierarchy.Entity.Table} AS {hierarchy.Alias}
+    {joins}
+   WHERE {constraints}
+ORDER BY {orders};";
+
+            return sql;
+        }
+
+        private string GetJoins(IList<EntityHierarchy> flatHierarchy)
+        {
             var joins = new List<string>();
             foreach (var item in flatHierarchy.Where(x => x.ParentHierarchy != null))
             {
-                var foreignTable = item.Entity.TableName;
+                var foreignTable = item.Entity.Table;
                 var foreignAlias = item.Alias;
-                string foreignKey, baseTablePrimaryKey;
-                var baseTableAlias = item.ParentHierarchy.Alias;
-                var foreignProperty = item.Entity.Properties.FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
+                string foreignKey, key;
+                var alias = item.ParentHierarchy.Alias;
+
+                var foreignProperty = item.Entity.Properties
+                    .FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
                     foreignKey = item.Entity.Key.FirstOrDefault().Column;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Properties
+                    key = item.ParentHierarchy.Entity.Properties
                         .FirstOrDefault(x => x.ForeignEntity == item.Entity).Column;
                 }
                 else
                 {
                     foreignKey = foreignProperty.Column;
-                    baseTablePrimaryKey = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
+                    key = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
                 }
-                joins.Add(joinFormat.Fill(
-                    foreignTable,
-                    foreignAlias,
-                    foreignKey,
-                    baseTableAlias,
-                    baseTablePrimaryKey));
+
+                var join = $@"LEFT OUTER JOIN {foreignTable} AS {foreignAlias} ON {foreignAlias}.{foreignKey} = {alias}.{key}";
+
+                joins.Add(join);
             }
-            var orders = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
 
-            var whereParts = new List<string>();
-            var counter = 0;
-            foreach (var key in hierarchy.Entity.Key)
-            {
-                whereParts.Add("{0}.{1} = @{2}".Fill(hierarchy.Alias, key.Column, counter++));
-            }
-            var where = string.Join(" AND ", whereParts);
+            var joinsSeparator = Environment.NewLine + "    ";
 
-            var sql = selectFormat.Fill(
-                string.Join(", ", columns),
-                hierarchy.Entity.TableName,
-                hierarchy.Alias,
-                string.Join(Environment.NewLine, joins),
-                where,
-                string.Join(", ", orders));
-
-            return sql;
+            return string.Join(joinsSeparator, joins);
         }
 
         private IList<EntityHierarchy> FlatHierarchy(EntityHierarchy hierarchy)
@@ -208,7 +214,9 @@ ORDER BY {5};";
         private EntityHierarchy GetEntityHierarchy(
             EntityHierarchy parent,
             Entity entity,
-            ref int index)
+            IDictionary<string, PropertyDeleteOption> deleteOptions = null,
+            string hierarchyName = "",
+            int index = 0)
         {
             var hierarchy = new EntityHierarchy
             {
@@ -219,26 +227,39 @@ ORDER BY {5};";
             };
 
             foreach (var property in entity.GetDefaultCreateProperties()
-                .Where(x => x.IsForeignKey && x.TypeInfo.IsCollection)
+                .WhereOneToMany()
                 .Where(property =>
                     parent == null ||
                     parent.Entity != property.ForeignEntity))
             {
-                index++;
-                var subHierarchy =
-                    GetEntityHierarchy(hierarchy, property.ForeignEntity, ref index);
-                hierarchy.SubHierarchies.Add(subHierarchy);
+                if (hierarchyName.HasValue())
+                    hierarchyName += "-";
+                hierarchyName += property.ForeignEntity.Name;
+                var deleteOption = GetDeleteOption(hierarchyName, deleteOptions);
+                if (deleteOption == CascadeOption.Delete ||
+                    deleteOption == CascadeOption.AskUser)
+                {
+                    index++;
+                    var subHierarchy =
+                        GetEntityHierarchy(hierarchy, property.ForeignEntity, deleteOptions, hierarchyName, index);
+                    hierarchy.SubHierarchies.Add(subHierarchy);
+                }
             }
 
             return hierarchy;
         }
 
-        // TODO: test it
-        //SELECT [t0].*, [t1].*, [t2].*
-        //FROM [Categories] AS [t0]
-        //LEFT OUTER JOIN [Products] AS [t1] ON [t1].[CategoryID] = [t0].[CategoryID]
-        //LEFT OUTER JOIN [Suppliers] AS [t2] ON [t2].[SupplierID] = [t1].[SupplierID]
-        //WHERE [t0].CategoryID = @0 -- @0 = 9
-        //ORDER BY [t0].[CategoryID], [t1].[ProductID], [t2].[SupplierID]
+        private CascadeOption GetDeleteOption(
+            string hierarchyName,
+            IDictionary<string, PropertyDeleteOption> deleteOptions = null)
+        {
+            if (deleteOptions == null)
+                return CascadeOption.Delete;
+
+            if (deleteOptions.ContainsKey(hierarchyName))
+                return deleteOptions[hierarchyName].DeleteOption;
+
+            return CascadeOption.Delete;
+        }
     }
 }
