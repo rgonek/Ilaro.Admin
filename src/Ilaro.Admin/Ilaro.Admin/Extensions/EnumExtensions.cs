@@ -7,10 +7,10 @@ namespace Ilaro.Admin.Extensions
 {
     public static class EnumExtensions
     {
-        public static SelectList GetSelectList(this DeleteOption deleteOption)
+        public static SelectList GetSelectList(this CascadeOption deleteOption)
         {
             var options = deleteOption.GetOptions();
-            options.Remove(((int)DeleteOption.AskUser).ToString());
+            options.Remove(((int)CascadeOption.AskUser).ToString());
 
             return new SelectList(options, "Key", "Value", (int)deleteOption);
         }

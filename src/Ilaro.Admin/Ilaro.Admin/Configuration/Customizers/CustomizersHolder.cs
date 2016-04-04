@@ -214,7 +214,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.Description = propertyCustomizer.Description;
 
                 property.ForeignDeleteOption = propertyCustomizer.ForeignDeleteOption
-                    .GetValueOrDefault(DeleteOption.AskUser);
+                    .GetValueOrDefault(CascadeOption.AskUser);
                 if (propertyCustomizer.DataType.HasValue)
                 {
                     property.TypeInfo.SourceDataType = propertyCustomizer.SourceDataType;

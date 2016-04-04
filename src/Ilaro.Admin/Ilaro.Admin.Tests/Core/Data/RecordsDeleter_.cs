@@ -47,7 +47,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             var deleteOptions = new Dictionary<string, PropertyDeleteOption>
             {
-                { "Order", new PropertyDeleteOption { DeleteOption = DeleteOption.SetNull } }
+                { "Order", new PropertyDeleteOption { DeleteOption = CascadeOption.SetNull } }
             };
 
             var result = _deleter.Delete(entityRecord, deleteOptions);
@@ -80,8 +80,8 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             var deleteOptions = new Dictionary<string, PropertyDeleteOption>
             {
-                { "Order", new PropertyDeleteOption { DeleteOption = DeleteOption.CascadeDelete } },
-                { "Order-OrderDetail", new PropertyDeleteOption { DeleteOption = DeleteOption.CascadeDelete, Level = 1 } }
+                { "Order", new PropertyDeleteOption { DeleteOption = CascadeOption.CascadeDelete } },
+                { "Order-OrderDetail", new PropertyDeleteOption { DeleteOption = CascadeOption.CascadeDelete, Level = 1 } }
             };
 
             var result = _deleter.Delete(entityRecord, deleteOptions);

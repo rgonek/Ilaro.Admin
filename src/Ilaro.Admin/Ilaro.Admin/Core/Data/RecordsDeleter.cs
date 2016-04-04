@@ -172,14 +172,14 @@ SELECT @{joinedKeySqlParamName};";
             IDictionary<string, PropertyDeleteOption> options)
         {
             if (options.Where(x => x.Value.Level == 0)
-                .All(x => x.Value.DeleteOption == DeleteOption.Nothing ||
-                    x.Value.DeleteOption == DeleteOption.AskUser))
+                .All(x => x.Value.DeleteOption == CascadeOption.Nothing ||
+                    x.Value.DeleteOption == CascadeOption.AskUser))
                 return;
 
             var entityHierarchy = _hierarchySource.GetEntityHierarchy(entityRecord.Entity);
             var keyConstraint = BuildKeyConstraint(entityRecord, entityHierarchy.Alias);
             var sqlNullParameterName = "";
-            if (options.Any(x => x.Value.DeleteOption == DeleteOption.SetNull))
+            if (options.Any(x => x.Value.DeleteOption == CascadeOption.SetNull))
             {
                 sqlNullParameterName = cmd.Parameters.Count.ToString();
                 cmd.AddParam(null);
@@ -206,8 +206,8 @@ SELECT @{joinedKeySqlParamName};";
             int level = 0)
         {
             if (options.Where(x => x.Value.Level == level)
-                .All(x => x.Value.DeleteOption == DeleteOption.Nothing ||
-                    x.Value.DeleteOption == DeleteOption.AskUser))
+                .All(x => x.Value.DeleteOption == CascadeOption.Nothing ||
+                    x.Value.DeleteOption == CascadeOption.AskUser))
                 return;
 
             if (hierarchyPrefix.HasValue())
@@ -215,7 +215,7 @@ SELECT @{joinedKeySqlParamName};";
 
             foreach (var subHierarchy in entityHierarchy.SubHierarchies)
             {
-                var deleteOption = DeleteOption.Nothing;
+                var deleteOption = CascadeOption.Nothing;
                 if (options.ContainsKey(hierarchyPrefix + subHierarchy.Entity.Name))
                 {
                     deleteOption = options[hierarchyPrefix + subHierarchy.Entity.Name].DeleteOption;
@@ -223,13 +223,13 @@ SELECT @{joinedKeySqlParamName};";
 
                 switch (deleteOption)
                 {
-                    case DeleteOption.SetNull:
+                    case CascadeOption.SetNull:
                         sqlsBuilder.AppendLine(GetSetNullUpdateSql(
                             subHierarchy,
                             sqlNullParameterName,
                             keyConstraint));
                         break;
-                    case DeleteOption.CascadeDelete:
+                    case CascadeOption.CascadeDelete:
                         GetForeignSql(
                             subHierarchy,
                             options,

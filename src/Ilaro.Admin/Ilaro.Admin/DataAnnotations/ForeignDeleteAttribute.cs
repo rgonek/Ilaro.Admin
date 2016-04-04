@@ -6,9 +6,9 @@ namespace Ilaro.Admin.DataAnnotations
     [AttributeUsage(AttributeTargets.Property)]
     public class ForeignDeleteAttribute : Attribute
     {
-        public DeleteOption DeleteOption { get; set; }
+        public CascadeOption DeleteOption { get; set; }
 
-        public ForeignDeleteAttribute(DeleteOption deleteOption)
+        public ForeignDeleteAttribute(CascadeOption deleteOption)
         {
             DeleteOption = deleteOption;
         }

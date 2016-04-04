@@ -236,8 +236,8 @@ ORDER BY {orders};";
                     hierarchyName += "-";
                 hierarchyName += property.ForeignEntity.Name;
                 var deleteOption = GetDeleteOption(hierarchyName, deleteOptions);
-                if (deleteOption == DeleteOption.CascadeDelete ||
-                    deleteOption == DeleteOption.AskUser)
+                if (deleteOption == CascadeOption.CascadeDelete ||
+                    deleteOption == CascadeOption.AskUser)
                 {
                     index++;
                     var subHierarchy =
@@ -249,17 +249,17 @@ ORDER BY {orders};";
             return hierarchy;
         }
 
-        private DeleteOption GetDeleteOption(
+        private CascadeOption GetDeleteOption(
             string hierarchyName,
             IDictionary<string, PropertyDeleteOption> deleteOptions = null)
         {
             if (deleteOptions == null)
-                return DeleteOption.CascadeDelete;
+                return CascadeOption.CascadeDelete;
 
             if (deleteOptions.ContainsKey(hierarchyName))
                 return deleteOptions[hierarchyName].DeleteOption;
 
-            return DeleteOption.CascadeDelete;
+            return CascadeOption.CascadeDelete;
         }
     }
 }

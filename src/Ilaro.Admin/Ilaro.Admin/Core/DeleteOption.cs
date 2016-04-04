@@ -1,6 +1,6 @@
 ﻿namespace Ilaro.Admin.Core
 {
-    public enum DeleteOption : int
+    public enum CascadeOption : int
     {
         Nothing = 0,
         SetNull = 1,

@@ -137,7 +137,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return Type(DataType.Image);
         }
 
-        public IPropertyCustomizer ForeignDelete(DeleteOption deleteOption)
+        public IPropertyCustomizer ForeignDelete(CascadeOption deleteOption)
         {
             propertyCustomizerHolder.ForeignDeleteOption = deleteOption;
 

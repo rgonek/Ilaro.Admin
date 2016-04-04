@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Models
             DisplayRecordHierarchy = deleteOptions.Any();
             AssumableDeleteHierarchyWarning = deleteOptions.Any(x => x.ShowOptions);
 
-            if (deleteOptions.Any(x => x.DeleteOption == DeleteOption.AskUser))
+            if (deleteOptions.Any(x => x.DeleteOption == CascadeOption.AskUser))
                 PropertiesDeleteOptions = deleteOptions.Where(x => x.Visible).ToList();
             else
                 PropertiesDeleteOptions = new List<PropertyDeleteOption>();
