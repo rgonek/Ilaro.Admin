@@ -1,4 +1,4 @@
-Ilaro.Admin
+Ilaro.Admin [![Build status](https://ci.appveyor.com/api/projects/status/a1kfg9eig0i7cer1?svg=true)](https://ci.appveyor.com/project/rgonek/ilaro-admin)
 ===========
 
 Ilaro.Admin creates for you admin panel using only POCO classes.
