@@ -4,7 +4,7 @@
     {
         Nothing = 0,
         Detach = 1,
-        CascadeDelete = 2,
+        Delete = 2,
         AskUser = 3
     }
 }

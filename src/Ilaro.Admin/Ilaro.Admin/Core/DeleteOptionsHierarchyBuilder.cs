@@ -22,7 +22,7 @@ namespace Ilaro.Admin.Core
             {
                 var hierarchyName = hierarchyNamePrefix + property.ForeignEntity.Name;
                 var visible = property.ForeignDeleteOption == CascadeOption.AskUser ||
-                    property.ForeignDeleteOption == CascadeOption.CascadeDelete;
+                    property.ForeignDeleteOption == CascadeOption.Delete;
                 properties.Add(new PropertyDeleteOption
                 {
                     EntityName = property.ForeignEntity.Name,
@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Core
                         property.ForeignEntity,
                         collapsed ?
                             true :
-                            property.ForeignDeleteOption != CascadeOption.CascadeDelete,
+                            property.ForeignDeleteOption != CascadeOption.Delete,
                         hierarchyName,
                         ++level));
                 }

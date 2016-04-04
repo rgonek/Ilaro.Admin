@@ -229,7 +229,7 @@ SELECT @{joinedKeySqlParamName};";
                             sqlNullParameterName,
                             keyConstraint));
                         break;
-                    case CascadeOption.CascadeDelete:
+                    case CascadeOption.Delete:
                         GetForeignSql(
                             subHierarchy,
                             options,
