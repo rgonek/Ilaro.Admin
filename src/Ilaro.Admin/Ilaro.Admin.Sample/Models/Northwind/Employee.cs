@@ -65,10 +65,10 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [ForeignKey("ReportsTo")]
         public virtual Employee Manager { get; set; }
 
-        [ForeignDelete(CascadeOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public virtual ICollection<Order> Orders { get; set; }
 
-        [ForeignDelete(CascadeOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
     }
 }

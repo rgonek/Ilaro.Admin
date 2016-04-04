@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
         [Required]
         public bool Discontinued { get; set; }
 
-        [ForeignDelete(CascadeOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
         public override string ToString()

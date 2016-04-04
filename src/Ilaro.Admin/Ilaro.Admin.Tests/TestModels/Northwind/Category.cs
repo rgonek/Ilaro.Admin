@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
 
         //public byte[] Picture { get; set; }
 
-        [ForeignDelete(CascadeOption.AskUser)]
+        [Cascade(CascadeOption.AskUser)]
         public ICollection<Product> Products { get; set; }
     }
 }
