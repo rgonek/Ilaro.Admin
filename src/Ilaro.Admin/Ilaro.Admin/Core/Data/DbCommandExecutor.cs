@@ -89,9 +89,18 @@ namespace Ilaro.Admin.Core.Data
         {
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
 
+            var changeEntity = _admin.ChangeEntity;
+            var table = changeEntity.Table;
+            var entityNameColumn = changeEntity["EntityName"].Column;
+            var entityKeyColumn = changeEntity["EntityKey"].Column;
+            var changeTypeColumn = changeEntity["ChangeType"].Column;
+            var descriptionColumn = changeEntity["Description"].Column;
+            var changedOnColumn = changeEntity["ChangedOn"].Column;
+            var changedByColumn = changeEntity["ChangedBy"].Column;
+
             var sql =
-@"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
-VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.Table);
+$@"INSERT INTO {table} ({entityNameColumn}, {entityKeyColumn}, {changeTypeColumn}, {descriptionColumn}, {changedOnColumn}, {changedByColumn})
+VALUES (@0,@1,@2,@3,@4,@5);";
 
             cmd.AddParam(entityName);
             cmd.AddParam(keyValue);
