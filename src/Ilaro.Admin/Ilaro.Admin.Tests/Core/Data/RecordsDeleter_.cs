@@ -47,7 +47,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             var deleteOptions = new Dictionary<string, PropertyDeleteOption>
             {
-                { "Order", new PropertyDeleteOption { DeleteOption = CascadeOption.SetNull } }
+                { "Order", new PropertyDeleteOption { DeleteOption = CascadeOption.Detach } }
             };
 
             var result = _deleter.Delete(entityRecord, deleteOptions);

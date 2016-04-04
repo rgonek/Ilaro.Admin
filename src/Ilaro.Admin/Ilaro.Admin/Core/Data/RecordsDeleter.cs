@@ -179,7 +179,7 @@ SELECT @{joinedKeySqlParamName};";
             var entityHierarchy = _hierarchySource.GetEntityHierarchy(entityRecord.Entity);
             var keyConstraint = BuildKeyConstraint(entityRecord, entityHierarchy.Alias);
             var sqlNullParameterName = "";
-            if (options.Any(x => x.Value.DeleteOption == CascadeOption.SetNull))
+            if (options.Any(x => x.Value.DeleteOption == CascadeOption.Detach))
             {
                 sqlNullParameterName = cmd.Parameters.Count.ToString();
                 cmd.AddParam(null);
@@ -223,7 +223,7 @@ SELECT @{joinedKeySqlParamName};";
 
                 switch (deleteOption)
                 {
-                    case CascadeOption.SetNull:
+                    case CascadeOption.Detach:
                         sqlsBuilder.AppendLine(GetSetNullUpdateSql(
                             subHierarchy,
                             sqlNullParameterName,
