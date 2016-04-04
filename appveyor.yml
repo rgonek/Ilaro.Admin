@@ -9,125 +9,15 @@ build:
 before_test:
 - ps: >-
     $startPath = "$($env:appveyor_build_folder)\src\Ilaro.Admin\Ilaro.Admin.Tests\bin\Debug"
-
     $sqlInstance = "(local)\SQL2014"
-
-    $dbName = "MyDatabase"
-
+    $dbName = "IlaroTestDb"
 
     # replace the db connection with the local instance
-
     $config = join-path $startPath "Ilaro.Admin.Tests.dll.config"
-
     $doc = (gc $config) -as [xml]
-
     $doc.SelectSingleNode('//connectionStrings/add[@name="IlaroTestDb"]').connectionString = "Server=$sqlInstance; Database=$dbName; Trusted_connection=true"
-
     $doc.Save($config)
 
-
     # attach mdf to local instance
+    sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$dbName]"
 
-    $mdfFile = join-path $startPath "Database\IlaroTestDb.mdf"
-
-    $ldfFile = join-path $startPath "Database\IlaroTestDb_log.ldf"
-
-    sqlcmd -S "$sqlInstance" -Q "Use [master]; CREATE DATABASE [$dbName] ON (FILENAME = '$mdfFile'),(FILENAME = '$ldfFile') for ATTACH"
-
-
-
-    # Source: http://geekswithblogs.net/TedStatham/archive/2014/06/13/setting-the-ports-for-a-named-sql-server-instance-using.aspx
-
-    # Set the $instanceName value below to the name of the instance you
-
-    # want to configure a static port for. This could conceivably be
-
-    # passed into the script as a parameter.
-
-    $instanceName = 'INSTANCENAME'
-
-    $computerName = $env:COMPUTERNAME
-
-    $smo = 'Microsoft.SqlServer.Management.Smo.'
-
-    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
-
-
-    # For the named instance, on the current computer, for the TCP protocol,
-
-    # loop through all the IPs and configure them to use the standard port
-
-    # of 1433.
-
-    $uri = "ManagedComputer[@Name='$computerName']/ ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
-
-    $Tcp = $wmi.GetSmoObject($uri)
-
-    foreach ($ipAddress in $Tcp.IPAddresses)
-
-    {
-        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
-        $ipAddress.IPAddressProperties["TcpPort"].Value = "1433"
-    }
-
-    $Tcp.Alter()
-
-
-    # Restart the named instance of SQL Server to enable the changes.
-
-    # The restart is performed in the calling batch file.
-
-
-    [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo") | Out-Null
-
-    [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.SqlWmiManagement") | Out-Null
-
-
-    $serverName = $env:COMPUTERNAME
-
-    $instanceName = 'SQL2014'
-
-    $smo = 'Microsoft.SqlServer.Management.Smo.'
-
-    $wmi = new-object ($smo + 'Wmi.ManagedComputer')
-
-
-    # Enable TCP/IP
-
-    $uri = "ManagedComputer[@Name='$serverName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
-
-    $Tcp = $wmi.GetSmoObject($uri)
-
-    $Tcp.IsEnabled = $true
-
-    $TCP.alter()
-
-
-    # Enable named pipes
-
-    $uri = "ManagedComputer[@Name='$serverName']/ ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Np']"
-
-    $Np = $wmi.GetSmoObject($uri)
-
-    $Np.IsEnabled = $true
-
-    $Np.Alter()
-
-
-    # Set Alias
-
-    New-Item HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client -Name ConnectTo | Out-Null
-
-    Set-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client\ConnectTo -Name '(local)' -Value "DBMSSOCN,$serverName\$instanceName" | Out-Null
-
-
-    # Start services
-
-    Set-Service SQLBrowser -StartupType Manual
-
-    Start-Service SQLBrowser
-
-    Start-Service "MSSQL`$$instanceName"
-
-
-    sqlcmd -S "(local)" -U "sa" -P "Password12!" -Q "SELECT * FROM information_schema.tables;" -d "master"
