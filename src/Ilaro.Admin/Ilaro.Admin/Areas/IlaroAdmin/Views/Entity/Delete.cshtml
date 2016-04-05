@@ -14,7 +14,7 @@
     </ul>
 }
 
-<h2>@Model.EntityRecord.Entity.Verbose.Singular</h2>
+<h2>@Model.EntityRecord.Entity.Verbose.Singular - @Model.EntityRecord.ToString()</h2>
 
 @using (Html.BeginForm("Delete", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { @class = "form-horizontal" }))
 {
