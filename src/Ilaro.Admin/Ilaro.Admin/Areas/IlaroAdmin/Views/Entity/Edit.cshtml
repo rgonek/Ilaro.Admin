@@ -22,7 +22,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
-    foreach (var key in Model.Record.Values.Where(x => x.Property.IsKey))
+    foreach (var key in Model.Record.Key)
     {
         <div class="form-group">
             <label class="control-label col-md-2">@key.Property.Display</label>
