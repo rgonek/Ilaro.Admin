@@ -69,6 +69,8 @@ namespace Ilaro.Admin.Core
                     return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType, CultureInfo.CurrentCulture);
                 if (Property.TypeInfo.IsFile)
                     return null;
+                if (Raw == null)
+                    return null;
 
                 return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);
             }
