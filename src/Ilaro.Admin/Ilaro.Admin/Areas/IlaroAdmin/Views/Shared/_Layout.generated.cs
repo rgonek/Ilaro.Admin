@@ -170,45 +170,97 @@ WriteLiteral("\r\n        <div");
 
 WriteLiteral(" class=\"row\"");
 
-WriteLiteral(">\r\n            <div");
+WriteLiteral(">\r\n");
+
+            
+            #line 29 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            
+            
+            #line default
+            #line hidden
+            
+            #line 29 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+             if (IsSectionDefined("Sidebar"))
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <div");
 
 WriteLiteral(" class=\"col-md-10\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("                ");
+WriteLiteral("                    ");
 
             
-            #line 30 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
-           Write(RenderBody());
+            #line 32 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+               Write(RenderBody());
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </div>\r\n            <div");
+WriteLiteral("\r\n                </div>\r\n");
+
+WriteLiteral("                <div");
 
 WriteLiteral(" class=\"col-md-2\"");
 
 WriteLiteral(">\r\n");
 
-WriteLiteral("                ");
+WriteLiteral("                    ");
 
             
-            #line 33 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
-           Write(RenderSection("Sidebar", false));
+            #line 35 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+               Write(RenderSection("Sidebar", false));
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n            </div>\r\n        </div>\r\n        <hr>\r\n        <footer>\r\n           " +
-" <p>© <a");
+WriteLiteral("\r\n                </div>\r\n");
+
+            
+            #line 37 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            }
+            else
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <div");
+
+WriteLiteral(" class=\"col-md-12\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("                    ");
+
+            
+            #line 41 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+               Write(RenderBody());
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                </div>\r\n");
+
+            
+            #line 43 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        </div>\r\n        <hr>\r\n        <footer>\r\n            <p>© <a");
 
 WriteLiteral(" href=\"https://github.com/rgonek/Ilaro.Admin\"");
 
 WriteLiteral(">Ilaro.Admin</a> ");
 
             
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
                                                                             Write(DateTime.Now.ToString("yyyy"));
 
             
@@ -230,9 +282,9 @@ WriteLiteral(" id=\"modal-image\"");
 
 WriteLiteral(" />\r\n        </div>\r\n    </div>\r\n\r\n    <script");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 1534), Tuple.Create("\"", 1553)
-, Tuple.Create(Tuple.Create("", 1540), Tuple.Create<System.Object, System.Int32>(Href("~/ira/scripts")
-, 1540), false)
+WriteAttribute("src", Tuple.Create(" src=\"", 1783), Tuple.Create("\"", 1802)
+, Tuple.Create(Tuple.Create("", 1789), Tuple.Create<System.Object, System.Int32>(Href("~/ira/scripts")
+, 1789), false)
 );
 
 WriteLiteral(" type=\"text/javascript\"");
@@ -242,7 +294,7 @@ WriteLiteral("></script>\r\n");
 WriteLiteral("    ");
 
             
-            #line 49 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            #line 58 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             
