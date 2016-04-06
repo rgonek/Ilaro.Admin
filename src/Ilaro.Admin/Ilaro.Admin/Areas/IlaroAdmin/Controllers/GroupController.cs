@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         private readonly Notificator _notificator;
         private readonly IIlaroAdmin _admin;
 
-        public GroupController(IIlaroAdmin admin ,Notificator notificator)
+        public GroupController(IIlaroAdmin admin, Notificator notificator)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
@@ -29,6 +29,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             var model = new GroupIndexModel
             {
                 Groups = _admin.Entities
+                    .Except(new[] { _admin.ChangeEntity })
                     .GroupBy(x => x.Verbose.Group)
                     .Select(x => new GroupModel
                     {
@@ -43,6 +44,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public virtual ActionResult Details(string groupName)
         {
             var model = _admin.Entities
+                .Except(new[] { _admin.ChangeEntity })
                 .GroupBy(x => x.Verbose.Group)
                 .Where(x => x.Key == groupName)
                 .Select(x => new GroupModel
