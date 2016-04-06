@@ -28,5 +28,7 @@ namespace Ilaro.Admin.Models
         public TableInfo TableInfo { get; set; }
 
         public IConfiguration Configuration { get; set; }
+
+        public bool ChangeEnabled { get; set; }
     }
 }

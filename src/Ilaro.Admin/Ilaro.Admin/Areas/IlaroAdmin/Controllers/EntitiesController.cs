@@ -96,7 +96,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
                 Filters = filters.Where(x => x.DisplayInUI).ToList(),
                 TableInfo = tableInfo,
-                Configuration = _configuration
+                Configuration = _configuration,
+                ChangeEnabled = _admin.ChangeEntity != null
             };
 
             return View(model);

@@ -37,8 +37,10 @@
         }
     }
 
-    @Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" })
-
+    @if (Model.ChangeEnabled)
+    {
+        @Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" })
+    }
     @if (Model.Entity.AllowAdd)
     {
         <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> @IlaroAdminResources.Add</a>
