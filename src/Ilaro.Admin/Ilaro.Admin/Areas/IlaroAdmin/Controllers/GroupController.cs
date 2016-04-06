@@ -35,7 +35,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     {
                         Name = x.Key,
                         Entities = x.ToList()
-                    }).ToList()
+                    }).ToList(),
+                ChangeEnabled = _admin.ChangeEntity != null
             };
 
             return View(model);

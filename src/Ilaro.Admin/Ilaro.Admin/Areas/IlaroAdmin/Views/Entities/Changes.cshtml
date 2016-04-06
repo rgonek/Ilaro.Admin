@@ -2,23 +2,36 @@
 
 @{
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Verbose.Plural;
+    if (Model.EntityChangesFor != null)
+    {
+        ViewBag.Title = Model.EntityChangesFor.Verbose.Plural + " " + IlaroAdminResources.Changes;
+    }
+    else
+    {
+        ViewBag.Title = IlaroAdminResources.Changes;
+    }
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "Index", new { entityName = Model.Entity.Name })</li>
-        @if (Model.Key.IsNullOrWhiteSpace())
+        @if (Model.EntityChangesFor == null)
         {
             <li class="active">@IlaroAdminResources.Changes</li>
         }
         else
         {
-            <li>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" })</li>
-            <li class="active">@Model.Key</li>
+            <li>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = "", key = "" })</li>
+            if (Model.Key.IsNullOrWhiteSpace())
+            {
+                <li class="active">@Model.EntityChangesFor.Name</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(Model.EntityChangesFor.Name, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" })</li>
+                <li class="active">@Model.Key</li>
+            }
         }
     </ul>
 }

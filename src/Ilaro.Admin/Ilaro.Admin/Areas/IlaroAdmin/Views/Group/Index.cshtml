@@ -20,3 +20,11 @@
         </li>
     }
 </ul>
+
+@section Sidebar
+{
+    @if (Model.ChangeEnabled)
+    {
+        <h3>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", "Entities", new { area = "IlaroAdmin" }, null)</h3>
+    }
+}

@@ -56,16 +56,9 @@ namespace Ilaro.Admin.Areas.IlaroAdmin
             );
 
             context.MapRoute(
-                name: "IlaroAdmin_EntitiesChanges",
-                url: prefix + "/{entityName}/Changes",
-                defaults: new { controller = "Entities", action = "Changes" },
-                namespaces: new[] { "Ilaro.Admin.Areas.IlaroAdmin.Controllers" }
-            );
-
-            context.MapRoute(
-                name: "IlaroAdmin_EntityChanges",
-                url: prefix + "/{entityName}/{key}/Changes",
-                defaults: new { controller = "Entities", action = "Changes", key = UrlParameter.Optional },
+                name: "IlaroAdmin_Changes",
+                url: prefix + "/Changes/{entityName}/{key}",
+                defaults: new { controller = "Entities", action = "Changes", entityName = "", key = UrlParameter.Optional },
                 namespaces: new[] { "Ilaro.Admin.Areas.IlaroAdmin.Controllers" }
             );
 

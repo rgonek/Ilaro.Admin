@@ -106,10 +106,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public virtual ActionResult Changes(string entityName, string key, TableInfo tableInfo)
         {
             var entityChangesFor = _admin.GetEntity(entityName);
-            if (entityChangesFor == null)
-            {
-                throw new NoNullAllowedException("entity is null");
-            }
             var changeEntity = _admin.ChangeEntity;
             var entityRecord = new EntityRecord(changeEntity);
             entityRecord.Fill(Request);
