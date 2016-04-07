@@ -41,6 +41,5 @@ namespace Ilaro.Admin.Tests
                 cmd.ExecuteNonQuery();
             }
         }
-
     }
 }

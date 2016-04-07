@@ -117,6 +117,7 @@ CREATE TABLE [dbo].[EntityChanges](
     [ChangeType] [tinyint] NOT NULL,
     [ChangedOn] [datetime] NOT NULL,
     [ChangedBy] [nvarchar](100) NULL,
+    [RecordDisplayName] [ntext] NULL,
     [Description] [ntext] NULL,
  CONSTRAINT [PK_EntityChanges] PRIMARY KEY CLUSTERED 
 (
