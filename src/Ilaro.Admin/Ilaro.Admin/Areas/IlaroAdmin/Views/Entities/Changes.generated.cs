@@ -417,23 +417,23 @@ WriteLiteral("                        ");
 
             
             #line 77 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                   Write(Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
+                   Write(Html.SortColumnLink(Model.EntityChangesFor, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3279), Tuple.Create("\"", 3336)
-, Tuple.Create(Tuple.Create("", 3287), Tuple.Create("glyphicon", 3287), true)
-, Tuple.Create(Tuple.Create(" ", 3296), Tuple.Create("glyphicon-chevron-", 3297), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3289), Tuple.Create("\"", 3346)
+, Tuple.Create(Tuple.Create("", 3297), Tuple.Create("glyphicon", 3297), true)
+, Tuple.Create(Tuple.Create(" ", 3306), Tuple.Create("glyphicon-chevron-", 3307), true)
             
             #line 78 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3315), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 3325), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 3315), false)
+, 3325), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -512,14 +512,14 @@ WriteLiteral("                    <td>\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3984), Tuple.Create("\"", 4129)
+WriteAttribute("href", Tuple.Create(" href=\"", 3994), Tuple.Create("\"", 4139)
             
             #line 97 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3991), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })
+, Tuple.Create(Tuple.Create("", 4001), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })
             
             #line default
             #line hidden
-, 3991), false)
+, 4001), false)
 );
 
 WriteLiteral(">");
@@ -731,14 +731,14 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 6322), Tuple.Create("\"", 6367)
+WriteAttribute("for", Tuple.Create(" for=\"", 6332), Tuple.Create("\"", 6377)
             
             #line 135 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 6328), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
+, Tuple.Create(Tuple.Create("", 6338), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
             
             #line default
             #line hidden
-, 6328), false)
+, 6338), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -857,14 +857,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7301), Tuple.Create("\"", 7396)
+WriteAttribute("href", Tuple.Create(" href=\"", 7311), Tuple.Create("\"", 7406)
             
             #line 158 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 7308), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
+, Tuple.Create(Tuple.Create("", 7318), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
             
             #line default
             #line hidden
-, 7308), false)
+, 7318), false)
 );
 
 WriteLiteral(">");
