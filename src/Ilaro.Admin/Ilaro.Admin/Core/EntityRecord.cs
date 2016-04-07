@@ -157,7 +157,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        private void SetKeyValue(string key)
+        public void SetKeyValue(string key)
         {
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
             for (int i = 0; i < keys.Length; i++)
