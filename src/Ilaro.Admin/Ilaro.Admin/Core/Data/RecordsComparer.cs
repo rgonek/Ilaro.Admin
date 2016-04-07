@@ -20,7 +20,7 @@ namespace Ilaro.Admin.Core.Data
                     var equals = Equals(property.Raw, oldValue);
 
                     if (equals)
-                        property.Raw = DataBehavior.Skip;
+                        property.DataBehavior = DataBehavior.Skip;
                 }
             }
         }

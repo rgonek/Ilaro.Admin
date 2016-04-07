@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core
 
                     if (isDeleted)
                     {
-                        propertyValue.Raw = DataBehavior.Clear;
+                        propertyValue.DataBehavior = DataBehavior.Clear;
                         propertyValue.Additional = null;
                     }
                 }

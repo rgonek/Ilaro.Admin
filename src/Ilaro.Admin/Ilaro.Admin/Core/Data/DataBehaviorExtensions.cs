@@ -8,12 +8,7 @@ namespace Ilaro.Admin.Core.Data
         public static IEnumerable<PropertyValue> WhereIsNotSkipped(
             this IEnumerable<PropertyValue> propertiesValues)
         {
-            return propertiesValues.Where(value => value.Raw.IsBehavior(DataBehavior.Skip) == false);
-        }
-
-        public static bool IsBehavior(this object val, DataBehavior behavior)
-        {
-            return val is DataBehavior && (DataBehavior)val == behavior;
+            return propertiesValues.Where(value => value.DataBehavior != DataBehavior.Skip);
         }
 
         public static bool IsBehavior(this object val, ValueBehavior behavior)
