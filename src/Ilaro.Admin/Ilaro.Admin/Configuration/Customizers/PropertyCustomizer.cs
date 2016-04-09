@@ -212,5 +212,12 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer Validator(ValidationAttribute validator)
+        {
+            Validators(new[] { validator });
+
+            return this;
+        }
     }
 }

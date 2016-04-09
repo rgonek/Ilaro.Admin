@@ -92,10 +92,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// </summary>
         IPropertyCustomizer Format(string dataFormatString);
         /// <summary>
-        /// Property is required
-        /// </summary>
-        IPropertyCustomizer Required(string errorMessage);
-        /// <summary>
         /// Set property as a foreign key
         /// </summary>
         IPropertyCustomizer ForeignKey(string name);
@@ -103,5 +99,13 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set validators
         /// </summary>
         IPropertyCustomizer Validators(IEnumerable<ValidationAttribute> validators);
+        /// <summary>
+        /// Set validator
+        /// </summary>
+        IPropertyCustomizer Validator(ValidationAttribute validator);
+        /// <summary>
+        /// Property is required
+        /// </summary>
+        IPropertyCustomizer Required(string errorMessage);
     }
 }
