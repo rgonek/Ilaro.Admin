@@ -107,5 +107,12 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Property is required
         /// </summary>
         IPropertyCustomizer Required(string errorMessage);
+        /// <summary>
+        /// String length property validator
+        /// </summary>
+        IPropertyCustomizer StringLength(
+            int maximumLength, 
+            int minimumLength = 0, 
+            string errorMessage = null);
     }
 }

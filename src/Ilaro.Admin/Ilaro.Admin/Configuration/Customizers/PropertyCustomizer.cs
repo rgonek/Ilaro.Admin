@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using SystemDataType =  System.ComponentModel.DataAnnotations.DataType;
+using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -225,6 +225,20 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Validator(ValidationAttribute validator)
         {
             Validators(new[] { validator });
+
+            return this;
+        }
+
+        public IPropertyCustomizer StringLength(
+            int maximumLength,
+            int minimumLength = 0,
+            string errorMessage = null)
+        {
+            Validator(new StringLengthAttribute(maximumLength)
+            {
+                MinimumLength = minimumLength,
+                ErrorMessage = errorMessage
+            });
 
             return this;
         }
