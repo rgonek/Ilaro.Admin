@@ -37,7 +37,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set data annotation data type
         /// </summary>
-        IPropertyCustomizer Type(SystemDataType dataType);
+        IPropertyCustomizer Type(SystemDataType dataType, string errorMessage = null);
         /// <summary>
         /// Set enum type
         /// </summary>

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using SystemDataType =  System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -180,9 +181,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Type(System.ComponentModel.DataAnnotations.DataType dataType)
+        public IPropertyCustomizer Type(SystemDataType dataType, string errorMessage = null)
         {
             propertyCustomizerHolder.SourceDataType = dataType;
+            Validator(new DataTypeAttribute(dataType)
+            {
+                ErrorMessage = errorMessage
+            });
 
             return Type(DataTypeConverter.Convert(dataType));
         }
