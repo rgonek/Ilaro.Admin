@@ -132,5 +132,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Range property validator
         /// </summary>
         IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null);
+        /// <summary>
+        /// Regular expression property validator
+        /// </summary>
+        IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null);
     }
 }

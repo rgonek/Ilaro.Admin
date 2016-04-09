@@ -284,5 +284,15 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null)
+        {
+            Validator(new RegularExpressionAttribute(pattern)
+            {
+                ErrorMessage = errorMessage
+            });
+
+            return this;
+        }
     }
 }
