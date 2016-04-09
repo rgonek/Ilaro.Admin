@@ -531,7 +531,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Messages.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Paging.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\_Paging.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Paging.cshtml</DependentUpon>
@@ -709,7 +709,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\IlaroAdmin\Views\Shared\_Paging.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entities\_Paging.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Paging.generated.cs</LastGenOutput>
     </Content>
