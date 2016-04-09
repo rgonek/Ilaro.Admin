@@ -59,6 +59,21 @@ namespace Ilaro.Admin.Core.Data
             });
         }
 
+        public IList<ChangeRow> GetLastChanges(int quantity)
+        {
+            var changeEntity = _admin.ChangeEntity;
+            var tableInfo = new TableInfo
+            {
+                Page = 1,
+                PerPage = quantity,
+                Order = nameof(IEntityChange.ChangedOn),
+                OrderDirection = "desc"
+            };
+            var pagedRecords = GetRecords(changeEntity, null, tableInfo);
+
+            return pagedRecords.Records.Select(x => new ChangeRow(x)).ToList();
+        }
+
         private PagedRecords GetRecords(
             Entity entity,
             NameValueCollection request,
@@ -90,7 +105,8 @@ namespace Ilaro.Admin.Core.Data
             NameValueCollection request)
         {
             var filterRecord = new EntityRecord(entity);
-            filterRecord.Fill(request);
+            if (request != null)
+                filterRecord.Fill(request);
 
             return filterRecord;
         }

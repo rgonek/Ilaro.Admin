@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
@@ -12,16 +13,23 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     {
         private readonly Notificator _notificator;
         private readonly IIlaroAdmin _admin;
+        private readonly IRecordsService _recordsService;
 
-        public GroupController(IIlaroAdmin admin, Notificator notificator)
+        public GroupController(
+            IIlaroAdmin admin, 
+            Notificator notificator, 
+            IRecordsService recordsService)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
             if (notificator == null)
                 throw new ArgumentNullException(nameof(notificator));
+            if (recordsService == null)
+                throw new ArgumentNullException(nameof(recordsService));
 
             _admin = admin;
             _notificator = notificator;
+            _recordsService = recordsService;
         }
 
         public virtual ActionResult Index()
@@ -36,7 +44,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                         Name = x.Key,
                         Entities = x.ToList()
                     }).ToList(),
-                ChangeEnabled = _admin.ChangeEntity != null
+                ChangeEnabled = _admin.ChangeEntity != null,
+                Changes = _recordsService.GetLastChanges(10)
             };
 
             return View(model);

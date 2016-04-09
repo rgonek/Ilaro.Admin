@@ -157,6 +157,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_PropertyEditor.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Group\_LastChanges.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LastChanges.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.generated.cs">
       <DependentUpon>DbImagePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -796,6 +801,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\IlaroAdmin\Views\Group\_LastChanges.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LastChanges.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

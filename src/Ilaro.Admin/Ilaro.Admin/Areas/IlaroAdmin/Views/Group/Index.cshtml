@@ -18,13 +18,13 @@
         <li class="col-md-4">
             @{Html.RenderPartial("_GroupPartial", group);}
         </li>
-    }
+                }
 </ul>
 
-@section Sidebar
+@if (Model.ChangeEnabled)
 {
-    @if (Model.ChangeEnabled)
+    @section Sidebar
     {
-        <h3>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", "Entities", new { area = "IlaroAdmin" }, null)</h3>
+        @{Html.RenderPartial("_LastChanges", Model.Changes);}
     }
 }

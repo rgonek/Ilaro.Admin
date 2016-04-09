@@ -120,51 +120,49 @@ WriteLiteral("\r\n        </li>\r\n");
 
             
             #line 21 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
-    }
+                }
 
             
             #line default
             #line hidden
 WriteLiteral("</ul>\r\n\r\n");
 
+            
+            #line 24 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
+ if (Model.ChangeEnabled)
+{
+    
+            
+            #line default
+            #line hidden
 DefineSection("Sidebar", () => {
 
 WriteLiteral("\r\n");
 
             
-            #line 26 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
-    
+            #line 28 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
+        
             
             #line default
             #line hidden
-            
-            #line 26 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
-     if (Model.ChangeEnabled)
-    {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("        <h3>");
-
             
             #line 28 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
-       Write(Html.ActionLink(IlaroAdminResources.Changes, "Changes", "Entities", new { area = "IlaroAdmin" }, null));
-
+          Html.RenderPartial("_LastChanges", Model.Changes);
             
             #line default
             #line hidden
-WriteLiteral("</h3>\r\n");
+WriteLiteral("\r\n    ");
+
+});
 
             
             #line 29 "..\..\Areas\IlaroAdmin\Views\Group\Index.cshtml"
-    }
+     
+}
 
             
             #line default
             #line hidden
-});
-
         }
     }
 }
