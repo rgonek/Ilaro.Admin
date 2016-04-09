@@ -106,7 +106,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Property is required
         /// </summary>
-        IPropertyCustomizer Required(string errorMessage);
+        IPropertyCustomizer Required(string errorMessage = null);
         /// <summary>
         /// String length property validator
         /// </summary>
@@ -120,5 +120,17 @@ namespace Ilaro.Admin.Configuration.Customizers
         IPropertyCustomizer Compare(
             string otherProperty,
             string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(int minimum, int maximum, string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(double minimum, double maximum, string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null);
     }
 }

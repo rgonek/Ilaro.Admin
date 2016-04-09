@@ -147,7 +147,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Required(string errorMessage)
+        public IPropertyCustomizer Required(string errorMessage = null)
         {
             propertyCustomizerHolder.IsRequired = true;
             propertyCustomizerHolder.RequiredErrorMessage = errorMessage;
@@ -248,6 +248,36 @@ namespace Ilaro.Admin.Configuration.Customizers
             string errorMessage = null)
         {
             Validator(new CompareAttribute(otherProperty)
+            {
+                ErrorMessage = errorMessage
+            });
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(int minimum, int maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(minimum, maximum)
+            {
+                ErrorMessage = errorMessage
+            });
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(double minimum, double maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(minimum, maximum)
+            {
+                ErrorMessage = errorMessage
+            });
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(type, minimum, maximum)
             {
                 ErrorMessage = errorMessage
             });
