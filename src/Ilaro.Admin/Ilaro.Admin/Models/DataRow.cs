@@ -20,8 +20,7 @@ namespace Ilaro.Admin.Models
             KeyValue = new List<string>();
         }
 
-        public DataRow(
-            EntityRecord entityRecord)
+        public DataRow(EntityRecord entityRecord)
             : this()
         {
             foreach (var propertyValue in entityRecord.Values)

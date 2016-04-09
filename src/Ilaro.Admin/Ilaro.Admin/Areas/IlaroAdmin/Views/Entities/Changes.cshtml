@@ -82,38 +82,34 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var row in Model.Data)
+        @foreach (var row in Model.ChangeData)
         {
             <tr>
-                @foreach (var item in row.Values)
-                {
-                    <td>
-                        @if (item.Property.Name == "EntityName")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = item.AsString, key = "" })
-                        }
-                        else if (item.Property.Name == "EntityKey")
-                        {
-                            <a href="@Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })">@item.AsString</a>
-                        }
-                        else if (item.Property.Name == "ChangedOn")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedOn = ((DateTime)item.AsObject).Date.ToString("yyyy.MM.dd") })
-                        }
-                        else if (item.Property.Name == "ChangedBy")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedBy = item.AsString })
-                        }
-                        else if (item.Property.Name == "ChangeType")
-                        {
-                            @Html.ActionLink(item.AsObject.ToString(), "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangeType = item.AsString })
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(m => item, item.Property.Template.Display)
-                        }
-                    </td>
-                }
+                <td>
+                    @row.EntityChangeId
+                </td>
+                <td>
+                    @Html.ActionLink(row.EntityName, "Changes", new { entityName = row.EntityName, key = "" })
+                </td>
+                <td>
+                    @Html.ActionLink(row.EntityKey, "Changes", new { entityName = row.EntityName, key = row.EntityKey })
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangeTypeString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangeType = row.ChangeType.ToString() })
+                </td>
+                <td>
+                    @row.RecordDisplayName
+                </td>
+                <td>
+                    @row.Description
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangedOnString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedOn = row.ChangedOn.ToString("yyyy.MM.dd") })
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangedBy, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedBy = row.ChangedBy })
+                </td>
+                
             </tr>
         }
     </tbody>

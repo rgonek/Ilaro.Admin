@@ -304,6 +304,7 @@
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="Models\ChangeRow.cs" />
     <Compile Include="Models\EntityEditModel.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
