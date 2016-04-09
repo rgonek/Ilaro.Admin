@@ -66,7 +66,6 @@ namespace Ilaro.Admin.Core
         public string ReferencePropertyName { get; internal set; }
 
         public bool IsRequired { get; internal set; }
-        public string RequiredErrorMessage { get; internal set; }
 
         public CascadeOption CascadeOption { get; internal set; }
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
