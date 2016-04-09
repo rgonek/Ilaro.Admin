@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     {
         public int ProductID { get; set; }
 
-        [Required, MaxLength(40)]
+        [Required, StringLength(40)]
         public string ProductName { get; set; }
 
         [ForeignKey("Supplier")]
@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [ForeignKey("CategoryID")]
         public Category Category { get; set; }
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string QuantityPerUnit { get; set; }
 
         public decimal UnitPrice { get; set; }

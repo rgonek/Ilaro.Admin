@@ -8,7 +8,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     {
         public int RegionID { get; set; }
 
-        [Required, MaxLength(50)]
+        [Required, StringLength(50)]
         public string RegionDescription { get; set; }
     }
 }
