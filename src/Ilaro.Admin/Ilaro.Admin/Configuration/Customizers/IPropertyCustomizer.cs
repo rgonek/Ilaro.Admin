@@ -111,8 +111,14 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// String length property validator
         /// </summary>
         IPropertyCustomizer StringLength(
-            int maximumLength, 
-            int minimumLength = 0, 
+            int maximumLength,
+            int minimumLength = 0,
+            string errorMessage = null);
+        /// <summary>
+        /// Compare property validator
+        /// </summary>
+        IPropertyCustomizer Compare(
+            string otherProperty,
             string errorMessage = null);
     }
 }

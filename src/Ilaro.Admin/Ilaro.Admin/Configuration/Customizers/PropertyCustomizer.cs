@@ -242,5 +242,17 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer Compare(
+            string otherProperty, 
+            string errorMessage = null)
+        {
+            Validator(new CompareAttribute(otherProperty)
+            {
+                ErrorMessage = errorMessage
+            });
+
+            return this;
+        }
     }
 }
