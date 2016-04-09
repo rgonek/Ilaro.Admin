@@ -53,7 +53,10 @@ namespace Ilaro.Admin.Extensions
                 property.Entity.Type,
                 null,
                 property.TypeInfo.Type,
-                property.Name);
+                property.Name)
+            {
+                DisplayName = property.Display
+            };
             var validationAttributes =
                 htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
 
