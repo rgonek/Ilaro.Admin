@@ -195,6 +195,9 @@
   <data name="Index_Title" xml:space="preserve">
     <value>Admin</value>
   </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
   <data name="LastHalfAYear" xml:space="preserve">
     <value>Last half a year</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="NoChanges" xml:space="preserve">
+    <value>No changes were made.</value>
   </data>
   <data name="OnPage" xml:space="preserve">
     <value>On page:</value>

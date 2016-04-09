@@ -18,5 +18,13 @@
         <li class="col-md-4">
             @{Html.RenderPartial("_GroupPartial", group);}
         </li>
-    }
+                }
 </ul>
+
+@if (Model.ChangeEnabled)
+{
+    @section Sidebar
+    {
+        @{Html.RenderPartial("_LastChanges", Model.Changes);}
+    }
+}

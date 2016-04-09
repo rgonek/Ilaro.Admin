@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Models
                     if (enumValue == null)
                         return AsString;
 
-                    return enumValue.ToString().SplitCamelCase();
+                    return enumValue;
                 }
                 if (Property.TypeInfo.IsNullable)
                     return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType);
@@ -60,7 +60,6 @@ namespace Ilaro.Admin.Models
         public CellValue(Property property)
         {
             Property = property;
-            //Raw = property.Value.Raw;
         }
     }
 }

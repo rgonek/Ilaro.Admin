@@ -48,7 +48,14 @@ namespace ASP
             #line 3 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
   
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Verbose.Plural;
+    if (Model.EntityChangesFor != null)
+    {
+        ViewBag.Title = Model.EntityChangesFor.Verbose.Plural + " " + IlaroAdminResources.Changes;
+    }
+    else
+    {
+        ViewBag.Title = IlaroAdminResources.Changes;
+    }
 
             
             #line default
@@ -64,26 +71,8 @@ WriteLiteral(" class=\"breadcrumb\"");
 WriteLiteral(">\r\n        <li>");
 
             
-            #line 11 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 18 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</li>\r\n        <li>");
-
-            
-            #line 12 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.ActionLink(Model.EntityChangesFor.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</li>\r\n        <li>");
-
-            
-            #line 13 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-       Write(Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "Index", new { entityName = Model.Entity.Name }));
 
             
             #line default
@@ -91,14 +80,14 @@ WriteLiteral("</li>\r\n        <li>");
 WriteLiteral("</li>\r\n");
 
             
-            #line 14 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 19 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 14 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-         if (Model.Key.IsNullOrWhiteSpace())
+            #line 19 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+         if (Model.EntityChangesFor == null)
         {
 
             
@@ -111,7 +100,7 @@ WriteLiteral(" class=\"active\"");
 WriteLiteral(">");
 
             
-            #line 16 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 21 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                           Write(IlaroAdminResources.Changes);
 
             
@@ -120,7 +109,7 @@ WriteLiteral(">");
 WriteLiteral("</li>\r\n");
 
             
-            #line 17 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 22 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         }
         else
         {
@@ -131,23 +120,31 @@ WriteLiteral("</li>\r\n");
 WriteLiteral("            <li>");
 
             
-            #line 20 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-           Write(Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" }));
+            #line 25 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+           Write(Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = "", key = "" }));
 
             
             #line default
             #line hidden
 WriteLiteral("</li>\r\n");
 
-WriteLiteral("            <li");
+            
+            #line 26 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            if (Model.Key.IsNullOrWhiteSpace())
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <li");
 
 WriteLiteral(" class=\"active\"");
 
 WriteLiteral(">");
 
             
-            #line 21 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                          Write(Model.Key);
+            #line 28 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+                              Write(Model.EntityChangesFor.Name);
 
             
             #line default
@@ -155,7 +152,43 @@ WriteLiteral(">");
 WriteLiteral("</li>\r\n");
 
             
-            #line 22 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 29 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            }
+            else
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <li>");
+
+            
+            #line 32 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(Html.ActionLink(Model.EntityChangesFor.Name, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</li>\r\n");
+
+WriteLiteral("                <li");
+
+WriteLiteral(" class=\"active\"");
+
+WriteLiteral(">");
+
+            
+            #line 33 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+                              Write(Model.Key);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</li>\r\n");
+
+            
+            #line 34 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            }
         }
 
             
@@ -176,7 +209,7 @@ WriteLiteral(" class=\"pull-left\"");
 WriteLiteral(">");
 
             
-            #line 27 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 40 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                      Write(Model.Entity.Verbose.Plural);
 
             
@@ -185,13 +218,13 @@ WriteLiteral(">");
 WriteLiteral("</h2>\r\n");
 
             
-            #line 28 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 41 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 28 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 41 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
      if (Model.Entity.IsSearchActive)
     {
         using (Html.BeginForm("Changes", "Entities", new { area = "IlaroAdmin", page = Model.Pager.Current }, FormMethod.Get, new { @class = "pull-left col-md-3" }))
@@ -203,14 +236,14 @@ WriteLiteral("</h2>\r\n");
             #line default
             #line hidden
             
-            #line 34 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
            Write(Html.Hidden(filter.Property.Name, filter.Value));
 
             
             #line default
             #line hidden
             
-            #line 34 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                 
             }
             
@@ -218,56 +251,56 @@ WriteLiteral("</h2>\r\n");
             #line default
             #line hidden
             
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 49 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden("entityName", Model.Entity.Name));
 
             
             #line default
             #line hidden
             
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 49 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                          
             
             
             #line default
             #line hidden
             
-            #line 37 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 50 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.PerPageRequestName, Model.TableInfo.PerPage));
 
             
             #line default
             #line hidden
             
-            #line 37 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 50 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                          
             
             
             #line default
             #line hidden
             
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 51 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order));
 
             
             #line default
             #line hidden
             
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 51 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                      
             
             
             #line default
             #line hidden
             
-            #line 39 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 52 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection));
 
             
             #line default
             #line hidden
             
-            #line 39 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 52 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                                        
 
             
@@ -282,7 +315,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                ");
 
             
-            #line 41 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 54 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
            Write(Html.TextBox(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery, new { @class = "form-control" }));
 
             
@@ -301,7 +334,7 @@ WriteLiteral(" type=\"submit\"");
 WriteLiteral(">");
 
             
-            #line 43 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 56 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                              Write(IlaroAdminResources.Search);
 
             
@@ -310,7 +343,7 @@ WriteLiteral(">");
 WriteLiteral("</button>\r\n                </span>\r\n            </div>\r\n");
 
             
-            #line 46 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 59 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         }
     }
 
@@ -356,13 +389,13 @@ WriteLiteral(" class=\"table table-striped table-bordered table-hover\"");
 WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n");
 
             
-            #line 60 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 73 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 60 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 73 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
              foreach (var column in Model.Columns)
             {
 
@@ -372,7 +405,7 @@ WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n");
 WriteLiteral("                <th>\r\n                    <span ");
 
             
-            #line 63 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 76 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                      Write(Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\""));
 
             
@@ -383,30 +416,30 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 64 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                   Write(Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
+            #line 77 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+                   Write(Html.SortColumnLink(Model.EntityChangesFor, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
 
             
             #line default
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3114), Tuple.Create("\"", 3171)
-, Tuple.Create(Tuple.Create("", 3122), Tuple.Create("glyphicon", 3122), true)
-, Tuple.Create(Tuple.Create(" ", 3131), Tuple.Create("glyphicon-chevron-", 3132), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3289), Tuple.Create("\"", 3346)
+, Tuple.Create(Tuple.Create("", 3297), Tuple.Create("glyphicon", 3297), true)
+, Tuple.Create(Tuple.Create(" ", 3306), Tuple.Create("glyphicon-chevron-", 3307), true)
             
-            #line 65 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3150), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+            #line 78 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+, Tuple.Create(Tuple.Create("", 3325), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 3150), false)
+, 3325), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
 
             
-            #line 68 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 81 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
             }
 
             
@@ -415,179 +448,111 @@ WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n"
 WriteLiteral("        </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
             
-            #line 72 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 72 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-         foreach (var row in Model.Data)
+            #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+         foreach (var row in Model.ChangeData)
         {
 
             
             #line default
             #line hidden
-WriteLiteral("            <tr>\r\n");
+WriteLiteral("            <tr>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
 
             
-            #line 75 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                
-            
-            #line default
-            #line hidden
-            
-            #line 75 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                 foreach (var item in row.Values)
-                {
+            #line 89 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(row.EntityChangeId);
 
             
             #line default
             #line hidden
-WriteLiteral("                    <td>\r\n");
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
 
-            
-            #line 78 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                        
-            
-            #line default
-            #line hidden
-            
-            #line 78 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                         if (item.Property.Name == "EntityName")
-                        {
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 80 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                       Write(Html.ActionLink(item.AsString, "Changes", new { entityName = item.AsString, key = "" }));
+WriteLiteral("                    ");
 
-            
-            #line default
-            #line hidden
-            
-            #line 80 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                                                    
-                        }
-                        else if (item.Property.Name == "EntityKey")
-                        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                            <a");
-
-WriteAttribute("href", Tuple.Create(" href=\"", 3819), Tuple.Create("\"", 3964)
-            
-            #line 84 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3826), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })
-            
-            #line default
-            #line hidden
-, 3826), false)
-);
-
-WriteLiteral(">");
-
-            
-            #line 84 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                                                                                                            Write(item.AsString);
-
-            
-            #line default
-            #line hidden
-WriteLiteral("</a>\r\n");
-
-            
-            #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                        }
-                        else if (item.Property.Name == "ChangedOn")
-                        {
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 88 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                       Write(Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedOn = ((DateTime)item.AsObject).Date.ToString("yyyy.MM.dd") }));
-
-            
-            #line default
-            #line hidden
-            
-            #line 88 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                                                                                                                                                                                         
-                        }
-                        else if (item.Property.Name == "ChangedBy")
-                        {
-                            
-            
-            #line default
-            #line hidden
             
             #line 92 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                       Write(Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedBy = item.AsString }));
+               Write(Html.ActionLink(row.EntityName, "Changes", new { entityName = row.EntityName, key = "" }));
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
+
             
-            #line 92 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                                                                                                                                                 
-                        }
-                        else if (item.Property.Name == "ChangeType")
-                        {
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                       Write(Html.ActionLink(item.AsObject.ToString(), "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangeType = item.AsString }));
+            #line 95 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(Html.ActionLink(row.EntityKey, "Changes", new { entityName = row.EntityName, key = row.EntityKey }));
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
+
             
-            #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                                                                                                                                                             
-                        }
-                        else
-                        {
-                            
-            
-            #line default
-            #line hidden
-            
-            #line 100 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                       Write(Html.DisplayFor(m => item, item.Property.Template.Display));
+            #line 98 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(Html.ActionLink(row.ChangeTypeString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangeType = row.ChangeType.ToString() }));
 
             
             #line default
             #line hidden
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
+
             
-            #line 100 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                                                                                       
-                        }
+            #line 101 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(row.RecordDisplayName);
 
             
             #line default
             #line hidden
-WriteLiteral("                    </td>\r\n");
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
 
             
-            #line 103 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-                }
+            #line 104 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(row.Description);
 
             
             #line default
             #line hidden
-WriteLiteral("            </tr>\r\n");
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
 
             
-            #line 105 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 107 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(Html.ActionLink(row.ChangedOnString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedOn = row.ChangedOn.ToString("yyyy.MM.dd") }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                </td>\r\n                <td>\r\n");
+
+WriteLiteral("                    ");
+
+            
+            #line 110 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+               Write(Html.ActionLink(row.ChangedBy, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedBy = row.ChangedBy }));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                </td>\r\n                \r\n            </tr>\r\n");
+
+            
+            #line 114 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         }
 
             
@@ -606,13 +571,13 @@ WriteLiteral(" style=\"margin-right:10px\"");
 WriteLiteral(">\r\n");
 
             
-            #line 111 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 120 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 111 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 120 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
          using (Html.BeginForm("Changes", "Entities", new { area = "IlaroAdmin", page = Model.Pager.Current }, FormMethod.Get, new { @class = "form-inline" }))
         {
             foreach (var filter in Model.ActiveFilters)
@@ -622,14 +587,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 115 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 124 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
            Write(Html.Hidden(filter.Property.Name, filter.Value));
 
             
             #line default
             #line hidden
             
-            #line 115 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 124 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                 
             }
             
@@ -637,56 +602,56 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 117 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 126 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden("entityName", Model.Entity.Name));
 
             
             #line default
             #line hidden
             
-            #line 117 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 126 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                          
             
             
             #line default
             #line hidden
             
-            #line 118 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 127 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery));
 
             
             #line default
             #line hidden
             
-            #line 118 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 127 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                                  
             
             
             #line default
             #line hidden
             
-            #line 119 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order));
 
             
             #line default
             #line hidden
             
-            #line 119 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                      
             
             
             #line default
             #line hidden
             
-            #line 120 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 129 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection));
 
             
             #line default
             #line hidden
             
-            #line 120 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 129 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                                        
 
             
@@ -698,14 +663,14 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 6157), Tuple.Create("\"", 6202)
+WriteAttribute("for", Tuple.Create(" for=\"", 5629), Tuple.Create("\"", 5674)
             
-            #line 122 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 6163), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
+            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+, Tuple.Create(Tuple.Create("", 5635), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
             
             #line default
             #line hidden
-, 6163), false)
+, 5635), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -713,7 +678,7 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 122 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                       Write(IlaroAdminResources.OnPage);
 
             
@@ -724,7 +689,7 @@ WriteLiteral("</label>\r\n");
 WriteLiteral("                ");
 
             
-            #line 123 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 132 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
            Write(Html.DropDownList(Model.Configuration.PageRequestName,
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", Model.TableInfo.PerPage),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } }));
@@ -735,7 +700,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 127 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 136 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         }
 
             
@@ -750,13 +715,13 @@ WriteLiteral(" style=\"margin-right:10px\"");
 WriteLiteral(">\r\n");
 
             
-            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 140 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 140 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
           Html.RenderPartial("_Paging", Model.Pager);
             
             #line default
@@ -772,7 +737,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 135 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 144 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
    Write(IlaroAdminResources.Founded);
 
             
@@ -781,7 +746,7 @@ WriteLiteral("        ");
 WriteLiteral(" <strong>");
 
             
-            #line 135 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 144 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                         Write(Model.Pager.TotalItems);
 
             
@@ -794,13 +759,13 @@ DefineSection("Sidebar", () => {
 WriteLiteral("\r\n");
 
             
-            #line 141 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 150 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 141 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 150 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
      if (Model.Filters.Count > 0)
     {
 
@@ -810,7 +775,7 @@ WriteLiteral("\r\n");
 WriteLiteral("        <h2>");
 
             
-            #line 143 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 152 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
        Write(IlaroAdminResources.Filters);
 
             
@@ -824,20 +789,20 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7136), Tuple.Create("\"", 7231)
+WriteAttribute("href", Tuple.Create(" href=\"", 6608), Tuple.Create("\"", 6703)
             
-            #line 145 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 7143), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
+            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+, Tuple.Create(Tuple.Create("", 6615), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
             
             #line default
             #line hidden
-, 7143), false)
+, 6615), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 145 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
                                                                                                               Write(IlaroAdminResources.RemoveFilters);
 
             
@@ -846,13 +811,13 @@ WriteLiteral(">");
 WriteLiteral("</a></li>\r\n");
 
             
-            #line 146 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 155 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 146 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 155 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
              foreach (var filter in Model.Filters)
             {
                 Html.RenderPartial("_Filter", filter);
@@ -864,7 +829,7 @@ WriteLiteral("</a></li>\r\n");
 WriteLiteral("        </ul>\r\n");
 
             
-            #line 151 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
+            #line 160 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
     }
 
             

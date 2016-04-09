@@ -20,8 +20,7 @@ namespace Ilaro.Admin.Models
             KeyValue = new List<string>();
         }
 
-        public DataRow(
-            EntityRecord entityRecord)
+        public DataRow(EntityRecord entityRecord)
             : this()
         {
             foreach (var propertyValue in entityRecord.Values)
@@ -88,7 +87,7 @@ namespace Ilaro.Admin.Models
                         (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
                 {
                     var propertyInfo = entity.Type.GetProperty(cellValue.Property.Name);
-                    propertyInfo.SetValue(instance, cellValue.Raw);
+                    propertyInfo.SetValue(instance, cellValue.AsObject);
                 }
 
                 var result = methodInfo.Invoke(instance, null);

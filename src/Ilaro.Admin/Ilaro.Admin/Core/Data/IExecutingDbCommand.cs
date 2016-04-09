@@ -7,7 +7,7 @@ namespace Ilaro.Admin.Core.Data
     {
         object ExecuteWithChanges(
             DbCommand cmd, 
-            string entityName, 
+            EntityRecord entityRecord, 
             EntityChangeType changeType, 
             Func<string> changeDescriber = null);
     }

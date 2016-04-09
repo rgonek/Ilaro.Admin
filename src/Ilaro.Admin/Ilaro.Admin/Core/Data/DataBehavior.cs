@@ -2,6 +2,7 @@
 {
     public enum DataBehavior
     {
+        None,
         Skip,
         Clear
     }

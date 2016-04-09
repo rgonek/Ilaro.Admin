@@ -58,10 +58,13 @@ namespace Ilaro.Admin.Extensions
             string searchQuery,
             int perPage)
         {
+            var entityName = entity == null ?
+                null :
+                entity.Name;
             var routeValues = new Dictionary<string, object>
             {
                 { "area", "IlaroAdmin" }, 
-                { "EntityName", entity.Name }, 
+                { "EntityName", entityName }, 
                 { "pp", perPage }
             };
             if (!searchQuery.IsNullOrEmpty())

@@ -13,6 +13,8 @@ namespace Ilaro.Admin.Tests.TestModels.Northwind
 
         public EntityChangeType ChangeType { get; set; }
 
+        public string RecordDisplayName { get; set; }
+
         public string Description { get; set; }
 
         public DateTime ChangedOn { get; set; }

@@ -157,6 +157,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_PropertyEditor.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Group\_LastChanges.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_LastChanges.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.generated.cs">
       <DependentUpon>DbImagePartial.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -204,11 +209,13 @@
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
     <Compile Include="Core\Data\ChangesDescriber.cs" />
+    <Compile Include="Core\Data\RecordsService.cs" />
     <Compile Include="Core\Data\DataBehaviorExtensions.cs" />
     <Compile Include="Core\Data\DataBehavior.cs" />
     <Compile Include="Core\Data\DB.cs" />
     <Compile Include="Core\Data\DbCommandExecutor.cs" />
     <Compile Include="Core\Data\DefaultValueBehavior.cs" />
+    <Compile Include="Core\Data\IRecordsService.cs" />
     <Compile Include="Core\Data\IComparingRecords.cs" />
     <Compile Include="Core\Data\ICreatingRecords.cs" />
     <Compile Include="Core\Data\IDeletingRecords.cs" />
@@ -302,6 +309,7 @@
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
     <Compile Include="IIlaroAdmin.cs" />
     <Compile Include="Logging.cs" />
+    <Compile Include="Models\ChangeRow.cs" />
     <Compile Include="Models\EntityEditModel.cs" />
     <Compile Include="Models\Paging\IPagedList.cs" />
     <Compile Include="Models\Paging\PagedList.cs" />
@@ -523,7 +531,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Messages.cshtml</DependentUpon>
     </Compile>
-    <Compile Include="Areas\IlaroAdmin\Views\Shared\_Paging.generated.cs">
+    <Compile Include="Areas\IlaroAdmin\Views\Entities\_Paging.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>_Paging.cshtml</DependentUpon>
@@ -701,7 +709,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\IlaroAdmin\Views\Shared\_Paging.cshtml">
+    <Content Include="Areas\IlaroAdmin\Views\Entities\_Paging.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_Paging.generated.cs</LastGenOutput>
     </Content>
@@ -793,6 +801,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\IlaroAdmin\Views\Group\_LastChanges.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_LastChanges.generated.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

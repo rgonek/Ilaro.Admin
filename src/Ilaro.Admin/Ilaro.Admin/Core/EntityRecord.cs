@@ -4,6 +4,7 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -87,7 +88,7 @@ namespace Ilaro.Admin.Core
 
                     if (isDeleted)
                     {
-                        propertyValue.Raw = DataBehavior.Clear;
+                        propertyValue.DataBehavior = DataBehavior.Clear;
                         propertyValue.Additional = null;
                     }
                 }
@@ -146,7 +147,7 @@ namespace Ilaro.Admin.Core
             SetKeyValue(key);
         }
 
-        internal void Fill(HttpRequestBase request)
+        internal void Fill(NameValueCollection request)
         {
             foreach (var property in Entity.Properties)
             {
@@ -157,7 +158,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        private void SetKeyValue(string key)
+        public void SetKeyValue(string key)
         {
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
             for (int i = 0; i < keys.Length; i++)
@@ -172,6 +173,7 @@ namespace Ilaro.Admin.Core
 
             foreach (var propertyValue in Values
                 .Where(value =>
+                    value.Raw != null &&
                     !value.Property.IsForeignKey ||
                     (value.Property.IsForeignKey && value.Property.TypeInfo.IsSystemType)))
             {

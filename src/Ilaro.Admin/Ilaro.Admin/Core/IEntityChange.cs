@@ -16,15 +16,16 @@ namespace Ilaro.Admin.Core
 
         EntityChangeType ChangeType { get; set; }
 
+        string RecordDisplayName { get; set; }
+
         /// <summary>
         /// Used only for update type. 
-        /// Concrete information about what was updated.
+        /// Information about what was updated.
         /// </summary>
         string Description { get; set; }
 
         DateTime ChangedOn { get; set; }
 
-        // TODO: smarter way to get user identificator
         string ChangedBy { get; set; }
     }
 }

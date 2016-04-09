@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ilaro.Admin.Extensions;
 using System.Globalization;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Core
 {
@@ -9,6 +10,7 @@ namespace Ilaro.Admin.Core
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(PropertyValue));
 
+        public DataBehavior DataBehavior { get; set; }
         public object Raw { get; set; }
         public object Additional { get; set; }
         public List<object> Values { get; set; }
@@ -68,6 +70,8 @@ namespace Ilaro.Admin.Core
                 if (Property.TypeInfo.IsNullable)
                     return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType, CultureInfo.CurrentCulture);
                 if (Property.TypeInfo.IsFile)
+                    return null;
+                if (Raw == null)
                     return null;
 
                 return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);

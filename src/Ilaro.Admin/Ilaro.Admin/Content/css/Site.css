@@ -348,3 +348,13 @@ input[type="checkbox"].input-validation-error {
     max-height: 400px;
     overflow: auto;
 }
+
+#changes-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    #changes-list li {
+        margin-top: 5px;
+    }

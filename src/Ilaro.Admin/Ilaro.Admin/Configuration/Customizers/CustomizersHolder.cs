@@ -214,7 +214,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.Description = propertyCustomizer.Description;
 
                 property.CascadeOption = propertyCustomizer.CascadeOption
-                    .GetValueOrDefault(CascadeOption.AskUser);
+                    .GetValueOrDefault(CascadeOption.Nothing);
                 if (propertyCustomizer.DataType.HasValue)
                 {
                     property.TypeInfo.SourceDataType = propertyCustomizer.SourceDataType;

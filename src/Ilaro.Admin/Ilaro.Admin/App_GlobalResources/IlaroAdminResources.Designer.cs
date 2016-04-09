@@ -277,6 +277,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last.
+        /// </summary>
+        internal static string Last {
+            get {
+                return ResourceManager.GetString("Last", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last half a year.
         /// </summary>
         internal static string LastHalfAYear {
@@ -336,6 +345,15 @@ namespace Resources {
         internal static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No changes were made..
+        /// </summary>
+        internal static string NoChanges {
+            get {
+                return ResourceManager.GetString("NoChanges", resourceCulture);
             }
         }
         

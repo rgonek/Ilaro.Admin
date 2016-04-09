@@ -177,6 +177,8 @@ namespace Ilaro.Admin.Core.Data
             bool getKey = true,
             string key = null)
         {
+            var creatableProperties = entityRecord.Entity
+                .GetDefaultCreateProperties(getKey);
             foreach (var foreignValue in entityRecord.Values
                 .Where(value => value.Property.IsForeignKey))
             {
@@ -192,7 +194,9 @@ namespace Ilaro.Admin.Core.Data
                 }
             }
 
-            var groups = entityRecord.Values.GroupBy(x => x.Property.Group)
+            var groups = entityRecord.Values
+                .Where(value => creatableProperties.Contains(value.Property))
+                .GroupBy(x => x.Property.Group)
                 .Select(x => new GroupProperties
                 {
                     GroupName = x.FirstOrDefault().Property.Group,

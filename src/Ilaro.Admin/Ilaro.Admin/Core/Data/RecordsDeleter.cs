@@ -50,7 +50,7 @@ namespace Ilaro.Admin.Core.Data
 
                 var result = _executor.ExecuteWithChanges(
                     cmd,
-                    entityRecord.Entity.Name,
+                    entityRecord,
                     EntityChangeType.Delete,
                     changeDescriber);
 

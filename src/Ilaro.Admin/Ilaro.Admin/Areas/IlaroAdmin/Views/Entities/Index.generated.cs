@@ -250,25 +250,39 @@ WriteLiteral("</button>\r\n                </span>\r\n            </div>\r\n");
             #line hidden
 WriteLiteral("\r\n");
 
-WriteLiteral("    ");
-
             
             #line 40 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-Write(Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" }));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n\r\n");
-
-            
-            #line 42 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
     
             
             #line default
             #line hidden
             
+            #line 40 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+     if (Model.ChangeEnabled)
+    {
+        
+            
+            #line default
+            #line hidden
+            
             #line 42 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+   Write(Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.Entity.Name }, new { @class = "btn btn-link pull-left" }));
+
+            
+            #line default
+            #line hidden
+            
+            #line 42 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+                                                                                                                                                   
+    }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    ");
+
+            
+            #line 44 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
      if (Model.Entity.AllowAdd)
     {
 
@@ -277,14 +291,14 @@ WriteLiteral("\r\n\r\n");
             #line hidden
 WriteLiteral("        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 1954), Tuple.Create("\"", 2053)
+WriteAttribute("href", Tuple.Create(" href=\"", 2001), Tuple.Create("\"", 2100)
             
-            #line 44 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 1961), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
+            #line 46 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 2008), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 1961), false)
+, 2008), false)
 );
 
 WriteLiteral(" class=\"btn btn-primary pull-right\"");
@@ -296,7 +310,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span> ");
 
             
-            #line 44 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 46 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                                             Write(IlaroAdminResources.Add);
 
             
@@ -305,7 +319,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 45 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 47 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
     }
 
             
@@ -352,13 +366,13 @@ WriteLiteral(">\r\n    <thead>\r\n        <tr>\r\n            ");
 WriteLiteral("\r\n");
 
             
-            #line 59 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 61 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 59 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 61 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
              foreach (var column in Model.Columns)
             {
 
@@ -368,7 +382,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                <th>\r\n                    <span ");
 
             
-            #line 62 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 64 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                      Write(Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\""));
 
             
@@ -379,7 +393,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("                        ");
 
             
-            #line 63 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 65 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                    Write(Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage));
 
             
@@ -387,22 +401,22 @@ WriteLiteral("                        ");
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3140), Tuple.Create("\"", 3197)
-, Tuple.Create(Tuple.Create("", 3148), Tuple.Create("glyphicon", 3148), true)
-, Tuple.Create(Tuple.Create(" ", 3157), Tuple.Create("glyphicon-chevron-", 3158), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3187), Tuple.Create("\"", 3244)
+, Tuple.Create(Tuple.Create("", 3195), Tuple.Create("glyphicon", 3195), true)
+, Tuple.Create(Tuple.Create(" ", 3204), Tuple.Create("glyphicon-chevron-", 3205), true)
             
-            #line 64 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3176), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+            #line 66 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3223), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 3176), false)
+, 3223), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
 
             
-            #line 67 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 69 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
             }
 
             
@@ -411,7 +425,7 @@ WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n"
 WriteLiteral("            ");
 
             
-            #line 68 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 70 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
              if (Model.Entity.LinksCount() > 0)
             {
 
@@ -420,20 +434,20 @@ WriteLiteral("            ");
             #line hidden
 WriteLiteral("                <th");
 
-WriteAttribute("colspan", Tuple.Create(" colspan=\"", 3355), Tuple.Create("\"", 3391)
+WriteAttribute("colspan", Tuple.Create(" colspan=\"", 3402), Tuple.Create("\"", 3438)
             
-            #line 70 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3365), Tuple.Create<System.Object, System.Int32>(Model.Entity.LinksCount()
+            #line 72 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3412), Tuple.Create<System.Object, System.Int32>(Model.Entity.LinksCount()
             
             #line default
             #line hidden
-, 3365), false)
+, 3412), false)
 );
 
 WriteLiteral("></th>\r\n");
 
             
-            #line 71 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 73 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
             }
 
             
@@ -442,13 +456,13 @@ WriteLiteral("></th>\r\n");
 WriteLiteral("        </tr>\r\n    </thead>\r\n    <tbody>\r\n");
 
             
-            #line 75 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 77 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 75 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 77 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
          foreach (var row in Model.Data)
         {
 
@@ -460,13 +474,13 @@ WriteLiteral("            <tr>\r\n                ");
 WriteLiteral("\r\n");
 
             
-            #line 79 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 81 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                 
             
             #line default
             #line hidden
             
-            #line 79 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 81 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                  foreach (var item in row.Values)
                 {
 
@@ -476,7 +490,7 @@ WriteLiteral("\r\n");
 WriteLiteral("                    <td>");
 
             
-            #line 81 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 83 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                    Write(Html.DisplayFor(m => item, item.Property.Template.Display));
 
             
@@ -485,7 +499,7 @@ WriteLiteral("                    <td>");
 WriteLiteral("</td>\r\n");
 
             
-            #line 82 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 84 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                 }
 
             
@@ -494,7 +508,7 @@ WriteLiteral("</td>\r\n");
 WriteLiteral("                ");
 
             
-            #line 83 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 85 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                  if (!Model.Entity.Links.Display.IsNullOrEmpty())
                 {
 
@@ -507,14 +521,14 @@ WriteLiteral(" class=\"min-width\"");
 
 WriteLiteral(">\r\n                        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3940), Tuple.Create("\"", 4009)
+WriteAttribute("href", Tuple.Create(" href=\"", 3987), Tuple.Create("\"", 4056)
             
-            #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3947), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Display, row.JoinedKeyValue)
+            #line 88 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3994), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Display, row.JoinedKeyValue)
             
             #line default
             #line hidden
-, 3947), false)
+, 3994), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link\"");
@@ -526,7 +540,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-eye-open\"");
 WriteLiteral("></span> ");
 
             
-            #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 88 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                            Write(IlaroAdminResources.View);
 
             
@@ -535,7 +549,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n                    </td>\r\n");
 
             
-            #line 88 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 90 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                 }
 
             
@@ -544,7 +558,7 @@ WriteLiteral("</a>\r\n                    </td>\r\n");
 WriteLiteral("                ");
 
             
-            #line 89 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 91 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                  if (Model.Entity.AllowEdit)
                 {
 
@@ -558,13 +572,13 @@ WriteLiteral(" class=\"min-width\"");
 WriteLiteral(">\r\n");
 
             
-            #line 92 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 92 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                          if (!Model.Entity.Links.Edit.IsNullOrEmpty())
                         {
 
@@ -573,14 +587,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4405), Tuple.Create("\"", 4471)
+WriteAttribute("href", Tuple.Create(" href=\"", 4452), Tuple.Create("\"", 4518)
             
-            #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 4412), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Edit, row.JoinedKeyValue)
+            #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 4459), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Edit, row.JoinedKeyValue)
             
             #line default
             #line hidden
-, 4412), false)
+, 4459), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link\"");
@@ -592,7 +606,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-edit\"");
 WriteLiteral("></span> ");
 
             
-            #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                         Write(IlaroAdminResources.Edit);
 
             
@@ -601,7 +615,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 95 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 97 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         }
                         else
                         {
@@ -611,14 +625,14 @@ WriteLiteral("</a>\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 4693), Tuple.Create("\"", 4816)
+WriteAttribute("href", Tuple.Create(" href=\"", 4740), Tuple.Create("\"", 4863)
             
-            #line 98 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 4700), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })
+            #line 100 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 4747), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })
             
             #line default
             #line hidden
-, 4700), false)
+, 4747), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link\"");
@@ -630,7 +644,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-edit\"");
 WriteLiteral("></span> ");
 
             
-            #line 98 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 100 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                                                                                  Write(IlaroAdminResources.Edit);
 
             
@@ -639,7 +653,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 99 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 101 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         }
 
             
@@ -648,7 +662,7 @@ WriteLiteral("</a>\r\n");
 WriteLiteral("                    </td>\r\n");
 
             
-            #line 101 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 103 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                 }
 
             
@@ -657,7 +671,7 @@ WriteLiteral("                    </td>\r\n");
 WriteLiteral("                ");
 
             
-            #line 102 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 104 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                  if (Model.Entity.AllowDelete)
                 {
 
@@ -671,13 +685,13 @@ WriteLiteral(" class=\"min-width\"");
 WriteLiteral(">\r\n");
 
             
-            #line 105 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 107 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         
             
             #line default
             #line hidden
             
-            #line 105 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 107 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                          if (!Model.Entity.Links.Delete.IsNullOrEmpty())
                         {
 
@@ -686,14 +700,14 @@ WriteLiteral(">\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 5239), Tuple.Create("\"", 5307)
+WriteAttribute("href", Tuple.Create(" href=\"", 5286), Tuple.Create("\"", 5354)
             
-            #line 107 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 5246), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Delete, row.JoinedKeyValue)
+            #line 109 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 5293), Tuple.Create<System.Object, System.Int32>(string.Format(Model.Entity.Links.Delete, row.JoinedKeyValue)
             
             #line default
             #line hidden
-, 5246), false)
+, 5293), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link text-danger\"");
@@ -705,7 +719,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 WriteLiteral("></span> ");
 
             
-            #line 107 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 109 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                                         Write(IlaroAdminResources.Delete);
 
             
@@ -714,7 +728,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 108 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 110 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         }
                         else
                         {
@@ -724,14 +738,14 @@ WriteLiteral("</a>\r\n");
             #line hidden
 WriteLiteral("                            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 5545), Tuple.Create("\"", 5670)
+WriteAttribute("href", Tuple.Create(" href=\"", 5592), Tuple.Create("\"", 5717)
             
-            #line 111 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 5552), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })
+            #line 113 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 5599), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })
             
             #line default
             #line hidden
-, 5552), false)
+, 5599), false)
 );
 
 WriteLiteral(" class=\"btn btn-xs btn-link text-danger\"");
@@ -743,7 +757,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-remove\"");
 WriteLiteral("></span> ");
 
             
-            #line 111 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 113 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                                                                                                                  Write(IlaroAdminResources.Delete);
 
             
@@ -752,7 +766,7 @@ WriteLiteral("></span> ");
 WriteLiteral("</a>\r\n");
 
             
-            #line 112 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 114 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                         }
 
             
@@ -761,7 +775,7 @@ WriteLiteral("</a>\r\n");
 WriteLiteral("                    </td>\r\n");
 
             
-            #line 114 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 116 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                 }
 
             
@@ -770,7 +784,7 @@ WriteLiteral("                    </td>\r\n");
 WriteLiteral("            </tr>\r\n");
 
             
-            #line 116 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 118 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
         }
 
             
@@ -789,13 +803,13 @@ WriteLiteral(" style=\"margin-right:10px\"");
 WriteLiteral(">\r\n");
 
             
-            #line 122 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 124 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 122 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 124 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
          using (Html.BeginForm("Index", "Entities", new { area = "IlaroAdmin", page = Model.Pager.Current }, FormMethod.Get, new { @class = "form-inline" }))
         {
             foreach (var filter in Model.ActiveFilters)
@@ -805,14 +819,14 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 126 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
            Write(Html.Hidden(filter.Property.Name, filter.Value));
 
             
             #line default
             #line hidden
             
-            #line 126 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                 
             }
             
@@ -820,56 +834,56 @@ WriteLiteral(">\r\n");
             #line default
             #line hidden
             
-            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 130 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
        Write(Html.Hidden("entityName", Model.Entity.Name));
 
             
             #line default
             #line hidden
             
-            #line 128 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 130 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                          
             
             
             #line default
             #line hidden
             
-            #line 129 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
        Write(Html.Hidden(Model.Configuration.SearchQueryRequestName, Model.TableInfo.SearchQuery));
 
             
             #line default
             #line hidden
             
-            #line 129 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                  
             
             
             #line default
             #line hidden
             
-            #line 130 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 132 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderRequestName, Model.TableInfo.Order));
 
             
             #line default
             #line hidden
             
-            #line 130 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 132 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                      
             
             
             #line default
             #line hidden
             
-            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 133 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
        Write(Html.Hidden(Model.Configuration.OrderDirectionRequestName, Model.TableInfo.OrderDirection));
 
             
             #line default
             #line hidden
             
-            #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 133 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                        
 
             
@@ -881,14 +895,14 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 6735), Tuple.Create("\"", 6780)
+WriteAttribute("for", Tuple.Create(" for=\"", 6782), Tuple.Create("\"", 6827)
             
-            #line 133 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 6741), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
+            #line 135 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 6788), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
             
             #line default
             #line hidden
-, 6741), false)
+, 6788), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -896,7 +910,7 @@ WriteLiteral(" class=\"control-label\"");
 WriteLiteral(">");
 
             
-            #line 133 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 135 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                       Write(IlaroAdminResources.OnPage);
 
             
@@ -907,7 +921,7 @@ WriteLiteral("</label>\r\n");
 WriteLiteral("                ");
 
             
-            #line 134 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 136 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
            Write(Html.DropDownList(Model.Configuration.PerPageRequestName,
                  new SelectList(new Dictionary<int, int> { { 5, 5 }, { 10, 10 }, { 15, 15 }, { 20, 20 }, { 25, 25 }, { 50, 50 }, { 100, 100 } }, "Key", "Value", Model.TableInfo.PerPage),
                  new Dictionary<string, object> { { "class", "autoPostBack form-control" }, { "id", "per-page-entity" } }));
@@ -918,7 +932,7 @@ WriteLiteral("                ");
 WriteLiteral("\r\n            </div>\r\n");
 
             
-            #line 138 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 140 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
         }
 
             
@@ -933,13 +947,13 @@ WriteLiteral(" style=\"margin-right:10px\"");
 WriteLiteral(">\r\n");
 
             
-            #line 142 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 144 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 142 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 144 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
           Html.RenderPartial("_Paging", Model.Pager);
             
             #line default
@@ -955,7 +969,7 @@ WriteLiteral(">\r\n");
 WriteLiteral("        ");
 
             
-            #line 146 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 148 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
    Write(IlaroAdminResources.Founded);
 
             
@@ -964,7 +978,7 @@ WriteLiteral("        ");
 WriteLiteral(" <strong>");
 
             
-            #line 146 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 148 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                         Write(Model.Pager.TotalItems);
 
             
@@ -977,13 +991,13 @@ DefineSection("Sidebar", () => {
 WriteLiteral("\r\n");
 
             
-            #line 152 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 152 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
      if (Model.Filters.Count > 0)
     {
 
@@ -993,7 +1007,7 @@ WriteLiteral("\r\n");
 WriteLiteral("        <h2>");
 
             
-            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 156 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
        Write(IlaroAdminResources.Filters);
 
             
@@ -1007,20 +1021,20 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 7717), Tuple.Create("\"", 7845)
+WriteAttribute("href", Tuple.Create(" href=\"", 7764), Tuple.Create("\"", 7892)
             
-            #line 156 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 7724), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name, page = Model.Pager.Current })
+            #line 158 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 7771), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name, page = Model.Pager.Current })
             
             #line default
             #line hidden
-, 7724), false)
+, 7771), false)
 );
 
 WriteLiteral(">");
 
             
-            #line 156 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 158 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
                                                                                                                                                Write(IlaroAdminResources.RemoveFilters);
 
             
@@ -1029,13 +1043,13 @@ WriteLiteral(">");
 WriteLiteral("</a></li>\r\n");
 
             
-            #line 157 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 159 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
             
             
             #line default
             #line hidden
             
-            #line 157 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 159 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
              foreach (var filter in Model.Filters)
             {
                 Html.RenderPartial("_Filter", filter);
@@ -1047,7 +1061,7 @@ WriteLiteral("</a></li>\r\n");
 WriteLiteral("        </ul>\r\n");
 
             
-            #line 162 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 164 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
     }
 
             

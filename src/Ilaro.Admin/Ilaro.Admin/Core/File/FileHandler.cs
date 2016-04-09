@@ -52,7 +52,7 @@ namespace Ilaro.Admin.Core.File
             foreach (var propertyValue in entityRecord.Values
                 .Where(value => value.Property.TypeInfo.IsFile))
             {
-                if (propertyValue.Raw.IsBehavior(DataBehavior.Clear))
+                if (propertyValue.DataBehavior == DataBehavior.Clear)
                 {
                     propertyValue.Raw = defaultValueResolver(propertyValue.Property);
                     proccessedProperties.Add(propertyValue);
@@ -61,7 +61,7 @@ namespace Ilaro.Admin.Core.File
                 var file = (HttpPostedFileWrapper)propertyValue.Raw;
                 if (file == null || file.ContentLength == 0)
                 {
-                    propertyValue.Raw = DataBehavior.Skip;
+                    propertyValue.DataBehavior = DataBehavior.Skip;
                     continue;
                 }
 

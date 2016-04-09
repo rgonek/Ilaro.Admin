@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ChangeRow>
+
+<h3>@IlaroAdminResources.Last @Html.ActionLink(IlaroAdminResources.Changes, "Changes", "Entities", new { area = "IlaroAdmin" }, null)</h3>
+@if (Model.Any())
+{
+    <ul id="changes-list">
+        @foreach (var change in Model)
+                {
+
+            <li>
+                @ChangeType(change.ChangeType)
+                @DisplayName(change)
+                (<span class="text-muted">@change.EntityName</span>)
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>@IlaroAdminResources.NoChanges</p>
+}
+
+@helper ChangeType(EntityChangeType changeType)
+{
+    switch (changeType)
+    {
+        case EntityChangeType.Insert:
+                <span class="glyphicon glyphicon-plus text-success"></span>
+            break;
+        case EntityChangeType.Update:
+                <span class="glyphicon glyphicon-edit text-info"></span>
+            break;
+        case EntityChangeType.Delete:
+                <span class="glyphicon glyphicon-remove text-danger"></span>
+            break;
+    }
+}
+
+@helper DisplayName(ChangeRow change)
+{
+    if (change.ChangeType == EntityChangeType.Delete)
+    {
+        <text>@change.RecordDisplayName</text>
+    }
+    else
+    {
+        <text>@Html.ActionLink(change.RecordDisplayName.GetValueOrDefault("_"), "Edit", "Entity", new { area = "IlaroAdmin", entityName = change.EntityName, key = change.EntityKey }, null)</text>
+    }
+}

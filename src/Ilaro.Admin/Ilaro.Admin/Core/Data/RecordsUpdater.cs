@@ -46,10 +46,9 @@ namespace Ilaro.Admin.Core.Data
             {
                 var cmd = CreateCommand(entityRecord);
 
-                // TODO: get info about changed properties
                 var result = _executor.ExecuteWithChanges(
                     cmd,
-                    entityRecord.Entity.Name,
+                    entityRecord,
                     EntityChangeType.Update,
                     changeDescriber);
 

@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Core.Data
 
         public object ExecuteWithChanges(
             DbCommand cmd,
-            string entityName,
+            EntityRecord entityRecord,
             EntityChangeType changeType,
             Func<string> changeDescriber = null)
         {
@@ -43,7 +43,7 @@ namespace Ilaro.Admin.Core.Data
                     {
                         if (_admin.IsChangesEnabled)
                         {
-                            var changeCmd = CreateChangeCommand(entityName, changeType, result.ToString(), changeDescriber);
+                            var changeCmd = CreateChangeCommand(entityRecord, changeType, result.ToString(), changeDescriber);
                             _log.DebugFormat("Executing change command: \r\n {0}", changeCmd.CommandText);
                             changeCmd.Connection = conn;
                             changeCmd.Transaction = tx;
@@ -82,20 +82,36 @@ namespace Ilaro.Admin.Core.Data
         }
 
         private DbCommand CreateChangeCommand(
-            string entityName,
+            EntityRecord entityRecord,
             EntityChangeType changeType,
             string keyValue,
             Func<string> changeDescriber = null)
         {
+            if(changeType == EntityChangeType.Insert)
+            {
+                entityRecord.SetKeyValue(keyValue);
+            }
+
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
 
-            var sql =
-@"INSERT INTO {0} ([EntityName], [EntityKey], [ChangeType], [Description], [ChangedOn], [ChangedBy])
-VALUES (@0,@1,@2,@3,@4,@5);".Fill(_admin.ChangeEntity.Table);
+            var changeEntity = _admin.ChangeEntity;
+            var table = changeEntity.Table;
+            var entityNameColumn = changeEntity["EntityName"].Column;
+            var entityKeyColumn = changeEntity["EntityKey"].Column;
+            var changeTypeColumn = changeEntity["ChangeType"].Column;
+            var recordDisplayColumn = changeEntity["RecordDisplayName"].Column;
+            var descriptionColumn = changeEntity["Description"].Column;
+            var changedOnColumn = changeEntity["ChangedOn"].Column;
+            var changedByColumn = changeEntity["ChangedBy"].Column;
 
-            cmd.AddParam(entityName);
+            var sql =
+$@"INSERT INTO {table} ({entityNameColumn}, {entityKeyColumn}, {changeTypeColumn}, {recordDisplayColumn}, {descriptionColumn}, {changedOnColumn}, {changedByColumn})
+VALUES (@0,@1,@2,@3,@4,@5,@6);";
+
+            cmd.AddParam(entityRecord.Entity.Name);
             cmd.AddParam(keyValue);
             cmd.AddParam(changeType);
+            cmd.AddParam(entityRecord.ToString());
             cmd.AddParam(changeDescriber == null ? null : changeDescriber());
             cmd.AddParam(DateTime.UtcNow);
             cmd.AddParam(_user.CurrentUserName());

@@ -2,23 +2,36 @@
 
 @{
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = IlaroAdminResources.Changes + " " + Model.EntityChangesFor.Verbose.Plural;
+    if (Model.EntityChangesFor != null)
+    {
+        ViewBag.Title = Model.EntityChangesFor.Verbose.Plural + " " + IlaroAdminResources.Changes;
+    }
+    else
+    {
+        ViewBag.Title = IlaroAdminResources.Changes;
+    }
 }
 
 @section Breadcrumb
 {
     <ul class="breadcrumb">
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
-        <li>@Html.ActionLink(Model.EntityChangesFor.Verbose.Plural, "Index", new { entityName = Model.Entity.Name })</li>
-        @if (Model.Key.IsNullOrWhiteSpace())
+        @if (Model.EntityChangesFor == null)
         {
             <li class="active">@IlaroAdminResources.Changes</li>
         }
         else
         {
-            <li>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" })</li>
-            <li class="active">@Model.Key</li>
+            <li>@Html.ActionLink(IlaroAdminResources.Changes, "Changes", new { entityName = "", key = "" })</li>
+            if (Model.Key.IsNullOrWhiteSpace())
+            {
+                <li class="active">@Model.EntityChangesFor.Name</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(Model.EntityChangesFor.Name, "Changes", new { entityName = Model.EntityChangesFor.Name, key = "" })</li>
+                <li class="active">@Model.Key</li>
+            }
         }
     </ul>
 }
@@ -61,7 +74,7 @@
             {
                 <th>
                     <span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
-                        @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
+                        @Html.SortColumnLink(Model.EntityChangesFor, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
                         <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
                     </span>
                 </th>
@@ -69,38 +82,34 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var row in Model.Data)
+        @foreach (var row in Model.ChangeData)
         {
             <tr>
-                @foreach (var item in row.Values)
-                {
-                    <td>
-                        @if (item.Property.Name == "EntityName")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = item.AsString, key = "" })
-                        }
-                        else if (item.Property.Name == "EntityKey")
-                        {
-                            <a href="@Url.Action("Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = item.AsString })">@item.AsString</a>
-                        }
-                        else if (item.Property.Name == "ChangedOn")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedOn = ((DateTime)item.AsObject).Date.ToString("yyyy.MM.dd") })
-                        }
-                        else if (item.Property.Name == "ChangedBy")
-                        {
-                            @Html.ActionLink(item.AsString, "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangedBy = item.AsString })
-                        }
-                        else if (item.Property.Name == "ChangeType")
-                        {
-                            @Html.ActionLink(item.AsObject.ToString(), "Changes", new { entityName = row.Values.FirstOrDefault(x => x.Property.Name == "EntityName").AsString, key = Model.Key, ChangeType = item.AsString })
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(m => item, item.Property.Template.Display)
-                        }
-                    </td>
-                }
+                <td>
+                    @row.EntityChangeId
+                </td>
+                <td>
+                    @Html.ActionLink(row.EntityName, "Changes", new { entityName = row.EntityName, key = "" })
+                </td>
+                <td>
+                    @Html.ActionLink(row.EntityKey, "Changes", new { entityName = row.EntityName, key = row.EntityKey })
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangeTypeString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangeType = row.ChangeType.ToString() })
+                </td>
+                <td>
+                    @row.RecordDisplayName
+                </td>
+                <td>
+                    @row.Description
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangedOnString, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedOn = row.ChangedOn.ToString("yyyy.MM.dd") })
+                </td>
+                <td>
+                    @Html.ActionLink(row.ChangedBy, "Changes", new { entityName = row.EntityName, key = Model.Key, ChangedBy = row.ChangedBy })
+                </td>
+                
             </tr>
         }
     </tbody>

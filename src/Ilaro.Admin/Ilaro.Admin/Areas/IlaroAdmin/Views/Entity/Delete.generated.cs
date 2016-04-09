@@ -315,6 +315,15 @@ Write(Model.EntityRecord.Entity.Verbose.Singular);
             
             #line default
             #line hidden
+WriteLiteral(" - ");
+
+            
+            #line 17 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
+                                             Write(Model.EntityRecord.ToString());
+
+            
+            #line default
+            #line hidden
 WriteLiteral("</h2>\r\n\r\n");
 
             
@@ -438,14 +447,14 @@ WriteLiteral(" ");
             #line hidden
 WriteLiteral(">\r\n            <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 1635), Tuple.Create("\"", 1704)
+WriteAttribute("for", Tuple.Create(" for=\"", 1668), Tuple.Create("\"", 1737)
             
             #line 35 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1641), Tuple.Create<System.Object, System.Int32>(Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)
+, Tuple.Create(Tuple.Create("", 1674), Tuple.Create<System.Object, System.Int32>(Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)
             
             #line default
             #line hidden
-, 1641), false)
+, 1674), false)
 );
 
 WriteLiteral(" class=\"control-label col-md-2\"");
@@ -608,14 +617,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2988), Tuple.Create("\"", 3014)
+WriteAttribute("href", Tuple.Create(" href=\"", 3021), Tuple.Create("\"", 3047)
             
             #line 65 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 2995), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
+, Tuple.Create(Tuple.Create("", 3028), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
             
             #line default
             #line hidden
-, 2995), false)
+, 3028), false)
 );
 
 WriteLiteral(" class=\"btn btn-default\"");
@@ -635,14 +644,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3126), Tuple.Create("\"", 3200)
+WriteAttribute("href", Tuple.Create(" href=\"", 3159), Tuple.Create("\"", 3233)
             
             #line 66 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 3133), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
+, Tuple.Create(Tuple.Create("", 3166), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
             
             #line default
             #line hidden
-, 3133), false)
+, 3166), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
