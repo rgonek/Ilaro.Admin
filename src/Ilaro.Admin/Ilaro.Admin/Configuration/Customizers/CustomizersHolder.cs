@@ -231,6 +231,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.Format = propertyCustomizer.Format;
                 property.IsRequired = propertyCustomizer.IsRequired;
                 property.RequiredErrorMessage = propertyCustomizer.RequiredErrorMessage;
+                if (propertyCustomizer.Validators.IsNullOrEmpty() == false)
+                    property.Validators = propertyCustomizer.Validators.ToList();
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
