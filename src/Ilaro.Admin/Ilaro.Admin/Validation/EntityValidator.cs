@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Validation
 {
@@ -34,20 +35,23 @@ namespace Ilaro.Admin.Validation
                     if (result == false)
                         isValid = false;
                 }
-                foreach (var validator in propertyValue.Property.Validators)
+                if (propertyValue.Property.Validators.IsNullOrEmpty() == false)
                 {
-                    try
+                    foreach (var validator in propertyValue.Property.Validators)
                     {
-                        validator.Validate(propertyValue.Raw, context);
-                    }
-                    catch (ValidationException ex)
-                    {
-                        isValid = false;
-                        _notificator.AddModelError(propertyValue.Property.Name, ex.Message);
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex);
+                        try
+                        {
+                            validator.Validate(propertyValue.Raw, context);
+                        }
+                        catch (ValidationException ex)
+                        {
+                            isValid = false;
+                            _notificator.AddModelError(propertyValue.Property.Name, ex.Message);
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Error(ex);
+                        }
                     }
                 }
             }
