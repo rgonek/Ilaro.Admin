@@ -37,6 +37,7 @@ namespace Ilaro.Admin.Validation
                 }
                 if (propertyValue.Property.Validators.IsNullOrEmpty() == false)
                 {
+                    context.DisplayName = propertyValue.Property.Display;
                     foreach (var validator in propertyValue.Property.Validators)
                     {
                         try
