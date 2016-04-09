@@ -76,7 +76,7 @@ namespace Ilaro.Admin.Core.Data
             entityRecord.Fill(collection, files, x => x.OnCreateDefaultValue);
             if (_validator.Validate(entityRecord) == false)
             {
-                _notificator.Error("Not valid");
+                _notificator.Error(IlaroAdminResources.RecordNotValid);
                 return null;
             }
             var existingRecord = _source.GetRecord(
@@ -121,7 +121,7 @@ namespace Ilaro.Admin.Core.Data
             entityRecord.Fill(key, collection, files, x => x.OnUpdateDefaultValue);
             if (_validator.Validate(entityRecord) == false)
             {
-                _notificator.Error("Not valid");
+                _notificator.Error(IlaroAdminResources.RecordNotValid);
                 return false;
             }
 

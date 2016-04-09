@@ -231,6 +231,9 @@
   <data name="PreviousPage" xml:space="preserve">
     <value>«</value>
   </data>
+  <data name="RecordNotValid" xml:space="preserve">
+    <value>Record is not valid. Please fix the errors.</value>
+  </data>
   <data name="RemoveFilters" xml:space="preserve">
     <value>Remove filters</value>
   </data>
