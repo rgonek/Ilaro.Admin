@@ -1,8 +1,10 @@
-﻿using System;
-using Ilaro.Admin.Core;
-using Ilaro.Admin.DataAnnotations;
-using System.Collections.Generic;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -96,7 +98,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             propertyCustomizerHolder.FileOptions.Path = path;
             propertyCustomizerHolder.FileOptions.AllowedFileExtensions = allowedFileExtensions;
 
-            return Type(isImage ? DataType.Image : DataType.File);
+            return Type(isImage ? Core.DataType.Image : Core.DataType.File);
         }
 
         public IPropertyCustomizer ForeignKey(string name)
@@ -134,7 +136,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             propertyCustomizerHolder.FileOptions.Settings.Add(new ImageSettings(path, width, height));
 
-            return Type(DataType.Image);
+            return Type(Core.DataType.Image);
         }
 
         public IPropertyCustomizer Cascade(CascadeOption deleteOption)
@@ -167,7 +169,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Type(DataType dataType)
+        public IPropertyCustomizer Type(Core.DataType dataType)
         {
             propertyCustomizerHolder.DataType = dataType;
 
@@ -185,12 +187,28 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             propertyCustomizerHolder.EnumType = enumType;
 
-            return Type(DataType.Enum);
+            return Type(Core.DataType.Enum);
         }
 
         public IPropertyCustomizer Visible()
         {
             propertyCustomizerHolder.IsVisible = true;
+
+            return this;
+        }
+
+        public IPropertyCustomizer Validators(
+            IEnumerable<ValidationAttribute> validators)
+        {
+            if (propertyCustomizerHolder.Validators == null)
+            {
+                propertyCustomizerHolder.Validators = validators;
+            }
+            else
+            {
+                propertyCustomizerHolder.Validators =
+                    propertyCustomizerHolder.Validators.Union(validators);
+            }
 
             return this;
         }

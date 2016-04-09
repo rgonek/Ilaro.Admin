@@ -2,6 +2,8 @@
 using Ilaro.Admin.Core;
 using Ilaro.Admin.DataAnnotations;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -14,7 +16,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool? IsKey { get; internal set; }
         public CascadeOption? CascadeOption { get; internal set; }
         public bool? IsSearchable { get; internal set; }
-        public DataType? DataType { get; internal set; }
+        public Core.DataType? DataType { get; internal set; }
         public bool? IsVisible { get; internal set; }
         public string Description { get; internal set; }
         public FileOptions FileOptions { get; internal set; }
@@ -29,5 +31,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public string ForeignKey { get; internal set; }
         public bool IsForeignKey { get; internal set; }
         public object OnDeleteDefaultValue { get; internal set; }
+        public IEnumerable<ValidationAttribute> Validators { get; internal set; }
     }
 }

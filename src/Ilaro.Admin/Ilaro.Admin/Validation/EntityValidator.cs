@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Validation
                     if (result == false)
                         isValid = false;
                 }
-                foreach (var validator in propertyValue.Property.ValidationAttributes)
+                foreach (var validator in propertyValue.Property.Validators)
                 {
                     try
                     {

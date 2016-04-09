@@ -2,6 +2,8 @@
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -31,7 +33,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set data type
         /// </summary>
-        IPropertyCustomizer Type(DataType dataType);
+        IPropertyCustomizer Type(Core.DataType dataType);
         /// <summary>
         /// Set data annotation data type
         /// </summary>
@@ -97,5 +99,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set property as a foreign key
         /// </summary>
         IPropertyCustomizer ForeignKey(string name);
+        /// <summary>
+        /// Set validators
+        /// </summary>
+        IPropertyCustomizer Validators(IEnumerable<ValidationAttribute> validators);
     }
 }

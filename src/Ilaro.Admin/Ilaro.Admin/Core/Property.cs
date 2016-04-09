@@ -73,14 +73,7 @@ namespace Ilaro.Admin.Core
         public PropertyTemplate Template { get; internal set; } = new PropertyTemplate();
         public PropertyTypeInfo TypeInfo { get; private set; }
 
-        public IList<ValidationAttribute> ValidationAttributes
-        {
-            get
-            {
-                return PropertyInfo.GetCustomAttributes(false)
-                  .OfType<ValidationAttribute>().ToList();
-            }
-        }
+        public IList<ValidationAttribute> Validators { get; internal set; }
 
         public IDictionary<string, object> ControlsAttributes { get; set; }
         public string ForeignKeyName { get; private set; }
