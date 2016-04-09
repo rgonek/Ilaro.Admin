@@ -18,33 +18,28 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
     {
         private readonly IIlaroAdmin _admin;
         private readonly Notificator _notificator;
-        private readonly IFetchingRecords _entitiesSource;
         private readonly IConfiguration _configuration;
-        private readonly IFilterFactory _filterFactory;
+        private readonly IRecordsService _recordsService;
 
         public EntitiesController(
             IIlaroAdmin admin,
             Notificator notificator,
-            IFetchingRecords entitiesSource,
-            IConfiguration configuration,
-            IFilterFactory filterFactory)
+            IRecordsService recordsService,
+            IConfiguration configuration)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));
             if (notificator == null)
                 throw new ArgumentNullException(nameof(notificator));
-            if (entitiesSource == null)
-                throw new ArgumentException(nameof(entitiesSource));
+            if (recordsService == null)
+                throw new ArgumentException(nameof(recordsService));
             if (configuration == null)
                 throw new ArgumentException(nameof(configuration));
-            if (filterFactory == null)
-                throw new ArgumentException(nameof(filterFactory));
 
             _admin = admin;
             _notificator = notificator;
-            _entitiesSource = entitiesSource;
+            _recordsService = recordsService;
             _configuration = configuration;
-            _filterFactory = filterFactory;
         }
 
         public virtual ActionResult Index(string entityName, TableInfo tableInfo)
@@ -54,18 +49,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(Request);
-            var filters = _filterFactory.BuildFilters(entityRecord).ToList();
-            var pagedRecords = _entitiesSource.GetRecords(
-                entity,
-                filters,
-                tableInfo.SearchQuery,
-                tableInfo.Order,
-                tableInfo.OrderDirection,
-                false,
-                tableInfo.Page,
-                tableInfo.PerPage);
+            var pagedRecords = _recordsService.GetRecords(entity, Request.Form, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(
@@ -73,7 +57,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     PrepareRouteValues(
                         entityName,
                         "1",
-                        filters,
+                        pagedRecords.Filters,
                         tableInfo));
             }
 
@@ -82,20 +66,12 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 PrepareRouteValues(
                     entityName,
                     "-page-",
-                    filters,
+                    pagedRecords.Filters,
                     tableInfo))
                 .Replace("-page-", "{0}");
 
-            var model = new EntitiesIndexModel
+            var model = new EntitiesIndexModel(entity, pagedRecords, tableInfo, url)
             {
-                Data = pagedRecords.Records,
-                Columns = entity.DisplayProperties
-                    .Select(x => new Column(x, tableInfo.Order, tableInfo.OrderDirection)).ToList(),
-                Entity = entity,
-                Pager =
-                    new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
-                Filters = filters.Where(x => x.DisplayInUI).ToList(),
-                TableInfo = tableInfo,
                 Configuration = _configuration,
                 ChangeEnabled = _admin.ChangeEntity != null
             };
@@ -106,24 +82,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         public virtual ActionResult Changes(string entityName, string key, TableInfo tableInfo)
         {
             var entityChangesFor = _admin.GetEntity(entityName);
-            var changeEntity = _admin.ChangeEntity;
-            var entityRecord = new EntityRecord(changeEntity);
-            entityRecord.Fill(Request);
-            var filters = _filterFactory.BuildFilters(entityRecord).ToList();
-            if (key.IsNullOrWhiteSpace() == false)
-            {
-                filters.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));
-            }
-            filters.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityName));
-            var pagedRecords = _entitiesSource.GetRecords(
-                changeEntity,
-                filters,
-                tableInfo.SearchQuery,
-                tableInfo.Order,
-                tableInfo.OrderDirection,
-                false,
-                tableInfo.Page,
-                tableInfo.PerPage);
+            var pagedRecords = _recordsService
+                .GetChanges(entityChangesFor, key, Request.Form, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(
@@ -131,7 +91,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                     PrepareRouteValues(
                         entityName,
                         "1",
-                        filters,
+                        pagedRecords.Filters,
                         tableInfo));
             }
 
@@ -140,22 +100,20 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 PrepareRouteValues(
                     entityName,
                     "-page-",
-                    filters,
+                    pagedRecords.Filters,
                     tableInfo))
                 .Replace("-page-", "{0}");
-            var model = new EntitiesChangesModel
+
+            var model = new EntitiesChangesModel(
+                _admin.ChangeEntity,
+                pagedRecords,
+                tableInfo,
+                url)
             {
-                Data = pagedRecords.Records,
-                Columns = changeEntity.DisplayProperties
-                    .Select(x => new Column(x, tableInfo.Order, tableInfo.OrderDirection)).ToList(),
-                Entity = changeEntity,
                 EntityChangesFor = entityChangesFor,
-                Pager =
-                    new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems),
-                Filters = filters.Where(x => x.DisplayInUI).ToList(),
-                TableInfo = tableInfo,
+                Key = key,
                 Configuration = _configuration,
-                Key = key
+                ChangeEnabled = _admin.ChangeEntity != null
             };
 
             return View(model);

@@ -92,6 +92,9 @@ namespace Ilaro.Admin.Ninject.App_Start
             kernel.Bind<IResizingImages>().To<ImageResizer>();
             kernel.Bind<ISavingFiles>().To<FileSaver>();
             kernel.Bind<IFilterFactory>().To<FilterFactory>();
+            kernel.Bind<IRecordsService>().To<RecordsService>();
+
+            kernel.Bind<IIlaroAdmin>().To<IlaroAdmin>().InSingletonScope();
         }
     }
 }

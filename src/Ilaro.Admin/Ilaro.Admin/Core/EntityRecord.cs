@@ -4,6 +4,7 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -146,7 +147,7 @@ namespace Ilaro.Admin.Core
             SetKeyValue(key);
         }
 
-        internal void Fill(HttpRequestBase request)
+        internal void Fill(NameValueCollection request)
         {
             foreach (var property in Entity.Properties)
             {

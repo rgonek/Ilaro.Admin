@@ -56,6 +56,7 @@ namespace Ilaro.Admin.Unity
             container.RegisterType<IResizingImages, ImageResizer>();
             container.RegisterType<ISavingFiles, FileSaver>();
             container.RegisterType<IFilterFactory, FilterFactory>();
+            container.RegisterType<IRecordsService, RecordsService>();
 
             container.RegisterType<IIlaroAdmin, IlaroAdmin>(new ContainerControlledLifetimeManager());
         }

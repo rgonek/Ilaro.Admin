@@ -204,11 +204,13 @@
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
     <Compile Include="Core\Data\ChangesDescriber.cs" />
+    <Compile Include="Core\Data\RecordsService.cs" />
     <Compile Include="Core\Data\DataBehaviorExtensions.cs" />
     <Compile Include="Core\Data\DataBehavior.cs" />
     <Compile Include="Core\Data\DB.cs" />
     <Compile Include="Core\Data\DbCommandExecutor.cs" />
     <Compile Include="Core\Data\DefaultValueBehavior.cs" />
+    <Compile Include="Core\Data\IRecordsService.cs" />
     <Compile Include="Core\Data\IComparingRecords.cs" />
     <Compile Include="Core\Data\ICreatingRecords.cs" />
     <Compile Include="Core\Data\IDeletingRecords.cs" />
