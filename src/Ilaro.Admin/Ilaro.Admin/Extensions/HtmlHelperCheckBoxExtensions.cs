@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Extensions
                 name,
                 isChecked,
                 property,
-                htmlAttributes: (IDictionary<string, object>)null);
+                htmlAttributes: null);
         }
 
         public static MvcHtmlString CheckBox(

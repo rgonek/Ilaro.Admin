@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Extensions
                 name,
                 selectList,
                 property,
-                htmlAttributes: (IDictionary<string, object>)null);
+                htmlAttributes: null);
         }
 
         public static MvcHtmlString DropDownList(

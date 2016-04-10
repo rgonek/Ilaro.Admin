@@ -22,7 +22,7 @@ namespace Ilaro.Admin.Extensions
                 htmlHelper,
                 name, value,
                 property,
-                htmlAttributes: (IDictionary<string, object>)null);
+                htmlAttributes: null);
         }
 
         public static MvcHtmlString Password(
