@@ -150,7 +150,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Required(string errorMessage = null)
         {
             propertyCustomizerHolder.IsRequired = true;
-            propertyCustomizerHolder.RequiredErrorMessage = errorMessage;
             Validator(new RequiredAttribute
             {
                 ErrorMessage = errorMessage
