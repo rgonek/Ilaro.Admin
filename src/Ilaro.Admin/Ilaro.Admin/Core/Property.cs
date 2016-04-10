@@ -66,21 +66,13 @@ namespace Ilaro.Admin.Core
         public string ReferencePropertyName { get; internal set; }
 
         public bool IsRequired { get; internal set; }
-        public string RequiredErrorMessage { get; internal set; }
 
         public CascadeOption CascadeOption { get; internal set; }
         public FileOptions FileOptions { get; internal set; } = new FileOptions();
         public PropertyTemplate Template { get; internal set; } = new PropertyTemplate();
         public PropertyTypeInfo TypeInfo { get; private set; }
 
-        public IList<ValidationAttribute> ValidationAttributes
-        {
-            get
-            {
-                return PropertyInfo.GetCustomAttributes(false)
-                  .OfType<ValidationAttribute>().ToList();
-            }
-        }
+        public IList<ValidationAttribute> Validators { get; internal set; } = new List<ValidationAttribute>();
 
         public IDictionary<string, object> ControlsAttributes { get; set; }
         public string ForeignKeyName { get; private set; }

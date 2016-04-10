@@ -1,8 +1,12 @@
-﻿using System;
-using Ilaro.Admin.Core;
-using Ilaro.Admin.DataAnnotations;
-using System.Collections.Generic;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Validation;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -96,7 +100,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             propertyCustomizerHolder.FileOptions.Path = path;
             propertyCustomizerHolder.FileOptions.AllowedFileExtensions = allowedFileExtensions;
 
-            return Type(isImage ? DataType.Image : DataType.File);
+            return Type(isImage ? Core.DataType.Image : Core.DataType.File);
         }
 
         public IPropertyCustomizer ForeignKey(string name)
@@ -134,7 +138,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             propertyCustomizerHolder.FileOptions.Settings.Add(new ImageSettings(path, width, height));
 
-            return Type(DataType.Image);
+            return Type(Core.DataType.Image);
         }
 
         public IPropertyCustomizer Cascade(CascadeOption deleteOption)
@@ -144,10 +148,11 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Required(string errorMessage)
+        public IPropertyCustomizer Required(string errorMessage = null)
         {
             propertyCustomizerHolder.IsRequired = true;
-            propertyCustomizerHolder.RequiredErrorMessage = errorMessage;
+            Validator(new RequiredAttribute()
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -167,16 +172,18 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Type(DataType dataType)
+        public IPropertyCustomizer Type(Core.DataType dataType)
         {
             propertyCustomizerHolder.DataType = dataType;
 
             return this;
         }
 
-        public IPropertyCustomizer Type(System.ComponentModel.DataAnnotations.DataType dataType)
+        public IPropertyCustomizer Type(SystemDataType dataType, string errorMessage = null)
         {
             propertyCustomizerHolder.SourceDataType = dataType;
+            Validator(new DataTypeAttribute(dataType)
+                .SetErrorMessage(errorMessage));
 
             return Type(DataTypeConverter.Convert(dataType));
         }
@@ -185,12 +192,90 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             propertyCustomizerHolder.EnumType = enumType;
 
-            return Type(DataType.Enum);
+            return Type(Core.DataType.Enum);
         }
 
         public IPropertyCustomizer Visible()
         {
             propertyCustomizerHolder.IsVisible = true;
+
+            return this;
+        }
+
+        public IPropertyCustomizer Validators(
+            IEnumerable<ValidationAttribute> validators)
+        {
+            if (propertyCustomizerHolder.Validators == null)
+            {
+                propertyCustomizerHolder.Validators = validators;
+            }
+            else
+            {
+                propertyCustomizerHolder.Validators =
+                    propertyCustomizerHolder.Validators.Union(validators);
+            }
+
+            return this;
+        }
+
+        public IPropertyCustomizer Validator(ValidationAttribute validator)
+        {
+            Validators(new[] { validator });
+
+            return this;
+        }
+
+        public IPropertyCustomizer StringLength(
+            int maximumLength,
+            int minimumLength = 0,
+            string errorMessage = null)
+        {
+            Validator(new StringLengthAttribute(maximumLength)
+            {
+                MinimumLength = minimumLength
+            }.SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer Compare(
+            string otherProperty,
+            string errorMessage = null)
+        {
+            Validator(new CompareAttribute(otherProperty)
+                .SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(int minimum, int maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(minimum, maximum)
+                .SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(double minimum, double maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(minimum, maximum)
+                .SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null)
+        {
+            Validator(new RangeAttribute(type, minimum, maximum)
+                .SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null)
+        {
+            Validator(new RegularExpressionAttribute(pattern)
+                .SetErrorMessage(errorMessage));
 
             return this;
         }

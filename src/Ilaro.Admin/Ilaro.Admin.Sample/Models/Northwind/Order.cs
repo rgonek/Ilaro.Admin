@@ -21,22 +21,22 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
         public decimal? Freight { get; set; }
 
-        [MaxLength(40)]
+        [StringLength(40)]
         public string ShipName { get; set; }
 
-        [MaxLength(60)]
+        [StringLength(60)]
         public string ShipAddress { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string ShipCity { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string ShipRegion { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(10)]
         public string ShipPostalCode { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string ShipCountry { get; set; }
 
         [ForeignKey("CustomerID")]

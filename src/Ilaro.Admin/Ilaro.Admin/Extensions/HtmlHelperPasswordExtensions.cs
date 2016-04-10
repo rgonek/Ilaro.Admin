@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Validation;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -22,7 +23,7 @@ namespace Ilaro.Admin.Extensions
                 htmlHelper,
                 name, value,
                 property,
-                htmlAttributes: (IDictionary<string, object>)null);
+                htmlAttributes: null);
         }
 
         public static MvcHtmlString Password(
@@ -47,15 +48,8 @@ namespace Ilaro.Admin.Extensions
             Property property,
             IDictionary<string, object> htmlAttributes)
         {
-            // create own metadata based on PropertyViewModel
-            var metadata = new ModelMetadata(
-                ModelMetadataProviders.Current,
-                property.Entity.Type,
-                null,
-                property.TypeInfo.Type,
-                property.Name);
-            var validationAttributes =
-                htmlHelper.GetUnobtrusiveValidationAttributes(name, metadata);
+            var validationAttributes = PropertyUnobtrusiveValidationAttributesGenerator
+                .GetValidationAttributes(property, htmlHelper.ViewContext);
 
             htmlAttributes = htmlAttributes.Merge(validationAttributes);
 

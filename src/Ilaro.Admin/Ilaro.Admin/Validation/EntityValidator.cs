@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Validation
 {
@@ -34,7 +35,9 @@ namespace Ilaro.Admin.Validation
                     if (result == false)
                         isValid = false;
                 }
-                foreach (var validator in propertyValue.Property.ValidationAttributes)
+
+                context.DisplayName = propertyValue.Property.Display;
+                foreach (var validator in propertyValue.Property.Validators)
                 {
                     try
                     {

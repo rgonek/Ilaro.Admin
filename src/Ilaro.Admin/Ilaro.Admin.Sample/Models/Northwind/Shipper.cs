@@ -6,10 +6,10 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     {
         public int ShipperID { get; set; }
 
-        [Required, MaxLength(40)]
+        [Required, StringLength(40)]
         public string CompanyName { get; set; }
 
-        [MaxLength(24)]
+        [StringLength(24)]
         public string Phone { get; set; }
     }
 }

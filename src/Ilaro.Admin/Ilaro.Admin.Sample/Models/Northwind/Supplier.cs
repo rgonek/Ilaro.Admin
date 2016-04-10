@@ -7,34 +7,34 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     {
         public int SupplierID { get; set; }
 
-        [Required, MaxLength(40)]
+        [Required, StringLength(40)]
         public string CompanyName { get; set; }
 
-        [MaxLength(30)]
+        [StringLength(30)]
         public string ContactName { get; set; }
 
-        [MaxLength(30)]
+        [StringLength(30)]
         public string ContactTitle { get; set; }
 
-        [MaxLength(60)]
+        [StringLength(60)]
         public string Address { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string City { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string Region { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(10)]
         public string PostalCode { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string Country { get; set; }
 
-        [MaxLength(24)]
+        [StringLength(24)]
         public string Phone { get; set; }
 
-        [MaxLength(24)]
+        [StringLength(24)]
         public string Fax { get; set; }
 
         public string HomePage { get; set; }

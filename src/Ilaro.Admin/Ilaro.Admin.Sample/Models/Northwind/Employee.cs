@@ -13,17 +13,17 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [Key]
         public int EmployeeID { get; set; }
 
-        [Required, MaxLength(20)]
+        [Required, StringLength(20)]
         [Compare("FirstName")]
         public string LastName { get; set; }
 
-        [Required, MaxLength(10)]
+        [Required, StringLength(10)]
         public string FirstName { get; set; }
 
-        [MaxLength(30)]
+        [StringLength(30)]
         public string Title { get; set; }
 
-        [MaxLength(25)]
+        [StringLength(25)]
         public string TitleOfCourtesy { get; set; }
 
         [DataType(DataType.Date)]
@@ -32,25 +32,25 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [DataType(DataType.Date)]
         public DateTime? HireDate { get; set; }
 
-        [MaxLength(60)]
+        [StringLength(60)]
         public string Address { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string City { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string Region { get; set; }
 
-        [MaxLength(10)]
+        [StringLength(10)]
         public string PostalCode { get; set; }
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string Country { get; set; }
 
-        [MaxLength(24)]
+        [StringLength(24)]
         public string HomePhone { get; set; }
 
-        [MaxLength(4)]
+        [StringLength(4)]
         public string Extension { get; set; }
 
         public byte[] Photo { get; set; }
@@ -59,7 +59,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
         public int? ReportsTo { get; set; }
 
-        [MaxLength(255)]
+        [StringLength(255)]
         public string PhotoPath { get; set; }
 
         [ForeignKey("ReportsTo")]

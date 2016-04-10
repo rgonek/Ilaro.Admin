@@ -385,6 +385,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record is not valid. Please fix the errors..
+        /// </summary>
+        internal static string RecordNotValid {
+            get {
+                return ResourceManager.GetString("RecordNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove filters.
         /// </summary>
         internal static string RemoveFilters {

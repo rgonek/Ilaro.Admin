@@ -6,6 +6,7 @@ using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using System.ComponentModel;
+using System;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -44,6 +45,7 @@ namespace Ilaro.Admin.Configuration
                 DisplayFormat(member, customizerHolder, attributes);
                 Required(member, customizerHolder, attributes);
                 ForeignKey(member, customizerHolder, attributes);
+                Validation(member, customizerHolder, attributes);
             }
         }
 
@@ -440,6 +442,21 @@ namespace Ilaro.Admin.Configuration
                 customizerHolder.Property(member, x =>
                 {
                     x.ForeignKey(attribute.Name);
+                });
+            }
+        }
+
+        private static void Validation(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var validators = attributes.GetAttributes<ValidationAttribute>();
+            if (validators.IsNullOrEmpty() == false)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.Validators(validators);
                 });
             }
         }

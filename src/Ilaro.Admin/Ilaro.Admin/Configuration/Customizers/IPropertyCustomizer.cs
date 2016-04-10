@@ -2,6 +2,8 @@
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -31,11 +33,11 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set data type
         /// </summary>
-        IPropertyCustomizer Type(DataType dataType);
+        IPropertyCustomizer Type(Core.DataType dataType);
         /// <summary>
         /// Set data annotation data type
         /// </summary>
-        IPropertyCustomizer Type(SystemDataType dataType);
+        IPropertyCustomizer Type(SystemDataType dataType, string errorMessage = null);
         /// <summary>
         /// Set enum type
         /// </summary>
@@ -90,12 +92,49 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// </summary>
         IPropertyCustomizer Format(string dataFormatString);
         /// <summary>
-        /// Property is required
-        /// </summary>
-        IPropertyCustomizer Required(string errorMessage);
-        /// <summary>
         /// Set property as a foreign key
         /// </summary>
         IPropertyCustomizer ForeignKey(string name);
+        /// <summary>
+        /// Set validators
+        /// </summary>
+        IPropertyCustomizer Validators(IEnumerable<ValidationAttribute> validators);
+        /// <summary>
+        /// Set validator
+        /// </summary>
+        IPropertyCustomizer Validator(ValidationAttribute validator);
+        /// <summary>
+        /// Property is required
+        /// </summary>
+        IPropertyCustomizer Required(string errorMessage = null);
+        /// <summary>
+        /// String length property validator
+        /// </summary>
+        IPropertyCustomizer StringLength(
+            int maximumLength,
+            int minimumLength = 0,
+            string errorMessage = null);
+        /// <summary>
+        /// Compare property validator
+        /// </summary>
+        IPropertyCustomizer Compare(
+            string otherProperty,
+            string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(int minimum, int maximum, string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(double minimum, double maximum, string errorMessage = null);
+        /// <summary>
+        /// Range property validator
+        /// </summary>
+        IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null);
+        /// <summary>
+        /// Regular expression property validator
+        /// </summary>
+        IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null);
     }
 }
