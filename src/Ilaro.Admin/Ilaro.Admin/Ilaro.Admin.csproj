@@ -536,10 +536,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>_Paging.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\PropertyModelValidatorProvider.cs" />
     <Compile Include="Validation\EntityValidator.cs" />
     <Compile Include="Validation\FileValidator.cs" />
     <Compile Include="Validation\IValidatingEntities.cs" />
     <Compile Include="Validation\IValidatingFiles.cs" />
+    <Compile Include="Validation\PropertyUnobtrusiveValidationAttributesGenerator.cs" />
     <Compile Include="Validation\ValidationAttributeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
