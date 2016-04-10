@@ -1,6 +1,7 @@
 ﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -150,10 +151,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Required(string errorMessage = null)
         {
             propertyCustomizerHolder.IsRequired = true;
-            Validator(new RequiredAttribute
-            {
-                ErrorMessage = errorMessage
-            });
+            Validator(new RequiredAttribute()
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -184,9 +183,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             propertyCustomizerHolder.SourceDataType = dataType;
             Validator(new DataTypeAttribute(dataType)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return Type(DataTypeConverter.Convert(dataType));
         }
@@ -235,21 +232,18 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             Validator(new StringLengthAttribute(maximumLength)
             {
-                MinimumLength = minimumLength,
-                ErrorMessage = errorMessage
-            });
+                MinimumLength = minimumLength
+            }.SetErrorMessage(errorMessage));
 
             return this;
         }
 
         public IPropertyCustomizer Compare(
-            string otherProperty, 
+            string otherProperty,
             string errorMessage = null)
         {
             Validator(new CompareAttribute(otherProperty)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -257,9 +251,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Range(int minimum, int maximum, string errorMessage = null)
         {
             Validator(new RangeAttribute(minimum, maximum)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -267,9 +259,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Range(double minimum, double maximum, string errorMessage = null)
         {
             Validator(new RangeAttribute(minimum, maximum)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -277,9 +267,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Range(Type type, string minimum, string maximum, string errorMessage = null)
         {
             Validator(new RangeAttribute(type, minimum, maximum)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return this;
         }
@@ -287,9 +275,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null)
         {
             Validator(new RegularExpressionAttribute(pattern)
-            {
-                ErrorMessage = errorMessage
-            });
+                .SetErrorMessage(errorMessage));
 
             return this;
         }

@@ -540,6 +540,7 @@
     <Compile Include="Validation\FileValidator.cs" />
     <Compile Include="Validation\IValidatingEntities.cs" />
     <Compile Include="Validation\IValidatingFiles.cs" />
+    <Compile Include="Validation\ValidationAttributeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_GlobalResources\IlaroAdminResources.resx">
