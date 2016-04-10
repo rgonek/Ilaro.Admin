@@ -35,24 +35,22 @@ namespace Ilaro.Admin.Validation
                     if (result == false)
                         isValid = false;
                 }
-                if (propertyValue.Property.Validators.IsNullOrEmpty() == false)
+
+                context.DisplayName = propertyValue.Property.Display;
+                foreach (var validator in propertyValue.Property.Validators)
                 {
-                    context.DisplayName = propertyValue.Property.Display;
-                    foreach (var validator in propertyValue.Property.Validators)
+                    try
                     {
-                        try
-                        {
-                            validator.Validate(propertyValue.Raw, context);
-                        }
-                        catch (ValidationException ex)
-                        {
-                            isValid = false;
-                            _notificator.AddModelError(propertyValue.Property.Name, ex.Message);
-                        }
-                        catch (Exception ex)
-                        {
-                            _log.Error(ex);
-                        }
+                        validator.Validate(propertyValue.Raw, context);
+                    }
+                    catch (ValidationException ex)
+                    {
+                        isValid = false;
+                        _notificator.AddModelError(propertyValue.Property.Name, ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.Error(ex);
                     }
                 }
             }
