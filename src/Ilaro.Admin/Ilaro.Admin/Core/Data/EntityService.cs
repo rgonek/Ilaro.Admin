@@ -179,8 +179,19 @@ namespace Ilaro.Admin.Core.Data
         {
             var creatableProperties = entityRecord.Entity
                 .GetDefaultCreateProperties(getKey);
-            foreach (var foreignValue in entityRecord.Values
-                .Where(value => value.Property.IsForeignKey && value.Property.ForeignEntity != null))
+
+            var groups = entityRecord.Values
+                .Where(value => creatableProperties.Contains(value.Property))
+                .GroupBy(x => x.Property.Group)
+                .Select(x => new GroupProperties
+                {
+                    GroupName = x.FirstOrDefault().Property.Group,
+                    IsCollapsed = false,
+                    PropertiesValues = x.ToList()
+                });
+
+            foreach (var foreignValue in groups.SelectMany(x => x.PropertiesValues)
+                .Where(x => x.Property.IsForeignKey && x.Property.ForeignEntity != null))
             {
                 var records = _source.GetRecords(foreignValue.Property.ForeignEntity, determineDisplayValue: true).Records;
                 foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
@@ -193,16 +204,6 @@ namespace Ilaro.Admin.Core.Data
                         .ToList();
                 }
             }
-
-            var groups = entityRecord.Values
-                .Where(value => creatableProperties.Contains(value.Property))
-                .GroupBy(x => x.Property.Group)
-                .Select(x => new GroupProperties
-                {
-                    GroupName = x.FirstOrDefault().Property.Group,
-                    IsCollapsed = false,
-                    PropertiesValues = x.ToList()
-                });
 
             return groups.ToList();
         }
