@@ -180,7 +180,7 @@ namespace Ilaro.Admin.Core.Data
             var creatableProperties = entityRecord.Entity
                 .GetDefaultCreateProperties(getKey);
             foreach (var foreignValue in entityRecord.Values
-                .Where(value => value.Property.IsForeignKey))
+                .Where(value => value.Property.IsForeignKey && value.Property.ForeignEntity != null))
             {
                 var records = _source.GetRecords(foreignValue.Property.ForeignEntity, determineDisplayValue: true).Records;
                 foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);

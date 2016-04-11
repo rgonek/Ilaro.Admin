@@ -13,7 +13,7 @@ namespace Ilaro.Admin.Core
         public DataBehavior DataBehavior { get; set; }
         public object Raw { get; set; }
         public object Additional { get; set; }
-        public List<object> Values { get; set; }
+        public List<object> Values { get; set; } = new List<object>();
         public bool? AsBool
         {
             get
@@ -81,7 +81,7 @@ namespace Ilaro.Admin.Core
         /// <summary>
         /// Possible values for foreign entity
         /// </summary>
-        public IDictionary<string, string> PossibleValues { get; set; }
+        public IDictionary<string, string> PossibleValues { get; set; } = new Dictionary<string, string>();
 
         public string SqlParameterName { get; set; }
 
@@ -90,7 +90,6 @@ namespace Ilaro.Admin.Core
         public PropertyValue(Property property)
         {
             Property = property;
-            Values = new List<object>();
         }
 
         public object ToObject(string value)

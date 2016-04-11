@@ -62,6 +62,11 @@ namespace Ilaro.Admin.Core.Data
         public IList<ChangeRow> GetLastChanges(int quantity)
         {
             var changeEntity = _admin.ChangeEntity;
+            if (changeEntity == null)
+            {
+                return new List<ChangeRow>();
+            }
+
             var tableInfo = new TableInfo
             {
                 Page = 1,
