@@ -37,8 +37,8 @@
         foreach (var group in Model.PropertiesGroups)
         {
             <fieldset>
-                <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="@Html.Condition(group.IsCollapsed, () => "glyphicon glyphicon-plus", () => "glyphicon glyphicon-minus")"></i></button></legend>
-                <div class="fields @Html.Condition(group.IsCollapsed, () => "hide")">
+                <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="glyphicon glyphicon-@Html.Condition(group.IsCollapsed, () => "plus", () => "minus")"></i></button></legend>
+                <div class="fields" @Html.Condition(group.IsCollapsed, () => "style=\"display:none\"")>
                     @foreach (var propertyValue in group.PropertiesValues.Where(x => x.Property.IsKey == false))
                     {
                         Html.RenderPartial("_PropertyEditor", propertyValue);

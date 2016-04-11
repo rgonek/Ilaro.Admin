@@ -186,7 +186,8 @@ namespace Ilaro.Admin.Core.Data
                 .Select(x => new GroupProperties
                 {
                     GroupName = x.FirstOrDefault().Property.Group,
-                    IsCollapsed = false,
+                    IsCollapsed = entityRecord.Entity.Groups
+                        .FirstOrDefault(y => y.GroupName == x.FirstOrDefault().Property.Group).IsCollapsed,
                     PropertiesValues = x.ToList()
                 });
 
