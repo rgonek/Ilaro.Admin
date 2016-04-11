@@ -1,0 +1,16 @@
+﻿@model IEnumerable<GroupProperties>
+
+@if (Model.Count() > 1)
+{
+    foreach (var group in Model)
+    {
+        Html.RenderPartial("_PropertiesGroup", group);
+    }
+}
+else if (Model.Count() == 1)
+{
+    foreach (var propertyValue in Model.First().PropertiesValues)
+    {
+        Html.RenderPartial("_PropertyEditor", propertyValue);
+    }
+}

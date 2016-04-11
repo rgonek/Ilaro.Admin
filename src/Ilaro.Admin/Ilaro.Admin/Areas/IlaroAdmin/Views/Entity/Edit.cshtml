@@ -32,28 +32,7 @@
         </div>
     }
 
-    if (Model.PropertiesGroups.Count > 1)
-    {
-        foreach (var group in Model.PropertiesGroups)
-        {
-            <fieldset>
-                <legend>@group.GroupName <button type="button" class="btn pull-right"><i class="glyphicon glyphicon-@Html.Condition(group.IsCollapsed, () => "plus", () => "minus")"></i></button></legend>
-                <div class="fields" @Html.Condition(group.IsCollapsed, () => "style=\"display:none\"")>
-                    @foreach (var propertyValue in group.PropertiesValues.Where(x => x.Property.IsKey == false))
-                    {
-                        Html.RenderPartial("_PropertyEditor", propertyValue);
-                    }
-                </div>
-            </fieldset>
-        }
-    }
-    else if (Model.PropertiesGroups.Count == 1)
-    {
-        foreach (var propertyValue in Model.PropertiesGroups[0].PropertiesValues.Where(x => x.Property.IsKey == false))
-        {
-            Html.RenderPartial("_PropertyEditor", propertyValue);
-        }
-    }
+    Html.RenderPartial("_PropertiesGroups", Model.PropertiesGroups);
 
     @Html.Hidden("EntityName", Model.Entity.Name)
 

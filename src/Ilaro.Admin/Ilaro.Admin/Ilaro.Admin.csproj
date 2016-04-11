@@ -152,6 +152,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Changes.cshtml</DependentUpon>
     </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\_PropertiesGroup.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_PropertiesGroup.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\IlaroAdmin\Views\Entity\_PropertiesGroups.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>_PropertiesGroups.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Areas\IlaroAdmin\Views\Entity\_PropertyEditor.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -809,6 +819,18 @@
     <Content Include="Areas\IlaroAdmin\Views\Group\_LastChanges.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>_LastChanges.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\IlaroAdmin\Views\Entity\_PropertiesGroup.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_PropertiesGroup.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\IlaroAdmin\Views\Entity\_PropertiesGroups.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_PropertiesGroups.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

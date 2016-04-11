@@ -156,101 +156,21 @@ Write(Html.ValidationSummary(true));
             #line 29 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                  
 
-    if (Model.PropertiesGroups.Count > 1)
-    {
-        foreach (var group in Model.PropertiesGroups)
-        {
-
-            
-            #line default
-            #line hidden
-WriteLiteral("            <fieldset>\r\n                <legend>");
-
-            
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                   Write(group.GroupName);
-
-            
-            #line default
-            #line hidden
-WriteLiteral(" <button");
-
-WriteLiteral(" type=\"button\"");
-
-WriteLiteral(" class=\"btn pull-right\"");
-
-WriteLiteral("><i");
-
-WriteAttribute("class", Tuple.Create(" class=\"", 1403), Tuple.Create("\"", 1494)
-, Tuple.Create(Tuple.Create("", 1411), Tuple.Create("glyphicon", 1411), true)
-, Tuple.Create(Tuple.Create(" ", 1420), Tuple.Create("glyphicon-", 1421), true)
-            
-            #line 36 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                                    , Tuple.Create(Tuple.Create("", 1431), Tuple.Create<System.Object, System.Int32>(Html.Condition(group.IsCollapsed, () => "plus", () => "minus")
-            
-            #line default
-            #line hidden
-, 1431), false)
-);
-
-WriteLiteral("></i></button></legend>\r\n                <div");
-
-WriteLiteral(" class=\"fields\"");
-
-WriteLiteral(" ");
-
-            
-            #line 37 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                               Write(Html.Condition(group.IsCollapsed, () => "style=\"display:none\""));
-
-            
-            #line default
-            #line hidden
-WriteLiteral(">\r\n");
-
-            
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                    
-            
-            #line default
-            #line hidden
-            
-            #line 38 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-                     foreach (var propertyValue in group.PropertiesValues)
-                    {
-                        Html.RenderPartial("_PropertyEditor", propertyValue);
-                    }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("                </div>\r\n            </fieldset>\r\n");
-
-            
-            #line 44 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-        }
-    }
-    else if (Model.PropertiesGroups.Count == 1)
-    {
-        foreach (var propertyValue in Model.PropertiesGroups[0].PropertiesValues)
-        {
-            Html.RenderPartial("_PropertyEditor", propertyValue);
-        }
-    }
+    Html.RenderPartial("_PropertiesGroups", Model.PropertiesGroups);
 
     
             
             #line default
             #line hidden
             
-            #line 54 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 33 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
 Write(Html.Hidden("EntityName", Model.Entity.Name));
 
             
             #line default
             #line hidden
             
-            #line 54 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 33 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                                  
 
 
@@ -274,7 +194,7 @@ WriteLiteral(" class=\"btn btn-primary\"");
 WriteLiteral(">");
 
             
-            #line 58 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 37 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                                      Write(IlaroAdminResources.Save);
 
             
@@ -295,7 +215,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-edit\"");
 WriteLiteral("></i> ");
 
             
-            #line 59 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 38 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                                                                                                   Write(IlaroAdminResources.SaveAndContinueEdit);
 
             
@@ -316,7 +236,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></i> ");
 
             
-            #line 60 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 39 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                                                                                              Write(IlaroAdminResources.SaveAndAddNext);
 
             
@@ -324,14 +244,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2691), Tuple.Create("\"", 2797)
+WriteAttribute("href", Tuple.Create(" href=\"", 1808), Tuple.Create("\"", 1914)
             
-            #line 61 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
-, Tuple.Create(Tuple.Create("", 2698), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)
+            #line 40 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+, Tuple.Create(Tuple.Create("", 1815), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)
             
             #line default
             #line hidden
-, 2698), false)
+, 1815), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");
@@ -339,7 +259,7 @@ WriteLiteral(" class=\"btn btn-link\"");
 WriteLiteral(">");
 
             
-            #line 61 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 40 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
                                                                                                                                           Write(IlaroAdminResources.Cancel);
 
             
@@ -348,7 +268,7 @@ WriteLiteral(">");
 WriteLiteral("</a>\r\n        </div>\r\n    </div>\r\n");
 
             
-            #line 64 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
+            #line 43 "..\..\Areas\IlaroAdmin\Views\Entity\Create.cshtml"
 }
 
             

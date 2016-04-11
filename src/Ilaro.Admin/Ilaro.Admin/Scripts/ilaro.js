@@ -37,15 +37,15 @@
     });
     $('legend .btn').click(function () {
         var $this = $(this);
-        var $i = $this.children('i');
-        if ($i.hasClass('glyphicon glyphicon-plus')) {
-            $i.removeClass('glyphicon glyphicon-plus');
-            $i.addClass('glyphicon glyphicon-minus');
+        var $icon = $this.children('span');
+        if ($icon.hasClass('glyphicon-plus')) {
+            $icon.removeClass('glyphicon-plus');
+            $icon.addClass('glyphicon-minus');
             $this.parent().siblings('.fields').slideDown();
         }
         else {
-            $i.removeClass('glyphicon glyphicon-minus');
-            $i.addClass('glyphicon glyphicon-plus');
+            $icon.removeClass('glyphicon-minus');
+            $icon.addClass('glyphicon-plus');
             $this.parent().siblings('.fields').slideUp();
         }
     });
