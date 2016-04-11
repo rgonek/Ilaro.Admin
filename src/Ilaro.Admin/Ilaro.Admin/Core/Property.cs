@@ -111,7 +111,6 @@ namespace Ilaro.Admin.Core
             SetForeignKey();
 
             Display = Name.SplitCamelCase();
-            Group = IlaroAdminResources.Others;
         }
 
         internal void SetForeignKey(string foreignKeyName)

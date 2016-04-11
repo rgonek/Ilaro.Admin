@@ -8,7 +8,7 @@ namespace Ilaro.Admin.Core
 {
     public static class EntityExtensions
     {
-        internal static  IEnumerable<Property> GetDefaultDisplayProperties(this Entity entity)
+        internal static IEnumerable<Property> GetDefaultDisplayProperties(this Entity entity)
         {
             foreach (var property in entity.Properties)
             {
@@ -54,7 +54,12 @@ namespace Ilaro.Admin.Core
             bool getKey = true,
             bool getForeignCollection = true)
         {
-            foreach (var property in entity.Properties)
+            var properties = entity.Properties.AsEnumerable();
+            if (properties.Any(x => x.Group.HasValue()))
+            {
+                properties = properties.Where(x => x.Group.HasValue());
+            }
+            foreach (var property in properties)
             {
                 // Get all properties which is not a key and foreign key
                 if (!property.IsKey && !property.IsForeignKey)
@@ -69,7 +74,7 @@ namespace Ilaro.Admin.Core
                 {
                     yield return property;
                 }
-                else if (property.IsForeignKey)
+                else if (property.IsForeignKey && property.ForeignEntity != null)
                 {
                     // If is foreign key and not have reference property
                     if (
