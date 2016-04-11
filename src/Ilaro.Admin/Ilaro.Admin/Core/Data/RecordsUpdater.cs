@@ -207,6 +207,9 @@ SELECT @{joinedKeyValueParameterName};
                     case ValueBehavior.UtcNow:
                         cmd.AddParam(DateTime.UtcNow);
                         break;
+                    case ValueBehavior.Guid:
+                        cmd.AddParam(Guid.NewGuid());
+                        break;
                     case ValueBehavior.CurrentUserId:
                         cmd.AddParam((int)_user.CurrentId());
                         break;
