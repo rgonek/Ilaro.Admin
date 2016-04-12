@@ -183,7 +183,18 @@ namespace Ilaro.Admin.Configuration.Customizers
             SetDefaultId(entity);
             SetDefaultDisplayProperties(entity);
             SetDefaultSearchProperties(entity);
-            SetDefaultConcurrencyCheckProperty(entity);
+            if (entity.ConcurrencyCheckEnabled)
+            {
+                SetDefaultConcurrencyCheckProperty(entity);
+
+                if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck) == false
+                    && ((IlaroAdmin)admin).CustomizerHolders.Any(x => x.Key.IsAssignableTo<IEntityChange>()) == false)
+                {
+                    throw new InvalidOperationException(
+                        $"Concurrency check cannot be enabled for {entity.Name}. " +
+                        "Not found any concurrency check property and entity change is not specified.");
+                }
+            }
 
             foreach (var customizerPair in _propertyCustomizers)
             {
