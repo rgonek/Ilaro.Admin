@@ -159,7 +159,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_classCustomizer.AllowDelete.HasValue)
                 entity.AllowDelete = _classCustomizer.AllowDelete.Value;
 
-            entity.ConcurrencyCheckEnabled = _classCustomizer.ConcurrencyCheckEnabled;
+            entity.ConcurrencyCheckEnabled = _classCustomizer.ConcurrencyCheckEnabled.HasValue ?
+                _classCustomizer.ConcurrencyCheckEnabled.Value :
+                _propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck);
 
             if (_classCustomizer.PropertiesGroups.IsNullOrEmpty())
             {
