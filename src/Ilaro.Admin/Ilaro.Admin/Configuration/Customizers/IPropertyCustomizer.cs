@@ -140,5 +140,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Mark property as timestamp
         /// </summary>
         IPropertyCustomizer IsTimestamp();
+        /// <summary>
+        /// Mark property as concurrency check
+        /// </summary>
+        IPropertyCustomizer IsConcurrencyCheck();
     }
 }

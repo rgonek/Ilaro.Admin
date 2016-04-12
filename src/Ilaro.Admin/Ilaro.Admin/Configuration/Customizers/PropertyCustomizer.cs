@@ -284,6 +284,13 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             propertyCustomizerHolder.IsTimestamp = true;
             propertyCustomizerHolder.IsCreatable = false;
+            IsConcurrencyCheck();
+
+            return this;
+        }
+
+        public IPropertyCustomizer IsConcurrencyCheck()
+        {
             propertyCustomizerHolder.IsConcurrencyCheck = true;
 
             return this;

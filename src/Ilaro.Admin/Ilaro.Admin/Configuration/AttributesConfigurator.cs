@@ -47,6 +47,7 @@ namespace Ilaro.Admin.Configuration
                 ForeignKey(member, customizerHolder, attributes);
                 Validation(member, customizerHolder, attributes);
                 Timestamp(member, customizerHolder, attributes);
+                ConcurrencyCheck(member, customizerHolder, attributes);
             }
         }
 
@@ -463,8 +464,8 @@ namespace Ilaro.Admin.Configuration
         }
 
         private static void Timestamp(
-            PropertyInfo member, 
-            ICustomizersHolder customizerHolder, 
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
             object[] attributes)
         {
             var attribute = attributes.GetAttribute<TimestampAttribute>();
@@ -473,6 +474,21 @@ namespace Ilaro.Admin.Configuration
                 customizerHolder.Property(member, x =>
                 {
                     x.IsTimestamp();
+                });
+            }
+        }
+
+        private static void ConcurrencyCheck(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<ConcurrencyCheckAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.IsConcurrencyCheck();
                 });
             }
         }
