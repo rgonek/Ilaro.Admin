@@ -5,8 +5,8 @@ using Ilaro.Admin.DataAnnotations;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
-using System.ComponentModel;
-using System;
+using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
+using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -47,7 +47,7 @@ namespace Ilaro.Admin.Configuration
                 ForeignKey(member, customizerHolder, attributes);
                 Validation(member, customizerHolder, attributes);
                 Timestamp(member, customizerHolder, attributes);
-                ConcurrencyCheck(member, customizerHolder, attributes);
+                PropertyConcurrencyCheck(member, customizerHolder, attributes);
             }
         }
 
@@ -478,18 +478,29 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void ConcurrencyCheck(
+        private static void PropertyConcurrencyCheck(
             PropertyInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
         {
-            var attribute = attributes.GetAttribute<ConcurrencyCheckAttribute>();
+            var attribute = attributes.GetAttribute<PropertyConcurrencyCheckAttribute>();
             if (attribute != null)
             {
                 customizerHolder.Property(member, x =>
                 {
                     x.IsConcurrencyCheck();
                 });
+            }
+        }
+
+        private static void ConcurrencyCheck(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<EntityConcurrencyCheckAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.ConcurrencyCheck();
             }
         }
     }

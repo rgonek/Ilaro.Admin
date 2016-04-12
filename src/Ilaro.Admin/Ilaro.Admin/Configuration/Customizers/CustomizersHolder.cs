@@ -108,6 +108,11 @@ namespace Ilaro.Admin.Configuration.Customizers
             _classCustomizer.SoftDeleteEnabled = true;
         }
 
+        public void ConcurrencyCheck()
+        {
+            _classCustomizer.ConcurrencyCheckEnabled = true;
+        }
+
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
         {
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
@@ -154,12 +159,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_classCustomizer.AllowDelete.HasValue)
                 entity.AllowDelete = _classCustomizer.AllowDelete.Value;
 
+            entity.ConcurrencyCheckEnabled = _classCustomizer.ConcurrencyCheckEnabled;
+
             if (_classCustomizer.PropertiesGroups.IsNullOrEmpty())
             {
                 entity.Groups.Add(new GroupProperties
                 {
-                    IsCollapsed = false,
-                    //Properties = entity.Properties
+                    IsCollapsed = false
                 });
             }
             else
@@ -169,8 +175,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     entity.Groups.Add(new GroupProperties
                     {
                         GroupName = group.Key,
-                        IsCollapsed = group.Value,
-                        //Properties = entity.Properties.Where(x => x.Group == group.Key)
+                        IsCollapsed = group.Value
                     });
                 }
             }
@@ -178,6 +183,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             SetDefaultId(entity);
             SetDefaultDisplayProperties(entity);
             SetDefaultSearchProperties(entity);
+            SetDefaultConcurrencyCheckProperty(entity);
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -193,7 +199,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
         {
             SetForeignKeysReferences(entity, admin);
-            SetDefaultConcurrencyCheckProperty(entity);
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -328,7 +333,8 @@ namespace Ilaro.Admin.Configuration.Customizers
 
         private void SetDefaultConcurrencyCheckProperty(Entity entity)
         {
-            if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck))
+            if (entity.ConcurrencyCheckEnabled ||
+                _propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck))
                 return;
 
             var concurrencyCheckProperty = entity.Properties

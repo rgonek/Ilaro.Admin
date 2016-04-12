@@ -263,6 +263,7 @@
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
+    <Compile Include="DataAnnotations\ConcurrencyCheckAttribute.cs" />
     <Compile Include="DataAnnotations\DeletableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />

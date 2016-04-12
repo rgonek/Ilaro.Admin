@@ -21,5 +21,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Editable(bool allowEdit = true);
         void Deletable(bool allowDelete = true);
         void SoftDelete();
+        void ConcurrencyCheck();
     }
 }

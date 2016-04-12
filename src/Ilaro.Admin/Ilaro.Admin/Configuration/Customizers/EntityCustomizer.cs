@@ -165,6 +165,19 @@ namespace Ilaro.Admin.Configuration.Customizers
         }
 
         /// <summary>
+        /// Enable concurrency check for that entity. 
+        /// Enabling is need when there aren't any 
+        /// specified concurrency check property and 
+        /// Ilaro.Amin needs to determine that property or use entity change
+        /// </summary>
+        public EntityCustomizer<TEntity> ConcurrencyCheck()
+        {
+            CustomizersHolder.ConcurrencyCheck();
+
+            return this;
+        }
+
+        /// <summary>
         /// Configure entity property
         /// </summary>
         public EntityCustomizer<TEntity> Property<TProperty>(

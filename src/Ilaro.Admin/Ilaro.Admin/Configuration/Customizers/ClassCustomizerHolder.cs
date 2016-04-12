@@ -18,5 +18,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool? AllowDelete { get; internal set; }
         public bool? AllowEdit { get; internal set; }
         public bool SoftDeleteEnabled { get; internal set; }
+        public bool ConcurrencyCheckEnabled { get; internal set; }
     }
 }
