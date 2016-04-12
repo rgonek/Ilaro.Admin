@@ -5,6 +5,7 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.Linq;
 using Ilaro.Admin.Models;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -192,6 +193,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
         {
             SetForeignKeysReferences(entity, admin);
+            SetDefaultConcurrencyCheckProperty(entity);
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -321,6 +323,24 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_propertyCustomizers.Any(x => x.Value.IsSearchable.HasValue) == false)
             {
                 SearchProperties(entity.GetDefaultSearchProperties().Select(x => x.PropertyInfo));
+            }
+        }
+
+        private void SetDefaultConcurrencyCheckProperty(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck))
+                return;
+
+            var concurrencyCheckProperty = entity.Properties
+                .Where(x => x.OnUpdateDefaultValue != null)
+                .Where(x => x.OnUpdateDefaultValue is ValueBehavior)
+                .FirstOrDefault(x => (x.OnUpdateDefaultValue as ValueBehavior?)
+                    .In(ValueBehavior.Now, ValueBehavior.UtcNow, ValueBehavior.Guid));
+
+            if (concurrencyCheckProperty != null)
+            {
+                GetPropertyCustomizer(concurrencyCheckProperty.PropertyInfo)
+                    .IsConcurrencyCheck = true;
             }
         }
     }
