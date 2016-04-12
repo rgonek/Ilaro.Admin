@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Resources;
 using Ilaro.Admin.DataAnnotations;
-using System.Linq;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
@@ -117,14 +117,19 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 Entity = entity,
                 Record = entityRecord,
-                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key)
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key),
+                ConcurrencyCheck = entityRecord.GetConcurrencyCheckValue()
             };
 
             return View(model);
         }
 
         [HttpPost, ValidateAntiForgeryToken, ValidateInput(false)]
-        public ActionResult Edit(string entityName, string key, FormCollection collection)
+        public ActionResult Edit(
+            string entityName,
+            string key,
+            [Bind(Prefix = "__ConcurrencyCheck")] string concurrencyCheck,
+            FormCollection collection)
         {
             var entity = _admin.GetEntity(entityName);
             if (entity == null)
