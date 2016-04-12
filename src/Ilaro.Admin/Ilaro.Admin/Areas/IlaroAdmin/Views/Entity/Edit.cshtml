@@ -20,6 +20,7 @@
 @using (Html.BeginForm("Edit", "Entity", new { area = "IlaroAdmin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ConcurrencyCheck(Model.ConcurrencyCheck)
     @Html.ValidationSummary(true)
 
     foreach (var key in Model.Record.Key)

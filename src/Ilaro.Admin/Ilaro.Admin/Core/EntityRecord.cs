@@ -41,6 +41,14 @@ namespace Ilaro.Admin.Core
             get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.AsString)); }
         }
 
+        public PropertyValue ConcurrencyCheck
+        {
+            get
+            {
+                return Values.FirstOrDefault(x => x.Property.IsConcurrencyCheck);
+            }
+        }
+
         public PropertyValue this[string propertyName]
         {
             get { return Values.FirstOrDefault(x => x.Property.Name == propertyName); }
