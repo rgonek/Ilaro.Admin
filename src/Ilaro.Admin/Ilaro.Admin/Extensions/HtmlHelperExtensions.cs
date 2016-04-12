@@ -139,5 +139,15 @@ namespace Ilaro.Admin.Extensions
         {
             return MvcHtmlString.Create(condition ? trueResult() : String.Empty);
         }
+
+        public static MvcHtmlString ConcurrencyCheck(
+            this HtmlHelper htmlHelper,
+            string concurrencyCheckValue)
+        {
+            if (concurrencyCheckValue.IsNullOrEmpty())
+                return MvcHtmlString.Empty;
+
+            return htmlHelper.Hidden("__ConcurrencyCheck", concurrencyCheckValue);
+        }
     }
 }
