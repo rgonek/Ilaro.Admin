@@ -279,5 +279,14 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer IsTimestamp()
+        {
+            propertyCustomizerHolder.IsTimestamp = true;
+            propertyCustomizerHolder.IsCreatable = false;
+            propertyCustomizerHolder.IsConcurrencyCheck = true;
+
+            return this;
+        }
     }
 }

@@ -136,5 +136,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Regular expression property validator
         /// </summary>
         IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null);
+        /// <summary>
+        /// Mark property as timestamp
+        /// </summary>
+        IPropertyCustomizer IsTimestamp();
     }
 }

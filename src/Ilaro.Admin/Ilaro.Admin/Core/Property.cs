@@ -80,6 +80,10 @@ namespace Ilaro.Admin.Core
         public object OnUpdateDefaultValue { get; internal set; }
         public object OnDeleteDefaultValue { get; internal set; }
 
+        public bool IsCreatable { get; internal set; } = true;
+        public bool IsTimestamp { get; internal set; }
+        public bool IsConcurrencyCheck { get; internal set; }
+
         public Property(Entity entity, PropertyInfo property)
         {
             if (property == null)

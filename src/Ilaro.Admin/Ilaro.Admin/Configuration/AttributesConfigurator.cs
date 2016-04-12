@@ -46,6 +46,7 @@ namespace Ilaro.Admin.Configuration
                 Required(member, customizerHolder, attributes);
                 ForeignKey(member, customizerHolder, attributes);
                 Validation(member, customizerHolder, attributes);
+                Timestamp(member, customizerHolder, attributes);
             }
         }
 
@@ -457,6 +458,21 @@ namespace Ilaro.Admin.Configuration
                 customizerHolder.Property(member, x =>
                 {
                     x.Validators(validators);
+                });
+            }
+        }
+
+        private static void Timestamp(
+            PropertyInfo member, 
+            ICustomizersHolder customizerHolder, 
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<TimestampAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.IsTimestamp();
                 });
             }
         }

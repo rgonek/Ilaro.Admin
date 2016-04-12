@@ -233,6 +233,10 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.Validators.IsNullOrEmpty() == false)
                     property.Validators = propertyCustomizer.Validators.ToList();
 
+                property.IsCreatable = propertyCustomizer.IsCreatable;
+                property.IsTimestamp = propertyCustomizer.IsTimestamp;
+                property.IsConcurrencyCheck = propertyCustomizer.IsConcurrencyCheck;
+
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
                     property.Template.Display = propertyCustomizer.DisplayTemplate;
