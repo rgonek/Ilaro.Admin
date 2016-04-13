@@ -58,7 +58,7 @@ namespace Ilaro.Admin.Core
                     }
                 }
 
-                return Raw.ToStringSafe();
+                return Raw.ToStringSafe(Property);
             }
         }
         public object AsObject
