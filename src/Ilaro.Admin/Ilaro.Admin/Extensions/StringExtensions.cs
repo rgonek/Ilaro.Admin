@@ -168,7 +168,7 @@ namespace Ilaro.Admin.Extensions
         {
             if (value == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             if (property.TypeInfo.DataType == DataType.Numeric)

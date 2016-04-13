@@ -142,9 +142,9 @@ namespace Ilaro.Admin.Extensions
 
         public static MvcHtmlString ConcurrencyCheck(
             this HtmlHelper htmlHelper,
-            string concurrencyCheckValue)
+            object concurrencyCheckValue)
         {
-            if (concurrencyCheckValue.IsNullOrEmpty())
+            if (concurrencyCheckValue == null)
                 return MvcHtmlString.Empty;
 
             return htmlHelper.Hidden("__ConcurrencyCheck", concurrencyCheckValue);

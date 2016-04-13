@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Ilaro.Admin.Core.Extensions
 {
     public static class EntityRecordExtensions
     {
-        public static string GetConcurrencyCheckValue(this EntityRecord entityRecord)
+        public static object GetConcurrencyCheckValue(this EntityRecord entityRecord)
         {
             if (entityRecord.Entity.ConcurrencyCheckEnabled == false)
                 return null;
@@ -13,8 +12,8 @@ namespace Ilaro.Admin.Core.Extensions
             var concurrencyCheckProperty = entityRecord.ConcurrencyCheck;
 
             return concurrencyCheckProperty != null ?
-                concurrencyCheckProperty.AsString :
-                DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
+                concurrencyCheckProperty.AsObject :
+                DateTime.UtcNow;
         }
     }
 }
