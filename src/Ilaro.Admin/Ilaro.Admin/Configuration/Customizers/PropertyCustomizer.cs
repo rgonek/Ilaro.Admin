@@ -285,6 +285,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             propertyCustomizerHolder.IsTimestamp = true;
             propertyCustomizerHolder.IsCreatable = false;
             IsConcurrencyCheck();
+            Type(Core.DataType.Binary);
 
             return this;
         }

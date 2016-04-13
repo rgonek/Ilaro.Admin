@@ -9,6 +9,7 @@
         Enum = 4,
         DateTime = 5,
         File = 6,
-        Image = 7
+        Image = 7,
+        Binary = 8
     }
 }
