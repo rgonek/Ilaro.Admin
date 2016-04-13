@@ -195,9 +195,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             return Type(Core.DataType.Enum);
         }
 
-        public IPropertyCustomizer Visible()
+        public IPropertyCustomizer Visible(bool isVisible = true)
         {
-            propertyCustomizerHolder.IsVisible = true;
+            propertyCustomizerHolder.IsVisible = isVisible;
 
             return this;
         }
@@ -284,6 +284,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             propertyCustomizerHolder.IsTimestamp = true;
             propertyCustomizerHolder.IsCreatable = false;
+            Visible(false);
             IsConcurrencyCheck();
             Type(Core.DataType.Binary);
 

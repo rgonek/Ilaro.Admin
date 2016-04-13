@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Make property visible
         /// </summary>
-        IPropertyCustomizer Visible();
+        IPropertyCustomizer Visible(bool isVisible = true);
         /// <summary>
         /// Static default value for property
         /// </summary>
