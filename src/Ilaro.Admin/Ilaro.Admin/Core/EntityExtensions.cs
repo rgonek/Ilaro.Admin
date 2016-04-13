@@ -1,6 +1,5 @@
-﻿using Ilaro.Admin.Extensions;
-using Ilaro.Admin.Models;
-using System;
+﻿using Ilaro.Admin.Core.Extensions;
+using Ilaro.Admin.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,35 +9,7 @@ namespace Ilaro.Admin.Core
     {
         internal static IEnumerable<Property> GetDefaultDisplayProperties(this Entity entity)
         {
-            foreach (var property in entity.Properties)
-            {
-                // Get all properties which is not a key and foreign key
-                if (!property.IsForeignKey)
-                {
-                    yield return property;
-                }
-
-                else if (property.IsForeignKey)
-                {
-                    // If is foreign key and not have reference property
-                    if (
-                        property.ReferenceProperty == null &&
-                        !property.TypeInfo.IsCollection)
-                    {
-                        yield return property;
-                    }
-                    // If is foreign key and have foreign key, that means, 
-                    // we have two properties for one database column, 
-                    // so I want only that one who is a system type
-                    else if (
-                        property.ReferenceProperty != null &&
-                        property.TypeInfo.IsSystemType &&
-                        !property.TypeInfo.IsCollection)
-                    {
-                        yield return property;
-                    }
-                }
-            }
+            return entity.Properties.Where(x => x.GetDefaultVisibility());
         }
 
         internal static IEnumerable<Property> GetDefaultSearchProperties(this Entity entity)

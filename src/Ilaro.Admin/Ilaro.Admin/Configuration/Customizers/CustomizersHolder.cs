@@ -6,6 +6,7 @@ using Ilaro.Admin.Extensions;
 using System.Linq;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -183,7 +184,6 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
 
             SetDefaultId(entity);
-            SetDefaultDisplayProperties(entity);
             SetDefaultSearchProperties(entity);
             if (entity.ConcurrencyCheckEnabled)
             {
@@ -218,8 +218,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];
 
-                if (propertyCustomizer.IsVisible.HasValue)
-                    property.IsVisible = propertyCustomizer.IsVisible.Value;
+                property.IsVisible =
+                    propertyCustomizer.IsVisible.GetValueOrDefault(property.GetDefaultVisibility());
 
                 if (propertyCustomizer.IsSearchable.HasValue)
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
@@ -325,14 +325,6 @@ namespace Ilaro.Admin.Configuration.Customizers
                 {
                     Id(new[] { key.PropertyInfo });
                 }
-            }
-        }
-
-        private void SetDefaultDisplayProperties(Entity entity)
-        {
-            if (_propertyCustomizers.Any(x => x.Value.IsVisible.HasValue) == false)
-            {
-                DisplayProperties(entity.GetDefaultDisplayProperties().Select(x => x.PropertyInfo));
             }
         }
 
