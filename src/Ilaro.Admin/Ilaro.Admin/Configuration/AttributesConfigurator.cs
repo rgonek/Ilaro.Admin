@@ -26,6 +26,7 @@ namespace Ilaro.Admin.Configuration
             Columns(customizerHolder, attributes);
             Groups(customizerHolder, attributes);
             SoftDelete(customizerHolder, attributes);
+            ConcurrencyCheck(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -47,7 +48,7 @@ namespace Ilaro.Admin.Configuration
                 ForeignKey(member, customizerHolder, attributes);
                 Validation(member, customizerHolder, attributes);
                 Timestamp(member, customizerHolder, attributes);
-                PropertyConcurrencyCheck(member, customizerHolder, attributes);
+                ConcurrencyCheck(member, customizerHolder, attributes);
             }
         }
 
@@ -478,7 +479,7 @@ namespace Ilaro.Admin.Configuration
             }
         }
 
-        private static void PropertyConcurrencyCheck(
+        private static void ConcurrencyCheck(
             PropertyInfo member,
             ICustomizersHolder customizerHolder,
             object[] attributes)
