@@ -8,6 +8,8 @@ using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Massive;
 using Ilaro.Admin.Core.Extensions;
+using Ilaro.Admin.Core.Data.Extensions;
+using Resources;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -40,11 +42,17 @@ namespace Ilaro.Admin.Core.Data
             _user = user;
         }
 
-        public bool Update(EntityRecord entityRecord, Func<string> changeDescriber = null)
+        public bool Update(
+            EntityRecord entityRecord,
+            object concurrencyCheckValue = null,
+            Func<string> changeDescriber = null)
         {
             try
             {
-                var cmd = CreateCommand(entityRecord);
+                var cmd = CreateCommand(entityRecord, concurrencyCheckValue);
+
+                var previewSql = cmd.PreviewCommandText();
+                _log.Debug(previewSql);
 
                 var result = _executor.ExecuteWithChanges(
                     cmd,
@@ -52,7 +60,16 @@ namespace Ilaro.Admin.Core.Data
                     EntityChangeType.Update,
                     changeDescriber);
 
-                return result != null;
+                if (result == null)
+                    return false;
+                if (result.Is(Const.ConcurrencyCheckError_ReturnValue))
+                    throw new ConcurrencyCheckException(IlaroAdminResources.ConcurrencyCheckError);
+
+                return true;
+            }
+            catch (ConcurrencyCheckException ex)
+            {
+                throw;
             }
             catch (Exception ex)
             {
@@ -61,11 +78,13 @@ namespace Ilaro.Admin.Core.Data
             }
         }
 
-        private DbCommand CreateCommand(EntityRecord entityRecord)
+        private DbCommand CreateCommand(
+            EntityRecord entityRecord,
+            object concurrencyCheckValue = null)
         {
             var cmd = CreateBaseCommand(entityRecord);
-            if (entityRecord.Key.Count == 1)
-                AddForeignsUpdate(cmd, entityRecord);
+            AddConcurrencyCheck(cmd, entityRecord, concurrencyCheckValue);
+            AddForeignsUpdate(cmd, entityRecord);
 
             return cmd;
         }
@@ -77,6 +96,7 @@ namespace Ilaro.Admin.Core.Data
             var updateProperties = entityRecord.Values
                 .WhereIsNotSkipped()
                 .WhereIsNotOneToMany()
+                .Where(value => value.Property.IsCreatable)
                 .Where(value => value.Property.IsKey == false)
                 .ToList();
             if (updateProperties.Any())
@@ -90,19 +110,10 @@ namespace Ilaro.Admin.Core.Data
                     var parameterName = (counter++).ToString();
                     setsList.Add($"{column} = @{parameterName}");
                 }
-                cmd.AddParams(entityRecord.Key.Select(value => value.Raw).ToArray());
                 var setsSeparator = "," + Environment.NewLine + "       ";
                 var sets = string.Join(setsSeparator, setsList);
-                var whereParts = new List<string>();
-                foreach (var key in entityRecord.Key)
-                {
-                    var column = key.Property.Column;
-                    var parameterName = (counter++).ToString();
-                    whereParts.Add($"{key.Property.Column} = @{parameterName}");
-                }
-                var constraintSeparator = Environment.NewLine + "   AND ";
-                var constraints = string.Join(constraintSeparator, whereParts);
                 var table = entityRecord.Entity.Table;
+                var constraints = GetConstraints(entityRecord.Key, cmd);
                 cmd.CommandText = $@"-- update record
 UPDATE {table}
    SET {sets} 
@@ -112,14 +123,62 @@ UPDATE {table}
             cmd.AddParam(entityRecord.JoinedKeyValue);
             var joinedKeyValueParameterName = counter.ToString();
             cmd.CommandText += $@"-- return record id
-SELECT @{joinedKeyValueParameterName};
--- update foreign entities records";
+SELECT @{joinedKeyValueParameterName};";
 
             return cmd;
         }
 
+        protected virtual string GetConstraints(IEnumerable<PropertyValue> keys, DbCommand cmd)
+        {
+            var counter = cmd.Parameters.Count;
+            var whereParts = new List<string>();
+            foreach (var key in keys)
+            {
+                var column = key.Property.Column;
+                var parameterName = (counter++).ToString();
+                whereParts.Add($"{key.Property.Column} = @{parameterName}");
+            }
+            var constraintSeparator = Environment.NewLine + "   AND ";
+            var constraints = string.Join(constraintSeparator, whereParts);
+            cmd.AddParams(keys.Select(value => value.Raw).ToArray());
+
+            return constraints;
+        }
+
+        protected virtual void AddConcurrencyCheck(
+            DbCommand cmd,
+            EntityRecord entityRecord,
+            object concurrencyCheckValue)
+        {
+            if (entityRecord.Entity.ConcurrencyCheckEnabled == false)
+                return;
+
+            if (concurrencyCheckValue == null)
+                throw new InvalidOperationException(IlaroAdminResources.EmptyConcurrencyCheckValue);
+
+            var propertyValue = entityRecord.ConcurrencyCheck;
+            var concurrencyCheckParam = cmd.Parameters.Count.ToString();
+            cmd.AddParam(concurrencyCheckValue);
+
+            var constraints = GetConstraints(entityRecord.Key, cmd);
+            var concurrencyCheckSql = $@"-- concurrency check
+IF(@{concurrencyCheckParam} <>
+    (SELECT {propertyValue.Property.Column} 
+       FROM {entityRecord.Entity.Table}
+      WHERE {constraints}))
+BEGIN
+    SELECT {Const.ConcurrencyCheckError_ReturnValue};
+    RETURN;
+END
+";
+
+            cmd.CommandText = concurrencyCheckSql + cmd.CommandText;
+        }
+
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
+            if (entityRecord.Key.Count > 1)
+                return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
             foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
@@ -181,7 +240,7 @@ SELECT @{joinedKeyValueParameterName};
                 cmd.AddParam(entityRecord.Key.FirstOrDefault().Raw);
             }
 
-            cmd.CommandText += sbUpdates.ToString();
+            cmd.CommandText += Environment.NewLine + "-- update foreign entities records" + sbUpdates.ToString();
         }
 
         private string BuildForeignUpdateSql(

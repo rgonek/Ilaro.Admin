@@ -151,6 +151,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record have been edited while you was editing it. Please refresh page and edit actual record..
+        /// </summary>
+        internal static string ConcurrencyCheckError {
+            get {
+                return ResourceManager.GetString("ConcurrencyCheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create {0}.
         /// </summary>
         internal static string Create_Title {
@@ -219,6 +228,15 @@ namespace Resources {
         internal static string EditSuccess {
             get {
                 return ResourceManager.GetString("EditSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concurrency check value cannot be empty..
+        /// </summary>
+        internal static string EmptyConcurrencyCheckValue {
+            get {
+                return ResourceManager.GetString("EmptyConcurrencyCheckValue", resourceCulture);
             }
         }
         

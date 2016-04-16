@@ -6,6 +6,7 @@ using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Resources;
 using Ilaro.Admin.DataAnnotations;
+using System.Text;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
@@ -137,22 +138,15 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName });
             }
 
-            try
-            {
-                var isSuccess = _entityService.Edit(entity, key, collection, Request.Files);
-                if (isSuccess)
-                {
-                    _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
+            var concurrencyCheckValue = ConcurrencyCheck.Convert(concurrencyCheck, entity);
 
-                    return SaveOrUpdateSucceed(entityName, key);
-                }
-            }
-            catch (Exception ex)
+            var isSuccess = _entityService.Edit(entity, key, collection, Request.Files, concurrencyCheckValue);
+            if (isSuccess)
             {
-                _log.Error(ex);
-                _notificator.Error(ex.Message);
-            }
+                _notificator.Success(IlaroAdminResources.EditSuccess, entity.Verbose.Singular);
 
+                return SaveOrUpdateSucceed(entityName, key);
+            }
 
             var entityRecord = new EntityRecord(entity);
             entityRecord.Fill(key, collection, Request.Files);
@@ -161,7 +155,8 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 Entity = entity,
                 Record = entityRecord,
-                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key)
+                PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key),
+                ConcurrencyCheck = entityRecord.GetConcurrencyCheckValue(concurrencyCheckValue)
             };
 
             return View(model);

@@ -4,7 +4,9 @@ namespace Ilaro.Admin.Core.Extensions
 {
     public static class EntityRecordExtensions
     {
-        public static object GetConcurrencyCheckValue(this EntityRecord entityRecord)
+        public static object GetConcurrencyCheckValue(
+            this EntityRecord entityRecord, 
+            object concurrencyCheckValue = null)
         {
             if (entityRecord.Entity.ConcurrencyCheckEnabled == false)
                 return null;
@@ -13,7 +15,7 @@ namespace Ilaro.Admin.Core.Extensions
 
             return concurrencyCheckProperty != null ?
                 concurrencyCheckProperty.AsObject :
-                DateTime.UtcNow;
+                concurrencyCheckValue ?? DateTime.UtcNow;
         }
     }
 }

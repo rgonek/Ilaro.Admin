@@ -108,39 +108,62 @@ namespace Ilaro.Admin.Core.Data
             Entity entity,
             string key,
             FormCollection collection,
-            HttpFileCollectionBase files)
+            HttpFileCollectionBase files,
+            object concurrencyCheckValue = null)
         {
-            var existingRecord = _source.GetRecord(entity, key);
-            if (existingRecord == null)
+            try
             {
-                _notificator.Error(IlaroAdminResources.EntityNotExist);
+                var existingRecord = _source.GetRecord(entity, key);
+                if (existingRecord == null)
+                {
+                    _notificator.Error(IlaroAdminResources.EntityNotExist);
+                    return false;
+                }
+
+                var entityRecord = new EntityRecord(entity);
+                entityRecord.Fill(key, collection, files, x => x.OnUpdateDefaultValue);
+                if (_validator.Validate(entityRecord) == false)
+                {
+                    _notificator.Error(IlaroAdminResources.RecordNotValid);
+                    return false;
+                }
+
+                var propertiesWithUploadedFiles = _filesHandler.Upload(
+                    entityRecord,
+                    x => x.OnUpdateDefaultValue);
+
+                _comparer.SkipNotChangedProperties(entityRecord, existingRecord);
+
+                var result = false;
+
+
+                try
+                {
+                    result = _updater.Update(
+                        entityRecord,
+                        concurrencyCheckValue,
+                        () => _changeDescriber.UpdateChanges(entityRecord, existingRecord));
+                }
+                catch (Exception ex)
+                {
+                    _log.Error(ex.Message);
+                    _notificator.Error(ex.Message);
+                }
+
+                if (result)
+                    _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);
+                else
+                    _filesHandler.DeleteUploaded(propertiesWithUploadedFiles);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex.Message);
+                _notificator.Error(ex.Message);
+
                 return false;
             }
-
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(key, collection, files, x => x.OnUpdateDefaultValue);
-            if (_validator.Validate(entityRecord) == false)
-            {
-                _notificator.Error(IlaroAdminResources.RecordNotValid);
-                return false;
-            }
-
-            var propertiesWithUploadedFiles = _filesHandler.Upload(
-                entityRecord,
-                x => x.OnUpdateDefaultValue);
-
-            _comparer.SkipNotChangedProperties(entityRecord, existingRecord);
-
-            var result = _updater.Update(
-                entityRecord,
-                () => _changeDescriber.UpdateChanges(entityRecord, existingRecord));
-
-            if (result)
-                _filesHandler.ProcessUploaded(propertiesWithUploadedFiles, existingRecord);
-            else
-                _filesHandler.DeleteUploaded(propertiesWithUploadedFiles);
-
-            return result;
         }
 
         public bool Delete(Entity entity, string key, IEnumerable<PropertyDeleteOption> options)
