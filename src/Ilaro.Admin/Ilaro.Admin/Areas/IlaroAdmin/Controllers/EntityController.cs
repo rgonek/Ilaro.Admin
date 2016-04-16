@@ -156,7 +156,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 Entity = entity,
                 Record = entityRecord,
                 PropertiesGroups = _entityService.PrepareGroups(entityRecord, getKey: false, key: key),
-                ConcurrencyCheck = entityRecord.GetConcurrencyCheckValue(concurrencyCheckValue)
+                ConcurrencyCheck = concurrencyCheckValue
             };
 
             return View(model);
