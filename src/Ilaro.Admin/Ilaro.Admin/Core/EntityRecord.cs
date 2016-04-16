@@ -182,6 +182,7 @@ namespace Ilaro.Admin.Core
             foreach (var propertyValue in Values
                 .Where(value =>
                     value.Raw != null &&
+                    (value.Raw is ValueBehavior) == false &&
                     !value.Property.IsForeignKey ||
                     (value.Property.IsForeignKey && value.Property.TypeInfo.IsSystemType)))
             {
