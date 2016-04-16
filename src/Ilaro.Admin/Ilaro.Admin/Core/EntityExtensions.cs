@@ -25,7 +25,9 @@ namespace Ilaro.Admin.Core
             bool getKey = true,
             bool getForeignCollection = true)
         {
-            var properties = entity.Properties.Where(x => x.IsCreatable);
+            var properties = entity.Properties
+                .Where(x => x.IsCreatable)
+                .Where(x => x.IsConcurrencyCheck == false);
             if (properties.Any(x => x.Group.HasValue()))
             {
                 properties = properties.Where(x => x.Group.HasValue());

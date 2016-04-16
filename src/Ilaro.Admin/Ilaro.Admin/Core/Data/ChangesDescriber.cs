@@ -11,6 +11,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var updateProperties = entityRecord.Values
                 .WhereIsNotSkipped()
+                .Where(x => x.Raw is ValueBehavior == false)
                 .Where(value => value.Property.IsKey == false)
                 .ToList();
 
@@ -25,9 +26,9 @@ namespace Ilaro.Admin.Core.Data
                 {
                     var oldValue = existingRecord[columnName];
                     changeBuilder.AppendFormat(
-                        "{0} ({1} => {2})", 
-                        propertyValue.Property.Name, 
-                        oldValue.ToStringSafe(), 
+                        "{0} ({1} => {2})",
+                        propertyValue.Property.Name,
+                        oldValue.ToStringSafe(),
                         propertyValue.AsString);
                     changeBuilder.AppendLine();
                 }
