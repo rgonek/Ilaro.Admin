@@ -7,6 +7,7 @@ using System.Web.Routing;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Filters;
 using Ilaro.Admin.Models;
+using System.Globalization;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -23,9 +24,9 @@ namespace Ilaro.Admin.Extensions
                 htmlHelper.ViewContext.RequestContext.HttpContext.Request.QueryString.ToRouteValueDictionary();
             var newRouteValues = new Dictionary<string, object>
             {
-                { "area", "IlaroAdmin" }, 
-                { "page", "1" }, 
-                { filter.Property.Name, value } 
+                { "area", "IlaroAdmin" },
+                { "page", "1" },
+                { filter.Property.Name, value }
             };
 
             return htmlHelper.ActionLink(
@@ -63,8 +64,8 @@ namespace Ilaro.Admin.Extensions
                 entity.Name;
             var routeValues = new Dictionary<string, object>
             {
-                { "area", "IlaroAdmin" }, 
-                { "EntityName", entityName }, 
+                { "area", "IlaroAdmin" },
+                { "EntityName", entityName },
                 { "pp", perPage }
             };
             if (!searchQuery.IsNullOrEmpty())
@@ -146,6 +147,12 @@ namespace Ilaro.Admin.Extensions
         {
             if (concurrencyCheckValue == null)
                 return MvcHtmlString.Empty;
+
+            if (concurrencyCheckValue is DateTime)
+            {
+                concurrencyCheckValue = (concurrencyCheckValue as DateTime?).Value
+                    .ToString("dd/MM/yyyy HH:mm:ss.fff", CultureInfo.CurrentCulture);
+            }
 
             return htmlHelper.Hidden("__ConcurrencyCheck", concurrencyCheckValue);
         }

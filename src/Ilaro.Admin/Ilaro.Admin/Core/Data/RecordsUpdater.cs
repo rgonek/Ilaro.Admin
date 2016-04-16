@@ -158,8 +158,7 @@ SELECT @{joinedKeyValueParameterName};";
 
             var propertyValue = entityRecord.ConcurrencyCheck;
             var concurrencyCheckParam = cmd.Parameters.Count.ToString();
-            //cmd.AddParam(concurrencyCheckValue);
-            cmd.AddParam(DateTime.Parse("2016-04-16 21:37:24.380"));
+            cmd.AddParam(concurrencyCheckValue);
 
             var constraints = GetConstraints(entityRecord.Key, cmd);
             var concurrencyCheckSql = $@"-- concurrency check
