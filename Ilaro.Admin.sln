@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin", "src\Ilaro.Admin\Ilaro.Admin.csproj", "{87DB09C0-33DE-4198-95DB-7C157D1A705C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Sample", "src\Ilaro.Admin.Sample\Ilaro.Admin.Sample.csproj", "{F15A6DE0-62D0-4A5D-8EED-CD8D32B3574B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Sample", "samples\Ilaro.Admin.Sample\Ilaro.Admin.Sample.csproj", "{F15A6DE0-62D0-4A5D-8EED-CD8D32B3574B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests", "tests\Ilaro.Admin.Tests\Ilaro.Admin.Tests.csproj", "{3DD5C3C0-58B6-4FE3-AC57-73B24194242D}"
 EndProject
