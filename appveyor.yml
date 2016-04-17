@@ -1,11 +1,8 @@
 version: 1.0.{build}
 services:
   - mssql2014
-before_build:
-- ps: nuget restore Ilaro.Admin.sln
-build:
-  project: Ilaro.Admin.sln
-  verbosity: minimal
+build_script:
+- ps: ./build.ps1
 before_test:
 - ps: >-
     $startPath = "$($env:appveyor_build_folder)\tests\Ilaro.Admin.Tests\bin\Debug"
