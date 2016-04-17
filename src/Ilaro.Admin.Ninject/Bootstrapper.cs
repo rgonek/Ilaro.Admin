@@ -54,6 +54,7 @@ namespace Ilaro.Admin.Ninject
         private static void RegisterTypes(IKernel kernel)
         {
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
+
             kernel.Bind<IEntityService>().To<EntityService>();
             kernel.Bind<IValidatingEntities>().To<EntityValidator>();
             kernel.Bind<IValidatingFiles>().To<FileValidator>();

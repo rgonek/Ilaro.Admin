@@ -14,14 +14,14 @@ namespace Ilaro.Admin.Unity
     {
         public static IUnityContainer Initialise()
         {
-            var container = BuildUnityContainer();
+            var container = BuildContainer();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 
             return container;
         }
 
-        private static IUnityContainer BuildUnityContainer()
+        private static IUnityContainer BuildContainer()
         {
             var container = new UnityContainer();
 
@@ -36,6 +36,7 @@ namespace Ilaro.Admin.Unity
                 typeof(Notificator),
                 new PerUserCacheLifetimeManager(),
                 new InjectionConstructor());
+
             container.RegisterType<IEntityService, EntityService>();
             container.RegisterType<IValidatingEntities, EntityValidator>();
             container.RegisterType<IValidatingFiles, FileValidator>();
