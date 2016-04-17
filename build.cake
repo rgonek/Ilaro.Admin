@@ -111,7 +111,8 @@ Task("Default")
     .IsDependentOn("Run-Unit-Tests");
     
 Task("AppVeyor")
-    .IsDependentOn("Update-AppVeyor-Build-Number");
+    .IsDependentOn("Update-AppVeyor-Build-Number")
+    .IsDependentOn("Run-Unit-Tests");
 
 // Execution
 RunTarget(target);

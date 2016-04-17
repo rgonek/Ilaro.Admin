@@ -1,5 +1,5 @@
 services:
   - mssql2014
 build_script:
-- ps: ./build.ps1
+- ps: ./build.ps1 -Target "AppVeyor"
 test: off
