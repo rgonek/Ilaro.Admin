@@ -29,6 +29,11 @@ namespace Ilaro.Admin.Core
             typeof(bool), typeof(bool?)
         };
 
+        private static readonly Type[] Guid = new[]
+        {
+            typeof(Guid), typeof(Guid?)
+        };
+
         private static readonly Type[] AvailableForSearch = new[]
         {
             typeof (string),
@@ -67,6 +72,11 @@ namespace Ilaro.Admin.Core
         public static bool IsBool(Type type)
         {
             return Bool.Contains(type);
+        }
+
+        public static bool IsGuid(Type type)
+        {
+            return Guid.Contains(type);
         }
 
         public static bool IsAvailableForSearch(Type type)

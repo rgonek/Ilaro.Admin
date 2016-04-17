@@ -18,8 +18,11 @@ namespace Ilaro.Admin.Core
                 return DateTime.Parse(concurrencyCheck, CultureInfo.CurrentCulture);
             }
 
-            if (property.IsConcurrencyCheck && property.TypeInfo.Type == typeof(byte[]))
+            if (property.TypeInfo.Type == typeof(byte[]))
                 return System.Convert.FromBase64String(concurrencyCheck);
+
+            if (property.TypeInfo.IsGuid)
+                return Guid.Parse(concurrencyCheck);
 
             return System.Convert.ChangeType(
                 concurrencyCheck, 
