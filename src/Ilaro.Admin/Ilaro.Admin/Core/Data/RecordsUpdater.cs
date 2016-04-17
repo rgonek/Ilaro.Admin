@@ -128,15 +128,20 @@ SELECT @{joinedKeyValueParameterName};";
             return cmd;
         }
 
-        protected virtual string GetConstraints(IEnumerable<PropertyValue> keys, DbCommand cmd)
+        protected virtual string GetConstraints(
+            IEnumerable<PropertyValue> keys, 
+            DbCommand cmd, 
+            string alias = null)
         {
+            if (alias.HasValue())
+                alias += ".";
             var counter = cmd.Parameters.Count;
             var whereParts = new List<string>();
             foreach (var key in keys)
             {
                 var column = key.Property.Column;
                 var parameterName = (counter++).ToString();
-                whereParts.Add($"{key.Property.Column} = @{parameterName}");
+                whereParts.Add($"{alias}{key.Property.Column} = @{parameterName}");
             }
             var constraintSeparator = Environment.NewLine + "   AND ";
             var constraints = string.Join(constraintSeparator, whereParts);
@@ -156,16 +161,15 @@ SELECT @{joinedKeyValueParameterName};";
             if (concurrencyCheckValue == null)
                 throw new InvalidOperationException(IlaroAdminResources.EmptyConcurrencyCheckValue);
 
-            var propertyValue = entityRecord.ConcurrencyCheck;
+            var property = entityRecord.Entity.Properties.FirstOrDefault(x => x.IsConcurrencyCheck);
             var concurrencyCheckParam = cmd.Parameters.Count.ToString();
             cmd.AddParam(concurrencyCheckValue);
 
-            var constraints = GetConstraints(entityRecord.Key, cmd);
+            var concurrencyCheckConstraint = 
+                GetConcurrencyCheckValueSql(cmd, entityRecord, property, concurrencyCheckParam);
+
             var concurrencyCheckSql = $@"-- concurrency check
-IF(@{concurrencyCheckParam} <>
-    (SELECT {propertyValue.Property.Column} 
-       FROM {entityRecord.Entity.Table}
-      WHERE {constraints}))
+IF({concurrencyCheckConstraint})
 BEGIN
     SELECT {Const.ConcurrencyCheckError_ReturnValue};
     RETURN;
@@ -173,6 +177,50 @@ END
 ";
 
             cmd.CommandText = concurrencyCheckSql + cmd.CommandText;
+        }
+
+        private string GetConcurrencyCheckValueSql(
+            DbCommand cmd,
+            EntityRecord entityRecord,
+            Property property,
+            string concurrencyCheckParam)
+        {
+            string sql;
+            if (property == null)
+            {
+                var entityChange = _admin.ChangeEntity;
+                var changedOn = entityChange[nameof(IEntityChange.ChangedOn)];
+                var changedEntityName = entityChange[nameof(IEntityChange.EntityName)];
+                var changedEntityKey = entityChange[nameof(IEntityChange.EntityKey)];
+
+                var changedEntityNameParam = cmd.Parameters.Count;
+                cmd.AddParam(entityRecord.Entity.Name);
+                var changedEntityKeyParam = cmd.Parameters.Count;
+                cmd.AddParam(entityRecord.JoinedKeyValue);
+
+                var constraints = GetConstraints(entityRecord.Key, cmd, "[t0]");
+
+                sql = $@"@{concurrencyCheckParam} <=
+    (SELECT TOP 1 [ec].{changedOn.Column}
+      FROM {entityChange.Table} as [ec]
+     INNER JOIN {entityRecord.Entity.Table} as [t0] ON (
+           [ec].{changedEntityName.Column} = @{changedEntityNameParam}
+       AND [ec].{changedEntityKey.Column} = @{changedEntityKeyParam}
+       )
+     WHERE {constraints}
+     ORDER BY [ec].{changedOn.Column} DESC)";
+            }
+            else
+            {
+                var constraints = GetConstraints(entityRecord.Key, cmd);
+
+                sql = $@"@{concurrencyCheckParam} <>
+    (SELECT {property.Column}
+      FROM {entityRecord.Entity.Table}
+     WHERE {constraints})";
+            }
+
+            return sql;
         }
 
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
