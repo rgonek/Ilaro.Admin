@@ -1,4 +1,3 @@
-version: 1.0.{build}
 services:
   - mssql2014
 build_script:
