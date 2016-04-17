@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin", "src\Ilaro.Ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Sample", "src\Ilaro.Admin.Sample\Ilaro.Admin.Sample.csproj", "{F15A6DE0-62D0-4A5D-8EED-CD8D32B3574B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests", "src\Ilaro.Admin.Tests\Ilaro.Admin.Tests.csproj", "{3DD5C3C0-58B6-4FE3-AC57-73B24194242D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests", "tests\Ilaro.Admin.Tests\Ilaro.Admin.Tests.csproj", "{3DD5C3C0-58B6-4FE3-AC57-73B24194242D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Unity", "src\Ilaro.Admin.Unity\Ilaro.Admin.Unity.csproj", "{47436AF8-4C93-4639-9B7A-65308AAA322B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Ninject", "src\Ilaro.Admin.Ninject\Ilaro.Admin.Ninject.csproj", "{EACA1818-AA0C-4B92-8F64-DA4FE4AEC46B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests.Scenarios.ScannedAssembly", "src\Ilaro.Admin.Tests.Scenarios.ScannedAssembly\Ilaro.Admin.Tests.Scenarios.ScannedAssembly.csproj", "{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests.Scenarios.ScannedAssembly", "tests\Ilaro.Admin.Tests.Scenarios.ScannedAssembly\Ilaro.Admin.Tests.Scenarios.ScannedAssembly.csproj", "{DAA05F94-4336-4370-89AB-1CFD1E94B3BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
