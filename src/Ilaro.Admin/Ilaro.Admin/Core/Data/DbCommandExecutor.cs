@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core.Data
             string keyValue,
             Func<string> changeDescriber = null)
         {
-            if(changeType == EntityChangeType.Insert)
+            if (changeType == EntityChangeType.Insert)
             {
                 entityRecord.SetKeyValue(keyValue);
             }

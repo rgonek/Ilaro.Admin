@@ -47,6 +47,10 @@ namespace Ilaro.Admin.Core
         {
             get { return TypeInfo.IsBool(Type); }
         }
+        public bool IsGuid
+        {
+            get { return TypeInfo.IsGuid(Type); }
+        }
         public bool IsAvailableForSearch
         {
             get { return TypeInfo.IsAvailableForSearch(Type); }

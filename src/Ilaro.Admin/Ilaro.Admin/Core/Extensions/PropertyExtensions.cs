@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Core.Extensions
     public static class PropertyExtensions
     {
         public static MultiSelectList GetPossibleValues(
-            this PropertyValue propertyValue, 
+            this PropertyValue propertyValue,
             bool addChooseItem = true)
         {
             if (propertyValue.Property.IsForeignKey)
@@ -54,6 +54,38 @@ namespace Ilaro.Admin.Core.Extensions
                     property.IsForeignKey &&
                     property.TypeInfo.IsCollection &&
                     property.ForeignEntity != null);
+        }
+
+
+        internal static bool GetDefaultVisibility(this Property property)
+        {
+            // Get all properties which is not a key and foreign key
+            if (!property.IsForeignKey)
+            {
+                return true;
+            }
+            else if (property.IsForeignKey)
+            {
+                // If is foreign key and not have reference property
+                if (
+                    property.ReferenceProperty == null &&
+                    !property.TypeInfo.IsCollection)
+                {
+                    return true;
+                }
+                // If is foreign key and have foreign key, that means, 
+                // we have two properties for one database column, 
+                // so I want only that one who is a system type
+                else if (
+                    property.ReferenceProperty != null &&
+                    property.TypeInfo.IsSystemType &&
+                    !property.TypeInfo.IsCollection)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

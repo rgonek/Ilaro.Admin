@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.Linq;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Models
 {
@@ -83,6 +84,7 @@ namespace Ilaro.Admin.Models
 
                 foreach (var cellValue in Values
                     .Where(x =>
+                        (x.Raw is ValueBehavior) == false &&
                         !x.Property.IsForeignKey ||
                         (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
                 {

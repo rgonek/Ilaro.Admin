@@ -5,8 +5,8 @@ using Ilaro.Admin.DataAnnotations;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
-using System.ComponentModel;
-using System;
+using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
+using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -26,6 +26,7 @@ namespace Ilaro.Admin.Configuration
             Columns(customizerHolder, attributes);
             Groups(customizerHolder, attributes);
             SoftDelete(customizerHolder, attributes);
+            ConcurrencyCheck(customizerHolder, attributes);
 
             foreach (var member in customizerHolder.Type.GetProperties())
             {
@@ -46,6 +47,8 @@ namespace Ilaro.Admin.Configuration
                 Required(member, customizerHolder, attributes);
                 ForeignKey(member, customizerHolder, attributes);
                 Validation(member, customizerHolder, attributes);
+                Timestamp(member, customizerHolder, attributes);
+                ConcurrencyCheck(member, customizerHolder, attributes);
             }
         }
 
@@ -458,6 +461,47 @@ namespace Ilaro.Admin.Configuration
                 {
                     x.Validators(validators);
                 });
+            }
+        }
+
+        private static void Timestamp(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<TimestampAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.IsTimestamp();
+                });
+            }
+        }
+
+        private static void ConcurrencyCheck(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<PropertyConcurrencyCheckAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.IsConcurrencyCheck();
+                });
+            }
+        }
+
+        private static void ConcurrencyCheck(
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<EntityConcurrencyCheckAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.ConcurrencyCheck();
             }
         }
     }

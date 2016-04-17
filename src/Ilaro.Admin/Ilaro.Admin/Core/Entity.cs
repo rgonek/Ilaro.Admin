@@ -87,6 +87,7 @@ namespace Ilaro.Admin.Core
 
         public string RecordDisplayFormat { get; internal set; }
         public bool SoftDeleteEnabled { get; internal set; }
+        public bool ConcurrencyCheckEnabled { get; internal set; }
 
         public Property this[string propertyName]
         {

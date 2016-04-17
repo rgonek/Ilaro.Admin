@@ -4,6 +4,7 @@
     {
         Now,
         UtcNow,
+        Guid,
         CurrentUserId,
         CurrentUserName
     }

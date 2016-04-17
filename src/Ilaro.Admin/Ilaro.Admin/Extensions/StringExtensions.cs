@@ -156,7 +156,7 @@ namespace Ilaro.Admin.Extensions
         {
             if (value == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
             return value.ToString();
         }
@@ -164,28 +164,25 @@ namespace Ilaro.Admin.Extensions
         public static string ToStringSafe(
             this object value, 
             Property property, 
-            string defaultFormat = "", 
-            CultureInfo culture = null)
+            string defaultFormat = "")
         {
             if (value == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
-
-            culture = culture ?? CultureInfo.InvariantCulture;
 
             if (property.TypeInfo.DataType == DataType.Numeric)
             {
                 try
                 {
-                    return Convert.ToDecimal(value).ToString(property.Format, culture);
+                    return Convert.ToDecimal(value).ToString(property.Format, CultureInfo.CurrentCulture);
                 }
                 catch { }
             }
 
             if (property.TypeInfo.DataType == DataType.DateTime)
             {
-                return ((DateTime)value).ToString(property.Format ?? defaultFormat, culture);
+                return ((DateTime)value).ToString(property.Format ?? defaultFormat, CultureInfo.CurrentCulture);
             }
 
             return value.ToString();

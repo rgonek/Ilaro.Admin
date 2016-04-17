@@ -195,9 +195,9 @@ namespace Ilaro.Admin.Configuration.Customizers
             return Type(Core.DataType.Enum);
         }
 
-        public IPropertyCustomizer Visible()
+        public IPropertyCustomizer Visible(bool isVisible = true)
         {
-            propertyCustomizerHolder.IsVisible = true;
+            propertyCustomizerHolder.IsVisible = isVisible;
 
             return this;
         }
@@ -276,6 +276,24 @@ namespace Ilaro.Admin.Configuration.Customizers
         {
             Validator(new RegularExpressionAttribute(pattern)
                 .SetErrorMessage(errorMessage));
+
+            return this;
+        }
+
+        public IPropertyCustomizer IsTimestamp()
+        {
+            propertyCustomizerHolder.IsTimestamp = true;
+            propertyCustomizerHolder.IsCreatable = false;
+            Visible(false);
+            IsConcurrencyCheck();
+            Type(Core.DataType.Binary);
+
+            return this;
+        }
+
+        public IPropertyCustomizer IsConcurrencyCheck()
+        {
+            propertyCustomizerHolder.IsConcurrencyCheck = true;
 
             return this;
         }

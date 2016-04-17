@@ -216,9 +216,13 @@
     <Compile Include="Configuration\Customizers\PropertyCustomizerHolder.cs" />
     <Compile Include="Configuration\TypeExtensions.cs" />
     <Compile Include="Const.cs" />
+    <Compile Include="Core\ConcurrencyCheck.cs" />
+    <Compile Include="Core\ConcurrencyCheckException.cs" />
     <Compile Include="Core\Configuration.cs" />
     <Compile Include="Core\ConfigurationProvider.cs" />
     <Compile Include="Core\Data\ChangesDescriber.cs" />
+    <Compile Include="Core\Data\Extensions\DbCommandExtensions.cs" />
+    <Compile Include="Core\Data\Extensions\ObjectExtensions.cs" />
     <Compile Include="Core\Data\RecordsService.cs" />
     <Compile Include="Core\Data\DataBehaviorExtensions.cs" />
     <Compile Include="Core\Data\DataBehavior.cs" />
@@ -244,6 +248,7 @@
     <Compile Include="Core\DeleteOptionsHierarchyBuilder.cs" />
     <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\EntityRecord.cs" />
+    <Compile Include="Core\Extensions\EntityRecordExtensions.cs" />
     <Compile Include="Core\Extensions\PropertyExtensions.cs" />
     <Compile Include="Core\Extensions\PropertyValuesExtensions.cs" />
     <Compile Include="Core\File\FileDeleter.cs" />
@@ -263,6 +268,7 @@
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
+    <Compile Include="DataAnnotations\ConcurrencyCheckAttribute.cs" />
     <Compile Include="DataAnnotations\DeletableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />

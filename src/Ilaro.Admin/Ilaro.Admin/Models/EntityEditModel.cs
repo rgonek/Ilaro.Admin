@@ -8,5 +8,6 @@ namespace Ilaro.Admin.Models
         public Entity Entity { get; set; }
         public EntityRecord Record { get; set; }
         public IList<GroupProperties> PropertiesGroups { get; set; }
+        public object ConcurrencyCheck { get; set; }
     }
 }

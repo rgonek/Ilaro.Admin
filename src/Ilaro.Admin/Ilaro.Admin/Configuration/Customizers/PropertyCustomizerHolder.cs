@@ -32,5 +32,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsForeignKey { get; internal set; }
         public object OnDeleteDefaultValue { get; internal set; }
         public IEnumerable<ValidationAttribute> Validators { get; internal set; }
+        public bool IsTimestamp { get; internal set; }
+        public bool IsCreatable { get; internal set; } = true;
+        public bool IsConcurrencyCheck { get; internal set; }
     }
 }

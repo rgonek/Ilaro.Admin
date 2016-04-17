@@ -41,6 +41,14 @@ namespace Ilaro.Admin.Core
             get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.AsString)); }
         }
 
+        public PropertyValue ConcurrencyCheck
+        {
+            get
+            {
+                return Values.FirstOrDefault(x => x.Property.IsConcurrencyCheck);
+            }
+        }
+
         public PropertyValue this[string propertyName]
         {
             get { return Values.FirstOrDefault(x => x.Property.Name == propertyName); }
@@ -174,6 +182,7 @@ namespace Ilaro.Admin.Core
             foreach (var propertyValue in Values
                 .Where(value =>
                     value.Raw != null &&
+                    (value.Raw is ValueBehavior) == false &&
                     !value.Property.IsForeignKey ||
                     (value.Property.IsForeignKey && value.Property.TypeInfo.IsSystemType)))
             {

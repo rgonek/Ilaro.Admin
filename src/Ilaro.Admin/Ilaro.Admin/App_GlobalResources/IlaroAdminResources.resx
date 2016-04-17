@@ -148,6 +148,9 @@
   <data name="ChooseFile" xml:space="preserve">
     <value>Choose file</value>
   </data>
+  <data name="ConcurrencyCheckError" xml:space="preserve">
+    <value>Record have been edited while you was editing it. Please refresh page and edit actual record.</value>
+  </data>
   <data name="Create_Title" xml:space="preserve">
     <value>Create {0}</value>
     <comment>{0} - entity name</comment>
@@ -176,6 +179,9 @@
   <data name="Edit_Title" xml:space="preserve">
     <value>Edit {0}</value>
     <comment>{0} - entity name</comment>
+  </data>
+  <data name="EmptyConcurrencyCheckValue" xml:space="preserve">
+    <value>Concurrency check value cannot be empty.</value>
   </data>
   <data name="EntityAlreadyExist" xml:space="preserve">
     <value>Entity already exist</value>

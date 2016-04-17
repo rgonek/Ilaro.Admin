@@ -41,7 +41,7 @@ namespace Ilaro.Admin.Core
             {
                 if (Raw == null)
                 {
-                    return String.Empty;
+                    return string.Empty;
                 }
 
                 if (Property.TypeInfo.IsNumber)
@@ -58,21 +58,22 @@ namespace Ilaro.Admin.Core
                     }
                 }
 
-                return Raw.ToStringSafe();
+                return AsObject.ToStringSafe(Property);
             }
         }
         public object AsObject
         {
             get
             {
+                if (Raw == null)
+                    return null;
+
                 if (Property.TypeInfo.IsEnum)
                     return Convert.ChangeType(Raw, Property.TypeInfo.EnumType, CultureInfo.CurrentCulture);
                 if (Property.TypeInfo.IsNullable)
                     return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType, CultureInfo.CurrentCulture);
                 if (Property.TypeInfo.IsFile)
-                    return null;
-                if (Raw == null)
-                    return null;
+                    return Raw;
 
                 return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);
             }

@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Make property visible
         /// </summary>
-        IPropertyCustomizer Visible();
+        IPropertyCustomizer Visible(bool isVisible = true);
         /// <summary>
         /// Static default value for property
         /// </summary>
@@ -136,5 +136,13 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Regular expression property validator
         /// </summary>
         IPropertyCustomizer RegularExpression(string pattern, string errorMessage = null);
+        /// <summary>
+        /// Mark property as timestamp
+        /// </summary>
+        IPropertyCustomizer IsTimestamp();
+        /// <summary>
+        /// Mark property as concurrency check
+        /// </summary>
+        IPropertyCustomizer IsConcurrencyCheck();
     }
 }

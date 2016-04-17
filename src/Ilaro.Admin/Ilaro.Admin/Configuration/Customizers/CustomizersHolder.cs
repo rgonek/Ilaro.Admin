@@ -5,6 +5,8 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using System.Linq;
 using Ilaro.Admin.Models;
+using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -107,6 +109,11 @@ namespace Ilaro.Admin.Configuration.Customizers
             _classCustomizer.SoftDeleteEnabled = true;
         }
 
+        public void ConcurrencyCheck()
+        {
+            _classCustomizer.ConcurrencyCheckEnabled = true;
+        }
+
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
         {
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
@@ -153,12 +160,15 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_classCustomizer.AllowDelete.HasValue)
                 entity.AllowDelete = _classCustomizer.AllowDelete.Value;
 
+            entity.ConcurrencyCheckEnabled = _classCustomizer.ConcurrencyCheckEnabled.HasValue ?
+                _classCustomizer.ConcurrencyCheckEnabled.Value :
+                _propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck);
+
             if (_classCustomizer.PropertiesGroups.IsNullOrEmpty())
             {
                 entity.Groups.Add(new GroupProperties
                 {
-                    IsCollapsed = false,
-                    //Properties = entity.Properties
+                    IsCollapsed = false
                 });
             }
             else
@@ -168,15 +178,25 @@ namespace Ilaro.Admin.Configuration.Customizers
                     entity.Groups.Add(new GroupProperties
                     {
                         GroupName = group.Key,
-                        IsCollapsed = group.Value,
-                        //Properties = entity.Properties.Where(x => x.Group == group.Key)
+                        IsCollapsed = group.Value
                     });
                 }
             }
 
             SetDefaultId(entity);
-            SetDefaultDisplayProperties(entity);
             SetDefaultSearchProperties(entity);
+            if (entity.ConcurrencyCheckEnabled)
+            {
+                SetDefaultConcurrencyCheckProperty(entity);
+
+                if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck) == false
+                    && ((IlaroAdmin)admin).CustomizerHolders.Any(x => x.Key.IsAssignableTo<IEntityChange>()) == false)
+                {
+                    throw new InvalidOperationException(
+                        $"Concurrency check cannot be enabled for {entity.Name}. " +
+                        "Not found any concurrency check property and entity change is not specified.");
+                }
+            }
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -198,8 +218,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];
 
-                if (propertyCustomizer.IsVisible.HasValue)
-                    property.IsVisible = propertyCustomizer.IsVisible.Value;
+                property.IsVisible =
+                    propertyCustomizer.IsVisible.GetValueOrDefault(property.GetDefaultVisibility());
 
                 if (propertyCustomizer.IsSearchable.HasValue)
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
@@ -232,6 +252,10 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.IsRequired = propertyCustomizer.IsRequired;
                 if (propertyCustomizer.Validators.IsNullOrEmpty() == false)
                     property.Validators = propertyCustomizer.Validators.ToList();
+
+                property.IsCreatable = propertyCustomizer.IsCreatable;
+                property.IsTimestamp = propertyCustomizer.IsTimestamp;
+                property.IsConcurrencyCheck = propertyCustomizer.IsConcurrencyCheck;
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
@@ -304,19 +328,30 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
         }
 
-        private void SetDefaultDisplayProperties(Entity entity)
-        {
-            if (_propertyCustomizers.Any(x => x.Value.IsVisible.HasValue) == false)
-            {
-                DisplayProperties(entity.GetDefaultDisplayProperties().Select(x => x.PropertyInfo));
-            }
-        }
-
         private void SetDefaultSearchProperties(Entity entity)
         {
             if (_propertyCustomizers.Any(x => x.Value.IsSearchable.HasValue) == false)
             {
                 SearchProperties(entity.GetDefaultSearchProperties().Select(x => x.PropertyInfo));
+            }
+        }
+
+        private void SetDefaultConcurrencyCheckProperty(Entity entity)
+        {
+            if (entity.ConcurrencyCheckEnabled ||
+                _propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck))
+                return;
+
+            var concurrencyCheckProperty = entity.Properties
+                .Where(x => x.OnUpdateDefaultValue != null)
+                .Where(x => x.OnUpdateDefaultValue is ValueBehavior)
+                .FirstOrDefault(x => (x.OnUpdateDefaultValue as ValueBehavior?)
+                    .In(ValueBehavior.Now, ValueBehavior.UtcNow, ValueBehavior.Guid));
+
+            if (concurrencyCheckProperty != null)
+            {
+                GetPropertyCustomizer(concurrencyCheckProperty.PropertyInfo)
+                    .IsConcurrencyCheck = true;
             }
         }
     }

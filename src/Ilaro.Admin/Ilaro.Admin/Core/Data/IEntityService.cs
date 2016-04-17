@@ -16,7 +16,8 @@ namespace Ilaro.Admin.Core.Data
             Entity entity,
             string key,
             FormCollection collection,
-            HttpFileCollectionBase files);
+            HttpFileCollectionBase files,
+            object concurrencyCheckValue = null);
 
         bool Delete(
             Entity entity,
