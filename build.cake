@@ -1,3 +1,5 @@
+#addin "Cake.Powershell"
+
 // Arguments
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -77,8 +79,16 @@ Task("Build")
         settings.SetConfiguration(configuration));
 });
 
+Task("Before-Tests")
+    .WithCriteria(() => isRunningOnAppVeyor)
+    .Does(() =>
+{
+    StartPowershellFile("./build/before-tests.ps1");
+});
+
 Task("Run-Unit-Tests")
     .IsDependentOn("Build")
+    .IsDependentOn("Before-Tests")
     .Does(() =>
 {
     XUnit2(testsDir + "/**/bin/" + configuration + "/*.Tests.dll", new XUnit2Settings{
@@ -87,7 +97,7 @@ Task("Run-Unit-Tests")
 });
 
 Task("Update-AppVeyor-Build-Number")
-    .WithCriteria(() => AppVeyor.IsRunningOnAppVeyor)
+    .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
 {
     AppVeyor.UpdateBuildVersion(fullVersion);
