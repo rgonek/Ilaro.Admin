@@ -1,58 +1,48 @@
-using System;
-using System.Web;
-using System.Web.Mvc;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.File;
 using Ilaro.Admin.Filters;
-using Ilaro.Admin.Ninject.App_Start;
 using Ilaro.Admin.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
 using Ninject.Web.Mvc;
-using WebActivatorEx;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using NinjectBootstrapper = Ninject.Web.Common.Bootstrapper;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-[assembly: ApplicationShutdownMethod(typeof(NinjectWebCommon), "Stop")]
-
-namespace Ilaro.Admin.Ninject.App_Start
+namespace Ilaro.Admin.Ninject
 {
-    public static class NinjectWebCommon
+    public static class Bootstrapper
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly NinjectBootstrapper bootstrapper = new NinjectBootstrapper();
 
-        /// <summary>
-        /// Starts the application
-        /// </summary>
-        public static void Start()
+        public static void Initialise()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
 
-        /// <summary>
-        /// Stops the application.
-        /// </summary>
-        public static void Stop()
+        public static void ShutDown()
         {
             bootstrapper.ShutDown();
         }
 
-        /// <summary>
-        /// Creates the kernel that will manage your application.
-        /// </summary>
-        /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
             try
             {
-                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new NinjectBootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
+                RegisterTypes(kernel);
 
                 DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
 
@@ -65,11 +55,7 @@ namespace Ilaro.Admin.Ninject.App_Start
             }
         }
 
-        /// <summary>
-        /// Load your modules or register your services here!
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
+        private static void RegisterTypes(IKernel kernel)
         {
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
             kernel.Bind<IEntityService>().To<EntityService>();

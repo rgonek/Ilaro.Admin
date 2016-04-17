@@ -87,7 +87,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\DependencyInjectionStart.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="PerUserCacheScopingExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
