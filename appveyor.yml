@@ -2,13 +2,13 @@ version: 1.0.{build}
 services:
   - mssql2014
 before_build:
-- ps: nuget restore src/Ilaro.Admin/Ilaro.Admin.sln
+- ps: nuget restore Ilaro.Admin.sln
 build:
-  project: src/Ilaro.Admin/Ilaro.Admin.sln
+  project: Ilaro.Admin.sln
   verbosity: minimal
 before_test:
 - ps: >-
-    $startPath = "$($env:appveyor_build_folder)\src\Ilaro.Admin\Ilaro.Admin.Tests\bin\Debug"
+    $startPath = "$($env:appveyor_build_folder)\tests\Ilaro.Admin.Tests\bin\Debug"
 
     $sqlInstance = "(local)\SQL2014"
 
