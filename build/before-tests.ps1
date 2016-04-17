@@ -1,4 +1,8 @@
-$startPath = "$($env:appveyor_build_folder)\tests\Ilaro.Admin.Tests\bin\Debug"
+Param(
+    [string]$Configuration = "Releaseasd"
+)
+
+$startPath = "$PSScriptRoot\..\tests\Ilaro.Admin.Tests\bin\$Configuration"
 $sqlInstance = "(local)\SQL2014"
 $dbName = "IlaroTestDb"
 

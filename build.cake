@@ -83,7 +83,10 @@ Task("Before-Tests")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
 {
-    StartPowershellFile("./build/before-tests.ps1");
+    StartPowershellFile("./build/before-tests.ps1", args =>
+        {
+            args.Append("Configuration", configuration);
+        });
 });
 
 Task("Run-Unit-Tests")
