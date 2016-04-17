@@ -1,6 +1,8 @@
+// Arguments
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
+// Directories
 var solution = "./Ilaro.Admin.sln";
 var sourceDir = "./src";
 var testsDir = "./tests";
@@ -19,11 +21,17 @@ var directories = new DirectoryPath[] {
     ilaroAdminTestsDir,
     ilaroAdminSampleDir };
 
-var version = "0.5.0";
-var buildNumber = AppVeyor.Environment.Build.Number;
-var buildSuffix = BuildSystem.IsLocalBuild ? "" : "." + buildNumber;
-var buildVersion = version + buildSuffix;
+// helpers
+var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
+var branch = AppVeyor.Environment.Repository.Branch;
+var isBuildingMaster = branch != null && branch == "master";
 
+// Version
+var version = "0.5.0";
+var buildSuffix = BuildSystem.IsLocalBuild ? "" : "." + AppVeyor.Environment.Build.Number;
+var fullVersion = version + buildSuffix;
+
+// Tasks
 Task("Clean")
     .Does(() =>
 {
@@ -48,7 +56,7 @@ Task("Update-Versions")
             Product = projectName,
             Version = version,
             FileVersion = version,
-            InformationalVersion = buildVersion,
+            InformationalVersion = fullVersion,
             Copyright = copyright
         });
     }
@@ -65,18 +73,8 @@ Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    if(IsRunningOnWindows())
-    {
-      // Use MSBuild
       MSBuild(solution, settings =>
         settings.SetConfiguration(configuration));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild(solution, settings =>
-        settings.SetConfiguration(configuration));
-    }
 });
 
 Task("Run-Unit-Tests")
@@ -88,7 +86,19 @@ Task("Run-Unit-Tests")
     });
 });
 
+Task("Update-AppVeyor-Build-Number")
+    .WithCriteria(() => AppVeyor.IsRunningOnAppVeyor)
+    .Does(() =>
+{
+    AppVeyor.UpdateBuildVersion(fullVersion);
+});
+
+// Targets
 Task("Default")
     .IsDependentOn("Run-Unit-Tests");
+    
+Task("AppVeyor")
+    .IsDependentOn("Update-AppVeyor-Build-Number");
 
+// Execution
 RunTarget(target);
