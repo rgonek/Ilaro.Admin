@@ -54,7 +54,7 @@
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ilaro.Admin\Ilaro.Admin.csproj">
+    <ProjectReference Include="..\..\src\Ilaro.Admin\Ilaro.Admin.csproj">
       <Project>{87db09c0-33de-4198-95db-7c157d1a705c}</Project>
       <Name>Ilaro.Admin</Name>
     </ProjectReference>
