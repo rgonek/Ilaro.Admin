@@ -157,3 +157,5 @@ samples/Ilaro.Admin.Sample/Content/employee/
 samples/Ilaro.Admin.Sample/Content/employee_temp/
 employee
 .vs
+
+tools/**/
