@@ -133,6 +133,8 @@ Task("Copy-Files")
         var projectOutputDir = outputDir + "/" + projectName;
         CreateDirectory(projectOutputDir);
         
+        Information("Copying files for " + projectName);
+        
         var files = artifactDir + "/bin/" + configuration + "/*";
         Information(files);
         CopyFiles(
