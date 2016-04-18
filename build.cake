@@ -4,11 +4,28 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
+// helpers
+var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
+var branch = AppVeyor.Environment.Repository.Branch;
+var isBuildingMaster = branch != null && branch == "master";
+var isLocalBuild = BuildSystem.IsLocalBuild;
+var author = "Robert Gonek";
+
+// Version
+var version = "0.5.0";
+var buildSuffix = isLocalBuild ? "" : "." + AppVeyor.Environment.Build.Number;
+var fullVersion = version + buildSuffix;
+
 // Directories
 var solution = "./Ilaro.Admin.sln";
 var sourceDir = "./src";
 var testsDir = "./tests";
 var samplesDir = "./samples";
+var buildDir = "./build";
+var nuspecsDir = buildDir + "/nuspecs";
+var artifactsDir = "./artifacts";
+var outputDir = artifactsDir + "/v" + fullVersion;
+var nugetsDir = artifactsDir + "/nugets";
 var ilaroAdminDir = Directory(sourceDir + "/Ilaro.Admin/");
 var ilaroAdminAutofacDir = Directory(sourceDir + "/Ilaro.Admin.Autofac/");
 var ilaroAdminNinjectDir = Directory(sourceDir + "/Ilaro.Admin.Ninject/");
@@ -22,21 +39,19 @@ var directories = new DirectoryPath[] {
     ilaroAdminUnityDir,
     ilaroAdminTestsDir,
     ilaroAdminSampleDir };
-
-// helpers
-var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
-var branch = AppVeyor.Environment.Repository.Branch;
-var isBuildingMaster = branch != null && branch == "master";
-
-// Version
-var version = "0.5.0";
-var buildSuffix = BuildSystem.IsLocalBuild ? "" : "." + AppVeyor.Environment.Build.Number;
-var fullVersion = version + buildSuffix;
+var nugets = new DirectoryPath[] {
+    ilaroAdminDir, 
+    ilaroAdminAutofacDir,
+    ilaroAdminNinjectDir,
+    ilaroAdminUnityDir,
+};
 
 // Tasks
 Task("Clean")
     .Does(() =>
 {
+    CleanDirectory(outputDir);
+    CleanDirectory(nugetsDir);
     foreach(var dir in directories)
     {
         CleanDirectory(dir + Directory("/bin/" + configuration));
@@ -47,12 +62,12 @@ Task("Update-Versions")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    var copyright = "Copyright © Robert Gonek 2014-" + DateTime.Now.Year;
+    var copyright = "Copyright © " + author + " 2014-" + DateTime.Now.Year;
     foreach(var dir in directories)
     {
         var file = dir + Directory("/Properties/AssemblyInfo.cs");
-        var projectFile = new DirectoryInfo(dir.ToString()).GetFiles("*csproj").FirstOrDefault(); 
-        var projectName = System.IO.Path.GetFileNameWithoutExtension(projectFile.Name);
+        var projectName = GetProjectName(dir.ToString());
+        var assemblyInfo = ParseAssemblyInfo(file);
         CreateAssemblyInfo(file, new AssemblyInfoSettings {
             Title = projectName,
             Product = projectName,
@@ -83,7 +98,7 @@ Task("Before-Tests")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
 {
-    StartPowershellFile("./build/before-tests.ps1", args =>
+    StartPowershellFile(buildDir + "/before-tests.ps1", args =>
         {
             args.Append("Configuration", configuration);
         });
@@ -106,13 +121,68 @@ Task("Update-AppVeyor-Build-Number")
     AppVeyor.UpdateBuildVersion(fullVersion);
 });
 
+Task("Copy-Files")
+    .IsDependentOn("Run-Unit-Tests")
+    .IsDependentOn("Create-Output-Directories")
+    .Does(() =>
+{
+    foreach(var nugetDir in nugets)
+    {
+        var projectName = GetProjectName(nugetDir.ToString());
+        var projectOutputDir = outputDir + "/" + projectName;
+        CreateDirectory(projectOutputDir);
+        
+        var files = nugetDir + "/bin/" + configuration + "/*";
+        Information(files);
+        CopyFiles(
+            files,
+            projectOutputDir
+        );
+    }
+});
+
+Task("Create-Output-Directories")
+    .Does(() =>
+{
+    CreateDirectory(nugetsDir);
+    CreateDirectory(outputDir);
+});
+
+Task("Create-NuGet-Packages")
+    .IsDependentOn("Copy-Files")
+    .Does(() =>
+{
+    var nuspecs = GetFiles(nuspecsDir + "/*.nuspec");
+    foreach(var nuspec in nuspecs)
+    {
+        var projectName = nuspec.GetFilenameWithoutExtension();
+        // Create package.
+        NuGetPack(nuspec, new NuGetPackSettings {
+            Version = fullVersion,
+            BasePath = outputDir + "/" + projectName,
+            OutputDirectory = nugetsDir,
+            Symbols = false,
+            NoPackageAnalysis = true
+        });
+    }
+});
+
+// Utils
+string GetProjectName(string directory)
+{
+    var projectFile = new DirectoryInfo(directory).GetFiles("*csproj").FirstOrDefault(); 
+    var projectName = System.IO.Path.GetFileNameWithoutExtension(projectFile.Name);
+    
+    return projectName;
+}
+
 // Targets
 Task("Default")
     .IsDependentOn("Run-Unit-Tests");
     
 Task("AppVeyor")
     .IsDependentOn("Update-AppVeyor-Build-Number")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Create-NuGet-Packages");
 
 // Execution
 RunTarget(target);
