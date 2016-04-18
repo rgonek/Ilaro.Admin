@@ -8,3 +8,4 @@ artifacts:
   name: nugets
 - path: artifacts\$(appveyor_build_version)\Ilaro.Admin.Sample
   name: Ilaro.Admin.Sample
+  type: zip
