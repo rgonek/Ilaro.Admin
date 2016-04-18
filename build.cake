@@ -39,11 +39,12 @@ var directories = new DirectoryPath[] {
     ilaroAdminUnityDir,
     ilaroAdminTestsDir,
     ilaroAdminSampleDir };
-var nugets = new DirectoryPath[] {
+var artifacts = new DirectoryPath[] {
     ilaroAdminDir, 
     ilaroAdminAutofacDir,
     ilaroAdminNinjectDir,
     ilaroAdminUnityDir,
+    ilaroAdminSampleDir
 };
 
 // Tasks
@@ -126,13 +127,13 @@ Task("Copy-Files")
     .IsDependentOn("Create-Output-Directories")
     .Does(() =>
 {
-    foreach(var nugetDir in nugets)
+    foreach(var artifactDir in artifacts)
     {
-        var projectName = GetProjectName(nugetDir.ToString());
+        var projectName = GetProjectName(artifactDir.ToString());
         var projectOutputDir = outputDir + "/" + projectName;
         CreateDirectory(projectOutputDir);
         
-        var files = nugetDir + "/bin/" + configuration + "/*";
+        var files = artifactDir + "/bin/" + configuration + "/*";
         Information(files);
         CopyFiles(
             files,
