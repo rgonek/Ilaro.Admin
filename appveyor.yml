@@ -6,6 +6,6 @@ test: off
 artifacts:
 - path: artifacts\nugets\*.nupkg
   name: nugets
-- path: artifacts\$(appveyor_build_version)\Ilaro.Admin.Sample
+- path: artifacts\v$(appveyor_build_version)\Ilaro.Admin.Sample
   name: Ilaro.Admin.Sample
   type: zip
