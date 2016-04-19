@@ -1,3 +1,6 @@
+branches:
+  only:
+  - master
 services:
   - mssql2014
 build_script:
