@@ -69,6 +69,7 @@ namespace Ilaro.Admin.Core.Data
             }
             catch (ConcurrencyCheckException ex)
             {
+                _log.Warn(ex);
                 throw;
             }
             catch (Exception ex)
