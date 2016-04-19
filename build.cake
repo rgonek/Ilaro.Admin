@@ -43,8 +43,7 @@ var artifacts = new DirectoryPath[] {
     ilaroAdminDir, 
     ilaroAdminAutofacDir,
     ilaroAdminNinjectDir,
-    ilaroAdminUnityDir,
-    ilaroAdminSampleDir
+    ilaroAdminUnityDir
 };
 
 // Tasks
@@ -125,6 +124,7 @@ Task("Update-AppVeyor-Build-Number")
 Task("Copy-Files")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Create-Output-Directories")
+    .IsDependentOn("Copy-Sample-Website-Files")
     .Does(() =>
 {
     foreach(var artifactDir in artifacts)
@@ -136,11 +136,37 @@ Task("Copy-Files")
         Information("Copying files for " + projectName);
         
         var files = artifactDir + "/bin/" + configuration + "/*";
-        Information(files);
         CopyFiles(
             files,
             projectOutputDir
         );
+    }
+});
+
+Task("Copy-Sample-Website-Files")
+    .Does(() =>
+{
+    var projectName = GetProjectName(ilaroAdminSampleDir);
+    var projectPath = ilaroAdminSampleDir + File(projectName + ".csproj");
+    var project = ParseProject(projectPath);
+    var projectOutputDir =  outputDir + "/" + projectName;
+    var projectOutputBinDir = projectOutputDir + "/bin";
+    CreateDirectory(projectOutputBinDir);
+    var projectBinDir = ilaroAdminSampleDir.ToString() + "/bin/" + configuration;
+    
+    var excludeWebConfig = (projectName + "/web.config").ToLower();
+    
+    Information("Copying files for " + projectName);
+    CopyDirectory(projectBinDir, projectOutputBinDir);
+    foreach(var file in project.Files)
+    {
+        if(file.Compile == false && 
+            file.FilePath.ToString().ToLower().Contains(excludeWebConfig) == false)
+        {
+            var newFilePath = projectOutputDir + "/" + File(file.RelativePath);
+            CreateDirectory(((FilePath)newFilePath).GetDirectory());
+            CopyFile(file.FilePath, newFilePath);
+        }
     }
 });
 
