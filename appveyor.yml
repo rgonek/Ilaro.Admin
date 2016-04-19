@@ -11,3 +11,4 @@ artifacts:
   name: nugets
 - path: artifacts\v$(appveyor_build_version)\Ilaro.Admin.Sample
   name: Ilaro.Admin.Sample
+  type: WebDeployPackage
