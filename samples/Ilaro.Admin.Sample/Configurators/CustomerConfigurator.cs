@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Sample.Models.Northwind;
 
 namespace Ilaro.Admin.Sample.Configurators
@@ -7,45 +8,55 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public CustomerConfigurator()
         {
-            //.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.Photo)
-            //    .SetFileOptions(NameCreation.Timestamp, 2000, false, "", "")
-            //    .SetImageSettings("", 100, 100))
-            //.ConfigureProperty(PropertyOf<Employee>.Configure(x => x.PhotoPath)
-            //    .SetFileOptions(NameCreation.UserInput, 2000, false, "content/employee", "")
-            //    .SetImageSettings("big", 500, 500)
-            //    .SetImageSettings("min", 100, 100));
+            PropertiesGroup("Main", c => c.CustomerID, c => c.CompanyName);
+            PropertiesGroup("Contact", c => c.ContactName, c => c.ContactTitle, c => c.Phone, c => c.Fax);
+            PropertiesGroup("Address", true, c => c.Address, c => c.City, c => c.Region, c => c.PostalCode, c => c.Country);
 
-            Table("Customers");
-            Display("Klient", "Klienci");
-            Id(x => x.CustomerID);
-
-            DisplayProperties(
-                x => x.Address,
-                x => x.City,
-                x => x.Country,
-                x => x.CustomerID,
-                x => x.CompanyName);
-
-            SearchProperties(x => x.City);
-
-            DisplayFormat("");
-
-            PropertiesGroup("Main section", c => c.CompanyName);
-            PropertiesGroup("Contact section", true, c => c.ContactName, c => c.ContactTitle);
-            PropertiesGroup("Super", x => x.Address, x => x.City);
-
-            Property(x => x.CompanyName, x =>
-              {
-                  x.Column("ComapnyName");
-                  x.Display("Client", "Clients");
-                  x.Template(display: Templates.Display.Html, editor: Templates.Editor.Html);
-                  //x.File();
-                  x.Id();
-                  //x.Image();
-                  x.Searchable();
-                  x.Type(Core.DataType.Text);
-                  x.Visible();
-              });
+            Property(c => c.CompanyName, c =>
+            {
+                c.StringLength(40);
+            });
+            Property(c => c.ContactName, c =>
+            {
+                c.Required();
+                c.StringLength(30);
+            });
+            Property(c => c.ContactTitle, c =>
+            {
+                c.StringLength(30);
+            });
+            Property(c => c.Address, c =>
+            {
+                c.StringLength(60);
+            });
+            Property(c => c.City, c =>
+            {
+                c.StringLength(15);
+            });
+            Property(c => c.Region, c =>
+            {
+                c.StringLength(15);
+            });
+            Property(c => c.PostalCode, c =>
+            {
+                c.StringLength(10);
+            });
+            Property(c => c.Country, c =>
+            {
+                c.StringLength(15);
+            });
+            Property(c => c.Phone, c =>
+            {
+                c.StringLength(24);
+            });
+            Property(c => c.Fax, c =>
+            {
+                c.StringLength(24);
+            });
+            Property(c => c.Orders, c =>
+            {
+                c.Cascade(CascadeOption.Delete);
+            });
         }
     }
 }
