@@ -98,7 +98,8 @@ namespace Ilaro.Admin.Core.Data
                 orderDirection.ToUpper();
             var orderBy = order + " " + orderDirection;
             var columns = string.Join(",",
-                entity.Properties
+                entity.DisplayProperties
+                    .Union(entity.Key)
                     .Where(x =>
                         !x.IsForeignKey ||
                         (!x.TypeInfo.IsCollection && x.IsForeignKey))
