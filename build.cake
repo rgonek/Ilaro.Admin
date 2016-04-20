@@ -54,7 +54,7 @@ Task("Clean")
     CleanDirectory(nugetsDir);
     foreach(var dir in directories)
     {
-        CleanDirectory(dir + Directory("/bin/" + configuration));
+        CleanDirectory(dir + Directory("/bin"));
     }
 });
 
@@ -152,7 +152,7 @@ Task("Copy-Sample-Website-Files")
     var projectOutputDir =  outputDir + "/" + projectName;
     var projectOutputBinDir = projectOutputDir + "/bin";
     CreateDirectory(projectOutputBinDir);
-    var projectBinDir = ilaroAdminSampleDir.ToString() + "/bin/" + configuration;
+    var projectBinDir = ilaroAdminSampleDir.ToString() + "/bin";
     
     var excludeWebConfig = (projectName + "/web.config").ToLower();
     
