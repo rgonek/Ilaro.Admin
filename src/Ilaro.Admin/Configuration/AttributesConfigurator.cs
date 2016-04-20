@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
 using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -167,11 +169,18 @@ namespace Ilaro.Admin.Configuration
             if (attribute != null)
             {
                 var membersByGroup = customizerHolder.Type.GetProperties()
-                    .GroupBy(x => x.GetCustomAttribute<DisplayAttribute>()?.GroupName)
+                    .Where(x => x.GetCustomAttribute<DisplayAttribute>() != null)
+                    .GroupBy(x => x.GetCustomAttribute<DisplayAttribute>().GroupName)
                     .ToDictionary(x => x.Key, x => x.ToList());
                 foreach (var group in attribute.Groups)
                 {
-                    customizerHolder.PropertyGroup(group.TrimEnd('*'), group.EndsWith("*"), membersByGroup[group]);
+                    var trimmedGroup = group.TrimEnd('*');
+                    var properties = Enumerable.Empty<PropertyInfo>();
+                    if (membersByGroup.ContainsKey(group))
+                        properties = properties.Union(membersByGroup[group]);
+                    if (membersByGroup.ContainsKey(trimmedGroup))
+                        properties = properties.Union(membersByGroup[trimmedGroup]);
+                    customizerHolder.PropertyGroup(trimmedGroup, group.EndsWith("*"), properties);
                 }
             }
         }
