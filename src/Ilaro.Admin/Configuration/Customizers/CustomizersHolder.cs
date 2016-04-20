@@ -185,6 +185,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             SetDefaultId(entity);
             SetDefaultSearchProperties(entity);
+            SetDefaultDisplayProperties(entity);
             if (entity.ConcurrencyCheckEnabled)
             {
                 SetDefaultConcurrencyCheckProperty(entity);
@@ -218,8 +219,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 var propertyCustomizer = customizerPair.Value;
                 var property = entity[customizerPair.Key.Name];
 
-                property.IsVisible =
-                    propertyCustomizer.IsVisible.GetValueOrDefault(property.GetDefaultVisibility());
+                if (propertyCustomizer.IsVisible.HasValue)
+                    property.IsVisible = propertyCustomizer.IsVisible.Value;
 
                 if (propertyCustomizer.IsSearchable.HasValue)
                     property.IsSearchable = propertyCustomizer.IsSearchable.Value;
@@ -333,6 +334,14 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_propertyCustomizers.Any(x => x.Value.IsSearchable.HasValue) == false)
             {
                 SearchProperties(entity.GetDefaultSearchProperties().Select(x => x.PropertyInfo));
+            }
+        }
+
+        private void SetDefaultDisplayProperties(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.IsVisible.HasValue) == false)
+            {
+                DisplayProperties(entity.GetDefaultDisplayProperties().Select(x => x.PropertyInfo));
             }
         }
 
