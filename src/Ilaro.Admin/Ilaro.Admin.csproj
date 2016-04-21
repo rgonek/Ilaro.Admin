@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -302,6 +303,7 @@
     <Compile Include="DataAnnotations\ImageSettings.cs" />
     <Compile Include="DataAnnotations\NameCreation.cs" />
     <Compile Include="Core\IKnowTheTime.cs" />
+    <Compile Include="Extensions\PropertyExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
@@ -598,6 +600,7 @@
     <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
     <EmbeddedResource Include="Scripts\ilaro.js" />
     <EmbeddedResource Include="Scripts\bootstrap.file-input.js" />
+    <EmbeddedResource Include="Scripts\datejs.js" />
     <Content Include="Templates.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Templates.cs</LastGenOutput>

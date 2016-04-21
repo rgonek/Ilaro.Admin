@@ -162,8 +162,8 @@ namespace Ilaro.Admin.Extensions
         }
 
         public static string ToStringSafe(
-            this object value, 
-            Property property, 
+            this object value,
+            Property property,
             string defaultFormat = "")
         {
             if (value == null)
@@ -183,6 +183,46 @@ namespace Ilaro.Admin.Extensions
             if (property.TypeInfo.DataType == DataType.DateTime)
             {
                 return ((DateTime)value).ToString(property.Format ?? defaultFormat, CultureInfo.CurrentCulture);
+            }
+
+            return value.ToString();
+        }
+
+        public static string ToShortDateString(
+            this object value,
+            Property property)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            if (property.TypeInfo.DataType == DataType.DateTime)
+            {
+                var dateTime = (DateTime)value;
+                if (property.Format.HasValue())
+                    return dateTime.ToString(property.Format);
+                return dateTime.ToShortDateString();
+            }
+
+            return value.ToString();
+        }
+
+        public static string ToShortTimeString(
+            this object value,
+            Property property)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            if (property.TypeInfo.DataType == DataType.DateTime)
+            {
+                var dateTime = (DateTime)value;
+                if (property.Format.HasValue())
+                    return dateTime.ToString(property.Format);
+                return dateTime.ToShortTimeString();
             }
 
             return value.ToString();

@@ -105,4 +105,26 @@
         }
     });
     $('[data-delete-options-collapsed=true]').hide();
+
+    jQuery(function ($) {
+        $.validator.addMethod('date',
+            function (value, element) {
+                if (this.optional(element)) {
+                    return true;
+                }
+
+                try {
+                    var format = "mm/dd/yyyy";
+                    if (element.attributes["data-date-format"]) {
+                        format = element.attributes["data-date-format"].value;
+                    }
+
+                    return Date.parse(value, format);
+                }
+                catch (err) {
+                    alert(err);
+                    return false;
+                }
+            });
+    });
 });
