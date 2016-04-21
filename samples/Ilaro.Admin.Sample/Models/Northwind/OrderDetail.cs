@@ -22,9 +22,6 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [Required]
         public float Discount { get; set; }
 
-        //[ForeignKey("OrderID")]
-        //public Order Orders { get; set; }
-
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
     }
