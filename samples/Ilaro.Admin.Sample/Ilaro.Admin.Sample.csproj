@@ -128,6 +128,7 @@
   <ItemGroup>
     <Compile Include="Configurators\CustomerConfigurator.cs" />
     <Compile Include="Configurators\EmployeeConfigurator.cs" />
+    <Compile Include="Configurators\OrderConfigurator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="DatabaseReset\DatabaseResetJob.cs" />
