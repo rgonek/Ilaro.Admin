@@ -68,7 +68,7 @@ WriteLiteralTo(__razor_helper_writer, ": ");
 
 
 #line 74 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-WriteTo(__razor_helper_writer, Html.ActionLink(record.DisplayName, "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue }));
+WriteTo(__razor_helper_writer, Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue }));
 
 
 #line default

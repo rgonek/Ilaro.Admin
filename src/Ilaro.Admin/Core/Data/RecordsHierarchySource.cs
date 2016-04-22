@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core.Data
                 {
                     var rowData = new DataRow(record, hierarchy.Entity, prefix);
 
-                    if (!rowData.KeyValue.IsNullOrEmpty())
+                    if (!rowData.KeyValue.IsNullOrEmpty() && rowData.KeyValue.All(x => x.HasValue()))
                     {
                         var subRecord = new RecordHierarchy
                         {
@@ -226,7 +226,7 @@ ORDER BY {orders};";
                 ParentHierarchy = parent
             };
 
-            foreach (var property in entity.GetDefaultCreateProperties()
+            foreach (var property in entity.Properties
                 .WhereOneToMany()
                 .Where(property =>
                     parent == null ||
