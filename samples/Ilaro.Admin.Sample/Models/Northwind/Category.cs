@@ -12,11 +12,12 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [StringLength(15)]
         public string CategoryName { get; set; }
 
+        [Template(EditorTemplate = Templates.Editor.Markdown)]
         public string Description { get; set; }
 
         //public byte[] Picture { get; set; }
 
-        [Cascade(CascadeOption.AskUser)]
+        [Cascade(CascadeOption.Delete)]
         public ICollection<Product> Products { get; set; }
     }
 }

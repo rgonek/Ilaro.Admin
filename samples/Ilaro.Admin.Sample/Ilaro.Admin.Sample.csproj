@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurators\CategoryConfiguration.cs" />
     <Compile Include="Configurators\CustomerConfigurator.cs" />
     <Compile Include="Configurators\EmployeeConfigurator.cs" />
     <Compile Include="Configurators\OrderConfigurator.cs" />
