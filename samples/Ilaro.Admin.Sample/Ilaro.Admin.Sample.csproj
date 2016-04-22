@@ -134,6 +134,7 @@
     <Compile Include="Configurators\OrderDetailConfiguration.cs" />
     <Compile Include="Configurators\ProductConfiguration.cs" />
     <Compile Include="Configurators\RegionConfigurator.cs" />
+    <Compile Include="Configurators\ShipperConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="DatabaseReset\DatabaseResetJob.cs" />
