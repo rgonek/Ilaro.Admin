@@ -124,7 +124,7 @@ SELECT @newID;
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     addSqlPart = joinedValues.HasValue();
-                    if (addSqlPart)
+                    if (addSqlPart == false)
                         break;
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
