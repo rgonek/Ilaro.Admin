@@ -117,23 +117,30 @@ SELECT @newID;
                     propertyValue.Values.Select(
                         x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
+                var addSqlPart = true;
                 for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
                 {
                     var key = propertyValue.Property.ForeignEntity.Key[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
+                    addSqlPart = joinedValues.HasValue();
+                    if (addSqlPart)
+                        break;
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
-                var constraintSeparator = Environment.NewLine + "   AND ";
-                var constraints = string.Join(constraintSeparator, whereParts);
-                sbUpdates.AppendLine();
+                if (addSqlPart)
+                {
+                    var constraintSeparator = Environment.NewLine + "   AND ";
+                    var constraints = string.Join(constraintSeparator, whereParts);
+                    sbUpdates.AppendLine();
 
-                var table = propertyValue.Property.ForeignEntity.Table;
-                var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
+                    var table = propertyValue.Property.ForeignEntity.Table;
+                    var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
 
-                sbUpdates.Append($@"UPDATE {table}
+                    sbUpdates.Append($@"UPDATE {table}
    SET {foreignKey} = @newID 
  WHERE {constraints};");
+                }
             }
 
             cmd.CommandText += sbUpdates.ToString();

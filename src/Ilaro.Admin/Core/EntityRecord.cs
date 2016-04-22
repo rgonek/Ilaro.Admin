@@ -71,7 +71,7 @@ namespace Ilaro.Admin.Core
             HttpFileCollectionBase files,
             Func<Property, object> defaultValueResolver = null)
         {
-            foreach (var property in Entity.Properties)
+            foreach (var property in Entity.Properties.DistinctBy(x => x.Column))
             {
                 var propertyValue = new PropertyValue(property);
                 Values.Add(propertyValue);
@@ -130,7 +130,7 @@ namespace Ilaro.Admin.Core
                                 CultureInfo.CurrentCulture,
                                 DateTimeStyles.None,
                                 out dateTime);
-                            if(dateTime == DateTime.MinValue)
+                            if (dateTime == DateTime.MinValue)
                             {
                                 DateTime.TryParseExact(
                                     dateString,
