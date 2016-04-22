@@ -7,7 +7,8 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     public class EmployeeTerritory
     {
         [Key]
-        [ForeignKey("Employee")]
+        [Required, ForeignKey("Employee")]
+        [Display(Name = "Employee")]
         public int EmployeeID { get; set; }
 
         [Key]

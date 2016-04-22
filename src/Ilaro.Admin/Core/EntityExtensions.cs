@@ -47,7 +47,7 @@ namespace Ilaro.Admin.Core
                 {
                     yield return property;
                 }
-                else if (property.IsForeignKey && property.ForeignEntity != null)
+                else if (property.IsForeignKey && property.ForeignEntity != null && property.IsKey == false)
                 {
                     // If is foreign key and not have reference property
                     if (
