@@ -17,7 +17,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// <summary>
         /// Set property display name and description
         /// </summary>
-        IPropertyCustomizer Display(string name, string description);
+        IPropertyCustomizer Display(string name, string description = null);
         /// <summary>
         /// Mark property as primary key
         /// </summary>

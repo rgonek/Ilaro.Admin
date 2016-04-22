@@ -71,7 +71,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Display(string name, string description)
+        public IPropertyCustomizer Display(string name, string description = null)
         {
             propertyCustomizerHolder.DisplayName = name;
             propertyCustomizerHolder.Description = description;
