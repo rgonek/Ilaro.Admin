@@ -12,10 +12,16 @@ namespace Ilaro.Admin.Sample.Configurators
             Id(x => x.OrderID, x => x.ProductID);
 
             Property(x => x.OrderID, x => x.ForeignKey("Order"));
-            Property(x => x.UnitPrice, x => x.Required());
-            Property(x => x.Quantity, x => x.Required());
-            Property(x => x.Discount, x => x.Required());
             Property(x => x.Product, x => x.ForeignKey("ProductID"));
+            Property(x => x.Quantity, x => x.Required());
+
+            Property(x => x.Discount, x => x
+                .Required()
+                .Format("0%"));
+
+            Property(x => x.UnitPrice, x => x
+                .Required()
+                .Format("C"));
         }
     }
 }

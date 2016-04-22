@@ -14,12 +14,14 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         public int ProductID { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "C")]
         public decimal UnitPrice { get; set; }
 
         [Required]
         public short Quantity { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "0%")]
         public float Discount { get; set; }
 
         [ForeignKey("ProductID")]
