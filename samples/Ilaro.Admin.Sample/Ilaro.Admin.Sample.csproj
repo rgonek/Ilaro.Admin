@@ -136,6 +136,7 @@
     <Compile Include="Configurators\RegionConfigurator.cs" />
     <Compile Include="Configurators\ShipperConfiguration.cs" />
     <Compile Include="Configurators\TerritoryConfiguration.cs" />
+    <Compile Include="Configurators\SupplierConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="DatabaseReset\DatabaseResetJob.cs" />
