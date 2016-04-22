@@ -56,6 +56,15 @@ namespace Ilaro.Admin.Core.Extensions
                     property.ForeignEntity != null);
         }
 
+        public static IEnumerable<Property> SkipOneToMany(
+            this IEnumerable<Property> propertiesValues)
+        {
+            return propertiesValues
+                .Where(property =>
+                    (property.IsForeignKey &&
+                    property.TypeInfo.IsCollection) == false);
+        }
+
 
         internal static bool GetDefaultVisibility(this Property property)
         {

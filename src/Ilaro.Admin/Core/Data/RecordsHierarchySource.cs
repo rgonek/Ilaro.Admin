@@ -48,7 +48,8 @@ namespace Ilaro.Admin.Core.Data
             var deleteOptionsDict = deleteOptions == null ?
                 null :
                 deleteOptions.ToDictionary(x => x.HierarchyName);
-            return GetEntityHierarchy(null, entity, deleteOptionsDict);
+            var index = 0;
+            return GetEntityHierarchy(null, entity, deleteOptionsDict, string.Empty, ref index);
         }
 
         private RecordHierarchy GetHierarchyRecords(
@@ -137,7 +138,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var flatHierarchy = FlatHierarchy(hierarchy);
 
-            var columnsList = flatHierarchy.SelectMany(x => x.Entity.DisplayProperties.Select(y => y.Column).Distinct()
+            var columnsList = flatHierarchy.SelectMany(x => x.Entity.Properties.SkipOneToMany().Select(y => y.Column).Distinct()
                 .Select(y => x.Alias + "." + y + " AS " + x.Alias.Undecorate() + "_" + y.Undecorate())).ToList();
             var commaSeparator = "," + Environment.NewLine + "         ";
             var columns = string.Join(commaSeparator, columnsList);
@@ -214,9 +215,9 @@ ORDER BY {orders};";
         private EntityHierarchy GetEntityHierarchy(
             EntityHierarchy parent,
             Entity entity,
-            IDictionary<string, PropertyDeleteOption> deleteOptions = null,
-            string hierarchyName = "",
-            int index = 0)
+            IDictionary<string, PropertyDeleteOption> deleteOptions,
+            string hierarchyName,
+            ref int index)
         {
             var hierarchy = new EntityHierarchy
             {
@@ -241,7 +242,7 @@ ORDER BY {orders};";
                 {
                     index++;
                     var subHierarchy =
-                        GetEntityHierarchy(hierarchy, property.ForeignEntity, deleteOptions, hierarchyName, index);
+                        GetEntityHierarchy(hierarchy, property.ForeignEntity, deleteOptions, hierarchyName, ref index);
                     hierarchy.SubHierarchies.Add(subHierarchy);
                 }
             }
