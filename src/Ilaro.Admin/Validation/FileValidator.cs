@@ -29,8 +29,12 @@ namespace Ilaro.Admin.Validation
             var file = (HttpPostedFile)propertyValue.Raw;
             if (file == null)
             {
-                _notificator.AddModelError(propertyValue.Property.Name, "Missing file.");
-                return false;
+                if (propertyValue.Property.IsRequired)
+                {
+                    _notificator.AddModelError(propertyValue.Property.Name, "Missing file.");
+                    return false;
+                }
+                return true;
             }
 
             var maxFileSize = propertyValue.Property.FileOptions.MaxFileSize.GetValueOrDefault(_configuration.MaxFileSize);
