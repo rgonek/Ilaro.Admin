@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Models;
+using Ilaro.Admin.Core.File;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -17,7 +18,7 @@ namespace Ilaro.Admin.Extensions
             }
 
             var settings = value.Property.FileOptions.Settings.LastOrDefault();
-            var path = Path.Combine("~/", value.Property.FileOptions.Path, settings.SubPath, value.AsString).Replace("\\", "/");
+            var path = Pather.Combine("~/", value.Property.FileOptions.Path, settings.SubPath, value.AsString).Replace("\\", "/");
 
             return urlHelper.Content(path);
         }
@@ -32,7 +33,7 @@ namespace Ilaro.Admin.Extensions
             }
 
             var settings = value.Property.FileOptions.Settings.FirstOrDefault();
-            var path = Path.Combine("~/", value.Property.FileOptions.Path, settings.SubPath, value.AsString).Replace("\\", "/");
+            var path = Pather.Combine("~/", value.Property.FileOptions.Path, settings.SubPath, value.AsString).Replace("\\", "/");
 
             return urlHelper.Content(path);
         }
@@ -46,7 +47,7 @@ namespace Ilaro.Admin.Extensions
                 return null;
             }
 
-            var path = Path.Combine("~/", value.Property.FileOptions.Path, value.AsString).Replace("\\", "/");
+            var path = Pather.Combine("~/", value.Property.FileOptions.Path, value.AsString).Replace("\\", "/");
 
             return urlHelper.Content(path);
         }

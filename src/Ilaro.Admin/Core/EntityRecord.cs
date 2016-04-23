@@ -218,8 +218,16 @@ namespace Ilaro.Admin.Core
                     !value.Property.IsForeignKey ||
                     (value.Property.IsForeignKey && value.Property.TypeInfo.IsSystemType)))
             {
-                var propertyInfo = Entity.Type.GetProperty(propertyValue.Property.Name);
-                propertyInfo.SetValue(instance, propertyValue.AsObject);
+                var property = propertyValue.Property;
+                var propertyInfo = Entity.Type.GetProperty(property.Name);
+                var value = propertyValue.AsObject;
+                if (property.TypeInfo.IsFile && 
+                    property.TypeInfo.IsFileStoredInDb == false
+                    && value is HttpPostedFileWrapper)
+                {
+                    value = (value as HttpPostedFileWrapper).FileName;
+                }
+                propertyInfo.SetValue(instance, value);
             }
 
             return instance;

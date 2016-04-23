@@ -136,7 +136,6 @@ namespace Ilaro.Admin.Core.Data
 
                 var result = false;
 
-
                 try
                 {
                     result = _updater.Update(

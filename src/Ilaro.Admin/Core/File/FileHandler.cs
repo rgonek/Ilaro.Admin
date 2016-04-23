@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using Ilaro.Admin.DataAnnotations;
@@ -89,13 +88,10 @@ namespace Ilaro.Admin.Core.File
                                 setting.Width,
                                 setting.Height);
 
-                            var subPath =
-                                setting.SubPath.TrimEnd('/', '\\') +
-                                _configuration.UploadFilesTempFolderSufix;
-                            var path = Path.Combine(
+                            var path = Pather.Combine(
                                 BasePath,
                                 propertyValue.Property.FileOptions.Path,
-                                subPath,
+                                Pather.Join(setting.SubPath, _configuration.UploadFilesTempFolderSufix),
                                 fileName);
 
                             _saver.SaveFile(resizedStream, path);
@@ -104,10 +100,12 @@ namespace Ilaro.Admin.Core.File
                     }
                     else
                     {
-                        var subPath =
-                            propertyValue.Property.FileOptions.Path.TrimEnd('/', '\\') +
-                            _configuration.UploadFilesTempFolderSufix;
-                        var path = Path.Combine(BasePath, subPath, fileName);
+                        var path = Pather.Combine(
+                            BasePath,
+                            Pather.Join(
+                                propertyValue.Property.FileOptions.Path, 
+                                _configuration.UploadFilesTempFolderSufix),
+                            fileName);
 
                         _saver.SaveFile(file.InputStream, path);
                     }
@@ -140,11 +138,17 @@ namespace Ilaro.Admin.Core.File
                     var fileName = propertyValue.AsString;
                     if (fileName.IsNullOrEmpty() == false)
                     {
-                        var subPath =
-                            setting.SubPath.TrimEnd('/', '\\') +
-                            _configuration.UploadFilesTempFolderSufix;
-                        var sourcePath = Path.Combine(BasePath, propertyValue.Property.FileOptions.Path, subPath, fileName);
-                        var targetPath = Path.Combine(BasePath, propertyValue.Property.FileOptions.Path, setting.SubPath, fileName);
+                        var sourcePath = Pather.Combine(
+                            BasePath,
+                            propertyValue.Property.FileOptions.Path,
+                            Pather.Join(setting.SubPath, _configuration.UploadFilesTempFolderSufix),
+                            fileName);
+
+                        var targetPath = Pather.Combine(
+                            BasePath,
+                            propertyValue.Property.FileOptions.Path,
+                            setting.SubPath,
+                            fileName);
 
                         System.IO.File.Move(sourcePath, targetPath);
                     }
@@ -160,7 +164,11 @@ namespace Ilaro.Admin.Core.File
             if (recordDict.ContainsKey(property.Column.Undecorate()))
             {
                 var fileName = recordDict[property.Column.Undecorate()].ToStringSafe();
-                var path = Path.Combine(BasePath, property.FileOptions.Path, setting.SubPath, fileName);
+                var path = Pather.Combine(
+                    BasePath,
+                    property.FileOptions.Path,
+                    setting.SubPath,
+                    fileName);
 
                 _deleter.Delete(path);
             }
@@ -179,10 +187,11 @@ namespace Ilaro.Admin.Core.File
                 foreach (var setting in settings)
                 {
                     var fileName = propertyValue.AsString;
-                    var subPath =
-                        setting.SubPath.TrimEnd('/', '\\') +
-                        _configuration.UploadFilesTempFolderSufix;
-                    var path = Path.Combine(BasePath, propertyValue.Property.FileOptions.Path, subPath, fileName);
+                    var path = Pather.Combine(
+                        BasePath,
+                        propertyValue.Property.FileOptions.Path,
+                        Pather.Join(setting.SubPath, _configuration.UploadFilesTempFolderSufix),
+                        fileName);
 
                     _deleter.Delete(path);
                 }
@@ -202,7 +211,11 @@ namespace Ilaro.Admin.Core.File
                 foreach (var setting in settings)
                 {
                     var fileName = propertyValue.AsString;
-                    var path = Path.Combine(BasePath, propertyValue.Property.FileOptions.Path, setting.SubPath, fileName);
+                    var path = Pather.Combine(
+                        BasePath,
+                        propertyValue.Property.FileOptions.Path,
+                        setting.SubPath,
+                        fileName);
 
                     _deleter.Delete(path);
                 }

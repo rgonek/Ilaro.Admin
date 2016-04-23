@@ -10,7 +10,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 {
     [Columns("FirstName", "LastName", "Title", "TitleOfCourtesy", "BirthDate",
         "HireDate", "Address", "City", "Region", "PostalCode", "Country",
-        "HomePhone", "Extension")]
+        "HomePhone", "Extension", "PhotoPath")]
     [Groups("Main", "Address", "Notes*")]
     [Verbose(GroupName = "Employee")]
     public class Employee
@@ -78,6 +78,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         public int? ReportsTo { get; set; }
 
         [StringLength(255)]
+        [ImageSettings("/content/employee", 100, 100)]
         public string PhotoPath { get; set; }
 
         [ForeignKey("ReportsTo")]

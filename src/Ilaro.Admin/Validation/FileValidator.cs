@@ -26,7 +26,7 @@ namespace Ilaro.Admin.Validation
 
         public bool Validate(PropertyValue propertyValue)
         {
-            var file = (HttpPostedFile)propertyValue.Raw;
+            var file = (HttpPostedFileWrapper)propertyValue.Raw;
             if (file == null)
             {
                 if (propertyValue.Property.IsRequired)
@@ -56,7 +56,7 @@ namespace Ilaro.Admin.Validation
                 allowedFileExtensions = _configuration.AllowedFileExtensions;
             }
             var ext = Path.GetExtension(file.FileName).ToLower();
-            if (allowedFileExtensions.Contains(ext))
+            if (allowedFileExtensions.Contains(ext) == false)
             {
                 _notificator.AddModelError(propertyValue.Property.Name, "Wrong file extension.");
                 return false;
@@ -65,7 +65,7 @@ namespace Ilaro.Admin.Validation
             return true;
         }
 
-        private static bool IsImage(HttpPostedFile file)
+        private static bool IsImage(HttpPostedFileWrapper file)
         {
             return Regex.IsMatch(file.ContentType, "image/\\S+");
         }
