@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Verbose(GroupName = "Employee")]
     public class Territory
     {
         [StringLength(20)]

@@ -7,6 +7,7 @@ using Ilaro.Admin.DataAnnotations;
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
     [Groups("Main", "Others", "Stocks")]
+    [Verbose(GroupName = "Product")]
     public class Product
     {
         public int ProductID { get; set; }

@@ -8,7 +8,9 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public SupplierConfiguration()
         {
-            PropertiesGroup("Main", x => x.CompanyName, x => x.ContactName, 
+            Group("Supplier");
+
+            PropertiesGroup("Main", x => x.CompanyName, x => x.ContactName,
                 x => x.ContactTitle);
             PropertiesGroup("Contact", x => x.Phone, x => x.Fax, x => x.HomePage);
             PropertiesGroup("Address", x => x.Address, x => x.City, x => x.Region, 

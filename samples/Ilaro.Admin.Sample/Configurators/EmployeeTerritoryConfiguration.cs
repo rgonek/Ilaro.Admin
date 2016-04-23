@@ -7,6 +7,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public EmployeeTerritoryConfiguration()
         {
+            Group("Employee");
+
             Table("EmployeeTerritories");
 
             Property(x => x.EmployeeID, x =>

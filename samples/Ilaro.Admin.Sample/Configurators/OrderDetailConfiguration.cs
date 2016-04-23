@@ -7,6 +7,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public OrderDetailConfiguration()
         {
+            Group("Order");
+
             Table("Order Details");
 
             Id(x => x.OrderID, x => x.ProductID);

@@ -8,6 +8,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public ShipperConfiguration()
         {
+            Group("Supplier");
+
             Property(x => x.CompanyName, x =>
             {
                 x.Required();

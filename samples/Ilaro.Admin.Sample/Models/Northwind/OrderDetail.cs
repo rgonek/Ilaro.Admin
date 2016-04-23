@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ilaro.Admin.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
     [Table("Order Details")]
+    [Verbose(GroupName = "Order")]
     public class OrderDetail
     {
         [Key]

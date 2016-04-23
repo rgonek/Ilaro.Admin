@@ -8,6 +8,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public ProductConfiguration()
         {
+            Group("Product");
+
             PropertiesGroup("Main", x => x.ProductName, x => x.Category, x => x.UnitPrice, x => x.QuantityPerUnit);
             PropertiesGroup("Others", x => x.SupplierID, x => x.ReorderLevel, x => x.Discontinued);
             PropertiesGroup("Stocks", x => x.UnitsInStock, x => x.UnitsOnOrder);

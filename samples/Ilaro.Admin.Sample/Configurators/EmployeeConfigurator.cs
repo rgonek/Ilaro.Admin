@@ -9,6 +9,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public EmployeeConfigurator()
         {
+            Group("Employee");
+
             DisplayProperties(x => x.FirstName, x => x.LastName, x => x.Title,
                 x => x.TitleOfCourtesy, x => x.BirthDate, x => x.HireDate,
                 x => x.Address, x => x.City, x => x.Region, x => x.PostalCode,

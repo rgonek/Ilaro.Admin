@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         "HireDate", "Address", "City", "Region", "PostalCode", "Country",
         "HomePhone", "Extension")]
     [Groups("Main", "Address", "Notes*")]
+    [Verbose(GroupName = "Employee")]
     public class Employee
     {
         public int EmployeeID { get; set; }

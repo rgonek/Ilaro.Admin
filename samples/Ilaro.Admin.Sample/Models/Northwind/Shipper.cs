@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Verbose(GroupName = "Supplier")]
     public class Shipper
     {
         public int ShipperID { get; set; }

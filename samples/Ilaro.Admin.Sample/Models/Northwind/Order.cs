@@ -8,6 +8,7 @@ using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Verbose(GroupName = "Order")]
     public class Order
     {
         public int OrderID { get; set; }

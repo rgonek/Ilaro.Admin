@@ -8,6 +8,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public CategoryConfiguration()
         {
+            Group("Product");
+
             Property(x => x.CategoryName, x => x.StringLength(15));
             Property(x => x.Description, x => x.Template(editor: Templates.Editor.Markdown));
             Property(x => x.Products, x => x.Cascade(CascadeOption.Delete));

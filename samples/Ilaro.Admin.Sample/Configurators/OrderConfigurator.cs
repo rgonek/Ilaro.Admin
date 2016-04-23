@@ -9,6 +9,8 @@ namespace Ilaro.Admin.Sample.Configurators
     {
         public OrderConfigurator()
         {
+            Group("Order");
+
             Property(x => x.OrderDate, x =>
             {
                 x.OnCreate(ValueBehavior.UtcNow);

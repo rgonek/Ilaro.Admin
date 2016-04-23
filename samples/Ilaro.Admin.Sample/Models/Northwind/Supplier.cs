@@ -7,6 +7,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 {
     [Groups("Main", "Contact", "Address")]
     [Columns("SupplierID", "CompanyName", "ContactName", "ContactTitle", "Country", "City")]
+    [Verbose(GroupName = "Supplier")]
     public class Supplier
     {
         public int SupplierID { get; set; }

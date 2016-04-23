@@ -5,6 +5,7 @@ using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Verbose(GroupName = "Product")]
     public class Category
     {
         public int CategoryID { get; set; }
