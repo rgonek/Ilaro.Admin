@@ -12,7 +12,11 @@ namespace Ilaro.Admin.Sample.Configurators
             Property(x => x.OrderDate, x =>
             {
                 x.OnCreate(ValueBehavior.UtcNow);
-                x.Format("dd-MM-yyyy hh:mm");
+                x.Format("dd-MM-yyyy hh:mm tt");
+            });
+            Property(x => x.RequiredDate, x =>
+            {
+                x.Format("dd-MM-yyyy HH:mm");
             });
 
             Property(x => x.ShipName, x =>
