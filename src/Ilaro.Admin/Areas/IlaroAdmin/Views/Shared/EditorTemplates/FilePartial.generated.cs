@@ -96,7 +96,7 @@ WriteLiteral(">\r\n");
             #line hidden
             
             #line 10 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-                       var cellValue = new CellValue(Model.Property); 
+                       var cellValue = new CellValue(Model); 
             
             #line default
             #line hidden
@@ -126,24 +126,24 @@ WriteLiteral(" class=\"col-md-6\"");
 
 WriteLiteral(">\r\n            <div>\r\n                <input");
 
-WriteAttribute("id", Tuple.Create(" id=\"", 595), Tuple.Create("\"", 629)
+WriteAttribute("id", Tuple.Create(" id=\"", 586), Tuple.Create("\"", 620)
             
             #line 17 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 600), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
+, Tuple.Create(Tuple.Create("", 591), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
             
             #line default
             #line hidden
-, 600), false)
+, 591), false)
 );
 
-WriteAttribute("name", Tuple.Create(" name=\"", 630), Tuple.Create("\"", 668)
+WriteAttribute("name", Tuple.Create(" name=\"", 621), Tuple.Create("\"", 659)
             
             #line 17 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\FilePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 637), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Property.Name)
+, Tuple.Create(Tuple.Create("", 628), Tuple.Create<System.Object, System.Int32>(Html.Name(Model.Property.Name)
             
             #line default
             #line hidden
-, 637), false)
+, 628), false)
 );
 
 WriteLiteral(" type=\"file\"");

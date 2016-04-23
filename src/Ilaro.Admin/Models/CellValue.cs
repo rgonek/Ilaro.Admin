@@ -61,5 +61,11 @@ namespace Ilaro.Admin.Models
         {
             Property = property;
         }
+
+        public CellValue(PropertyValue propertyValue)
+        {
+            Property = propertyValue.Property;
+            Raw = propertyValue.Raw;
+        }
     }
 }
