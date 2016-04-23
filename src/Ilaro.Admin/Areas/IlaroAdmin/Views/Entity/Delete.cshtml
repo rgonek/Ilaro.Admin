@@ -71,7 +71,7 @@
 @helper DisplayRecordHierarchy(RecordHierarchy record)
 {
     <li>
-        @record.Entity.Name: @Html.ActionLink(record.DisplayName, "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue })
+        @record.Entity.Name: @Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue })
         @if (record.SubRecordsHierarchies.Any())
         {
             <ul>

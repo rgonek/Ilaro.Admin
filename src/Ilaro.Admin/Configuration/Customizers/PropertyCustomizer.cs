@@ -32,6 +32,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer OnCreate(ValueBehavior behavior)
         {
             propertyCustomizerHolder.OnCreateDefaultValue = behavior;
+            propertyCustomizerHolder.IsCreatable = false;
 
             return this;
         }
@@ -39,6 +40,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer OnCreate(object value)
         {
             propertyCustomizerHolder.OnCreateDefaultValue = value;
+            propertyCustomizerHolder.IsCreatable = false;
 
             return this;
         }
@@ -46,6 +48,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer OnUpdate(ValueBehavior behavior)
         {
             propertyCustomizerHolder.OnUpdateDefaultValue = behavior;
+            propertyCustomizerHolder.IsCreatable = false;
 
             return this;
         }
@@ -53,6 +56,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer OnUpdate(object value)
         {
             propertyCustomizerHolder.OnUpdateDefaultValue = value;
+            propertyCustomizerHolder.IsCreatable = false;
 
             return this;
         }
@@ -71,7 +75,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
-        public IPropertyCustomizer Display(string name, string description)
+        public IPropertyCustomizer Display(string name, string description = null)
         {
             propertyCustomizerHolder.DisplayName = name;
             propertyCustomizerHolder.Description = description;

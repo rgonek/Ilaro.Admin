@@ -52,7 +52,16 @@ WriteLiteral(">\r\n    <div");
 
 WriteLiteral(" class=\"input-group date date-picker\"");
 
-WriteLiteral(" data-date-format=\"YYYY-MM-DD\"");
+WriteLiteral(" data-date-format=\"");
+
+            
+            #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.cshtml"
+                                                           Write(Model.Property.GetUIDateFormat());
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\"");
 
 WriteLiteral(">\r\n");
 
@@ -60,7 +69,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.cshtml"
-   Write(Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control" }));
+   Write(Html.TextBox(Model.Property.Name, Model.AsObject.ToShortDateString(Model.Property), Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUIDateFormat() }));
 
             
             #line default

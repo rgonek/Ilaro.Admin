@@ -130,8 +130,8 @@ SELECT @{joinedKeyValueParameterName};";
         }
 
         protected virtual string GetConstraints(
-            IEnumerable<PropertyValue> keys, 
-            DbCommand cmd, 
+            IEnumerable<PropertyValue> keys,
+            DbCommand cmd,
             string alias = null)
         {
             if (alias.HasValue())
@@ -166,7 +166,7 @@ SELECT @{joinedKeyValueParameterName};";
             var concurrencyCheckParam = cmd.Parameters.Count.ToString();
             cmd.AddParam(concurrencyCheckValue);
 
-            var concurrencyCheckConstraint = 
+            var concurrencyCheckConstraint =
                 GetConcurrencyCheckValueSql(cmd, entityRecord, property, concurrencyCheckParam);
 
             var concurrencyCheckSql = $@"-- concurrency check
@@ -250,43 +250,57 @@ END
                         idsToRemoveRelation.Select(
                             x => x.Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                     var whereParts2 = new List<string>();
+                    var addNullSqlPart = true;
                     for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
                     {
                         var key = propertyValue.Property.ForeignEntity.Key[i];
                         var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
                         whereParts2.Add("{0} In ({1})".Fill(key.Column, joinedValues));
+                        addNullSqlPart = joinedValues.HasValue();
+                        if (addNullSqlPart == false)
+                            break;
                         cmd.AddParams(values2.Select(x => x[i]).OfType<object>().ToArray());
                     }
-                    var wherePart2 = string.Join(" AND ", whereParts2);
-                    sbUpdates.AppendLine();
-                    sbUpdates.AppendLine("-- set to null update");
-                    sbUpdates.AppendFormat(BuildForeignUpdateSql(
-                        propertyValue.Property.ForeignEntity.Table,
-                        entityRecord.Entity.Key.FirstOrDefault().Column,
-                        (paramIndex++).ToString(),
-                        wherePart2));
-                    cmd.AddParam(null);
+                    if (addNullSqlPart)
+                    {
+                        var wherePart2 = string.Join(" AND ", whereParts2);
+                        sbUpdates.AppendLine();
+                        sbUpdates.AppendLine("-- set to null update");
+                        sbUpdates.AppendFormat(BuildForeignUpdateSql(
+                            propertyValue.Property.ForeignEntity.Table,
+                            entityRecord.Entity.Key.FirstOrDefault().Column,
+                            (paramIndex++).ToString(),
+                            wherePart2));
+                        cmd.AddParam(null);
+                    }
                 }
 
                 var values =
                     propertyValue.Values.Select(
                         x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
+                var addSqlPart = true;
                 for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
                 {
                     var key = propertyValue.Property.ForeignEntity.Key[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
+                    addSqlPart = joinedValues.HasValue();
+                    if (addSqlPart == false)
+                        break;
                     cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
                 }
-                var wherePart = string.Join(" AND ", whereParts);
-                sbUpdates.AppendLine();
-                sbUpdates.Append(BuildForeignUpdateSql(
-                    propertyValue.Property.ForeignEntity.Table,
-                    entityRecord.Entity.Key.FirstOrDefault().Column,
-                    (paramIndex++).ToString(),
-                    wherePart));
-                cmd.AddParam(entityRecord.Key.FirstOrDefault().Raw);
+                if (addSqlPart)
+                {
+                    var wherePart = string.Join(" AND ", whereParts);
+                    sbUpdates.AppendLine();
+                    sbUpdates.Append(BuildForeignUpdateSql(
+                        propertyValue.Property.ForeignEntity.Table,
+                        entityRecord.Entity.Key.FirstOrDefault().Column,
+                        (paramIndex++).ToString(),
+                        wherePart));
+                    cmd.AddParam(entityRecord.Key.FirstOrDefault().Raw);
+                }
             }
 
             cmd.CommandText += Environment.NewLine + "-- update foreign entities records" + sbUpdates.ToString();

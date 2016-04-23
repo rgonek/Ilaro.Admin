@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ilaro.Admin.Sample.Models.Northwind;
-using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Sample
 {
@@ -10,20 +9,7 @@ namespace Ilaro.Admin.Sample
     {
         protected void Application_Start()
         {
-            Entity<Customer>.Register().ReadAttributes();
-            Entity<Employee>.Register().ReadAttributes();
-            Entity<Order>.Register().ReadAttributes();
-            Entity<OrderDetail>.Register().ReadAttributes();
-            Entity<Product>.Register().ReadAttributes();
-            Entity<Category>.Register().ReadAttributes();
-            Entity<EmployeeTerritory>.Register().ReadAttributes();
-            Entity<Region>.Register().ReadAttributes();
-            Entity<Shipper>.Register().ReadAttributes();
-            Entity<Supplier>.Register().ReadAttributes();
-            Entity<Territory>.Register().ReadAttributes();
-            Entity<EntityChange>.Register().ReadAttributes();
-
-            //Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
+            Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute

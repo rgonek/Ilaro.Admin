@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -284,6 +285,7 @@
     <Compile Include="DataAnnotations\OnUpdateAttribute.cs" />
     <Compile Include="DataAnnotations\SoftDeleteAttribute.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Extensions\DotNetToMomentDateTimeFormat.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperDropDownListExtensions.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="DataAnnotations\ImageSettings.cs" />
     <Compile Include="DataAnnotations\NameCreation.cs" />
     <Compile Include="Core\IKnowTheTime.cs" />
+    <Compile Include="Extensions\PropertyExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />

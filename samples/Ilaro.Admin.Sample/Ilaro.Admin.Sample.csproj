@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -125,7 +126,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurators\CategoryConfiguration.cs" />
     <Compile Include="Configurators\CustomerConfigurator.cs" />
+    <Compile Include="Configurators\EmployeeConfigurator.cs" />
+    <Compile Include="Configurators\EmployeeTerritoryConfiguration.cs" />
+    <Compile Include="Configurators\EntityChangeConfiguration.cs" />
+    <Compile Include="Configurators\OrderConfigurator.cs" />
+    <Compile Include="Configurators\OrderDetailConfiguration.cs" />
+    <Compile Include="Configurators\ProductConfiguration.cs" />
+    <Compile Include="Configurators\RegionConfigurator.cs" />
+    <Compile Include="Configurators\ShipperConfiguration.cs" />
+    <Compile Include="Configurators\TerritoryConfiguration.cs" />
+    <Compile Include="Configurators\SupplierConfiguration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MaintenanceController.cs" />
     <Compile Include="DatabaseReset\DatabaseResetJob.cs" />

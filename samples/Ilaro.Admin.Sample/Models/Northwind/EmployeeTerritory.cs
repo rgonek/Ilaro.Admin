@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ilaro.Admin.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
     [Table("EmployeeTerritories")]
+    [Verbose(GroupName = "Employee")]
     public class EmployeeTerritory
     {
         [Key]
-        [ForeignKey("Employee")]
+        [Required, ForeignKey("Employee")]
+        [Display(Name = "Employee")]
         public int EmployeeID { get; set; }
 
         [Key]

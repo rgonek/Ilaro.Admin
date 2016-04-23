@@ -4,14 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {
+    [Verbose(GroupName = "Order")]
     public class Order
     {
         public int OrderID { get; set; }
 
-        [OnCreate(ValueBehavior.Now)]
+        [OnCreate(ValueBehavior.UtcNow)]
         [DisplayFormat(DataFormatString = "dd-MM-yyyy hh:mm")]
         public DateTime? OrderDate { get; set; }
 
@@ -48,6 +50,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         [ForeignKey("ShipVia")]
         public virtual Shipper ShipVia { get; set; }
 
+        [Cascade(CascadeOption.Delete)]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

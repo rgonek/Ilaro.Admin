@@ -71,7 +71,7 @@ namespace Ilaro.Admin.Core
             HttpFileCollectionBase files,
             Func<Property, object> defaultValueResolver = null)
         {
-            foreach (var property in Entity.Properties)
+            foreach (var property in Entity.Properties.DistinctBy(x => x.Column))
             {
                 var propertyValue = new PropertyValue(property);
                 Values.Add(propertyValue);
@@ -86,13 +86,23 @@ namespace Ilaro.Admin.Core
                             .ConvertTo(typeof(string), CultureInfo.CurrentCulture);
                         propertyValue.Additional = providedName;
                     }
-                    var isDeleted =
-                        ((bool?)
-                            collection.GetValue(property.Name + "_delete")
-                                .ConvertTo(typeof(bool), CultureInfo.CurrentCulture)).GetValueOrDefault();
+                    var isDeleted = false;
 
-                    if (file.ContentLength > 0)
+                    if (file == null || file.ContentLength > 0)
+                    {
                         isDeleted = false;
+                    }
+                    else
+                    {
+                        var isDeletedKey = property.Name + "_delete";
+                        if (collection.AllKeys.Contains(isDeletedKey))
+                        {
+                            isDeleted =
+                               ((bool?)
+                                   collection.GetValue(isDeletedKey)
+                                       .ConvertTo(typeof(bool), CultureInfo.CurrentCulture)).GetValueOrDefault();
+                        }
+                    }
 
                     if (isDeleted)
                     {
@@ -109,6 +119,28 @@ namespace Ilaro.Admin.Core
                         {
                             propertyValue.Values = value.AttemptedValue
                                 .Split(',').OfType<object>().ToList();
+                        }
+                        else if (property.TypeInfo.DataType == DataType.DateTime)
+                        {
+                            var dateString = (string)value.ConvertTo(typeof(string));
+                            DateTime dateTime;
+                            DateTime.TryParseExact(
+                                dateString,
+                                property.GetDateTimeFormat(),
+                                CultureInfo.CurrentCulture,
+                                DateTimeStyles.None,
+                                out dateTime);
+                            if (dateTime == DateTime.MinValue)
+                            {
+                                DateTime.TryParseExact(
+                                    dateString,
+                                    property.GetDateFormat(),
+                                    CultureInfo.CurrentCulture,
+                                    DateTimeStyles.None,
+                                    out dateTime);
+                            }
+
+                            propertyValue.Raw = dateTime;
                         }
                         else
                         {

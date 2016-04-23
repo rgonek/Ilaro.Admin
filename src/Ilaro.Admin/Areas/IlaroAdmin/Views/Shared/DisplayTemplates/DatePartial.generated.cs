@@ -29,6 +29,7 @@ namespace ASP
     using System.Web.WebPages;
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
+    using Ilaro.Admin.Core.Extensions;
     using Ilaro.Admin.Extensions;
     using Ilaro.Admin.Models;
     using Ilaro.Admin.Models.Paging;
@@ -45,7 +46,7 @@ namespace ASP
         {
             
             #line 3 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DatePartial.cshtml"
-Write(Model.AsObject.ToStringSafe(Model.Property, "yyyy-MM-dd"));
+Write(Model.AsObject.ToShortDateString(Model.Property));
 
             
             #line default

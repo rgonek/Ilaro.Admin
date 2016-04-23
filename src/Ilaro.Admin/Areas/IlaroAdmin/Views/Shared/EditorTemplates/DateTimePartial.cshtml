@@ -1,8 +1,8 @@
 ﻿@model PropertyValue
 
 <div class="col-md-3">
-    <div class="input-group date date-time-picker" data-date-format="YYYY-MM-DD HH:mm">
-        @Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control" })
+    <div class="input-group date date-time-picker" data-date-format="@Model.Property.GetUIDateTimeFormat()">
+        @Html.TextBox(Model.Property.Name, Model.AsObject.ToStringSafe(Model.Property), Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUIDateTimeFormat() })
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-calendar"></span>
         </span>
