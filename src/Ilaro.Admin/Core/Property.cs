@@ -49,7 +49,12 @@ namespace Ilaro.Admin.Core
 
         public bool IsAutoKey
         {
-            get { return IsKey && TypeInfo.DataType != DataType.Text; }
+            get
+            {
+                return IsKey &&
+                  TypeInfo.DataType != DataType.Text &&
+                  (IsForeignKey == false && TypeInfo.IsCollection == false);
+            }
         }
 
         public bool IsVisible { get; internal set; }
