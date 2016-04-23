@@ -8,6 +8,7 @@ namespace Ilaro.Admin.Sample.Models.Northwind
     [Groups("Main", "Contact", "Address*")]
     public class Customer
     {
+        [Required]
         [Display(GroupName = "Main")]
         public string CustomerID { get; set; }
 

@@ -12,6 +12,7 @@ namespace Ilaro.Admin.Sample.Configurators
             PropertiesGroup("Contact", c => c.ContactName, c => c.ContactTitle, c => c.Phone, c => c.Fax);
             PropertiesGroup("Address", true, c => c.Address, c => c.City, c => c.Region, c => c.PostalCode, c => c.Country);
 
+            Property(c => c.CustomerID, c => c.Required());
             Property(c => c.CompanyName, c =>
             {
                 c.StringLength(40);
