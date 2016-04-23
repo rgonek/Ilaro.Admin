@@ -73,7 +73,7 @@ namespace Ilaro.Admin.Sample.DatabaseReset
         private static string[] GetCommandsFromFile(string fileName)
         {
             var text = File.ReadAllText(HostingEnvironment.MapPath(@"~\DatabaseReset\scripts\" + fileName));
-            var commands = text.Split(new[] { "GO" }, StringSplitOptions.RemoveEmptyEntries);
+            var commands = text.Split(new[] { "\rGO\r", "\r\nGO\r", "\nGO\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             return commands;
         }
