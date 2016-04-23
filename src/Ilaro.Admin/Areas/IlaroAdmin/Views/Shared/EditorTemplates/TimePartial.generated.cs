@@ -56,7 +56,7 @@ WriteLiteral(" data-date-format=\"");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\TimePartial.cshtml"
-                                                           Write(Model.Property.GetTimeFormat());
+                                                           Write(Model.Property.GetUITimeFormat());
 
             
             #line default
@@ -69,7 +69,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\TimePartial.cshtml"
-   Write(Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetTimeFormat() }));
+   Write(Html.TextBox(Model.Property.Name, Model.Raw, Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUITimeFormat() }));
 
             
             #line default

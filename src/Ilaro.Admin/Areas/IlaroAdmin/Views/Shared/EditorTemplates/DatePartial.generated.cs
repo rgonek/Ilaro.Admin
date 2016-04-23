@@ -56,7 +56,7 @@ WriteLiteral(" data-date-format=\"");
 
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.cshtml"
-                                                           Write(Model.Property.GetDateFormat().ToUpper());
+                                                           Write(Model.Property.GetUIDateFormat());
 
             
             #line default
@@ -69,7 +69,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DatePartial.cshtml"
-   Write(Html.TextBox(Model.Property.Name, Model.AsObject.ToShortDateString(Model.Property), Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetDateFormat() }));
+   Write(Html.TextBox(Model.Property.Name, Model.AsObject.ToShortDateString(Model.Property), Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUIDateFormat() }));
 
             
             #line default

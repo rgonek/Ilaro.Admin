@@ -285,6 +285,7 @@
     <Compile Include="DataAnnotations\OnUpdateAttribute.cs" />
     <Compile Include="DataAnnotations\SoftDeleteAttribute.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Extensions\DotNetToMomentDateTimeFormat.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperCheckBoxExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperDropDownListExtensions.cs" />
@@ -600,7 +601,6 @@
     <EmbeddedResource Include="Content\css\bootstrap-duallistbox.min.css" />
     <EmbeddedResource Include="Scripts\ilaro.js" />
     <EmbeddedResource Include="Scripts\bootstrap.file-input.js" />
-    <EmbeddedResource Include="Scripts\datejs.js" />
     <Content Include="Templates.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Templates.cs</LastGenOutput>

@@ -163,8 +163,7 @@ namespace Ilaro.Admin.Extensions
 
         public static string ToStringSafe(
             this object value,
-            Property property,
-            string defaultFormat = "")
+            Property property)
         {
             if (value == null)
             {
@@ -182,7 +181,7 @@ namespace Ilaro.Admin.Extensions
 
             if (property.TypeInfo.DataType == DataType.DateTime)
             {
-                return ((DateTime)value).ToString(property.Format ?? defaultFormat, CultureInfo.CurrentCulture);
+                return ((DateTime)value).ToString(property.GetDateTimeFormat(), CultureInfo.CurrentCulture);
             }
 
             return value.ToString();

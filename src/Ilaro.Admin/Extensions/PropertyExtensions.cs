@@ -38,5 +38,20 @@ namespace Ilaro.Admin.Extensions
 
             return string.Empty;
         }
+
+        public static string GetUIDateFormat(this Property property)
+        {
+            return DotNetToMomentDateTimeFormat.Convert(property.GetDateFormat());
+        }
+
+        public static string GetUITimeFormat(this Property property)
+        {
+            return DotNetToMomentDateTimeFormat.Convert(property.GetTimeFormat());
+        }
+
+        public static string GetUIDateTimeFormat(this Property property)
+        {
+            return DotNetToMomentDateTimeFormat.Convert(property.GetDateTimeFormat());
+        }
     }
 }

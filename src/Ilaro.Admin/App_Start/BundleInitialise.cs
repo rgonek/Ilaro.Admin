@@ -26,7 +26,6 @@ namespace Ilaro.Admin.App_Start
                         "~/ira/summernote.min.js",
                         "~/ira/jquery.bootstrap-duallistbox.min.js",
                         "~/ira/bootstrap.file-input.js",
-                        "~/ira/datejs.js",
                         "~/ira/ilaro.js"));
 
             BundleTable.Bundles.Add(new StyleBundle("~/ira/css").Include(

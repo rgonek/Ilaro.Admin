@@ -114,12 +114,12 @@
                 }
 
                 try {
-                    var format = "mm/dd/yyyy";
+                    var format = "MM/DD/YYYY";
                     if (element.attributes["data-date-format"]) {
                         format = element.attributes["data-date-format"].value;
                     }
 
-                    return Date.parse(value, format);
+                    return moment(value, format).isValid();
                 }
                 catch (err) {
                     alert(err);
