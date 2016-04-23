@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Sample.Models.Northwind;
 
 namespace Ilaro.Admin.Sample.Configurators
@@ -13,6 +14,8 @@ namespace Ilaro.Admin.Sample.Configurators
                 x.StringLength(40);
             });
             Property(x => x.Phone, x => x.StringLength(24));
+
+            Property(x => x.Orders, x => x.Cascade(CascadeOption.Delete));
         }
     }
 }

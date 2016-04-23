@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Sample.Models.Northwind;
 
 namespace Ilaro.Admin.Sample.Configurators
@@ -20,6 +21,8 @@ namespace Ilaro.Admin.Sample.Configurators
                 x.Required();
                 x.ForeignKey("RegionID");
             });
+
+            Property(x => x.EmployeeTerritories, x => x.Cascade(CascadeOption.Delete));
         }
     }
 }

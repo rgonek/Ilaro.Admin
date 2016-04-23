@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core;
 using Ilaro.Admin.Sample.Models.Northwind;
 
 namespace Ilaro.Admin.Sample.Configurators
@@ -15,6 +16,8 @@ namespace Ilaro.Admin.Sample.Configurators
                 x.StringLength(50);
                 x.Template(editor: Templates.Editor.TextArea);
             });
+
+            Property(x => x.Territories, x => x.Cascade(CascadeOption.Delete));
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ilaro.Admin.Core;
+using Ilaro.Admin.DataAnnotations;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
@@ -13,5 +16,8 @@ namespace Ilaro.Admin.Sample.Models.Northwind
 
         [Required, ForeignKey("RegionID")]
         public Region Region { get; set; }
+
+        [Cascade(CascadeOption.Delete)]
+        public ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
     }
 }
