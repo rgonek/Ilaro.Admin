@@ -17,9 +17,9 @@ namespace Ilaro.Admin.Sample.Configurators
                 x => x.Country, x => x.HomePhone, x => x.Extension);
 
             PropertiesGroup("Main", x => x.FirstName, x => x.LastName,
-                x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate, 
-                x => x.HireDate, x => x.HomePhone, x => x.Extension);
-            PropertiesGroup("Address", x => x.Address, x => x.City, 
+                x => x.Title, x => x.TitleOfCourtesy, x => x.BirthDate,
+                x => x.HireDate, x => x.HomePhone, x => x.Extension, x => x.PhotoPath);
+            PropertiesGroup("Address", x => x.Address, x => x.City,
                 x => x.Region, x => x.PostalCode, x => x.Country);
             PropertiesGroup("Notes", true, x => x.Notes);
 
@@ -92,6 +92,11 @@ namespace Ilaro.Admin.Sample.Configurators
             Property(x => x.Notes, x =>
             {
                 x.Template(editor: Templates.Editor.Html);
+            });
+
+            Property(x => x.PhotoPath, x =>
+            {
+                x.Image("/content/employee", 100, 100);
             });
 
             Property(x => x.Manager, x =>
