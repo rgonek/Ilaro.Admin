@@ -189,7 +189,7 @@ CREATE TABLE [dbo].[Products](
 SET ANSI_NULLS ON
 SET QUOTED_IDENTIFIER ON
 CREATE TABLE [dbo].[Region](
-    [RegionID] [int] NOT NULL,
+    [RegionID] [int] IDENTITY(1,1) NOT NULL,
     [RegionDescription] [nchar](50) NOT NULL,
  CONSTRAINT [PK_Region] PRIMARY KEY NONCLUSTERED 
 (
