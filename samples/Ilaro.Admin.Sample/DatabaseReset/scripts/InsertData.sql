@@ -5501,6 +5501,8 @@ INSERT [dbo].[Order Details] ([OrderID], [ProductID], [UnitPrice], [Quantity], [
 GO
 SET IDENTITY_INSERT [dbo].[Order Details] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Region] ON 
+GO
 INSERT [dbo].[Region] ([RegionID], [RegionDescription]) VALUES (1, N'Eastern                                           ')
 GO
 INSERT [dbo].[Region] ([RegionID], [RegionDescription]) VALUES (2, N'Western                                           ')
@@ -5508,6 +5510,8 @@ GO
 INSERT [dbo].[Region] ([RegionID], [RegionDescription]) VALUES (3, N'Northern                                          ')
 GO
 INSERT [dbo].[Region] ([RegionID], [RegionDescription]) VALUES (4, N'Southern                                          ')
+GO
+SET IDENTITY_INSERT [dbo].[Region] OFF 
 GO
 INSERT [dbo].[Territories] ([TerritoryID], [TerritoryDescription], [RegionID]) VALUES (N'01581', N'Westboro                                          ', 1)
 GO
