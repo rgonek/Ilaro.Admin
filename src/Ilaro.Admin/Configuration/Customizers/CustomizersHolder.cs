@@ -212,6 +212,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.IsForeignKey)
                     property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
+            SetDefaultOrderProperty(entity);
         }
 
         public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
@@ -368,6 +369,27 @@ namespace Ilaro.Admin.Configuration.Customizers
             {
                 GetPropertyCustomizer(concurrencyCheckProperty.PropertyInfo)
                     .IsConcurrencyCheck = true;
+            }
+        }
+
+        private void SetDefaultOrderProperty(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.DefaultOrder.HasValue))
+                return;
+
+            var orderProperty = entity.Key.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
+            if (orderProperty == null)
+            {
+                orderProperty = entity.Properties
+                    .FirstOrDefault(x =>
+                        (x.OnCreateDefaultValue.IsBehavior(ValueBehavior.Now) ||
+                        x.OnCreateDefaultValue.IsBehavior(ValueBehavior.UtcNow)) &&
+                        x.OnUpdateDefaultValue == null);
+            }
+
+            if (orderProperty != null)
+            {
+                orderProperty.DefaultOrder = OrderType.Desc;
             }
         }
     }
