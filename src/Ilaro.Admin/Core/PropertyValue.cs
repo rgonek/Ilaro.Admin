@@ -9,73 +9,53 @@ namespace Ilaro.Admin.Core
     public class PropertyValue
     {
         private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(PropertyValue));
+        private readonly ValueConverter _converter = new ValueConverter();
 
         public DataBehavior DataBehavior { get; set; }
         public object Raw { get; set; }
         public object Additional { get; set; }
         public List<object> Values { get; set; } = new List<object>();
+        private bool? _asBool;
         public bool? AsBool
         {
             get
             {
-                if (Raw == null)
+                if (_asBool == null)
                 {
-                    return null;
+                    if (AsObject == null)
+                        _asBool = null;
+                    else if (AsObject is bool || AsObject is bool?)
+                        _asBool = (bool?)AsObject;
+                    else
+                        _asBool = bool.Parse(AsObject.ToString());
                 }
-
-                if (Raw is bool || Raw is bool?)
-                {
-                    return (bool?)Raw;
-                }
-                else if (Raw is string)
-                {
-                    return bool.Parse(Raw.ToString());
-                }
-
-                return null;
+                return _asBool;
             }
         }
+        private string _asString;
         public string AsString
         {
             get
             {
-                if (Raw == null)
+                if (_asString == null)
                 {
-                    return string.Empty;
+                    var format = Property.GetFormat();
+                    if (format.HasValue())
+                        _asString = string.Format("{0:" + format + "}", AsObject);
+                    else
+                        _asString = AsObject.ToStringSafe();
                 }
-
-                if (Property.TypeInfo.IsNumber)
-                {
-                    try
-                    {
-                        return Convert
-                            .ToDecimal(Raw)
-                            .ToString(CultureInfo.CurrentCulture);
-                    }
-                    catch (Exception ex)
-                    {
-                        _log.Error(ex);
-                    }
-                }
-
-                return AsObject.ToStringSafe(Property);
+                return _asString;
             }
         }
+        private object _asObject;
         public object AsObject
         {
             get
             {
-                if (Raw == null)
-                    return null;
-
-                if (Property.TypeInfo.IsEnum)
-                    return Convert.ChangeType(Raw, Property.TypeInfo.EnumType, CultureInfo.CurrentCulture);
-                if (Property.TypeInfo.IsNullable)
-                    return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType, CultureInfo.CurrentCulture);
-                if (Property.TypeInfo.IsFile)
-                    return Raw;
-
-                return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);
+                if (_asObject == null)
+                    _asObject = _converter.Convert(Property.TypeInfo, Raw);
+                return _asObject;
             }
         }
 

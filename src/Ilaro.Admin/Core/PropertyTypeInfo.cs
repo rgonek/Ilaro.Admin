@@ -7,7 +7,7 @@ namespace Ilaro.Admin.Core
 {
     public class PropertyTypeInfo
     {
-        public Type Type { get; internal set; }
+        public Type OriginalType { get; internal set; }
         public Type NotNullableType
         {
             get
@@ -15,8 +15,12 @@ namespace Ilaro.Admin.Core
                 var notNullableType = UnderlyingType;
                 if (notNullableType != null)
                     return notNullableType;
-                return Type;
+                return OriginalType;
             }
+        }
+        public Type UnderlyingType
+        {
+            get { return Nullable.GetUnderlyingType(OriginalType); }
         }
         public DataType DataType { get; internal set; }
         public SystemDataType? SourceDataType { get; internal set; }
@@ -33,47 +37,42 @@ namespace Ilaro.Admin.Core
 
         public bool IsReal
         {
-            get { return TypeInfo.IsReal(Type); }
+            get { return TypeInfo.IsReal(OriginalType); }
         }
         public bool IsFloatingPoint
         {
-            get { return TypeInfo.IsFloatingPoint(Type); }
+            get { return TypeInfo.IsFloatingPoint(OriginalType); }
         }
         public bool IsNumber
         {
-            get { return TypeInfo.IsNumber(Type); }
+            get { return TypeInfo.IsNumber(OriginalType); }
         }
         public bool IsBool
         {
-            get { return TypeInfo.IsBool(Type); }
+            get { return TypeInfo.IsBool(OriginalType); }
         }
         public bool IsGuid
         {
-            get { return TypeInfo.IsGuid(Type); }
+            get { return TypeInfo.IsGuid(OriginalType); }
         }
         public bool IsAvailableForSearch
         {
-            get { return TypeInfo.IsAvailableForSearch(Type); }
+            get { return TypeInfo.IsAvailableForSearch(OriginalType); }
         }
 
         public bool IsEnum
         {
-            get { return Type.IsEnum; }
+            get { return OriginalType.IsEnum; }
         }
 
         public bool IsNullable
         {
-            get { return Nullable.GetUnderlyingType(Type) != null; }
-        }
-
-        public Type UnderlyingType
-        {
-            get { return Nullable.GetUnderlyingType(Type); }
+            get { return Nullable.GetUnderlyingType(OriginalType) != null; }
         }
 
         public bool IsString
         {
-            get { return Type == typeof(string); }
+            get { return OriginalType == typeof(string); }
         }
 
         public bool IsFileStoredInDb
@@ -93,9 +92,16 @@ namespace Ilaro.Admin.Core
 
         public PropertyTypeInfo(Type type)
         {
-            Type = type;
+            OriginalType = type;
             DeterminePropertyInfo();
             SetDataType();
+        }
+
+        public Type GetPropertyType()
+        {
+            return DataType == DataType.Enum ?
+                EnumType :
+                NotNullableType;
         }
 
         private void DeterminePropertyInfo()
@@ -103,37 +109,37 @@ namespace Ilaro.Admin.Core
             // for example for string PropertyType.GetInterface("IEnumerable`1") 
             // is not null, so we must check if type has sub type 
             IsCollection =
-                Type.GetInterface("IEnumerable`1") != null &&
-                Type.GetGenericArguments().Any();
+                OriginalType.GetInterface("IEnumerable`1") != null &&
+                OriginalType.GetGenericArguments().Any();
             if (IsCollection)
             {
-                var subType = Type.GetGenericArguments().Single();
-                Type = subType;
+                var subType = OriginalType.GetGenericArguments().Single();
+                OriginalType = subType;
             }
 
-            IsSystemType = Type.Namespace.StartsWith("System");
+            IsSystemType = OriginalType.Namespace.StartsWith("System");
         }
 
         private void SetDataType()
         {
-            if (Type.IsEnum)
+            if (OriginalType.IsEnum)
             {
                 DataType = DataType.Enum;
-                EnumType = Type;
+                EnumType = OriginalType;
             }
-            else if (TypeInfo.IsNumber(Type))
+            else if (TypeInfo.IsNumber(OriginalType))
             {
                 DataType = DataType.Numeric;
             }
-            else if (Type.In(typeof(DateTime), typeof(DateTime?)))
+            else if (OriginalType.In(typeof(DateTime), typeof(DateTime?)))
             {
                 DataType = DataType.DateTime;
             }
-            else if (Type.In(typeof(bool), typeof(bool?)))
+            else if (OriginalType.In(typeof(bool), typeof(bool?)))
             {
                 DataType = DataType.Bool;
             }
-            else if (Type == typeof(byte[]))
+            else if (OriginalType == typeof(byte[]))
             {
                 DataType = DataType.File;
             }

@@ -13,11 +13,11 @@ namespace Ilaro.Admin.Models
         public string JoinedKeyValue { get { return string.Join(Const.KeyColSeparator.ToString(), KeyValue); } }
 
         public string DisplayName { get; set; }
-        public IList<CellValue> Values { get; set; }
+        public IList<PropertyValue> Values { get; set; }
 
         private DataRow()
         {
-            Values = new List<CellValue>();
+            Values = new List<PropertyValue>();
             KeyValue = new List<string>();
         }
 
@@ -26,11 +26,7 @@ namespace Ilaro.Admin.Models
         {
             foreach (var propertyValue in entityRecord.Values)
             {
-                Values.Add(new CellValue
-                {
-                    Raw = propertyValue.Raw,
-                    Property = propertyValue.Property
-                });
+                Values.Add(propertyValue);
             }
         }
 
@@ -55,10 +51,9 @@ namespace Ilaro.Admin.Models
 
             foreach (var property in entity.DisplayProperties)
             {
-                Values.Add(new CellValue
+                Values.Add(new PropertyValue(property)
                 {
-                    Raw = recordDict[prefix + property.Column.Undecorate()],
-                    Property = property
+                    Raw = recordDict[prefix + property.Column.Undecorate()]
                 });
             }
         }
@@ -69,9 +64,9 @@ namespace Ilaro.Admin.Models
             if (entity.RecordDisplayFormat.HasValue())
             {
                 var result = entity.RecordDisplayFormat;
-                foreach (var cellValue in Values)
+                foreach (var PropertyValue in Values)
                 {
-                    result = result.Replace("{" + cellValue.Property.Name + "}", cellValue.AsString);
+                    result = result.Replace("{" + PropertyValue.Property.Name + "}", PropertyValue.AsString);
                 }
 
                 return result;
@@ -82,14 +77,14 @@ namespace Ilaro.Admin.Models
                 var methodInfo = entity.Type.GetMethod("ToString");
                 var instance = Activator.CreateInstance(entity.Type, null);
 
-                foreach (var cellValue in Values
+                foreach (var PropertyValue in Values
                     .Where(x =>
                         (x.Raw is ValueBehavior) == false &&
                         !x.Property.IsForeignKey ||
                         (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
                 {
-                    var propertyInfo = entity.Type.GetProperty(cellValue.Property.Name);
-                    propertyInfo.SetValue(instance, cellValue.AsObject);
+                    var propertyInfo = entity.Type.GetProperty(PropertyValue.Property.Name);
+                    propertyInfo.SetValue(instance, PropertyValue.AsObject);
                 }
 
                 var result = methodInfo.Invoke(instance, null);

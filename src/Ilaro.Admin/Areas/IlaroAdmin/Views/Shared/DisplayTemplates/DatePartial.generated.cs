@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/DisplayTemplates/DatePartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DatePartial_cshtml_ : System.Web.Mvc.WebViewPage<CellValue>
+    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DatePartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DatePartial_cshtml_()
         {

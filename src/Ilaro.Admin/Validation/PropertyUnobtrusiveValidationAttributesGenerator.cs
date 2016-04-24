@@ -17,7 +17,7 @@ namespace Ilaro.Admin.Validation
                 ModelMetadataProviders.Current,
                 property.Entity.Type,
                 null,
-                property.TypeInfo.Type,
+                property.TypeInfo.OriginalType,
                 property.Name);
             metadata.DisplayName = property.Display;
 

@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Models
             SortDirection = 
                 property.Name.ToLower() == order ?
                 orderDirection == "asc" ? "up" : "down" : 
-                String.Empty;
+                string.Empty;
         }
     }
 }
