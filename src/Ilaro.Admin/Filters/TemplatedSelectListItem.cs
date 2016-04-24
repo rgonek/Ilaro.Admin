@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Ilaro.Admin.Extensions;
+using System.Linq;
 
 namespace Ilaro.Admin.Filters
 {
@@ -15,14 +16,15 @@ namespace Ilaro.Admin.Filters
             string text,
             string value,
             string currentValue,
-            string template = null)
+            string template = null,
+            params string[] additionalMatchValues)
         {
             Text = text;
             Value = value;
-            Selected = Value == currentValue;
+            Selected = Value == currentValue || (additionalMatchValues != null && additionalMatchValues.Contains(currentValue));
             if (template.HasValue())
             {
-                Template = "FilterTemplates/" + template;   
+                Template = "FilterTemplates/" + template;
             }
         }
     }

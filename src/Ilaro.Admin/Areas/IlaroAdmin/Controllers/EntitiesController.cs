@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             {
                 throw new NoNullAllowedException("entity is null");
             }
-            var pagedRecords = _recordsService.GetRecords(entity, Request.Form, tableInfo);
+            var pagedRecords = _recordsService.GetRecords(entity, Request.QueryString, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(
@@ -83,7 +83,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         {
             var entityChangesFor = _admin.GetEntity(entityName);
             var pagedRecords = _recordsService
-                .GetChanges(entityChangesFor, key, Request.Form, tableInfo);
+                .GetChanges(entityChangesFor, key, Request.QueryString, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
                 return RedirectToAction(
