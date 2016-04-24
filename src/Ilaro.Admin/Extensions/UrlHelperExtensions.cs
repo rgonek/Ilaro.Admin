@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
-using Ilaro.Admin.Models;
 using Ilaro.Admin.Core.File;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Extensions
 {
@@ -10,7 +9,7 @@ namespace Ilaro.Admin.Extensions
     {
         public static string GetImageMinPath(
             this UrlHelper urlHelper,
-            CellValue value)
+            PropertyValue value)
         {
             if (value.AsString.IsNullOrEmpty())
             {
@@ -25,7 +24,7 @@ namespace Ilaro.Admin.Extensions
 
         public static string GetImageBigPath(
             this UrlHelper urlHelper,
-            CellValue value)
+            PropertyValue value)
         {
             if (value.AsString.IsNullOrEmpty())
             {
@@ -40,7 +39,7 @@ namespace Ilaro.Admin.Extensions
 
         public static string GetFilePath(
             this UrlHelper urlHelper,
-            CellValue value)
+            PropertyValue value)
         {
             if (value.AsString.IsNullOrEmpty())
             {

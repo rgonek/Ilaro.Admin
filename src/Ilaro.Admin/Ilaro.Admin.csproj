@@ -362,7 +362,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Templates.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CellValue.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\DataRow.cs" />
     <Compile Include="Core\DataType.cs" />

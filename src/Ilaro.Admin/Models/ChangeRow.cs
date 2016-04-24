@@ -89,7 +89,7 @@ namespace Ilaro.Admin.Models
             }
         }
 
-        public CellValue this[string propertyName]
+        public PropertyValue this[string propertyName]
         {
             get { return Row.Values.FirstOrDefault(x => x.Property.Name == propertyName); }
         }

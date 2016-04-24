@@ -37,7 +37,7 @@ namespace ASP
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/DisplayTemplates/DbImagePartial.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DbImagePartial_cshtml_ : System.Web.Mvc.WebViewPage<CellValue>
+    public partial class _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DbImagePartial_cshtml_ : System.Web.Mvc.WebViewPage<PropertyValue>
     {
         public _Areas_IlaroAdmin_Views_Shared_DisplayTemplates_DbImagePartial_cshtml_()
         {
@@ -57,15 +57,15 @@ namespace ASP
             #line hidden
 WriteLiteral("\r\n\r\n<img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 122), Tuple.Create("\"", 192)
-, Tuple.Create(Tuple.Create("", 128), Tuple.Create("data:image/jpg;base64,", 128), true)
+WriteAttribute("src", Tuple.Create(" src=\"", 126), Tuple.Create("\"", 196)
+, Tuple.Create(Tuple.Create("", 132), Tuple.Create("data:image/jpg;base64,", 132), true)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\DbImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 150), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
+, Tuple.Create(Tuple.Create("", 154), Tuple.Create<System.Object, System.Int32>(Convert.ToBase64String((byte[])Model.Raw)
             
             #line default
             #line hidden
-, 150), false)
+, 154), false)
 );
 
 WriteLiteral(" class=\"img-thumbnail\"");
