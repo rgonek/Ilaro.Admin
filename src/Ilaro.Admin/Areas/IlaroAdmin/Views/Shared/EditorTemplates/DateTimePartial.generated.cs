@@ -69,7 +69,7 @@ WriteLiteral("        ");
 
             
             #line 5 "..\..\Areas\IlaroAdmin\Views\Shared\EditorTemplates\DateTimePartial.cshtml"
-   Write(Html.TextBox(Model.Property.Name, Model.AsObject.ToStringSafe(Model.Property), Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUIDateTimeFormat() }));
+   Write(Html.TextBox(Model.Property.Name, Model.AsString, Model.Property, new { @class = "form-control", data_date_format = Model.Property.GetUIDateTimeFormat() }));
 
             
             #line default

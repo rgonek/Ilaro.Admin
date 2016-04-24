@@ -161,32 +161,6 @@ namespace Ilaro.Admin.Extensions
             return value.ToString();
         }
 
-        public static string ToStringSafe(
-            this object value,
-            Property property)
-        {
-            if (value == null)
-            {
-                return string.Empty;
-            }
-
-            if (property.TypeInfo.DataType == DataType.Numeric)
-            {
-                try
-                {
-                    return Convert.ToDecimal(value).ToString(property.Format, CultureInfo.CurrentCulture);
-                }
-                catch { }
-            }
-
-            if (property.TypeInfo.DataType == DataType.DateTime)
-            {
-                return ((DateTime)value).ToString(property.GetDateTimeFormat(), CultureInfo.CurrentCulture);
-            }
-
-            return value.ToString();
-        }
-
         public static string ToShortDateString(
             this object value,
             Property property)
