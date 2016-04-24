@@ -149,9 +149,9 @@
     </div>
 </div>
 
-@section Sidebar
+@if (Model.Filters.Count > 0)
 {
-    @if (Model.Filters.Count > 0)
+    @section Sidebar
     {
         <h2>@IlaroAdminResources.Filters</h2>
         <ul class="nav nav-list">

@@ -986,25 +986,17 @@ WriteLiteral(" <strong>");
             #line hidden
 WriteLiteral("</strong>\r\n    </div>\r\n</div>\r\n\r\n");
 
-DefineSection("Sidebar", () => {
-
-WriteLiteral("\r\n");
-
             
-            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+            #line 152 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
+ if (Model.Filters.Count > 0)
+{
     
             
             #line default
             #line hidden
-            
-            #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-     if (Model.Filters.Count > 0)
-    {
+DefineSection("Sidebar", () => {
 
-            
-            #line default
-            #line hidden
-WriteLiteral("        <h2>");
+WriteLiteral("\r\n        <h2>");
 
             
             #line 156 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
@@ -1013,9 +1005,7 @@ WriteLiteral("        <h2>");
             
             #line default
             #line hidden
-WriteLiteral("</h2>\r\n");
-
-WriteLiteral("        <ul");
+WriteLiteral("</h2>\r\n        <ul");
 
 WriteLiteral(" class=\"nav nav-list\"");
 
@@ -1054,21 +1044,21 @@ WriteLiteral("</a></li>\r\n");
             {
                 Html.RenderPartial("_Filter", filter);
             }
-
             
             #line default
             #line hidden
-WriteLiteral("        </ul>\r\n");
+WriteLiteral("\r\n        </ul>\r\n    ");
+
+});
 
             
             #line 164 "..\..\Areas\IlaroAdmin\Views\Entities\Index.cshtml"
-    }
+     
+}
 
             
             #line default
             #line hidden
-});
-
 WriteLiteral("\r\n");
 
 DefineSection("Scripts", () => {
