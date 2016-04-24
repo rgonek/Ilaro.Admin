@@ -7,8 +7,8 @@ using System.Reflection;
 
 [assembly: AssemblyTitle("Ilaro.Admin.Unity")]
 [assembly: AssemblyProduct("Ilaro.Admin.Unity")]
-[assembly: AssemblyVersion("0.5.1")]
-[assembly: AssemblyFileVersion("0.5.1")]
-[assembly: AssemblyInformationalVersion("0.5.1")]
+[assembly: AssemblyVersion("0.5.2")]
+[assembly: AssemblyFileVersion("0.5.2")]
+[assembly: AssemblyInformationalVersion("0.5.2")]
 [assembly: AssemblyCopyright("Copyright © Robert Gonek 2014-2016")]
 
