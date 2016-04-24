@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -22,5 +23,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         void Deletable(bool allowDelete = true);
         void SoftDelete();
         void ConcurrencyCheck();
+        void DefaultOrder(MemberInfo memberOf, OrderType orderType = OrderType.Asc);
     }
 }

@@ -35,5 +35,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsTimestamp { get; internal set; }
         public bool IsCreatable { get; internal set; } = true;
         public bool IsConcurrencyCheck { get; internal set; }
+        public OrderType? DefaultOrder { get; internal set; }
     }
 }

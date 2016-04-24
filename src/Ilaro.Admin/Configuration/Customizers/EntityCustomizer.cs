@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ilaro.Admin.Core;
+using System;
 using System.Linq.Expressions;
 
 namespace Ilaro.Admin.Configuration.Customizers
@@ -173,6 +174,19 @@ namespace Ilaro.Admin.Configuration.Customizers
         public EntityCustomizer<TEntity> ConcurrencyCheck()
         {
             CustomizersHolder.ConcurrencyCheck();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Set default order for property
+        /// </summary>
+        public EntityCustomizer<TEntity> DefaultOrder<TProperty>(
+            Expression<Func<TEntity, TProperty>> property, 
+            OrderType orderType = OrderType.Asc)
+        {
+            var memberOf = TypeExtensions.DecodeMemberAccessExpressionOf(property);
+            CustomizersHolder.DefaultOrder(memberOf, orderType);
 
             return this;
         }

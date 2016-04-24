@@ -6,7 +6,6 @@ using Ilaro.Admin.Extensions;
 using System.Linq;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -112,6 +111,11 @@ namespace Ilaro.Admin.Configuration.Customizers
         public void ConcurrencyCheck()
         {
             _classCustomizer.ConcurrencyCheckEnabled = true;
+        }
+
+        public void DefaultOrder(MemberInfo memberOf, OrderType orderType = OrderType.Asc)
+        {
+            GetPropertyCustomizer(memberOf).DefaultOrder = orderType;
         }
 
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)

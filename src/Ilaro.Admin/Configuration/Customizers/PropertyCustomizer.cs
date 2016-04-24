@@ -301,5 +301,12 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer DefaultOrder(OrderType orderType = OrderType.Asc)
+        {
+            propertyCustomizerHolder.DefaultOrder = orderType;
+
+            return this;
+        }
     }
 }
