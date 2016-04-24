@@ -1,55 +1,58 @@
-﻿using System;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 
 namespace Ilaro.Admin.Models
 {
     public class CellValue
     {
-        public object Raw { get; set; }
+        private readonly ValueConverter _converter = new ValueConverter();
 
+        public object Raw { get; set; }
         public Property Property { get; set; }
 
+        private string _asString;
         public string AsString
         {
-            get { return Raw.ToStringSafe(Property); }
+            get
+            {
+                if (_asString == null)
+                {
+                    var format = Property.GetFormat();
+                    if (format.HasValue())
+                        _asString = string.Format("{0:" + format + "}", AsObject);
+                    else
+                        _asString = AsObject.ToStringSafe();
+                }
+                return _asString;
+            }
         }
 
+        private bool? _asBool;
         public bool? AsBool
         {
             get
             {
-                if (AsString.IsNullOrEmpty())
+                if (_asBool == null)
                 {
-                    return null;
+                    if (AsObject == null)
+                        _asBool = null;
+                    else if (AsObject is bool || AsObject is bool?)
+                        _asBool = (bool?)AsObject;
+                    else
+                        _asBool = bool.Parse(AsObject.ToString());
                 }
-
-                return bool.Parse(AsString);
+                return _asBool;
             }
         }
 
+        private object _asObject;
         public object AsObject
         {
             get
             {
-                if (Raw == null)
-                    return null;
-
-                if (Property.TypeInfo.IsEnum)
-                {
-                    var enumValue =
-                        (Enum)Enum.Parse(Property.TypeInfo.EnumType, AsString);
-                    if (enumValue == null)
-                        return AsString;
-
-                    return enumValue;
-                }
-                if (Property.TypeInfo.IsNullable)
-                    return Convert.ChangeType(Raw, Property.TypeInfo.UnderlyingType);
-                if (Property.TypeInfo.IsFile)
-                    return null;
-
-                return Convert.ChangeType(Raw, Property.TypeInfo.OriginalType);
+                if (_asObject == null)
+                    _asObject = _converter.Convert(Property.TypeInfo, Raw);
+                return _asObject;
             }
         }
 

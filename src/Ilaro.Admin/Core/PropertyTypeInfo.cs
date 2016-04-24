@@ -97,6 +97,13 @@ namespace Ilaro.Admin.Core
             SetDataType();
         }
 
+        public Type GetPropertyType()
+        {
+            return DataType == DataType.Enum ?
+                EnumType :
+                NotNullableType;
+        }
+
         private void DeterminePropertyInfo()
         {
             // for example for string PropertyType.GetInterface("IEnumerable`1") 
@@ -118,7 +125,7 @@ namespace Ilaro.Admin.Core
             if (OriginalType.IsEnum)
             {
                 DataType = DataType.Enum;
-                //EnumType = Type;
+                EnumType = OriginalType;
             }
             else if (TypeInfo.IsNumber(OriginalType))
             {
