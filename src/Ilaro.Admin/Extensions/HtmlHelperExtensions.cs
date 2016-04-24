@@ -80,10 +80,6 @@ namespace Ilaro.Admin.Extensions
             }
             else if (column.SortDirection == "down")
             {
-                routeValues.Remove("o");
-            }
-            else
-            {
                 routeValues["od"] = "asc";
             }
 

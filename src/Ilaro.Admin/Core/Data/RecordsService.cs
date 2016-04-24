@@ -85,9 +85,14 @@ namespace Ilaro.Admin.Core.Data
             TableInfo tableInfo,
             Action<IList<BaseFilter>> filtersMutator)
         {
-            if (tableInfo.Order == null)
+            if (tableInfo.Order.HasValue() == false)
             {
-                //var defaultOrderProperty = entity.Properties.FirstOrDefault(x=>x.defa)
+                var defaultOrderProperty = entity.Properties.FirstOrDefault(x => x.DefaultOrder.HasValue);
+                if (defaultOrderProperty != null)
+                {
+                    tableInfo.Order = defaultOrderProperty.Name;
+                    tableInfo.OrderDirection = defaultOrderProperty.DefaultOrder.Value.ToString().ToLower();
+                }
             }
 
             var filterRecord = create_filter_record(entity, request);
