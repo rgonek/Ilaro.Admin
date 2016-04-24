@@ -308,5 +308,19 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer DefaultFilter(ValueBehavior behavior)
+        {
+            propertyCustomizerHolder.DefaultFilter = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultFilter(object value)
+        {
+            propertyCustomizerHolder.DefaultFilter = value;
+
+            return this;
+        }
     }
 }

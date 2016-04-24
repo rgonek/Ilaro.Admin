@@ -263,8 +263,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.IsTimestamp = propertyCustomizer.IsTimestamp;
                 property.IsConcurrencyCheck = propertyCustomizer.IsConcurrencyCheck;
 
-                if (propertyCustomizer.DefaultOrder.HasValue)
-                    property.DefaultOrder = propertyCustomizer.DefaultOrder.Value;
+                property.DefaultOrder = propertyCustomizer.DefaultOrder;
+                property.DefaultFilter = propertyCustomizer.DefaultFilter;
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {

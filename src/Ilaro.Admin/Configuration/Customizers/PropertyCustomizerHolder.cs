@@ -4,6 +4,7 @@ using Ilaro.Admin.DataAnnotations;
 using SystemDataType = System.ComponentModel.DataAnnotations.DataType;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -36,5 +37,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsCreatable { get; internal set; } = true;
         public bool IsConcurrencyCheck { get; internal set; }
         public OrderType? DefaultOrder { get; internal set; }
+        public object DefaultFilter { get; internal set; }
     }
 }

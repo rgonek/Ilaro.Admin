@@ -4,11 +4,11 @@ using System;
 namespace Ilaro.Admin.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DefaultOrder : Attribute
+    public class DefaultOrderAttribute : Attribute
     {
         public virtual OrderType OrderType { get; }
 
-        public DefaultOrder(OrderType orderType = OrderType.Asc)
+        public DefaultOrderAttribute(OrderType orderType = OrderType.Asc)
         {
             OrderType = orderType;
         }
