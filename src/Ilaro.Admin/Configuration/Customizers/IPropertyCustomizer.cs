@@ -156,5 +156,9 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Set default filter for property
         /// </summary>
         IPropertyCustomizer DefaultFilter(object value);
+        /// <summary>
+        /// Make property filterable
+        /// </summary>
+        IPropertyCustomizer Filterable();
     }
 }

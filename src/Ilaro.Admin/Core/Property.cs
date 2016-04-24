@@ -90,6 +90,7 @@ namespace Ilaro.Admin.Core
         public bool IsConcurrencyCheck { get; internal set; }
         public OrderType? DefaultOrder { get; internal set; }
         public object DefaultFilter { get; internal set; }
+        public bool IsFilterable { get; internal set; }
 
         public Property(Entity entity, PropertyInfo property)
         {

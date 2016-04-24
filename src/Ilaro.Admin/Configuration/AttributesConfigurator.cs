@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
 using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
+using System;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -51,6 +52,7 @@ namespace Ilaro.Admin.Configuration
                 ConcurrencyCheck(member, customizerHolder, attributes);
                 DefaultOrder(member, customizerHolder, attributes);
                 DefaultFilter(member, customizerHolder, attributes);
+                Filterable(member, customizerHolder, attributes);
             }
         }
 
@@ -540,6 +542,21 @@ namespace Ilaro.Admin.Configuration
                 customizerHolder.Property(member, x =>
                 {
                     x.DefaultFilter(attribute.Value);
+                });
+            }
+        }
+
+        private static void Filterable(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<FilterableAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.Filterable();
                 });
             }
         }

@@ -168,6 +168,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer Filterable()
+        {
+            propertyCustomizerHolder.IsFilterable = true;
+
+            return this;
+        }
+
         public IPropertyCustomizer Template(string display = null, string editor = null)
         {
             propertyCustomizerHolder.DisplayTemplate = display;

@@ -189,6 +189,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             SetDefaultId(entity);
             SetDefaultSearchProperties(entity);
+            SetDefaultFilterProperties(entity);
             SetDefaultDisplayProperties(entity);
             if (entity.ConcurrencyCheckEnabled)
             {
@@ -265,6 +266,11 @@ namespace Ilaro.Admin.Configuration.Customizers
 
                 property.DefaultOrder = propertyCustomizer.DefaultOrder;
                 property.DefaultFilter = propertyCustomizer.DefaultFilter;
+
+                if (propertyCustomizer.IsFilterable.HasValue)
+                    property.IsFilterable = propertyCustomizer.IsFilterable.Value;
+                else
+                    property.IsFilterable = IsFilterable(property);
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
@@ -343,6 +349,16 @@ namespace Ilaro.Admin.Configuration.Customizers
             {
                 SearchProperties(entity.GetDefaultSearchProperties().Select(x => x.PropertyInfo));
             }
+        }
+
+        private bool IsFilterable(Property property)
+        {
+            return property.IsVisible &&
+                (
+                    property.TypeInfo.IsBool ||
+                    property.TypeInfo.IsEnum ||
+                    property.TypeInfo.DataType == DataType.DateTime
+                );
         }
 
         private void SetDefaultDisplayProperties(Entity entity)

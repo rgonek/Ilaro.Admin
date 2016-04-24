@@ -38,5 +38,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public bool IsConcurrencyCheck { get; internal set; }
         public OrderType? DefaultOrder { get; internal set; }
         public object DefaultFilter { get; internal set; }
+        public bool? IsFilterable { get; internal set; }
     }
 }
