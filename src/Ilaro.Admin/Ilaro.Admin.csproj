@@ -275,6 +275,7 @@
     <Compile Include="DataAnnotations\DefaultFilterAttribute.cs" />
     <Compile Include="DataAnnotations\DefaultOrderAttribute.cs" />
     <Compile Include="DataAnnotations\DeletableAttribute.cs" />
+    <Compile Include="DataAnnotations\FilterableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />
     <Compile Include="Core\DataTypeConverter.cs" />

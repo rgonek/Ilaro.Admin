@@ -189,7 +189,6 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             SetDefaultId(entity);
             SetDefaultSearchProperties(entity);
-            SetDefaultFilterProperties(entity);
             SetDefaultDisplayProperties(entity);
             if (entity.ConcurrencyCheckEnabled)
             {

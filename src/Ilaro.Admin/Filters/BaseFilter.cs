@@ -10,6 +10,13 @@ namespace Ilaro.Admin.Filters
         public abstract string Value { get; protected set; }
         public abstract bool DisplayInUI { get; }
         public bool IsActive { get { return string.IsNullOrWhiteSpace(Value) == false; } }
+        public bool IsVisible
+        {
+            get
+            {
+                return DisplayInUI && Property.IsFilterable;
+            }
+        }
 
         public BaseFilter(Property property, string value = "")
         {
