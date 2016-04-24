@@ -51,6 +51,7 @@ namespace Ilaro.Admin.Configuration
                 Validation(member, customizerHolder, attributes);
                 Timestamp(member, customizerHolder, attributes);
                 ConcurrencyCheck(member, customizerHolder, attributes);
+                DefaultOrder(member, customizerHolder, attributes);
             }
         }
 
@@ -511,6 +512,21 @@ namespace Ilaro.Admin.Configuration
             if (attribute != null)
             {
                 customizerHolder.ConcurrencyCheck();
+            }
+        }
+
+        private static void DefaultOrder(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<DefaultOrder>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.DefaultOrder(attribute.OrderType);
+                });
             }
         }
     }

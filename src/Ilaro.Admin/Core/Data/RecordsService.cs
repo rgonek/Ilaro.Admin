@@ -85,6 +85,11 @@ namespace Ilaro.Admin.Core.Data
             TableInfo tableInfo,
             Action<IList<BaseFilter>> filtersMutator)
         {
+            if (tableInfo.Order == null)
+            {
+                //var defaultOrderProperty = entity.Properties.FirstOrDefault(x=>x.defa)
+            }
+
             var filterRecord = create_filter_record(entity, request);
             var filters = _filterFactory.BuildFilters(filterRecord).ToList();
             if (filtersMutator != null)
