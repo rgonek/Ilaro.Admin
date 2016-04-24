@@ -16,7 +16,7 @@ namespace Ilaro.Admin.Filters
         public EnumEntityFilter(Property property, string value = "")
             : base(property, value)
         {
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, Const.EmptyFilterValue, Value, additionalMatchValues: string.Empty));
             foreach (var option in property.TypeInfo.EnumType.GetOptions())
                 Options.Add(new TemplatedSelectListItem(option.Value, option.Key, Value));
         }

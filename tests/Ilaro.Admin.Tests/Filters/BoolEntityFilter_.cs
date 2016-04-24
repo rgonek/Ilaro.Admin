@@ -25,7 +25,7 @@ namespace Ilaro.Admin.Tests.Filters
         {
             var options = _filter.Options.ToList();
             Assert.Equal(3, options.Count);
-            Assert.Equal(String.Empty, options[0].Value);
+            Assert.Equal(Const.EmptyFilterValue, options[0].Value);
             Assert.Equal("1", options[1].Value);
             Assert.Equal("0", options[2].Value);
         }

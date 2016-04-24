@@ -119,7 +119,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var filterRecord = new EntityRecord(entity);
             if (request != null)
-                filterRecord.Fill(request);
+                filterRecord.Fill(request, x => x == Const.EmptyFilterValue ? "" : x);
 
             return filterRecord;
         }

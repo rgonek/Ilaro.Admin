@@ -28,6 +28,7 @@ namespace Ilaro.Admin.Extensions
                 { "page", "1" },
                 { filter.Property.Name, value }
             };
+            var attr = Merge(currentRouteValues, new RouteValueDictionary(newRouteValues));
 
             return htmlHelper.ActionLink(
                 text,
