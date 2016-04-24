@@ -187,13 +187,16 @@ namespace Ilaro.Admin.Core
             SetKeyValue(key);
         }
 
-        internal void Fill(NameValueCollection request)
+        internal void Fill(NameValueCollection request, Func<string, string> valueMutator = null)
         {
             foreach (var property in Entity.Properties)
             {
+                var value = request[property.Name];
+                if (valueMutator != null)
+                    value = valueMutator(value);
                 Values.Add(new PropertyValue(property)
                 {
-                    Raw = request[property.Name]
+                    Raw = value
                 });
             }
         }
@@ -221,7 +224,7 @@ namespace Ilaro.Admin.Core
                 var property = propertyValue.Property;
                 var propertyInfo = Entity.Type.GetProperty(property.Name);
                 var value = propertyValue.AsObject;
-                if (property.TypeInfo.IsFile && 
+                if (property.TypeInfo.IsFile &&
                     property.TypeInfo.IsFileStoredInDb == false
                     && value is HttpPostedFileWrapper)
                 {

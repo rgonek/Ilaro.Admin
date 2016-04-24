@@ -4,11 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Filters
 {
     public class FilterFactory : IFilterFactory
     {
+        private readonly IProvidingUser _user;
+        private readonly IKnowTheTime _clock;
+
+        public FilterFactory(IProvidingUser user, IKnowTheTime clock)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+            if (clock == null)
+                throw new ArgumentNullException(nameof(clock));
+
+            _user = user;
+            _clock = clock;
+        }
+
         public IEnumerable<BaseFilter> BuildFilters(EntityRecord entityRecord)
         {
             var filters = GetAllFilters();
@@ -86,11 +101,36 @@ namespace Ilaro.Admin.Filters
             if (type == typeof(Entity))
                 return propertyValue.Property.Entity;
             if (type == typeof(IKnowTheTime))
-                return new SystemClock();
-            if (type == typeof(string))
-                return propertyValue.Raw.ToStringSafe();
+                return _clock;
 
-            return propertyValue.Raw;
+            var value = propertyValue.Raw;
+            if (value == null)
+                value = GetDefaultValue(propertyValue.Property.DefaultFilter);
+
+            if (type == typeof(string))
+                return value.ToStringSafe();
+
+            return value;
+        }
+
+        private object GetDefaultValue(object value)
+        {
+            if (value is ValueBehavior)
+            {
+                switch ((ValueBehavior)value)
+                {
+                    case ValueBehavior.CurrentUserId:
+                        return _user.CurrentId();
+                    case ValueBehavior.CurrentUserName:
+                        return _user.CurrentUserName();
+                    case ValueBehavior.Now:
+                        return _clock.Now;
+                    case ValueBehavior.UtcNow:
+                        return _clock.UtcNow;
+                }
+            }
+
+            return value;
         }
     }
 }

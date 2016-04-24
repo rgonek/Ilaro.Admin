@@ -266,12 +266,16 @@
     <Compile Include="Core\IConfigurationProvider.cs" />
     <Compile Include="Core\IProvidingUser.cs" />
     <Compile Include="Core\File\ISavingFiles.cs" />
+    <Compile Include="Core\OrderType.cs" />
     <Compile Include="Core\SystemClock.cs" />
     <Compile Include="Core\ValueConverter.cs" />
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
     <Compile Include="DataAnnotations\ConcurrencyCheckAttribute.cs" />
+    <Compile Include="DataAnnotations\DefaultFilterAttribute.cs" />
+    <Compile Include="DataAnnotations\DefaultOrderAttribute.cs" />
     <Compile Include="DataAnnotations\DeletableAttribute.cs" />
+    <Compile Include="DataAnnotations\FilterableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />
     <Compile Include="Core\DataTypeConverter.cs" />

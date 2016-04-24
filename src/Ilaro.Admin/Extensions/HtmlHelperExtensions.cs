@@ -28,6 +28,7 @@ namespace Ilaro.Admin.Extensions
                 { "page", "1" },
                 { filter.Property.Name, value }
             };
+            var attr = Merge(currentRouteValues, new RouteValueDictionary(newRouteValues));
 
             return htmlHelper.ActionLink(
                 text,
@@ -79,10 +80,6 @@ namespace Ilaro.Admin.Extensions
                 routeValues["od"] = "desc";
             }
             else if (column.SortDirection == "down")
-            {
-                routeValues.Remove("o");
-            }
-            else
             {
                 routeValues["od"] = "asc";
             }

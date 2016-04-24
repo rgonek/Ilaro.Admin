@@ -6,7 +6,6 @@ using Ilaro.Admin.Extensions;
 using System.Linq;
 using Ilaro.Admin.Models;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Configuration.Customizers
 {
@@ -114,6 +113,11 @@ namespace Ilaro.Admin.Configuration.Customizers
             _classCustomizer.ConcurrencyCheckEnabled = true;
         }
 
+        public void DefaultOrder(MemberInfo memberOf, OrderType orderType = OrderType.Asc)
+        {
+            GetPropertyCustomizer(memberOf).DefaultOrder = orderType;
+        }
+
         public void Property(MemberInfo memberOf, Action<IPropertyCustomizer> customizer)
         {
             customizer(new PropertyCustomizer(GetPropertyCustomizer(memberOf)));
@@ -208,6 +212,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.IsForeignKey)
                     property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
+            SetDefaultOrderProperty(entity);
         }
 
         public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
@@ -257,6 +262,14 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.IsCreatable = propertyCustomizer.IsCreatable;
                 property.IsTimestamp = propertyCustomizer.IsTimestamp;
                 property.IsConcurrencyCheck = propertyCustomizer.IsConcurrencyCheck;
+
+                property.DefaultOrder = propertyCustomizer.DefaultOrder;
+                property.DefaultFilter = propertyCustomizer.DefaultFilter;
+
+                if (propertyCustomizer.IsFilterable.HasValue)
+                    property.IsFilterable = propertyCustomizer.IsFilterable.Value;
+                else
+                    property.IsFilterable = IsFilterable(property);
 
                 if (propertyCustomizer.DisplayTemplate.IsNullOrEmpty() == false)
                 {
@@ -337,6 +350,16 @@ namespace Ilaro.Admin.Configuration.Customizers
             }
         }
 
+        private bool IsFilterable(Property property)
+        {
+            return property.IsVisible &&
+                (
+                    property.TypeInfo.IsBool ||
+                    property.TypeInfo.IsEnum ||
+                    property.TypeInfo.DataType == DataType.DateTime
+                );
+        }
+
         private void SetDefaultDisplayProperties(Entity entity)
         {
             if (_propertyCustomizers.Any(x => x.Value.IsVisible.HasValue) == false)
@@ -361,6 +384,27 @@ namespace Ilaro.Admin.Configuration.Customizers
             {
                 GetPropertyCustomizer(concurrencyCheckProperty.PropertyInfo)
                     .IsConcurrencyCheck = true;
+            }
+        }
+
+        private void SetDefaultOrderProperty(Entity entity)
+        {
+            if (_propertyCustomizers.Any(x => x.Value.DefaultOrder.HasValue))
+                return;
+
+            var orderProperty = entity.Key.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
+            if (orderProperty == null)
+            {
+                orderProperty = entity.Properties
+                    .FirstOrDefault(x =>
+                        (x.OnCreateDefaultValue.IsBehavior(ValueBehavior.Now) ||
+                        x.OnCreateDefaultValue.IsBehavior(ValueBehavior.UtcNow)) &&
+                        x.OnUpdateDefaultValue == null);
+            }
+
+            if (orderProperty != null)
+            {
+                orderProperty.DefaultOrder = OrderType.Desc;
             }
         }
     }

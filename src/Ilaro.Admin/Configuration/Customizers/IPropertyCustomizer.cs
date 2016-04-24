@@ -144,5 +144,21 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Mark property as concurrency check
         /// </summary>
         IPropertyCustomizer IsConcurrencyCheck();
+        /// <summary>
+        /// Set default order for property
+        /// </summary>
+        IPropertyCustomizer DefaultOrder(OrderType orderType = OrderType.Asc);
+        /// <summary>
+        /// Set default filter for property
+        /// </summary>
+        IPropertyCustomizer DefaultFilter(ValueBehavior behavior);
+        /// <summary>
+        /// Set default filter for property
+        /// </summary>
+        IPropertyCustomizer DefaultFilter(object value);
+        /// <summary>
+        /// Make property filterable
+        /// </summary>
+        IPropertyCustomizer Filterable();
     }
 }

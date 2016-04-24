@@ -39,6 +39,7 @@ namespace Ilaro.Admin.Sample.Configurators
             Property(x => x.Discontinued, x =>
             {
                 x.Required();
+                x.DefaultFilter(true);
             });
             Property(x => x.OrderDetails, x =>
             {

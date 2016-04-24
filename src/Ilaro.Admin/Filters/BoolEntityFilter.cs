@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Extensions;
 using Resources;
@@ -17,9 +16,9 @@ namespace Ilaro.Admin.Filters
             : base(property, value)
         {
 
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Yes, "1", Value));
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.No, "0", Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, Const.EmptyFilterValue, Value, additionalMatchValues: string.Empty));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Yes, "1", Value, null, true.ToString(), "t"));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.No, "0", Value, null, false.ToString(), "f"));
         }
 
         public override string GetSqlCondition(string alias, ref List<object> args)

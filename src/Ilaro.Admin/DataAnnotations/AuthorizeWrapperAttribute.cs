@@ -4,7 +4,7 @@ using System.Web.Mvc;
 namespace Ilaro.Admin.DataAnnotations
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class AuthorizeWrapperAttribute : FilterAttribute, IAuthorizationFilter
+    public class AuthorizeWrapperAttribute : FilterableAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {

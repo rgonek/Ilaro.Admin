@@ -21,7 +21,7 @@ namespace Ilaro.Admin.Filters
                 throw new ArgumentNullException(nameof(clock));
 
             var now = clock.Now;
-            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, String.Empty, Value));
+            Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, Const.EmptyFilterValue, Value, additionalMatchValues: string.Empty));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Today, now.ToString("yyyy.MM.dd"), Value));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Yesterday, now.AddDays(-1).ToString("yyyy.MM.dd"), Value));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.LastWeek, now.AddDays(-7).ToString("yyyy.MM.dd") + "-" + now.ToString("yyyy.MM.dd"), Value));

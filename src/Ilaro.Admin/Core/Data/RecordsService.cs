@@ -85,12 +85,20 @@ namespace Ilaro.Admin.Core.Data
             TableInfo tableInfo,
             Action<IList<BaseFilter>> filtersMutator)
         {
+            if (tableInfo.Order.HasValue() == false)
+            {
+                var defaultOrderProperty = entity.Properties.FirstOrDefault(x => x.DefaultOrder.HasValue);
+                if (defaultOrderProperty != null)
+                {
+                    tableInfo.Order = defaultOrderProperty.Name;
+                    tableInfo.OrderDirection = defaultOrderProperty.DefaultOrder.Value.ToString().ToLower();
+                }
+            }
+
             var filterRecord = create_filter_record(entity, request);
             var filters = _filterFactory.BuildFilters(filterRecord).ToList();
-            if (filtersMutator != null)
-            {
-                filtersMutator(filters);
-            }
+            filtersMutator?.Invoke(filters);
+
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
                 filters,
@@ -111,7 +119,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var filterRecord = new EntityRecord(entity);
             if (request != null)
-                filterRecord.Fill(request);
+                filterRecord.Fill(request, x => x == Const.EmptyFilterValue ? "" : x);
 
             return filterRecord;
         }

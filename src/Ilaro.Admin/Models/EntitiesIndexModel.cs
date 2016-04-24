@@ -19,7 +19,7 @@ namespace Ilaro.Admin.Models
             Entity = entity;
             Pager =
                 new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems);
-            Filters = pagedRecords.Filters.Where(x => x.DisplayInUI).ToList();
+            Filters = pagedRecords.Filters.Where(x => x.IsVisible).ToList();
             TableInfo = tableInfo;
         }
 

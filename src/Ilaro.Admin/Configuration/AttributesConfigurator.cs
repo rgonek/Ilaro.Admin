@@ -7,8 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
 using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 
 namespace Ilaro.Admin.Configuration
 {
@@ -51,6 +50,9 @@ namespace Ilaro.Admin.Configuration
                 Validation(member, customizerHolder, attributes);
                 Timestamp(member, customizerHolder, attributes);
                 ConcurrencyCheck(member, customizerHolder, attributes);
+                DefaultOrder(member, customizerHolder, attributes);
+                DefaultFilter(member, customizerHolder, attributes);
+                Filterable(member, customizerHolder, attributes);
             }
         }
 
@@ -511,6 +513,51 @@ namespace Ilaro.Admin.Configuration
             if (attribute != null)
             {
                 customizerHolder.ConcurrencyCheck();
+            }
+        }
+
+        private static void DefaultOrder(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<DefaultOrderAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.DefaultOrder(attribute.OrderType);
+                });
+            }
+        }
+
+        private static void DefaultFilter(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<DefaultFilterAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.DefaultFilter(attribute.Value);
+                });
+            }
+        }
+
+        private static void Filterable(
+            PropertyInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<FilterableAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.Filterable();
+                });
             }
         }
     }

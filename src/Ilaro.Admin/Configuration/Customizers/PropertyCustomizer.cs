@@ -168,6 +168,13 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer Filterable()
+        {
+            propertyCustomizerHolder.IsFilterable = true;
+
+            return this;
+        }
+
         public IPropertyCustomizer Template(string display = null, string editor = null)
         {
             propertyCustomizerHolder.DisplayTemplate = display;
@@ -298,6 +305,27 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer IsConcurrencyCheck()
         {
             propertyCustomizerHolder.IsConcurrencyCheck = true;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultOrder(OrderType orderType = OrderType.Asc)
+        {
+            propertyCustomizerHolder.DefaultOrder = orderType;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultFilter(ValueBehavior behavior)
+        {
+            propertyCustomizerHolder.DefaultFilter = behavior;
+
+            return this;
+        }
+
+        public IPropertyCustomizer DefaultFilter(object value)
+        {
+            propertyCustomizerHolder.DefaultFilter = value;
 
             return this;
         }
