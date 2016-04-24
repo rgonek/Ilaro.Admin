@@ -145,7 +145,7 @@ namespace Ilaro.Admin.Core
                         else
                         {
                             propertyValue.Raw = value.ConvertTo(
-                                property.TypeInfo.Type,
+                                property.TypeInfo.OriginalType,
                                 CultureInfo.CurrentCulture);
                         }
                     }

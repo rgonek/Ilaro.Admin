@@ -75,7 +75,7 @@ namespace Ilaro.Admin.Core
                 if (Property.TypeInfo.IsFile)
                     return Raw;
 
-                return Convert.ChangeType(Raw, Property.TypeInfo.Type, CultureInfo.CurrentCulture);
+                return Convert.ChangeType(Raw, Property.TypeInfo.OriginalType, CultureInfo.CurrentCulture);
             }
         }
 

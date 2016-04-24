@@ -136,7 +136,7 @@ namespace Ilaro.Admin.Core
                 else
                 {
                     ReferencePropertyName = Column = ForeignKeyName;
-                    ForeignEntityName = TypeInfo.Type.Name;
+                    ForeignEntityName = TypeInfo.OriginalType.Name;
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace Ilaro.Admin.Core
             else
             {
                 IsForeignKey = true;
-                ForeignEntityName = TypeInfo.Type.Name;
+                ForeignEntityName = TypeInfo.OriginalType.Name;
             }
         }
     }

@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Models
                 if (Property.TypeInfo.IsFile)
                     return null;
 
-                return Convert.ChangeType(Raw, Property.TypeInfo.Type);
+                return Convert.ChangeType(Raw, Property.TypeInfo.OriginalType);
             }
         }
 

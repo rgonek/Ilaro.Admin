@@ -301,10 +301,10 @@ namespace Ilaro.Admin.Configuration.Customizers
                     }
                     else if (property.TypeInfo.IsSystemType == false)
                     {
-                        property.TypeInfo.Type = property.ForeignEntity == null ?
+                        property.TypeInfo.OriginalType = property.ForeignEntity == null ?
                             // by default foreign property is int
-                            property.TypeInfo.Type = typeof(int) :
-                            property.ForeignEntity.Key.FirstOrDefault().TypeInfo.Type;
+                            property.TypeInfo.OriginalType = typeof(int) :
+                            property.ForeignEntity.Key.FirstOrDefault().TypeInfo.OriginalType;
                     }
                 }
             }

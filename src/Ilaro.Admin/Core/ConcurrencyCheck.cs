@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Core
                 return DateTime.Parse(concurrencyCheck, CultureInfo.CurrentCulture);
             }
 
-            if (property.TypeInfo.Type == typeof(byte[]))
+            if (property.TypeInfo.OriginalType == typeof(byte[]))
                 return System.Convert.FromBase64String(concurrencyCheck);
 
             if (property.TypeInfo.IsGuid)
@@ -26,7 +26,7 @@ namespace Ilaro.Admin.Core
 
             return System.Convert.ChangeType(
                 concurrencyCheck, 
-                property.TypeInfo.Type, 
+                property.TypeInfo.OriginalType, 
                 CultureInfo.CurrentCulture);
         }
     }
