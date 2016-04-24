@@ -148,7 +148,7 @@ namespace Ilaro.Admin.Extensions
             }
 
             return PluralizationService
-                .CreateService(new CultureInfo("en-US"))
+                .CreateService(CultureInfo.CurrentCulture)
                 .Pluralize(value);
         }
 
