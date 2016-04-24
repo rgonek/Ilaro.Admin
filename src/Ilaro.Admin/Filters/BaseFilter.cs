@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Filters
@@ -14,7 +13,7 @@ namespace Ilaro.Admin.Filters
 
         public BaseFilter(Property property, string value = "")
         {
-            Value = value ?? String.Empty;
+            Value = value ?? string.Empty;
             Property = property;
             Options = new List<TemplatedSelectListItem>();
         }

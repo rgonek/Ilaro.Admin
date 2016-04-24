@@ -7,8 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using EntityConcurrencyCheckAttribute = Ilaro.Admin.DataAnnotations.ConcurrencyCheckAttribute;
 using PropertyConcurrencyCheckAttribute = System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Ilaro.Admin.Configuration
 {

@@ -272,7 +272,8 @@
     <Compile Include="DataAnnotations\AuthorizeWrapperAttribute.cs" />
     <Compile Include="DataAnnotations\ColumnsAttribute.cs" />
     <Compile Include="DataAnnotations\ConcurrencyCheckAttribute.cs" />
-    <Compile Include="DataAnnotations\DefaultOrder.cs" />
+    <Compile Include="DataAnnotations\DefaultFilterAttribute.cs" />
+    <Compile Include="DataAnnotations\DefaultOrderAttribute.cs" />
     <Compile Include="DataAnnotations\DeletableAttribute.cs" />
     <Compile Include="DataAnnotations\GroupsAttribute.cs" />
     <Compile Include="DataAnnotations\FileAttribute.cs" />

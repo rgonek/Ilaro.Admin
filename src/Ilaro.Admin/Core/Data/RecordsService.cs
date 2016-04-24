@@ -98,9 +98,8 @@ namespace Ilaro.Admin.Core.Data
             var filterRecord = create_filter_record(entity, request);
             var filters = _filterFactory.BuildFilters(filterRecord).ToList();
             if (filtersMutator != null)
-            {
                 filtersMutator(filters);
-            }
+
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
                 filters,

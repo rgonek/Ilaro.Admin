@@ -55,6 +55,7 @@ namespace Ilaro.Admin.Ninject
         {
             kernel.Bind<Notificator>().ToSelf().InPerUserCacheScope();
 
+            kernel.Bind<IKnowTheTime>().To<SystemClock>();
             kernel.Bind<IEntityService>().To<EntityService>();
             kernel.Bind<IValidatingEntities>().To<EntityValidator>();
             kernel.Bind<IValidatingFiles>().To<FileValidator>();

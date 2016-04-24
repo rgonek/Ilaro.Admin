@@ -35,6 +35,7 @@ namespace Ilaro.Admin.Autofac
 
             builder.RegisterType<Notificator>().AsSelf().InstancePerLifetimeScope();
 
+            builder.RegisterType<SystemClock>().As<IKnowTheTime>();
             builder.RegisterType<EntityService>().As<IEntityService>();
             builder.RegisterType<EntityValidator>().As<IValidatingEntities>();
             builder.RegisterType<FileValidator>().As<IValidatingFiles>();
