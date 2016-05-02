@@ -1,7 +1,10 @@
 ﻿@model PropertyValue
 
 <div class="form-group">
-    <label for="@Html.Id(Model.Property.Name)" class="control-label col-md-2">@Model.Property.Display @Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+    @if (Model.Property.TypeInfo.IsBool == false)
+    {
+        <label for="@Html.Id(Model.Property.Name)" class="control-label col-md-2">@Model.Property.Display @Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>")</label>
+    }
     @Html.EditorFor(m => m, Model.Property.Template.Editor)
     @if (Model.Property.IsForeignKey)
     {

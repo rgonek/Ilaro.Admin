@@ -48,16 +48,32 @@ WriteLiteral("<div");
 
 WriteLiteral(" class=\"form-group\"");
 
-WriteLiteral(">\r\n    <label");
+WriteLiteral(">\r\n");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 60), Tuple.Create("\"", 95)
             
             #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 66), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
+    
             
             #line default
             #line hidden
-, 66), false)
+            
+            #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+     if (Model.Property.TypeInfo.IsBool == false)
+    {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("        <label");
+
+WriteAttribute("for", Tuple.Create(" for=\"", 122), Tuple.Create("\"", 157)
+            
+            #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+, Tuple.Create(Tuple.Create("", 128), Tuple.Create<System.Object, System.Int32>(Html.Id(Model.Property.Name)
+            
+            #line default
+            #line hidden
+, 128), false)
 );
 
 WriteLiteral(" class=\"control-label col-md-2\"");
@@ -65,8 +81,8 @@ WriteLiteral(" class=\"control-label col-md-2\"");
 WriteLiteral(">");
 
             
-            #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                         Write(Model.Property.Display);
+            #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+                                                                             Write(Model.Property.Display);
 
             
             #line default
@@ -74,18 +90,25 @@ WriteLiteral(">");
 WriteLiteral(" ");
 
             
-            #line 4 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-                                                                                                 Write(Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>"));
+            #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+                                                                                                     Write(Html.Condition(Model.Property.IsRequired, () => "<span class=\"text-danger\">*</span>"));
 
             
             #line default
             #line hidden
 WriteLiteral("</label>\r\n");
 
+            
+            #line 7 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+    }
+
+            
+            #line default
+            #line hidden
 WriteLiteral("    ");
 
             
-            #line 5 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+            #line 8 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
 Write(Html.EditorFor(m => m, Model.Property.Template.Editor));
 
             
@@ -94,13 +117,13 @@ Write(Html.EditorFor(m => m, Model.Property.Template.Editor));
 WriteLiteral("\r\n");
 
             
-            #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 6 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+            #line 9 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
      if (Model.Property.IsForeignKey)
     {
 
@@ -109,14 +132,14 @@ WriteLiteral("\r\n");
             #line hidden
 WriteLiteral("        <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 367), Tuple.Create("\"", 451)
+WriteAttribute("href", Tuple.Create(" href=\"", 436), Tuple.Create("\"", 520)
             
-            #line 8 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 374), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })
+            #line 11 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+, Tuple.Create(Tuple.Create("", 443), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })
             
             #line default
             #line hidden
-, 374), false)
+, 443), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -130,7 +153,7 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span></a>\r\n");
 
             
-            #line 9 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+            #line 12 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
     }
 
             
