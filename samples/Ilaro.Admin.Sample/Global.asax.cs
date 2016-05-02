@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using Ilaro.Admin.Sample.Models.Northwind;
+using System;
+using NLog;
 
 namespace Ilaro.Admin.Sample
 {
@@ -18,6 +20,8 @@ namespace Ilaro.Admin.Sample
 
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
+
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
         }
 
         private void RegisterRoutes(RouteCollection routes)
@@ -30,6 +34,16 @@ namespace Ilaro.Admin.Sample
                 defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
                 namespaces: new[] { "Ilaro.Admin.Sample.Controllers" }
             );
+        }
+
+        static readonly Logger _log = LogManager.GetCurrentClassLogger();
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+            Server.ClearError();
+
+            _log.Fatal(exception, "Global error");
         }
     }
 }
