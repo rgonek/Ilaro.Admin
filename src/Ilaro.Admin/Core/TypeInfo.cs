@@ -34,20 +34,15 @@ namespace Ilaro.Admin.Core
             typeof(Guid), typeof(Guid?)
         };
 
-        private static readonly Type[] AvailableForSearch = new[]
+        private static Type[] AvailableForSearch
         {
-            typeof (string),
-            typeof (int),
-            typeof (short),
-            typeof (long),
-            typeof (double),
-            typeof (decimal),
-            typeof (int?),
-            typeof (short?),
-            typeof (long?),
-            typeof (double?),
-            typeof (decimal?)
-        };
+            get
+            {
+                return Real
+                    .Union(FloatingPoint)
+                    .Union(new[] { typeof(string) }).ToArray();
+            }
+        }
 
         public static bool IsChangeEntity(Type type)
         {
