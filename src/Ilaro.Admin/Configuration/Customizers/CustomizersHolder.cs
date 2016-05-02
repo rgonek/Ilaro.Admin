@@ -213,6 +213,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                     property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
             SetDefaultOrderProperty(entity);
+            SetDefaultRecordDisplayFormat(entity);
         }
 
         public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
@@ -406,6 +407,44 @@ namespace Ilaro.Admin.Configuration.Customizers
             {
                 orderProperty.DefaultOrder = OrderType.Desc;
             }
+        }
+
+        private void SetDefaultRecordDisplayFormat(Entity entity)
+        {
+            if (entity.RecordDisplayFormat.HasValue() || entity.HasToStringMethod)
+                return;
+
+            var property = GetDescriptiveProperty(entity);
+            if (property != null)
+            {
+                entity.RecordDisplayFormat = $"{{{property.Name}}}";
+            }
+            else
+            {
+                entity.RecordDisplayFormat = "#" + 
+                    string.Join(
+                        Const.KeyColSeparator.ToString(), 
+                        entity.Keys.Select(x => $"{{{x.Name}}}"));
+            }
+        }
+
+        private Property GetDescriptiveProperty(Entity entity)
+        {
+            var possibleNames = new List<string> { "name", "title", "description", "value" };
+
+            // Get first matching property
+            // %Name%, %Title%, %Description%, %Value%
+            foreach (var possibleName in possibleNames)
+            {
+                var property = entity.Properties
+                    .FirstOrDefault(x => x.Name.ToLower().Contains(possibleName));
+                if (property != null)
+                {
+                    return property;
+                }
+            }
+
+            return null;
         }
     }
 }

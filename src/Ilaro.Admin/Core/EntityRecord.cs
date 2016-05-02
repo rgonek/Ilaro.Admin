@@ -280,29 +280,8 @@ namespace Ilaro.Admin.Core
 
                 return result.ToStringSafe();
             }
-            // if not get first matching property
-            // %Name%, %Title%, %Description%, %Value%
-            // if not found any property use KeyValue
-            var possibleNames = new List<string> { "name", "title", "description", "value" };
-            var value = string.Empty;
-            foreach (var possibleName in possibleNames)
-            {
-                var cell = Values
-                    .FirstOrDefault(x =>
-                        x.Property.Name.ToLower().Contains(possibleName));
-                if (cell != null)
-                {
-                    value = cell.AsString;
-                    break;
-                }
-            }
 
-            if (value.IsNullOrEmpty())
-            {
-                return "#" + JoinedKeysValues;
-            }
-
-            return value;
+            return null;
         }
     }
 }
