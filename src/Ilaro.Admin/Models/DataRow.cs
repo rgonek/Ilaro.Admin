@@ -44,7 +44,7 @@ namespace Ilaro.Admin.Models
             string prefix = null)
             : this()
         {
-            foreach (var key in entity.Key)
+            foreach (var key in entity.Keys)
             {
                 KeyValue.Add(recordDict[prefix + key.Column.Undecorate()].ToStringSafe());
             }

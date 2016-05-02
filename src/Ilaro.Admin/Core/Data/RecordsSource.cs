@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Core.Data
             var keys = new object[key.Length];
             for (int i = 0; i < key.Length; i++)
             {
-                keys[i] = new PropertyValue(entity.Key[i]).ToObject(key[i]);
+                keys[i] = new PropertyValue(entity.Keys[i]).ToObject(key[i]);
             }
             var item = GetRecord(entity, keys);
             if (item == null)
@@ -70,7 +70,7 @@ namespace Ilaro.Admin.Core.Data
             var table = new DynamicModel(
                 _admin.ConnectionStringName,
                 tableName: entity.Table,
-                primaryKeyField: entity.JoinedKey);
+                primaryKeyField: entity.JoinedKeys);
 
             var result = table.Single(key);
 
@@ -92,14 +92,14 @@ namespace Ilaro.Admin.Core.Data
                 Query = searchQuery,
                 Properties = entity.SearchProperties
             };
-            order = order.IsNullOrEmpty() ? entity.Key.FirstOrDefault().Column : order;
+            order = order.IsNullOrEmpty() ? entity.Keys.FirstOrDefault().Column : order;
             orderDirection = orderDirection.IsNullOrEmpty() ?
                 "ASC" :
                 orderDirection.ToUpper();
             var orderBy = order + " " + orderDirection;
             var columns = string.Join(",",
                 entity.DisplayProperties
-                    .Union(entity.Key)
+                    .Union(entity.Keys)
                     .Where(x =>
                         !x.IsForeignKey ||
                         (!x.TypeInfo.IsCollection && x.IsForeignKey))
@@ -111,7 +111,7 @@ namespace Ilaro.Admin.Core.Data
             var table = new DynamicModel(
                 _admin.ConnectionStringName,
                 entity.Table,
-                entity.JoinedKey);
+                entity.JoinedKeys);
 
             if (page.HasValue && take.HasValue)
             {

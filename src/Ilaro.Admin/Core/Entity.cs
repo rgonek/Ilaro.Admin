@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public IList<Property> Key
+        public IList<Property> Keys
         {
             get
             {
@@ -36,7 +36,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public IEnumerable<Property> ForeignKey
+        public IEnumerable<Property> ForeignKeys
         {
             get
             {
@@ -44,9 +44,9 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public string JoinedKey
+        public string JoinedKeys
         {
-            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.Column)); }
+            get { return string.Join(Const.KeyColSeparator.ToString(), Keys.Select(x => x.Column)); }
         }
 
         public bool IsChangeEntity

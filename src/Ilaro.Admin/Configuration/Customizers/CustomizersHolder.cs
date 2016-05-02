@@ -317,7 +317,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                         property.TypeInfo.OriginalType = property.ForeignEntity == null ?
                             // by default foreign property is int
                             property.TypeInfo.OriginalType = typeof(int) :
-                            property.ForeignEntity.Key.FirstOrDefault().TypeInfo.OriginalType;
+                            property.ForeignEntity.Keys.FirstOrDefault().TypeInfo.OriginalType;
                     }
                 }
             }
@@ -392,7 +392,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             if (_propertyCustomizers.Any(x => x.Value.DefaultOrder.HasValue))
                 return;
 
-            var orderProperty = entity.Key.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
+            var orderProperty = entity.Keys.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
             if (orderProperty == null)
             {
                 orderProperty = entity.Properties

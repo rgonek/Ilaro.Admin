@@ -118,9 +118,9 @@ SELECT @newID;
                         x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
                 var addSqlPart = true;
-                for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
+                for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
                 {
-                    var key = propertyValue.Property.ForeignEntity.Key[i];
+                    var key = propertyValue.Property.ForeignEntity.Keys[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     addSqlPart = joinedValues.HasValue();
@@ -135,7 +135,7 @@ SELECT @newID;
                     sbUpdates.AppendLine();
 
                     var table = propertyValue.Property.ForeignEntity.Table;
-                    var foreignKey = entityRecord.Entity.Key.FirstOrDefault().Column;
+                    var foreignKey = entityRecord.Entity.Keys.FirstOrDefault().Column;
 
                     sbUpdates.Append($@"UPDATE {table}
    SET {foreignKey} = @newID 

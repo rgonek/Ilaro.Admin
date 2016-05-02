@@ -107,7 +107,7 @@ namespace Ilaro.Admin.Core.Data
                                 subRecord,
                                 records,
                                 hierarchy.SubHierarchies,
-                                hierarchy.Entity.Key.Select(x => prefix + x.Column.Undecorate()).ToList(),
+                                hierarchy.Entity.Keys.Select(x => prefix + x.Column.Undecorate()).ToList(),
                                 rowData.KeyValue);
                         }
                     }
@@ -143,13 +143,13 @@ namespace Ilaro.Admin.Core.Data
             var commaSeparator = "," + Environment.NewLine + "         ";
             var columns = string.Join(commaSeparator, columnsList);
 
-            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Key.Select(y => x.Alias + "." + y.Column)).ToList();
+            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Keys.Select(y => x.Alias + "." + y.Column)).ToList();
             var orders = string.Join(commaSeparator, ordersList);
             var joins = GetJoins(flatHierarchy);
 
             var constraintsList = new List<string>();
             var counter = 0;
-            foreach (var key in hierarchy.Entity.Key)
+            foreach (var key in hierarchy.Entity.Keys)
             {
                 constraintsList.Add($"{hierarchy.Alias}.{key.Column} = @{counter++}");
             }
@@ -180,14 +180,14 @@ ORDER BY {orders};";
                     .FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
-                    foreignKey = item.Entity.Key.FirstOrDefault().Column;
+                    foreignKey = item.Entity.Keys.FirstOrDefault().Column;
                     key = item.ParentHierarchy.Entity.Properties
                         .FirstOrDefault(x => x.ForeignEntity == item.Entity).Column;
                 }
                 else
                 {
                     foreignKey = foreignProperty.Column;
-                    key = item.ParentHierarchy.Entity.Key.FirstOrDefault().Column;
+                    key = item.ParentHierarchy.Entity.Keys.FirstOrDefault().Column;
                 }
 
                 var join = $@"LEFT OUTER JOIN {foreignTable} AS {foreignAlias} ON {foreignAlias}.{foreignKey} = {alias}.{key}";

@@ -237,7 +237,7 @@ END
                     new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
-                            entityRecord.Entity.Key.FirstOrDefault(),
+                            entityRecord.Entity.Keys.FirstOrDefault(),
                             entityRecord.Keys.FirstOrDefault().Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
@@ -251,9 +251,9 @@ END
                             x => x.Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                     var whereParts2 = new List<string>();
                     var addNullSqlPart = true;
-                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
+                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
                     {
-                        var key = propertyValue.Property.ForeignEntity.Key[i];
+                        var key = propertyValue.Property.ForeignEntity.Keys[i];
                         var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
                         whereParts2.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                         addNullSqlPart = joinedValues.HasValue();
@@ -268,7 +268,7 @@ END
                         sbUpdates.AppendLine("-- set to null update");
                         sbUpdates.AppendFormat(BuildForeignUpdateSql(
                             propertyValue.Property.ForeignEntity.Table,
-                            entityRecord.Entity.Key.FirstOrDefault().Column,
+                            entityRecord.Entity.Keys.FirstOrDefault().Column,
                             (paramIndex++).ToString(),
                             wherePart2));
                         cmd.AddParam(null);
@@ -280,9 +280,9 @@ END
                         x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
                 var addSqlPart = true;
-                for (int i = 0; i < propertyValue.Property.ForeignEntity.Key.Count; i++)
+                for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
                 {
-                    var key = propertyValue.Property.ForeignEntity.Key[i];
+                    var key = propertyValue.Property.ForeignEntity.Keys[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     addSqlPart = joinedValues.HasValue();
@@ -296,7 +296,7 @@ END
                     sbUpdates.AppendLine();
                     sbUpdates.Append(BuildForeignUpdateSql(
                         propertyValue.Property.ForeignEntity.Table,
-                        entityRecord.Entity.Key.FirstOrDefault().Column,
+                        entityRecord.Entity.Keys.FirstOrDefault().Column,
                         (paramIndex++).ToString(),
                         wherePart));
                     cmd.AddParam(entityRecord.Keys.FirstOrDefault().Raw);

@@ -273,17 +273,17 @@ $@"DELETE {alias}
             string parentKey, key;
             var alias = hierarchy.Alias;
 
-            var foreignProperty = parentHierarchy.Entity.ForeignKey.FirstOrDefault(x => x.ForeignEntity == hierarchy.Entity);
+            var foreignProperty = parentHierarchy.Entity.ForeignKeys.FirstOrDefault(x => x.ForeignEntity == hierarchy.Entity);
             if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
             {
-                parentKey = parentHierarchy.Entity.Key.FirstOrDefault().Column;
-                key = hierarchy.Entity.ForeignKey
+                parentKey = parentHierarchy.Entity.Keys.FirstOrDefault().Column;
+                key = hierarchy.Entity.ForeignKeys
                     .FirstOrDefault(x => x.ForeignEntity == parentHierarchy.Entity).Column;
             }
             else
             {
                 parentKey = foreignProperty.Column;
-                key = hierarchy.Entity.Key.FirstOrDefault().Column;
+                key = hierarchy.Entity.Keys.FirstOrDefault().Column;
             }
 
             var join =
@@ -307,7 +307,7 @@ $@"
             foreach (var foreignKey in hierarchy.Entity.Properties
                 .Where(x => x.ForeignEntity == hierarchy.ParentHierarchy.Entity))
             {
-                var key = hierarchy.ParentHierarchy.Entity.Key
+                var key = hierarchy.ParentHierarchy.Entity.Keys
                     .FirstOrDefault(x => x.Name == foreignKey.ReferencePropertyName);
                 if (key != null)
                 {
