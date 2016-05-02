@@ -85,19 +85,9 @@ namespace Ilaro.Admin.Core.Data
             TableInfo tableInfo,
             Action<IList<BaseFilter>> filtersMutator)
         {
-            if (tableInfo.Order.HasValue() == false)
-            {
-                var defaultOrderProperty = entity.Properties.FirstOrDefault(x => x.DefaultOrder.HasValue);
-                if (defaultOrderProperty != null)
-                {
-                    tableInfo.Order = defaultOrderProperty.Name;
-                    tableInfo.OrderDirection = defaultOrderProperty.DefaultOrder.Value.ToString().ToLower();
-                }
-            }
+            AddDefaultOrder(entity, tableInfo);
 
-            var filterRecord = create_filter_record(entity, request);
-            var filters = _filterFactory.BuildFilters(filterRecord).ToList();
-            filtersMutator?.Invoke(filters);
+            var filters = BuildFilters(entity, request, filtersMutator).ToList();
 
             var pagedRecords = _entitiesSource.GetRecords(
                 entity,
@@ -111,6 +101,33 @@ namespace Ilaro.Admin.Core.Data
             pagedRecords.Filters = filters;
 
             return pagedRecords;
+        }
+
+        private IEnumerable<BaseFilter> BuildFilters(
+            Entity entity,
+            NameValueCollection request,
+            Action<IList<BaseFilter>> filtersMutator)
+        {
+            var filterRecord = create_filter_record(entity, request);
+            var filters = _filterFactory.BuildFilters(filterRecord).ToList();
+            filtersMutator?.Invoke(filters);
+
+            return filters;
+        }
+
+        private void AddDefaultOrder(Entity entity, TableInfo tableInfo)
+        {
+            if (tableInfo.Order.HasValue())
+                return;
+
+            var defaultOrderProperty = entity.Properties
+                .FirstOrDefault(x => x.DefaultOrder.HasValue);
+            if (defaultOrderProperty != null)
+            {
+                tableInfo.Order = defaultOrderProperty.Name;
+                tableInfo.OrderDirection =
+                    defaultOrderProperty.DefaultOrder.Value.ToString().ToLower();
+            }
         }
 
         private static EntityRecord create_filter_record(
