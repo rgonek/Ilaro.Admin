@@ -121,7 +121,7 @@ UPDATE {table}
  WHERE {constraints};
 ";
             }
-            cmd.AddParam(entityRecord.JoinedKeysValue);
+            cmd.AddParam(entityRecord.JoinedKeysValues);
             var joinedKeyValueParameterName = counter.ToString();
             cmd.CommandText += $@"-- return record id
 SELECT @{joinedKeyValueParameterName};";
@@ -197,7 +197,7 @@ END
                 var changedEntityNameParam = cmd.Parameters.Count;
                 cmd.AddParam(entityRecord.Entity.Name);
                 var changedEntityKeyParam = cmd.Parameters.Count;
-                cmd.AddParam(entityRecord.JoinedKeysValue);
+                cmd.AddParam(entityRecord.JoinedKeysValues);
 
                 var constraints = GetConstraints(entityRecord.Keys, cmd, "[t0]");
 
@@ -241,7 +241,7 @@ END
                             entityRecord.Keys.FirstOrDefault().Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
-                    .Select(x => x.JoinedKeyValue)
+                    .Select(x => x.JoinedKeysValues)
                     .Except(propertyValue.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())

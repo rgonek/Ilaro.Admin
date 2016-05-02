@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core.Data
             }
             var constraintsSeparator = Environment.NewLine + "   AND ";
             var constraints = string.Join(constraintsSeparator, whereParts);
-            cmd.AddParam(entityRecord.JoinedKeysValue);
+            cmd.AddParam(entityRecord.JoinedKeysValues);
             var joinedKeySqlParamName = (counter++).ToString();
             var table = entityRecord.Entity.Table;
 

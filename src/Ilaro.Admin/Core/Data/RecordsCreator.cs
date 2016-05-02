@@ -89,7 +89,7 @@ namespace Ilaro.Admin.Core.Data
             {
                 idType = "nvarchar(max)";
                 insertedId = "@" + counter;
-                cmd.AddParam(entityRecord.JoinedKeysValue);
+                cmd.AddParam(entityRecord.JoinedKeysValues);
             }
             var table = entityRecord.Entity.Table;
 

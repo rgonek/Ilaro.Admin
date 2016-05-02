@@ -123,17 +123,19 @@ namespace Ilaro.Admin.Core.Data
                     pageSize: take.Value,
                     args: args.ToArray());
 
-                var data = new List<DataRow>();
+                var records = new List<EntityRecord>();
                 foreach (var item in result.Items)
                 {
-                    data.Add(new DataRow(item, entity));
+                    var record = new EntityRecord(entity);
+                    record.Fill(item);
+                    records.Add(record);
                 }
 
                 return new PagedRecords
                 {
                     TotalItems = result.TotalRecords,
                     TotalPages = result.TotalPages,
-                    Records = data
+                    Records = records
                 };
             }
             else
@@ -144,21 +146,18 @@ namespace Ilaro.Admin.Core.Data
                     orderBy: orderBy,
                     args: args.ToArray());
 
-                var data = result
-                    .Select(item => new DataRow(item, entity))
-                    .ToList();
-
-                if (determineDisplayValue)
-                {
-                    foreach (var row in data)
+                var records = result
+                    .Select(item =>
                     {
-                        row.DisplayName = row.ToString(entity);
-                    }
-                }
+                        var record = new EntityRecord(entity);
+                        record.Fill(item);
+                        return record;
+                    })
+                    .ToList();
 
                 return new PagedRecords
                 {
-                    Records = data
+                    Records = records
                 };
             }
         }

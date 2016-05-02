@@ -217,12 +217,12 @@ namespace Ilaro.Admin.Core.Data
                 .Where(x => x.Property.IsForeignKey && x.Property.ForeignEntity != null))
             {
                 var records = _source.GetRecords(foreignValue.Property.ForeignEntity, determineDisplayValue: true).Records;
-                foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeyValue, x => x.DisplayName);
+                foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeysValues, x => x.ToString());
                 if (foreignValue.Property.TypeInfo.IsCollection)
                 {
                     foreignValue.Values = records
                         .Where(x => x.Values.Any(y => y.Property.ForeignEntity == entityRecord.Entity && y.AsString == key))
-                        .Select(x => x.JoinedKeyValue)
+                        .Select(x => x.JoinedKeysValues)
                         .OfType<object>()
                         .ToList();
                 }

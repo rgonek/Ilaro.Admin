@@ -7,7 +7,7 @@ namespace Ilaro.Admin.Models
 {
     public class ChangeRow
     {
-        public DataRow Row { get; set; }
+        public EntityRecord Record { get; set; }
 
         public int EntityChangeId
         {
@@ -91,12 +91,12 @@ namespace Ilaro.Admin.Models
 
         public PropertyValue this[string propertyName]
         {
-            get { return Row.Values.FirstOrDefault(x => x.Property.Name == propertyName); }
+            get { return Record.Values.FirstOrDefault(x => x.Property.Name == propertyName); }
         }
 
-        public ChangeRow(DataRow row)
+        public ChangeRow(EntityRecord record)
         {
-            Row = row;
+            Record = record;
         }
     }
 }

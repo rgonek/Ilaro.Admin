@@ -58,13 +58,14 @@ namespace Ilaro.Admin.Core.Data
         {
             var baseRecord = records.FirstOrDefault();
             var prefix = hierarchy.Alias.Undecorate() + "_";
-            var rowData = new DataRow(baseRecord, hierarchy.Entity, prefix);
+            var record = new EntityRecord(hierarchy.Entity);
+            record.Fill(baseRecord, prefix);
 
             var recordHierarchy = new RecordHierarchy
             {
                 Entity = hierarchy.Entity,
-                KeyValue = rowData.KeyValue,
-                DisplayName = rowData.ToString(hierarchy.Entity),
+                JoinedKeysValues = record.JoinedKeysValues,
+                DisplayName = record.ToString(),
                 SubRecordsHierarchies = new List<RecordHierarchy>()
             };
 
@@ -86,19 +87,20 @@ namespace Ilaro.Admin.Core.Data
 
                 foreach (var record in records)
                 {
-                    var rowData = new DataRow(record, hierarchy.Entity, prefix);
+                    var entityRecord = new EntityRecord(hierarchy.Entity);
+                    entityRecord.Fill(record, prefix);
 
-                    if (!rowData.KeyValue.IsNullOrEmpty() && rowData.KeyValue.All(x => x.HasValue()))
+                    if (entityRecord.Keys.Any(x => x.AsString.HasValue()))
                     {
                         var subRecord = new RecordHierarchy
                         {
                             Entity = hierarchy.Entity,
-                            KeyValue = rowData.KeyValue,
-                            DisplayName = rowData.ToString(hierarchy.Entity),
+                            JoinedKeysValues = entityRecord.JoinedKeysValues,
+                            DisplayName = entityRecord.ToString(),
                             SubRecordsHierarchies = new List<RecordHierarchy>()
                         };
 
-                        if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.JoinedKeyValue == subRecord.JoinedKeyValue) == null &&
+                        if (parentHierarchy.SubRecordsHierarchies.FirstOrDefault(x => x.JoinedKeysValues == subRecord.JoinedKeysValues) == null &&
                             Matching(record, foreignKey, foreignKeyValue))
                         {
                             parentHierarchy.SubRecordsHierarchies.Add(subRecord);
@@ -108,7 +110,7 @@ namespace Ilaro.Admin.Core.Data
                                 records,
                                 hierarchy.SubHierarchies,
                                 hierarchy.Entity.Keys.Select(x => prefix + x.Column.Undecorate()).ToList(),
-                                rowData.KeyValue);
+                                entityRecord.Keys.Select(x=>x.AsString).ToList());
                         }
                     }
                 }

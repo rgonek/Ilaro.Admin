@@ -12,7 +12,7 @@ namespace Ilaro.Admin.Models
             PagedRecords pagedRecords,
             TableInfo tableInfo)
         {
-            Data = pagedRecords.Records;
+            Records = pagedRecords.Records;
             Columns = entity.DisplayProperties
                 .Select(x => new Column(x, tableInfo.Order, tableInfo.OrderDirection)).ToList();
             Entity = entity;
@@ -24,7 +24,7 @@ namespace Ilaro.Admin.Models
 
         public Entity Entity { get; set; }
 
-        public IList<DataRow> Data { get; set; }
+        public IList<EntityRecord> Records { get; set; }
 
         public IList<Column> Columns { get; set; }
 

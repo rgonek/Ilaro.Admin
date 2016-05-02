@@ -367,7 +367,6 @@
       <DependentUpon>Templates.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Column.cs" />
-    <Compile Include="Models\DataRow.cs" />
     <Compile Include="Core\DataType.cs" />
     <Compile Include="Core\DeleteOption.cs" />
     <Compile Include="Core\EntityHierarchy.cs" />

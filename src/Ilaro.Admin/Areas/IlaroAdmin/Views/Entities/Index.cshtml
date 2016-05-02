@@ -74,18 +74,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var row in Model.Data)
+        @foreach (var record in Model.Records)
         {
             <tr>
                 @*<td><input type="checkbox" class="row-checkbox" /></td>*@
-                @foreach (var item in row.Values)
+                @foreach (var item in record.DisplayValues)
                 {
                     <td>@Html.DisplayFor(m => item, item.Property.Template.Display)</td>
                 }
                 @if (!Model.Entity.Links.Display.IsNullOrEmpty())
                 {
                     <td class="min-width">
-                        <a href="@string.Format(Model.Entity.Links.Display, row.JoinedKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
+                        <a href="@string.Format(Model.Entity.Links.Display, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> @IlaroAdminResources.View</a>
                     </td>
                 }
                 @if (Model.Entity.AllowEdit)
@@ -93,11 +93,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Edit, row.JoinedKeyValue)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
+                            <a href="@string.Format(Model.Entity.Links.Edit, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Edit", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
+                            <a href="@Url.Action("Edit", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = record.JoinedKeysValues })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> @IlaroAdminResources.Edit</a>
                         }
                     </td>
                 }
@@ -106,11 +106,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Delete.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Delete, row.JoinedKeyValue)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
+                            <a href="@string.Format(Model.Entity.Links.Delete, record.JoinedKeysValues)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                         else
                         {
-                            <a href="@Url.Action("Delete", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = row.JoinedKeyValue })" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
+                            <a href="@Url.Action("Delete", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = record.JoinedKeysValues })" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> @IlaroAdminResources.Delete</a>
                         }
                     </td>
                 }

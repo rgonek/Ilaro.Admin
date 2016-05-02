@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Models
         {
             get
             {
-                return Data.Select(x => new ChangeRow(x));
+                return Records.Select(x => new ChangeRow(x));
             }
         }
 

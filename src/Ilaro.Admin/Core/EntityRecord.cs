@@ -1,7 +1,6 @@
 ﻿using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
-using Ilaro.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -17,6 +16,14 @@ namespace Ilaro.Admin.Core
         public Entity Entity { get; }
 
         public IList<PropertyValue> Values { get; } = new List<PropertyValue>();
+
+        public IEnumerable<PropertyValue> DisplayValues
+        {
+            get
+            {
+                return Values.Where(x => x.Property.IsVisible);
+            }
+        }
 
         public IList<PropertyValue> Keys
         {
@@ -36,7 +43,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public string JoinedKeysValue
+        public string JoinedKeysValues
         {
             get { return string.Join(Const.KeyColSeparator.ToString(), Keys.Select(x => x.AsString)); }
         }
@@ -164,14 +171,14 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public void Fill(IDictionary<string, object> item)
+        public void Fill(IDictionary<string, object> item, string prefix = "")
         {
             foreach (var property in Entity.Properties)
             {
                 Values.Add(new PropertyValue(property)
                 {
-                    Raw = item.ContainsKey(property.Column.Undecorate()) ?
-                        item[property.Column.Undecorate()] :
+                    Raw = item.ContainsKey(prefix + property.Column.Undecorate()) ?
+                        item[prefix + property.Column.Undecorate()] :
                         null
                 });
             }
@@ -242,9 +249,60 @@ namespace Ilaro.Admin.Core
         /// <returns>Display name</returns>
         public override string ToString()
         {
-            var dataRow = new DataRow(this);
-            dataRow.KeyValue = Keys.Select(x => x.AsString).ToList();
-            return dataRow.ToString(Entity);
+            // check if has to string attribute
+            if (Entity.RecordDisplayFormat.HasValue())
+            {
+                var result = Entity.RecordDisplayFormat;
+                foreach (var PropertyValue in Values)
+                {
+                    result = result.Replace("{" + PropertyValue.Property.Name + "}", PropertyValue.AsString);
+                }
+
+                return result;
+            }
+            // if not check if has ToString() method
+            if (Entity.HasToStringMethod)
+            {
+                var methodInfo = Entity.Type.GetMethod("ToString");
+                var instance = Activator.CreateInstance(Entity.Type, null);
+
+                foreach (var PropertyValue in Values
+                    .Where(x =>
+                        (x.Raw is ValueBehavior) == false &&
+                        !x.Property.IsForeignKey ||
+                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
+                {
+                    var propertyInfo = Entity.Type.GetProperty(PropertyValue.Property.Name);
+                    propertyInfo.SetValue(instance, PropertyValue.AsObject);
+                }
+
+                var result = methodInfo.Invoke(instance, null);
+
+                return result.ToStringSafe();
+            }
+            // if not get first matching property
+            // %Name%, %Title%, %Description%, %Value%
+            // if not found any property use KeyValue
+            var possibleNames = new List<string> { "name", "title", "description", "value" };
+            var value = string.Empty;
+            foreach (var possibleName in possibleNames)
+            {
+                var cell = Values
+                    .FirstOrDefault(x =>
+                        x.Property.Name.ToLower().Contains(possibleName));
+                if (cell != null)
+                {
+                    value = cell.AsString;
+                    break;
+                }
+            }
+
+            if (value.IsNullOrEmpty())
+            {
+                return "#" + JoinedKeysValues;
+            }
+
+            return value;
         }
     }
 }

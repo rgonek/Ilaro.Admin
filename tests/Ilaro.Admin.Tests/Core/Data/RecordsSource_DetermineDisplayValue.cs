@@ -29,7 +29,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(productEntity, determineDisplayValue: true);
 
             Assert.Equal(1, result.Records.Count);
-            Assert.Equal("Product_ToString", result.Records[0].DisplayName);
+            Assert.Equal("Product_ToString", result.Records[0].ToString());
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(customerEntity, determineDisplayValue: true);
 
             Assert.Equal(1, result.Records.Count);
-            Assert.Equal("Microsoft", result.Records[0].DisplayName);
+            Assert.Equal("Microsoft", result.Records[0].ToString());
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var result = _source.GetRecords(employeeTerritoryEntity, determineDisplayValue: true);
 
             Assert.Equal(1, result.Records.Count);
-            Assert.Equal("#" + employeeTorritory.EmployeeTerritoryID, result.Records[0].DisplayName);
+            Assert.Equal("#" + employeeTorritory.EmployeeTerritoryID, result.Records[0].ToString());
         }
     }
 }

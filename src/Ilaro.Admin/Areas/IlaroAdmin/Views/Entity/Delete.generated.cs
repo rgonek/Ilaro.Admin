@@ -68,7 +68,7 @@ WriteLiteralTo(__razor_helper_writer, ": ");
 
 
 #line 74 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-WriteTo(__razor_helper_writer, Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue }));
+WriteTo(__razor_helper_writer, Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeysValues }));
 
 
 #line default
@@ -378,7 +378,7 @@ Write(Html.Hidden("EntityName", Model.EntityRecord.Entity.Name));
             #line hidden
             
             #line 24 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-Write(Html.Hidden("Key", Model.EntityRecord.JoinedKeysValue));
+Write(Html.Hidden("Key", Model.EntityRecord.JoinedKeysValues));
 
             
             #line default
