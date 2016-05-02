@@ -58,7 +58,7 @@ namespace Ilaro.Admin.Core.Data
         private DbCommand CreateCommand(EntityRecord entityRecord)
         {
             var cmd = CreateBaseCommand(entityRecord);
-            if (entityRecord.Key.Count() == 1)
+            if (entityRecord.Keys.Count() == 1)
                 AddForeignsUpdate(cmd, entityRecord);
 
             return cmd;
@@ -85,11 +85,11 @@ namespace Ilaro.Admin.Core.Data
             var values = sbValues.ToString().Substring(0, sbValues.Length - 1);
             var idType = "int";
             var insertedId = "SCOPE_IDENTITY()";
-            if (entityRecord.Key.Count > 1 || entityRecord.Key.FirstOrDefault().Property.TypeInfo.IsString)
+            if (entityRecord.Keys.Count > 1 || entityRecord.Keys.FirstOrDefault().Property.TypeInfo.IsString)
             {
                 idType = "nvarchar(max)";
                 insertedId = "@" + counter;
-                cmd.AddParam(entityRecord.JoinedKeyValue);
+                cmd.AddParam(entityRecord.JoinedKeysValue);
             }
             var table = entityRecord.Entity.Table;
 

@@ -79,7 +79,7 @@ namespace Ilaro.Admin.Core.Data
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var whereParts = new List<string>();
             var counter = 0;
-            foreach (var key in entityRecord.Key)
+            foreach (var key in entityRecord.Keys)
             {
                 key.SqlParameterName = (counter++).ToString();
                 whereParts.Add("{0} = @{1}".Fill(key.Property.Column, key.SqlParameterName));
@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core.Data
             }
             var constraintsSeparator = Environment.NewLine + "   AND ";
             var constraints = string.Join(constraintsSeparator, whereParts);
-            cmd.AddParam(entityRecord.JoinedKeyValue);
+            cmd.AddParam(entityRecord.JoinedKeysValue);
             var joinedKeySqlParamName = (counter++).ToString();
             var table = entityRecord.Entity.Table;
 
@@ -158,7 +158,7 @@ SELECT @{joinedKeySqlParamName};";
         private string BuildKeyConstraint(EntityRecord entityRecord, string alias)
         {
             var constraints = new List<string>();
-            foreach (var key in entityRecord.Key)
+            foreach (var key in entityRecord.Keys)
             {
                 var column = key.Property.Column;
                 var sqlParameter = key.SqlParameterName;

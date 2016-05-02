@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Core
 
         public IList<PropertyValue> Values { get; } = new List<PropertyValue>();
 
-        public IList<PropertyValue> Key
+        public IList<PropertyValue> Keys
         {
             get
             {
@@ -26,19 +26,19 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public string JoinedKeyWithValue
+        public string JoinedKeysWithNames
         {
             get
             {
                 return string.Join(
                     Const.KeyColSeparator.ToString(),
-                    Key.Select(value => string.Format("{0}={1}", value.Property.Name, value.AsString)));
+                    Keys.Select(value => string.Format("{0}={1}", value.Property.Name, value.AsString)));
             }
         }
 
-        public string JoinedKeyValue
+        public string JoinedKeysValue
         {
-            get { return string.Join(Const.KeyColSeparator.ToString(), Key.Select(x => x.AsString)); }
+            get { return string.Join(Const.KeyColSeparator.ToString(), Keys.Select(x => x.AsString)); }
         }
 
         public PropertyValue ConcurrencyCheck
@@ -206,7 +206,7 @@ namespace Ilaro.Admin.Core
             var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
             for (int i = 0; i < keys.Length; i++)
             {
-                Key[i].ToObject(keys[i]);
+                Keys[i].ToObject(keys[i]);
             }
         }
 
@@ -243,7 +243,7 @@ namespace Ilaro.Admin.Core
         public override string ToString()
         {
             var dataRow = new DataRow(this);
-            dataRow.KeyValue = Key.Select(x => x.AsString).ToList();
+            dataRow.KeyValue = Keys.Select(x => x.AsString).ToList();
             return dataRow.ToString(Entity);
         }
     }

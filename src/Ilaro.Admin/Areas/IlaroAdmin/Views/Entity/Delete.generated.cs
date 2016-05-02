@@ -378,7 +378,7 @@ Write(Html.Hidden("EntityName", Model.EntityRecord.Entity.Name));
             #line hidden
             
             #line 24 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-Write(Html.Hidden("Key", Model.EntityRecord.JoinedKeyValue));
+Write(Html.Hidden("Key", Model.EntityRecord.JoinedKeysValue));
 
             
             #line default

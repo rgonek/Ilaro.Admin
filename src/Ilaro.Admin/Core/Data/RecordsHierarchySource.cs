@@ -28,13 +28,13 @@ namespace Ilaro.Admin.Core.Data
             _log.InfoFormat(
                 "Getting record hierarchy for entity record ({0}#{1})",
                 entityRecord.Entity.Name,
-                entityRecord.JoinedKeyWithValue);
+                entityRecord.JoinedKeysWithNames);
 
             var hierarchy = GetEntityHierarchy(entityRecord.Entity, deleteOptions);
             var sql = GenerateHierarchySql(hierarchy);
             _log.Debug($"Sql hierarchy: \r\n {sql}");
             var model = new DynamicModel(_admin.ConnectionStringName);
-            var records = model.Query(sql, entityRecord.Key.Select(x => x.Raw).ToArray()).ToList();
+            var records = model.Query(sql, entityRecord.Keys.Select(x => x.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 

@@ -114,14 +114,14 @@ namespace Ilaro.Admin.Core.Data
                 var setsSeparator = "," + Environment.NewLine + "       ";
                 var sets = string.Join(setsSeparator, setsList);
                 var table = entityRecord.Entity.Table;
-                var constraints = GetConstraints(entityRecord.Key, cmd);
+                var constraints = GetConstraints(entityRecord.Keys, cmd);
                 cmd.CommandText = $@"-- update record
 UPDATE {table}
    SET {sets} 
  WHERE {constraints};
 ";
             }
-            cmd.AddParam(entityRecord.JoinedKeyValue);
+            cmd.AddParam(entityRecord.JoinedKeysValue);
             var joinedKeyValueParameterName = counter.ToString();
             cmd.CommandText += $@"-- return record id
 SELECT @{joinedKeyValueParameterName};";
@@ -197,9 +197,9 @@ END
                 var changedEntityNameParam = cmd.Parameters.Count;
                 cmd.AddParam(entityRecord.Entity.Name);
                 var changedEntityKeyParam = cmd.Parameters.Count;
-                cmd.AddParam(entityRecord.JoinedKeyValue);
+                cmd.AddParam(entityRecord.JoinedKeysValue);
 
-                var constraints = GetConstraints(entityRecord.Key, cmd, "[t0]");
+                var constraints = GetConstraints(entityRecord.Keys, cmd, "[t0]");
 
                 sql = $@"@{concurrencyCheckParam} <=
     (SELECT TOP 1 [ec].{changedOn.Column}
@@ -213,7 +213,7 @@ END
             }
             else
             {
-                var constraints = GetConstraints(entityRecord.Key, cmd);
+                var constraints = GetConstraints(entityRecord.Keys, cmd);
 
                 sql = $@"@{concurrencyCheckParam} <>
     (SELECT {property.Column}
@@ -226,7 +226,7 @@ END
 
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
-            if (entityRecord.Key.Count > 1)
+            if (entityRecord.Keys.Count > 1)
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
@@ -238,7 +238,7 @@ END
                     {
                         new ForeignEntityFilter(
                             entityRecord.Entity.Key.FirstOrDefault(),
-                            entityRecord.Key.FirstOrDefault().Raw.ToStringSafe())
+                            entityRecord.Keys.FirstOrDefault().Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
                     .Select(x => x.JoinedKeyValue)
@@ -299,7 +299,7 @@ END
                         entityRecord.Entity.Key.FirstOrDefault().Column,
                         (paramIndex++).ToString(),
                         wherePart));
-                    cmd.AddParam(entityRecord.Key.FirstOrDefault().Raw);
+                    cmd.AddParam(entityRecord.Keys.FirstOrDefault().Raw);
                 }
             }
 

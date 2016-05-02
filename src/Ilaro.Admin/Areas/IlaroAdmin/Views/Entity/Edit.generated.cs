@@ -163,7 +163,7 @@ Write(Html.ValidationSummary(true));
             #line 24 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
                                  
 
-    foreach (var key in Model.Record.Key)
+    foreach (var key in Model.Record.Keys)
     {
 
             
@@ -321,7 +321,7 @@ WriteLiteral("</a>\r\n            <a");
 WriteAttribute("href", Tuple.Create(" href=\"", 2298), Tuple.Create("\"", 2401)
             
             #line 46 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2305), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeyValue })
+, Tuple.Create(Tuple.Create("", 2305), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeysValue })
             
             #line default
             #line hidden
