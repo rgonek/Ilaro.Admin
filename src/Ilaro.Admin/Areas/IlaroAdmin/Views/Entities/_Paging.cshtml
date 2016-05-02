@@ -44,7 +44,7 @@
     @* Prev page *@
     @if (Model.Current > 1)
     {
-        @PagerLink(IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev")
+        @PagerLink(IlaroAdminResources.PreviousPage, Model.Current - 1, "prev")
     }
     else
     {
@@ -54,8 +54,8 @@
     @* First Pages *@
     @if (start > 3)
     {
-        <text>@PagerLink("1", 1, Model.Url)</text>
-        <text>@PagerLink("2", 2, Model.Url)</text>
+        <text>@PagerLink("1", 1)</text>
+        <text>@PagerLink("2", 2)</text>
         <li class="disabled"><span>...</span></li>
     }
 
@@ -64,11 +64,11 @@
     {
         if (i == Model.Current || (Model.Current <= 0 && i == 0))
         {
-            <text>@PagerLink(i.ToString(), i, Model.Url, "", "active")</text>
+            <text>@PagerLink(i.ToString(), i, "", "active")</text>
         }
         else
         {
-            <text>@PagerLink(i.ToString(), i, Model.Url)</text>
+            <text>@PagerLink(i.ToString(), i)</text>
         }
     }
 
@@ -76,14 +76,14 @@
     @if (end < (Model.TotalPages - 3))
     {
         <li class="disabled"><span>...</span></li>
-        <text>@PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1, Model.Url)</text>
-        <text>@PagerLink(Model.TotalPages.ToString(), Model.TotalPages, Model.Url)</text>
+        <text>@PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1)</text>
+        <text>@PagerLink(Model.TotalPages.ToString(), Model.TotalPages)</text>
     }
 
     @* Next page *@
     @if (Model.Current < Model.TotalPages)
     {
-        @PagerLink(IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next")
+        @PagerLink(IlaroAdminResources.NextPage, Model.Current + 1, "next")
     }
     else
     {
@@ -91,8 +91,7 @@
     }
 </ul>
 
-@helper PagerLink(string linkText, int pageNumber, string url, string rel = "", string @classes = "")
+@helper PagerLink(string linkText, int pageNumber, string rel = "", string @classes = "")
 {
-    url = string.Format(url, pageNumber);
-    <li class="@classes"><a href="@url" rel="@rel">@linkText</a></li>
+    <li class="@classes"><a href="@Url.PageUrl(pageNumber)" rel="@rel">@linkText</a></li>
 }

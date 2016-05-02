@@ -153,5 +153,37 @@ namespace Ilaro.Admin.Extensions
 
             return htmlHelper.Hidden("__ConcurrencyCheck", concurrencyCheckValue);
         }
+
+        public static string PageUrl(
+            this UrlHelper urlHelper,
+            int pageNumber)
+        {
+            var routeDataValues = urlHelper.RequestContext.RouteData.Values
+                .Merge(urlHelper.RequestContext.HttpContext.Request.QueryString.ToRouteValueDictionary());
+
+            SetPageNumber(routeDataValues, pageNumber);
+
+            var actionName = routeDataValues["action"].ToStringSafe();
+
+            return urlHelper.Action(actionName, routeDataValues);
+        }
+
+        private static void SetPageNumber(
+            RouteValueDictionary routeDataValues,
+            int pageNumber)
+        {
+            // Avoid canonical errors when pageNumber is equal to 1.
+            if (pageNumber == 1)
+            {
+                if (routeDataValues.ContainsKey("page"))
+                {
+                    routeDataValues.Remove("page");
+                }
+            }
+            else
+            {
+                routeDataValues["page"] = pageNumber;
+            }
+        }
     }
 }

@@ -21,9 +21,8 @@ namespace Ilaro.Admin.Models
         public EntitiesChangesModel(
             Entity entity,
             PagedRecords pagedRecords,
-            TableInfo tableInfo,
-            string url)
-            : base(entity, pagedRecords, tableInfo, url)
+            TableInfo tableInfo)
+            : base(entity, pagedRecords, tableInfo)
         {
         }
     }

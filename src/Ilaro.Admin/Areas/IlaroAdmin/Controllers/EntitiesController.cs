@@ -52,25 +52,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             var pagedRecords = _recordsService.GetRecords(entity, Request.QueryString, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
-                return RedirectToAction(
-                    "Index",
-                    PrepareRouteValues(
-                        entityName,
-                        "1",
-                        pagedRecords.Filters,
-                        tableInfo));
+                return Redirect(Url.PageUrl(1));
             }
 
-            var url = Url.Action(
-                "Index",
-                PrepareRouteValues(
-                    entityName,
-                    "-page-",
-                    pagedRecords.Filters,
-                    tableInfo))
-                .Replace("-page-", "{0}");
-
-            var model = new EntitiesIndexModel(entity, pagedRecords, tableInfo, url)
+            var model = new EntitiesIndexModel(entity, pagedRecords, tableInfo)
             {
                 Configuration = _configuration,
                 ChangeEnabled = _admin.ChangeEntity != null
@@ -86,29 +71,13 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 .GetChanges(entityChangesFor, key, Request.QueryString, tableInfo);
             if (pagedRecords.Records.IsNullOrEmpty() && tableInfo.Page > 1)
             {
-                return RedirectToAction(
-                    "Changes",
-                    PrepareRouteValues(
-                        entityName,
-                        "1",
-                        pagedRecords.Filters,
-                        tableInfo));
+                return Redirect(Url.PageUrl(1));
             }
-
-            var url = Url.Action(
-                "Changes",
-                PrepareRouteValues(
-                    entityName,
-                    "-page-",
-                    pagedRecords.Filters,
-                    tableInfo))
-                .Replace("-page-", "{0}");
 
             var model = new EntitiesChangesModel(
                 _admin.ChangeEntity,
                 pagedRecords,
-                tableInfo,
-                url)
+                tableInfo)
             {
                 EntityChangesFor = entityChangesFor,
                 Key = key,
@@ -117,38 +86,6 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             };
 
             return View(model);
-        }
-
-        protected virtual RouteValueDictionary PrepareRouteValues(
-            string entityName,
-            string page,
-            IEnumerable<BaseFilter> filters,
-            TableInfo tableInfo)
-        {
-            var routeValues = new Dictionary<string, object>
-            {
-                { "entityName", entityName },
-                { _configuration.PageRequestName, page },
-                { _configuration.PerPageRequestName, tableInfo.PerPage }
-            };
-
-            if (!tableInfo.SearchQuery.IsNullOrEmpty())
-            {
-                routeValues.Add(_configuration.SearchQueryRequestName, tableInfo.SearchQuery);
-            }
-
-            if (!tableInfo.Order.IsNullOrEmpty() && !tableInfo.OrderDirection.IsNullOrEmpty())
-            {
-                routeValues.Add(_configuration.OrderRequestName, tableInfo.Order);
-                routeValues.Add(_configuration.OrderDirectionRequestName, tableInfo.OrderDirection);
-            }
-
-            foreach (var filter in filters.Where(x => x.DisplayInUI && !x.Value.IsNullOrEmpty()))
-            {
-                routeValues.Add(filter.Property.Name, filter.Value);
-            }
-
-            return new RouteValueDictionary(routeValues);
         }
     }
 }

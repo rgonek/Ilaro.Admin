@@ -10,15 +10,14 @@ namespace Ilaro.Admin.Models
         public EntitiesIndexModel(
             Entity entity,
             PagedRecords pagedRecords,
-            TableInfo tableInfo,
-            string url)
+            TableInfo tableInfo)
         {
             Data = pagedRecords.Records;
             Columns = entity.DisplayProperties
                 .Select(x => new Column(x, tableInfo.Order, tableInfo.OrderDirection)).ToList();
             Entity = entity;
             Pager =
-                new PagerInfo(url, tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems);
+                new PagerInfo(tableInfo.PerPage, tableInfo.Page, pagedRecords.TotalItems);
             Filters = pagedRecords.Filters.Where(x => x.IsVisible).ToList();
             TableInfo = tableInfo;
         }

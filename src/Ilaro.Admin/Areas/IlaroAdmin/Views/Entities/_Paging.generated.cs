@@ -41,7 +41,7 @@ namespace ASP
     {
 
 #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-public System.Web.WebPages.HelperResult PagerLink(string linkText, int pageNumber, string url, string rel = "", string @classes = "")
+public System.Web.WebPages.HelperResult PagerLink(string linkText, int pageNumber, string rel = "", string @classes = "")
 {
 #line default
 #line hidden
@@ -49,50 +49,49 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 
 #line 95 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
  
-    url = string.Format(url, pageNumber);
 
 
 #line default
 #line hidden
 WriteLiteralTo(__razor_helper_writer, "    <li");
 
-WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 2831), Tuple.Create("\"", 2847)
+WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 2688), Tuple.Create("\"", 2704)
 
-#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2839), Tuple.Create<System.Object, System.Int32>(classes
+#line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2696), Tuple.Create<System.Object, System.Int32>(classes
 
 #line default
 #line hidden
-, 2839), false)
+, 2696), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, "><a");
 
-WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 2851), Tuple.Create("\"", 2862)
+WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 2708), Tuple.Create("\"", 2739)
 
-#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2858), Tuple.Create<System.Object, System.Int32>(url
+#line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2715), Tuple.Create<System.Object, System.Int32>(Url.PageUrl(pageNumber)
 
 #line default
 #line hidden
-, 2858), false)
+, 2715), false)
 );
 
-WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 2863), Tuple.Create("\"", 2873)
+WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 2740), Tuple.Create("\"", 2750)
 
-#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2869), Tuple.Create<System.Object, System.Int32>(rel
+#line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+, Tuple.Create(Tuple.Create("", 2746), Tuple.Create<System.Object, System.Int32>(rel
 
 #line default
 #line hidden
-, 2869), false)
+, 2746), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, ">");
 
 
-#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-                     WriteTo(__razor_helper_writer, linkText);
+#line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+                                         WriteTo(__razor_helper_writer, linkText);
 
 
 #line default
@@ -100,14 +99,14 @@ WriteLiteralTo(__razor_helper_writer, ">");
 WriteLiteralTo(__razor_helper_writer, "</a></li>\r\n");
 
 
-#line 98 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
 
 
 #line default
 #line hidden
 });
 
-#line 98 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
+#line 97 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
 }
 #line default
 #line hidden
@@ -201,14 +200,14 @@ WriteLiteral("\r\n");
             #line hidden
             
             #line 47 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-   Write(PagerLink(IlaroAdminResources.PreviousPage, Model.Current - 1, Model.Url, "prev"));
+   Write(PagerLink(IlaroAdminResources.PreviousPage, Model.Current - 1, "prev"));
 
             
             #line default
             #line hidden
             
             #line 47 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-                                                                                          
+                                                                               
     }
     else
     {
@@ -260,7 +259,7 @@ WriteLiteral("        ");
 
             
             #line 57 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-         Write(PagerLink("1", 1, Model.Url));
+         Write(PagerLink("1", 1));
 
             
             #line default
@@ -271,7 +270,7 @@ WriteLiteral("        ");
 
             
             #line 58 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-         Write(PagerLink("2", 2, Model.Url));
+         Write(PagerLink("2", 2));
 
             
             #line default
@@ -315,7 +314,7 @@ WriteLiteral("            ");
 
             
             #line 67 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-             Write(PagerLink(i.ToString(), i, Model.Url, "", "active"));
+             Write(PagerLink(i.ToString(), i, "", "active"));
 
             
             #line default
@@ -335,7 +334,7 @@ WriteLiteral("            ");
 
             
             #line 71 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-             Write(PagerLink(i.ToString(), i, Model.Url));
+             Write(PagerLink(i.ToString(), i));
 
             
             #line default
@@ -378,7 +377,7 @@ WriteLiteral("        ");
 
             
             #line 79 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-         Write(PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1, Model.Url));
+         Write(PagerLink((Model.TotalPages - 1).ToString(), Model.TotalPages - 1));
 
             
             #line default
@@ -389,7 +388,7 @@ WriteLiteral("        ");
 
             
             #line 80 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-         Write(PagerLink(Model.TotalPages.ToString(), Model.TotalPages, Model.Url));
+         Write(PagerLink(Model.TotalPages.ToString(), Model.TotalPages));
 
             
             #line default
@@ -423,14 +422,14 @@ WriteLiteral("    ");
             #line hidden
             
             #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-   Write(PagerLink(IlaroAdminResources.NextPage, Model.Current + 1, Model.Url, "next"));
+   Write(PagerLink(IlaroAdminResources.NextPage, Model.Current + 1, "next"));
 
             
             #line default
             #line hidden
             
             #line 86 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-                                                                                      
+                                                                           
     }
     else
     {
