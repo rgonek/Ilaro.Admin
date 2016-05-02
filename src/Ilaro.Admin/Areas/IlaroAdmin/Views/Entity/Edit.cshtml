@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name);
+    ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name + " - " + Model.Record.ToString());
 }
 
 @section Breadcrumb
@@ -11,7 +11,7 @@
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
         <li>@Html.ActionLink(Model.Entity.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.Entity.Verbose.Group }, null)</li>
         <li>@Html.ActionLink(Model.Entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name }, null)</li>
-        <li class="active">@string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name)</li>
+        <li class="active">@string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name + " - " + Model.Record.ToString())</li>
     </ul>
 }
 

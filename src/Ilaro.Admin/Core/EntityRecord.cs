@@ -242,7 +242,9 @@ namespace Ilaro.Admin.Core
         /// <returns>Display name</returns>
         public override string ToString()
         {
-            return new DataRow(this).ToString(Entity);
+            var dataRow = new DataRow(this);
+            dataRow.KeyValue = Key.Select(x => x.AsString).ToList();
+            return dataRow.ToString(Entity);
         }
     }
 }

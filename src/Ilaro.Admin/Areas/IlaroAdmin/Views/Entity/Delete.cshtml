@@ -1,7 +1,7 @@
 ﻿@model EntityDeleteModel
 @{
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name);
+    ViewBag.Title = string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name + " - " + Model.EntityRecord.ToString());
 }
 
 @section Breadcrumb
@@ -10,7 +10,7 @@
         <li>@Html.ActionLink(IlaroAdminResources.Index_Title, "Index", "Group", new { area = "IlaroAdmin" }, null)</li>
         <li>@Html.ActionLink(Model.EntityRecord.Entity.Verbose.Group, "Details", "Group", new { area = "IlaroAdmin", groupName = Model.EntityRecord.Entity.Verbose.Group }, null)</li>
         <li>@Html.ActionLink(Model.EntityRecord.Entity.Verbose.Plural, "Index", "Entities", new { area = "IlaroAdmin", entityName = Model.EntityRecord.Entity.Name }, null)</li>
-        <li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name)</li>
+        <li class="active">@string.Format(IlaroAdminResources.Delete_Title, Model.EntityRecord.Entity.Name + " - " + Model.EntityRecord.ToString())</li>
     </ul>
 }
 

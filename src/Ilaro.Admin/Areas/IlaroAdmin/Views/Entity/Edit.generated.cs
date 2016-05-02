@@ -48,7 +48,7 @@ namespace ASP
             #line 3 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
   
     Layout = "~/Areas/IlaroAdmin/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name);
+    ViewBag.Title = string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name + " - " + Model.Record.ToString());
 
             
             #line default
@@ -96,7 +96,7 @@ WriteLiteral(">");
 
             
             #line 14 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                      Write(string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name));
+                      Write(string.Format(IlaroAdminResources.Edit_Title, Model.Entity.Name + " - " + Model.Record.ToString()));
 
             
             #line default
@@ -295,14 +295,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2047), Tuple.Create("\"", 2147)
+WriteAttribute("href", Tuple.Create(" href=\"", 2115), Tuple.Create("\"", 2215)
             
             #line 45 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2054), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 2122), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2054), false)
+, 2122), false)
 );
 
 WriteLiteral(" class=\"btn b class=\"");
@@ -318,14 +318,14 @@ WriteLiteral("btn btn-link\">");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2230), Tuple.Create("\"", 2333)
+WriteAttribute("href", Tuple.Create(" href=\"", 2298), Tuple.Create("\"", 2401)
             
             #line 46 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2237), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeyValue })
+, Tuple.Create(Tuple.Create("", 2305), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeyValue })
             
             #line default
             #line hidden
-, 2237), false)
+, 2305), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pul class=\"");
