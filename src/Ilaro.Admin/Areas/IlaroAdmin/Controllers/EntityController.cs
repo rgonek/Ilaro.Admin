@@ -53,11 +53,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return RedirectToAction("NotFound", new { entityName });
             }
 
-            var entityRecord = EntityRecord.CreateEmpty(entity);
             var model = new EntityCreateModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entityRecord)
+                PropertiesGroups = _entityService.PrepareGroups(entity.CreateEmptyRecord())
             };
 
             return View(model);

@@ -1,7 +1,11 @@
 ﻿using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Web;
+using System.Web.Http.ValueProviders;
 
 namespace Ilaro.Admin.Core
 {
@@ -68,6 +72,54 @@ namespace Ilaro.Admin.Core
                     }
                 }
             }
+        }
+
+        internal static EntityRecord CreateEmptyRecord(this Entity entity)
+        {
+            return EntityRecordCreator.CreateRecord(entity, new Dictionary<string, object>());
+        }
+
+        internal static EntityRecord CreateRecord(
+            this Entity entity,
+            IValueProvider valueProvider,
+            HttpFileCollectionBase files,
+            Func<Property, object> defaultValueResolver = null)
+        {
+            return EntityRecordCreator.CreateRecord(entity, valueProvider, files, defaultValueResolver);
+        }
+
+        internal static EntityRecord CreateRecord(
+            this Entity entity,
+            IDictionary<string, object> item,
+            string prefix = "",
+            Func<object, object> valueMutator = null)
+        {
+            return EntityRecordCreator.CreateRecord(entity, item, prefix, valueMutator);
+        }
+
+        internal static EntityRecord CreateRecord(
+            this Entity entity,
+            NameValueCollection request,
+            string prefix = "",
+            Func<object, object> valueMutator = null)
+        {
+            return entity.CreateRecord(
+                request.ToDictionary().ToDictionary(x => x.Key, x => (object)x.Value),
+                prefix,
+                valueMutator);
+        }
+
+        internal static EntityRecord CreateRecord(
+            this Entity entity,
+            string key,
+            IValueProvider valueProvider,
+            HttpFileCollectionBase files,
+            Func<Property, object> defaultValueResolver = null)
+        {
+            var entityRecord = entity.CreateRecord(valueProvider, files, defaultValueResolver);
+            entityRecord.SetKeyValue(key);
+
+            return entityRecord;
         }
     }
 }

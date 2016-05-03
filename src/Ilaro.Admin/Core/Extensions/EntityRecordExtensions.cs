@@ -61,5 +61,14 @@ namespace Ilaro.Admin.Core.Extensions
                 value.Property.TypeInfo.IsFileStoredInDb == false
                 && value.AsObject is HttpPostedFileWrapper;
         }
+
+        public static void SetKeyValue(this EntityRecord entityRecord, string key)
+        {
+            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                entityRecord.Keys[i].ToObject(keys[i]);
+            }
+        }
     }
 }
