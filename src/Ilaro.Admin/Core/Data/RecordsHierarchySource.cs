@@ -58,8 +58,7 @@ namespace Ilaro.Admin.Core.Data
         {
             var baseRecord = records.FirstOrDefault();
             var prefix = hierarchy.Alias.Undecorate() + "_";
-            var record = new EntityRecord(hierarchy.Entity);
-            record.Fill(baseRecord, prefix);
+            var record = hierarchy.Entity.CreateRecord(baseRecord, prefix);
 
             var recordHierarchy = new RecordHierarchy
             {
@@ -87,8 +86,7 @@ namespace Ilaro.Admin.Core.Data
 
                 foreach (var record in records)
                 {
-                    var entityRecord = new EntityRecord(hierarchy.Entity);
-                    entityRecord.Fill(record, prefix);
+                    var entityRecord = hierarchy.Entity.CreateRecord(record, prefix);
 
                     if (entityRecord.Keys.Any(x => x.AsString.HasValue()))
                     {

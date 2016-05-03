@@ -49,10 +49,7 @@ namespace Ilaro.Admin.Core.Data
                 return null;
             }
 
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(item);
-
-            return entityRecord;
+            return entity.CreateRecord(item);
         }
 
         public IDictionary<string, object> GetRecord(Entity entity, string key)
@@ -126,9 +123,7 @@ namespace Ilaro.Admin.Core.Data
                 var records = new List<EntityRecord>();
                 foreach (var item in result.Items)
                 {
-                    var record = new EntityRecord(entity);
-                    record.Fill(item);
-                    records.Add(record);
+                    records.Add(entity.CreateRecord((Dictionary<string, object>)item));
                 }
 
                 return new PagedRecords
@@ -147,12 +142,7 @@ namespace Ilaro.Admin.Core.Data
                     args: args.ToArray());
 
                 var records = result
-                    .Select(item =>
-                    {
-                        var record = new EntityRecord(entity);
-                        record.Fill(item);
-                        return record;
-                    })
+                    .Select(item => entity.CreateRecord(item))
                     .ToList();
 
                 return new PagedRecords

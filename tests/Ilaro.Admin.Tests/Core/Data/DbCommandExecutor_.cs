@@ -51,13 +51,11 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         private EntityRecord create_product_entity_record()
         {
-            var entityRecord = new EntityRecord(_admin.GetEntity<Product>());
             var values = new Dictionary<string, object>
             {
                 { "ProductName", "Test" }
             };
-            entityRecord.Fill(values);
-            return entityRecord;
+            return EntityRecordCreator.CreateRecord(_admin.GetEntity<Product>(), values);
         }
     }
 }

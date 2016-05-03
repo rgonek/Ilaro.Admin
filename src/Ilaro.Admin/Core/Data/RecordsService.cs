@@ -134,11 +134,9 @@ namespace Ilaro.Admin.Core.Data
             Entity entity,
             NameValueCollection request)
         {
-            var filterRecord = new EntityRecord(entity);
-            if (request != null)
-                filterRecord.Fill(request, valueMutator: x => x == Const.EmptyFilterValue ? "" : x);
-
-            return filterRecord;
+            return request == null ?
+                entity.CreateEmptyRecord() :
+                entity.CreateRecord(request, valueMutator: x => x == Const.EmptyFilterValue ? "" : x);
         }
     }
 }

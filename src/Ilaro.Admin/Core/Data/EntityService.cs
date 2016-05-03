@@ -72,8 +72,7 @@ namespace Ilaro.Admin.Core.Data
             FormCollection collection,
             HttpFileCollectionBase files)
         {
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(collection, files, x => x.OnCreateDefaultValue);
+            var entityRecord = entity.CreateRecord(collection, files, x => x.OnCreateDefaultValue);
             if (_validator.Validate(entityRecord) == false)
             {
                 _notificator.Error(IlaroAdminResources.RecordNotValid);
@@ -120,8 +119,7 @@ namespace Ilaro.Admin.Core.Data
                     return false;
                 }
 
-                var entityRecord = new EntityRecord(entity);
-                entityRecord.Fill(key, collection, files, x => x.OnUpdateDefaultValue);
+                var entityRecord = entity.CreateRecord(key, collection, files, x => x.OnUpdateDefaultValue);
                 if (_validator.Validate(entityRecord) == false)
                 {
                     _notificator.Error(IlaroAdminResources.RecordNotValid);
@@ -173,8 +171,7 @@ namespace Ilaro.Admin.Core.Data
                 _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return false;
             }
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(existingRecord);
+            var entityRecord = entity.CreateRecord(existingRecord);
 
             options = options ?? new List<PropertyDeleteOption>();
             var deleteOptions = options.ToDictionary(x => x.HierarchyName);

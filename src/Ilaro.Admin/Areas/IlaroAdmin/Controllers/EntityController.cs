@@ -6,7 +6,6 @@ using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Models;
 using Resources;
 using Ilaro.Admin.DataAnnotations;
-using System.Text;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {
@@ -87,13 +86,10 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 _notificator.Error(ex.Message);
             }
 
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(collection, Request.Files);
-
             var model = new EntityCreateModel
             {
                 Entity = entity,
-                PropertiesGroups = _entityService.PrepareGroups(entityRecord)
+                PropertiesGroups = _entityService.PrepareGroups(entity.CreateRecord(collection, Request.Files))
             };
 
             return View(model);
@@ -147,8 +143,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
                 return SaveOrUpdateSucceed(entityName, key);
             }
 
-            var entityRecord = new EntityRecord(entity);
-            entityRecord.Fill(key, collection, Request.Files);
+            var entityRecord = entity.CreateRecord(key, collection, Request.Files);
 
             var model = new EntityEditModel
             {

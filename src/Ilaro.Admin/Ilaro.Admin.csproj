@@ -249,6 +249,7 @@
     <Compile Include="Core\DeleteOptionsHierarchyBuilder.cs" />
     <Compile Include="Core\EntityExtensions.cs" />
     <Compile Include="Core\EntityRecord.cs" />
+    <Compile Include="Core\EntityRecordCreator.cs" />
     <Compile Include="Core\Extensions\EntityRecordExtensions.cs" />
     <Compile Include="Core\Extensions\PropertyExtensions.cs" />
     <Compile Include="Core\Extensions\PropertyValuesExtensions.cs" />

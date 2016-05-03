@@ -33,9 +33,7 @@ namespace Ilaro.Admin.Tests.Core.Data
                 { "ProductName", "Product" },
                 { "Discontinued", false }
             };
-            var entityRecord = new EntityRecord(_productEntity);
-            entityRecord.Fill(values);
-            _creator.Create(entityRecord);
+            _creator.Create(EntityRecordCreator.CreateRecord(_productEntity, values));
 
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -56,9 +54,7 @@ namespace Ilaro.Admin.Tests.Core.Data
                 { "ProductName", "Product" },
                 { "Discontinued", false }
             };
-            var entityRecord = new EntityRecord(_productEntity);
-            entityRecord.Fill(values);
-            _creator.Create(entityRecord);
+            _creator.Create(EntityRecordCreator.CreateRecord(_productEntity, values));
 
             var products = DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -82,9 +78,7 @@ namespace Ilaro.Admin.Tests.Core.Data
                 { "Discontinued", false },
                 { "CategoryID", categoryId }
             };
-            var entityRecord = new EntityRecord(_productEntity);
-            entityRecord.Fill(values);
-            _creator.Create(entityRecord);
+            _creator.Create(EntityRecordCreator.CreateRecord(_productEntity, values));
 
             var products = (List<dynamic>)DB.Products.All().ToList();
             Assert.Equal(1, products.Count);
@@ -99,8 +93,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var productId = DB.Products.Insert(ProductName: "Product").ProductID;
             var categoryEntity = _admin.GetEntity<Category>();
 
-            var entityRecord = new EntityRecord(categoryEntity);
-            entityRecord.Fill(new Dictionary<string, object>());
+            var entityRecord = EntityRecordCreator.CreateRecord(categoryEntity, new Dictionary<string, object>());
             entityRecord["CategoryName"].Raw = "Category";
             entityRecord["Products"].Values.Add(productId);
             _creator.Create(entityRecord);
