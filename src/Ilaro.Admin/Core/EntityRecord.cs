@@ -1,4 +1,5 @@
 ﻿using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Extensions;
 using System;
@@ -74,7 +75,7 @@ namespace Ilaro.Admin.Core
         }
 
         public void Fill(
-            FormCollection collection,
+            IValueProvider valueProvider,
             HttpFileCollectionBase files,
             Func<Property, object> defaultValueResolver = null)
         {
@@ -89,7 +90,7 @@ namespace Ilaro.Admin.Core
                     if (property.TypeInfo.IsFileStoredInDb == false &&
                         property.FileOptions.NameCreation == NameCreation.UserInput)
                     {
-                        var providedName = (string)collection.GetValue(property.Name)
+                        var providedName = (string)valueProvider.GetValue(property.Name)
                             .ConvertTo(typeof(string), CultureInfo.CurrentCulture);
                         propertyValue.Additional = providedName;
                     }
@@ -102,11 +103,11 @@ namespace Ilaro.Admin.Core
                     else
                     {
                         var isDeletedKey = property.Name + "_delete";
-                        if (collection.AllKeys.Contains(isDeletedKey))
+                        if (valueProvider.ContainsPrefix(isDeletedKey))
                         {
                             isDeleted =
                                ((bool?)
-                                   collection.GetValue(isDeletedKey)
+                                   valueProvider.GetValue(isDeletedKey)
                                        .ConvertTo(typeof(bool), CultureInfo.CurrentCulture)).GetValueOrDefault();
                         }
                     }
@@ -119,7 +120,7 @@ namespace Ilaro.Admin.Core
                 }
                 else
                 {
-                    var value = collection.GetValue(property.Name);
+                    var value = valueProvider.GetValue(property.Name);
                     if (value != null)
                     {
                         if (property.IsForeignKey && property.TypeInfo.IsCollection)
@@ -171,34 +172,16 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public void Fill(IDictionary<string, object> item, string prefix = "")
-        {
-            foreach (var property in Entity.Properties)
-            {
-                Values.Add(new PropertyValue(property)
-                {
-                    Raw = item.ContainsKey(prefix + property.Column.Undecorate()) ?
-                        item[prefix + property.Column.Undecorate()] :
-                        null
-                });
-            }
-        }
-
         public void Fill(
-            string key,
-            FormCollection collection,
-            HttpFileCollectionBase files,
-            Func<Property, object> defaultValueResolver = null)
-        {
-            Fill(collection, files, defaultValueResolver);
-            SetKeyValue(key);
-        }
-
-        internal void Fill(NameValueCollection request, Func<string, string> valueMutator = null)
+            IDictionary<string, object> item,
+            string prefix = "",
+            Func<object, object> valueMutator = null)
         {
             foreach (var property in Entity.Properties)
             {
-                var value = request[property.Name];
+                var value = item.ContainsKey(prefix + property.Column.Undecorate()) ?
+                        item[prefix + property.Column.Undecorate()] :
+                        null;
                 if (valueMutator != null)
                     value = valueMutator(value);
                 Values.Add(new PropertyValue(property)
@@ -206,6 +189,27 @@ namespace Ilaro.Admin.Core
                     Raw = value
                 });
             }
+        }
+
+        internal void Fill(
+            NameValueCollection request,
+            string prefix = "",
+            Func<object, object> valueMutator = null)
+        {
+            Fill(
+                request.ToDictionary().ToDictionary(x => x.Key, x => (object)x.Value),
+                prefix,
+                valueMutator);
+        }
+
+        public void Fill(
+            string key,
+            IValueProvider collection,
+            HttpFileCollectionBase files,
+            Func<Property, object> defaultValueResolver = null)
+        {
+            Fill(collection, files, defaultValueResolver);
+            SetKeyValue(key);
         }
 
         public void SetKeyValue(string key)
@@ -217,36 +221,9 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public object CreateInstance()
-        {
-            var instance = Activator.CreateInstance(Entity.Type, null);
-
-            foreach (var propertyValue in Values
-                .Where(value =>
-                    value.Raw != null &&
-                    (value.Raw is ValueBehavior) == false &&
-                    !value.Property.IsForeignKey ||
-                    (value.Property.IsForeignKey && value.Property.TypeInfo.IsSystemType)))
-            {
-                var property = propertyValue.Property;
-                var propertyInfo = Entity.Type.GetProperty(property.Name);
-                var value = propertyValue.AsObject;
-                if (property.TypeInfo.IsFile &&
-                    property.TypeInfo.IsFileStoredInDb == false
-                    && value is HttpPostedFileWrapper)
-                {
-                    value = (value as HttpPostedFileWrapper).FileName;
-                }
-                propertyInfo.SetValue(instance, value);
-            }
-
-            return instance;
-        }
-
         /// <summary>
-        /// Get display name for entity
+        /// Get display name for record
         /// </summary>
-        /// <returns>Display name</returns>
         public override string ToString()
         {
             // check if has to string attribute
@@ -264,17 +241,7 @@ namespace Ilaro.Admin.Core
             if (Entity.HasToStringMethod)
             {
                 var methodInfo = Entity.Type.GetMethod("ToString");
-                var instance = Activator.CreateInstance(Entity.Type, null);
-
-                foreach (var PropertyValue in Values
-                    .Where(x =>
-                        (x.Raw is ValueBehavior) == false &&
-                        !x.Property.IsForeignKey ||
-                        (x.Property.IsForeignKey && x.Property.TypeInfo.IsSystemType)))
-                {
-                    var propertyInfo = Entity.Type.GetProperty(PropertyValue.Property.Name);
-                    propertyInfo.SetValue(instance, PropertyValue.AsObject);
-                }
+                var instance = this.CreateInstance();
 
                 var result = methodInfo.Invoke(instance, null);
 
