@@ -67,6 +67,14 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// </summary>
         IPropertyCustomizer OnUpdate(ValueBehavior behavior);
         /// <summary>
+        /// Set value for OnCreate and OnUpdate
+        /// </summary>
+        IPropertyCustomizer OnSave(object value);
+        /// <summary>
+        /// Set value for OnCreate and OnUpdate
+        /// </summary>
+        IPropertyCustomizer OnSave(ValueBehavior behavior);
+        /// <summary>
         /// Static default value for property. Used only when soft delete for entity is enabled.
         /// </summary>
         IPropertyCustomizer OnDelete(object value);

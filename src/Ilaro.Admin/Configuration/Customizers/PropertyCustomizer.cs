@@ -61,6 +61,22 @@ namespace Ilaro.Admin.Configuration.Customizers
             return this;
         }
 
+        public IPropertyCustomizer OnSave(ValueBehavior behavior)
+        {
+            OnCreate(behavior);
+            OnUpdate(behavior);
+
+            return this;
+        }
+
+        public IPropertyCustomizer OnSave(object value)
+        {
+            OnCreate(value);
+            OnUpdate(value);
+
+            return this;
+        }
+
         public IPropertyCustomizer OnDelete(ValueBehavior behavior)
         {
             propertyCustomizerHolder.OnDeleteDefaultValue = behavior;
