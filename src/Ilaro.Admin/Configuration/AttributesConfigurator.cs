@@ -40,6 +40,7 @@ namespace Ilaro.Admin.Configuration
                 Id(member, customizerHolder, attributes);
                 OnCreate(member, customizerHolder, attributes);
                 OnUpdate(member, customizerHolder, attributes);
+                OnSave(member, customizerHolder, attributes);
                 OnDelete(member, customizerHolder, attributes);
                 Cascade(member, customizerHolder, attributes);
                 Column(member, customizerHolder, attributes);
@@ -303,6 +304,21 @@ namespace Ilaro.Admin.Configuration
                 customizerHolder.Property(member, x =>
                 {
                     x.OnUpdate(attribute.Value);
+                });
+            }
+        }
+
+        private static void OnSave(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<OnSaveAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.OnSave(attribute.Value);
                 });
             }
         }

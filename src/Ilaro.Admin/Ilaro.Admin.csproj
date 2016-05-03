@@ -288,6 +288,7 @@
     <Compile Include="Core\Verbose.cs" />
     <Compile Include="DataAnnotations\OnCreateAttribute.cs" />
     <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
+    <Compile Include="DataAnnotations\OnSaveAttribute.cs" />
     <Compile Include="DataAnnotations\OnUpdateAttribute.cs" />
     <Compile Include="DataAnnotations\SoftDeleteAttribute.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
