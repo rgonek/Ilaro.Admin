@@ -175,14 +175,10 @@ namespace Massive
             return BuildPagedResult(where: where, orderBy: orderBy, columns: columns, pageSize: pageSize, currentPage: currentPage, args: args);
         }
 
-        private dynamic BuildPagedResult(string sql = "", string primaryKeyField = "", string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
+        private dynamic BuildPagedResult(string primaryKeyField = "", string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
         {
             dynamic result = new ExpandoObject();
-            var countSQL = "";
-            if (!string.IsNullOrEmpty(sql))
-                countSQL = string.Format("SELECT COUNT({0}) FROM ({1}) AS PagedTable", primaryKeyField.Split(KeyColSeparator).FirstOrDefault(), sql);
-            else
-                countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField.Split(KeyColSeparator).FirstOrDefault(), TableName);
+            var countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField.Split(KeyColSeparator).FirstOrDefault(), TableName);
 
             if (String.IsNullOrEmpty(orderBy))
             {
@@ -197,11 +193,7 @@ namespace Massive
                 }
             }
 
-            var query = "";
-            if (!string.IsNullOrEmpty(sql))
-                query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM ({3}) AS PagedTable {4}) AS {2} ", columns, orderBy, TableName, sql, where);
-            else
-                query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM {2} {3}) AS {2} ", columns, orderBy, TableName, where);
+            var query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM {2} {3}) AS {2} ", columns, orderBy, TableName, where);
 
             var pageStart = (currentPage - 1) * pageSize;
             query += string.Format(" WHERE Row > {0} AND Row <={1}", pageStart, (pageStart + pageSize));
