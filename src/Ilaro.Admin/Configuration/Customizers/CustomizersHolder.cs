@@ -266,6 +266,7 @@ namespace Ilaro.Admin.Configuration.Customizers
 
                 property.DefaultOrder = propertyCustomizer.DefaultOrder;
                 property.DefaultFilter = propertyCustomizer.DefaultFilter;
+                property.IsManyToMany = propertyCustomizer.IsManyToMany;
 
                 if (propertyCustomizer.IsFilterable.HasValue)
                     property.IsFilterable = propertyCustomizer.IsFilterable.Value;

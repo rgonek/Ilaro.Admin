@@ -91,6 +91,7 @@ namespace Ilaro.Admin.Core
         public OrderType? DefaultOrder { get; internal set; }
         public object DefaultFilter { get; internal set; }
         public bool IsFilterable { get; internal set; }
+        public bool IsManyToMany { get; internal set; }
 
         public Property(Entity entity, PropertyInfo property)
         {

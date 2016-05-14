@@ -168,5 +168,7 @@ namespace Ilaro.Admin.Configuration.Customizers
         /// Make property filterable
         /// </summary>
         IPropertyCustomizer Filterable();
+
+        IPropertyCustomizer ManyToMany();
     }
 }

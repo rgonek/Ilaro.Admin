@@ -39,5 +39,6 @@ namespace Ilaro.Admin.Configuration.Customizers
         public OrderType? DefaultOrder { get; internal set; }
         public object DefaultFilter { get; internal set; }
         public bool? IsFilterable { get; internal set; }
+        public bool IsManyToMany { get; internal set; }
     }
 }

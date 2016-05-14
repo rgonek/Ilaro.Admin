@@ -286,6 +286,7 @@
     <Compile Include="Core\PropertyTypeInfo.cs" />
     <Compile Include="Core\PropertyValue.cs" />
     <Compile Include="Core\Verbose.cs" />
+    <Compile Include="DataAnnotations\ManyToManyAttribute.cs" />
     <Compile Include="DataAnnotations\OnCreateAttribute.cs" />
     <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />
     <Compile Include="DataAnnotations\OnSaveAttribute.cs" />

@@ -345,5 +345,12 @@ namespace Ilaro.Admin.Configuration.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer ManyToMany()
+        {
+            propertyCustomizerHolder.IsManyToMany = true;
+
+            return this;
+        }
     }
 }
