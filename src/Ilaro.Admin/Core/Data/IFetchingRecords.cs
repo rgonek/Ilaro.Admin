@@ -20,6 +20,7 @@ namespace Ilaro.Admin.Core.Data
             string orderDirection = null,
             bool determineDisplayValue = false,
             int? page = null,
-            int? take = null);
+            int? take = null,
+            bool loadForeignKeys = false);
     }
 }
