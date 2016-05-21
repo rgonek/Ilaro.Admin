@@ -39,15 +39,10 @@ namespace Ilaro.Admin.Tests.Core.Data
 
         protected int new_region()
         {
-            var newId = DB.Regions.All()
-                .Select(DB.Regions.RegionID.Max())
-                .ToScalarOrDefault<int>() + 1;
-
-            DB.Regions.Insert(
-                RegionID: newId,
+            var region = DB.Regions.Insert(
                 RegionDescription: "Test");
 
-            return newId;
+            return region.RegionID;
         }
     }
 }
