@@ -141,6 +141,8 @@ namespace Ilaro.Admin.Configuration.Customizers
         public IPropertyCustomizer Id()
         {
             propertyCustomizerHolder.IsKey = true;
+            propertyCustomizerHolder.IsRequired = true;
+
 
             return this;
         }

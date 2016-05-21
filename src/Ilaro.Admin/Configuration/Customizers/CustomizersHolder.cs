@@ -72,6 +72,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             foreach (var idProperty in idProperties)
             {
                 GetPropertyCustomizer(idProperty).IsKey = true;
+                GetPropertyCustomizer(idProperty).IsRequired = true;
             }
         }
 
@@ -212,7 +213,6 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.IsForeignKey)
                     property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
-            SetDefaultOrderProperty(entity);
             SetDefaultRecordDisplayFormat(entity);
         }
 
@@ -256,7 +256,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.OnUpdateDefaultValue = propertyCustomizer.OnUpdateDefaultValue;
                 property.OnDeleteDefaultValue = propertyCustomizer.OnDeleteDefaultValue;
                 property.Format = propertyCustomizer.Format;
-                property.IsRequired = propertyCustomizer.IsRequired;
+                property.IsRequired = propertyCustomizer.IsRequired ?? !TypeHelpers.IsNullableValueType(property.TypeInfo.OriginalType);
                 if (propertyCustomizer.Validators.IsNullOrEmpty() == false)
                     property.Validators = propertyCustomizer.Validators.ToList();
 
@@ -292,6 +292,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                         TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
                 }
             }
+
+            SetDefaultOrderProperty(entity);
 
             if (entity.SoftDeleteEnabled && entity.Properties.All(x => x.OnDeleteDefaultValue == null))
             {
