@@ -12,7 +12,7 @@ var isLocalBuild = BuildSystem.IsLocalBuild;
 var author = "Robert Gonek";
 
 // Version
-var version = "0.5.2";
+var version = "0.6.0";
 var buildSuffix = isLocalBuild ? "" : "." + AppVeyor.Environment.Build.Number;
 var fullVersion = version + buildSuffix;
 
