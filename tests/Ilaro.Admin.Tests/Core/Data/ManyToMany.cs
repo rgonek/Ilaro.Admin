@@ -45,7 +45,7 @@ namespace Ilaro.Admin.Tests.Core.Data
 
             DB.Regions.Insert(
                 RegionID: newId,
-                RegionDescription: "DUPA");
+                RegionDescription: "Test");
 
             return newId;
         }
