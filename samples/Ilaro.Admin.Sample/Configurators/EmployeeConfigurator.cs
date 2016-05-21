@@ -22,6 +22,7 @@ namespace Ilaro.Admin.Sample.Configurators
             PropertiesGroup("Address", x => x.Address, x => x.City,
                 x => x.Region, x => x.PostalCode, x => x.Country);
             PropertiesGroup("Notes", true, x => x.Notes);
+            PropertiesGroup("ManyToMany", x => x.EmployeeTerritories);
 
             Property(x => x.LastName, x =>
             {
@@ -112,6 +113,8 @@ namespace Ilaro.Admin.Sample.Configurators
             Property(x => x.EmployeeTerritories, x =>
             {
                 x.Cascade(CascadeOption.Delete);
+                x.ManyToMany();
+                x.Display("Territories");
             });
         }
     }

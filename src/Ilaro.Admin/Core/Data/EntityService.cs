@@ -213,19 +213,42 @@ namespace Ilaro.Admin.Core.Data
             foreach (var foreignValue in groups.SelectMany(x => x.PropertiesValues)
                 .Where(x => x.Property.IsForeignKey && x.Property.ForeignEntity != null))
             {
-                var records = _source.GetRecords(foreignValue.Property.ForeignEntity, determineDisplayValue: true).Records;
+                var entityToLoad = GetEntityToLoad(foreignValue.Property);
+                var records = _source.GetRecords(entityToLoad, determineDisplayValue: true, loadForeignKeys: foreignValue.Property.IsManyToMany).Records;
                 foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeysValues, x => x.ToString());
                 if (foreignValue.Property.TypeInfo.IsCollection)
                 {
-                    foreignValue.Values = records
-                        .Where(x => x.Values.Any(y => y.Property.ForeignEntity == entityRecord.Entity && y.AsString == key))
-                        .Select(x => x.JoinedKeysValues)
-                        .OfType<object>()
-                        .ToList();
+                    foreignValue.Values = GetRecordValues(foreignValue.Property, key, records).ToList();
                 }
             }
 
             return groups.ToList();
+        }
+
+        private static IEnumerable<object> GetRecordValues(Property foreignProperty, string key, IList<EntityRecord> records)
+        {
+            if (foreignProperty.IsManyToMany)
+            {
+                return records
+                    .Where(x => x.Values.Any(y => y.Property.ForeignEntity == foreignProperty.ForeignEntity && y.AsString == key))
+                    .Select(x => x.JoinedKeysValues);
+            }
+
+            return records
+                .Where(x => x.Values.Any(y => y.Property.ForeignEntity == foreignProperty.Entity && y.AsString == key))
+                .Select(x => x.JoinedKeysValues);
+        }
+
+        private static Entity GetEntityToLoad(Property foreignProperty)
+        {
+            if (foreignProperty.IsManyToMany)
+            {
+                return foreignProperty.ForeignEntity.ForeignKeys
+                    .First(x => x.ForeignEntity != foreignProperty.Entity)
+                    .ForeignEntity;
+            }
+
+            return foreignProperty.ForeignEntity;
         }
     }
 }

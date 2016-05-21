@@ -86,6 +86,7 @@ namespace Ilaro.Admin.Core.Data
             var cmd = CreateBaseCommand(entityRecord);
             AddConcurrencyCheck(cmd, entityRecord, concurrencyCheckValue);
             AddForeignsUpdate(cmd, entityRecord);
+            AddManyToManyForeignsUpdate(cmd, entityRecord);
 
             return cmd;
         }
@@ -99,6 +100,7 @@ namespace Ilaro.Admin.Core.Data
                 .WhereIsNotOneToMany()
                 .Where(value => value.Property.IsCreatable)
                 .Where(value => value.Property.IsKey == false)
+                .DistinctBy(x => x.Property.Column)
                 .ToList();
             if (updateProperties.Any())
             {
@@ -169,10 +171,12 @@ SELECT @{joinedKeyValueParameterName};";
             var concurrencyCheckConstraint =
                 GetConcurrencyCheckValueSql(cmd, entityRecord, property, concurrencyCheckParam);
 
-            var concurrencyCheckSql = $@"-- concurrency check
+            var concurrencyCheckSql =
+                $@"-- concurrency check
 IF({concurrencyCheckConstraint})
 BEGIN
-    SELECT {Const.ConcurrencyCheckError_ReturnValue};
+    SELECT {Const
+                    .ConcurrencyCheckError_ReturnValue};
     RETURN;
 END
 ";
@@ -201,21 +205,26 @@ END
 
                 var constraints = GetConstraints(entityRecord.Keys, cmd, "[t0]");
 
-                sql = $@"@{concurrencyCheckParam} <=
+                sql =
+                    $@"@{concurrencyCheckParam} <=
     (SELECT TOP 1 [ec].{changedOn.Column}
-      FROM {entityChange.Table} as [ec]
+      FROM {entityChange
+                        .Table} as [ec]
      INNER JOIN {entityRecord.Entity.Table} as [t0] ON (
-           [ec].{changedEntityName.Column} = @{changedEntityNameParam}
+           [ec].{changedEntityName
+                            .Column} = @{changedEntityNameParam}
        AND [ec].{changedEntityKey.Column} = @{changedEntityKeyParam}
        )
      WHERE {constraints}
-     ORDER BY [ec].{changedOn.Column} DESC)";
+     ORDER BY [ec].{changedOn
+                                .Column} DESC)";
             }
             else
             {
                 var constraints = GetConstraints(entityRecord.Keys, cmd);
 
-                sql = $@"@{concurrencyCheckParam} <>
+                sql =
+                    $@"@{concurrencyCheckParam} <>
     (SELECT {property.Column}
       FROM {entityRecord.Entity.Table}
      WHERE {constraints})";
@@ -230,7 +239,8 @@ END
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
-            foreach (var propertyValue in entityRecord.Values.WhereOneToMany())
+            foreach (var propertyValue in entityRecord.Values.WhereOneToMany()
+                .Where(x => x.Property.IsManyToMany == false))
             {
                 var actualRecords = _source.GetRecords(
                     propertyValue.Property.ForeignEntity,
@@ -304,6 +314,91 @@ END
             }
 
             cmd.CommandText += Environment.NewLine + "-- update foreign entities records" + sbUpdates.ToString();
+        }
+
+        private void AddManyToManyForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
+        {
+            if (entityRecord.Keys.Count > 1)
+                return;
+            var sbUpdates = new StringBuilder();
+            var paramIndex = cmd.Parameters.Count;
+            foreach (var propertyValue in entityRecord.Values.WhereOneToMany()
+                .Where(x => x.Property.IsManyToMany))
+            {
+                var recordKey = entityRecord.Keys.FirstOrDefault().AsString;
+                var actualRecords = _source.GetRecords(
+                    propertyValue.Property.ForeignEntity,
+                    new List<BaseFilter>
+                    {
+                        new ForeignEntityFilter(
+                            entityRecord.Entity.Keys.FirstOrDefault(),
+                            recordKey)
+                    }).Records;
+
+                var selectedValues = propertyValue.Values.Select(x => x.ToStringSafe()).ToList();
+
+                var mtmEntity = GetEntityToLoad(propertyValue.Property);
+                var dbIds = actualRecords
+                    .Select(x => x.Keys.FirstOrDefault(y => y.Property.ForeignEntity == mtmEntity).AsString)
+                    .ToList();
+                var idsToRemove = dbIds
+                    .Except(selectedValues)
+                    .ToList();
+                if (idsToRemove.Any())
+                {
+                    sbUpdates.AppendLine();
+                    sbUpdates.AppendLine("-- delete many to many records");
+                    foreach (var idToRemove in idsToRemove)
+                    {
+                        var foreignEntity = propertyValue.Property.ForeignEntity;
+                        var key1 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == propertyValue.Property.Entity);
+                        var key2 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == mtmEntity);
+                        cmd.AddParam(recordKey);
+                        cmd.AddParam(idToRemove);
+                        sbUpdates.AppendLine($"DELETE {foreignEntity.Table} WHERE {key1.Column} = @{paramIndex++} and {key2.Column} = @{paramIndex++}");
+                    }
+                }
+
+                var idsToAdd = selectedValues
+                    .Except(dbIds)
+                    .ToList();
+                if (idsToAdd.Any())
+                {
+                    sbUpdates.AppendLine();
+                    sbUpdates.AppendLine("-- add many to many records");
+                    foreach (var idToAdd in idsToAdd)
+                    {
+                        var foreignEntity = propertyValue.Property.ForeignEntity;
+                        var key1 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == propertyValue.Property.Entity);
+                        var key2 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == mtmEntity);
+                        cmd.AddParam(recordKey);
+                        cmd.AddParam(idToAdd);
+                        sbUpdates.AppendLine($"INSERT INTO {foreignEntity.Table} ({key1.Column}, {key2.Column}) VALUES(@{paramIndex++}, @{paramIndex++})");
+                    }
+                }
+            }
+
+            cmd.CommandText += Environment.NewLine + sbUpdates;
+        }
+
+        private static Entity GetEntityToLoad(Property foreignProperty)
+        {
+            if (foreignProperty.IsManyToMany)
+            {
+                return foreignProperty.ForeignEntity.ForeignKeys
+                    .First(x => x.ForeignEntity != foreignProperty.Entity)
+                    .ForeignEntity;
+            }
+
+            return foreignProperty.ForeignEntity;
         }
 
         private string BuildForeignUpdateSql(

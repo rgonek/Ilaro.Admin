@@ -88,6 +88,8 @@ namespace Ilaro.Admin.Sample.Models.Northwind
         public virtual ICollection<Order> Orders { get; set; }
 
         [Cascade(CascadeOption.Delete)]
+        [ManyToMany]
+        [Display(Name = "Territories")]
         public virtual ICollection<EmployeeTerritory> EmployeeTerritories { get; set; }
     }
 }

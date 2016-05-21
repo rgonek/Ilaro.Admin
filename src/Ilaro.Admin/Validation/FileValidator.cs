@@ -27,7 +27,7 @@ namespace Ilaro.Admin.Validation
         public bool Validate(PropertyValue propertyValue)
         {
             var file = (HttpPostedFileWrapper)propertyValue.Raw;
-            if (file == null)
+            if (file == null || file.ContentLength == 0)
             {
                 if (propertyValue.Property.IsRequired)
                 {

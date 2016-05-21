@@ -152,14 +152,15 @@ namespace Massive
         /// Returns all records complying with the passed-in WHERE clause and arguments, 
         /// ordered as specified, limited (TOP) by limit.
         /// </summary>
-        public virtual IEnumerable<IDictionary<string, object>> All(string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
+        public virtual IEnumerable<IDictionary<string, object>> All(string joins = "", string where = "", string orderBy = "", int limit = 0, string columns = "*", params object[] args)
         {
-            string sql = BuildSelect(where, orderBy, limit);
+            string sql = BuildSelect(joins, where, orderBy, limit);
             return Query(string.Format(sql, columns, TableName), args);
         }
-        private static string BuildSelect(string where, string orderBy, int limit)
+        private static string BuildSelect(string joins, string where, string orderBy, int limit)
         {
             string sql = limit > 0 ? "SELECT TOP " + limit + " {0} FROM {1} " : "SELECT {0} FROM {1} ";
+            sql += joins;
             if (!string.IsNullOrEmpty(where))
                 sql += where.Trim().StartsWith("where", StringComparison.OrdinalIgnoreCase) ? where : " WHERE " + where;
             if (!String.IsNullOrEmpty(orderBy))
@@ -175,14 +176,10 @@ namespace Massive
             return BuildPagedResult(where: where, orderBy: orderBy, columns: columns, pageSize: pageSize, currentPage: currentPage, args: args);
         }
 
-        private dynamic BuildPagedResult(string sql = "", string primaryKeyField = "", string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
+        private dynamic BuildPagedResult(string primaryKeyField = "", string where = "", string orderBy = "", string columns = "*", int pageSize = 20, int currentPage = 1, params object[] args)
         {
             dynamic result = new ExpandoObject();
-            var countSQL = "";
-            if (!string.IsNullOrEmpty(sql))
-                countSQL = string.Format("SELECT COUNT({0}) FROM ({1}) AS PagedTable", primaryKeyField.Split(KeyColSeparator).FirstOrDefault(), sql);
-            else
-                countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField.Split(KeyColSeparator).FirstOrDefault(), TableName);
+            var countSQL = string.Format("SELECT COUNT({0}) FROM {1}", PrimaryKeyField.Split(KeyColSeparator).FirstOrDefault(), TableName);
 
             if (String.IsNullOrEmpty(orderBy))
             {
@@ -197,11 +194,7 @@ namespace Massive
                 }
             }
 
-            var query = "";
-            if (!string.IsNullOrEmpty(sql))
-                query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM ({2}) AS PagedTable {3}) AS Paged ", columns, orderBy, sql, where);
-            else
-                query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM {2} {3}) AS Paged ", columns, orderBy, TableName, where);
+            var query = string.Format("SELECT {0} FROM (SELECT ROW_NUMBER() OVER (ORDER BY {1}) AS Row, {0} FROM {2} {3}) AS {2} ", columns, orderBy, TableName, where);
 
             var pageStart = (currentPage - 1) * pageSize;
             query += string.Format(" WHERE Row > {0} AND Row <={1}", pageStart, (pageStart + pageSize));

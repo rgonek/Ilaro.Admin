@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Extensions;
 using Ilaro.Admin.Filters;
 using Ilaro.Admin.Models;
@@ -82,7 +83,8 @@ namespace Ilaro.Admin.Core.Data
             string orderDirection = null,
             bool determineDisplayValue = false,
             int? page = null,
-            int? take = null)
+            int? take = null,
+            bool loadForeignKeys = false)
         {
             var search = new EntitySearch
             {
@@ -100,7 +102,7 @@ namespace Ilaro.Admin.Core.Data
                     .Where(x =>
                         !x.IsForeignKey ||
                         (!x.TypeInfo.IsCollection && x.IsForeignKey))
-                    .Select(x => x.Column)
+                    .Select(x => $"{entity.Table}.{x.Column} as {x.Column}")
                     .Distinct());
             List<object> args;
             var where = ConvertFiltersToSql(filters, search, out args);
@@ -135,8 +137,30 @@ namespace Ilaro.Admin.Core.Data
             }
             else
             {
+                var joins = "";
+                if (loadForeignKeys)
+                {
+                    foreach (var foreignKey in entity.ForeignKeys.WhereOneToMany())
+                    {
+                        var joinTable = foreignKey.ForeignEntity.Table;
+                        var joinProperty = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity == entity);
+
+                        var keyProperty = foreignKey.TypeInfo.IsCollection ?
+                            entity.Keys.FirstOrDefault() :
+                            foreignKey;
+
+                        joins += Environment.NewLine +
+                            $"left join {joinTable} on {joinTable}.{joinProperty.Column} = {entity.Table}.{keyProperty.Column}";
+
+                        var propertyToGet = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity != entity) ??
+                                            joinProperty;
+
+                        columns += $",{joinTable}.{propertyToGet.Column} as {foreignKey.Column}";
+                    }
+                }
                 var result = table.All(
                     columns: columns,
+                    joins: joins,
                     where: where,
                     orderBy: orderBy,
                     args: args.ToArray());

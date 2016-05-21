@@ -106,7 +106,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Core\Data\DbCommandExecutor_.cs" />
+    <Compile Include="Core\Data\ManyToMany.cs" />
     <Compile Include="Core\Data\RecordsCreator_.cs" />
+    <Compile Include="Core\Data\RecordsCreator_ManyToMany.cs" />
     <Compile Include="Core\Data\RecordsDeleter_.cs" />
     <Compile Include="Core\Data\RecordsSource_DetermineDisplayValue.cs" />
     <Compile Include="Core\Data\RecordsSource_GetEntityWithData.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Core\Data\RecordsSource_EnumEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsSource_BoolEntityFilters.cs" />
     <Compile Include="Core\Data\RecordsUpdater_.cs" />
+    <Compile Include="Core\Data\RecordsUpdater_ManyToMany.cs" />
     <Compile Include="Core\EntityChange_.cs" />
     <Compile Include="Core\Entity_Initialise.cs" />
     <Compile Include="Core\Property_DetermineForeignKey.cs" />
