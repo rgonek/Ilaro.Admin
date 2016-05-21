@@ -72,6 +72,7 @@ namespace Ilaro.Admin.Configuration.Customizers
             foreach (var idProperty in idProperties)
             {
                 GetPropertyCustomizer(idProperty).IsKey = true;
+                GetPropertyCustomizer(idProperty).IsRequired = true;
             }
         }
 
