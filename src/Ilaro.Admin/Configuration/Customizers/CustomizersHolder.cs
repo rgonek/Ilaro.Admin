@@ -213,7 +213,6 @@ namespace Ilaro.Admin.Configuration.Customizers
                 if (propertyCustomizer.IsForeignKey)
                     property.SetForeignKey(propertyCustomizer.ForeignKey);
             }
-            SetDefaultOrderProperty(entity);
             SetDefaultRecordDisplayFormat(entity);
         }
 
@@ -293,6 +292,8 @@ namespace Ilaro.Admin.Configuration.Customizers
                         TemplateUtil.GetEditorTemplate(property.TypeInfo, property.IsForeignKey);
                 }
             }
+
+            SetDefaultOrderProperty(entity);
 
             if (entity.SoftDeleteEnabled && entity.Properties.All(x => x.OnDeleteDefaultValue == null))
             {
