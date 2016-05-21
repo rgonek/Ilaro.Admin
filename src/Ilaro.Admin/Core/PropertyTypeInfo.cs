@@ -67,7 +67,7 @@ namespace Ilaro.Admin.Core
 
         public bool IsNullable
         {
-            get { return Nullable.GetUnderlyingType(OriginalType) != null; }
+            get { return TypeHelpers.IsNullableValueType(OriginalType); }
         }
 
         public bool IsString
