@@ -58,8 +58,8 @@ namespace Ilaro.Admin.Core.Data
         private DbCommand CreateCommand(EntityRecord entityRecord)
         {
             var cmd = CreateBaseCommand(entityRecord);
-            if (entityRecord.Keys.Count() == 1)
-                AddForeignsUpdate(cmd, entityRecord);
+            AddForeignsUpdate(cmd, entityRecord);
+            AddManyToManyForeignsUpdate(cmd, entityRecord);
 
             return cmd;
         }
@@ -74,6 +74,7 @@ namespace Ilaro.Admin.Core.Data
             foreach (var propertyValue in entityRecord.Values
                 .WhereIsNotSkipped()
                 .WhereIsNotOneToMany()
+                .DistinctBy(x => x.Property.Column)
                 .Where(x => x.Property.IsAutoKey == false))
             {
                 sbColumns.AppendFormat("{0},", propertyValue.Property.Column);
@@ -107,10 +108,13 @@ SELECT @newID;
 
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
+            if (entityRecord.Keys.Count > 1)
+                return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
             foreach (var propertyValue in entityRecord.Values
                 .WhereOneToMany()
+                .Where(x => x.Property.IsManyToMany == false)
                 .Where(value => value.Values.IsNullOrEmpty() == false))
             {
                 var values =
@@ -144,6 +148,55 @@ SELECT @newID;
             }
 
             cmd.CommandText += sbUpdates.ToString();
+        }
+
+        private void AddManyToManyForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
+        {
+            if (entityRecord.Keys.Count > 1)
+                return;
+            var sbUpdates = new StringBuilder();
+            var paramIndex = cmd.Parameters.Count;
+            foreach (var propertyValue in entityRecord.Values.WhereOneToMany()
+                .Where(x => x.Property.IsManyToMany))
+            {
+                var selectedValues = propertyValue.Values.Select(x => x.ToStringSafe()).ToList();
+
+                var mtmEntity = GetEntityToLoad(propertyValue.Property);
+
+                var idsToAdd = selectedValues
+                    .ToList();
+                if (idsToAdd.Any())
+                {
+                    sbUpdates.AppendLine();
+                    sbUpdates.AppendLine("-- add many to many records");
+                    foreach (var idToAdd in idsToAdd)
+                    {
+                        var foreignEntity = propertyValue.Property.ForeignEntity;
+                        var key1 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == propertyValue.Property.Entity);
+                        var key2 =
+                            foreignEntity.ForeignKeys.FirstOrDefault(
+                                x => x.ForeignEntity == mtmEntity);
+                        cmd.AddParam(idToAdd);
+                        sbUpdates.AppendLine($"INSERT INTO {foreignEntity.Table} ({key1.Column}, {key2.Column}) VALUES(@newID, @{paramIndex++})");
+                    }
+                }
+            }
+
+            cmd.CommandText += Environment.NewLine + sbUpdates;
+        }
+
+        private static Entity GetEntityToLoad(Property foreignProperty)
+        {
+            if (foreignProperty.IsManyToMany)
+            {
+                return foreignProperty.ForeignEntity.ForeignKeys
+                    .First(x => x.ForeignEntity != foreignProperty.Entity)
+                    .ForeignEntity;
+            }
+
+            return foreignProperty.ForeignEntity;
         }
 
         private void AddParam(DbCommand cmd, PropertyValue propertyValue)
