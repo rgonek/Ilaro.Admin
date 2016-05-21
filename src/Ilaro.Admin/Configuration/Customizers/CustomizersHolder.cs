@@ -256,7 +256,7 @@ namespace Ilaro.Admin.Configuration.Customizers
                 property.OnUpdateDefaultValue = propertyCustomizer.OnUpdateDefaultValue;
                 property.OnDeleteDefaultValue = propertyCustomizer.OnDeleteDefaultValue;
                 property.Format = propertyCustomizer.Format;
-                property.IsRequired = propertyCustomizer.IsRequired;
+                property.IsRequired = propertyCustomizer.IsRequired ?? !TypeHelpers.IsNullableValueType(property.TypeInfo.OriginalType);
                 if (propertyCustomizer.Validators.IsNullOrEmpty() == false)
                     property.Validators = propertyCustomizer.Validators.ToList();
 
