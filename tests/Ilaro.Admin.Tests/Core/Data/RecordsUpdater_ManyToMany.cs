@@ -29,9 +29,8 @@ namespace Ilaro.Admin.Tests.Core.Data
             var employeeTerritoryEntity = _admin.GetEntity<EmployeeTerritory>();
 
             var employee = DB.Employees.Insert(FirstName: "Test", LastName: "Test");
-            DB.Regions.Insert(RegionID: 1, RegionDescription: "Test");
-            DB.Territories.Insert(TerritoryID: 1, TerritoryDescription: "Test", RegionID: 1);
-            DB.EmployeeTerritories.Insert(EmployeeID: employee.EmployeeID, TerritoryID: 1);
+            var territoryId = new_territory();
+            DB.EmployeeTerritories.Insert(EmployeeID: employee.EmployeeID, TerritoryID: territoryId);
 
             var record = _source.GetEntityRecord(employeeEntity, ((int)employee.EmployeeID).ToString());
             record.Values.FirstOrDefault(x => x.Property.Name == "Photo").DataBehavior = DataBehavior.Skip;
@@ -52,14 +51,13 @@ namespace Ilaro.Admin.Tests.Core.Data
             var employeeTerritoryEntity = _admin.GetEntity<EmployeeTerritory>();
 
             var employee = DB.Employees.Insert(FirstName: "Test", LastName: "Test");
-            DB.Regions.Insert(RegionID: 1, RegionDescription: "Test");
-            DB.Territories.Insert(TerritoryID: 1, TerritoryDescription: "Test", RegionID: 1);
+            var territoryId = new_territory();
 
             var record = _source.GetEntityRecord(employeeEntity, ((int)employee.EmployeeID).ToString());
             record.Values.FirstOrDefault(x => x.Property.Name == "Photo").DataBehavior = DataBehavior.Skip;
             var manyToManyPropertyValue = record.Values.FirstOrDefault(x => x.Property.ForeignEntity == employeeTerritoryEntity);
 
-            manyToManyPropertyValue.Values.Add(1);
+            manyToManyPropertyValue.Values.Add(territoryId);
 
             _updater.Update(record);
 

@@ -29,8 +29,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var employeeEntity = _admin.GetEntity<Employee>();
             var employeeTerritoryEntity = _admin.GetEntity<EmployeeTerritory>();
 
-            DB.Regions.Insert(RegionID: 1, RegionDescription: "Test");
-            DB.Territories.Insert(TerritoryID: 1, TerritoryDescription: "Test", RegionID: 1);
+            var territoryId = new_territory();
 
             var data = new Dictionary<string, object>();
             data["FirstName"] = "Test";
@@ -38,7 +37,7 @@ namespace Ilaro.Admin.Tests.Core.Data
             var record = EntityRecordCreator.CreateRecord(employeeEntity, data);
             record.Values.FirstOrDefault(x => x.Property.Name == "Photo").DataBehavior = DataBehavior.Skip;
             var manyToManyPropertyValue = record.Values.FirstOrDefault(x => x.Property.ForeignEntity == employeeTerritoryEntity);
-            manyToManyPropertyValue.Values.Add(1);
+            manyToManyPropertyValue.Values.Add(territoryId);
 
             _creator.Create(record);
 

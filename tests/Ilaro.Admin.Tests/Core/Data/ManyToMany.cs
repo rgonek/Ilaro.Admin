@@ -22,5 +22,32 @@ namespace Ilaro.Admin.Tests.Core.Data
                 .Property(x => x.Territory, x => x.Id().ForeignKey("TerritoryID"));
             _admin.Initialise();
         }
+
+        protected int new_territory()
+        {
+            var newId = DB.Territories.All()
+                .Select(DB.Territories.TerritoryID.Max())
+                .ToScalarOrDefault<int>() + 1;
+
+            DB.Territories.Insert(
+                TerritoryID: newId,
+                TerritoryDescription: "Test",
+                RegionID: new_region());
+
+            return newId;
+        }
+
+        protected int new_region()
+        {
+            var newId = DB.Regions.All()
+                .Select(DB.Regions.RegionID.Max())
+                .ToScalarOrDefault<int>() + 1;
+
+            DB.Regions.Insert(
+                RegionID: newId,
+                RegionDescription: "DUPA");
+
+            return newId;
+        }
     }
 }
