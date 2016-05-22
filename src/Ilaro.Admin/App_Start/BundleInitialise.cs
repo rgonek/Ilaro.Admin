@@ -11,9 +11,9 @@ namespace Ilaro.Admin.App_Start
         public static void Start()
         {
             BundleTable.VirtualPathProvider = new EmbeddedVirtualPathProvider();
-            BundleTable.Bundles.Add(new ScriptBundle("~/ira/jquery").Include(
+            BundleTable.Bundles.Add(IlaroAdminBundle.New("~/ira/jquery").Include(
                         "~/ira/jquery-2.1.0.min.js"));
-            BundleTable.Bundles.Add(new ScriptBundle("~/ira/scripts").Include(
+            BundleTable.Bundles.Add(IlaroAdminBundle.New("~/ira/scripts").Include(
                         "~/ira/jquery.validate.min.js",
                         "~/ira/jquery.validate.unobtrusive.min.js",
                         "~/ira/chosen.jquery.min.js",
@@ -28,7 +28,7 @@ namespace Ilaro.Admin.App_Start
                         "~/ira/bootstrap.file-input.js",
                         "~/ira/ilaro.js"));
 
-            BundleTable.Bundles.Add(new StyleBundle("~/ira/css").Include(
+            BundleTable.Bundles.Add(IlaroAdminBundle.New("~/ira/css").Include(
                       "~/ira/bootstrap.min.css",
                       "~/ira/font-awesome.min.css",
                       "~/ira/bootstrap-datetimepicker.min.css",

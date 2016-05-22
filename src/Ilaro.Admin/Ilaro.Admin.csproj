@@ -332,6 +332,7 @@
     <Compile Include="Infrastructure\CopyIsAjaxRequestFromRequestToViewBagAttribute.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualFile.cs" />
     <Compile Include="Infrastructure\EmbeddedVirtualPathProvider.cs" />
+    <Compile Include="Infrastructure\IlaroAdminBundle.cs" />
     <Compile Include="Infrastructure\IlaroAdminFilterAttribute.cs" />
     <Compile Include="Infrastructure\ModelStateErrorsBuilderAttribute.cs" />
     <Compile Include="Infrastructure\NotificatorAttribute.cs" />
