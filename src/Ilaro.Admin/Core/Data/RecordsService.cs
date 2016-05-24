@@ -136,7 +136,7 @@ namespace Ilaro.Admin.Core.Data
         {
             return request == null ?
                 entity.CreateEmptyRecord() :
-                entity.CreateRecord(request, valueMutator: x => x == Const.EmptyFilterValue ? "" : x);
+                entity.CreateRecord(request, valueMutator: x => (string)x == Const.EmptyFilterValue ? "" : x);
         }
     }
 }
