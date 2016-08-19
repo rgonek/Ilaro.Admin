@@ -159,10 +159,6 @@
       <Project>{daa05f94-4336-4370-89ab-1cfd1e94b3bc}</Project>
       <Name>Ilaro.Admin.Tests.Scenarios.ScannedAssembly</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Ilaro.Admin\Ilaro.Admin.csproj">
-      <Project>{87db09c0-33de-4198-95db-7c157d1a705c}</Project>
-      <Name>Ilaro.Admin</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
