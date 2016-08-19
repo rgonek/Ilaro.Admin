@@ -3,9 +3,9 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Validation;
 using Ilaro.Admin.Core.File;
-using Ilaro.Admin.Filters;
+using Ilaro.Admin.Core.Filters;
+using Ilaro.Admin.Core.Validation;
 
 namespace Ilaro.Admin.Autofac
 {

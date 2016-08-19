@@ -1,4 +1,4 @@
-﻿using Ilaro.Admin.Configuration;
+﻿using Ilaro.Admin.Core.Customization;
 using Ilaro.Admin.Tests.Scenarios.ScannedAssembly;
 
 namespace Ilaro.Admin.Sample.Configurators

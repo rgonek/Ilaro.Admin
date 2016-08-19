@@ -30,9 +30,9 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]

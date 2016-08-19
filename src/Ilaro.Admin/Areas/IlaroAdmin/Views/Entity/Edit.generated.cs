@@ -30,9 +30,9 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -295,14 +295,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2115), Tuple.Create("\"", 2215)
+WriteAttribute("href", Tuple.Create(" href=\"", 2116), Tuple.Create("\"", 2216)
             
             #line 45 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2122), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
+, Tuple.Create(Tuple.Create("", 2123), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin", entityName = Model.Entity.Name })
             
             #line default
             #line hidden
-, 2122), false)
+, 2123), false)
 );
 
 WriteLiteral(" class=\"btn b class=\"");
@@ -318,14 +318,14 @@ WriteLiteral("btn btn-link\">");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 2298), Tuple.Create("\"", 2401)
+WriteAttribute("href", Tuple.Create(" href=\"", 2299), Tuple.Create("\"", 2404)
             
             #line 46 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-, Tuple.Create(Tuple.Create("", 2305), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeysValues })
+, Tuple.Create(Tuple.Create("", 2306), Tuple.Create<System.Object, System.Int32>(Url.Action("Delete", new { entityName = Model.Entity.Name, key = Model.Record.JoinedKeysValues })
             
             #line default
             #line hidden
-, 2305), false)
+, 2306), false)
 );
 
 WriteLiteral(" class=\"btn btn-danger pul class=\"");
@@ -334,7 +334,7 @@ WriteLiteral("btn btn-danger pull-right\">");
 
             
             #line 46 "..\..\Areas\IlaroAdmin\Views\Entity\Edit.cshtml"
-                                                                                                                                                                              Write(IlaroAdminResources.Delete);
+                                                                                                                                                                                Write(IlaroAdminResources.Delete);
 
             
             #line default

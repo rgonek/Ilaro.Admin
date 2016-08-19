@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Ilaro.Admin.Core.File;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Extensions
 {

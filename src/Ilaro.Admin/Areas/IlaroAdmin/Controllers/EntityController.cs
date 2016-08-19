@@ -3,9 +3,9 @@ using System.Web.Mvc;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Models;
+using Ilaro.Admin.Core.DataAnnotations;
+using Ilaro.Admin.Core.Models;
 using Resources;
-using Ilaro.Admin.DataAnnotations;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {

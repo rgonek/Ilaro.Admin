@@ -11,12 +11,12 @@ namespace Ilaro.Admin.Sample
     {
         protected void Application_Start()
         {
-            Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
+            Core.Admin.AssemblyCustomizers(typeof(Customer).Assembly).Register();
 
             // If you want anonymous access to Ilaro.Admin, skip this line
             // off course you can set Roles and Users for AuthorizeAttribute
             // If you have only one connection string there is no need to specify it
-            Admin.Initialise("NorthwindEntities", "Admin", new AuthorizeAttribute());
+            Core.Admin.Initialise("NorthwindEntities", "Admin", new AuthorizeAttribute());
 
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);

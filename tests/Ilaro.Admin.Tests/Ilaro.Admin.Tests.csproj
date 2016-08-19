@@ -62,10 +62,7 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
       <Private>True</Private>
@@ -154,6 +151,10 @@
     <Compile Include="Utils\TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Ilaro.Admin.Core\Ilaro.Admin.Core.csproj">
+      <Project>{8c087728-c34e-4e42-b0ac-5e4783589494}</Project>
+      <Name>Ilaro.Admin.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ilaro.Admin.Tests.Scenarios.ScannedAssembly\Ilaro.Admin.Tests.Scenarios.ScannedAssembly.csproj">
       <Project>{daa05f94-4336-4370-89ab-1cfd1e94b3bc}</Project>
       <Name>Ilaro.Admin.Tests.Scenarios.ScannedAssembly</Name>

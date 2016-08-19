@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Models;
-using Ilaro.Admin.DataAnnotations;
 using Ilaro.Admin.Core.Data;
+using Ilaro.Admin.Core.DataAnnotations;
+using Ilaro.Admin.Core.Models;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
 {

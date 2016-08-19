@@ -1,8 +1,7 @@
 ﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.File;
-using Ilaro.Admin.Filters;
-using Ilaro.Admin.Validation;
+using Ilaro.Admin.Core.Validation;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -10,6 +9,7 @@ using Ninject.Web.Mvc;
 using System;
 using System.Web;
 using System.Web.Mvc;
+using Ilaro.Admin.Core.Filters;
 using NinjectBootstrapper = Ninject.Web.Common.Bootstrapper;
 
 namespace Ilaro.Admin.Ninject

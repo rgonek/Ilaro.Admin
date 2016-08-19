@@ -1,7 +1,7 @@
 ﻿using Ilaro.Admin.App_Start;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Models;
 using System.Web.Mvc;
+using Ilaro.Admin.Core.Models;
 using WebActivatorEx;
 
 [assembly: PostApplicationStartMethod(typeof(ModelBindersInitialise), "Start")]

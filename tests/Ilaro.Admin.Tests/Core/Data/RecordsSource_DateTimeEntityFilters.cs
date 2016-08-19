@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Filters;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
-using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core.Customization;
+using Ilaro.Admin.Core.Filters;
 
 namespace Ilaro.Admin.Tests.Core.Data
 {

@@ -18,7 +18,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_without_any_constraints__all_types_should_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Register();
             _admin.Initialise();
 
@@ -34,7 +34,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_with_except_constraints__all_types_should_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Except<Entity>()
                 .Register();
             _admin.Initialise();
@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_without_any_constraints__enums_should_not_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Register();
             _admin.Initialise();
 
@@ -61,7 +61,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_without_any_constraints__interfaces_should_not_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Register();
             _admin.Initialise();
 
@@ -71,7 +71,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_with_namespace_contraint__only_matching_entities_should_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Where(type => type.Namespace.EndsWith("Models"))
                 .Register();
             _admin.Initialise();
@@ -88,7 +88,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_with_namespace_of_contraint__only_matching_entities_should_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .InNamespaceOf<Car>()
                 .Register();
             _admin.Initialise();
@@ -105,7 +105,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities_from_assembly_with_inheritance_contraint__only_matching_entities_should_be_registered()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .Where(type => type.IsSubclassOf(typeof(Entity)))
                 .Register();
             _admin.Initialise();
@@ -122,7 +122,7 @@ namespace Ilaro.Admin.Tests.Registration
         [Fact]
         public void when_registering_entities__exclude_entity_configurators()
         {
-            Admin.AssemblyEntities(_testAssembly)
+            Admin.Core.Admin.AssemblyEntities(_testAssembly)
                 .InNamespace("Ilaro.Admin.Sample.Configurators")
                 .Register();
             _admin.Initialise();

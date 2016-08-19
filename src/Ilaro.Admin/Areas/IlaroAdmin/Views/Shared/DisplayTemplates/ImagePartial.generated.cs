@@ -30,9 +30,9 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -57,40 +57,40 @@ namespace ASP
             #line hidden
 WriteLiteral("\r\n\r\n<a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 88), Tuple.Create("\"", 122)
+WriteAttribute("href", Tuple.Create(" href=\"", 92), Tuple.Create("\"", 126)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 95), Tuple.Create<System.Object, System.Int32>(Url.GetImageBigPath(Model)
+, Tuple.Create(Tuple.Create("", 99), Tuple.Create<System.Object, System.Int32>(Url.GetImageBigPath(Model)
             
             #line default
             #line hidden
-, 95), false)
+, 99), false)
 );
 
 WriteLiteral(" class=\"open-modal\"");
 
 WriteLiteral("><img");
 
-WriteAttribute("src", Tuple.Create(" src=\"", 147), Tuple.Create("\"", 180)
+WriteAttribute("src", Tuple.Create(" src=\"", 151), Tuple.Create("\"", 184)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-, Tuple.Create(Tuple.Create("", 153), Tuple.Create<System.Object, System.Int32>(Url.GetImageMinPath(Model)
+, Tuple.Create(Tuple.Create("", 157), Tuple.Create<System.Object, System.Int32>(Url.GetImageMinPath(Model)
             
             #line default
             #line hidden
-, 153), false)
+, 157), false)
 );
 
 WriteLiteral(" class=\"img-thumbnail\"");
 
-WriteAttribute("alt", Tuple.Create(" alt=\"", 203), Tuple.Create("\"", 224)
+WriteAttribute("alt", Tuple.Create(" alt=\"", 207), Tuple.Create("\"", 228)
             
             #line 9 "..\..\Areas\IlaroAdmin\Views\Shared\DisplayTemplates\ImagePartial.cshtml"
-                                            , Tuple.Create(Tuple.Create("", 209), Tuple.Create<System.Object, System.Int32>(Model.AsString
+                                            , Tuple.Create(Tuple.Create("", 213), Tuple.Create<System.Object, System.Int32>(Model.AsString
             
             #line default
             #line hidden
-, 209), false)
+, 213), false)
 );
 
 WriteLiteral(" /></a>\r\n");

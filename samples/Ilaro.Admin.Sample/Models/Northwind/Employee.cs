@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core.DataAnnotations;
 using DataType = System.ComponentModel.DataAnnotations.DataType;
 
 namespace Ilaro.Admin.Sample.Models.Northwind

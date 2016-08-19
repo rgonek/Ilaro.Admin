@@ -30,14 +30,14 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Entities/Changes.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Entities_Changes_cshtml : System.Web.Mvc.WebViewPage<EntitiesChangesModel>
+    public partial class _Areas_IlaroAdmin_Views_Entities_Changes_cshtml : System.Web.Mvc.WebViewPage<Ilaro.Admin.Core.Models.EntitiesChangesModel>
     {
         public _Areas_IlaroAdmin_Views_Entities_Changes_cshtml()
         {
@@ -424,16 +424,16 @@ WriteLiteral("                        ");
             #line hidden
 WriteLiteral("\r\n                        <i");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3289), Tuple.Create("\"", 3346)
-, Tuple.Create(Tuple.Create("", 3297), Tuple.Create("glyphicon", 3297), true)
-, Tuple.Create(Tuple.Create(" ", 3306), Tuple.Create("glyphicon-chevron-", 3307), true)
+WriteAttribute("class", Tuple.Create(" class=\"", 3313), Tuple.Create("\"", 3370)
+, Tuple.Create(Tuple.Create("", 3321), Tuple.Create("glyphicon", 3321), true)
+, Tuple.Create(Tuple.Create(" ", 3330), Tuple.Create("glyphicon-chevron-", 3331), true)
             
             #line 78 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 3325), Tuple.Create<System.Object, System.Int32>(column.SortDirection
+, Tuple.Create(Tuple.Create("", 3349), Tuple.Create<System.Object, System.Int32>(column.SortDirection
             
             #line default
             #line hidden
-, 3325), false)
+, 3349), false)
 );
 
 WriteLiteral("></i>\r\n                    </span>\r\n                </th>\r\n");
@@ -663,14 +663,14 @@ WriteLiteral(" class=\"form-group\"");
 
 WriteLiteral(">\r\n                <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 5629), Tuple.Create("\"", 5674)
+WriteAttribute("for", Tuple.Create(" for=\"", 5653), Tuple.Create("\"", 5698)
             
             #line 131 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 5635), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
+, Tuple.Create(Tuple.Create("", 5659), Tuple.Create<System.Object, System.Int32>(Model.Configuration.PerPageRequestName
             
             #line default
             #line hidden
-, 5635), false)
+, 5659), false)
 );
 
 WriteLiteral(" class=\"control-label\"");
@@ -789,14 +789,14 @@ WriteLiteral(" class=\"nav nav-list\"");
 
 WriteLiteral(">\r\n            <li><a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 6608), Tuple.Create("\"", 6703)
+WriteAttribute("href", Tuple.Create(" href=\"", 6632), Tuple.Create("\"", 6727)
             
             #line 154 "..\..\Areas\IlaroAdmin\Views\Entities\Changes.cshtml"
-, Tuple.Create(Tuple.Create("", 6615), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
+, Tuple.Create(Tuple.Create("", 6639), Tuple.Create<System.Object, System.Int32>(Url.Action("Changes", new {entityName = Model.Entity.Name, page = Model.Pager.Current})
             
             #line default
             #line hidden
-, 6615), false)
+, 6639), false)
 );
 
 WriteLiteral(">");
