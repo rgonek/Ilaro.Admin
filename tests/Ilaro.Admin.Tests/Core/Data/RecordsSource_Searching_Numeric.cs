@@ -1,9 +1,9 @@
-﻿using Ilaro.Admin.Configuration;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using System.Globalization;
 using System.Threading;
+using Ilaro.Admin.Core.Customization;
 using Xunit;
 
 namespace Ilaro.Admin.Tests.Core.Data

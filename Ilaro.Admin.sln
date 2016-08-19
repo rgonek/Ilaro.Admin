@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Tests.Scenarios
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Autofac", "src\Ilaro.Admin.Autofac\Ilaro.Admin.Autofac.csproj", "{2D70A84D-27A8-409D-A72C-6937B373EE73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Core", "src\Ilaro.Admin.Core\Ilaro.Admin.Core.csproj", "{8C087728-C34E-4E42-B0AC-5E4783589494}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2D70A84D-27A8-409D-A72C-6937B373EE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D70A84D-27A8-409D-A72C-6937B373EE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D70A84D-27A8-409D-A72C-6937B373EE73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C087728-C34E-4E42-B0AC-5E4783589494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C087728-C34E-4E42-B0AC-5E4783589494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C087728-C34E-4E42-B0AC-5E4783589494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C087728-C34E-4E42-B0AC-5E4783589494}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

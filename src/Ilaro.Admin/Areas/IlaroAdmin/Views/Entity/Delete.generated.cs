@@ -30,9 +30,9 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
@@ -385,7 +385,7 @@ Write(Html.Hidden("Key", Model.EntityRecord.JoinedKeysValues));
             #line hidden
             
             #line 24 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-                                                          
+                                                            
 
 
             
@@ -447,14 +447,14 @@ WriteLiteral(" ");
             #line hidden
 WriteLiteral(">\r\n            <label");
 
-WriteAttribute("for", Tuple.Create(" for=\"", 1748), Tuple.Create("\"", 1817)
+WriteAttribute("for", Tuple.Create(" for=\"", 1750), Tuple.Create("\"", 1819)
             
             #line 35 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 1754), Tuple.Create<System.Object, System.Int32>(Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)
+, Tuple.Create(Tuple.Create("", 1756), Tuple.Create<System.Object, System.Int32>(Html.IdFor(m => Model.PropertiesDeleteOptions[i].DeleteOption)
             
             #line default
             #line hidden
-, 1754), false)
+, 1756), false)
 );
 
 WriteLiteral(" class=\"control-label col-md-2\"");
@@ -617,14 +617,14 @@ WriteLiteral(">");
             #line hidden
 WriteLiteral("</button>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3101), Tuple.Create("\"", 3127)
+WriteAttribute("href", Tuple.Create(" href=\"", 3103), Tuple.Create("\"", 3129)
             
             #line 65 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 3108), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
+, Tuple.Create(Tuple.Create("", 3110), Tuple.Create<System.Object, System.Int32>(Url.Action("Edit")
             
             #line default
             #line hidden
-, 3108), false)
+, 3110), false)
 );
 
 WriteLiteral(" class=\"btn btn-default\"");
@@ -644,14 +644,14 @@ WriteLiteral("></i> ");
             #line hidden
 WriteLiteral("</a>\r\n            <a");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 3239), Tuple.Create("\"", 3313)
+WriteAttribute("href", Tuple.Create(" href=\"", 3241), Tuple.Create("\"", 3315)
             
             #line 66 "..\..\Areas\IlaroAdmin\Views\Entity\Delete.cshtml"
-, Tuple.Create(Tuple.Create("", 3246), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
+, Tuple.Create(Tuple.Create("", 3248), Tuple.Create<System.Object, System.Int32>(Url.Action("Index", "Entities", new { area = "IlaroAdmin" }, null)
             
             #line default
             #line hidden
-, 3246), false)
+, 3248), false)
 );
 
 WriteLiteral(" class=\"btn btn-link\"");

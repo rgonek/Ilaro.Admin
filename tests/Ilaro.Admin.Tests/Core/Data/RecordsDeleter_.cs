@@ -1,10 +1,10 @@
 ﻿using FakeItEasy;
-using Ilaro.Admin.Configuration;
 using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
-using Ilaro.Admin.Models;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using System.Collections.Generic;
+using Ilaro.Admin.Core.Customization;
+using Ilaro.Admin.Core.Models;
 using Xunit;
 
 namespace Ilaro.Admin.Tests.Core.Data

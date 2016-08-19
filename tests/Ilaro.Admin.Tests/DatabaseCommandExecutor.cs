@@ -3,7 +3,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Tests
 {

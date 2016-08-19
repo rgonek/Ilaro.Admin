@@ -21,7 +21,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
     @Html.Hidden("EntityName", Model.EntityRecord.Entity.Name)
-    @Html.Hidden("Key", Model.EntityRecord.JoinedKeyValue)
+    @Html.Hidden("Key", Model.EntityRecord.JoinedKeysValues)
 
     <div class="form-group">
         <div class="col-md-3">
@@ -71,7 +71,7 @@
 @helper DisplayRecordHierarchy(RecordHierarchy record)
 {
     <li>
-        @record.Entity.Name: @Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeyValue })
+        @record.Entity.Name: @Html.ActionLink(record.DisplayName.GetValueOrDefault("--empty--"), "Edit", new { entityName = record.Entity.Name, key = record.JoinedKeysValues })
         @if (record.SubRecordsHierarchies.Any())
         {
             <ul>

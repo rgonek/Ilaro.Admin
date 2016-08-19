@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.DataAnnotations;
+using Ilaro.Admin.Core.DataAnnotations;
 
 namespace Ilaro.Admin.Sample.Models.Northwind
 {

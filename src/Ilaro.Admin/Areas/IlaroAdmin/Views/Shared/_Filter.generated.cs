@@ -30,14 +30,14 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Shared/_Filter.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Shared__Filter_cshtml : System.Web.Mvc.WebViewPage<Ilaro.Admin.Filters.BaseFilter>
+    public partial class _Areas_IlaroAdmin_Views_Shared__Filter_cshtml : System.Web.Mvc.WebViewPage<Ilaro.Admin.Core.Filters.BaseFilter>
     {
         public _Areas_IlaroAdmin_Views_Shared__Filter_cshtml()
         {

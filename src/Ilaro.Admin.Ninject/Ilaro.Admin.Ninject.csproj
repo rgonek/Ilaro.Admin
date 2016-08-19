@@ -101,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin.Core\Ilaro.Admin.Core.csproj">
+      <Project>{8c087728-c34e-4e42-b0ac-5e4783589494}</Project>
+      <Name>Ilaro.Admin.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ilaro.Admin\Ilaro.Admin.csproj">
       <Project>{87db09c0-33de-4198-95db-7c157d1a705c}</Project>
       <Name>Ilaro.Admin</Name>

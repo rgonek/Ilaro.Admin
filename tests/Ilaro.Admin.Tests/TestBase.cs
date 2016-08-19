@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using System.Web.Mvc;
+using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Tests
 {

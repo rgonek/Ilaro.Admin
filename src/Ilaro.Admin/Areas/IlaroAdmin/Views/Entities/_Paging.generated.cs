@@ -30,14 +30,14 @@ namespace ASP
     using Ilaro.Admin;
     using Ilaro.Admin.Core;
     using Ilaro.Admin.Core.Extensions;
+    using Ilaro.Admin.Core.Models;
+    using Ilaro.Admin.Core.Models.Paging;
     using Ilaro.Admin.Extensions;
-    using Ilaro.Admin.Models;
-    using Ilaro.Admin.Models.Paging;
     using Resources;
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     [System.Web.WebPages.PageVirtualPathAttribute("~/Areas/IlaroAdmin/Views/Entities/_Paging.cshtml")]
-    public partial class _Areas_IlaroAdmin_Views_Entities__Paging_cshtml : System.Web.Mvc.WebViewPage<PagerInfo>
+    public partial class _Areas_IlaroAdmin_Views_Entities__Paging_cshtml : System.Web.Mvc.WebViewPage<Ilaro.Admin.Core.Models.PagerInfo>
     {
 
 #line 94 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
@@ -55,36 +55,36 @@ return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
 #line hidden
 WriteLiteralTo(__razor_helper_writer, "    <li");
 
-WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 2688), Tuple.Create("\"", 2704)
+WriteAttributeTo(__razor_helper_writer, "class", Tuple.Create(" class=\"", 2712), Tuple.Create("\"", 2728)
 
 #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2696), Tuple.Create<System.Object, System.Int32>(classes
+, Tuple.Create(Tuple.Create("", 2720), Tuple.Create<System.Object, System.Int32>(classes
 
 #line default
 #line hidden
-, 2696), false)
+, 2720), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, "><a");
 
-WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 2708), Tuple.Create("\"", 2739)
+WriteAttributeTo(__razor_helper_writer, "href", Tuple.Create(" href=\"", 2732), Tuple.Create("\"", 2763)
 
 #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2715), Tuple.Create<System.Object, System.Int32>(Url.PageUrl(pageNumber)
+, Tuple.Create(Tuple.Create("", 2739), Tuple.Create<System.Object, System.Int32>(Url.PageUrl(pageNumber)
 
 #line default
 #line hidden
-, 2715), false)
+, 2739), false)
 );
 
-WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 2740), Tuple.Create("\"", 2750)
+WriteAttributeTo(__razor_helper_writer, "rel", Tuple.Create(" rel=\"", 2764), Tuple.Create("\"", 2774)
 
 #line 96 "..\..\Areas\IlaroAdmin\Views\Entities\_Paging.cshtml"
-, Tuple.Create(Tuple.Create("", 2746), Tuple.Create<System.Object, System.Int32>(rel
+, Tuple.Create(Tuple.Create("", 2770), Tuple.Create<System.Object, System.Int32>(rel
 
 #line default
 #line hidden
-, 2746), false)
+, 2770), false)
 );
 
 WriteLiteralTo(__razor_helper_writer, ">");

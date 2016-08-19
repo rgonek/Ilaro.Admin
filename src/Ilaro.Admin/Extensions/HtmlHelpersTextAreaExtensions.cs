@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Validation;
 
 namespace Ilaro.Admin.Extensions

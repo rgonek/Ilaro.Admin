@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Models;
+using Ilaro.Admin.Core.Models;
 
 namespace Ilaro.Admin
 {

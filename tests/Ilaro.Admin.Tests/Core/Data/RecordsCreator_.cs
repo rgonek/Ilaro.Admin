@@ -5,7 +5,7 @@ using Ilaro.Admin.Core;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
-using Ilaro.Admin.Configuration;
+using Ilaro.Admin.Core.Customization;
 
 namespace Ilaro.Admin.Tests.Core.Data
 {

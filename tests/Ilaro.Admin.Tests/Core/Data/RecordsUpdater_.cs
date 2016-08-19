@@ -2,10 +2,10 @@
 using System.Linq;
 using FakeItEasy;
 using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Customization;
 using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Tests.TestModels.Northwind;
 using Xunit;
-using Ilaro.Admin.Configuration;
 
 namespace Ilaro.Admin.Tests.Core.Data
 {

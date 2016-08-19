@@ -1,5 +1,5 @@
-﻿using Ilaro.Admin.Configuration;
-using Ilaro.Admin.Core;
+﻿using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Customization;
 using Xunit;
 
 namespace Ilaro.Admin.Tests.Core

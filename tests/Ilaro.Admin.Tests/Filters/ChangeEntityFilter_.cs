@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Ilaro.Admin.Core;
-using Ilaro.Admin.Filters;
+using Ilaro.Admin.Core.Filters;
 using Xunit;
 
 namespace Ilaro.Admin.Tests.Filters

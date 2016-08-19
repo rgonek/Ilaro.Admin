@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Ilaro.Admin.Extensions;
+using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Areas.IlaroAdmin
 {
@@ -15,7 +15,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            var admin = Admin.Current;
+            var admin = Core.Admin.Current;
             var prefix = admin.RoutesPrefix.IsNullOrWhiteSpace() ?
                 "IlaroAdmin" :
                 admin.RoutesPrefix;
