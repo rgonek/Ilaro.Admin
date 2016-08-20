@@ -289,12 +289,21 @@ WriteAttribute("src", Tuple.Create(" src=\"", 1783), Tuple.Create("\"", 1802)
 
 WriteLiteral(" type=\"text/javascript\"");
 
+WriteLiteral("></script>\r\n    <script");
+
+WriteAttribute("src", Tuple.Create(" src=\"", 1849), Tuple.Create("\"", 1866)
+, Tuple.Create(Tuple.Create("", 1855), Tuple.Create<System.Object, System.Int32>(Href("~/ira/react")
+, 1855), false)
+);
+
+WriteLiteral(" type=\"text/javascript\"");
+
 WriteLiteral("></script>\r\n");
 
 WriteLiteral("    ");
 
             
-            #line 58 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
+            #line 59 "..\..\Areas\IlaroAdmin\Views\Shared\_Layout.cshtml"
 Write(RenderSection("Scripts", false));
 
             

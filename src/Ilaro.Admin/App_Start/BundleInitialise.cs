@@ -1,6 +1,7 @@
 ﻿using Ilaro.Admin.App_Start;
 using Ilaro.Admin.Infrastructure;
 using System.Web.Optimization;
+using System.Web.Optimization.React;
 using WebActivatorEx;
 
 [assembly: PostApplicationStartMethod(typeof(BundleInitialise), "Start")]
@@ -11,6 +12,10 @@ namespace Ilaro.Admin.App_Start
         public static void Start()
         {
             BundleTable.VirtualPathProvider = new EmbeddedVirtualPathProvider();
+            BundleTable.Bundles.Add(new BabelBundle("~/ira/react").Include(
+                        "~/ira/TestReact.jsx"));
+
+
             BundleTable.Bundles.Add(IlaroAdminBundle.New("~/ira/jquery").Include(
                         "~/ira/jquery-2.1.0.min.js"));
             BundleTable.Bundles.Add(IlaroAdminBundle.New("~/ira/scripts").Include(
