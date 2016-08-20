@@ -28,13 +28,13 @@ namespace Ilaro.Admin.Infrastructure
         {
             if (IsEmbeddedPath(virtualPath))
             {
-                var fileNameWithExtension = virtualPath.Substring(virtualPath.LastIndexOf("/", StringComparison.Ordinal) + 1);
+                var fileNameWithExtension = Path.GetFileName(virtualPath);
                 var @namespace = typeof(EmbeddedVirtualPathProvider)
                                 .Assembly
                                 .GetName()
                                 .Name;
                 var folder = GetFolderName(fileNameWithExtension);
-                var manifestResourceName = string.Format("{0}.{1}.{2}", @namespace, folder, fileNameWithExtension);
+                var manifestResourceName = $"{@namespace}.{folder}.{fileNameWithExtension}";
                 var stream = typeof(EmbeddedVirtualPathProvider).Assembly.GetManifestResourceStream(manifestResourceName);
                 return new EmbeddedVirtualFile(virtualPath, stream);
             }
@@ -48,6 +48,7 @@ namespace Ilaro.Admin.Infrastructure
             switch (extension.ToLower())
             {
                 case ".js":
+                case ".jsx":
                     return "Scripts";
                 case ".css":
                     return "Content.css";
@@ -63,8 +64,9 @@ namespace Ilaro.Admin.Infrastructure
         private static bool IsEmbeddedPath(string path)
         {
             //var prefix = string.IsNullOrWhiteSpace(Admin.RoutesPrefix) ?
-                //"IlaroAdmin" :
-                //Admin.RoutesPrefix;
+            //"IlaroAdmin" :
+            //Admin.RoutesPrefix;
+
             return path.Contains("~/ira/");
         }
     }

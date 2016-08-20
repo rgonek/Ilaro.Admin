@@ -34,6 +34,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
             switch (extension.ToLower())
             {
                 case ".js":
+                case ".jsx":
                     contentType = "text/javascript";
                     folder = "Scripts";
                     break;
@@ -73,7 +74,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Controllers
         private Stream GetResourceStream(string folder, string file)
         {
             return GetType().Assembly
-                .GetManifestResourceStream("Ilaro.Admin." + folder + "." + file);
+                .GetManifestResourceStream($"Ilaro.Admin.{folder}.{file}");
         }
     }
 }
