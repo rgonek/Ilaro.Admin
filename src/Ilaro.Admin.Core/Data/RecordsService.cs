@@ -1,10 +1,10 @@
-﻿using Ilaro.Admin.Core.Extensions;
-using Ilaro.Admin.Core.Filters;
-using Ilaro.Admin.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Ilaro.Admin.Core.Extensions;
+using Ilaro.Admin.Core.Filters;
+using Ilaro.Admin.Core.Models;
 
 namespace Ilaro.Admin.Core.Data
 {
@@ -136,7 +136,7 @@ namespace Ilaro.Admin.Core.Data
         {
             return request == null ?
                 entity.CreateEmptyRecord() :
-                entity.CreateRecord(request, valueMutator: x => (string)x == Const.EmptyFilterValue ? "" : x);
+                entity.CreateRecord(request, valueMutator: x => x == Const.EmptyFilterValue ? "" : x);
         }
     }
 }
