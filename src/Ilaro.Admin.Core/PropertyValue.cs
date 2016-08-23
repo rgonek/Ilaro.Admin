@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.Data;
 
@@ -37,11 +38,18 @@ namespace Ilaro.Admin.Core
             {
                 if (_asString == null)
                 {
-                    var format = Property.GetFormat();
-                    if (format.HasValue())
-                        _asString = string.Format("{0:" + format + "}", AsObject);
+                    if (Property.TypeInfo.IsFile && AsObject is HttpPostedFileWrapper)
+                    {
+                        _asString = Raw.ToStringSafe();
+                    }
                     else
-                        _asString = AsObject.ToStringSafe();
+                    {
+                        var format = Property.GetFormat();
+                        if (format.HasValue())
+                            _asString = string.Format("{0:" + format + "}", AsObject);
+                        else
+                            _asString = AsObject.ToStringSafe();
+                    }
                 }
                 return _asString;
             }
