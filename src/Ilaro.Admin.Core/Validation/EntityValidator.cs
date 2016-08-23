@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Data;
 using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core.Validation
@@ -27,7 +27,7 @@ namespace Ilaro.Admin.Core.Validation
             var instance = entityRecord.CreateInstance();
             var context = new ValidationContext(instance);
             var isValid = true;
-            foreach (var propertyValue in entityRecord.Values)
+            foreach (var propertyValue in entityRecord.Values.WhereIsNotSkipped())
             {
                 if (propertyValue.Property.TypeInfo.IsFile)
                 {
