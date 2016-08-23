@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Ilaro.Admin.Core.Data;
 
 namespace Ilaro.Admin.Core
 {
@@ -32,6 +33,9 @@ namespace Ilaro.Admin.Core
             if (typeInfo.IsFile || typeInfo.IsSystemType == false)
                 return value;
 
+            if (value is ValueBehavior)
+                return GetBehaviorValue((ValueBehavior)value);
+
             var type = typeInfo.GetPropertyType();
             if (typeInfo.IsEnum)
             {
@@ -59,6 +63,24 @@ namespace Ilaro.Admin.Core
                 converter = _defaultConverter;
             }
             return converter;
+        }
+
+        private object GetBehaviorValue(ValueBehavior behavior)
+        {
+            switch (behavior)
+            {
+                case ValueBehavior.Now:
+                    return DateTime.Now;
+                case ValueBehavior.UtcNow:
+                    return DateTime.UtcNow;
+                case ValueBehavior.Guid:
+                    return Guid.NewGuid();
+                case ValueBehavior.CurrentUserId:
+                    return 0;
+                case ValueBehavior.CurrentUserName:
+                default:
+                    return "";
+            }
         }
     }
 }
