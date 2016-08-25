@@ -38,5 +38,6 @@ namespace Ilaro.Admin.Core.Customization.Customizers
         public object DefaultFilter { get; internal set; }
         public bool? IsFilterable { get; internal set; }
         public bool IsManyToMany { get; internal set; }
+        public string MultiValueSeparator { get; internal set; }
     }
 }

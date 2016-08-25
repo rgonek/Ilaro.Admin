@@ -117,6 +117,7 @@
     <Compile Include="DataAnnotations\ImageSettingsAttribute.cs" />
     <Compile Include="DataAnnotations\LinksAttribute.cs" />
     <Compile Include="DataAnnotations\ManyToManyAttribute.cs" />
+    <Compile Include="DataAnnotations\MultiValueAttribute.cs" />
     <Compile Include="DataAnnotations\NameCreation.cs" />
     <Compile Include="DataAnnotations\OnCreateAttribute.cs" />
     <Compile Include="DataAnnotations\OnDeleteAttribute.cs" />

@@ -576,5 +576,20 @@ namespace Ilaro.Admin.Core.Customization
                 });
             }
         }
+
+        private static void MultiValue(
+            MemberInfo member,
+            ICustomizersHolder customizerHolder,
+            object[] attributes)
+        {
+            var attribute = attributes.GetAttribute<MultiValueAttribute>();
+            if (attribute != null)
+            {
+                customizerHolder.Property(member, x =>
+                {
+                    x.MultiValue(attribute.Separator);
+                });
+            }
+        }
     }
 }

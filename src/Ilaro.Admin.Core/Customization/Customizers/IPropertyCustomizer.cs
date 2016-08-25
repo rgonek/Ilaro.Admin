@@ -169,5 +169,7 @@ namespace Ilaro.Admin.Core.Customization.Customizers
         IPropertyCustomizer Filterable();
 
         IPropertyCustomizer ManyToMany();
+
+        IPropertyCustomizer MultiValue(string separator);
     }
 }

@@ -353,5 +353,12 @@ namespace Ilaro.Admin.Core.Customization.Customizers
 
             return this;
         }
+
+        public IPropertyCustomizer MultiValue(string separator)
+        {
+            propertyCustomizerHolder.MultiValueSeparator = separator;
+
+            return this;
+        }
     }
 }
