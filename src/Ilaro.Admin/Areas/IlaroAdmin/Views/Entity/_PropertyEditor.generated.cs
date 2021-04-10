@@ -101,45 +101,84 @@ WriteLiteral("</label>\r\n");
             
             #line 7 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
     }
-
-            
-            #line default
-            #line hidden
-WriteLiteral("    ");
-
-            
-            #line 8 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-Write(Html.EditorFor(m => m, Model.Property.Template.Editor));
-
-            
-            #line default
-            #line hidden
-WriteLiteral("\r\n");
-
-            
-            #line 9 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-    
-            
-            #line default
-            #line hidden
-            
-            #line 9 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-     if (Model.Property.IsForeignKey)
+    else
     {
 
             
             #line default
             #line hidden
-WriteLiteral("        <a");
+WriteLiteral("        <div");
 
-WriteAttribute("href", Tuple.Create(" href=\"", 436), Tuple.Create("\"", 520)
+WriteLiteral(" class=\"col-md-2\"");
+
+WriteLiteral("></div>\r\n");
+
             
             #line 11 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-, Tuple.Create(Tuple.Create("", 443), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })
+    }
+
             
             #line default
             #line hidden
-, 443), false)
+WriteLiteral("    <div");
+
+WriteLiteral(" class=\"col-md-9\"");
+
+WriteLiteral(">\r\n        <div");
+
+WriteLiteral(" class=\"row control\"");
+
+WriteLiteral(">\r\n");
+
+WriteLiteral("            ");
+
+            
+            #line 14 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+       Write(Html.EditorFor(m => m, Model.Property.Template.Editor));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n        </div>\r\n    </div>\r\n\r\n    <div");
+
+WriteLiteral(" class=\"col-md-1\"");
+
+WriteLiteral(">\r\n        <button");
+
+WriteLiteral(" class=\"btn btn-default next-value\"");
+
+WriteLiteral(" type=\"button\"");
+
+WriteLiteral("><span");
+
+WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
+
+WriteLiteral("></span></button>\r\n");
+
+            
+            #line 20 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+        
+            
+            #line default
+            #line hidden
+            
+            #line 20 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+         if (Model.Property.IsForeignKey)
+        {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("            <a");
+
+WriteAttribute("href", Tuple.Create(" href=\"", 761), Tuple.Create("\"", 845)
+            
+            #line 22 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+, Tuple.Create(Tuple.Create("", 768), Tuple.Create<System.Object, System.Int32>(Url.Action("Create", new { entityName = Model.Property.ForeignEntity.Name })
+            
+            #line default
+            #line hidden
+, 768), false)
 );
 
 WriteLiteral(" target=\"_blank\"");
@@ -153,13 +192,13 @@ WriteLiteral(" class=\"glyphicon glyphicon-plus\"");
 WriteLiteral("></span></a>\r\n");
 
             
-            #line 12 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
-    }
+            #line 23 "..\..\Areas\IlaroAdmin\Views\Entity\_PropertyEditor.cshtml"
+        }
 
             
             #line default
             #line hidden
-WriteLiteral("</div>");
+WriteLiteral("    </div>\r\n</div>");
 
         }
     }

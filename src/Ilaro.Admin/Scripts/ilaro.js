@@ -127,4 +127,10 @@
                 }
             });
     });
+
+    $('.next-value').click(function (e) {
+        var $this = $(this);
+        var $control = $this.parents('.form-group').find('.control').last();
+        $control.after($control.clone());
+    });
 });
