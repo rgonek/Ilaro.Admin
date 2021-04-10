@@ -1,7 +1,0 @@
-﻿@model PropertyValue
-
-<div class="col-md-6">
-    @Html.DropDownList(Model.Property.Name, Model.GetPossibleValues(false), Model.Property, new { @class = "form-control dual-list", multiple = "true" })
-    @Html.Condition(!string.IsNullOrEmpty(Model.Property.Description), () => "<span class=\"help-block\">" + Model.Property.Description + "</span>")
-</div>
-@Html.ValidationMessage(Model.Property.Name)
