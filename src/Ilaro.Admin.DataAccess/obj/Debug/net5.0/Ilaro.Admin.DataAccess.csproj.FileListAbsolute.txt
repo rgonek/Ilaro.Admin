@@ -1,0 +1,6 @@
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\obj\Debug\net5.0\Ilaro.Admin.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\obj\Debug\net5.0\Ilaro.Admin.DataAccess.AssemblyInfoInputs.cache
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\obj\Debug\net5.0\Ilaro.Admin.DataAccess.AssemblyInfo.cs
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\obj\Debug\net5.0\Ilaro.Admin.DataAccess.csproj.CoreCompileInputs.cache
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\bin\Debug\net5.0\Ilaro.Admin.Common.dll
+E:\Ilaro.Admin\Ilaro.Admin\src\Ilaro.Admin.DataAccess\obj\Debug\net5.0\Ilaro.Admin.DataAccess.csprojAssemblyReference.cache

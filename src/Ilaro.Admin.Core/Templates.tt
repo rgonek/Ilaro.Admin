@@ -1,0 +1,86 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ output extension=".cs" #>
+<#PrepareDataToRender(); #>
+//-----------------------------------
+// 
+// This code was automatic generated.
+// 
+//-----------------------------------
+
+namespace Ilaro.Admin
+{
+    /// <summary>
+    /// Container for magic strings with names of partial views
+    /// </summary>
+    public static class Templates
+    {
+<# foreach (var viewGroup in Views) { #>
+        public static class <#= viewGroup.Key #>
+        {
+<# foreach (var view in viewGroup.Value) { #>
+            public const string <#= view.Name #> = "<#= view.FileName #>";
+<# } #>
+        }
+<# } #>
+    }
+}
+<#+ 
+static IDictionary<string, IList<ViewInfo>> Views;
+
+void PrepareDataToRender()
+{
+    var rootFolder = Path.GetDirectoryName(Host.TemplateFile);
+    Views = new Dictionary<string, IList<ViewInfo>>();
+
+    ReadAllTemplatesViews(rootFolder + "\\..\\Ilaro.Admin");
+}
+
+private void ReadAllTemplatesViews(string rootFolder)
+{
+    var templateFolder = rootFolder + "\\Areas\\IlaroAdmin\\Views\\Shared";
+    ReadAllTemplatesFolders(templateFolder);
+    ReadAllTemplates(templateFolder);
+}
+
+void ReadAllTemplatesFolders(string templateFolder)
+{
+    var templatesDirectories = Directory.GetDirectories(templateFolder, "*Templates");
+    foreach (var templateDirectory in templatesDirectories)
+    {
+        var name = templateDirectory.Split(new char[]{'\\'}).Last();
+        name = name.Remove(name.LastIndexOf("Templates", StringComparison.Ordinal));
+        Views[name] = new List<ViewInfo>();
+    }
+}
+
+void ReadAllTemplates(string templateFolder)
+{
+    foreach (var viewGroup in Views)
+    {
+        var path = templateFolder + "\\" + viewGroup.Key + "Templates";
+        var files = Directory.GetFiles(path, "*Partial.cshtml");
+        foreach (var file in files)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(file);
+            var name = fileName.Remove(fileName.LastIndexOf("Partial", StringComparison.Ordinal));
+            viewGroup.Value.Add(new ViewInfo(name, fileName));
+        }
+    }
+}
+
+class ViewInfo
+{
+    public string Name { get; set; }
+    public string FileName { get; set; }
+
+    public ViewInfo(string name, string fileName)
+    {
+        Name = name;
+        FileName = fileName;
+    }
+}
+#>

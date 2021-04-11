@@ -1,0 +1,94 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Ilaro.Admin\\Ilaro.Admin\\src\\Ilaro.Admin.Core\\Ilaro.Admin.Core.csproj": {}
+  },
+  "projects": {
+    "E:\\Ilaro.Admin\\Ilaro.Admin\\src\\Ilaro.Admin.Core\\Ilaro.Admin.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Ilaro.Admin\\Ilaro.Admin\\src\\Ilaro.Admin.Core\\Ilaro.Admin.Core.csproj",
+        "projectName": "Ilaro.Admin.Core",
+        "projectPath": "E:\\Ilaro.Admin\\Ilaro.Admin\\src\\Ilaro.Admin.Core\\Ilaro.Admin.Core.csproj",
+        "packagesPath": "C:\\Users\\rgone\\.nuget\\packages\\",
+        "outputPath": "E:\\Ilaro.Admin\\Ilaro.Admin\\src\\Ilaro.Admin.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\rgone\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/mysafety/api/v3/index.json": {},
+          "https://www.myget.org/F/mysafetydeploy/api/v3/index.json": {},
+          "https://www.myget.org/F/ultrico/api/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Dawn.Guard": {
+              "target": "Package",
+              "version": "[1.12.0, )"
+            },
+            "Microsoft.AspNetCore.Http": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.AspNetCore.Metadata": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Pluralize.NET": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
