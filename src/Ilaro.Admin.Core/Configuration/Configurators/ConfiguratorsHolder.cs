@@ -8,7 +8,7 @@ using Ilaro.Admin.Core.DataAccess;
 
 namespace Ilaro.Admin.Core.Configuration.Configurators
 {
-    internal class ConfiguratorsHolder : IConfiguratorsHolder
+    public class ConfiguratorsHolder : IConfiguratorsHolder
     {
         public Type Type { get; private set; }
         private ClassConfigurationHolder _classCustomizer { get; } = new ClassConfigurationHolder();
@@ -133,7 +133,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             return _propertyCustomizers[propertyInfo];
         }
 
-        public void CustomizeEntity(Entity entity, IIlaroAdmin admin)
+        public void CustomizeEntity(Entity entity)
         {
             if (entity.IsChangeEntity)
             {
@@ -190,18 +190,18 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             SetDefaultId(entity);
             SetDefaultSearchProperties(entity);
             SetDefaultDisplayProperties(entity);
-            if (entity.ConcurrencyCheckEnabled)
-            {
-                SetDefaultConcurrencyCheckProperty(entity);
+            //if (entity.ConcurrencyCheckEnabled)
+            //{
+            //    SetDefaultConcurrencyCheckProperty(entity);
 
-                if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck) == false
-                    && ((IlaroAdmin)admin).CustomizerHolders.Any(x => x.Key.IsAssignableTo<IEntityChange>()) == false)
-                {
-                    throw new InvalidOperationException(
-                        $"Concurrency check cannot be enabled for {entity.Name}. " +
-                        "Not found any concurrency check property and entity change is not specified.");
-                }
-            }
+            //    if (_propertyCustomizers.Any(x => x.Value.IsConcurrencyCheck) == false
+            //        && ((IlaroAdmin)admin).CustomizerHolders.Any(x => x.Key.IsAssignableTo<IEntityChange>()) == false)
+            //    {
+            //        throw new InvalidOperationException(
+            //            $"Concurrency check cannot be enabled for {entity.Name}. " +
+            //            "Not found any concurrency check property and entity change is not specified.");
+            //    }
+            //}
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -215,9 +215,9 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             SetDefaultRecordDisplayFormat(entity);
         }
 
-        public void CustomizeProperties(Entity entity, IIlaroAdmin admin)
+        public void CustomizeProperties(Entity entity, EntitiesCollection entities)
         {
-            SetForeignKeysReferences(entity, admin);
+            SetForeignKeysReferences(entity, entities);
 
             foreach (var customizerPair in _propertyCustomizers)
             {
@@ -297,11 +297,11 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             }
         }
 
-        private void SetForeignKeysReferences(Entity entity, IIlaroAdmin admin)
+        private void SetForeignKeysReferences(Entity entity, EntitiesCollection entities)
         {
             foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
             {
-                property.ForeignEntity = admin.GetEntity(property.ForeignEntityName);
+                property.ForeignEntity = entities[property.ForeignEntityName];
 
                 if (property.ReferencePropertyName.IsNullOrEmpty() == false)
                 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ilaro.Admin.Core;
 
 namespace Ilaro.Admin.Core.Configuration.Configurators
 {

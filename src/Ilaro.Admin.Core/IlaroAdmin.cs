@@ -9,12 +9,12 @@ namespace Ilaro.Admin.Core
 {
     public class IlaroAdmin : IIlaroAdmin
     {
-        private List<Entity> _entitiesTypes = new List<Entity>();
+        private EntitiesCollection _entitiesTypes = new EntitiesCollection();
         public ReadOnlyCollection<Entity> Entities
         {
             get
             {
-                return _entitiesTypes.AsReadOnly();
+                return _entitiesTypes.ToList().AsReadOnly();
             }
         }
 
@@ -51,19 +51,13 @@ namespace Ilaro.Admin.Core
         }
 
         public Entity GetEntity(string entityName)
-        {
-            return _entitiesTypes.FirstOrDefault(x => x.Name == entityName);
-        }
+            => _entitiesTypes[entityName];
 
         public Entity GetEntity(Type type)
-        {
-            return GetEntity(type.Name);
-        }
+            => _entitiesTypes[type];
 
         public Entity GetEntity<TEntity>() where TEntity : class
-        {
-            return GetEntity(typeof(TEntity));
-        }
+            => GetEntity(typeof(TEntity));
 
         public void Initialise(
             string connectionStringName = "",
@@ -78,12 +72,12 @@ namespace Ilaro.Admin.Core
             foreach (var customizer in CustomizerHolders)
             {
                 var entity = CreateInstance(customizer.Key);
-                ((ConfiguratorsHolder)customizer.Value).CustomizeEntity(entity, this);
+                ((ConfiguratorsHolder)customizer.Value).CustomizeEntity(entity);
             }
             foreach (var customizer in CustomizerHolders)
             {
                 var entity = GetEntity(customizer.Key);
-                ((ConfiguratorsHolder)customizer.Value).CustomizeProperties(entity, this);
+                ((ConfiguratorsHolder)customizer.Value).CustomizeProperties(entity, _entitiesTypes);
             }
         }
 

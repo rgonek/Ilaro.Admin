@@ -8,10 +8,10 @@ namespace Ilaro.Admin.Core.Validation
     public class EntityValidator : IValidatingEntities
     {
         //private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityValidator));
-        private readonly Notificator _notificator;
+        private readonly INotificator _notificator;
         private readonly IValidatingFiles _fileValidator;
 
-        public EntityValidator(Notificator notificator, IValidatingFiles fileValidator)
+        public EntityValidator(INotificator notificator, IValidatingFiles fileValidator)
         {
             if (notificator == null)
                 throw new ArgumentNullException(nameof(notificator));

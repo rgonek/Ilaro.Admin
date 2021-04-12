@@ -14,10 +14,10 @@ namespace Ilaro.Admin.Core.DataAccess
     public class RecordFetcher : IRecordFetcher
     {
         //private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordFetcher));
-        private readonly Notificator _notificator;
+        private readonly INotificator _notificator;
         private readonly IIlaroAdmin _admin;
 
-        public RecordFetcher(IIlaroAdmin admin, Notificator notificator)
+        public RecordFetcher(IIlaroAdmin admin, INotificator notificator)
         {
             if (admin == null)
                 throw new ArgumentNullException(nameof(admin));

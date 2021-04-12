@@ -15,4 +15,11 @@ namespace Ilaro.Admin.Core
 
         public object Id() => _accessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
     }
+
+    public class StubUser : IUser
+    {
+        public object Id() => 1;
+
+        public string UserName() => "robert";
+    }
 }

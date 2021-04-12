@@ -4,7 +4,13 @@ using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.Core
 {
-    public sealed class Notificator
+    public interface INotificator
+    {
+        void AddModelError(string key, string errorMessage);
+        void Error(string message);
+    }
+
+    public sealed class Notificator : INotificator
     {
         public IDictionary<NotificateType, Queue<string>> Messages { get; private set; }
         private readonly IDictionary<string, string> _modelErrors;

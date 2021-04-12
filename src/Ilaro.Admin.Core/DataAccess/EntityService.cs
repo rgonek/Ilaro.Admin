@@ -14,7 +14,7 @@ namespace Ilaro.Admin.Core.DataAccess
     {
         //private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(EntityService));
 
-        private readonly Notificator _notificator;
+        private readonly INotificator _notificator;
         private readonly IRecordFetcher _source;
         private readonly IRecordCreator _creator;
         private readonly IRecordUpdater _updater;
@@ -25,7 +25,7 @@ namespace Ilaro.Admin.Core.DataAccess
         private readonly IHandlingFiles _filesHandler;
 
         public EntityService(
-            Notificator notificator,
+            INotificator notificator,
             IRecordFetcher source,
             IRecordCreator creator,
             IRecordUpdater updater,
