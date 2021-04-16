@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Ilaro.Admin.Core.Configuration.Configurators;
 using System.Collections.Generic;
 using Ilaro.Admin.Core;
-using System.Linq;
 using Ilaro.Admin.Core.Extensions;
 
 namespace Ilaro.Admin.AspNetCore

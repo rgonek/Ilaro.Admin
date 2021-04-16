@@ -52,6 +52,8 @@ namespace Microsoft.AspNetCore.Builder
             if (path == null)
                 path = _defaultPath;
 
+            //app.ApplicationServices.GetService()
+
             return app.MapWhen(x => x.Request.Path.StartsWithSegments(path), b => b.UseMiddleware<IlaroAdminMiddleware>(options));
         }
     }

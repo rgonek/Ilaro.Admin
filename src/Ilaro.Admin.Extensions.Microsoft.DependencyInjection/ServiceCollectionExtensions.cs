@@ -1,4 +1,5 @@
 ﻿using Dawn;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,21 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
 
             ServiceRegistrar.AddRequiredServices(services, serviceConfig);
             ServiceRegistrar.AddIlaroAdminClasses(services, assemblies);
+
+            services.Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions
+                .AddAreaPageRoute("IlaroAdmin", "/Changes", "/admin/{entity}/changes")
+                .AddAreaPageRoute("IlaroAdmin", "/Create", "/admin/{entity}/new")
+                .AddAreaPageRoute("IlaroAdmin", "/Delete", "/admin/{entity}/{id}/delete")
+                .AddAreaPageRoute("IlaroAdmin", "/Details", "/admin/{entity}/{id}")
+                .AddAreaPageRoute("IlaroAdmin", "/Edit", "/admin/{entity}/{id}/edit")
+                .AddAreaPageRoute("IlaroAdmin", "/List", "/admin/{entity}")
+                .AddAreaPageRoute("IlaroAdmin", "/GroupList", "/admin/group")
+                .AddAreaPageRoute("IlaroAdmin", "/GroupDetails", "/admin/group/{group}");
+            });
+
+            services.ConfigureOptions<UiConfigureOptions>();
 
             return services;
         }

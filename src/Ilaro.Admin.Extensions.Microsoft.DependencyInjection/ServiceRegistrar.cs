@@ -197,34 +197,31 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
 
         public static void AddRequiredServices(IServiceCollection services, IlaroAdminServiceConfiguration serviceConfiguration)
         {
-            services.TryAdd<INotificator, Notificator>(serviceConfiguration.Lifetime);
-            services.TryAdd<IKnowTheTime, SystemClock>(serviceConfiguration.Lifetime);
-            services.TryAdd<IEntityService, EntityService>(serviceConfiguration.Lifetime);
-            services.TryAdd<IValidatingEntities, EntityValidator>(serviceConfiguration.Lifetime);
-            services.TryAdd<IValidatingFiles, FileValidator>(serviceConfiguration.Lifetime);
-            services.TryAdd<IAppConfiguration, AppConfiguration>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordFetcher, RecordFetcher>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordHierarchyFetcher, RecordHierarchyFetcher>(serviceConfiguration.Lifetime);
-            services.TryAdd<ICommandExecutor, CommandExecutor>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordCreator, RecordCreator>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordUpdater, RecordUpdater>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordDeleter, RecordDeleter>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordComparer, RecordComparer>(serviceConfiguration.Lifetime);
-            services.TryAdd<IChangeDescriber, ChangeDescriber>(serviceConfiguration.Lifetime);
-            services.TryAdd<IFileNameCreator, FileNameCreator>(serviceConfiguration.Lifetime);
-            services.TryAdd<IFileDeleter, FileDeleter>(serviceConfiguration.Lifetime);
-            services.TryAdd<IHandlingFiles, FileHandler>(serviceConfiguration.Lifetime);
-            services.TryAdd<IResizingImages, ImageResizer>(serviceConfiguration.Lifetime);
-            services.TryAdd<IHandlingFiles, FileHandler>(serviceConfiguration.Lifetime);
-            services.TryAdd<ISavingFiles, FileSaver>(serviceConfiguration.Lifetime);
-            services.TryAdd<IFilterFactory, FilterFactory>(serviceConfiguration.Lifetime);
-            services.TryAdd<IRecordService, RecordService>(serviceConfiguration.Lifetime);
-            services.TryAdd<IIlaroAdmin, IlaroAdmin>(serviceConfiguration.Lifetime);
-            services.TryAdd<IUser, StubUser>(serviceConfiguration.Lifetime);
+            services.TryAddScoped<INotificator, Notificator>();
+            services.TryAddScoped<IKnowTheTime, SystemClock>();
+            services.TryAddScoped<IEntityService, EntityService>();
+            services.TryAddScoped<IValidatingEntities, EntityValidator>();
+            services.TryAddScoped<IValidatingFiles, FileValidator>();
+            services.TryAddScoped<IAppConfiguration, AppConfiguration>();
+            services.TryAddScoped<IRecordFetcher, RecordFetcher>();
+            services.TryAddScoped<IRecordHierarchyFetcher, RecordHierarchyFetcher>();
+            services.TryAddScoped<ICommandExecutor, CommandExecutor>();
+            services.TryAddScoped<IRecordCreator, RecordCreator>();
+            services.TryAddScoped<IRecordUpdater, RecordUpdater>();
+            services.TryAddScoped<IRecordDeleter, RecordDeleter>();
+            services.TryAddScoped<IRecordComparer, RecordComparer>();
+            services.TryAddScoped<IChangeDescriber, ChangeDescriber>();
+            services.TryAddScoped<IFileNameCreator, FileNameCreator>();
+            services.TryAddScoped<IFileDeleter, FileDeleter>();
+            services.TryAddScoped<IHandlingFiles, FileHandler>();
+            services.TryAddScoped<IResizingImages, ImageResizer>();
+            services.TryAddScoped<IHandlingFiles, FileHandler>();
+            services.TryAddScoped<ISavingFiles, FileSaver>();
+            services.TryAddScoped<IFilterFactory, FilterFactory>();
+            services.TryAddScoped<IRecordService, RecordService>();
+            services.TryAddScoped<IIlaroAdmin, IlaroAdmin>();
+            services.TryAddScoped<IUser, StubUser>();
+            services.TryAddSingleton<EntitiesCollection>();
         }
-
-        private static void TryAdd<TService, TImplementation>(this IServiceCollection services, ServiceLifetime lifetime)
-            where TImplementation : class
-            => services.TryAdd(new ServiceDescriptor(typeof(TService), typeof(TImplementation), lifetime));
     }
 }

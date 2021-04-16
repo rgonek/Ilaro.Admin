@@ -3,6 +3,7 @@ using Ilaro.Admin.Extensions.Microsoft.DependencyInjection;
 using Ilaro.Admin.Sample.Northwind.Configurators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,8 +22,8 @@ namespace Ilaro.Admin.Sample.Northwind
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIlaroAdmin(typeof(CategoryConfiguration));
             services.AddRazorPages();
+            services.AddIlaroAdmin(typeof(CategoryConfiguration));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +40,7 @@ namespace Ilaro.Admin.Sample.Northwind
                 app.UseHsts();
             }
 
-            app.UseIlaroAdmin(opts =>
+            app.UseIlaroAdmin("/admin2", opts =>
             {
                 opts.ConnectionStringName = "NorthwindEntities";
             });
