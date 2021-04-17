@@ -1,4 +1,75 @@
 ﻿@page
 @model Ilaro.Admin.Areas.IlaroAdmin.Pages.ListModel
 
-<h1>List</h1>
+<div class="clearfix">
+    <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
+
+    @if (Model.Entity.AllowAdd)
+    {
+        <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> Add</a>
+    }
+</div>
+
+<table id="table-entity" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            @foreach (var column in Model.Columns)
+            {
+                <th>
+                    @column.DisplayName
+                    @*<span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
+                        @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
+                        <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
+                    </span>*@
+                </th>
+            }
+            @if (Model.Entity.LinksCount() > 0)
+            {
+                <th colspan="@Model.Entity.LinksCount()"></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.Records)
+        {
+            <tr>
+                @foreach (var item in record.DisplayValues)
+                {
+                    <td>@Html.DisplayFor(m => item, item.Property.Template.Display)</td>
+                }
+                @if (!Model.Entity.Links.Display.IsNullOrEmpty())
+                {
+                    <td class="min-width">
+                        <a href="@string.Format(Model.Entity.Links.Display, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> View</a>
+                    </td>
+                }
+                @if (Model.Entity.AllowEdit)
+                {
+                    <td class="min-width">
+                        @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
+                        {
+                            <a href="@string.Format(Model.Entity.Links.Edit, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Edit", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = record.JoinedKeysValues })" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                        }
+                    </td>
+                }
+                @if (Model.Entity.AllowDelete)
+                {
+                    <td class="min-width">
+                        @if (!Model.Entity.Links.Delete.IsNullOrEmpty())
+                        {
+                            <a href="@string.Format(Model.Entity.Links.Delete, record.JoinedKeysValues)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Delete", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name, key = record.JoinedKeysValues })" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

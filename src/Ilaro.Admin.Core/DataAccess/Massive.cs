@@ -84,13 +84,13 @@ namespace Massive
             TableName = tableName == "" ? this.GetType().Name : tableName;
             PrimaryKeyField = string.IsNullOrEmpty(primaryKeyField) ? "ID" : primaryKeyField;
             DescriptorField = descriptorField;
-            var _providerName = "System.Data.SqlClient";
+            //var _providerName = "System.Data.SqlClient";
 
             //if (!string.IsNullOrWhiteSpace(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
             //    _providerName = ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName;
 
-            _factory = DbProviderFactories.GetFactory(_providerName);
-            //ConnectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            _factory = System.Data.SqlClient.SqlClientFactory.Instance;// DbProviderFactories.GetFactory(_providerName);
+            ConnectionString = "Server=.\\sql2017;initial catalog=Northwind;integrated security=SSPI";// ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
             KeyColSeparator = Const.KeyColSeparator;
         }
 

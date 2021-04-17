@@ -42,7 +42,7 @@ namespace Ilaro.Admin.Sample.Northwind
 
             app.UseIlaroAdmin(opts =>
             {
-               opts.ConnectionStringName = "NorthwindEntities";
+               opts.ConnectionStringName = "DefaultConnection";
             });
 
             app.UseHttpsRedirection();

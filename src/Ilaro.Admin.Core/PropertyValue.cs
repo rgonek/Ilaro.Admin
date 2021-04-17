@@ -27,7 +27,10 @@ namespace Ilaro.Admin.Core
                     else if (AsObject is bool || AsObject is bool?)
                         _asBool = (bool?)AsObject;
                     else
-                        _asBool = bool.Parse(AsObject.ToString());
+                    {
+                        bool.TryParse(AsObject.ToString(), out var res);
+                        _asBool = res;
+                    }
                 }
                 return _asBool;
             }

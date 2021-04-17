@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Ilaro.Admin.AspNetCore\Ilaro.Admin.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Ilaro.Admin.Extensions.Microsoft.DependencyInjection\Ilaro.Admin.Extensions.Microsoft.DependencyInjection.csproj" />
   </ItemGroup>

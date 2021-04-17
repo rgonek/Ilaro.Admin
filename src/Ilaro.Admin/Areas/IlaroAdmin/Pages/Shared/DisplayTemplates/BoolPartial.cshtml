@@ -1,0 +1,10 @@
+﻿@model PropertyValue
+
+@if (Model.AsBool == true)
+{
+    <i class="glyphicon glyphicon-ok"></i>
+}
+else if (Model.AsBool == false)
+{
+    <i class="glyphicon glyphicon-remove"></i>
+}

@@ -19,7 +19,6 @@ namespace Ilaro.Admin.Infrastructure
                 return Task.CompletedTask;
             }
 
-
             var entities = bindingContext.HttpContext.RequestServices.GetService<IEntityCollection>();
             var entity = entities[valueProviderResult.FirstValue];
             bindingContext.Result = ModelBindingResult.Success(entity);

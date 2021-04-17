@@ -49,4 +49,19 @@
   <ItemGroup>
     <Folder Include="Areas\IlaroAdmin\Pages\Shared\Components\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\BoolPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\DatePartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\DateTimePartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\DbImagePartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\EnumPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\FilePartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\HtmlPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\ImagePartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\NumericPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\PasswordPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\TextPartial.cshtml" />
+    <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\UrlPartial.cshtml" />
+  </ItemGroup>
 </Project>

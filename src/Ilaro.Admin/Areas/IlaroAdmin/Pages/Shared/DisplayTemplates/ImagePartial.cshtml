@@ -1,0 +1,10 @@
+﻿@model PropertyValue
+@{
+    if (Model.Raw == null)
+    {
+        return;
+    }
+}
+
+@*<a href="@Url.GetImageBigPath(Model)" class="open-modal"><img src="@Url.GetImageMinPath(Model)" class="img-thumbnail" alt="@Model.AsString" /></a>*@
+@Model.AsString
