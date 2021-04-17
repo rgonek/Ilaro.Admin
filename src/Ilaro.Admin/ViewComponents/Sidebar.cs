@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ilaro.Admin.ViewComponents
 {
-    public class Sidebar : ViewComponent
+    public sealed class Sidebar : ViewComponent
     {
         private readonly IEntityCollection _entities;
 

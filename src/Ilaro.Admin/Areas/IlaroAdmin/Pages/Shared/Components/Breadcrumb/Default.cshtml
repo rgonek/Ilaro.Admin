@@ -1,0 +1,17 @@
+﻿@model IList<BreadcrumbItem>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        @foreach (var item in Model)
+        {
+            if (item.IsActive)
+            {
+                <li class="breadcrumb-item active" aria-current="page">@item.DisplayName</li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><a asp-page="@item.Page" asp-route-entity="@item.EntityName">@item.DisplayName</a></li>
+            }
+        }
+    </ol>
+</nav>
