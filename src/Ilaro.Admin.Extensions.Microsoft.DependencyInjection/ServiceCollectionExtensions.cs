@@ -72,13 +72,13 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             services.Configure<RazorPagesOptions>(options =>
             {
                 options.Conventions
+                    .AddAreaPageRoute("IlaroAdmin", "/Index", routePrefix)
                     .AddAreaPageRoute("IlaroAdmin", "/Changes", routePrefix + "/{entity:alpha}/changes")
                     .AddAreaPageRoute("IlaroAdmin", "/Create", routePrefix + "/{entity:alpha}/new")
                     .AddAreaPageRoute("IlaroAdmin", "/Delete", routePrefix + "/{entity:alpha}/{id}/delete")
                     .AddAreaPageRoute("IlaroAdmin", "/Details", routePrefix + "/{entity:alpha}/{id}")
                     .AddAreaPageRoute("IlaroAdmin", "/Edit", routePrefix + "/{entity:alpha}/{id}/edit")
                     .AddAreaPageRoute("IlaroAdmin", "/List", routePrefix + "/{entity:alpha}")
-                    .AddAreaPageRoute("IlaroAdmin", "/GroupList", routePrefix + "/group")
                     .AddAreaPageRoute("IlaroAdmin", "/GroupDetails", routePrefix + "/group/{entity:alpha}");
             });
 
