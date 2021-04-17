@@ -47,10 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\IlaroAdmin\Pages\Shared\Components\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\BoolPartial.cshtml" />
     <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\DatePartial.cshtml" />
     <None Include="Areas\IlaroAdmin\Pages\Shared\DisplayTemplates\DateTimePartial.cshtml" />
