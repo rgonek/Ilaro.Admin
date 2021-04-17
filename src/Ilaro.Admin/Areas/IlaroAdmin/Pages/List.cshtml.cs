@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Ilaro.Admin.Core;
+using Ilaro.Admin.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,8 +7,17 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
 {
     public class ListModel : PageModel
     {
-        public void OnGet()
+        public Entity Entity { get; private set; }
+
+        public ListModel()
         {
+        }
+
+        public void OnGet(Entity entity, [FromQuery] TableInfo tableInfo)
+        {
+            //Entity = _entities[name];
+
+            //Request.
         }
     }
 }

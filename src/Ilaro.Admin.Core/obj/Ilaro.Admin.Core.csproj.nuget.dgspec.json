@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[5.0.5, )"
             },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[5.0.0, )"

@@ -23,7 +23,7 @@ namespace Ilaro.Admin.Sample.Northwind
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddIlaroAdmin(typeof(CategoryConfiguration));
+            services.AddIlaroAdmin("/admin", typeof(CategoryConfiguration));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,9 +40,9 @@ namespace Ilaro.Admin.Sample.Northwind
                 app.UseHsts();
             }
 
-            app.UseIlaroAdmin("/admin2", opts =>
+            app.UseIlaroAdmin(opts =>
             {
-                opts.ConnectionStringName = "NorthwindEntities";
+               opts.ConnectionStringName = "NorthwindEntities";
             });
 
             app.UseHttpsRedirection();

@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Ilaro.Admin.Core
 {
     [DebuggerDisplay("Entity {Name}")]
+    [ValidateNever]
     public class Entity
     {
         public Type Type { get; private set; }

@@ -17,4 +17,36 @@
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\ilaroadmin.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin.Core\Ilaro.Admin.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\ilaroadmin.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ilaroadmin.scss</DependentUpon>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="wwwroot\css\ilaroadmin.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ilaroadmin.scss</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="wwwroot\css\ilaroadmin.scss">
+      <Generator>SassTranspiler</Generator>
+      <LastGenOutput>ilaroadmin.css</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\IlaroAdmin\Pages\Shared\Components\" />
+  </ItemGroup>
 </Project>

@@ -221,7 +221,7 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             services.TryAddScoped<IRecordService, RecordService>();
             services.TryAddScoped<IIlaroAdmin, IlaroAdmin>();
             services.TryAddScoped<IUser, StubUser>();
-            services.TryAddSingleton<EntitiesCollection>();
+            services.TryAddSingleton<IEntityCollection, EntityCollection>();
         }
     }
 }

@@ -8,12 +8,10 @@ namespace Ilaro.Admin.Core
     {
         private readonly IlaroAdminOptions _options;
 
-        public AppConfiguration(IConfiguration configuration)
+        public AppConfiguration(IConfiguration configuration, IIlaroAdminOptions options)
         {
             Guard.Argument(configuration, nameof(configuration)).NotNull();
-
-            _options = new IlaroAdminOptions();
-            configuration.GetSection("IlaroAdmin").Bind(_options);
+            Guard.Argument(options, nameof(options)).NotNull();
         }
 
         public int ItemsQuantityPerPage => _options.ItemsQuantityPerPage ?? 10;

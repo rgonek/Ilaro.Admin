@@ -11,7 +11,6 @@ namespace Ilaro.Admin.Core
         Entity ChangeEntity { get; }
         bool IsChangesEnabled { get; }
 
-        IAuthorizeData Authorize { get; }
         string ConnectionStringName { get; }
         string RoutesPrefix { get; }
 
@@ -24,7 +23,6 @@ namespace Ilaro.Admin.Core
 
         void Initialise(
             string connectionStringName = "",
-            string routesPrefix = "IlaroAdmin",
-            IAuthorizeData authorize = null);
+            string routesPrefix = "IlaroAdmin");
     }
 }

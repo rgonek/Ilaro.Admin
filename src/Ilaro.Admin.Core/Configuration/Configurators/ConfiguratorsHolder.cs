@@ -215,7 +215,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             SetDefaultRecordDisplayFormat(entity);
         }
 
-        public void CustomizeProperties(Entity entity, EntitiesCollection entities)
+        public void CustomizeProperties(Entity entity, IEntityCollection entities)
         {
             SetForeignKeysReferences(entity, entities);
 
@@ -297,7 +297,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             }
         }
 
-        private void SetForeignKeysReferences(Entity entity, EntitiesCollection entities)
+        private void SetForeignKeysReferences(Entity entity, IEntityCollection entities)
         {
             foreach (var property in entity.Properties.Where(x => x.IsForeignKey))
             {

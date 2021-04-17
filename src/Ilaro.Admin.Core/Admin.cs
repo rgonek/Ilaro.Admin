@@ -31,11 +31,10 @@ namespace Ilaro.Admin.Core
         public static IIlaroAdmin Initialise(
             string connectionStringName = "",
             string routesPrefix = "IlaroAdmin",
-            IAuthorizeData authorize = null,
             CultureInfo culture = null)
         {
             var admin = Current;
-            admin.Initialise(connectionStringName, routesPrefix, authorize);
+            admin.Initialise(connectionStringName, routesPrefix);
 
             return admin;
         }

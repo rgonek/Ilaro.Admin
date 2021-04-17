@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Core
 {
     public class IlaroAdmin : IIlaroAdmin
     {
-        private EntitiesCollection _entitiesTypes = new EntitiesCollection();
+        private EntityCollection _entitiesTypes = new EntityCollection();
         public ReadOnlyCollection<Entity> Entities
         {
             get
@@ -30,7 +30,6 @@ namespace Ilaro.Admin.Core
             get { return ChangeEntity != null; }
         }
 
-        public IAuthorizeData Authorize { get; private set; }
         public string ConnectionStringName { get; private set; }
         public string RoutesPrefix { get; private set; }
 
@@ -61,11 +60,8 @@ namespace Ilaro.Admin.Core
 
         public void Initialise(
             string connectionStringName = "",
-            string routesPrefix = "IlaroAdmin",
-            IAuthorizeData authorize = null)
+            string routesPrefix = "IlaroAdmin")
         {
-            RoutesPrefix = routesPrefix;
-            Authorize = authorize;
             RoutesPrefix = routesPrefix;
             ConnectionStringName = GetConnectionStringName(connectionStringName);
 

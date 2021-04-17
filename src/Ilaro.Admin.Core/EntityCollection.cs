@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Ilaro.Admin.Core
 {
-    public class EntitiesCollection : IEnumerable<Entity>
+    public sealed class EntityCollection : IEntityCollection
     {
         private readonly Dictionary<Type, Entity> _entities = new Dictionary<Type, Entity>();
 
@@ -27,7 +27,7 @@ namespace Ilaro.Admin.Core
             }
         }
 
-        public Entity this[string name] => _entities.Values.SingleOrDefault(x => x.Name == name);
+        public Entity this[string name] => _entities.Values.SingleOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
         public void Add(Entity entity)
         {

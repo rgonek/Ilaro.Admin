@@ -1,6 +1,6 @@
 ﻿namespace Ilaro.Admin.Core
 {
-    public class IlaroAdminOptions
+    public class IlaroAdminOptions : IIlaroAdminOptions
     {
         public int? ItemsQuantityPerPage { get; }
 
@@ -19,5 +19,17 @@
         public string AllowedFileExtensions { get; }
 
         public string UploadFilesTempFolderSufix { get; }
+
+        public string ConnectionStringName { get; set; }
+
+        public string RoutePrefix { get; set; }
+
+        //public IlaroAdminOptions(string routePrefix, string connectionStringName)
+        //{
+        //    RoutePrefix = RoutePrefix;
+        //    ConnectionStringName = connectionStringName;
+
+
+        //}
     }
 }
