@@ -28,7 +28,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
             _recordFetcher = recordFetcher;
         }
 
-        public void OnGet(Entity entity, string id)
+        public void OnGet(Entity entity, IdValue id)
         {
             Entity = entity;
             Record = _recordFetcher.GetEntityRecord(entity, id);
@@ -38,7 +38,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
 
         public IActionResult OnPost(
             Entity entity,
-            string id,
+            IdValue id,
             [Bind(Prefix = "__ConcurrencyCheck")] string concurrencyCheck,
             IFormCollection collection)
         {

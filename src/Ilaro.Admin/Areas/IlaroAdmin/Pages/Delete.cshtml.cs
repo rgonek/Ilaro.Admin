@@ -32,7 +32,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
             _recordHierarchyFetcher = recordHierarchyFetcher;
         }
 
-        public void OnGet(Entity entity, string id)
+        public void OnGet(Entity entity, IdValue id)
         {
             Entity = entity;
             Record = _recordFetcher.GetEntityRecord(entity, id);
@@ -46,7 +46,7 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
                 : new List<PropertyDeleteOption>();
         }
 
-        public IActionResult OnPost(Entity entity, string id, IList<PropertyDeleteOption> propertiesDeleteOptions)
+        public IActionResult OnPost(Entity entity, IdValue id, IList<PropertyDeleteOption> propertiesDeleteOptions)
         {
             var deleteOptions = DeleteOptionsHierarchyBuilder.Merge(
                 entity,

@@ -6,21 +6,26 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class EntityModelBinder : IModelBinder
+    public class IdValueModelBinder : IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             Guard.Argument(bindingContext, nameof(bindingContext)).NotNull();
 
-            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            if (valueProviderResult == ValueProviderResult.None)
+            var idResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            if (idResult == ValueProviderResult.None)
+            {
+                return Task.CompletedTask;
+            }
+            var entityResult = bindingContext.ValueProvider.GetValue(nameof(Entity));
+            if (entityResult == ValueProviderResult.None)
             {
                 return Task.CompletedTask;
             }
 
             var entities = bindingContext.HttpContext.RequestServices.GetService<IEntityCollection>();
-            var entity = entities[valueProviderResult.FirstValue];
-            bindingContext.Result = ModelBindingResult.Success(entity);
+            var entity = entities[entityResult.FirstValue];
+            bindingContext.Result = ModelBindingResult.Success(entity.Id.Fill(idResult.FirstValue));
 
             return Task.CompletedTask;
         }

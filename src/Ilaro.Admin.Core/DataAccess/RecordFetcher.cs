@@ -26,14 +26,7 @@ namespace Ilaro.Admin.Core.DataAccess
         }
 
         public EntityRecord GetEntityRecord(Entity entity, string value)
-        {
-            var values = value
-                .Split(Id.ColumnSeparator)
-                .Select(x => x.Trim())
-                .ToArray();
-
-            return GetEntityRecord(entity, values);
-        }
+            => GetEntityRecord(entity, entity.Id.Fill(value));
 
         public EntityRecord GetEntityRecord(Entity entity, params object[] values)
             => GetEntityRecord(entity, entity.Id.Fill(values));
@@ -50,14 +43,7 @@ namespace Ilaro.Admin.Core.DataAccess
         }
 
         public IDictionary<string, object> GetRecord(Entity entity, string value)
-        {
-            var values = value
-                .Split(Id.ColumnSeparator)
-                .Select(x => x.Trim())
-                .ToArray();
-
-            return GetRecord(entity, values);
-        }
+            => GetRecord(entity, entity.Id.Fill(value));
 
         public IDictionary<string, object> GetRecord(Entity entity, params object[] values)
             => GetRecord(entity, entity.Id.Fill(values));

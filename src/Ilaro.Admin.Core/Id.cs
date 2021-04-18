@@ -21,6 +21,17 @@ namespace Ilaro.Admin.Core
             Keys = keys;
         }
 
+        public IdValue Fill(string value)
+        {
+            Guard.Argument(value, nameof(value)).NotNull().NotEmpty();
+
+            var values = value.Split(ColumnSeparator)
+                .Select(x => x.Trim())
+                .ToArray();
+
+            return Fill(values);
+        }
+
         public IdValue Fill(params object[] values)
         {
             Guard.Argument(values, nameof(values)).Count(Keys.Count, (values, count) => "Values for all keys need to be provided. Not more, not less.");

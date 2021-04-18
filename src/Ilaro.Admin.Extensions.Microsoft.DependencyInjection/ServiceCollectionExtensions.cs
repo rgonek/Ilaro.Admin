@@ -93,6 +93,7 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             services.Configure<MvcOptions>(options =>
             {
                 options.ModelBinderProviders.Insert(0, new EntityModelBinderProvider());
+                options.ModelBinderProviders.Insert(1, new IdValueModelBinderProvider());
             });
 
 

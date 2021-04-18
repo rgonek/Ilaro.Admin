@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ilaro.Admin.Infrastructure
 {
-    public class EntityModelBinderProvider : IModelBinderProvider
+    public class IdValueModelBinderProvider : IModelBinderProvider
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
             Guard.Argument(context, nameof(context)).NotNull();
 
             var modelType = context.Metadata.UnderlyingOrModelType;
-            if (modelType == typeof(Entity))
+            if (modelType == typeof(IdValue))
             {
-                return new EntityModelBinder();
+                return new IdValueModelBinder();
             }
 
             return null;
