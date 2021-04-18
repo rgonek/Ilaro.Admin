@@ -6,7 +6,7 @@ namespace Ilaro.Admin.Core.DataAccess
 {
     public interface IEntityService
     {
-        string Create(
+        IdValue Create(
             Entity entity,
             IFormCollection collection);
 

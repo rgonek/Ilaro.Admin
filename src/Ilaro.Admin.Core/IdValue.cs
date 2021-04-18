@@ -12,6 +12,10 @@ namespace Ilaro.Admin.Core
 
         public int Count => KeyValues.Count;
 
+        public bool IsComposite => Count > 1;
+
+        public bool HasValue => KeyValues.Any(x => x.Raw != null);
+
         public IdValue(IList<PropertyValue> keyValues)
         {
             Guard.Argument(keyValues, nameof(keyValues)).NotNull().NotEmpty();

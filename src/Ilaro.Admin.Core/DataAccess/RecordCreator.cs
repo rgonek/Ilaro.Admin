@@ -1,189 +1,132 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
-using System.Text;
+using Dawn;
+using Ilaro.Admin.Core.DataAccess.Extensions;
 using Ilaro.Admin.Core.Extensions;
-using Massive;
+using SqlKata.Execution;
 
 namespace Ilaro.Admin.Core.DataAccess
 {
     public class RecordCreator : IRecordCreator
     {
-        //private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordCreator));
-        private readonly IIlaroAdmin _admin;
-        private readonly ICommandExecutor _executor;
+        private readonly QueryFactory _db;
         private readonly IUser _user;
 
-        public RecordCreator(
-            IIlaroAdmin admin,
-            ICommandExecutor executor,
-            IUser user)
+        public RecordCreator(QueryFactory db, IUser user)
         {
-            if (admin == null)
-                throw new ArgumentNullException(nameof(admin));
-            if (executor == null)
-                throw new ArgumentNullException(nameof(executor));
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            Guard.Argument(db, nameof(db)).NotNull();
+            Guard.Argument(user, nameof(user)).NotNull();
 
-            _admin = admin;
-            _executor = executor;
+            _db = db;
             _user = user;
         }
 
-        public string Create(EntityRecord entityRecord, Func<string> changeDescriber = null)
+        public IdValue Create(EntityRecord entityRecord)
+            => _db.InsertTransactionally(
+                tx => Insert(entityRecord, tx),
+                UpdateOneToMany(entityRecord).Union(
+                UpdateManyToMany(entityRecord)));
+
+        private IdValue Insert(EntityRecord entityRecord, IDbTransaction tx)
         {
-            try
-            {
-                var cmd = CreateCommand(entityRecord);
-
-                var result = _executor.ExecuteWithChanges(
-                    cmd,
-                    entityRecord,
-                    EntityChangeType.Insert,
-                    changeDescriber);
-
-                return result.ToStringSafe();
-            }
-            catch (Exception ex)
-            {
-                //_log.Error(ex);
-                throw;
-            }
-        }
-
-        private DbCommand CreateCommand(EntityRecord entityRecord)
-        {
-            var cmd = CreateBaseCommand(entityRecord);
-            AddForeignsUpdate(cmd, entityRecord);
-            AddManyToManyForeignsUpdate(cmd, entityRecord);
-
-            return cmd;
-        }
-
-        private DbCommand CreateBaseCommand(EntityRecord entityRecord)
-        {
-            var sbColumns = new StringBuilder();
-            var sbValues = new StringBuilder();
-
-            var cmd = DB.CreateCommand(_admin.ConnectionStringName);
-            var counter = 0;
-            foreach (var propertyValue in entityRecord.Values
+            var propertyValues = entityRecord.Values
                 .WhereIsNotSkipped()
                 .WhereIsNotOneToMany()
                 .DistinctBy(x => x.Property.Column)
-                .Where(x => x.Property.IsAutoKey == false))
-            {
-                sbColumns.AppendFormat("{0},", propertyValue.Property.Column);
-                sbValues.AppendFormat("@{0},", counter);
-                AddParam(cmd, propertyValue);
-                counter++;
-            }
-            var columns = sbColumns.ToString().Substring(0, sbColumns.Length - 1);
-            var values = sbValues.ToString().Substring(0, sbValues.Length - 1);
-            var idType = "int";
-            var insertedId = "SCOPE_IDENTITY()";
-            if (entityRecord.Id.Count > 1 || entityRecord.Id.First().Property.TypeInfo.IsString)
-            {
-                idType = "nvarchar(max)";
-                insertedId = "@" + counter;
-                cmd.AddParam(entityRecord.Id);
-            }
-            var table = entityRecord.Entity.Table;
+                .Where(x => x.Property.IsAutoKey == false)
+                .ToKeyValuePairCollection(_user);
 
-            cmd.CommandText =
-$@"-- insert record
-INSERT INTO {table} ({columns}) 
-VALUES ({values});
--- return record id
-DECLARE @newID {idType} = {insertedId};
-SELECT @newID;
--- update foreign entities records";
+            var idResult = _db.Query(entityRecord.Entity.Table)
+                .InsertGetId<object>(propertyValues, tx);
+            //var idType = "int";
+            //var insertedId = "SCOPE_IDENTITY()";
+            //if (entityRecord.Id.Count > 1 || entityRecord.Id.First().Property.TypeInfo.IsString)
+            //{
+            //    idType = "nvarchar(max)";
+            //    insertedId = "@" + counter;
+            //    cmd.AddParam(entityRecord.Id);
+            //}
 
-            return cmd;
+            return entityRecord.Entity.Id.Fill(idResult);
         }
 
-        private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
+        private IEnumerable<Action<IdValue, IDbTransaction>> UpdateOneToMany(EntityRecord entityRecord)
         {
-            if (entityRecord.Id.Count > 1)
-                return;
-            var sbUpdates = new StringBuilder();
-            var paramIndex = cmd.Parameters.Count;
+            if (entityRecord.Id.IsComposite)
+            {
+                return Enumerable.Empty<Action<IdValue, IDbTransaction>>();
+            }
+
+            var actions = new List<Action<IdValue, IDbTransaction>>();
             foreach (var propertyValue in entityRecord.Values
                 .WhereOneToMany()
                 .Where(x => x.Property.IsManyToMany == false)
                 .Where(value => value.Values.IsNullOrEmpty() == false))
             {
-                var values =
-                    propertyValue.Values.Select(
-                        x => x.ToStringSafe().Split(Id.ColumnSeparator).Select(y => y.Trim()).ToList()).ToList();
-                var whereParts = new List<string>();
-                var addSqlPart = true;
-                for (int i = 0; i < propertyValue.Property.ForeignEntity.Id.Count; i++)
+                var values = propertyValue.Values
+                    .Select(x => x.ToStringSafe().Split(Id.ColumnSeparator).Select(y => y.Trim()).ToList())
+                    .ToList();
+                actions.Add((newId, tx) =>
                 {
-                    var key = propertyValue.Property.ForeignEntity.Id[i];
-                    var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
-                    whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
-                    addSqlPart = joinedValues.HasValue();
-                    if (addSqlPart == false)
-                        break;
-                    cmd.AddParams(values.Select(x => x[i]).OfType<object>().ToArray());
-                }
-                if (addSqlPart)
-                {
-                    var constraintSeparator = Environment.NewLine + "   AND ";
-                    var constraints = string.Join(constraintSeparator, whereParts);
-                    sbUpdates.AppendLine();
+                    var query = _db.Query(propertyValue.Property.ForeignEntity.Table);
+                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Id.Count; i++)
+                    {
+                        var key = propertyValue.Property.ForeignEntity.Id[i];
+                        query.WhereIn(key.Column, values[i]);
+                    }
+                    query.Update(entityRecord.Entity.Id.First().Column, newId, tx);
 
-                    var table = propertyValue.Property.ForeignEntity.Table;
-                    var foreignKey = entityRecord.Entity.Id.First().Column;
-
-                    sbUpdates.Append($@"UPDATE {table}
-   SET {foreignKey} = @newID 
- WHERE {constraints};");
-                }
+                });
             }
 
-            cmd.CommandText += sbUpdates.ToString();
+            return actions;
         }
 
-        private void AddManyToManyForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
+        private IEnumerable<Action<IdValue, IDbTransaction>> UpdateManyToMany(EntityRecord entityRecord)
         {
-            if (entityRecord.Id.Count > 1)
-                return;
-            var sbUpdates = new StringBuilder();
-            var paramIndex = cmd.Parameters.Count;
-            foreach (var propertyValue in entityRecord.Values.WhereOneToMany()
+            if (entityRecord.Id.IsComposite)
+            {
+                return Enumerable.Empty<Action<IdValue, IDbTransaction>>();
+            }
+
+            var actions = new List<Action<IdValue, IDbTransaction>>();
+            foreach (var propertyValue in entityRecord.Values
+                .WhereOneToMany()
                 .Where(x => x.Property.IsManyToMany))
             {
                 var selectedValues = propertyValue.Values.Select(x => x.ToStringSafe()).ToList();
 
-                var mtmEntity = GetEntityToLoad(propertyValue.Property);
-
                 var idsToAdd = selectedValues
                     .ToList();
-                if (idsToAdd.Any())
+                if (idsToAdd.Any() == false)
                 {
-                    sbUpdates.AppendLine();
-                    sbUpdates.AppendLine("-- add many to many records");
-                    foreach (var idToAdd in idsToAdd)
+                    continue;
+                }
+                var mtmEntity = GetEntityToLoad(propertyValue.Property);
+                foreach (var idToAdd in idsToAdd)
+                {
+                    var foreignEntity = propertyValue.Property.ForeignEntity;
+                    var key1 =
+                        foreignEntity.ForeignKeys.FirstOrDefault(
+                            x => x.ForeignEntity == propertyValue.Property.Entity);
+                    var key2 =
+                        foreignEntity.ForeignKeys.FirstOrDefault(
+                            x => x.ForeignEntity == mtmEntity);
+
+                    actions.Add((newId, tx) =>
                     {
-                        var foreignEntity = propertyValue.Property.ForeignEntity;
-                        var key1 =
-                            foreignEntity.ForeignKeys.FirstOrDefault(
-                                x => x.ForeignEntity == propertyValue.Property.Entity);
-                        var key2 =
-                            foreignEntity.ForeignKeys.FirstOrDefault(
-                                x => x.ForeignEntity == mtmEntity);
-                        cmd.AddParam(idToAdd);
-                        sbUpdates.AppendLine($"INSERT INTO {foreignEntity.Table} ({key1.Column}, {key2.Column}) VALUES(@newID, @{paramIndex++})");
-                    }
+                        var columns = new[] { key1.Column, key2.Column };
+                        var values = new[] { newId.First().AsObject, idToAdd };
+                        _db.Query(foreignEntity.Table)
+                            .Insert(columns, new[] { values }, tx);
+
+                    });
                 }
             }
 
-            cmd.CommandText += Environment.NewLine + sbUpdates;
+            return actions;
         }
 
         private static Entity GetEntityToLoad(Property foreignProperty)
@@ -196,38 +139,6 @@ SELECT @newID;
             }
 
             return foreignProperty.ForeignEntity;
-        }
-
-        private void AddParam(DbCommand cmd, PropertyValue propertyValue)
-        {
-            if (propertyValue.Raw is ValueBehavior)
-            {
-                switch (propertyValue.Raw as ValueBehavior?)
-                {
-                    case ValueBehavior.Now:
-                        cmd.AddParam(DateTime.Now);
-                        break;
-                    case ValueBehavior.UtcNow:
-                        cmd.AddParam(DateTime.UtcNow);
-                        break;
-                    case ValueBehavior.Guid:
-                        cmd.AddParam(Guid.NewGuid());
-                        break;
-                    case ValueBehavior.CurrentUserId:
-                        cmd.AddParam((int)_user.Id());
-                        break;
-                    case ValueBehavior.CurrentUserName:
-                        cmd.AddParam(_user.UserName());
-                        break;
-                }
-            }
-            else
-            {
-                if (propertyValue.Property.TypeInfo.IsFileStoredInDb)
-                    cmd.AddParam(propertyValue.Raw, DbType.Binary);
-                else
-                    cmd.AddParam(propertyValue.Raw);
-            }
         }
     }
 }

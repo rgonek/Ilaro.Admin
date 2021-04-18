@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ilaro.Admin.Core.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -98,8 +99,21 @@ namespace Ilaro.Admin.Core.Extensions
         }
 
         public static Dictionary<string, string> ToDictionary(this NameValueCollection nvc)
-        {
-            return nvc.AllKeys.ToDictionary(k => k, k => nvc[k]);
-        }
+        =>nvc.AllKeys.ToDictionary(k => k, k => nvc[k]);
+
+        public static IEnumerable<KeyValuePair<string, object>> ToKeyValuePairCollection(this IEnumerable<PropertyValue> propertyValues, IUser user)
+            => propertyValues.Select(x => new KeyValuePair<string, object>(x.Property.Column, GetValue(x, user)));
+
+        private static object GetValue(PropertyValue propertyValue, IUser user)
+            => (propertyValue.Raw as ValueBehavior?) switch
+            {
+                ValueBehavior.Now => DateTime.Now,
+                ValueBehavior.UtcNow => DateTime.UtcNow,
+                ValueBehavior.Guid => Guid.NewGuid(),
+                ValueBehavior.CurrentUserId => user.Id(),
+                ValueBehavior.CurrentUserName => user.UserName(),
+                null => propertyValue.Raw,
+                _ => throw new NotImplementedException()
+            };
     }
 }

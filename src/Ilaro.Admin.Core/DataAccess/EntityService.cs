@@ -65,7 +65,7 @@ namespace Ilaro.Admin.Core.DataAccess
             _validator = validator;
         }
 
-        public string Create(
+        public IdValue Create(
             Entity entity,
             IFormCollection collection)
         {
@@ -75,24 +75,23 @@ namespace Ilaro.Admin.Core.DataAccess
                 _notificator.Error(IlaroAdminResources.RecordNotValid);
                 return null;
             }
-            var existingRecord = _source.GetRecord(
-                entity,
-                entityRecord.Id.Select(value => value.AsObject).ToArray());
-            if (existingRecord != null)
+            if (entityRecord.Id.HasValue)
             {
-                _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
-                return null;
+                var existingRecord = _source.GetRecord(entity, entityRecord.Id);
+                if (existingRecord != null)
+                {
+                    _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
+                    return null;
+                }
             }
 
             var propertiesWithUploadedFiles = _filesHandler.Upload(
                 entityRecord,
                 x => x.OnCreateDefaultValue);
 
-            var id = _creator.Create(
-                entityRecord,
-                () => _changeDescriber.CreateChanges(entityRecord));
+            var id = _creator.Create(entityRecord);
 
-            if (id.IsNullOrWhiteSpace() == false)
+            if (id == null)
                 _filesHandler.ProcessUploaded(propertiesWithUploadedFiles);
             else
                 _filesHandler.DeleteUploaded(propertiesWithUploadedFiles);
