@@ -1,4 +1,48 @@
 ﻿@page
 @model Ilaro.Admin.Areas.IlaroAdmin.Pages.EditModel
 
-<h1>Edit</h1>
+
+<h2>@Model.Entity.Verbose.Singular</h2>
+
+<form method="post" enctype="multipart/form-data" class="form-horizontal">
+    @Html.AntiForgeryToken()
+    @Html.ConcurrencyCheck(Model.ConcurrencyCheck)
+    @Html.ValidationSummary(true)
+
+    @foreach (var key in Model.Record.Keys)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-2">@key.Property.Display</label>
+            <div class="col-md-6 control-value">
+                @key.AsString
+            </div>
+        </div>
+    }
+
+    <partial name="_PropertiesGroups" model="Model.PropertiesGroups" />
+
+    @Html.Hidden("EntityName", Model.Entity.Name)
+
+    <div class="form-action">
+        <div class="col-md-offset-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-default" name="ContinueEdit"><i class="glyphicon glyphicon-edit"></i> SaveAndContinueEdit</button>
+            <button type="submit" class="btn btn-default" name="AddNext"><i class="glyphicon glyphicon-plus"></i> SaveAndAddNext</button>
+            <a asp-page="List" asp-route-entity="@Model.Entity.Name" class="btn btn-link">Cancel</a>
+            <a asp-page="Delete" asp-route-entity="@Model.Entity.Name" asp-route-key="@Model.Record.JoinedKeysValues" class="btn btn-danger pull-right">Delete</a>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="foreign-modal" tabindex="-1" role="dialog" aria-labelledby="Create foreign entity" aria-hidden="true">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Create foreign entity</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

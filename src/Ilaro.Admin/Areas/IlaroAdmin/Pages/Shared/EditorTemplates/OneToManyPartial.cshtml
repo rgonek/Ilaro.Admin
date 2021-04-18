@@ -1,0 +1,9 @@
+﻿@model PropertyValue
+
+<div class="col-md-3">
+    aaa
+    @Html.DropDownList(Model.Property.Name, Model.GetPossibleValues(), Model.Property, new { @class = "form-control" })
+    <span class="help-block" asp-if="@Model.Property.Description.HasValue()">@Model.Property.Description</span>
+</div>
+@*<button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-plus"></span></button>*@
+@Html.ValidationMessage(Model.Property.Name)

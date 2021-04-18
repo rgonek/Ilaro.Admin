@@ -49,7 +49,7 @@ namespace Ilaro.Admin.Core
                 else
                 {
                     propertyValue.Raw = Convert.ChangeType(
-                        value,
+                        (string)value,
                         property.TypeInfo.OriginalType,
                         CultureInfo.CurrentCulture);
                 }

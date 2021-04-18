@@ -6,7 +6,7 @@
 
     @if (Model.Entity.AllowAdd)
     {
-        <a href="@Url.Action("Create", "Entity", new { area = "IlaroAdmin", entityName = Model.Entity.Name })" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> Add</a>
+        <a asp-page="Create" asp-route-entity="@Model.Entity.Name" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> Add</a>
     }
 </div>
 
@@ -18,9 +18,9 @@
                 <th>
                     @column.DisplayName
                     @*<span @Html.Condition(!string.IsNullOrEmpty(column.Description), () => "title=\"" + column.Description + "\"")>
-                        @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
-                        <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
-                    </span>*@
+                            @Html.SortColumnLink(Model.Entity, column, Model.Filters, Model.TableInfo.SearchQuery, Model.TableInfo.PerPage)
+                            <i class="glyphicon glyphicon-chevron-@column.SortDirection"></i>
+                        </span>*@
                 </th>
             }
             @if (Model.Entity.LinksCount() > 0)

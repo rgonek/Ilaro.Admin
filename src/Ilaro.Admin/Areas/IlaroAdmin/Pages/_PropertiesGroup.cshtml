@@ -1,0 +1,28 @@
+﻿@model Ilaro.Admin.Core.Models.GroupProperties
+
+<fieldset>
+    <legend>
+        @Model.GroupName
+        <button type="button" class="btn pull-right">
+            <span class="glyphicon @ToggleIconClass(Model.IsCollapsed)"></span>
+        </button>
+    </legend>
+    <div class="fields" @Toggle(Model.IsCollapsed)>
+        @foreach (var propertyValue in Model.PropertiesValues)
+        {
+            Html.RenderPartial("_PropertyEditor", propertyValue);
+        }
+    </div>
+</fieldset>
+
+@functions {
+    string ToggleIconClass(bool isCollapsed)
+    {
+        return isCollapsed ? "glyphicon-plus" : "glyphicon-minus";
+    }
+
+    string Toggle(bool isCollapsed)
+    {
+        return isCollapsed ? "style=\"display:none\"" : string.Empty;
+    }
+}

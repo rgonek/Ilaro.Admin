@@ -1,0 +1,7 @@
+﻿@model PropertyValue
+
+<div class="col-md-3">
+    @Html.TextArea(Model.Property.Name, Model.AsString, Model.Property, new { @class = "form-control" })
+    <span class="help-block" asp-if="@Model.Property.Description.HasValue()">@Model.Property.Description</span>
+</div>
+@Html.ValidationMessage(Model.Property.Name)

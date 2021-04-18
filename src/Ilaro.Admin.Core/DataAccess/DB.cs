@@ -26,19 +26,19 @@ namespace Ilaro.Admin.Core.DataAccess
 
         private static DbProviderFactory GetFactory(string connectionStringName)
         {
-            var providerName = "System.Data.SqlClient";
+            //var providerName = "System.Data.SqlClient";
 
             //if (!string.IsNullOrWhiteSpace(ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName))
             //    providerName = ConfigurationManager.ConnectionStrings[connectionStringName].ProviderName;
 
-            var factory = DbProviderFactories.GetFactory(providerName);
+            var factory = System.Data.SqlClient.SqlClientFactory.Instance;// DbProviderFactories.GetFactory(providerName);
 
             return factory;
         }
 
         private static string GetConnectionString(string connectionStringName)
         {
-            return string.Empty;
+            return "Server=.\\sql2017;initial catalog=Northwind;integrated security=SSPI";
             //var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
 
             //return connectionString;
