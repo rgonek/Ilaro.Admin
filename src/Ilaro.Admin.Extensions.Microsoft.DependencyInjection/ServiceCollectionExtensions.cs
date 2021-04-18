@@ -76,10 +76,8 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
                     .AddAreaPageRoute("IlaroAdmin", "/Changes", routePrefix + "/{entity:alpha}/changes")
                     .AddAreaPageRoute("IlaroAdmin", "/Create", routePrefix + "/{entity:alpha}/new")
                     .AddAreaPageRoute("IlaroAdmin", "/Delete", routePrefix + "/{entity:alpha}/{id}/delete")
-                    .AddAreaPageRoute("IlaroAdmin", "/Details", routePrefix + "/{entity:alpha}/{id}")
                     .AddAreaPageRoute("IlaroAdmin", "/Edit", routePrefix + "/{entity:alpha}/{id}/edit")
-                    .AddAreaPageRoute("IlaroAdmin", "/List", routePrefix + "/{entity:alpha}")
-                    .AddAreaPageRoute("IlaroAdmin", "/GroupDetails", routePrefix + "/group/{entity:alpha}");
+                    .AddAreaPageRoute("IlaroAdmin", "/List", routePrefix + "/{entity:alpha}");
             });
 
             services.Configure<MvcOptions>(options =>
