@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ilaro.Admin.Core.Extensions;
 using Resources;
+using SqlKata;
 
 namespace Ilaro.Admin.Core.Filters
 {
@@ -29,5 +30,8 @@ namespace Ilaro.Admin.Core.Filters
             args.Add(Value);
             return sql;
         }
+
+        public override void AddCondition(Query query)
+            => query.Where(Property.Column, Value);
     }
 }

@@ -10,23 +10,18 @@ namespace Ilaro.Admin.Core.DataAccess
 {
     public class RecordService : IRecordService
     {
-        private readonly IIlaroAdmin _admin;
         private readonly IRecordFetcher _entitiesSource;
         private readonly IFilterFactory _filterFactory;
 
         public RecordService(
-            IIlaroAdmin admin,
             IRecordFetcher entitiesSource,
             IFilterFactory filterFactory)
         {
-            if (admin == null)
-                throw new ArgumentNullException(nameof(admin));
             if (entitiesSource == null)
                 throw new ArgumentNullException(nameof(entitiesSource));
             if (filterFactory == null)
                 throw new ArgumentNullException(nameof(filterFactory));
 
-            _admin = admin;
             _entitiesSource = entitiesSource;
             _filterFactory = filterFactory;
         }
@@ -37,46 +32,6 @@ namespace Ilaro.Admin.Core.DataAccess
             TableInfo tableInfo)
         {
             return GetRecords(entity, request, tableInfo, null);
-        }
-
-        public PagedRecords GetChanges(
-            Entity entityChangesFor,
-            string key,
-            NameValueCollection request,
-            TableInfo tableInfo)
-        {
-            var changeEntity = _admin.ChangeEntity;
-            return GetRecords(changeEntity, request, tableInfo, filters =>
-            {
-                if (key.IsNullOrWhiteSpace() == false)
-                {
-                    filters.Add(new ForeignEntityFilter(changeEntity["EntityKey"], key));
-                }
-                if (entityChangesFor != null)
-                {
-                    filters.Add(new ChangeEntityFilter(changeEntity["EntityName"], entityChangesFor.Name));
-                }
-            });
-        }
-
-        public IList<ChangeRow> GetLastChanges(int quantity)
-        {
-            var changeEntity = _admin.ChangeEntity;
-            if (changeEntity == null)
-            {
-                return new List<ChangeRow>();
-            }
-
-            var tableInfo = new TableInfo
-            {
-                Page = 1,
-                PerPage = quantity,
-                Order = nameof(IEntityChange.ChangedOn),
-                OrderDirection = "desc"
-            };
-            var pagedRecords = GetRecords(changeEntity, null, tableInfo);
-
-            return pagedRecords.Records.Select(x => new ChangeRow(x)).ToList();
         }
 
         private PagedRecords GetRecords(

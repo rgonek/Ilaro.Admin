@@ -22,6 +22,6 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
         void Deletable(bool allowDelete = true);
         void SoftDelete();
         void ConcurrencyCheck();
-        void DefaultOrder(MemberInfo memberOf, OrderType orderType = OrderType.Asc);
+        void DefaultOrder(MemberInfo memberOf, OrderDirection orderType = OrderDirection.Asc);
     }
 }

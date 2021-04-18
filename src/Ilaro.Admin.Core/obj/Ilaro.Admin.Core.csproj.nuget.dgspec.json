@@ -78,6 +78,14 @@
               "target": "Package",
               "version": "[1.0.2, )"
             },
+            "SqlKata": {
+              "target": "Package",
+              "version": "[2.3.2, )"
+            },
+            "SqlKata.Execution": {
+              "target": "Package",
+              "version": "[2.3.2, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.2, )"

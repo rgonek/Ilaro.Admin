@@ -1,6 +1,7 @@
 ﻿using Ilaro.Admin.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
+using Dawn;
 
 namespace Ilaro.Admin.Core
 {
@@ -10,52 +11,18 @@ namespace Ilaro.Admin.Core
 
         public IList<PropertyValue> Values { get; } = new List<PropertyValue>();
 
-        public IEnumerable<PropertyValue> DisplayValues
-        {
-            get
-            {
-                return Values.Where(x => x.Property.IsVisible);
-            }
-        }
+        public IEnumerable<PropertyValue> DisplayValues => Values.Where(x => x.Property.IsVisible);
 
-        public IList<PropertyValue> Keys
-        {
-            get
-            {
-                return Values.Where(value => value.Property.IsKey).ToList();
-            }
-        }
+        public IdValue Id => Values.Where(value => value.Property.IsKey).ToList();
 
-        public string JoinedKeysWithNames
-        {
-            get
-            {
-                return string.Join(
-                    Const.KeyColSeparator.ToString(),
-                    Keys.Select(value => string.Format("{0}={1}", value.Property.Name, value.AsString)));
-            }
-        }
+        public PropertyValue ConcurrencyCheck => Values.FirstOrDefault(x => x.Property.IsConcurrencyCheck);
 
-        public string JoinedKeysValues
-        {
-            get { return string.Join(Const.KeyColSeparator.ToString(), Keys.Select(x => x.AsString)); }
-        }
-
-        public PropertyValue ConcurrencyCheck
-        {
-            get
-            {
-                return Values.FirstOrDefault(x => x.Property.IsConcurrencyCheck);
-            }
-        }
-
-        public PropertyValue this[string propertyName]
-        {
-            get { return Values.FirstOrDefault(x => x.Property.Name == propertyName); }
-        }
+        public PropertyValue this[string propertyName] => Values.FirstOrDefault(x => x.Property.Name == propertyName);
 
         public EntityRecord(Entity entity)
         {
+            Guard.Argument(entity, nameof(entity)).NotNull();
+
             Entity = entity;
         }
 

@@ -182,7 +182,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
         /// </summary>
         public EntityConfigurator<TEntity> DefaultOrder<TProperty>(
             Expression<Func<TEntity, TProperty>> property,
-            OrderType orderType = OrderType.Asc)
+            OrderDirection orderType = OrderDirection.Asc)
         {
             var memberOf = TypeExtensions.DecodeMemberAccessExpressionOf(property);
             CustomizersHolder.DefaultOrder(memberOf, orderType);

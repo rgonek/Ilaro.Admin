@@ -113,7 +113,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             _classCustomizer.ConcurrencyCheckEnabled = true;
         }
 
-        public void DefaultOrder(MemberInfo memberOf, OrderType orderType = OrderType.Asc)
+        public void DefaultOrder(MemberInfo memberOf, OrderDirection orderType = OrderDirection.Asc)
         {
             GetPropertyCustomizer(memberOf).DefaultOrder = orderType;
         }
@@ -317,7 +317,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
                         property.TypeInfo.OriginalType = property.ForeignEntity == null ?
                             // by default foreign property is int
                             property.TypeInfo.OriginalType = typeof(int) :
-                            property.ForeignEntity.Keys.FirstOrDefault().TypeInfo.OriginalType;
+                            property.ForeignEntity.Id.First().TypeInfo.OriginalType;
                     }
                 }
             }
@@ -392,7 +392,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             if (_propertyCustomizers.Any(x => x.Value.DefaultOrder.HasValue))
                 return;
 
-            var orderProperty = entity.Keys.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
+            var orderProperty = entity.Id.FirstOrDefault(x => x.IsAutoKey && x.TypeInfo.IsNumber);
             if (orderProperty == null)
             {
                 orderProperty = entity.Properties
@@ -404,7 +404,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
 
             if (orderProperty != null)
             {
-                orderProperty.DefaultOrder = OrderType.Desc;
+                orderProperty.DefaultOrder = OrderDirection.Desc;
             }
         }
 
@@ -422,8 +422,8 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             {
                 entity.RecordDisplayFormat = "#" +
                     string.Join(
-                        Const.KeyColSeparator.ToString(),
-                        entity.Keys.Select(x => $"{{{x.Name}}}"));
+                        Core.Id.ColumnSeparator.ToString(),
+                        entity.Id.Select(x => $"{{{x.Name}}}"));
             }
         }
 

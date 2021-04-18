@@ -97,6 +97,8 @@ namespace Ilaro.Admin.Core.Filters
         {
             if (type == typeof(Property))
                 return propertyValue.Property;
+            if (type == typeof(PropertyValue))
+                return propertyValue;
             if (type == typeof(Entity))
                 return propertyValue.Property.Entity;
             if (type == typeof(IKnowTheTime))

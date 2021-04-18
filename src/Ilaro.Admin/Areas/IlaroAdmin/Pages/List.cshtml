@@ -40,7 +40,7 @@
                 @if (!Model.Entity.Links.Display.IsNullOrEmpty())
                 {
                     <td class="min-width">
-                        <a href="@string.Format(Model.Entity.Links.Display, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> View</a>
+                        <a href="@string.Format(Model.Entity.Links.Display, record.Id)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-eye-open"></span> View</a>
                     </td>
                 }
                 @if (Model.Entity.AllowEdit)
@@ -48,11 +48,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Edit.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Edit, record.JoinedKeysValues)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a href="@string.Format(Model.Entity.Links.Edit, record.Id)" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                         }
                         else
                         {
-                            <a asp-page="Edit" asp-route-entity="@Model.Entity.Name" asp-route-id="@record.JoinedKeysValues" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a asp-page="Edit" asp-route-entity="@Model.Entity.Name" asp-route-id="@record.Id" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                         }
                     </td>
                 }
@@ -61,11 +61,11 @@
                     <td class="min-width">
                         @if (!Model.Entity.Links.Delete.IsNullOrEmpty())
                         {
-                            <a href="@string.Format(Model.Entity.Links.Delete, record.JoinedKeysValues)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                            <a href="@string.Format(Model.Entity.Links.Delete, record.Id)" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
                         }
                         else
                         {
-                            <a asp-page="Delete" asp-route-entity="@Model.Entity.Name" asp-route-id="@record.JoinedKeysValues" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                            <a asp-page="Delete" asp-route-entity="@Model.Entity.Name" asp-route-id="@record.Id" class="btn btn-xs btn-link text-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
                         }
                     </td>
                 }

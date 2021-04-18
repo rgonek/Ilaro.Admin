@@ -225,7 +225,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
             return this;
         }
 
-        public IPropertyConfigurator DefaultOrder(OrderType orderType = OrderType.Asc)
+        public IPropertyConfigurator DefaultOrder(OrderDirection orderType = OrderDirection.Asc)
         {
             propertyCustomizerHolder.DefaultOrder = orderType;
 

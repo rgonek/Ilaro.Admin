@@ -6,16 +6,13 @@ namespace Ilaro.Admin.Core
 {
     public class EntitySearch
     {
-        public string Query { get; set; }
+        public string Query { get; }
 
-        public IEnumerable<Property> Properties { get; set; }
+        public IEnumerable<Property> Properties { get; }
 
-        public bool IsActive
-        {
-            get
-            {
-                return !Query.IsNullOrEmpty() && Properties.Any();
-            }
-        }
+        public bool IsActive => Query.HasValue() && Properties.Any();
+
+        public EntitySearch(string query, IEnumerable<Property> properties)
+            => (Query, Properties) = (query, properties);
     }
 }

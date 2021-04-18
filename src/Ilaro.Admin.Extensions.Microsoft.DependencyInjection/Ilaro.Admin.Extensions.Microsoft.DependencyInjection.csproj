@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Dawn.Guard" Version="1.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.5" />
+    <PackageReference Include="SqlKata.Execution" Version="2.3.2" />
   </ItemGroup>
 
   <ItemGroup>

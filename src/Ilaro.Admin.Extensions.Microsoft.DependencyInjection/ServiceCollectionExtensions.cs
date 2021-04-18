@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SqlKata.Compilers;
+using SqlKata.Execution;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 
@@ -62,6 +65,13 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
 
             ServiceRegistrar.AddRequiredServices(services, serviceConfig);
             ServiceRegistrar.AddIlaroAdminClasses(services, assemblies);
+
+            services.AddScoped(x =>
+            {
+                var connection = new SqlConnection("Server=.\\sql2017;initial catalog=Northwind;integrated security=SSPI");
+                var compiler = new SqlServerCompiler();
+                return new QueryFactory(connection, compiler);
+            });
 
             IIlaroAdminOptions appOptions = new IlaroAdminOptions
             {

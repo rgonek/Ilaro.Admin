@@ -13,16 +13,14 @@ namespace Ilaro.Admin.Areas.IlaroAdmin.Pages
     {
         private readonly IRecordService _recordService;
 
+        public ListModel(IRecordService recordService)
+            => _recordService = recordService;
+
         public Entity Entity { get; private set; }
 
         public IList<Column> Columns { get; private set; }
 
-        public IList<EntityRecord> Records { get; set; }
-
-        public ListModel(IRecordService recordService)
-        {
-            _recordService = recordService;
-        }
+        public IList<EntityRecord> Records { get; private set; }
 
         public void OnGet(Entity entity, [FromQuery] TableInfo tableInfo)
         {

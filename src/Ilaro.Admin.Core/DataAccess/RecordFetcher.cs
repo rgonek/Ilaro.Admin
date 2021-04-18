@@ -7,71 +7,72 @@ using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.Filters;
 using Ilaro.Admin.Core.Models;
 using Massive;
-using Resources;
+using SqlKata;
+using Ilaro.Admin.Core.DataAccess.Extensions;
+using SqlKata.Execution;
+using Dawn;
 
 namespace Ilaro.Admin.Core.DataAccess
 {
     public class RecordFetcher : IRecordFetcher
     {
-        //private static readonly IInternalLogger _log = LoggerProvider.LoggerFor(typeof(RecordFetcher));
-        private readonly INotificator _notificator;
-        private readonly IIlaroAdmin _admin;
+        private readonly QueryFactory _db;
 
-        public RecordFetcher(IIlaroAdmin admin, INotificator notificator)
+        public RecordFetcher(QueryFactory db)
         {
-            if (admin == null)
-                throw new ArgumentNullException(nameof(admin));
-            if (notificator == null)
-                throw new ArgumentNullException(nameof(notificator));
+            Guard.Argument(db, nameof(db)).NotNull();
 
-            _admin = admin;
-            _notificator = notificator;
+            _db = db;
         }
 
-        public EntityRecord GetEntityRecord(Entity entity, string key)
+        public EntityRecord GetEntityRecord(Entity entity, string value)
         {
-            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+            var values = value
+                .Split(Id.ColumnSeparator)
+                .Select(x => x.Trim())
+                .ToArray();
 
-            return GetEntityRecord(entity, keys);
+            return GetEntityRecord(entity, values);
         }
 
-        public EntityRecord GetEntityRecord(Entity entity, params string[] key)
+        public EntityRecord GetEntityRecord(Entity entity, params object[] values)
+            => GetEntityRecord(entity, entity.Id.Fill(values));
+
+        public EntityRecord GetEntityRecord(Entity entity, IdValue idValue)
         {
-            var keys = new object[key.Length];
-            for (int i = 0; i < key.Length; i++)
-            {
-                keys[i] = new PropertyValue(entity.Keys[i]).ToObject(key[i]);
-            }
-            var item = GetRecord(entity, keys);
+            var item = GetRecord(entity, idValue);
             if (item == null)
             {
-                _notificator.Error(IlaroAdminResources.EntityNotExist);
                 return null;
             }
 
             return entity.CreateRecord(item);
         }
 
-        public IDictionary<string, object> GetRecord(Entity entity, string key)
+        public IDictionary<string, object> GetRecord(Entity entity, string value)
         {
-            var keys = key
-                .Split(Const.KeyColSeparator)
+            var values = value
+                .Split(Id.ColumnSeparator)
                 .Select(x => x.Trim())
                 .ToArray();
 
-            return GetRecord(entity, keys);
+            return GetRecord(entity, values);
         }
 
-        public IDictionary<string, object> GetRecord(Entity entity, params object[] key)
+        public IDictionary<string, object> GetRecord(Entity entity, params object[] values)
+            => GetRecord(entity, entity.Id.Fill(values));
+
+        public IDictionary<string, object> GetRecord(Entity entity, IdValue idValue)
         {
-            var table = new DynamicModel(
-                _admin.ConnectionStringName,
-                tableName: entity.Table,
-                primaryKeyField: entity.JoinedKeys);
+            var query = _db.Query(entity.Table)
+                .Select(entity.SelectableColumns.ToArray());
 
-            var result = table.Single(key);
+            foreach (var keyValue in idValue)
+            {
+                query.Where(keyValue.Property.Column, keyValue.AsObject);
+            }
 
-            return result;
+            return query.First();
         }
 
         public PagedRecords GetRecords(
@@ -85,103 +86,57 @@ namespace Ilaro.Admin.Core.DataAccess
             int? take = null,
             bool loadForeignKeys = false)
         {
-            var search = new EntitySearch
-            {
-                Query = searchQuery,
-                Properties = entity.SearchProperties
-            };
-            order = order.IsNullOrEmpty() ? entity.Keys.FirstOrDefault().Column : order;
-            orderDirection = orderDirection.IsNullOrEmpty() ?
-                "ASC" :
-                orderDirection.ToUpper();
-            var orderBy = order + " " + orderDirection;
-            var columns = string.Join(",",
-                entity.DisplayProperties
-                    .Union(entity.Keys)
-                    .Where(x =>
-                        !x.IsForeignKey ||
-                        (!x.TypeInfo.IsCollection && x.IsForeignKey))
-                    .Select(x => $"{entity.Table}.{x.Column} as {x.Column}")
-                    .Distinct());
-            List<object> args;
-            var where = ConvertFiltersToSql(filters, search, out args);
+            var orderedColumn = order.IsNullOrEmpty() ? entity.Id.Keys.First().Column : order;
+            var query = _db.Query(entity.Table)
+                .Select(entity.SelectableColumns.ToArray())
+                .OrderBy(orderedColumn, OrderDirection.Asc);
 
-            var table = new DynamicModel(
-                _admin.ConnectionStringName,
-                entity.Table,
-                entity.JoinedKeys);
+            AddFilters(query, filters, new EntitySearch(searchQuery, entity.SearchProperties));
 
             if (page.HasValue && take.HasValue)
             {
-                var result = table.Paged(
-                    columns: columns,
-                    where: where,
-                    orderBy: orderBy,
-                    currentPage: page.Value,
-                    pageSize: take.Value,
-                    args: args.ToArray());
-
-                var records = new List<EntityRecord>();
-                foreach (var item in result.Items)
-                {
-                    records.Add(entity.CreateRecord((Dictionary<string, object>)item));
-                }
-
-                return new PagedRecords
-                {
-                    TotalItems = result.TotalRecords,
-                    TotalPages = result.TotalPages,
-                    Records = records
-                };
+                query.ForPage(page.Value, take.Value);
             }
-            else
+
+            var records = query.Get()
+                .Select(item => entity.CreateRecord((IDictionary<string, object>)item))
+                .ToList();
+
+            return new PagedRecords
             {
-                var joins = "";
-                if (loadForeignKeys)
-                {
-                    foreach (var foreignKey in entity.ForeignKeys.WhereOneToMany())
-                    {
-                        var joinTable = foreignKey.ForeignEntity.Table;
-                        var joinProperty = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity == entity);
+                //TotalItems = result.TotalRecords,
+                //TotalPages = result.TotalPages,
+                Records = records
+            };
+            //var joins = "";
+            //if (loadForeignKeys)
+            //{
+            //    foreach (var foreignKey in entity.ForeignKeys.WhereOneToMany())
+            //    {
+            //        var joinTable = foreignKey.ForeignEntity.Table;
+            //        var joinProperty = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity == entity);
 
-                        var keyProperty = foreignKey.TypeInfo.IsCollection ?
-                            entity.Keys.FirstOrDefault() :
-                            foreignKey;
+            //        var keyProperty = foreignKey.TypeInfo.IsCollection ?
+            //            entity.Keys.FirstOrDefault() :
+            //            foreignKey;
 
-                        joins += Environment.NewLine +
-                            $"left join {joinTable} on {joinTable}.{joinProperty.Column} = {entity.Table}.{keyProperty.Column}";
+            //        joins += Environment.NewLine +
+            //            $"left join {joinTable} on {joinTable}.{joinProperty.Column} = {entity.Table}.{keyProperty.Column}";
 
-                        var propertyToGet = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity != entity) ??
-                                            joinProperty;
+            //        var propertyToGet = foreignKey.ForeignEntity.Keys.FirstOrDefault(x => x.ForeignEntity != entity) ??
+            //                            joinProperty;
 
-                        columns += $",{joinTable}.{propertyToGet.Column} as {foreignKey.Column}";
-                    }
-                }
-                var result = table.All(
-                    columns: columns,
-                    joins: joins,
-                    where: where,
-                    orderBy: orderBy,
-                    args: args.ToArray());
-
-                var records = result
-                    .Select(item => entity.CreateRecord(item))
-                    .ToList();
-
-                return new PagedRecords
-                {
-                    Records = records
-                };
-            }
+            //        //columns += $",{joinTable}.{propertyToGet.Column} as {foreignKey.Column}";
+            //    }
+            //}
         }
 
-        private string ConvertFiltersToSql(
+        private void AddFilters(
+            Query query,
             IList<BaseFilter> filters,
             EntitySearch search,
-            out List<object> args,
             string alias = "")
         {
-            args = new List<object>();
             filters = filters ?? new List<BaseFilter>();
 
             var activeFilters = filters
@@ -189,7 +144,7 @@ namespace Ilaro.Admin.Core.DataAccess
                 .ToList();
             if (!activeFilters.Any() && !search.IsActive)
             {
-                return null;
+                return;
             }
 
             if (!alias.IsNullOrEmpty())
@@ -200,61 +155,31 @@ namespace Ilaro.Admin.Core.DataAccess
             var sbConditions = new StringBuilder();
             foreach (var filter in activeFilters)
             {
-                var condition = filter.GetSqlCondition(alias, ref args);
-
-                if (!condition.IsNullOrEmpty())
-                {
-                    sbConditions.AppendFormat(" {0} AND", condition);
-                }
+                filter.AddCondition(query);
             }
 
             if (search.IsActive)
             {
-                var searchCondition = String.Empty;
                 foreach (var property in search.Properties)
                 {
-                    var query = search.Query.TrimStart('>', '<');
-                    decimal temp;
+                    var searchQuery = search.Query.TrimStart('>', '<');
                     if (property.TypeInfo.IsString)
                     {
-                        searchCondition += " {0}{1} LIKE @{2} OR"
-                            .Fill(alias, property.Column, args.Count);
-                        args.Add("%" + search.Query + "%");
+                        query.OrWhereLike(property.Column, search.Query);
                     }
-                    else if (decimal.TryParse(query.Replace(",", "."), NumberStyles.Any, CultureInfo.CurrentCulture, out temp))
+                    else if (decimal.TryParse(searchQuery.Replace(",", "."), NumberStyles.Any, CultureInfo.CurrentCulture, out var number))
                     {
-                        var sign = "=";
-                        if (search.Query.StartsWith(">"))
+                        var sign = search.Query[0] switch
                         {
-                            sign = ">=";
-                        }
-                        else if (search.Query.StartsWith("<"))
-                        {
-                            sign = "<=";
-                        }
+                            '>' => ">=",
+                            '<' => "<=",
+                            _ => "="
+                        };
 
-                        searchCondition += " {0}{1} {2} @{3} OR"
-                            .Fill(alias, property.Column, sign, args.Count);
-                        args.Add(temp);
+                        query.OrWhere(property.Column, sign, number);
                     }
                 }
-
-                if (!searchCondition.IsNullOrEmpty())
-                {
-                    searchCondition = searchCondition
-                        .TrimStart(' ')
-                        .TrimEnd("OR".ToCharArray());
-                    sbConditions.AppendFormat(" ({0})", searchCondition);
-                }
             }
-
-            var conditions = sbConditions.ToString();
-            if (conditions.IsNullOrEmpty())
-            {
-                return null;
-            }
-
-            return " WHERE" + conditions.TrimEnd("AND".ToCharArray());
         }
     }
 }

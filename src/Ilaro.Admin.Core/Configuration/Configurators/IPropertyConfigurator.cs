@@ -129,7 +129,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
         /// <summary>
         /// Set default order for property
         /// </summary>
-        IPropertyConfigurator DefaultOrder(OrderType orderType = OrderType.Asc);
+        IPropertyConfigurator DefaultOrder(OrderDirection orderType = OrderDirection.Asc);
 
         /// <summary>
         /// Set default filter for property

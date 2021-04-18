@@ -40,7 +40,7 @@ namespace Ilaro.Admin.Core.DataAccess
         public string CreateChanges(EntityRecord entityRecord)
         {
             var display = entityRecord.ToString();
-            var joinedKeyValue = "#" + entityRecord.JoinedKeysValues;
+            var joinedKeyValue = "#" + entityRecord.Id.ToString();
             if (display != joinedKeyValue)
             {
                 display += " ({0})".Fill(joinedKeyValue);
@@ -51,7 +51,7 @@ namespace Ilaro.Admin.Core.DataAccess
         public string DeleteChanges(EntityRecord entityRecord, IDictionary<string, object> existingRecord)
         {
             var display = entityRecord.ToString();
-            var joinedKeyValue = "#" + entityRecord.JoinedKeysValues;
+            var joinedKeyValue = "#" + entityRecord.Id.ToString();
             if (display != joinedKeyValue)
             {
                 display += " ({0})".Fill(joinedKeyValue);

@@ -22,63 +22,28 @@ namespace Ilaro.Admin.Core
 
         public IList<Property> Properties { get; private set; }
 
-        public IEnumerable<Property> FilterProperties
-        {
-            get
-            {
-                return Properties.Where(x => x.TypeInfo.IsBool);
-            }
-        }
+        public IEnumerable<Property> FilterProperties => Properties.Where(x => x.TypeInfo.IsBool);
 
-        public IList<Property> Keys
-        {
-            get
-            {
-                return Properties.Where(x => x.IsKey).ToList();
-            }
-        }
+        public Id Id => Properties.Where(x => x.IsKey).ToList();
 
-        public IEnumerable<Property> ForeignKeys
-        {
-            get
-            {
-                return Properties.Where(x => x.IsForeignKey);
-            }
-        }
+        public IEnumerable<Property> ForeignKeys => Properties.Where(x => x.IsForeignKey);
 
-        public string JoinedKeys
-        {
-            get { return string.Join(Const.KeyColSeparator.ToString(), Keys.Select(x => x.Column)); }
-        }
+        public bool IsChangeEntity => TypeInfo.IsChangeEntity(Type);
 
-        public bool IsChangeEntity
-        {
-            get { return TypeInfo.IsChangeEntity(Type); }
-        }
+        public IList<GroupProperties> Groups { get; private set; } = new List<GroupProperties>();
 
-        public IList<GroupProperties> Groups { get; private set; }
-            = new List<GroupProperties>();
+        public IEnumerable<Property> DisplayProperties => Properties.Where(x => x.IsVisible);
 
-        public IEnumerable<Property> DisplayProperties
-        {
-            get
-            {
-                return Properties.Where(x => x.IsVisible);
-            }
-        }
+        public IEnumerable<Property> SearchProperties => Properties.Where(x => x.IsSearchable);
 
-        public IEnumerable<Property> SearchProperties
-        {
-            get
-            {
-                return Properties.Where(x => x.IsSearchable);
-            }
-        }
+        public IEnumerable<string> SelectableColumns => DisplayProperties
+                .Union(Id.Keys)
+                .Where(x => !x.IsForeignKey
+                    || (!x.TypeInfo.IsCollection && x.IsForeignKey))
+                .Select(x => Table + "." + x.Column)
+                .Distinct();
 
-        public bool IsSearchActive
-        {
-            get { return SearchProperties.Any(); }
-        }
+        public bool IsSearchActive => SearchProperties.Any();
 
         public bool AllowAdd { get; private set; } = true;
         public bool AllowEdit { get; internal set; } = true;
@@ -91,10 +56,7 @@ namespace Ilaro.Admin.Core
         public bool SoftDeleteEnabled { get; internal set; }
         public bool ConcurrencyCheckEnabled { get; internal set; }
 
-        public Property this[string propertyName]
-        {
-            get { return Properties.FirstOrDefault(x => x.Name == propertyName); }
-        }
+        public Property this[string propertyName] => Properties.FirstOrDefault(x => x.Name == propertyName);
 
         public Entity(Type type)
         {
@@ -123,14 +85,9 @@ namespace Ilaro.Admin.Core
 
         internal void SetTableName(string table, string schema = null)
         {
-            if (!schema.IsNullOrEmpty())
-            {
-                Table = "[" + schema + "].[" + table + "]";
-            }
-            else
-            {
-                Table = "[" + table + "]";
-            }
+            Table = schema.HasValue()
+                ? schema + "." + table
+                : table;
         }
     }
 }

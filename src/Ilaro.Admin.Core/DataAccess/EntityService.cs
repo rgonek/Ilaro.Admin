@@ -77,7 +77,7 @@ namespace Ilaro.Admin.Core.DataAccess
             }
             var existingRecord = _source.GetRecord(
                 entity,
-                entityRecord.Keys.Select(value => value.AsObject).ToArray());
+                entityRecord.Id.Select(value => value.AsObject).ToArray());
             if (existingRecord != null)
             {
                 _notificator.Error(IlaroAdminResources.EntityAlreadyExist);
@@ -211,7 +211,7 @@ namespace Ilaro.Admin.Core.DataAccess
             {
                 var entityToLoad = GetEntityToLoad(foreignValue.Property);
                 var records = _source.GetRecords(entityToLoad, determineDisplayValue: true, loadForeignKeys: foreignValue.Property.IsManyToMany).Records;
-                foreignValue.PossibleValues = records.ToDictionary(x => x.JoinedKeysValues, x => x.ToString());
+                foreignValue.PossibleValues = records.ToDictionary(x => x.Id.ToString(), x => x.ToString());
                 if (foreignValue.Property.TypeInfo.IsCollection)
                 {
                     foreignValue.Values = GetRecordValues(foreignValue.Property, key, records).ToList();
@@ -227,12 +227,12 @@ namespace Ilaro.Admin.Core.DataAccess
             {
                 return records
                     .Where(x => x.Values.Any(y => y.Property.ForeignEntity == foreignProperty.ForeignEntity && y.AsString == key))
-                    .Select(x => x.JoinedKeysValues);
+                    .Select(x => x.Id.ToString());
             }
 
             return records
                 .Where(x => x.Values.Any(y => y.Property.ForeignEntity == foreignProperty.Entity && y.AsString == key))
-                .Select(x => x.JoinedKeysValues);
+                .Select(x => x.Id.ToString());
         }
 
         private static Entity GetEntityToLoad(Property foreignProperty)

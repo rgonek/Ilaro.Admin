@@ -36,10 +36,8 @@ namespace Ilaro.Admin.Core
             this[entity.Type] = entity;
         }
 
-        public IEnumerator<Entity> GetEnumerator()
-            => _entities.Values.GetEnumerator();
+        public IEnumerator<Entity> GetEnumerator() => _entities.Values.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

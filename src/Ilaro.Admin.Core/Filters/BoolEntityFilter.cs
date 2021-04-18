@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Ilaro.Admin.Core.Extensions;
 using Resources;
+using SqlKata;
 
 namespace Ilaro.Admin.Core.Filters
 {
@@ -17,7 +18,6 @@ namespace Ilaro.Admin.Core.Filters
         public BoolEntityFilter(Property property, string value = "")
             : base(property, value)
         {
-
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.All, Const.EmptyFilterValue, Value, additionalMatchValues: string.Empty));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.Yes, "1", Value, null, true.ToString(), "t"));
             Options.Add(new TemplatedSelectListItem(IlaroAdminResources.No, "0", Value, null, false.ToString(), "f"));
@@ -29,6 +29,18 @@ namespace Ilaro.Admin.Core.Filters
             args.Add(Value);
 
             return sql;
+        }
+
+        public override void AddCondition(Query query)
+        {
+            if (Value == "1")
+            {
+                query.WhereTrue(Property.Column);
+            }
+            else if (Value == "0")
+            {
+                query.WhereFalse(Property.Column);
+            }
         }
     }
 }

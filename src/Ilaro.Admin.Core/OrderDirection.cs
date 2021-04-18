@@ -1,6 +1,6 @@
 ﻿namespace Ilaro.Admin.Core
 {
-    public enum OrderType
+    public enum OrderDirection
     {
         Asc,
         Desc

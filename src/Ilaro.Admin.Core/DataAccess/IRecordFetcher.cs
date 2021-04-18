@@ -6,11 +6,13 @@ namespace Ilaro.Admin.Core.DataAccess
 {
     public interface IRecordFetcher
     {
-        EntityRecord GetEntityRecord(Entity entity, string key);
-        EntityRecord GetEntityRecord(Entity entity, params string[] key);
+        EntityRecord GetEntityRecord(Entity entity, string value);
+        EntityRecord GetEntityRecord(Entity entity, params object[] values);
+        EntityRecord GetEntityRecord(Entity entity, IdValue idValue);
 
-        IDictionary<string, object> GetRecord(Entity entity, string key);
-        IDictionary<string, object> GetRecord(Entity entity, params object[] key);
+        IDictionary<string, object> GetRecord(Entity entity, string value);
+        IDictionary<string, object> GetRecord(Entity entity, params object[] values);
+        IDictionary<string, object> GetRecord(Entity entity, IdValue idValue);
 
         PagedRecords GetRecords(
             Entity entity,

@@ -24,10 +24,10 @@ namespace Ilaro.Admin.Core
             get { return _column; }
             internal set
             {
-                if (value.StartsWith("[") && value.EndsWith("]"))
+                //if (value.StartsWith("[") && value.EndsWith("]"))
                     _column = value;
-                else
-                    _column = "[" + value + "]";
+                //else
+                //    _column = "[" + value + "]";
             }
         }
 
@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core
         public bool IsCreatable { get; internal set; } = true;
         public bool IsTimestamp { get; internal set; }
         public bool IsConcurrencyCheck { get; internal set; }
-        public OrderType? DefaultOrder { get; internal set; }
+        public OrderDirection? DefaultOrder { get; internal set; }
         public object DefaultFilter { get; internal set; }
         public bool IsFilterable { get; internal set; }
         public bool IsManyToMany { get; internal set; }

@@ -33,7 +33,7 @@ namespace Ilaro.Admin.Core.DataAccess
             var sql = GenerateHierarchySql(hierarchy);
             //_log.Debug($"Sql hierarchy: \r\n {sql}");
             var model = new DynamicModel(_admin.ConnectionStringName);
-            var records = model.Query(sql, entityRecord.Keys.Select(x => x.Raw).ToArray()).ToList();
+            var records = model.Query(sql, entityRecord.Id.Select(x => x.Raw).ToArray()).ToList();
 
             var recordHierarchy = GetHierarchyRecords(records, hierarchy);
 
@@ -62,7 +62,7 @@ namespace Ilaro.Admin.Core.DataAccess
             var recordHierarchy = new RecordHierarchy
             {
                 Entity = hierarchy.Entity,
-                JoinedKeysValues = record.JoinedKeysValues,
+                JoinedKeysValues = record.Id,
                 DisplayName = record.ToString(),
                 SubRecordsHierarchies = new List<RecordHierarchy>()
             };
@@ -87,12 +87,12 @@ namespace Ilaro.Admin.Core.DataAccess
                 {
                     var entityRecord = hierarchy.Entity.CreateRecord(record, prefix);
 
-                    if (entityRecord.Keys.Any(x => x.AsString.HasValue()))
+                    if (entityRecord.Id.Any(x => x.AsString.HasValue()))
                     {
                         var subRecord = new RecordHierarchy
                         {
                             Entity = hierarchy.Entity,
-                            JoinedKeysValues = entityRecord.JoinedKeysValues,
+                            JoinedKeysValues = entityRecord.Id,
                             DisplayName = entityRecord.ToString(),
                             SubRecordsHierarchies = new List<RecordHierarchy>()
                         };
@@ -106,8 +106,8 @@ namespace Ilaro.Admin.Core.DataAccess
                                 subRecord,
                                 records,
                                 hierarchy.SubHierarchies,
-                                hierarchy.Entity.Keys.Select(x => prefix + x.Column.Undecorate()).ToList(),
-                                entityRecord.Keys.Select(x=>x.AsString).ToList());
+                                hierarchy.Entity.Id.Select(x => prefix + x.Column.Undecorate()).ToList(),
+                                entityRecord.Id.Select(x => x.AsString).ToList());
                         }
                     }
                 }
@@ -142,13 +142,13 @@ namespace Ilaro.Admin.Core.DataAccess
             var commaSeparator = "," + Environment.NewLine + "         ";
             var columns = string.Join(commaSeparator, columnsList);
 
-            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Keys.Select(y => x.Alias + "." + y.Column)).ToList();
+            var ordersList = flatHierarchy.SelectMany(x => x.Entity.Id.Select(y => x.Alias + "." + y.Column)).ToList();
             var orders = string.Join(commaSeparator, ordersList);
             var joins = GetJoins(flatHierarchy);
 
             var constraintsList = new List<string>();
             var counter = 0;
-            foreach (var key in hierarchy.Entity.Keys)
+            foreach (var key in hierarchy.Entity.Id)
             {
                 constraintsList.Add($"{hierarchy.Alias}.{key.Column} = @{counter++}");
             }
@@ -179,14 +179,14 @@ ORDER BY {orders};";
                     .FirstOrDefault(x => x.ForeignEntity == item.ParentHierarchy.Entity);
                 if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
                 {
-                    foreignKey = item.Entity.Keys.FirstOrDefault().Column;
+                    foreignKey = item.Entity.Id.FirstOrDefault().Column;
                     key = item.ParentHierarchy.Entity.Properties
                         .FirstOrDefault(x => x.ForeignEntity == item.Entity).Column;
                 }
                 else
                 {
                     foreignKey = foreignProperty.Column;
-                    key = item.ParentHierarchy.Entity.Keys.FirstOrDefault().Column;
+                    key = item.ParentHierarchy.Entity.Id.FirstOrDefault().Column;
                 }
 
                 var join = $@"LEFT OUTER JOIN {foreignTable} AS {foreignAlias} ON {foreignAlias}.{foreignKey} = {alias}.{key}";

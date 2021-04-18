@@ -9,7 +9,7 @@ namespace Ilaro.Admin.Sample.Northwind.Configurators
         {
             Group("Order");
 
-            Table("Order Details");
+            Table("[Order Details]");
 
             Id(x => x.OrderID, x => x.ProductID);
 

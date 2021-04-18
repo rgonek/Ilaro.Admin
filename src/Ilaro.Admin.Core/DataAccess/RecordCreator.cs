@@ -85,11 +85,11 @@ namespace Ilaro.Admin.Core.DataAccess
             var values = sbValues.ToString().Substring(0, sbValues.Length - 1);
             var idType = "int";
             var insertedId = "SCOPE_IDENTITY()";
-            if (entityRecord.Keys.Count > 1 || entityRecord.Keys.FirstOrDefault().Property.TypeInfo.IsString)
+            if (entityRecord.Id.Count > 1 || entityRecord.Id.First().Property.TypeInfo.IsString)
             {
                 idType = "nvarchar(max)";
                 insertedId = "@" + counter;
-                cmd.AddParam(entityRecord.JoinedKeysValues);
+                cmd.AddParam(entityRecord.Id);
             }
             var table = entityRecord.Entity.Table;
 
@@ -107,7 +107,7 @@ SELECT @newID;
 
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
-            if (entityRecord.Keys.Count > 1)
+            if (entityRecord.Id.Count > 1)
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
@@ -118,12 +118,12 @@ SELECT @newID;
             {
                 var values =
                     propertyValue.Values.Select(
-                        x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                        x => x.ToStringSafe().Split(Id.ColumnSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
                 var addSqlPart = true;
-                for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
+                for (int i = 0; i < propertyValue.Property.ForeignEntity.Id.Count; i++)
                 {
-                    var key = propertyValue.Property.ForeignEntity.Keys[i];
+                    var key = propertyValue.Property.ForeignEntity.Id[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     addSqlPart = joinedValues.HasValue();
@@ -138,7 +138,7 @@ SELECT @newID;
                     sbUpdates.AppendLine();
 
                     var table = propertyValue.Property.ForeignEntity.Table;
-                    var foreignKey = entityRecord.Entity.Keys.FirstOrDefault().Column;
+                    var foreignKey = entityRecord.Entity.Id.First().Column;
 
                     sbUpdates.Append($@"UPDATE {table}
    SET {foreignKey} = @newID 
@@ -151,7 +151,7 @@ SELECT @newID;
 
         private void AddManyToManyForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
-            if (entityRecord.Keys.Count > 1)
+            if (entityRecord.Id.Count > 1)
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;

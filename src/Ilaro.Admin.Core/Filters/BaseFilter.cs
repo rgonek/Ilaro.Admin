@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Ilaro.Admin.Core.Extensions;
+using SqlKata;
+using System.Collections.Generic;
 
 namespace Ilaro.Admin.Core.Filters
 {
@@ -12,15 +14,9 @@ namespace Ilaro.Admin.Core.Filters
 
         public abstract bool DisplayInUI { get; }
 
-        public bool IsActive { get { return string.IsNullOrWhiteSpace(Value) == false; } }
+        public bool IsActive => Value.HasValue();
 
-        public bool IsVisible
-        {
-            get
-            {
-                return DisplayInUI && Property.IsFilterable;
-            }
-        }
+        public bool IsVisible => DisplayInUI && Property.IsFilterable;
 
         public BaseFilter(Property property, string value = "")
         {
@@ -30,6 +26,8 @@ namespace Ilaro.Admin.Core.Filters
         }
 
         public abstract string GetSqlCondition(string alias, ref List<object> args);
+
+        public abstract void AddCondition(Query query);
     }
 
     public abstract class BaseFilter<T> : BaseFilter

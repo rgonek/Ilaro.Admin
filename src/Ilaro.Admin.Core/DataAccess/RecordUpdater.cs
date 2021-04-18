@@ -115,14 +115,14 @@ namespace Ilaro.Admin.Core.DataAccess
                 var setsSeparator = "," + Environment.NewLine + "       ";
                 var sets = string.Join(setsSeparator, setsList);
                 var table = entityRecord.Entity.Table;
-                var constraints = GetConstraints(entityRecord.Keys, cmd);
+                var constraints = GetConstraints(entityRecord.Id, cmd);
                 cmd.CommandText = $@"-- update record
 UPDATE {table}
    SET {sets} 
  WHERE {constraints};
 ";
             }
-            cmd.AddParam(entityRecord.JoinedKeysValues);
+            cmd.AddParam(entityRecord.ToString());
             var joinedKeyValueParameterName = counter.ToString();
             cmd.CommandText += $@"-- return record id
 SELECT @{joinedKeyValueParameterName};";
@@ -200,9 +200,9 @@ END
                 var changedEntityNameParam = cmd.Parameters.Count;
                 cmd.AddParam(entityRecord.Entity.Name);
                 var changedEntityKeyParam = cmd.Parameters.Count;
-                cmd.AddParam(entityRecord.JoinedKeysValues);
+                cmd.AddParam(entityRecord.Id.ToString());
 
-                var constraints = GetConstraints(entityRecord.Keys, cmd, "[t0]");
+                var constraints = GetConstraints(entityRecord.Id, cmd, "[t0]");
 
                 sql =
                     $@"@{concurrencyCheckParam} <=
@@ -220,7 +220,7 @@ END
             }
             else
             {
-                var constraints = GetConstraints(entityRecord.Keys, cmd);
+                var constraints = GetConstraints(entityRecord.Id, cmd);
 
                 sql =
                     $@"@{concurrencyCheckParam} <>
@@ -234,7 +234,7 @@ END
 
         private void AddForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
-            if (entityRecord.Keys.Count > 1)
+            if (entityRecord.Id.Count > 1)
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
@@ -246,23 +246,23 @@ END
                     new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
-                            entityRecord.Entity.Keys.FirstOrDefault(),
-                            entityRecord.Keys.FirstOrDefault().Raw.ToStringSafe())
+                            entityRecord.Entity.Id.FirstOrDefault(),
+                            entityRecord.Id.First().Raw.ToStringSafe())
                     }).Records;
                 var idsToRemoveRelation = actualRecords
-                    .Select(x => x.JoinedKeysValues)
+                    .Select(x => x.Id.ToString())
                     .Except(propertyValue.Values.Select(x => x.ToStringSafe()))
                     .ToList();
                 if (idsToRemoveRelation.Any())
                 {
                     var values2 =
                         idsToRemoveRelation.Select(
-                            x => x.Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                            x => x.Split(Id.ColumnSeparator).Select(y => y.Trim()).ToList()).ToList();
                     var whereParts2 = new List<string>();
                     var addNullSqlPart = true;
-                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
+                    for (int i = 0; i < propertyValue.Property.ForeignEntity.Id.Count; i++)
                     {
-                        var key = propertyValue.Property.ForeignEntity.Keys[i];
+                        var key = propertyValue.Property.ForeignEntity.Id[i];
                         var joinedValues = string.Join(",", values2.Select(x => "@" + paramIndex++));
                         whereParts2.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                         addNullSqlPart = joinedValues.HasValue();
@@ -277,7 +277,7 @@ END
                         sbUpdates.AppendLine("-- set to null update");
                         sbUpdates.AppendFormat(BuildForeignUpdateSql(
                             propertyValue.Property.ForeignEntity.Table,
-                            entityRecord.Entity.Keys.FirstOrDefault().Column,
+                            entityRecord.Entity.Id.FirstOrDefault().Column,
                             (paramIndex++).ToString(),
                             wherePart2));
                         cmd.AddParam(null);
@@ -286,12 +286,12 @@ END
 
                 var values =
                     propertyValue.Values.Select(
-                        x => x.ToStringSafe().Split(Const.KeyColSeparator).Select(y => y.Trim()).ToList()).ToList();
+                        x => x.ToStringSafe().Split(Id.ColumnSeparator).Select(y => y.Trim()).ToList()).ToList();
                 var whereParts = new List<string>();
                 var addSqlPart = true;
-                for (int i = 0; i < propertyValue.Property.ForeignEntity.Keys.Count; i++)
+                for (int i = 0; i < propertyValue.Property.ForeignEntity.Id.Count; i++)
                 {
-                    var key = propertyValue.Property.ForeignEntity.Keys[i];
+                    var key = propertyValue.Property.ForeignEntity.Id[i];
                     var joinedValues = string.Join(",", values.Select(x => "@" + paramIndex++));
                     whereParts.Add("{0} In ({1})".Fill(key.Column, joinedValues));
                     addSqlPart = joinedValues.HasValue();
@@ -305,10 +305,10 @@ END
                     sbUpdates.AppendLine();
                     sbUpdates.Append(BuildForeignUpdateSql(
                         propertyValue.Property.ForeignEntity.Table,
-                        entityRecord.Entity.Keys.FirstOrDefault().Column,
+                        entityRecord.Entity.Id.First().Column,
                         (paramIndex++).ToString(),
                         wherePart));
-                    cmd.AddParam(entityRecord.Keys.FirstOrDefault().Raw);
+                    cmd.AddParam(entityRecord.Id.First().Raw);
                 }
             }
 
@@ -317,20 +317,20 @@ END
 
         private void AddManyToManyForeignsUpdate(DbCommand cmd, EntityRecord entityRecord)
         {
-            if (entityRecord.Keys.Count > 1)
+            if (entityRecord.Id.Count > 1)
                 return;
             var sbUpdates = new StringBuilder();
             var paramIndex = cmd.Parameters.Count;
             foreach (var propertyValue in entityRecord.Values.WhereOneToMany()
                 .Where(x => x.Property.IsManyToMany))
             {
-                var recordKey = entityRecord.Keys.FirstOrDefault().AsString;
+                var recordKey = entityRecord.Id.First().AsString;
                 var actualRecords = _source.GetRecords(
                     propertyValue.Property.ForeignEntity,
                     new List<BaseFilter>
                     {
                         new ForeignEntityFilter(
-                            entityRecord.Entity.Keys.FirstOrDefault(),
+                            entityRecord.Entity.Id.First(),
                             recordKey)
                     }).Records;
 
@@ -338,7 +338,7 @@ END
 
                 var mtmEntity = GetEntityToLoad(propertyValue.Property);
                 var dbIds = actualRecords
-                    .Select(x => x.Keys.FirstOrDefault(y => y.Property.ForeignEntity == mtmEntity).AsString)
+                    .Select(x => x.Id.First(y => y.Property.ForeignEntity == mtmEntity).AsString)
                     .ToList();
                 var idsToRemove = dbIds
                     .Except(selectedValues)

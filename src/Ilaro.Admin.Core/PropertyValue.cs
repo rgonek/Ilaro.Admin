@@ -3,6 +3,7 @@ using System.Web;
 using Ilaro.Admin.Core.Extensions;
 using Ilaro.Admin.Core.DataAccess;
 using Microsoft.AspNetCore.Http;
+using Dawn;
 
 namespace Ilaro.Admin.Core
 {
@@ -80,20 +81,19 @@ namespace Ilaro.Admin.Core
 
         public PropertyValue(Property property)
         {
+            Guard.Argument(property, nameof(property)).NotNull();
+
             Property = property;
         }
+
+        public PropertyValue(Property property, object value)
+            : this(property)
+            => Raw = value;
 
         public object ToObject(string value)
         {
             Raw = value;
             return AsObject;
-        }
-
-        public void Clear()
-        {
-            Raw = null;
-            Values = new List<object>();
-            PossibleValues = new Dictionary<string, string>();
         }
     }
 }

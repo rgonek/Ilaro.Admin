@@ -6,8 +6,8 @@
 <form method="post" class="form-horizontal">
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
-    @Html.Hidden("EntityName", Model.Entity.Name)
-    @Html.Hidden("Key", Model.Record.JoinedKeysValues)
+    @Html.Hidden(nameof(Entity), Model.Entity.Name)
+    @Html.Hidden(nameof(Id), Model.Record.Id)
 
     <div class="form-group">
         <div class="col-md-3">
@@ -48,7 +48,7 @@
     <div class="form-action">
         <div class="col-md-offset-2">
             <button type="submit" class="btn btn-primary">Delete</button>
-            <a asp-page="Edit" asp-route-entity="@Model.Entity.Name" asp-route-id="@Model.Record.JoinedKeysValues" class="btn btn-default">Edit</a>
+            <a asp-page="Edit" asp-route-entity="@Model.Entity.Name" asp-route-id="@Model.Record.Id" class="btn btn-default">Edit</a>
             <a asp-page="List" asp-route-entity="@Model.Entity.Name" class="btn btn-link">Cancel</a>
         </div>
     </div>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ilaro.Admin.Core.Extensions;
 using Resources;
+using SqlKata;
 
 namespace Ilaro.Admin.Core.Filters
 {
@@ -75,6 +76,31 @@ namespace Ilaro.Admin.Core.Filters
             }
 
             return null;
+        }
+
+        public override void AddCondition(Query query)
+        {
+            if (Value.Contains('-') == false)
+            {
+                query.WhereDate(Property.Column, Value);
+                return;
+            }
+
+            var dates = Value.Split('-');
+
+            if (dates.Length != 2)
+                return;
+
+            if (dates[0].HasValue())
+            {
+                query.WhereDate(Property.Column, ">=", dates[0]);
+            }
+            if (dates[1].HasValue())
+            {
+                query.WhereDate(Property.Column, "<=", dates[1]);
+            }
+
+            return;
         }
     }
 }

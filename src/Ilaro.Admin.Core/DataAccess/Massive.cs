@@ -91,7 +91,7 @@ namespace Massive
 
             _factory = System.Data.SqlClient.SqlClientFactory.Instance;// DbProviderFactories.GetFactory(_providerName);
             ConnectionString = "Server=.\\sql2017;initial catalog=Northwind;integrated security=SSPI";// ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            KeyColSeparator = Const.KeyColSeparator;
+            KeyColSeparator = Id.ColumnSeparator;
         }
 
         public string DescriptorField { get; protected set; }

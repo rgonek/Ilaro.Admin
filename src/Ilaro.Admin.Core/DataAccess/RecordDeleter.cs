@@ -79,7 +79,7 @@ namespace Ilaro.Admin.Core.DataAccess
             var cmd = DB.CreateCommand(_admin.ConnectionStringName);
             var whereParts = new List<string>();
             var counter = 0;
-            foreach (var key in entityRecord.Keys)
+            foreach (var key in entityRecord.Id)
             {
                 key.SqlParameterName = (counter++).ToString();
                 whereParts.Add("{0} = @{1}".Fill(key.Property.Column, key.SqlParameterName));
@@ -87,7 +87,7 @@ namespace Ilaro.Admin.Core.DataAccess
             }
             var constraintsSeparator = Environment.NewLine + "   AND ";
             var constraints = string.Join(constraintsSeparator, whereParts);
-            cmd.AddParam(entityRecord.JoinedKeysValues);
+            cmd.AddParam(entityRecord.Id.ToString());
             var joinedKeySqlParamName = (counter++).ToString();
             var table = entityRecord.Entity.Table;
 
@@ -158,7 +158,7 @@ SELECT @{joinedKeySqlParamName};";
         private string BuildKeyConstraint(EntityRecord entityRecord, string alias)
         {
             var constraints = new List<string>();
-            foreach (var key in entityRecord.Keys)
+            foreach (var key in entityRecord.Id)
             {
                 var column = key.Property.Column;
                 var sqlParameter = key.SqlParameterName;
@@ -276,14 +276,14 @@ $@"DELETE {alias}
             var foreignProperty = parentHierarchy.Entity.ForeignKeys.FirstOrDefault(x => x.ForeignEntity == hierarchy.Entity);
             if (foreignProperty == null || foreignProperty.TypeInfo.IsCollection)
             {
-                parentKey = parentHierarchy.Entity.Keys.FirstOrDefault().Column;
+                parentKey = parentHierarchy.Entity.Id.FirstOrDefault().Column;
                 key = hierarchy.Entity.ForeignKeys
                     .FirstOrDefault(x => x.ForeignEntity == parentHierarchy.Entity).Column;
             }
             else
             {
                 parentKey = foreignProperty.Column;
-                key = hierarchy.Entity.Keys.FirstOrDefault().Column;
+                key = hierarchy.Entity.Id.FirstOrDefault().Column;
             }
 
             var join =
@@ -307,7 +307,7 @@ $@"
             foreach (var foreignKey in hierarchy.Entity.Properties
                 .Where(x => x.ForeignEntity == hierarchy.ParentHierarchy.Entity))
             {
-                var key = hierarchy.ParentHierarchy.Entity.Keys
+                var key = hierarchy.ParentHierarchy.Entity.Id
                     .FirstOrDefault(x => x.Name == foreignKey.ReferencePropertyName);
                 if (key != null)
                 {

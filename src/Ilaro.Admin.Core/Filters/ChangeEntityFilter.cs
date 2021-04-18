@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Ilaro.Admin.Core.Extensions;
+using SqlKata;
 
 namespace Ilaro.Admin.Core.Filters
 {
@@ -23,6 +24,11 @@ namespace Ilaro.Admin.Core.Filters
             var sql = "{0}{1} = @{2}".Fill(alias, Property.Column, args.Count);
             args.Add(Value);
             return sql;
+        }
+
+        public override void AddCondition(Query query)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

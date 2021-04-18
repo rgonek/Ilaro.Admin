@@ -56,7 +56,7 @@ namespace Ilaro.Admin.Core.Configuration.Configurators
 
         public bool IsConcurrencyCheck { get; internal set; }
 
-        public OrderType? DefaultOrder { get; internal set; }
+        public OrderDirection? DefaultOrder { get; internal set; }
 
         public object DefaultFilter { get; internal set; }
 

@@ -65,10 +65,10 @@ namespace Ilaro.Admin.Core.Extensions
 
         public static void SetKeyValue(this EntityRecord entityRecord, string key)
         {
-            var keys = key.Split(Const.KeyColSeparator).Select(x => x.Trim()).ToArray();
+            var keys = key.Split(Id.ColumnSeparator).Select(x => x.Trim()).ToArray();
             for (int i = 0; i < keys.Length; i++)
             {
-                entityRecord.Keys[i].ToObject(keys[i]);
+                entityRecord.Id[i].ToObject(keys[i]);
             }
         }
     }
