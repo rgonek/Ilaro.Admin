@@ -32,6 +32,9 @@ namespace Ilaro.Admin.Core.DataAccess.Extensions
             }
         }
 
+        public static void Transactionally(this QueryFactory db, params IEnumerable<Action<IDbTransaction>>[] actions)
+            => db.Transactionally(actions.SelectMany(x => x).ToArray());
+
         public static IdValue InsertTransactionally(
             this QueryFactory db,
             Func<IDbTransaction, IdValue> insert,
@@ -67,7 +70,7 @@ namespace Ilaro.Admin.Core.DataAccess.Extensions
         public static IdValue InsertTransactionally(
             this QueryFactory db,
             Func<IDbTransaction, IdValue> insert,
-            IEnumerable<Action<IdValue, IDbTransaction>> postInsertActions)
-            => db.InsertTransactionally(insert, postInsertActions.ToArray());
+            params IEnumerable<Action<IdValue, IDbTransaction>>[] postInsertActions)
+            => db.InsertTransactionally(insert, postInsertActions.SelectMany(x => x).ToArray());
     }
 }

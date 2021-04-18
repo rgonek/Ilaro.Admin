@@ -26,14 +26,14 @@ namespace Ilaro.Admin.Core.DataAccess
         public IdValue Create(EntityRecord entityRecord)
             => _db.InsertTransactionally(
                 tx => Insert(entityRecord, tx),
-                UpdateOneToMany(entityRecord).Union(
-                UpdateManyToMany(entityRecord)));
+                UpdateOneToMany(entityRecord),
+                UpdateManyToMany(entityRecord));
 
         private IdValue Insert(EntityRecord entityRecord, IDbTransaction tx)
         {
             var propertyValues = entityRecord.Values
                 .WhereIsNotSkipped()
-                .WhereIsNotOneToMany()
+                .WhereNotOneToMany()
                 .DistinctBy(x => x.Property.Column)
                 .Where(x => x.Property.IsAutoKey == false)
                 .ToKeyValuePairCollection(_user);
@@ -62,7 +62,6 @@ namespace Ilaro.Admin.Core.DataAccess
             var actions = new List<Action<IdValue, IDbTransaction>>();
             foreach (var propertyValue in entityRecord.Values
                 .WhereOneToMany()
-                .Where(x => x.Property.IsManyToMany == false)
                 .Where(value => value.Values.IsNullOrEmpty() == false))
             {
                 var values = propertyValue.Values
@@ -92,9 +91,7 @@ namespace Ilaro.Admin.Core.DataAccess
             }
 
             var actions = new List<Action<IdValue, IDbTransaction>>();
-            foreach (var propertyValue in entityRecord.Values
-                .WhereOneToMany()
-                .Where(x => x.Property.IsManyToMany))
+            foreach (var propertyValue in entityRecord.Values.WhereManyToMany())
             {
                 var selectedValues = propertyValue.Values.Select(x => x.ToStringSafe()).ToList();
 

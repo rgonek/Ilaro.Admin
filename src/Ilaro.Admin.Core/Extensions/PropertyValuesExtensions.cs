@@ -43,23 +43,28 @@ namespace Ilaro.Admin.Core.Extensions
             }
         }
 
-        public static IEnumerable<PropertyValue> WhereIsNotOneToMany(
+        public static IEnumerable<PropertyValue> WhereNotOneToMany(
             this IEnumerable<PropertyValue> propertiesValues)
-        {
-            return propertiesValues
+            => propertiesValues
                 .Where(value =>
                     (value.Property.IsForeignKey &&
                     value.Property.TypeInfo.IsCollection) == false);
-        }
 
         public static IEnumerable<PropertyValue> WhereOneToMany(
             this IEnumerable<PropertyValue> propertiesValues)
-        {
-            return propertiesValues
+            => propertiesValues
                 .Where(value =>
                     value.Property.IsForeignKey &&
                     value.Property.TypeInfo.IsCollection &&
-                    value.Property.ForeignEntity != null);
-        }
+                    value.Property.ForeignEntity != null)
+                .WhereNotManyToMany();
+
+        public static IEnumerable<PropertyValue> WhereManyToMany(
+            this IEnumerable<PropertyValue> propertiesValues)
+            => propertiesValues.Where(x => x.Property.IsManyToMany);
+
+        public static IEnumerable<PropertyValue> WhereNotManyToMany(
+            this IEnumerable<PropertyValue> propertiesValues)
+            => propertiesValues.Where(x => x.Property.IsManyToMany == false);
     }
 }

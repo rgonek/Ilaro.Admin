@@ -133,8 +133,7 @@ namespace Ilaro.Admin.Core.DataAccess
                 {
                     result = _updater.Update(
                         entityRecord,
-                        concurrencyCheckValue,
-                        () => _changeDescriber.UpdateChanges(entityRecord, existingRecord));
+                        concurrencyCheckValue);
                 }
                 catch (Exception ex)
                 {
