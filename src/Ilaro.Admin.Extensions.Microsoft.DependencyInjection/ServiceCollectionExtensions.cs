@@ -63,21 +63,8 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             var serviceConfig = new IlaroAdminServiceConfiguration();
             configuration?.Invoke(serviceConfig);
 
-            ServiceRegistrar.AddRequiredServices(services, serviceConfig);
+            ServiceRegistrar.AddRequiredServices(services, routePrefix, serviceConfig);
             ServiceRegistrar.AddIlaroAdminClasses(services, assemblies);
-
-            services.AddScoped(x =>
-            {
-                var connection = new SqlConnection("Server=.\\sql2017;initial catalog=Northwind;integrated security=SSPI");
-                var compiler = new SqlServerCompiler();
-                return new QueryFactory(connection, compiler);
-            });
-
-            IIlaroAdminOptions appOptions = new IlaroAdminOptions
-            {
-                RoutePrefix = routePrefix
-            };
-            services.TryAddSingleton(appOptions);
 
             services.Configure<RazorPagesOptions>(options =>
             {

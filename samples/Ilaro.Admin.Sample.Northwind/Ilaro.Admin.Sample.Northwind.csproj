@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ilaro.Admin.AspNetCore\Ilaro.Admin.AspNetCore.csproj" />
     <ProjectReference Include="..\..\src\Ilaro.Admin.Extensions.Microsoft.DependencyInjection\Ilaro.Admin.Extensions.Microsoft.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\src\Ilaro.Admin.SqlServer\Ilaro.Admin.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

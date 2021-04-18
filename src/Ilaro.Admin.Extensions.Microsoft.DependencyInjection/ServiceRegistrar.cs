@@ -6,8 +6,11 @@ using Ilaro.Admin.Core.Filters;
 using Ilaro.Admin.Core.Validation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using SqlKata.Compilers;
+using SqlKata.Execution;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 
@@ -195,8 +198,17 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             list.Add(value);
         }
 
-        public static void AddRequiredServices(IServiceCollection services, IlaroAdminServiceConfiguration serviceConfiguration)
+        public static void AddRequiredServices(IServiceCollection services, string routePrefix, IlaroAdminServiceConfiguration serviceConfiguration)
         {
+            services.TryAddScoped(appServices =>
+            {
+                var options = appServices.GetService<IIlaroAdminOptions>();
+                return options.QueryFactoryFactory(options.ConnectionString);
+            });
+            services.TryAddSingleton<IIlaroAdminOptions>(new IlaroAdminOptions
+            {
+                RoutePrefix = routePrefix
+            });
             services.TryAddScoped<INotificator, Notificator>();
             services.TryAddScoped<IKnowTheTime, SystemClock>();
             services.TryAddScoped<IEntityService, EntityService>();
@@ -222,6 +234,7 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
             services.TryAddScoped<IIlaroAdmin, IlaroAdmin>();
             services.TryAddScoped<IUser, StubUser>();
             services.TryAddSingleton<IEntityCollection, EntityCollection>();
+
         }
     }
 }

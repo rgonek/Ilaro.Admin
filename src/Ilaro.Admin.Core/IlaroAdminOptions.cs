@@ -1,4 +1,7 @@
-﻿namespace Ilaro.Admin.Core
+﻿using SqlKata.Execution;
+using System;
+
+namespace Ilaro.Admin.Core
 {
     public class IlaroAdminOptions : IIlaroAdminOptions
     {
@@ -20,7 +23,9 @@
 
         public string UploadFilesTempFolderSufix { get; }
 
-        public string ConnectionStringName { get; set; }
+        public string ConnectionString { get; set; }
+
+        public Func<string, QueryFactory> QueryFactoryFactory { get; set; }
 
         public string RoutePrefix { get; set; }
 

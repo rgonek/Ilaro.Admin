@@ -35,11 +35,21 @@ namespace Microsoft.AspNetCore.Builder
             return builder.UseIlaroAdmin(path, options);
         }
 
+        //public static IApplicationBuilder UseIlaroAdmin(
+        //    this IApplicationBuilder builder,
+        //    Action<IlaroAdminOptions> configure)
+        //{
+        //    var options = new IlaroAdminOptions();
+        //    configure(options);
+
+        //    return builder.UseIlaroAdmin(_defaultPath, options);
+        //}
+
         public static IApplicationBuilder UseIlaroAdmin(
             this IApplicationBuilder builder,
-            Action<IlaroAdminOptions> configure)
+            Action<IlaroAdminOptionsBuilder> configure)
         {
-            var options = new IlaroAdminOptions();
+            var options = new IlaroAdminOptionsBuilder();
             configure(options);
 
             return builder.UseIlaroAdmin(_defaultPath, options);
@@ -59,9 +69,23 @@ namespace Microsoft.AspNetCore.Builder
             var entities = app.ApplicationServices.GetService<IEntityCollection>();
             var configurators = app.ApplicationServices.GetServices<IEntityConfigurator>();
             Configure(configurators, entities);
-            options2.ConnectionStringName = options.ConnectionStringName;
+            //options2.ConnectionStringName = options.ConnectionStringName;
 
             return app.UseWhen(x => x.Request.Path.StartsWithSegments(path), b => b.UseMiddleware<IlaroAdminMiddleware>(options));
+        }
+        public static IApplicationBuilder UseIlaroAdmin(this IApplicationBuilder app, string path, IlaroAdminOptionsBuilder optionsBuilder)
+        {
+            Guard.Argument(app, nameof(app)).NotNull();
+            Guard.Argument(optionsBuilder, nameof(optionsBuilder)).NotNull();
+
+            var options2 = app.ApplicationServices.GetService<IIlaroAdminOptions>();
+            var entities = app.ApplicationServices.GetService<IEntityCollection>();
+            var configurators = app.ApplicationServices.GetServices<IEntityConfigurator>();
+            Configure(configurators, entities);
+            options2.ConnectionString = optionsBuilder.ConnectionString;
+            options2.QueryFactoryFactory = optionsBuilder.QueryFactoryFactory;
+
+            return app;//.UseWhen(x => x.Request.Path.StartsWithSegments(path), b => b.UseMiddleware<IlaroAdminMiddleware>(options));
         }
 
         private static void Configure(IEnumerable<IEntityConfigurator> configurators, IEntityCollection entities)

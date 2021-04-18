@@ -1,12 +1,11 @@
-using Ilaro.Admin.AspNetCore;
 using Ilaro.Admin.Extensions.Microsoft.DependencyInjection;
 using Ilaro.Admin.Sample.Northwind.Configurators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ilaro.Admin.SqlServer;
 
 namespace Ilaro.Admin.Sample.Northwind
 {
@@ -42,7 +41,7 @@ namespace Ilaro.Admin.Sample.Northwind
 
             app.UseIlaroAdmin(opts =>
             {
-               opts.ConnectionStringName = "DefaultConnection";
+               opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             app.UseHttpsRedirection();

@@ -1,8 +1,13 @@
-﻿namespace Ilaro.Admin.Core
+﻿using SqlKata.Execution;
+using System;
+
+namespace Ilaro.Admin.Core
 {
     public interface IIlaroAdminOptions
     {
-        string ConnectionStringName { get; set; }
+        string ConnectionString { get; set; }
+
+        Func<string, QueryFactory> QueryFactoryFactory { get; set; }
 
         string RoutePrefix { get; set; }
 
