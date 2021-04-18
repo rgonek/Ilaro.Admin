@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 
 namespace Ilaro.Admin.Core.Extensions
 {
     public static class EnumExtensions
     {
-        //public static SelectList GetSelectList(this CascadeOption deleteOption)
-        //{
-        //    var options = deleteOption.GetOptions();
-        //    options.Remove(((int)CascadeOption.AskUser).ToString());
+        public static SelectList GetSelectList(this CascadeOption deleteOption)
+        {
+            var options = deleteOption.GetOptions();
+            options.Remove(((int)CascadeOption.AskUser).ToString());
 
-        //    return new SelectList(options, "Key", "Value", (int)deleteOption);
-        //}
+            return new SelectList(options, "Key", "Value", (int)deleteOption);
+        }
 
         public static IDictionary<string, string> GetOptions(
             this Enum enumObject,
