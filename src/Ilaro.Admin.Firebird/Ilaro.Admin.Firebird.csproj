@@ -4,4 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FirebirdSql.Data.FirebirdClient" Version="8.0.1" />
+    <PackageReference Include="SqlKata.Execution" Version="2.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin.AspNetCore\Ilaro.Admin.AspNetCore.csproj" />
+  </ItemGroup>
+
 </Project>

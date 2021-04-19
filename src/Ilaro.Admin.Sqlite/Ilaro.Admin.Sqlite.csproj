@@ -5,12 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="5.0.4" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="SqlKata.Execution" Version="2.3.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Ilaro.Admin.AspNetCore\Ilaro.Admin.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

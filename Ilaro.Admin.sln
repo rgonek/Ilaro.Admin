@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "Depe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{C3018394-635D-423E-BA4C-A2290E13CB25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ilaro.Admin.Sqlite", "src\Ilaro.Admin.Sqlite\Ilaro.Admin.Sqlite.csproj", "{74BB4425-A46F-4F3D-AB29-DC7B3312325D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{C79AC159-318C-4C01-B1B7-BE534457D040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C79AC159-318C-4C01-B1B7-BE534457D040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C79AC159-318C-4C01-B1B7-BE534457D040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74BB4425-A46F-4F3D-AB29-DC7B3312325D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74BB4425-A46F-4F3D-AB29-DC7B3312325D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74BB4425-A46F-4F3D-AB29-DC7B3312325D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74BB4425-A46F-4F3D-AB29-DC7B3312325D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{8CA00D78-277C-4898-B2CA-FB16979E65A8} = {74C962D2-3681-404A-8002-7A084D42EEFC}
 		{4663DDAC-E967-4F06-B17D-07F29E72807F} = {74C962D2-3681-404A-8002-7A084D42EEFC}
 		{C79AC159-318C-4C01-B1B7-BE534457D040} = {74C962D2-3681-404A-8002-7A084D42EEFC}
+		{74BB4425-A46F-4F3D-AB29-DC7B3312325D} = {74C962D2-3681-404A-8002-7A084D42EEFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89E9B9C3-B855-4664-B6EB-2C874E0B191F}
