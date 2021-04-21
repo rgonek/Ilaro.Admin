@@ -12,14 +12,14 @@
 
         public Column(Property property, string order, string orderDirection)
         {
-            order = order.ToLower();
+            order = (order ?? string.Empty).ToLower();
 
             Name = property.Name;
             DisplayName = property.Display;
             Description = property.Description;
-            SortDirection = 
+            SortDirection =
                 property.Name.ToLower() == order ?
-                orderDirection == "asc" ? "up" : "down" : 
+                orderDirection == "asc" ? "up" : "down" :
                 string.Empty;
         }
     }
