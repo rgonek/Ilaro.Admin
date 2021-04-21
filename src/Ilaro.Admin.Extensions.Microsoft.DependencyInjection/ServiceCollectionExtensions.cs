@@ -1,24 +1,15 @@
 ﻿using Dawn;
-using Ilaro.Admin.Core;
 using Ilaro.Admin.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using SqlKata.Compilers;
-using SqlKata.Execution;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 
 namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
 {
-    // Copied from MediatR
-    // some works still need to be done
-    // descriptions need to be changed
     /// <summary>
     /// Extensions to scan for MediatR handlers and registers them.
     /// - Scans for any handler interface implementations and registers them as <see cref="ServiceLifetime.Transient"/>
@@ -30,40 +21,22 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Registers handlers and mediator types from the specified assemblies
-        /// </summary>
-        /// <param name="services">Service collection</param>
-        /// <param name="assemblies">Assemblies to scan</param>
-        /// <returns>Service collection</returns>
-        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, params Assembly[] assemblies)
-            => services.AddIlaroAdmin(routePrefix, assemblies, configuration: null);
+        private const string DefaultRoutePrefix = "/ilaroadmin";
 
         /// <summary>
-        /// Registers handlers and mediator types from the specified assemblies
+        /// Registers configurations from the specified assemblies
         /// </summary>
         /// <param name="services">Service collection</param>
+        /// <param name="routePrefix">Route prefix for administration site</param>
         /// <param name="assemblies">Assemblies to scan</param>
-        /// <param name="configuration">The action used to configure the options</param>
         /// <returns>Service collection</returns>
-        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, Action<IlaroAdminServiceConfiguration> configuration, params Assembly[] assemblies)
-            => services.AddIlaroAdmin(routePrefix, assemblies, configuration);
-
-        /// <summary>
-        /// Registers handlers and mediator types from the specified assemblies
-        /// </summary>
-        /// <param name="services">Service collection</param>
-        /// <param name="assemblies">Assemblies to scan</param>
-        /// <param name="configuration">The action used to configure the options</param>
-        /// <returns>Service collection</returns>
-        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, IEnumerable<Assembly> assemblies, Action<IlaroAdminServiceConfiguration> configuration)
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, IEnumerable<Assembly> assemblies)
         {
             Guard.Argument(assemblies, nameof(assemblies)).NotEmpty(x => "No assemblies found to scan. Supply at least one assembly to scan for handlers.");
 
-            var serviceConfig = new IlaroAdminServiceConfiguration();
-            configuration?.Invoke(serviceConfig);
+            routePrefix ??= DefaultRoutePrefix;
 
-            ServiceRegistrar.AddRequiredServices(services, routePrefix, serviceConfig);
+            ServiceRegistrar.AddRequiredServices(services, routePrefix);
             ServiceRegistrar.AddIlaroAdminClasses(services, assemblies);
 
             services.Configure<RazorPagesOptions>(options =>
@@ -83,39 +56,66 @@ namespace Ilaro.Admin.Extensions.Microsoft.DependencyInjection
                 options.ModelBinderProviders.Insert(1, new IdValueModelBinderProvider());
             });
 
-
             services.ConfigureOptions<UiConfigureOptions>();
 
             return services;
         }
 
         /// <summary>
-        /// Registers handlers and mediator types from the assemblies that contain the specified types
+        /// Registers configurations from the specified assemblies
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="routePrefix">Route prefix for administration site</param>
+        /// <param name="assemblies">Assemblies to scan</param>
+        /// <returns>Service collection</returns>
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, params Assembly[] assemblies)
+            => services.AddIlaroAdmin(routePrefix, assemblies.AsEnumerable());
+
+        /// <summary>
+        /// Registers configurations from the specified assemblies
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="assemblies">Assemblies to scan</param>
+        /// <returns>Service collection</returns>
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, params Assembly[] assemblies)
+            => services.AddIlaroAdmin(DefaultRoutePrefix, assemblies.AsEnumerable());
+
+        /// <summary>
+        /// Registers configurations from the assemblies that contain the specified types
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="routePrefix">Route prefix for administration site</param>
         /// <param name="handlerAssemblyMarkerTypes"></param>
         /// <returns>Service collection</returns>
         public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, params Type[] handlerAssemblyMarkerTypes)
-            => services.AddIlaroAdmin(routePrefix, handlerAssemblyMarkerTypes, configuration: null);
+            => services.AddIlaroAdmin(routePrefix, handlerAssemblyMarkerTypes.AsEnumerable());
 
         /// <summary>
-        /// Registers handlers and mediator types from the assemblies that contain the specified types
+        /// Registers configurations from the assemblies that contain the specified types
         /// </summary>
         /// <param name="services"></param>
         /// <param name="handlerAssemblyMarkerTypes"></param>
-        /// <param name="configuration">The action used to configure the options</param>
         /// <returns>Service collection</returns>
-        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, Action<IlaroAdminServiceConfiguration> configuration, params Type[] handlerAssemblyMarkerTypes)
-            => services.AddIlaroAdmin(routePrefix, handlerAssemblyMarkerTypes, configuration);
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, params Type[] handlerAssemblyMarkerTypes)
+            => services.AddIlaroAdmin(DefaultRoutePrefix, handlerAssemblyMarkerTypes.AsEnumerable());
 
         /// <summary>
-        /// Registers handlers and mediator types from the assemblies that contain the specified types
+        /// Registers configurations from the assemblies that contain the specified types
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="routePrefix">Route prefix for administration site</param>
+        /// <param name="handlerAssemblyMarkerTypes"></param>
+        /// <returns>Service collection</returns>
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, IEnumerable<Type> handlerAssemblyMarkerTypes)
+            => services.AddIlaroAdmin(routePrefix, handlerAssemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly));
+
+        /// <summary>
+        /// Registers configurations from the assemblies that contain the specified types
         /// </summary>
         /// <param name="services"></param>
         /// <param name="handlerAssemblyMarkerTypes"></param>
-        /// <param name="configuration">The action used to configure the options</param>
         /// <returns>Service collection</returns>
-        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, string routePrefix, IEnumerable<Type> handlerAssemblyMarkerTypes, Action<IlaroAdminServiceConfiguration> configuration)
-            => services.AddIlaroAdmin(routePrefix, handlerAssemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly), configuration);
+        public static IServiceCollection AddIlaroAdmin(this IServiceCollection services, IEnumerable<Type> handlerAssemblyMarkerTypes)
+            => services.AddIlaroAdmin(DefaultRoutePrefix, handlerAssemblyMarkerTypes.Select(t => t.GetTypeInfo().Assembly));
     }
 }

@@ -9,8 +9,9 @@ namespace Ilaro.Admin.Firebird
     {
         public static IlaroAdminOptionsBuilder UseFirebird(this IlaroAdminOptionsBuilder optionsBuilder, string connectionString)
         {
-            optionsBuilder.SetConnectionString(connectionString);
-            optionsBuilder.SetQueryFactoryFactory(connectionString => new QueryFactory(new FbConnection(connectionString), new FirebirdCompiler()));
+            optionsBuilder
+                .SetConnectionString(connectionString)
+                .SetQueryFactoryFactory(connectionString => new QueryFactory(new FbConnection(connectionString), new FirebirdCompiler()));
 
             return optionsBuilder;
         }

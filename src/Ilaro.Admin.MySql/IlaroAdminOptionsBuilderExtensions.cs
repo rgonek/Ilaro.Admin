@@ -9,8 +9,9 @@ namespace Ilaro.Admin.MySql
     {
         public static IlaroAdminOptionsBuilder UseMySql(this IlaroAdminOptionsBuilder optionsBuilder, string connectionString)
         {
-            optionsBuilder.SetConnectionString(connectionString);
-            optionsBuilder.SetQueryFactoryFactory(connectionString => new QueryFactory(new MySqlConnection(connectionString), new MySqlCompiler()));
+            optionsBuilder
+                .SetConnectionString(connectionString)
+                .SetQueryFactoryFactory(connectionString => new QueryFactory(new MySqlConnection(connectionString), new MySqlCompiler()));
 
             return optionsBuilder;
         }

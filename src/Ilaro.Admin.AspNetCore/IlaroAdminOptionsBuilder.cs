@@ -10,18 +10,20 @@ namespace Ilaro.Admin.AspNetCore
 
         internal Func<string, QueryFactory> QueryFactoryFactory { get; private set; }
 
-        public void SetConnectionString(string connectionString)
+        public IlaroAdminOptionsBuilder SetConnectionString(string connectionString)
         {
             Guard.Argument(connectionString, nameof(connectionString)).NotNull();
 
             ConnectionString = connectionString;
+            return this;
         }
 
-        public void SetQueryFactoryFactory(Func<string, QueryFactory> queryFactoryFactory)
+        public IlaroAdminOptionsBuilder SetQueryFactoryFactory(Func<string, QueryFactory> queryFactoryFactory)
         {
             Guard.Argument(queryFactoryFactory, nameof(queryFactoryFactory)).NotNull();
 
             QueryFactoryFactory = queryFactoryFactory;
+            return this;
         }
     }
 }

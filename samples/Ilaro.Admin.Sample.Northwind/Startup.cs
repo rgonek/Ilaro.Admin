@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ilaro.Admin.SqlServer;
+using Microsoft.AspNetCore.Routing;
 
 namespace Ilaro.Admin.Sample.Northwind
 {
@@ -22,6 +23,12 @@ namespace Ilaro.Admin.Sample.Northwind
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+                options.AppendTrailingSlash = false;
+            });
             services.AddIlaroAdmin("/admin", typeof(CategoryConfiguration));
         }
 

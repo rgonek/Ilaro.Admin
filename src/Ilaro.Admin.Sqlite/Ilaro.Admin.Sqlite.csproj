@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.5" />
     <PackageReference Include="SqlKata.Execution" Version="2.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ilaro.Admin.AspNetCore\Ilaro.Admin.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

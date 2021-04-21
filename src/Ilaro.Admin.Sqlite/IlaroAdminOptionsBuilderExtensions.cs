@@ -9,8 +9,9 @@ namespace Ilaro.Admin.Sqlite
     {
         public static IlaroAdminOptionsBuilder UseSqlite(this IlaroAdminOptionsBuilder optionsBuilder, string connectionString)
         {
-            optionsBuilder.SetConnectionString(connectionString);
-            optionsBuilder.SetQueryFactoryFactory(connectionString => new QueryFactory(new SqliteConnection(connectionString), new SqliteCompiler()));
+            optionsBuilder
+                .SetConnectionString(connectionString)
+                .SetQueryFactoryFactory(connectionString => new QueryFactory(new SqliteConnection(connectionString), new SqliteCompiler()));
 
             return optionsBuilder;
         }
