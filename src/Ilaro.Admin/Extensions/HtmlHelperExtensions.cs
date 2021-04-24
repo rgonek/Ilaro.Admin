@@ -109,8 +109,7 @@ namespace Ilaro.Admin.Extensions
 
             if (concurrencyCheckValue is DateTime)
             {
-                concurrencyCheckValue = (concurrencyCheckValue as DateTime?).Value
-                    .ToString("dd/MM/yyyy HH:mm:ss.fff", CultureInfo.CurrentCulture);
+                concurrencyCheckValue = ((DateTime)concurrencyCheckValue).ToString("MM/dd/yyyy HH:mm:ss.fff", CultureInfo.InvariantCulture);// "dd\\/MM\\/yyyy HH:mm:ss.fff");
             }
 
             return htmlHelper.Hidden("__ConcurrencyCheck", concurrencyCheckValue);

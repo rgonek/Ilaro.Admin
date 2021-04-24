@@ -15,7 +15,7 @@ namespace Ilaro.Admin.Core
             var property = entity.Properties.FirstOrDefault(x => x.IsConcurrencyCheck);
             if (property == null)
             {
-                return DateTime.Parse(concurrencyCheck, CultureInfo.CurrentCulture);
+                return DateTime.Parse(concurrencyCheck, CultureInfo.InvariantCulture);
             }
 
             if (property.TypeInfo.OriginalType == typeof(byte[]))
@@ -25,9 +25,9 @@ namespace Ilaro.Admin.Core
                 return Guid.Parse(concurrencyCheck);
 
             return System.Convert.ChangeType(
-                concurrencyCheck, 
-                property.TypeInfo.OriginalType, 
-                CultureInfo.CurrentCulture);
+                concurrencyCheck,
+                property.TypeInfo.OriginalType,
+                CultureInfo.InvariantCulture);
         }
     }
 }

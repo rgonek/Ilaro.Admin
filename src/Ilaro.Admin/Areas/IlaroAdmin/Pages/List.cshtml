@@ -2,7 +2,7 @@
 @model Ilaro.Admin.Areas.IlaroAdmin.Pages.ListModel
 
 <div class="clearfix">
-    <h2 class="pull-left">@Model.Entity.Verbose.Plural</h2>
+    <h2 class="pull-left">@Model.Entity.Verbose.Plural @Model.Entity.ConcurrencyCheckEnabled</h2>
 
     @if (Model.Entity.AllowAdd)
     {

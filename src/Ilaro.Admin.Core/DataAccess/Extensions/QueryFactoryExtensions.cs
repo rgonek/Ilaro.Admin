@@ -28,6 +28,7 @@ namespace Ilaro.Admin.Core.DataAccess.Extensions
                 catch
                 {
                     tx.Rollback();
+                    throw;
                 }
             }
         }
