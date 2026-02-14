@@ -1,101 +1,114 @@
-Ilaro.Admin [![Build status](https://ci.appveyor.com/api/projects/status/a1kfg9eig0i7cer1?svg=true)](https://ci.appveyor.com/project/rgonek/ilaro-admin)
-===========
+# Ilaro.Admin
 
-Ilaro.Admin creates for you admin panel using only POCO classes.
+**A code-first admin panel generator for ASP.NET MVC, inspired by [Django's admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).**
 
-[Demo](http://admin.ilaro.net/) - using Northwind DB (with small modifications, removed multiple primary keys)
+Point it at your POCO classes and get a fully functional admin UI — CRUD operations, filtering, search, file uploads, image handling, change tracking, and more — without writing a single view or controller.
 
-Project was inspired by [Django admin site](https://docs.djangoproject.com/en/dev/ref/contrib/admin/).
+> **Note:** This project is no longer actively maintained. It was built in 2014 as a personal/open-source project and is preserved here as a portfolio piece. The architecture and patterns remain a solid reference for convention-over-configuration library design in .NET.
 
-Please keep in mind this is still an alpha version.
+## Key Features
 
-Get it from nuget:
+- **Automatic CRUD** — full Create, Read, Update, Delete from POCO classes with zero boilerplate
+- **Dual configuration** — attribute-based or fluent API, your choice:
+  ```csharp
+  // Attributes
+  [Verbose(GroupName = "Product")]
+  public class Product
+  {
+      [Required, StringLength(40)]
+      public string ProductName { get; set; }
 
-If you are using Unity install:
+      [File(".jpg", ".png"), ImageSettings(200, 200)]
+      public string Photo { get; set; }
+  }
+
+  // Fluent
+  public class ProductConfig : EntityConfiguration<Product>
+  {
+      public ProductConfig()
+      {
+          PropertiesGroup("Main", x => x.ProductName, x => x.UnitPrice);
+          Property(x => x.ProductName, p => { p.Required(); p.StringLength(40); });
+      }
+  }
+  ```
+- **Advanced filtering & search** — string, numeric, date range, boolean, enum, and foreign entity filters
+- **Relationship handling** — one-to-many dropdowns, many-to-many dual listbox editors, automatic FK detection
+- **File & image uploads** — type/size validation, automatic thumbnail generation, multiple size variants
+- **Change tracking** — audit trail recording user, timestamp, and operation type for every change
+- **Soft delete** — mark records as deleted without physical removal, with restore capability
+- **Concurrency control** — optimistic locking to prevent lost updates in multi-user scenarios
+- **Role-based authorization** — pluggable `AuthorizeAttribute` support
+- **Single-DLL deployment** — views pre-compiled via RazorGenerator, static assets embedded in the assembly
+
+## Architecture
+
+```
+src/
+  Ilaro.Admin.Core     Core logic: entities, services, validation, data access
+  Ilaro.Admin          ASP.NET MVC Area with controllers, views, and frontend assets
+  Ilaro.Admin.Unity    Unity DI container integration
+  Ilaro.Admin.Ninject  Ninject DI container integration
+  Ilaro.Admin.Autofac  Autofac DI container integration
+samples/
+  Ilaro.Admin.Sample   Northwind database demo app
+tests/
+  Ilaro.Admin.Tests    Unit tests (xUnit + FakeItEasy)
+```
+
+**Design decisions worth noting:**
+
+- **Interface-driven service layer** — `IEntityService`, `IRecordsService`, `IValidatingEntities`, `IHandlingFiles`, etc. All business logic is behind interfaces, making the codebase fully testable and DI-friendly.
+- **Areas-based isolation** — the admin panel lives in its own ASP.NET MVC Area, preventing any namespace or routing collisions with the host application.
+- **Convention over configuration** — automatic primary key detection, foreign key inference, sensible defaults for every property type. You configure only what deviates from convention.
+- **Modified Massive ORM** — stripped down to read-only operations for tighter control over SQL generation, with custom dynamic SQL building for filters and sorting.
+- **Template system** — pluggable display, editor, and filter templates per data type (DateTime pickers, markdown editors, WYSIWYG, numeric spinners, image previews, etc.).
+- **Multi-container DI support** — separate NuGet packages for Unity, Ninject, and Autofac so consumers aren't forced into a specific container.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | .NET Framework 4.5, ASP.NET MVC 4 |
+| Data access | Modified Massive (micro-ORM), dynamic SQL generation |
+| DI containers | Unity, Ninject, Autofac (separate packages) |
+| Frontend | Bootstrap 3, jQuery, Chosen, Summernote, Bootstrap-DateTimePicker, Dual Listbox |
+| Images | ImageResizer |
+| View engine | RazorGenerator (pre-compiled views) |
+| Testing | xUnit, FakeItEasy |
+| Build | Cake, AppVeyor CI |
+| Package | NuGet |
+
+## Quick Start
+
+Install via NuGet (with your preferred DI container):
 ```
 Install-Package Ilaro.Admin.Unity
-```
-Or if you using Ninject install:
-```
 Install-Package Ilaro.Admin.Ninject
+Install-Package Ilaro.Admin.Autofac
 ```
-Or you can just install:
+
+Register in `Global.asax`:
+```csharp
+// 1. Register routes (before default routes)
+AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
+AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
+
+// 2. Register your entities
+Entity<Customer>.Add();
+Entity<Product>.Add();
+
+// 3. Set up authorization
+Admin.Authorize = new AuthorizeAttribute { Roles = "Admin" };
+
+// 4. Initialize (connection string name, optional if you have only one)
+Admin.Initialise("NorthwindEntities");
 ```
-Install-Package Ilaro.Admin
-```
-And register by yourself all needed stuff.
 
-##TODO
-I don't plan milestones, so I will do things in random order. 
-Maybe some of them I'll skip, and I'll probably back to them after release v1.
+Navigate to `~/Admin` and your admin panel is ready.
 
-I moved [TODO](https://github.com/rgonek/Ilaro.Admin/wiki/TODO) to wiki pages, because here, it is doing a mess in commits, and I rather would simple list than an issues pages.
+For detailed configuration options, see the wiki: [Entity configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Entity-configuration) | [Property configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Property-configuration)
 
-##Requirements:
-- POCO classes (or pseudo POCO)
-- ASP MVC 4
+## License
 
-##Initialisation:
-
-In global.asax you must do three things:
-
-1. Register routes
-
-   ```C#
-   // prefix is optional, by default = IlaroAdmin
-   AdminInitialise.RegisterRoutes(RouteTable.Routes, prefix: "Admin");
-   AdminInitialise.RegisterResourceRoutes(RouteTable.Routes);
-   ```
-   It should be put before register default routes because you lose a friendly urls
-1. Add entities
-
-   ```C#
-   Entity<Customer>.Add();
-   Entity<Product>.Add();
-   ```
-   Add method create a Entity object with all info from attributes.
-   In future I want add fluent configuration of entity so, there will be no need to configure entity with attributes.
-2. Specify access to Ilaro.Admin
-
-   ```C#
-   Admin.Authorize = new AuthorizeAttribute(){ Roles = "Admin" };
-   ```
-   If you don't do that everyone with proper link will have access to Ilaro.Admin.
-3. Initialise Ilaro.Admin
-
-   ```C#
-   Admin.Initialise("NorthwindEntities");
-   ```
-   This line initialise UnityContainer, and bind foreign entity and tries set primary key for each entity who has not defeined it. If you have only one ConnectionString there is no need to specify it.
-4. Register areas
-
-   ```C#
-   AreaRegistration.RegisterAllAreas();
-   ```
-   This step should be added by default during creating asp mvc project.
-   Ilaro.Admin is created as area, so it needs registration.
-5. Go to wiki pages for more info. [Entity configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Entity-configuration) [Property configuration](https://github.com/rgonek/Ilaro.Admin/wiki/Property-configuration)
-   
-And after that when you go to ~/IlaroAdmin url (if you don't define other prefix) you should see something like that:
-####Dashboard
-![Ilaro.Admin dashboard](https://dl.dropboxusercontent.com/u/3659823/IlaroAdmin/dashboard.png)
-####Records list
-![Ilaro.Admin records list](https://dl.dropboxusercontent.com/u/3659823/IlaroAdmin/entity_details.png)
-####Create new record
-![Ilaro.Admin create new record](https://dl.dropboxusercontent.com/u/3659823/IlaroAdmin/create_new_record.png)
-
-##What I use
-Here I will try write all libraries, and part of code I use in project.
-- [**Massive**](https://github.com/robconery/massive) - for db access. I Removed lots methods I left only read methods, thanks that I have much better control on created commands, and in future I want to completely removed massive.
-- [**ImageResizer**](http://imageresizing.net/) - for resizing image. There's no much need to use this library, you can easy get rid off it, but I like it :)
-- [**RazorGenerator**](http://razorgenerator.codeplex.com/) and [extension](http://visualstudiogallery.msdn.microsoft.com/1f6ec6ff-e89b-4c47-8e79-d2d68df894ec) - for generating source code from views, thanks that you don't have add views into your project, just simply add dll. Of cource if you want you can add views files which overrides compiled views
-- [**Twitter bootstrap**](http://getbootstrap.com/)
-- [**Chosen**](http://harvesthq.github.io/chosen/) and bootstrap style for it https://gist.github.com/koenpunt/6424137
-- [**Bootstrap-DateTimePicker**](https://github.com/Eonasdan/bootstrap-datetimepicker) - for DateTime picker, Date picker and Time picker
-- [**Bootstrap-SpinEdit**](https://github.com/scyv/bootstrap-spinedit) - for numeric editor
-- [**Bootstrap-Markdown**](http://toopay.github.io/bootstrap-markdown/) - for markdown editor
-- [**Marked**](https://github.com/chjj/marked) - for parsing markdown
-- [**Summernote**](https://github.com/HackerWins/summernote) - for html wysiwyg editor
-- [**Bootstrap Dual Listbox**](http://www.virtuosoft.eu/code/bootstrap-duallistbox/) - for one to many editor
-- [**Bootstrap-file-input**](https://github.com/grevory/bootstrap-file-input) - file input
-- [**Cake**](https://github.com/cake-build/cake) - for build script
+[MIT](LICENSE) — Robert Gonek
